@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Goaltending Open Source Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a single reading column in the manner of a journal's article index. Masthead, one chart, a featured topic, a filterable list, then reference tables. */
+:root {
+  --bg: #fcfcfd;
+  --surface: #f2f5f9;
+  --fg: #16202b;
+  --muted: #576576;
+  --rule: #d8dfe7;
+  --accent: #1d5b8c;
+  --accent-soft: #e2edf7;
+  --series-b: #a7b6c6;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+    --rule: #273241; --accent: #74b3e6; --accent-soft: #16283a; --series-b: #4c5c6e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+  --rule: #273241; --accent: #74b3e6; --accent-soft: #16283a; --series-b: #4c5c6e;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.55; }
+.page { max-width: 1040px; margin-inline: auto; padding-inline: 16px; padding-block: 0 56px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+.label { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.ui { font-family: var(--sans); }
+
+.topbar { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: baseline; padding-block: 14px; border-bottom: 1px solid var(--rule); }
+.topbar nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-family: var(--sans); font-size: 14px; }
+.topbar nav a { color: var(--fg); text-decoration: none; }
+.topbar nav a:hover { color: var(--accent); text-decoration: underline; }
+
+.masthead { display: grid; gap: 16px; padding-block: 44px 28px; max-width: 760px; }
+.masthead h1 { font-size: clamp(32px, 6vw, 48px); letter-spacing: -0.01em; }
+.masthead p { margin: 0; color: var(--muted); font-size: 19px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 8px 0 0; padding: 0; font-family: var(--sans); font-size: 14px; }
+.facts div { display: flex; gap: 8px; align-items: baseline; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+section { padding-block: 36px; border-top: 1px solid var(--rule); }
+section > h2 { font-size: 26px; margin-bottom: 6px; }
+.sub { margin: 0 0 20px; color: var(--muted); max-width: 680px; }
+
+figure { margin: 0; }
+.chart { width: 100%; height: auto; display: block; font-family: var(--sans); }
+.chart text { fill: var(--muted); font-size: 12px; }
+.chart .val { fill: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .bar-a { fill: var(--accent); }
+.chart .bar-b { fill: var(--series-b); }
+figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
+.key { display: inline-flex; gap: 6px; align-items: center; }
+.key i { width: 10px; height: 10px; display: inline-block; }
+.key .a { background: var(--accent); }
+.key .b { background: var(--series-b); }
+
+.qe-list { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.qe { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 20px; padding-block: 18px; border-bottom: 1px solid var(--rule); }
+.qe .yr { font-family: var(--sans); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--accent); }
+.qe h3 { font-size: 18px; font-weight: 600; }
+.qe p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+.cite { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+.browse { display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 32px; align-items: start; }
+.filters { display: grid; gap: 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); font-family: var(--sans); font-size: 14px; }
+.field { display: grid; gap: 6px; }
+.field input[type="search"], .field select {
+  font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 8px 10px; width: 100%; min-width: 0;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 13px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.reset { font: inherit; font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; justify-self: start; }
+.count { font-family: var(--sans); font-size: 14px; color: var(--muted); margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+
+.results { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.item { padding-block: 18px; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.item h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
+.item h3 a { color: var(--fg); text-decoration: none; }
+.item h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta { font-size: 15px; color: var(--muted); }
+.meta em { color: var(--fg); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--sans); font-size: 12px; color: var(--muted); align-items: center; }
+.tag-scope { font-weight: 600; color: var(--accent); }
+.tag-scope.wide { color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-family: var(--sans); font-size: 13px; }
+.empty { padding-block: 32px; color: var(--muted); }
+
+.count:focus { outline: none; }
+.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 20px; font-family: var(--sans); font-size: 14px; }
+.pager button { font: inherit; min-width: 36px; height: 36px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.pager button:hover:not(:disabled) { border-color: var(--accent); }
+.pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.pager button:disabled { color: var(--muted); cursor: default; opacity: 0.55; }
+.pager .gap { color: var(--muted); padding: 0 2px; }
+
+.info { margin: 0; display: grid; border-top: 1px solid var(--rule); max-width: 720px; font-family: var(--sans); font-size: 15px; }
+.info > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 4px 20px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
+.info dt { color: var(--muted); }
+.info dd { margin: 0; }
+.tba { color: var(--muted); font-style: italic; }
+
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; min-width: 520px; }
+th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 500; color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.method p { max-width: 700px; margin: 0 0 12px; }
+.method ul { max-width: 700px; padding-left: 20px; margin: 0 0 12px; }
+.method li { margin-bottom: 6px; }
+footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(--sans); font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .browse { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .filters { position: static; }
+  .qe { grid-template-columns: minmax(0, 1fr); }
+  .info > div { grid-template-columns: minmax(0, 1fr); }
+  .masthead { padding-block: 32px 20px; }
+}
+</style>
+
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <span class="label">Open literature index</span>
+    <nav aria-label="Sections">
+      <a href="#articles">Articles</a>
+      <a href="#quiet-eye">Quiet Eye</a>
+      <a href="#peers">Peers</a>
+      <a href="#conference">Conference</a>
+      <a href="#open-access">Open access</a>
+      <a href="#methods">Methods</a>
+    </nav>
+  </div>
+
+  <header class="masthead">
+    <h1>The Goaltending Open Source Journal</h1>
+    <p>Articles, theses and conference papers on goaltenders, collected from PubMed and web searches. Last updated <span id="updated"></span>.</p>
+    <dl class="facts" id="facts"></dl>
+  </header>
+
+  <section aria-labelledby="h-decades">
+    <h2 id="h-decades">Records by decade</h2>
+    <p class="sub" id="decade-sub"></p>
+    <figure>
+      <svg id="chart" class="chart" role="img" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
+      <figcaption id="chart-cap"></figcaption>
+    </figure>
+  </section>
+
+
+  <section id="articles" aria-labelledby="h-articles">
+    <h2 id="h-articles">Articles</h2>
+    <p class="sub">All <span id="n-all"></span> records, five to a page. Use the filters to narrow by topic or decade.</p>
+    <div class="browse">
+      <form class="filters" id="filters" role="search" aria-label="Filter articles">
+        <div class="field">
+          <label class="label" for="q">Search</label>
+          <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="label" for="scope">Scope</label>
+          <select id="scope">
+            <option value="all">All records</option>
+            <option value="goaltending">Goaltending-focused</option>
+            <option value="hockey-wide">Hockey-wide</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="decade">Decade</label>
+          <select id="decade"></select>
+        </div>
+        <div class="field">
+          <span class="label" id="topics-label">Topic</span>
+          <div class="chips" id="topics" role="group" aria-labelledby="topics-label"></div>
+        </div>
+        <div class="field">
+          <label class="label" for="sort">Sort</label>
+          <select id="sort">
+            <option value="new">Newest first</option>
+            <option value="old">Oldest first</option>
+          </select>
+        </div>
+        <button class="reset" type="button" id="reset">Clear filters</button>
+      </form>
+      <div>
+        <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
+        <ol class="results" id="results"></ol>
+        <nav class="pager" id="pager" aria-label="Pagination"></nav>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiet-eye" aria-labelledby="h-qe">
+    <h2 id="h-qe">Quiet Eye</h2>
+    <p class="sub">The Quiet Eye is the last steady fixation before a movement begins. These studies test it in ice hockey goaltenders facing shots.</p>
+    <div class="qe-list" id="qe-list"></div>
+  </section>
+
+  <section id="peers" aria-labelledby="h-peers">
+    <h2 id="h-peers">Peers</h2>
+    <p class="sub">The researchers, clinicians and coaches who review submissions and guide the journal. Names and affiliations will be listed here once confirmed.</p>
+    <dl class="info">
+      <div><dt>Editor-in-chief</dt><dd class="tba">To be announced</dd></div>
+      <div><dt>Editorial board</dt><dd class="tba">To be announced</dd></div>
+      <div><dt>Peer reviewers</dt><dd class="tba">To be announced</dd></div>
+      <div><dt>Review model</dt><dd class="tba">To be announced</dd></div>
+    </dl>
+  </section>
+
+  <section id="conference" aria-labelledby="h-conf">
+    <h2 id="h-conf">Virtual Conference</h2>
+    <p class="sub">An online meeting for goaltending research and practice. Details will be posted here once they are confirmed.</p>
+    <dl class="info">
+      <div><dt>Date</dt><dd class="tba">To be announced</dd></div>
+      <div><dt>Format</dt><dd>Online</dd></div>
+      <div><dt>Call for abstracts</dt><dd class="tba">To be announced</dd></div>
+      <div><dt>Registration</dt><dd class="tba">To be announced</dd></div>
+    </dl>
+  </section>
+
+  <section id="open-access" aria-labelledby="h-oa">
+    <h2 id="h-oa">Open-access sports journals</h2>
+    <p class="sub">Journals listed in the Directory of Open Access Journals under sports medicine. A fee means the journal charges authors an article processing charge.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Journal</th><th scope="col">Publisher</th><th scope="col">Author fee</th></tr></thead>
+        <tbody id="oa-body"></tbody>
+      </table>
+    </div>
+    <p class="cite" style="margin-top:14px">A sample of the directory, which lists 132 matches for this search. Browse the full list at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
+  </section>
+
+  <section id="methods" class="method" aria-labelledby="h-methods">
+    <h2 id="h-methods">Methods and scope</h2>
+    <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
+    <ul>
+      <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
+      <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
+    </ul>
+    <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses, or had no DOI that could be confirmed.</p>
+  </section>
+
+  <footer>
+    <span>The Goaltending Open Source Journal</span>
+    <span>Data last updated <span id="updated-foot"></span></span>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+const TOPICS = [
+  ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
+  ["vis", "Vision & anticipation"], ["phy", "Physiology & training"],
+  ["bio", "Movement & biomechanics"], ["psy", "Psychology & cognition"]
+];
+const QE_NOTES = {
+  "17050024": "Elite goaltenders faced wrist shots from 5 m and 10 m on ice. Saves came with an earlier Quiet Eye onset and a longer duration than goals, and the Quiet Eye usually sat on the puck or stick.",
+  "26949176": "Eight university goaltenders faced shots deflected off a board, which made the path hard to predict. A later onset, a shorter duration and an earlier offset each went with more goals allowed.",
+  "Jääkiekko": "Finnish thesis that preceded the 2026 paper, comparing where elite and amateur goaltenders direct their gaze.",
+  "10.1007/s11332-026-01774-x": "Five elite and five amateur goaltenders wore eye-tracking glasses in on-ice drills. Elite goaltenders made fewer but longer fixations and held the Quiet Eye longer, though fixation patterns did not separate saves from goals."
+};
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
+const topicName = Object.fromEntries(TOPICS);
+const YEARS = REC.map((r) => r.y).filter((y) => y != null);
+const DECADES = [];
+for (let d = decadeOf(Math.min(...YEARS)); d <= decadeOf(Math.max(...YEARS)); d += 10) DECADES.push(d);
+
+function primaryLink(r) {
+  if (r.doi) return "https://doi.org/" + r.doi;
+  if (r.link) return r.link;
+  if (r.pmid) return "https://pubmed.ncbi.nlm.nih.gov/" + r.pmid + "/";
+  return null;
+}
+function linksHtml(r) {
+  const out = [];
+  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener">DOI ${esc(r.doi)}</a>`);
+  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener">PubMed ${esc(r.pmid)}</a>`);
+  if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source</a>`);
+  return out.join("");
+}
+function titleHtml(r) {
+  const href = primaryLink(r);
+  return href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
+}
+
+/* Facts under the masthead */
+(function facts() {
+  $("updated").textContent = UPDATED;
+  $("updated-foot").textContent = UPDATED;
+  $("n-all").textContent = REC.length;
+  const recent = REC.filter((r) => r.y != null && r.y >= 2010).length;
+  $("decade-sub").textContent = `${recent} of ${REC.length} records were published in 2010 or later.`;
+  const years = REC.map((r) => r.y).filter((y) => y != null);
+  const goal = REC.filter((r) => r.sc === "goaltending").length;
+  const doi = REC.filter((r) => r.doi).length;
+  const items = [
+    ["Records", REC.length],
+    ["Goaltending-focused", goal],
+    ["With a DOI", doi],
+    ["Years", Math.min(...years) + "–" + Math.max(...years)]
+  ];
+  $("facts").innerHTML = items.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+})();
+
+/* Decade chart: stacked counts by scope, one linear scale */
+function drawChart() {
+  const svg = $("chart");
+  const decades = DECADES;
+  const data = decades.map((d) => {
+    const inD = REC.filter((r) => decadeOf(r.y) === d);
+    return { d, a: inD.filter((r) => r.sc === "goaltending").length, b: inD.filter((r) => r.sc !== "goaltending").length };
+  });
+  const maxTotal = Math.max(...data.map((x) => x.a + x.b));
+  const top = Math.ceil(maxTotal / 5) * 5;
+  const measured = svg.getBoundingClientRect ? Math.round(svg.getBoundingClientRect().width) : 0;
+  const W = Math.max(300, measured || 680), H = 250, L = 40, R = 12, T = 22, B = 34;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const iw = W - L - R, ih = H - T - B;
+  const y = (v) => T + ih - (v / top) * ih;
+  const slot = iw / data.length, bw = Math.min(64, slot * 0.56);
+  let s = `<title id="chart-title">Records by decade of publication</title><desc id="chart-desc">${esc(data.map((x) => `${x.d}s: ${x.a + x.b}`).join("; "))}</desc>`;
+  for (let v = 0; v <= top; v += 5) {
+    s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`;
+    s += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  }
+  data.forEach((x, i) => {
+    const cx = L + slot * i + slot / 2, x0 = cx - bw / 2;
+    const ha = (x.a / top) * ih, hb = (x.b / top) * ih;
+    if (x.a) s += `<rect class="bar-a" x="${x0}" y="${y(x.a)}" width="${bw}" height="${ha}"/>`;
+    if (x.b) s += `<rect class="bar-b" x="${x0}" y="${y(x.a + x.b)}" width="${bw}" height="${hb}"/>`;
+    s += `<text class="val" x="${cx}" y="${y(x.a + x.b) - 6}" text-anchor="middle">${x.a + x.b}</text>`;
+    s += `<text x="${cx}" y="${H - 12}" text-anchor="middle">${x.d}s</text>`;
+  });
+  svg.innerHTML = s;
+  const undated = REC.filter((r) => r.y == null).length;
+  $("chart-cap").innerHTML =
+    `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
+    (undated ? `<span>${undated} undated thesis not shown</span>` : "");
+}
+drawChart();
+let chartW = Math.round($("chart").getBoundingClientRect ? $("chart").getBoundingClientRect().width : 0);
+window.addEventListener("resize", () => {
+  const w = Math.round($("chart").getBoundingClientRect().width);
+  if (w !== chartW) { chartW = w; drawChart(); }
+});
+
+/* Quiet Eye */
+(function qe() {
+  const list = REC.filter((r) => r.qe).sort((a, b) => (a.y || 0) - (b.y || 0));
+  $("qe-list").innerHTML = list.map((r) => {
+    const key = Object.keys(QE_NOTES).find((k) => (r.pmid === k) || (r.doi === k) || r.t.indexOf(k) >= 0);
+    const note = key ? QE_NOTES[key] : "";
+    return `<article class="qe"><div class="yr">${esc(r.yl)}</div><div><h3>${titleHtml(r)}</h3>` +
+      (note ? `<p>${esc(note)}</p>` : "") +
+      `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div></div></article>`;
+  }).join("");
+})();
+
+/* Open-access table */
+$("oa-body").innerHTML = OA.map(([n, p, fee, u]) =>
+  `<tr><td><a href="${esc(u)}" rel="noopener">${esc(n)}</a></td><td>${esc(p)}</td><td>${fee === "Yes" ? "Fee" : "No fee"}</td></tr>`).join("");
+
+/* Filters */
+const PAGE_SIZE = 5;
+const state = { q: "", scope: "all", decade: "all", topics: new Set(), sort: "new", page: 1, sig: "" };
+function renderPager(pages) {
+  if (pages <= 1) { $("pager").innerHTML = ""; return; }
+  const cur = state.page;
+  const keep = [...new Set([1, pages, cur - 1, cur, cur + 1])].filter((p) => p >= 1 && p <= pages).sort((a, b) => a - b);
+  let html = `<button type="button" data-p="prev" ${cur === 1 ? "disabled" : ""} aria-label="Previous page">Previous</button>`;
+  keep.forEach((p, i) => {
+    if (i > 0 && p - keep[i - 1] > 1) html += `<span class="gap" aria-hidden="true">…</span>`;
+    html += `<button type="button" data-p="${p}" ${p === cur ? 'aria-current="page"' : ""} aria-label="Page ${p}">${p}</button>`;
+  });
+  html += `<button type="button" data-p="next" ${cur === pages ? "disabled" : ""} aria-label="Next page">Next</button>`;
+  $("pager").innerHTML = html;
+}
+$("pager").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-p]");
+  if (!b || b.disabled) return;
+  const p = b.dataset.p;
+  if (p === "prev") state.page -= 1; else if (p === "next") state.page += 1; else state.page = Number(p);
+  render();
+  $("h-articles").scrollIntoView();
+  $("count").focus({ preventScroll: true });
+});
+$("decade").innerHTML = `<option value="all">All years</option>` +
+  DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
+  (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
+$("topics").innerHTML = TOPICS.map(([k, n]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="false">${esc(n)}</button>`).join("");
+
+function matches(r) {
+  if (state.scope !== "all" && r.sc !== state.scope) return false;
+  if (state.decade !== "all") {
+    if (state.decade === "nd") { if (r.y != null) return false; }
+    else if (decadeOf(r.y) !== Number(state.decade)) return false;
+  }
+  for (const t of state.topics) if (!r.tp.includes(t)) return false;
+  if (state.q) {
+    const hay = [r.t, r.a, r.j, r.doi, r.pmid, r.yl].filter(Boolean).join(" ").toLowerCase();
+    if (!state.q.toLowerCase().split(/\s+/).every((w) => hay.includes(w))) return false;
+  }
+  return true;
+}
+function render() {
+  const rows = REC.filter(matches).sort((a, b) => {
+    const ay = a.y == null ? -1 : a.y, by = b.y == null ? -1 : b.y;
+    const d = state.sort === "new" ? by - ay || b.i - a.i : ay - by || a.i - b.i;
+    return d;
+  });
+  const sig = JSON.stringify([state.q, state.scope, state.decade, [...state.topics], state.sort]);
+  if (sig !== state.sig) { state.sig = sig; state.page = 1; }
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  if (state.page > pages) state.page = pages;
+  const from = (state.page - 1) * PAGE_SIZE;
+  const shown = rows.slice(from, from + PAGE_SIZE);
+  $("count").textContent = rows.length
+    ? `Showing ${from + 1}–${from + shown.length} of ${rows.length}${rows.length === REC.length ? "" : " matching"} records`
+    : "No matching records";
+  renderPager(pages);
+  if (!rows.length) { $("results").innerHTML = `<li class="empty">No records match these filters. Clear a filter or change the search.</li>`; return; }
+  $("results").innerHTML = shown.map((r) => {
+    const meta = [r.a ? esc(r.a) : "", `<em>${esc(r.j)}</em>`, esc(r.yl)].filter(Boolean).join(" · ");
+    const tags = [`<span class="tag-scope ${r.sc === "goaltending" ? "" : "wide"}">${r.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</span>`]
+      .concat(r.qe ? [`<span class="tag-scope">Quiet Eye</span>`] : [])
+      .concat(r.tp.map((t) => `<span>${esc(topicName[t])}</span>`))
+      .concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
+    return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></li>`;
+  }).join("");
+}
+$("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
+$("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });
+$("decade").addEventListener("change", (e) => { state.decade = e.target.value; render(); });
+$("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+$("topics").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-k]"); if (!b) return;
+  const k = b.dataset.k;
+  if (state.topics.has(k)) state.topics.delete(k); else state.topics.add(k);
+  b.setAttribute("aria-pressed", String(state.topics.has(k)));
+  render();
+});
+$("filters").addEventListener("submit", (e) => e.preventDefault());
+$("reset").addEventListener("click", () => {
+  state.q = ""; state.scope = "all"; state.decade = "all"; state.sort = "new"; state.topics.clear();
+  $("q").value = ""; $("scope").value = "all"; $("decade").value = "all"; $("sort").value = "new";
+  document.querySelectorAll("#topics .chip").forEach((c) => c.setAttribute("aria-pressed", "false"));
+  render();
+});
+render();
+</script>
+
+</body>
+</html>
