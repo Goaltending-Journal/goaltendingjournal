@@ -1,0 +1,27 @@
+# Optional: refreshes news.js every day with new NHL goaltending headlines.
+# One-time setup on GitHub: Settings > Actions > General > Workflow permissions >
+# "Read and write permissions". Run it any time from the Actions tab (Run workflow).
+name: Update NHL news
+on:
+  schedule:
+    - cron: "17 11 * * *"   # daily, 11:17 UTC
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch headlines
+        run: python3 fetch_news.py --write
+      - name: Commit changes
+        run: |
+          git config user.name "news-bot"
+          git config user.email "news-bot@users.noreply.github.com"
+          git add news.js
+          git diff --cached --quiet || git commit -m "Update NHL news"
+          git push

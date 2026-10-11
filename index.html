@@ -10,27 +10,43 @@
 <style>
 /* Layout: a single reading column in the manner of a journal's article index. Masthead, one chart, a featured topic, a filterable list, then reference tables. */
 :root {
-  --bg: #fcfcfd;
-  --surface: #f2f5f9;
-  --fg: #16202b;
-  --muted: #576576;
-  --rule: #d8dfe7;
-  --accent: #1d5b8c;
-  --accent-soft: #e2edf7;
-  --series-b: #a7b6c6;
+  --bg: #fbfdff;
+  --surface: #eff6fc;
+  --fg: #12202e;
+  --muted: #53667a;
+  --rule: #d5e1ec;
+  --accent: #1a67a3;
+  --accent-soft: #e1f0fb;
+  --series-b: #a9c0d6;
+  /* Masthead glow: edit these to change the ice-blue effect */
+  --mast-a: #f6fbff;
+  --mast-b: #dcedfa;
+  --h1-hover: #0f6cb5;
+  --glow-text: 0 0 14px rgba(96, 180, 240, 0.55), 0 0 38px rgba(126, 205, 255, 0.45);
+  --glow-text-hover: 0 0 8px rgba(70, 200, 255, 0.85), 0 0 26px rgba(40, 160, 255, 0.65), 0 0 60px rgba(120, 225, 255, 0.55);
+  --glow-spot: rgba(110, 195, 255, 0.42);
+  --glow-edge: rgba(60, 170, 255, 0.35);
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-    --rule: #273241; --accent: #74b3e6; --accent-soft: #16283a; --series-b: #4c5c6e;
+    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e;
+    --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+    --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+    --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+    --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-  --rule: #273241; --accent: #74b3e6; --accent-soft: #16283a; --series-b: #4c5c6e;
+  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e;
+  --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+  --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+  --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+  --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
   color-scheme: dark;
 }
 body { background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.55; }
@@ -47,9 +63,31 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 .topbar nav a { color: var(--fg); text-decoration: none; }
 .topbar nav a:hover { color: var(--accent); text-decoration: underline; }
 
-.masthead { display: grid; gap: 16px; padding-block: 44px 28px; max-width: 760px; }
-.masthead h1 { font-size: clamp(32px, 6vw, 48px); letter-spacing: -0.01em; }
+/* Masthead: an ice-blue panel. A soft spotlight follows the pointer, and the title glow brightens and shifts to cyan on hover. */
+.masthead {
+  position: relative; display: grid; gap: 16px; margin-block: 24px 4px; padding: 48px 32px 32px;
+  border: 1px solid var(--rule); border-radius: 10px; overflow: hidden;
+  background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
+  transition: border-color 0.45s ease, box-shadow 0.45s ease;
+}
+.masthead::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.55;
+  background: radial-gradient(480px circle at var(--mx, 22%) var(--my, 18%), var(--glow-spot), transparent 68%);
+  transition: opacity 0.45s ease;
+}
+.masthead > * { position: relative; max-width: 760px; }
+.masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
+.masthead:hover::before, .masthead:focus-within::before { opacity: 1; }
+.masthead h1 {
+  font-size: clamp(32px, 6vw, 48px); letter-spacing: -0.01em;
+  text-shadow: var(--glow-text);
+  transition: text-shadow 0.45s ease, color 0.45s ease;
+}
+.masthead:hover h1, .masthead:focus-within h1 { color: var(--h1-hover); text-shadow: var(--glow-text-hover); }
 .masthead p { margin: 0; color: var(--muted); font-size: 19px; }
+@media (prefers-reduced-motion: reduce) {
+  .masthead, .masthead::before, .masthead h1 { transition: none; }
+}
 .facts { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 8px 0 0; padding: 0; font-family: var(--sans); font-size: 14px; }
 .facts div { display: flex; gap: 8px; align-items: baseline; }
 .facts dt { color: var(--muted); }
@@ -66,6 +104,20 @@ figure { margin: 0; }
 .chart .grid { stroke: var(--rule); stroke-width: 1; }
 .chart .bar-a { fill: var(--accent); }
 .chart .bar-b { fill: var(--series-b); }
+.chart .col.on { cursor: pointer; outline: none; }
+.chart .hit { fill: var(--accent); fill-opacity: 0; transition: fill-opacity 0.15s ease; }
+.chart .col.on:hover .hit { fill-opacity: 0.09; }
+.chart .col.on:focus-visible .hit { fill-opacity: 0.12; stroke: var(--accent); stroke-width: 2; }
+.chart .col.sel .hit { fill-opacity: 0.16; }
+.chart .col.sel .lbl { fill: var(--fg); font-weight: 600; }
+.chart.has-sel .col.on:not(.sel):not(:hover) .bar-a, .chart.has-sel .col.on:not(.sel):not(:hover) .bar-b { opacity: 0.45; }
+.chart .col.off .lbl { opacity: 0.55; }
+.chart .zero { stroke: var(--rule); stroke-width: 2; }
+.year-panel { margin-top: 20px; }
+.year-panel:empty { display: none; }
+.year-head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
+.year-head h3 { font-size: 20px; }
+.year-head .n { font-family: var(--sans); font-size: 14px; color: var(--muted); font-weight: 400; margin-left: 8px; }
 figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
 .key { display: inline-flex; gap: 6px; align-items: center; }
 .key i { width: 10px; height: 10px; display: inline-block; }
@@ -78,6 +130,18 @@ figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted); mar
 .qe h3 { font-size: 18px; font-weight: 600; }
 .qe p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
 .cite { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+.news-list { display: grid; border-top: 1px solid var(--rule); }
+.news { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 4px 20px; padding-block: 16px; border-bottom: 1px solid var(--rule); }
+.news .dt { font-family: var(--sans); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--muted); padding-top: 3px; }
+.news h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
+.news h3 a { color: var(--fg); text-decoration: none; }
+.news h3 a:hover { color: var(--accent); text-decoration: underline; }
+.news p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+.news .kind { font-weight: 600; color: var(--accent); }
+.news-more { margin-top: 16px; font-family: var(--sans); font-size: 14px; }
+.news-more button { font: inherit; padding: 8px 16px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; }
+.news-more button:hover { border-color: var(--accent); }
 
 .browse { display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 32px; align-items: start; }
 .filters { display: grid; gap: 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); font-family: var(--sans); font-size: 14px; }
@@ -136,7 +200,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(
   .filters { position: static; }
   .qe { grid-template-columns: minmax(0, 1fr); }
   .info > div { grid-template-columns: minmax(0, 1fr); }
-  .masthead { padding-block: 32px 20px; }
+  .masthead { padding: 32px 18px 22px; margin-block-start: 14px; }
+  .news { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
 
@@ -146,33 +211,35 @@ footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(
   <div class="topbar">
     <span class="label">Open literature index</span>
     <nav aria-label="Sections">
-      <a href="#articles">Articles</a>
+      <a href="#articles">Research Articles</a>
       <a href="#quiet-eye">Quiet Eye</a>
       <a href="#peers">Peers</a>
       <a href="#conference">Conference</a>
+      <a href="#news">NHL news</a>
       <a href="#open-access">Open access</a>
       <a href="#methods">Methods</a>
     </nav>
   </div>
 
-  <header class="masthead">
+  <header class="masthead" id="masthead">
     <h1>The Goaltending Open Source Journal</h1>
-    <p>Articles, theses and conference papers on goaltenders, collected from PubMed and web searches. Last updated <span id="updated"></span>.</p>
+    <p>Research articles and published scholarly reports on ice hockey goaltending.</p>
     <dl class="facts" id="facts"></dl>
   </header>
 
-  <section aria-labelledby="h-decades">
-    <h2 id="h-decades">Records by decade</h2>
-    <p class="sub" id="decade-sub"></p>
+  <section id="by-year" aria-labelledby="h-years">
+    <h2 id="h-years">Records by year</h2>
+    <p class="sub" id="year-sub"></p>
     <figure>
-      <svg id="chart" class="chart" role="img" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
+      <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
       <figcaption id="chart-cap"></figcaption>
     </figure>
+    <div class="year-panel" id="year-panel" aria-live="polite"></div>
   </section>
 
 
   <section id="articles" aria-labelledby="h-articles">
-    <h2 id="h-articles">Articles</h2>
+    <h2 id="h-articles">Research Articles</h2>
     <p class="sub">All <span id="n-all"></span> records, five to a page. Use the filters to narrow by topic or decade.</p>
     <div class="browse">
       <form class="filters" id="filters" role="search" aria-label="Filter articles">
@@ -241,6 +308,13 @@ footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(
     </dl>
   </section>
 
+  <section id="news" aria-labelledby="h-news">
+    <h2 id="h-news">NHL goaltending news</h2>
+    <p class="sub">Recent news, status notes and analysis about NHL goaltenders. Each headline links to the publisher's own page; the journal does not host or edit these stories. Last updated <span id="news-updated"></span>.</p>
+    <div class="news-list" id="news-list"></div>
+    <div class="news-more" id="news-more"></div>
+  </section>
+
   <section id="open-access" aria-labelledby="h-oa">
     <h2 id="h-oa">Open-access sports journals</h2>
     <p class="sub">Journals listed in the Directory of Open Access Journals under sports medicine. A fee means the journal charges authors an article processing charge.</p>
@@ -270,6 +344,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(
 </div>
 
 <script src="data.js"></script>
+<script src="news.js"></script>
 <script>
 const TOPICS = [
   ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
@@ -310,11 +385,8 @@ function titleHtml(r) {
 
 /* Facts under the masthead */
 (function facts() {
-  $("updated").textContent = UPDATED;
   $("updated-foot").textContent = UPDATED;
   $("n-all").textContent = REC.length;
-  const recent = REC.filter((r) => r.y != null && r.y >= 2010).length;
-  $("decade-sub").textContent = `${recent} of ${REC.length} records were published in 2010 or later.`;
   const years = REC.map((r) => r.y).filter((y) => y != null);
   const goal = REC.filter((r) => r.sc === "goaltending").length;
   const doi = REC.filter((r) => r.doi).length;
@@ -322,52 +394,151 @@ function titleHtml(r) {
     ["Records", REC.length],
     ["Goaltending-focused", goal],
     ["With a DOI", doi],
-    ["Years", Math.min(...years) + "–" + Math.max(...years)]
+    ["Years", Math.min(...years) + "–" + Math.max(...years)],
+    ["Last updated", UPDATED]
   ];
   $("facts").innerHTML = items.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
 })();
 
-/* Decade chart: stacked counts by scope, one linear scale */
+/* One list item, used by the year panel and by Research Articles */
+function itemHtml(r) {
+  const meta = [r.a ? esc(r.a) : "", `<em>${esc(r.j)}</em>`, esc(r.yl)].filter(Boolean).join(" · ");
+  const tags = [`<span class="tag-scope ${r.sc === "goaltending" ? "" : "wide"}">${r.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</span>`]
+    .concat(r.qe ? [`<span class="tag-scope">Quiet Eye</span>`] : [])
+    .concat(r.tp.map((t) => `<span>${esc(topicName[t])}</span>`))
+    .concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
+  return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></li>`;
+}
+
+/* Records by year: stacked counts by scope. Click, tap or press Enter on a year to list its studies. */
+const CHART_FROM = 2010;                       // first year shown on the chart
+const CHART_TO = Math.max(2026, ...YEARS);     // last year shown (grows if newer records are added)
+const yearState = { sel: null };
+function yearRows(y) {
+  return REC.filter((r) => r.y === y).sort((a, b) => (a.sc === b.sc ? a.i - b.i : a.sc === "goaltending" ? -1 : 1));
+}
 function drawChart() {
   const svg = $("chart");
-  const decades = DECADES;
-  const data = decades.map((d) => {
-    const inD = REC.filter((r) => decadeOf(r.y) === d);
-    return { d, a: inD.filter((r) => r.sc === "goaltending").length, b: inD.filter((r) => r.sc !== "goaltending").length };
-  });
-  const maxTotal = Math.max(...data.map((x) => x.a + x.b));
-  const top = Math.ceil(maxTotal / 5) * 5;
+  const data = [];
+  for (let y = CHART_FROM; y <= CHART_TO; y++) {
+    const rows = REC.filter((r) => r.y === y);
+    data.push({ y, a: rows.filter((r) => r.sc === "goaltending").length, b: rows.filter((r) => r.sc !== "goaltending").length });
+  }
+  const maxTotal = Math.max(1, ...data.map((x) => x.a + x.b));
+  const step = maxTotal <= 10 ? 2 : 5;
+  const top = Math.ceil(maxTotal / step) * step;
   const measured = svg.getBoundingClientRect ? Math.round(svg.getBoundingClientRect().width) : 0;
-  const W = Math.max(300, measured || 680), H = 250, L = 40, R = 12, T = 22, B = 34;
+  const W = Math.max(300, measured || 680), H = 250, L = 34, R = 8, T = 22, B = 34;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const iw = W - L - R, ih = H - T - B;
   const y = (v) => T + ih - (v / top) * ih;
-  const slot = iw / data.length, bw = Math.min(64, slot * 0.56);
-  let s = `<title id="chart-title">Records by decade of publication</title><desc id="chart-desc">${esc(data.map((x) => `${x.d}s: ${x.a + x.b}`).join("; "))}</desc>`;
-  for (let v = 0; v <= top; v += 5) {
+  const slot = iw / data.length, bw = Math.min(40, Math.max(6, slot * 0.62));
+  const narrow = slot < 30;
+  let s = `<title id="chart-title">Records by year of publication, ${CHART_FROM} to ${CHART_TO}</title><desc id="chart-desc">${esc(data.map((x) => `${x.y}: ${x.a + x.b}`).join("; "))}</desc>`;
+  for (let v = 0; v <= top; v += step) {
     s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`;
     s += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
   }
   data.forEach((x, i) => {
+    const n = x.a + x.b;
     const cx = L + slot * i + slot / 2, x0 = cx - bw / 2;
-    const ha = (x.a / top) * ih, hb = (x.b / top) * ih;
-    if (x.a) s += `<rect class="bar-a" x="${x0}" y="${y(x.a)}" width="${bw}" height="${ha}"/>`;
-    if (x.b) s += `<rect class="bar-b" x="${x0}" y="${y(x.a + x.b)}" width="${bw}" height="${hb}"/>`;
-    s += `<text class="val" x="${cx}" y="${y(x.a + x.b) - 6}" text-anchor="middle">${x.a + x.b}</text>`;
-    s += `<text x="${cx}" y="${H - 12}" text-anchor="middle">${x.d}s</text>`;
+    const showLabel = !narrow || i % 2 === 0;
+    const label = narrow ? `’${String(x.y).slice(2)}` : String(x.y);
+    const aria = n ? ` role="button" tabindex="0" aria-pressed="${yearState.sel === x.y}" aria-label="${x.y}: ${n} ${n === 1 ? "record" : "records"}. Show studies."` : "";
+    s += `<g class="col ${n ? "on" : "off"}${yearState.sel === x.y ? " sel" : ""}" data-y="${x.y}"${aria}>`;
+    s += `<rect class="hit" x="${L + slot * i}" y="${T - 14}" width="${slot}" height="${ih + 14 + B}" rx="3"/>`;
+    if (x.a) s += `<rect class="bar-a" x="${x0}" y="${y(x.a)}" width="${bw}" height="${(x.a / top) * ih}"/>`;
+    if (x.b) s += `<rect class="bar-b" x="${x0}" y="${y(n)}" width="${bw}" height="${(x.b / top) * ih}"/>`;
+    if (n) s += `<text class="val" x="${cx}" y="${y(n) - 6}" text-anchor="middle">${n}</text>`;
+    else s += `<line class="zero" x1="${x0}" x2="${x0 + bw}" y1="${y(0) - 1}" y2="${y(0) - 1}"/>`;
+    if (showLabel) s += `<text class="lbl" x="${cx}" y="${H - 12}" text-anchor="middle">${label}</text>`;
+    s += `</g>`;
   });
   svg.innerHTML = s;
+  svg.classList.toggle("has-sel", yearState.sel != null);
+  const earlier = REC.filter((r) => r.y != null && r.y < CHART_FROM).length;
   const undated = REC.filter((r) => r.y == null).length;
+  const first = Math.min(...YEARS), lastEarlier = Math.max(...YEARS.filter((v) => v < CHART_FROM));
+  const hidden = [];
+  if (earlier) hidden.push(`${earlier} earlier records (${first}–${lastEarlier})`);
+  if (undated) hidden.push(`${undated} undated`);
   $("chart-cap").innerHTML =
     `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
-    (undated ? `<span>${undated} undated thesis not shown</span>` : "");
+    (hidden.length ? `<span>Not shown: ${hidden.join(" and ")}. Find them under Research Articles.</span>` : "");
+  const inRange = REC.filter((r) => r.y != null && r.y >= CHART_FROM && r.y <= CHART_TO).length;
+  $("year-sub").textContent = `${inRange} of ${REC.length} records were published from ${CHART_FROM} to ${CHART_TO}. Select a year to list its studies.`;
 }
+function showYear(y) {
+  yearState.sel = y;
+  const svg = $("chart");
+  svg.classList.toggle("has-sel", y != null);
+  svg.querySelectorAll(".col.on").forEach((g) => {
+    const on = Number(g.dataset.y) === y;
+    g.classList.toggle("sel", on);
+    g.setAttribute("aria-pressed", String(on));
+  });
+  const panel = $("year-panel");
+  if (y == null) { panel.innerHTML = ""; return; }
+  const rows = yearRows(y);
+  panel.innerHTML =
+    `<div class="year-head"><h3>${y}<span class="n">${rows.length} ${rows.length === 1 ? "record" : "records"}</span></h3>` +
+    `<button class="reset" type="button" id="year-clear">Clear selection</button></div>` +
+    `<ol class="results">${rows.map(itemHtml).join("")}</ol>`;
+  $("year-clear").addEventListener("click", () => showYear(null));
+}
+$("chart").addEventListener("click", (e) => {
+  const g = e.target.closest(".col.on"); if (!g) return;
+  const y = Number(g.dataset.y);
+  showYear(yearState.sel === y ? null : y);
+});
+$("chart").addEventListener("keydown", (e) => {
+  const g = e.target.closest ? e.target.closest(".col.on") : null; if (!g) return;
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); g.dispatchEvent(new MouseEvent("click", { bubbles: true })); return; }
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    const cols = [...$("chart").querySelectorAll(".col.on")];
+    const next = cols[cols.indexOf(g) + (e.key === "ArrowRight" ? 1 : -1)];
+    if (next) { e.preventDefault(); next.focus(); }
+  }
+});
 drawChart();
 let chartW = Math.round($("chart").getBoundingClientRect ? $("chart").getBoundingClientRect().width : 0);
 window.addEventListener("resize", () => {
   const w = Math.round($("chart").getBoundingClientRect().width);
   if (w !== chartW) { chartW = w; drawChart(); }
 });
+
+/* NHL goaltending news (items live in news.js) */
+(function news() {
+  const list = typeof NEWS !== "undefined" ? NEWS.slice().sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0)) : [];
+  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const fmt = (d) => { const [y, m, dd] = d.split("-").map(Number); return `${dd} ${MON[m - 1]} ${y}`; };
+  $("news-updated").textContent = typeof NEWS_UPDATED !== "undefined" ? NEWS_UPDATED : "";
+  if (!list.length) { $("news-list").innerHTML = `<p class="empty">No news items yet.</p>`; return; }
+  const SHOW = 6;
+  let all = false;
+  function paint() {
+    const shown = all ? list : list.slice(0, SHOW);
+    $("news-list").innerHTML = shown.map((n) =>
+      `<article class="news"><div class="dt">${esc(fmt(n.d))}</div><div><h3><a href="${esc(n.u)}" rel="noopener">${esc(n.t)}</a></h3>` +
+      (n.n ? `<p>${esc(n.n)}</p>` : "") +
+      `<div class="cite">${esc(n.s)} · <span class="kind">${esc(n.k)}</span></div></div></article>`).join("");
+    $("news-more").innerHTML = list.length > SHOW
+      ? `<button type="button" id="news-toggle" aria-expanded="${all}">${all ? "Show fewer" : `Show all ${list.length} items`}</button>` : "";
+    const t = $("news-toggle");
+    if (t) t.addEventListener("click", () => { all = !all; paint(); $("news-toggle").focus(); });
+  }
+  paint();
+})();
+
+/* Masthead: the spotlight follows the pointer */
+(function mast() {
+  const m = $("masthead");
+  m.addEventListener("pointermove", (e) => {
+    const r = m.getBoundingClientRect();
+    m.style.setProperty("--mx", Math.round(e.clientX - r.left) + "px");
+    m.style.setProperty("--my", Math.round(e.clientY - r.top) + "px");
+  });
+})();
 
 /* Quiet Eye */
 (function qe() {
@@ -444,14 +615,7 @@ function render() {
     : "No matching records";
   renderPager(pages);
   if (!rows.length) { $("results").innerHTML = `<li class="empty">No records match these filters. Clear a filter or change the search.</li>`; return; }
-  $("results").innerHTML = shown.map((r) => {
-    const meta = [r.a ? esc(r.a) : "", `<em>${esc(r.j)}</em>`, esc(r.yl)].filter(Boolean).join(" · ");
-    const tags = [`<span class="tag-scope ${r.sc === "goaltending" ? "" : "wide"}">${r.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</span>`]
-      .concat(r.qe ? [`<span class="tag-scope">Quiet Eye</span>`] : [])
-      .concat(r.tp.map((t) => `<span>${esc(topicName[t])}</span>`))
-      .concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
-    return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></li>`;
-  }).join("");
+  $("results").innerHTML = shown.map(itemHtml).join("");
 }
 $("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
 $("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });

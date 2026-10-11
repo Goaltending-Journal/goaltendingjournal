@@ -7,11 +7,14 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | File | What it is |
 | --- | --- |
 | `index.html` | The page: layout, wording, and sections such as Peers, Virtual Conference and Methods. |
-| `data.js` | The data: every article, the open-access journal table, and the "last updated" date. |
+| `data.js` | The research data: every article, the open-access journal table, and the "last updated" date. |
+| `news.js` | The NHL goaltending news list. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
+| `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
+| `.github/workflows/update-news.yml` | Optional: lets GitHub run `fetch_news.py` every day. This is a hidden folder; on a Mac press Cmd+Shift+. in Finder to see it. |
 | `README.md` | This file. |
 
-`index.html` and `data.js` must stay in the same folder.
+`index.html`, `data.js` and `news.js` must stay in the same folder.
 
 ## Preview on your computer
 
@@ -40,7 +43,7 @@ Double-click `index.html`. It opens in your browser. Fonts load from Google Font
 
 A title links to its DOI if there is one, then to `link`, then to PubMed.
 
-The page works out the record count, the "last updated" date and the decade chart from this file, so you only edit `data.js`.
+The page works out the record count, the "last updated" date and the Records by year chart from this file, so you only edit `data.js`.
 
 ## Updating the data
 
@@ -58,6 +61,14 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 **Quiet Eye summaries.** To add a one-sentence summary under a Quiet Eye study, add a line to `QE_NOTES` in `index.html`. The key is the PubMed ID, the DOI, or part of the title.
 
 **Open-access journals.** Edit the `OA` list at the bottom of `data.js`.
+
+**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Clicking a year lists that year's records; earlier years are found under Research Articles.
+
+**NHL goaltending news.** Edit `news.js` by hand: one item per line, newest anywhere (the page sorts by date). Fields are listed at the top of the file. Set `"m": true` on items you add yourself. To collect headlines automatically, run `python3 fetch_news.py` to preview and `python3 fetch_news.py --write` to add them. It reads Google News search results for "NHL goalie", "NHL goaltending" and "NHL goaltender" and keeps your hand-added items. Automatic items have no summary line and link to Google News, which forwards to the publisher.
+
+**Daily automatic news (optional).** Copy `.github/workflows/update-news.yml` into your repository. On GitHub go to Settings, Actions, General, Workflow permissions, choose Read and write permissions, and save. The job then runs every day and commits an updated `news.js`; you can also run it from the Actions tab. After it commits, pull the change in GitHub Desktop before editing locally. Not tested against live feeds, so check the first run in the Actions tab.
+
+**Colours and the masthead glow.** The colour tokens are at the top of the style block in `index.html`. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`, with separate dark-mode values below them.
 
 **Other wording.** Peers, Virtual Conference, Methods, the menu and the masthead text are plain HTML in `index.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
 
