@@ -6,15 +6,20 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The page: layout, wording, and sections such as Peers, Virtual Conference and Methods. |
+| `index.html` | The page: layout, wording, and sections such as Peers and Virtual Conference. |
 | `data.js` | The research data: every article, the open-access journal table, and the "last updated" date. |
 | `news.js` | The NHL goaltending news list. |
+| `videos.js` | The video list for the Ecological dynamics videos section. |
+| `research.js` | The list for the Ecological dynamics and skill acquisition research section. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
+| `fetch_research.py` | Optional helper that adds recent articles to `research.js` using OpenAlex (no key needed). |
+| `fetch_videos.py` | Optional helper that adds videos to `videos.js` using the YouTube Data API (needs a free key). |
+| `.github/workflows/update-feeds.yml` | Optional: lets GitHub run the research and video helpers every day. |
 | `.github/workflows/update-news.yml` | Optional: lets GitHub run `fetch_news.py` every day. This is a hidden folder; on a Mac press Cmd+Shift+. in Finder to see it. |
 | `README.md` | This file. |
 
-`index.html`, `data.js` and `news.js` must stay in the same folder.
+`index.html`, `data.js`, `news.js`, `videos.js` and `research.js` must stay in the same folder.
 
 ## Preview on your computer
 
@@ -36,7 +41,7 @@ Double-click `index.html`. It opens in your browser. Fonts load from Google Font
 | `pmid` | PubMed ID as text, or `null`. |
 | `link` | Web address for items with no DOI or PubMed ID, such as theses. Otherwise `null`. |
 | `sc` | `"goaltending"` or `"hockey-wide"`. |
-| `qe` | `true` if it is a Quiet Eye study. These also appear in the Quiet Eye section. |
+| `qe` | `true` if it is a Quiet Eye study. These are tagged Quiet Eye in Research Articles. |
 | `tp` | Topic tags, from: `hip`, `inj`, `eq`, `vis`, `phy`, `bio`, `psy`. |
 | `nt` | A short note shown as a tag, such as `"in Finnish"`. Otherwise `""`. |
 | `sn`, `nodoi` | Optional notes that are not shown on the page. |
@@ -58,8 +63,6 @@ The page works out the record count, the "last updated" date and the Records by 
 
 Records already in `data.js` are skipped by PubMed ID, so you can re-run an export safely.
 
-**Quiet Eye summaries.** To add a one-sentence summary under a Quiet Eye study, add a line to `QE_NOTES` in `index.html`. The key is the PubMed ID, the DOI, or part of the title.
-
 **Open-access journals.** Edit the `OA` list at the bottom of `data.js`.
 
 **Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Clicking a year lists that year's records; earlier years are found under Research Articles.
@@ -70,7 +73,13 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Colours and the masthead glow.** The colour tokens are at the top of the style block in `index.html`. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`, with separate dark-mode values below them.
 
-**Other wording.** Peers, Virtual Conference, Methods, the menu and the masthead text are plain HTML in `index.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
+**Videos.** Edit `videos.js` by hand: one video per line. `id` is the 11 characters after `v=` in a YouTube link, `tg` is `"ed"` (ecological dynamics), `"gk"` (goaltending) or both. Each video plays inside the page when selected and always links to YouTube. A video the owner has switched off embedding for will not play in the page, but its YouTube link still works. The search links under the videos always show the latest results for each topic.
+
+**Research (ecological dynamics and skill acquisition).** Edit `research.js` by hand: one article per line (fields are listed at the top of the file). To add articles automatically, run `python3 fetch_research.py` to preview and `python3 fetch_research.py --write` to add. It searches OpenAlex for "ecological dynamics", "constraints-led approach" and "skill acquisition" in sport. To follow particular researchers, put their names in `WATCH_AUTHORS` at the top of that file. Automatic items have no summary line.
+
+**Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. For videos, create a free YouTube Data API key in Google Cloud and save it in GitHub under Settings, Secrets and variables, Actions as a secret named `YOUTUBE_API_KEY`; without it the video helper does nothing. Not tested against the live services, so check the first run in the Actions tab.
+
+**Other wording.** Peers, Virtual Conference, the notes under Research Articles, the menu and the masthead text are plain HTML in `index.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
 
 ## Publishing the site
 
@@ -90,4 +99,4 @@ To update later, open `data.js` in the repository, click the pencil icon, edit, 
 
 - Fill in or remove the Peers and Virtual Conference placeholders. They currently say "To be announced".
 - Add a contact address so readers and authors can reach the journal.
-- Check the dates and search descriptions in the Methods section.
+- Check the "About these records" note under Research Articles.
