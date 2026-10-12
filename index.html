@@ -4,11 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Goaltending Open Source Journal</title>
+<meta name="description" content="Research articles and published scholarly reports on ice hockey goaltending.">
+<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a67a3'/%3E%3Cpath d='M8 23V13a8 8 0 0 1 16 0v10' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Cpath d='M5 23h22' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <style>
-/* Layout: a single reading column in the manner of a journal's article index. Masthead, one chart, a featured topic, a filterable list, then reference tables. */
+/* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
 :root {
   --bg: #fbfdff;
   --surface: #eff6fc;
@@ -18,6 +22,7 @@
   --accent: #1a67a3;
   --accent-soft: #e1f0fb;
   --series-b: #a9c0d6;
+  --field-line: #b9c9d9;
   /* Masthead glow: edit these to change the ice-blue effect */
   --mast-a: #f6fbff;
   --mast-b: #dcedfa;
@@ -28,11 +33,13 @@
   --glow-edge: rgba(60, 170, 255, 0.35);
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 3px;
+  --nav-h: 56px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e;
+    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
     --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
     --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
     --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
@@ -42,31 +49,42 @@
 }
 :root[data-theme="dark"] {
   --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e;
+  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
   --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
   --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
   --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
   --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
   color-scheme: dark;
 }
-body { background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.55; }
-.page { max-width: 1040px; margin-inline: auto; padding-inline: 16px; padding-block: 0 56px; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--accent-soft); }
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
-.label { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.ui { font-family: var(--sans); }
+.item h3, .news h3, .vid h3 { text-wrap: pretty; }
+button, input, select { font-family: var(--sans); }
+.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: var(--r); font: 500 14px var(--sans); text-decoration: none; }
+.skip:focus { top: 8px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.topbar { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: baseline; padding-block: 14px; border-bottom: 1px solid var(--rule); }
-.topbar nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-family: var(--sans); font-size: 14px; }
-.topbar nav a { color: var(--fg); text-decoration: none; }
-.topbar nav a:hover { color: var(--accent); text-decoration: underline; }
+/* Top bar: journal name and section links. Sticky on wide screens, with the current section marked. */
+.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: var(--nav-h); }
+.brand { font: 500 14px var(--sans); color: var(--fg); white-space: nowrap; }
+.topbar nav { display: flex; gap: 2px 22px; font: 14px var(--sans); }
+.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
+.topbar nav a:hover { color: var(--fg); }
+.topbar nav a[aria-current="true"] { color: var(--fg); }
+.topbar nav a[aria-current="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); }
 
 /* Masthead: an ice-blue panel. A soft spotlight follows the pointer, and the title glow brightens and shifts to cyan on hover. */
 .masthead {
-  position: relative; display: grid; gap: 16px; margin-block: 24px 4px; padding: 48px 32px 32px;
-  border: 1px solid var(--rule); border-radius: 10px; overflow: hidden;
+  position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden;
   background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
   transition: border-color 0.45s ease, box-shadow 0.45s ease;
 }
@@ -78,150 +96,181 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 .masthead > * { position: relative; max-width: 760px; }
 .masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
 .masthead:hover::before, .masthead:focus-within::before { opacity: 1; }
-.masthead h1 {
-  font-size: clamp(32px, 6vw, 48px); letter-spacing: -0.01em;
-  text-shadow: var(--glow-text);
-  transition: text-shadow 0.45s ease, color 0.45s ease;
-}
+.masthead h1 { font-size: clamp(34px, 5.6vw, 56px); line-height: 1.08; letter-spacing: -0.015em; text-shadow: var(--glow-text); transition: text-shadow 0.45s ease, color 0.45s ease; }
 .masthead:hover h1, .masthead:focus-within h1 { color: var(--h1-hover); text-shadow: var(--glow-text-hover); }
-.masthead p { margin: 0; color: var(--muted); font-size: 19px; }
+.masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
+.masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
+.facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .masthead, .masthead::before, .masthead h1 { transition: none; }
 }
-.facts { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 8px 0 0; padding: 0; font-family: var(--sans); font-size: 14px; }
-.facts div { display: flex; gap: 8px; align-items: baseline; }
-.facts dt { color: var(--muted); }
-.facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-section { padding-block: 36px; border-top: 1px solid var(--rule); }
-section > h2 { font-size: 26px; margin-bottom: 6px; }
-.sub { margin: 0 0 20px; color: var(--muted); max-width: 680px; }
+/* Sections */
+.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
+.sec:first-of-type { border-top: 0; padding-top: 56px; }
+.sec.slim { padding-block: 48px; }
+.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
+.sec-head h2 { font-size: 22px; letter-spacing: -0.005em; }
+.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
+.sec-body { min-width: 0; }
 
 figure { margin: 0; }
 .chart { width: 100%; height: auto; display: block; font-family: var(--sans); }
 .chart text { fill: var(--muted); font-size: 12px; }
 .chart .val { fill: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .grid.base { stroke: var(--field-line); }
 .chart .bar-a { fill: var(--accent); }
 .chart .bar-b { fill: var(--series-b); }
 .chart .col.on { cursor: pointer; outline: none; }
 .chart .hit { fill: var(--accent); fill-opacity: 0; transition: fill-opacity 0.15s ease; }
-.chart .col.on:hover .hit { fill-opacity: 0.09; }
+.chart .col.on:hover .hit { fill-opacity: 0.08; }
 .chart .col.on:focus-visible .hit { fill-opacity: 0.12; stroke: var(--accent); stroke-width: 2; }
-.chart .col.sel .hit { fill-opacity: 0.16; }
+.chart .col.sel .hit { fill-opacity: 0.14; }
 .chart .col.sel .lbl { fill: var(--fg); font-weight: 600; }
 .chart.has-sel .col.on:not(.sel):not(:hover) .bar-a, .chart.has-sel .col.on:not(.sel):not(:hover) .bar-b { opacity: 0.45; }
 .chart .col.off .lbl { opacity: 0.55; }
 .chart .zero { stroke: var(--rule); stroke-width: 2; }
-.year-panel { margin-top: 20px; }
-.year-panel:empty { display: none; }
-.year-head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
-.year-head h3 { font-size: 20px; }
-.year-head .n { font-family: var(--sans); font-size: 14px; color: var(--muted); font-weight: 400; margin-left: 8px; }
-figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
-.key { display: inline-flex; gap: 6px; align-items: center; }
-.key i { width: 10px; height: 10px; display: inline-block; }
+figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
+.key { display: inline-flex; gap: 7px; align-items: center; }
+.key i { width: 9px; height: 9px; display: inline-block; }
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
+.year-panel { margin-top: 28px; }
+.year-panel:empty { display: none; }
+.year-head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.year-head h3 { font-size: 20px; }
+.year-head .n { font: 14px var(--sans); color: var(--muted); font-weight: 400; margin-left: 10px; }
 
-.cite { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 6px; }
-
-.news-list { display: grid; border-top: 1px solid var(--rule); }
-.news { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 4px 20px; padding-block: 16px; border-bottom: 1px solid var(--rule); }
-.news .dt { font-family: var(--sans); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--muted); padding-top: 3px; }
-.news h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
-.news h3 a { color: var(--fg); text-decoration: none; }
-.news h3 a:hover { color: var(--accent); text-decoration: underline; }
-.news p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
-.news .kind { font-weight: 600; color: var(--accent); }
-.filter-row { margin: 0 0 18px; }
-.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px 20px; }
-.vid { display: grid; gap: 8px; align-content: start; }
-.vid-frame { position: relative; aspect-ratio: 16 / 9; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
-.vid-frame iframe, .vid-play { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.vid-play { padding: 0; background: none; cursor: pointer; }
-.vid-play img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.vid-icon { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: rgba(14, 28, 44, 0.72); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); transition: transform 0.15s ease, background 0.15s ease; }
-.vid-icon::after { content: ""; position: absolute; left: 21px; top: 15px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #fff; }
-.vid-play:hover .vid-icon, .vid-play:focus-visible .vid-icon { transform: scale(1.08); background: var(--accent); }
-.vid-play:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
-.vid h3 { font-size: 16px; font-weight: 600; line-height: 1.3; }
-.vid h3 a { color: var(--fg); text-decoration: none; }
-.vid h3 a:hover { color: var(--accent); text-decoration: underline; }
-.vid .cite { margin-top: 0; }
-.news-more { margin-top: 16px; font-family: var(--sans); font-size: 14px; }
-.news-more button { font: inherit; padding: 8px 16px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; }
-.news-more button:hover { border-color: var(--accent); }
-
-.browse { display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 32px; align-items: start; }
-.filters { display: grid; gap: 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); font-family: var(--sans); font-size: 14px; }
-.field { display: grid; gap: 6px; }
+/* Controls */
+.toolbar { display: grid; grid-template-columns: minmax(200px, 2fr) repeat(3, minmax(120px, 1fr)); gap: 14px 16px; margin-bottom: 26px; }
+.field { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.field > label, .lab { font: 500 12.5px var(--sans); color: var(--muted); }
 .field input[type="search"], .field select {
-  font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 8px 10px; width: 100%; min-width: 0;
+  font-size: 14px; color: var(--fg); background-color: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r);
+  height: 40px; padding: 0 12px; width: 100%; min-width: 0; transition: border-color 0.15s ease;
 }
+.field input[type="search"]:hover, .field select:hover { border-color: var(--muted); }
+.field select {
+  appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237b8ba0' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+.toolbar .grow { grid-column: auto; }
+.toolbar .extra { display: contents; }
+.toolbar .foot { grid-column: 1 / -1; display: grid; gap: 8px; }
+.lab-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.more-btn { display: none; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font: inherit; font-size: 13px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+.chip { font-size: 13px; line-height: 1; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
 .chip:hover { border-color: var(--accent); }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.reset { font: inherit; font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; justify-self: start; }
-.count { font-family: var(--sans); font-size: 14px; color: var(--muted); margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.reset { font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.filter-row { margin: 0 0 24px; }
+.count { font: 14px var(--sans); color: var(--muted); margin: 0 0 6px; font-variant-numeric: tabular-nums; scroll-margin-top: calc(var(--nav-h) + 16px); }
+.count:focus { outline: none; }
 
+/* Lists */
 .results { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-.item { padding-block: 18px; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
-.item h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
-.item h3 a { color: var(--fg); text-decoration: none; }
-.item h3 a:hover { color: var(--accent); text-decoration: underline; }
+.item { padding-block: 22px; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.item h3 { font-size: 19px; font-weight: 600; line-height: 1.3; }
+.item h3 a, .vid h3 a, .news h3 a { color: var(--fg); text-decoration: none; }
+.item h3 a:hover, .vid h3 a:hover, .news h3 a:hover { color: var(--accent); text-decoration: underline; }
 .meta { font-size: 15px; color: var(--muted); }
 .meta em { color: var(--fg); }
-.tags { display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--sans); font-size: 12px; color: var(--muted); align-items: center; }
-.tag-scope { font-weight: 600; color: var(--accent); }
-.tag-scope.wide { color: var(--muted); }
-.links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-family: var(--sans); font-size: 13px; }
+.item .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 28px; margin-top: 4px; font: 13px var(--sans); }
+.tags { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); align-items: center; }
+.tag-scope { display: inline-flex; align-items: center; gap: 7px; color: var(--fg); font-weight: 500; }
+.dot { width: 8px; height: 8px; display: inline-block; }
+.dot.a { background: var(--accent); }
+.dot.b { background: var(--series-b); }
+.tag-qe { color: var(--accent); font-weight: 500; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.links a { text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 38%, transparent); }
+.links a:hover { border-bottom-color: var(--accent); }
 .empty { padding-block: 32px; color: var(--muted); }
-
-.count:focus { outline: none; }
-.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 20px; font-family: var(--sans); font-size: 14px; }
-.pager button { font: inherit; min-width: 36px; height: 36px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 24px; font: 14px var(--sans); }
+.pager button { min-width: 38px; height: 38px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; font-size: 14px; font-variant-numeric: tabular-nums; }
 .pager button:hover:not(:disabled) { border-color: var(--accent); }
 .pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .pager button:disabled { color: var(--muted); cursor: default; opacity: 0.55; }
 .pager .gap { color: var(--muted); padding: 0 2px; }
+.about { margin-top: 36px; max-width: 640px; font: 14px/1.6 var(--sans); color: var(--muted); }
+.about summary { cursor: pointer; color: var(--accent); width: max-content; }
+.about p, .about ul { margin: 12px 0 0; }
+.about ul { padding-left: 20px; }
+.about li { margin-bottom: 4px; }
 
-.info { margin: 0; display: grid; border-top: 1px solid var(--rule); max-width: 720px; font-family: var(--sans); font-size: 15px; }
+.news-list { display: grid; border-top: 1px solid var(--rule); }
+.news { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 4px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.news .dt { font: 500 13px var(--sans); font-variant-numeric: tabular-nums; color: var(--muted); padding-top: 4px; }
+.news h3 { font-size: 18px; line-height: 1.3; }
+.news p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+.cite { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+.news .kind { color: var(--accent); font-weight: 500; }
+.news-more { margin-top: 18px; font: 14px var(--sans); }
+.news-more button { padding: 9px 16px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
+.news-more button:hover { border-color: var(--accent); }
+.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(236px, 1fr)); gap: 32px 24px; }
+.vid { display: grid; gap: 10px; align-content: start; }
+.vid-frame { position: relative; aspect-ratio: 16 / 9; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+.vid-frame iframe, .vid-play { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vid-play { padding: 0; background: none; cursor: pointer; }
+.vid-play img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vid-icon { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgba(14, 28, 44, 0.72); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); transition: transform 0.15s ease, background 0.15s ease; }
+.vid-icon::after { content: ""; position: absolute; left: 19px; top: 14px; border-style: solid; border-width: 10px 0 10px 16px; border-color: transparent transparent transparent #fff; }
+.vid-play:hover .vid-icon, .vid-play:focus-visible .vid-icon { transform: scale(1.08); background: var(--accent); }
+.vid-play:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.vid h3 { font-size: 16px; line-height: 1.35; }
+.vid .cite { margin-top: -4px; }
+
+.info { margin: 0; display: grid; border-top: 1px solid var(--rule); font: 15px var(--sans); }
 .info > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 4px 20px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
 .info dt { color: var(--muted); }
 .info dd { margin: 0; }
 .tba { color: var(--muted); font-style: italic; }
-
 .tablewrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; min-width: 520px; }
-th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-th { font-weight: 500; color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+table { width: 100%; border-collapse: collapse; font: 14px var(--sans); min-width: 520px; }
+th, td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-weight: 500; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--rule); }
+.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
+footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 
-.about { margin-top: 28px; max-width: 700px; font-family: var(--sans); font-size: 14px; color: var(--muted); }
-.about summary { cursor: pointer; color: var(--accent); }
-.about p, .about ul { margin: 10px 0 0; }
-.about ul { padding-left: 20px; }
-.about li { margin-bottom: 4px; }
-footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(--sans); font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-@media (max-width: 760px) {
+@media (max-width: 880px) {
   body { font-size: 16px; }
-  .browse { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .filters { position: static; }
-  .info > div { grid-template-columns: minmax(0, 1fr); }
-  .masthead { padding: 32px 18px 22px; margin-block-start: 14px; }
+  .topbar { position: static; }
+  .bar { flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
+  .topbar nav { overflow-x: auto; white-space: nowrap; scrollbar-width: none; gap: 20px; margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); padding-inline: clamp(16px, 4vw, 40px); }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .topbar nav a { padding-block: 12px; }
+  .masthead { padding: 40px 22px 24px; margin-block-start: 20px; }
+  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
+  .sec:first-of-type { padding-top: 40px; }
+  .sec-head { position: static; }
+  .sec-head .sub { max-width: 60ch; }
+}
+@media (max-width: 640px) {
+  .toolbar { grid-template-columns: minmax(0, 1fr) auto; align-items: end; margin-bottom: 20px; }
+  .more-btn { display: inline-flex; align-items: center; height: 40px; padding: 0 14px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
+  .more-btn[aria-expanded="true"] { border-color: var(--accent); }
+  .toolbar .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .toolbar .extra.open { display: grid; }
+  .toolbar .extra > .field:nth-of-type(3) { grid-column: 1 / -1; }
   .news { grid-template-columns: minmax(0, 1fr); }
+  .info > div { grid-template-columns: minmax(0, 1fr); }
+  .masthead .facts { gap: 6px 20px; }
 }
 </style>
-
 </head>
 <body>
-<div class="page">
-  <div class="topbar">
-    <span class="label">Open Source Sports Journal</span>
-    <nav aria-label="Sections">
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="wrap bar">
+    <span class="brand">Open Source Sports Journal</span>
+    <nav aria-label="Sections" id="nav">
       <a href="#articles">Research Articles</a>
       <a href="#videos">Videos</a>
       <a href="#peers">Peers</a>
@@ -231,139 +280,173 @@ footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(
       <a href="#skill-acquisition">Skill Acquisition</a>
     </nav>
   </div>
+</div>
 
+<main id="main" class="wrap">
   <header class="masthead" id="masthead">
     <h1>The Goaltending Open Source Journal</h1>
     <p>Research articles and published scholarly reports on ice hockey goaltending.</p>
-    <dl class="facts" id="facts"></dl>
+    <ul class="facts" id="facts"></ul>
   </header>
 
-  <section id="by-year" aria-labelledby="h-years">
-    <h2 id="h-years">Records by year</h2>
-    <p class="sub" id="year-sub"></p>
-    <figure>
-      <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
-      <figcaption id="chart-cap"></figcaption>
-    </figure>
-    <div class="year-panel" id="year-panel" aria-live="polite"></div>
+  <section class="sec" id="by-year" aria-labelledby="h-years">
+    <div class="sec-head">
+      <h2 id="h-years">Records by year</h2>
+      <p class="sub" id="year-sub"></p>
+    </div>
+    <div class="sec-body">
+      <figure>
+        <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
+        <figcaption id="chart-cap"></figcaption>
+      </figure>
+      <div class="year-panel" id="year-panel" aria-live="polite"></div>
+    </div>
   </section>
 
-
-  <section id="articles" aria-labelledby="h-articles">
-    <h2 id="h-articles">Research Articles</h2>
-    <p class="sub">All <span id="n-all"></span> records, five to a page. Use the filters to narrow by topic or decade.</p>
-    <div class="browse">
-      <form class="filters" id="filters" role="search" aria-label="Filter articles">
-        <div class="field">
-          <label class="label" for="q">Search</label>
+  <section class="sec" id="articles" aria-labelledby="h-articles">
+    <div class="sec-head">
+      <h2 id="h-articles">Research Articles</h2>
+      <p class="sub">All <span id="n-all"></span> records, five to a page. Filter by search, scope, decade or topic.</p>
+    </div>
+    <div class="sec-body">
+      <form class="toolbar" id="filters" role="search" aria-label="Filter articles">
+        <div class="field grow">
+          <label for="q">Search</label>
           <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
         </div>
-        <div class="field">
-          <label class="label" for="scope">Scope</label>
-          <select id="scope">
-            <option value="all">All records</option>
-            <option value="goaltending">Goaltending-focused</option>
-            <option value="hockey-wide">Hockey-wide</option>
-          </select>
+        <button class="more-btn" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-extra">Filters</button>
+        <div class="extra" id="filters-extra">
+          <div class="field">
+            <label for="scope">Scope</label>
+            <select id="scope">
+              <option value="all">All records</option>
+              <option value="goaltending">Goaltending-focused</option>
+              <option value="hockey-wide">Hockey-wide</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="decade">Decade</label>
+            <select id="decade"></select>
+          </div>
+          <div class="field">
+            <label for="sort">Sort</label>
+            <select id="sort">
+              <option value="new">Newest first</option>
+              <option value="old">Oldest first</option>
+            </select>
+          </div>
+          <div class="foot">
+            <div class="lab-row"><span class="lab" id="topics-label">Topic</span><button class="reset" type="button" id="reset">Clear filters</button></div>
+            <div class="chips" id="topics" role="group" aria-labelledby="topics-label"></div>
+          </div>
         </div>
-        <div class="field">
-          <label class="label" for="decade">Decade</label>
-          <select id="decade"></select>
-        </div>
-        <div class="field">
-          <span class="label" id="topics-label">Topic</span>
-          <div class="chips" id="topics" role="group" aria-labelledby="topics-label"></div>
-        </div>
-        <div class="field">
-          <label class="label" for="sort">Sort</label>
-          <select id="sort">
-            <option value="new">Newest first</option>
-            <option value="old">Oldest first</option>
-          </select>
-        </div>
-        <button class="reset" type="button" id="reset">Clear filters</button>
       </form>
-      <div>
-        <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
-        <ol class="results" id="results"></ol>
-        <nav class="pager" id="pager" aria-label="Pagination"></nav>
+      <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
+      <ol class="results" id="results"></ol>
+      <nav class="pager" id="pager" aria-label="Pagination"></nav>
+      <details class="about">
+        <summary>About these records</summary>
+        <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
+        <ul>
+          <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
+          <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
+        </ul>
+        <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses, or had no DOI that could be confirmed.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="videos" aria-labelledby="h-videos">
+    <div class="sec-head">
+      <h2 id="h-videos">Ecological dynamics videos</h2>
+      <p class="sub">Ecological dynamics and goaltending on YouTube. Few videos cover both, so use the filter to switch. Select a video to play it here.</p>
+      <p class="stamp">Updated <span id="videos-updated"></span></p>
+    </div>
+    <div class="sec-body">
+      <div class="chips filter-row" id="video-filter" role="group" aria-label="Filter videos"></div>
+      <div class="video-grid" id="video-grid"></div>
+      <div class="news-more" id="video-more"></div>
+      <p class="note" id="video-links"></p>
+    </div>
+  </section>
+
+  <section class="sec slim" id="peers" aria-labelledby="h-peers">
+    <div class="sec-head">
+      <h2 id="h-peers">Peers</h2>
+      <p class="sub">The researchers, clinicians and coaches who review submissions. Names will be listed once confirmed.</p>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt>Editor-in-chief</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Editorial board</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Peer reviewers</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Review model</dt><dd class="tba">To be announced</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec slim" id="conference" aria-labelledby="h-conf">
+    <div class="sec-head">
+      <h2 id="h-conf">Virtual Conference</h2>
+      <p class="sub">An online meeting for goaltending research and practice. Details will follow once confirmed.</p>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt>Date</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Format</dt><dd>Online</dd></div>
+        <div><dt>Call for abstracts</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Registration</dt><dd class="tba">To be announced</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="news" aria-labelledby="h-news">
+    <div class="sec-head">
+      <h2 id="h-news">NHL goaltending news</h2>
+      <p class="sub">Recent news, status notes and analysis on NHL goaltenders. Headlines link to the publishers; the journal does not host or edit them.</p>
+      <p class="stamp">Updated <span id="news-updated"></span></p>
+    </div>
+    <div class="sec-body">
+      <div class="news-list" id="news-list"></div>
+      <div class="news-more" id="news-more"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="open-access" aria-labelledby="h-oa">
+    <div class="sec-head">
+      <h2 id="h-oa">Open-access sports journals</h2>
+      <p class="sub">Sports medicine journals from the Directory of Open Access Journals. A fee means authors pay an article processing charge.</p>
+    </div>
+    <div class="sec-body">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Journal</th><th scope="col">Publisher</th><th scope="col">Author fee</th></tr></thead>
+          <tbody id="oa-body"></tbody>
+        </table>
       </div>
+      <p class="note">A sample of the directory, which lists 132 matches for this search. Browse the full list at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
     </div>
-    <details class="about">
-      <summary>About these records</summary>
-      <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
-      <ul>
-        <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
-        <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
-      </ul>
-      <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses, or had no DOI that could be confirmed.</p>
-    </details>
   </section>
 
-  <section id="videos" aria-labelledby="h-videos">
-    <h2 id="h-videos">Ecological dynamics videos</h2>
-    <p class="sub">Videos from YouTube on ecological dynamics, the constraints-led approach and goaltending. Few videos cover both topics, so use the filter to switch between them. Select a video to play it here; it loads from YouTube. Last updated <span id="videos-updated"></span>.</p>
-    <div class="chips filter-row" id="video-filter" role="group" aria-label="Filter videos"></div>
-    <div class="video-grid" id="video-grid"></div>
-    <div class="news-more" id="video-more"></div>
-    <p class="cite" id="video-links"></p>
-  </section>
-
-  <section id="peers" aria-labelledby="h-peers">
-    <h2 id="h-peers">Peers</h2>
-    <p class="sub">The researchers, clinicians and coaches who review submissions and guide the journal. Names and affiliations will be listed here once confirmed.</p>
-    <dl class="info">
-      <div><dt>Editor-in-chief</dt><dd class="tba">To be announced</dd></div>
-      <div><dt>Editorial board</dt><dd class="tba">To be announced</dd></div>
-      <div><dt>Peer reviewers</dt><dd class="tba">To be announced</dd></div>
-      <div><dt>Review model</dt><dd class="tba">To be announced</dd></div>
-    </dl>
-  </section>
-
-  <section id="conference" aria-labelledby="h-conf">
-    <h2 id="h-conf">Virtual Conference</h2>
-    <p class="sub">An online meeting for goaltending research and practice. Details will be posted here once they are confirmed.</p>
-    <dl class="info">
-      <div><dt>Date</dt><dd class="tba">To be announced</dd></div>
-      <div><dt>Format</dt><dd>Online</dd></div>
-      <div><dt>Call for abstracts</dt><dd class="tba">To be announced</dd></div>
-      <div><dt>Registration</dt><dd class="tba">To be announced</dd></div>
-    </dl>
-  </section>
-
-  <section id="news" aria-labelledby="h-news">
-    <h2 id="h-news">NHL goaltending news</h2>
-    <p class="sub">Recent news, status notes and analysis about NHL goaltenders. Each headline links to the publisher's own page; the journal does not host or edit these stories. Last updated <span id="news-updated"></span>.</p>
-    <div class="news-list" id="news-list"></div>
-    <div class="news-more" id="news-more"></div>
-  </section>
-
-  <section id="open-access" aria-labelledby="h-oa">
-    <h2 id="h-oa">Open-access sports journals</h2>
-    <p class="sub">Journals listed in the Directory of Open Access Journals under sports medicine. A fee means the journal charges authors an article processing charge.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th scope="col">Journal</th><th scope="col">Publisher</th><th scope="col">Author fee</th></tr></thead>
-        <tbody id="oa-body"></tbody>
-      </table>
+  <section class="sec" id="skill-acquisition" aria-labelledby="h-sa">
+    <div class="sec-head">
+      <h2 id="h-sa">Ecological dynamics and skill acquisition</h2>
+      <p class="sub">Recent research on how athletes learn and adapt, from ecological dynamics, the constraints-led approach and motor learning. Most is not about goaltending; it is background for coaches and researchers.</p>
+      <p class="stamp">Updated <span id="research-updated"></span></p>
     </div>
-    <p class="cite" style="margin-top:14px">A sample of the directory, which lists 132 matches for this search. Browse the full list at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
-  </section>
-
-  <section id="skill-acquisition" aria-labelledby="h-sa">
-    <h2 id="h-sa">Ecological dynamics and skill acquisition research</h2>
-    <p class="sub">Recent research on how athletes learn and adapt, from ecological dynamics, the constraints-led approach and motor learning. Most of these studies are not about goaltending; they are background for coaches and researchers. Last updated <span id="research-updated"></span>.</p>
-    <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
-    <div class="news-list" id="research-list"></div>
-    <div class="news-more" id="research-more"></div>
-    <p class="cite" id="research-links"></p>
+    <div class="sec-body">
+      <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
+      <div class="news-list" id="research-list"></div>
+      <div class="news-more" id="research-more"></div>
+      <p class="note" id="research-links"></p>
+    </div>
   </section>
 
   <footer>
     <span>The Goaltending Open Source Journal</span>
     <span>Data last updated <span id="updated-foot"></span></span>
   </footer>
-</div>
+</main>
 
 <script src="data.js"></script>
 <script src="news.js"></script>
@@ -409,23 +492,24 @@ function titleHtml(r) {
   const goal = REC.filter((r) => r.sc === "goaltending").length;
   const doi = REC.filter((r) => r.doi).length;
   const items = [
-    ["Records", REC.length],
-    ["Goaltending-focused", goal],
-    ["With a DOI", doi],
-    ["Years", Math.min(...years) + "–" + Math.max(...years)],
-    ["Last updated", UPDATED]
+    `<b>${REC.length}</b> records`,
+    `<b>${goal}</b> goaltending-focused`,
+    `<b>${doi}</b> with a DOI`,
+    `<b>${Math.min(...years)}–${Math.max(...years)}</b> covered`,
+    `Updated <b>${esc(UPDATED)}</b>`
   ];
-  $("facts").innerHTML = items.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+  $("facts").innerHTML = items.map((h) => `<li>${h}</li>`).join("");
 })();
 
 /* One list item, used by the year panel and by Research Articles */
 function itemHtml(r) {
   const meta = [r.a ? esc(r.a) : "", `<em>${esc(r.j)}</em>`, esc(r.yl)].filter(Boolean).join(" · ");
-  const tags = [`<span class="tag-scope ${r.sc === "goaltending" ? "" : "wide"}">${r.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</span>`]
-    .concat(r.qe ? [`<span class="tag-scope">Quiet Eye</span>`] : [])
+  const goal = r.sc === "goaltending";
+  const tags = [`<span class="tag-scope"><i class="dot ${goal ? "a" : "b"}"></i>${goal ? "Goaltending" : "Hockey-wide"}</span>`]
+    .concat(r.qe ? [`<span class="tag-qe">Quiet Eye</span>`] : [])
     .concat(r.tp.map((t) => `<span>${esc(topicName[t])}</span>`))
     .concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
-  return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></li>`;
+  return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="foot"><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></div></li>`;
 }
 
 /* Records by year: stacked counts by scope. Click, tap or press Enter on a year to list its studies. */
@@ -446,15 +530,15 @@ function drawChart() {
   const step = maxTotal <= 10 ? 2 : 5;
   const top = Math.ceil(maxTotal / step) * step;
   const measured = svg.getBoundingClientRect ? Math.round(svg.getBoundingClientRect().width) : 0;
-  const W = Math.max(300, measured || 680), H = 250, L = 34, R = 8, T = 22, B = 34;
+  const W = Math.max(300, measured || 680), H = 250, L = 30, R = 6, T = 24, B = 34;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const iw = W - L - R, ih = H - T - B;
   const y = (v) => T + ih - (v / top) * ih;
-  const slot = iw / data.length, bw = Math.min(40, Math.max(6, slot * 0.62));
+  const slot = iw / data.length, bw = Math.min(30, Math.max(6, slot * 0.52));
   const narrow = slot < 30;
   let s = `<title id="chart-title">Records by year of publication, ${CHART_FROM} to ${CHART_TO}</title><desc id="chart-desc">${esc(data.map((x) => `${x.y}: ${x.a + x.b}`).join("; "))}</desc>`;
   for (let v = 0; v <= top; v += step) {
-    s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`;
+    s += `<line class="${v === 0 ? "grid base" : "grid"}" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`;
     s += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
   }
   data.forEach((x, i) => {
@@ -592,7 +676,7 @@ function filterChips(box, options, current, onPick) {
       `<article class="vid"><div class="vid-frame" data-id="${esc(v.id)}"><button type="button" class="vid-play" aria-label="Play video: ${esc(v.t)}">` +
       `<img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><span class="vid-icon" aria-hidden="true"></span></button></div>` +
       `<h3><a href="https://www.youtube.com/watch?v=${esc(v.id)}" rel="noopener">${esc(v.t)}</a></h3>` +
-      `<div class="cite">${esc([v.ch, ...(v.tg || []).map((k) => TAGS[k]).filter(Boolean)].filter(Boolean).join(" · "))}</div></article>`).join("")
+      `<div class="cite">${esc(v.ch || "")}</div></article>`).join("")
       : `<p class="empty">No videos match this filter.</p>`;
     moreButton($("video-more"), "video-toggle", rows.length, all, SHOW, () => { all = !all; paint(); });
   }
@@ -660,7 +744,7 @@ $("pager").addEventListener("click", (e) => {
   const p = b.dataset.p;
   if (p === "prev") state.page -= 1; else if (p === "next") state.page += 1; else state.page = Number(p);
   render();
-  $("h-articles").scrollIntoView();
+  $("count").scrollIntoView({ block: "start" });
   $("count").focus({ preventScroll: true });
 });
 $("decade").innerHTML = `<option value="all">All years</option>` +
@@ -693,6 +777,7 @@ function render() {
   if (state.page > pages) state.page = pages;
   const from = (state.page - 1) * PAGE_SIZE;
   const shown = rows.slice(from, from + PAGE_SIZE);
+  filterBadge();
   $("count").textContent = rows.length
     ? `Showing ${from + 1}–${from + shown.length} of ${rows.length}${rows.length === REC.length ? "" : " matching"} records`
     : "No matching records";
@@ -712,6 +797,14 @@ $("topics").addEventListener("click", (e) => {
   render();
 });
 $("filters").addEventListener("submit", (e) => e.preventDefault());
+$("filters-toggle").addEventListener("click", () => {
+  const open = $("filters-extra").classList.toggle("open");
+  $("filters-toggle").setAttribute("aria-expanded", String(open));
+});
+function filterBadge() {
+  const n = (state.scope !== "all") + (state.decade !== "all") + state.topics.size;
+  $("filters-toggle").textContent = n ? `Filters · ${n}` : "Filters";
+}
 $("reset").addEventListener("click", () => {
   state.q = ""; state.scope = "all"; state.decade = "all"; state.sort = "new"; state.topics.clear();
   $("q").value = ""; $("scope").value = "all"; $("decade").value = "all"; $("sort").value = "new";
@@ -719,7 +812,25 @@ $("reset").addEventListener("click", () => {
   render();
 });
 render();
-</script>
 
+/* Hide an "Updated" stamp when its list has no date */
+["news", "videos", "research"].forEach((k) => { const s = $(k + "-updated"); if (s && !s.textContent) s.parentElement.hidden = true; });
+
+/* Top bar: mark the section in view */
+(function spy() {
+  const links = [...document.querySelectorAll("#nav a")];
+  const map = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const mark = (id) => links.forEach((a) => (map.get(id) === a ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
+  if (!("IntersectionObserver" in window)) return;
+  const seen = new Set();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? seen.add(e.target.id) : seen.delete(e.target.id)));
+    const first = [...map.keys()].find((id) => seen.has(id));
+    mark(first || "");
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  map.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+})();
+
+</script>
 </body>
 </html>
