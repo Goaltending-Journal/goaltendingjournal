@@ -75,7 +75,7 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Daily automatic news (optional).** Copy `.github/workflows/update-news.yml` into your repository. On GitHub go to Settings, Actions, General, Workflow permissions, choose Read and write permissions, and save. The job then runs every day and commits an updated `news.js`; you can also run it from the Actions tab. After it commits, pull the change in GitHub Desktop before editing locally. Not tested against live feeds, so check the first run in the Actions tab.
 
-**Colours and the masthead glow.** The colour tokens are at the top of the style block in `index.html`. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`, with separate dark-mode values below them.
+**Colours and the masthead glow.** The colour tokens are at the top of the style block in `index.html`. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`, with separate dark-mode values below them. `goalies.html` uses the same colours under its own token names (also at the top of its style block, with a note on which `index.html` token each one matches), so a colour change on the front page should be copied there too.
 
 **Videos.** Edit `videos.js` by hand: one video per line. `id` is the 11 characters after `v=` in a YouTube link, `tg` is `"ed"` (ecological dynamics), `"gk"` (goaltending) or both. Each video plays inside the page when selected and always links to YouTube. A video the owner has switched off embedding for will not play in the page, but its YouTube link still works. The search links under the videos always show the latest results for each topic.
 
