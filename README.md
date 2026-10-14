@@ -10,6 +10,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `data.js` | The research data: every article, the open-access journal table, and the "last updated" date. |
 | `news.js` | The NHL goaltending news list. |
 | `videos.js` | The video list for the Ecological dynamics videos section. |
+| `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar. |
+| `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. |
 | `research.js` | The list for the Ecological dynamics and skill acquisition research section. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |

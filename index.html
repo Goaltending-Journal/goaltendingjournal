@@ -278,6 +278,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       <a href="#peers">Peers</a>
       <a href="#conference">Conference</a>
       <a href="#skill-acquisition">Ecological Dynamics</a>
+      <a href="goalies.html">Goalie Stats</a>
     </nav>
   </div>
 </div>
@@ -794,7 +795,7 @@ render();
 
 /* Top bar: mark the section in view */
 (function spy() {
-  const links = [...document.querySelectorAll("#nav a")];
+  const links = [...document.querySelectorAll('#nav a[href^="#"]')];
   const map = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
   const mark = (id) => links.forEach((a) => (map.get(id) === a ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
   if (!("IntersectionObserver" in window)) return;
