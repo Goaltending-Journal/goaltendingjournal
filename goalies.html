@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Goalie Analyst · The Goaltending Open Source Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
-<meta name="theme-color" content="#070a0f">
+<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,24 +19,55 @@
 .back{color:var(--fog);font-size:13px;font-weight:600;white-space:nowrap}
 .back:hover{color:var(--chalk);text-decoration:none}
 /* Layout: arena-dark broadcast board. Top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
+/* Colours match the journal's front page (index.html): ice-blue on white, with the same dark palette when the device is in dark mode. */
 :root{
-  color-scheme: dark;
-  --ice: #070a0f;          /* page ground, below the ice */
-  --boards: #0d121a;       /* panels */
-  --glass: #131a24;        /* raised rows, inputs */
-  --line: #1f2a38;         /* hairlines */
-  --chalk: #e6edf5;        /* primary text */
-  --fog: #8796a8;          /* secondary text */
-  --mute: #566477;         /* tertiary */
-  --crease: #4fb6ff;       /* accent: crease blue */
-  --crease-dim: rgba(79,182,255,.14);
-  --good: #3ddc97;
-  --bad: #ff5d6c;
-  --warn: #ffc65c;
+  color-scheme: light;
+  --ice: #fbfdff;          /* page ground (index --bg) */
+  --boards: #eff6fc;       /* panels (index --surface) */
+  --glass: #e1f0fb;        /* raised rows, inputs (index --accent-soft) */
+  --line: #d5e1ec;         /* hairlines (index --rule) */
+  --chalk: #12202e;        /* primary text (index --fg) */
+  --fog: #53667a;          /* secondary text (index --muted) */
+  --mute: #627488;         /* tertiary */
+  --crease: #1a67a3;       /* accent (index --accent) */
+  --crease-dim: rgba(26,103,163,.14);
+  --series-b: #a9c0d6;     /* second chart series (index --series-b) */
+  --mast-a: #f6fbff; --mast-b: #dcedfa;   /* index masthead gradient */
+  --on-accent: #ffffff;
+  --shadow: rgba(18,32,46,.16);
+  --good: #17865a;
+  --bad: #c8364a;
+  --warn: #a8690c;
+  /* zone heat map (read by the script, so keep these as hex) */
+  --z-lo: #e6eff7; --z-hi: #e0603f;
+  --z-bad: #e0603f; --z-mid: #e3ebf2; --z-good: #1a67a3;
+  --z-none: #eff6fc; --z-hatch: #c9d7e4;
   --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --r: 10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+    --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
+    --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
+    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+    --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
+    --z-none: #151d27; --z-hatch: #2b3442;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+  --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
+  --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
+  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+  --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
+  --z-none: #151d27; --z-hatch: #2b3442;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}
@@ -47,14 +80,16 @@ button,input,select{font:inherit;color:inherit}
 .wrap{max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
 
 /* top bar */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1*clamp(16px,3vw,40px));padding:12px clamp(16px,3vw,40px);background:rgba(7,10,15,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1*clamp(16px,3vw,40px));padding:12px clamp(16px,3vw,40px);background:color-mix(in srgb,var(--ice) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .top-in{max-width:1320px;margin-inline:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
-.brand svg{flex:none}
+.brand .logo{flex:none;width:34px;height:34px;object-fit:contain}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)} }
+:root[data-theme="dark"] .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)}
 .brand small{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--fog);text-transform:uppercase;border-left:1px solid var(--line);padding-left:10px}
 .seg{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:3px}
 .seg button{border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;color:var(--fog);font-weight:600;font-size:13px}
-.seg button[aria-pressed="true"]{background:var(--crease);color:#04121f}
+.seg button[aria-pressed="true"]{background:var(--crease);color:var(--on-accent)}
 .spacer{flex:1}
 .switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--fog);font-size:13px;font-weight:600;user-select:none}
 .switch input{appearance:none;width:34px;height:20px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin:0}
@@ -68,7 +103,7 @@ button,input,select{font:inherit;color:inherit}
 h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,6vw,72px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;margin:8px 0 12px;text-wrap:balance}
 h1 span{color:var(--fog)}
 .lede{color:var(--fog);max-width:60ch;margin:0}
-.spot{background:linear-gradient(140deg,var(--boards),var(--ice));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
+.spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
 .spot::before{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;border-radius:50%;border:1px solid var(--crease-dim)}
 .spot .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .spot .nm{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;text-transform:uppercase;margin:4px 0 10px}
@@ -94,7 +129,7 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .lead .first .n{font-weight:700;line-height:1.2}
 .lead .first .t{font-size:12px;color:var(--mute)}
 .lead ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.lead li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid rgba(31,42,56,.5);cursor:pointer;font-size:13px}
+.lead li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);cursor:pointer;font-size:13px}
 .lead li:last-child{border-bottom:0}
 .lead li .r{color:var(--mute);width:18px;display:inline-block}
 .lead li:hover .nm2{color:var(--crease)}
@@ -118,7 +153,7 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .dot:hover{stroke:var(--chalk);stroke-width:2}
 .collapsed{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--mute);font-size:12px}
 .collapsed button{border:1px dashed var(--line);background:transparent;color:var(--fog);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
-.tip{position:fixed;pointer-events:none;z-index:50;background:var(--glass);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:240px}
+.tip{position:fixed;pointer-events:none;z-index:50;background:var(--glass);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 8px 24px var(--shadow);max-width:240px}
 .tip b{display:block;font-size:13px}
 
 /* filters + table */
@@ -138,7 +173,7 @@ th[aria-sort] {color:var(--crease)}
 th[aria-sort="ascending"]::after{content:" ▲";font-size:9px}
 th[aria-sort="descending"]::after{content:" ▼";font-size:9px}
 th.l,td.l{text-align:left}
-td{border-bottom:1px solid rgba(31,42,56,.6);font-family:var(--f-data);font-size:13px}
+td{border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);font-family:var(--f-data);font-size:13px}
 td.l{font-family:var(--f-body)}
 tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--glass)}
@@ -153,7 +188,7 @@ tbody tr:last-child td{border-bottom:0}
 .empty{padding:28px;text-align:center;color:var(--mute)}
 
 /* profile drawer */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40}
+.scrim{position:fixed;inset:0;background:rgba(8,14,22,.5);z-index:40}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--boards);border-left:1px solid var(--line);z-index:41;overflow-y:auto;padding:calc(20px + env(safe-area-inset-top,0px)) 22px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px}
 .dr-h{display:flex;gap:16px;align-items:center}
 .dr-h h2{font-size:32px;line-height:1}
@@ -181,7 +216,7 @@ tbody tr:last-child td{border-bottom:0}
 .rink svg{display:block;width:100%;height:auto;overflow:visible}
 .rink .zc{stroke:var(--boards);stroke-width:.6;cursor:default;transition:opacity .15s}
 .rink .zc:hover,.rink .zc.on{stroke:var(--chalk);stroke-width:.5}
-.rink .mk{fill:none;stroke:rgba(230,237,245,.28);stroke-width:.35;pointer-events:none}
+.rink .mk{fill:none;stroke:color-mix(in srgb,var(--chalk) 28%,transparent);stroke-width:.35;pointer-events:none}
 .rink text{font-family:var(--f-display);font-weight:700;text-anchor:middle;pointer-events:none}
 .rink .zs{font-family:var(--f-body);font-weight:600}
 .zlegend{display:flex;flex-direction:column;gap:4px;margin-top:10px;font-size:11px;color:var(--mute)}
@@ -217,7 +252,7 @@ footer p{margin:0 0 6px;max-width:60ch}
 <header class="top">
   <div class="top-in">
     <div class="brand">
-      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 22 V10 a11 11 0 0 1 22 0 V22" fill="none" stroke="#4fb6ff" stroke-width="2.4"/><path d="M8 22 a6 6 0 0 1 12 0" fill="rgba(79,182,255,.25)" stroke="#4fb6ff" stroke-width="1.6"/></svg>
+      <img class="logo" src="logo.png" alt="" width="34" height="34" decoding="async">
       Goalie Analyst <small>NHL Goaltending</small>
     </div>
     <div class="seg" role="group" aria-label="Season" id="seasonSeg"></div>
@@ -436,7 +471,7 @@ function hbars(id, list, val, fmt, opts={}){
     s+=`<g class="dot" data-id="${r.g.id}"><rect x="0" y="${y}" width="${W}" height="${row}" fill="transparent"/>
       <text x="${m.l-8}" y="${y+row/2+4}" text-anchor="end" style="fill:var(--chalk)">${esc(last(r.g.name))} <tspan style="fill:var(--mute)">${esc(teamOf(r.team))}</tspan></text>`;
     if(opts.stack){ s+=opts.stack(r,X,y+5,row-10); }
-    else s+=`<rect x="${m.l}" y="${y+5}" width="${Math.max(1,X(val(r))-m.l)}" height="${row-10}" rx="3" fill="${i===0?'var(--crease)':'#2b5b85'}"/>`;
+    else s+=`<rect x="${m.l}" y="${y+5}" width="${Math.max(1,X(val(r))-m.l)}" height="${row-10}" rx="3" fill="${i===0?'var(--crease)':'var(--series-b)'}"/>`;
     s+=`<text x="${X(opts.end?opts.end(r):val(r))+6}" y="${y+row/2+4}" style="fill:var(--chalk);font-family:var(--f-data)">${fmt(r)}</text></g>`;
   });
   if(opts.ref!=null) s+=`<line x1="${X(opts.ref)}" x2="${X(opts.ref)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--warn)" stroke-dasharray="3 3"/>`;
@@ -454,7 +489,7 @@ function workload(){
   if(!has){ $("#c-workload").innerHTML=`<div class="empty">Shot totals are not in the ${state.season} snapshot. Switch to 2025-26 or 2026-27.</div>`; return; }
   const q=[...rows()].sort((a,b)=>b.sa-a.sa).slice(0,12);
   hbars("c-workload", q, r=>r.sa, r=>r.sa.toLocaleString(), {
-    stack:(r,X,y,h)=>`<rect x="${X(0)}" y="${y}" width="${X(r.sv)-X(0)}" height="${h}" fill="#2b5b85"/><rect x="${X(r.sv)}" y="${y}" width="${Math.max(1,X(r.sa)-X(r.sv))}" height="${h}" fill="var(--bad)"/>`,
+    stack:(r,X,y,h)=>`<rect x="${X(0)}" y="${y}" width="${X(r.sv)-X(0)}" height="${h}" fill="var(--series-b)"/><rect x="${X(r.sv)}" y="${y}" width="${Math.max(1,X(r.sa)-X(r.sv))}" height="${h}" fill="var(--bad)"/>`,
     tick:v=>v>=1000?(v/1000)+"k":v
   });
 }
@@ -602,7 +637,12 @@ const hex = h => [1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const mix = (a,b,t) => { const A=hex(a),B=hex(b); return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join(""); };
 const lum = h => { const [r,g,b]=hex(h).map(v=>{v/=255;return v<=.03928?v/12.92:((v+.055)/1.055)**2.4}); return .2126*r+.7152*g+.0722*b; };
 // League view: one hue, brighter where more pucks get through. Goalie view: diverging around the league rate in that zone.
-const ZSEQ = ["#1a222d","#ff7a59"], ZDIV = {bad:"#ff7a59", mid:"#2b3442", good:"#4fb6ff"}, ZSEQ_LO=.75, ZDIV_MAX=.08;
+// Colours come from the --z-* tokens in the stylesheet so the map follows light and dark mode.
+const ZSEQ = ["",""], ZDIV = {}, ZC = {}, ZSEQ_LO=.75, ZDIV_MAX=.08;
+function zPalette(){
+  const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue("--z-"+n).trim();
+  ZSEQ[0]=v("lo"); ZSEQ[1]=v("hi"); ZDIV.bad=v("bad"); ZDIV.mid=v("mid"); ZDIV.good=v("good"); ZC.none=v("none"); ZC.hatch=v("hatch");
+}
 const seqFill = sv => mix(ZSEQ[0], ZSEQ[1], Math.min(1, Math.max(0, (1-sv)/(1-ZSEQ_LO))));
 const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : mix(ZDIV.mid, ZDIV.bad, Math.min(1, -d/ZDIV_MAX));
 const zGoalie = () => zone.id ? ZD.goalies.find(g=>String(g.id)===zone.id) : null;
@@ -612,8 +652,8 @@ function zCells(){
   return ZD.zones.map(z=>{
     const L=ZD.league[z.id], c=g ? (g.z[z.id]||[0,0]) : L, sv=zSv(c), lsv=zSv(L);
     const thin = g && c[0]<ZMIN, d = g && sv!=null ? sv-lsv : null;
-    const fill = sv==null ? "#151c26" : thin ? "url(#zHatch)" : g ? divFill(d) : seqFill(sv);
-    const ink = sv==null||thin ? "var(--mute)" : lum(g?divFill(d):seqFill(sv)) > .3 ? "#04121f" : "var(--chalk)";
+    const fill = sv==null ? ZC.none : thin ? "url(#zHatch)" : g ? divFill(d) : seqFill(sv);
+    const ink = sv==null||thin ? "var(--mute)" : lum(g?divFill(d):seqFill(sv)) > .2 ? "#0b1520" : "#ffffff";
     return {...z, c, sv, lsv, d, thin, fill, ink, share:c[0]/(g?Math.max(1,g.sog):tot)};
   });
 }
@@ -621,7 +661,7 @@ function zMap(cells){
   const R=`M0 75 V28 A28 28 0 0 1 28 0 H57 A28 28 0 0 1 85 28 V75 Z`;
   let s=`<svg viewBox="-1 -1 87 92" role="img" aria-label="Save percentage by zone, goal at the top"><defs>
     <clipPath id="zClip"><path d="${R}"/></clipPath>
-    <pattern id="zHatch" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.4" height="2.4" fill="#151c26"/><line x1="0" y1="0" x2="0" y2="2.4" stroke="#2b3442" stroke-width="1"/></pattern></defs>
+    <pattern id="zHatch" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.4" height="2.4" fill="${ZC.none}"/><line x1="0" y1="0" x2="0" y2="2.4" stroke="${ZC.hatch}" stroke-width="1"/></pattern></defs>
     <path d="${R}" fill="var(--ice)"/><g clip-path="url(#zClip)">`;
   const cellSvg = c => { const [x,y,w,h]=ZRECT[c.id]; return `<rect class="zc${zone.on===c.id?" on":""}" data-z="${c.id}" x="${x}" y="${y}" width="${w}" height="${h}" fill="${c.fill}"/>`; };
   s += cells.filter(c=>c.id!=="long").map(cellSvg).join("") + `</g>`;
@@ -643,7 +683,7 @@ function zMap(cells){
 function zLegend(g){
   $("#zLegend").innerHTML = g
     ? `<div class="ramp" style="background:linear-gradient(90deg,${ZDIV.bad},${ZDIV.mid},${ZDIV.good})"></div><div class="ends"><span>${zPlus(-ZDIV_MAX)} worse</span><span>League rate in that zone</span><span>better ${zPlus(ZDIV_MAX)}</span></div><span>Hatched zones have fewer than ${ZMIN} shots, too few to judge.</span>`
-    : `<div class="ramp" style="background:linear-gradient(90deg,${ZSEQ[1]},${ZSEQ[0]})"></div><div class="ends"><span>${fmtSv(ZSEQ_LO)} or lower</span><span>Brighter means more pucks get through</span><span>1.000</span></div>`;
+    : `<div class="ramp" style="background:linear-gradient(90deg,${ZSEQ[1]},${ZSEQ[0]})"></div><div class="ends"><span>${fmtSv(ZSEQ_LO)} or lower</span><span>Stronger colour means more pucks get through</span><span>1.000</span></div>`;
 }
 function zStats(g){
   // Shots and save % come from the mapped shots so they match the zones; games and expected goals from the game-by-game file.
@@ -657,9 +697,10 @@ function zStats(g){
 }
 function zTable(cells, g){
   $("#zTbl thead").innerHTML = `<tr><th class="l">Zone</th><th>Shots</th><th>Goals</th><th>SV%</th>${g?"<th>League</th><th>±</th>":"<th>Share</th>"}</tr>`;
-  $("#zTbl tbody").innerHTML = cells.map(c=>`<tr data-z="${c.id}" class="${zone.on===c.id?"on":""}"><td class="l">${state.gfx&&!zone.hidden?`<i style="background:${c.thin||c.sv==null?"#2b3442":c.fill}"></i>`:""}${esc(c.name)}</td><td class="num">${c.c[0]}</td><td class="num">${c.c[1]}</td><td class="num">${c.sv==null?"–":fmtSv(c.sv)}</td>${g?`<td class="num">${fmtSv(c.lsv)}</td><td class="num ${c.d==null||c.thin?"":c.d>0?"good":c.d<0?"bad":""}">${c.d==null?"–":zPlus(c.d)}</td>`:`<td class="num">${(100*c.share).toFixed(1)}%</td>`}</tr>`).join("");
+  $("#zTbl tbody").innerHTML = cells.map(c=>`<tr data-z="${c.id}" class="${zone.on===c.id?"on":""}"><td class="l">${state.gfx&&!zone.hidden?`<i style="background:${c.thin||c.sv==null?ZC.hatch:c.fill}"></i>`:""}${esc(c.name)}</td><td class="num">${c.c[0]}</td><td class="num">${c.c[1]}</td><td class="num">${c.sv==null?"–":fmtSv(c.sv)}</td>${g?`<td class="num">${fmtSv(c.lsv)}</td><td class="num ${c.d==null||c.thin?"":c.d>0?"good":c.d<0?"bad":""}">${c.d==null?"–":zPlus(c.d)}</td>`:`<td class="num">${(100*c.share).toFixed(1)}%</td>`}</tr>`).join("");
 }
 function renderZones(){
+  zPalette();
   const g=zGoalie(), cells=zCells(), map=state.gfx && !zone.hidden;
   $("#zoneNote").textContent = `${ZD.season} regular season, ${ZD.from} to ${ZD.to} · ${ZD.games} games · ${ZD.shots.toLocaleString()} shots on goal, empty nets left out.`;
   $("#zMapWrap").hidden = !map; $("#zGrid").classList.toggle("nomap", !map);
@@ -684,6 +725,7 @@ $("#zoneSec").addEventListener("mousemove",e=>{
 });
 $("#zoneSec").addEventListener("mouseleave",()=>{ hideTip(); zHover(null); });
 $("#gfx").addEventListener("change",renderZones);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",renderZones);
 
 /* ---------- footer ---------- */
 $("#foot").innerHTML = `
