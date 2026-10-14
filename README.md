@@ -12,6 +12,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `videos.js` | The video list for the Ecological dynamics videos section. |
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. |
+| `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
+| `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
 | `research.js` | The list for the Ecological dynamics and skill acquisition research section. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
