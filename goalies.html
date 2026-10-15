@@ -153,6 +153,9 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .dot:hover{stroke:var(--chalk);stroke-width:2}
 .collapsed{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--mute);font-size:12px}
 .collapsed button{border:1px dashed var(--line);background:transparent;color:var(--fog);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
+.panel-btns{display:flex;gap:6px;flex:none}
+.flegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11px;color:var(--mute);align-items:center}
+.flegend svg{display:inline-block;vertical-align:-2px;margin-right:5px}
 .tip{position:fixed;pointer-events:none;z-index:50;background:var(--glass);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 8px 24px var(--shadow);max-width:240px}
 .tip b{display:block;font-size:13px}
 
@@ -241,6 +244,7 @@ footer p{margin:0 0 6px;max-width:60ch}
   .leaders{grid-template-columns:1fr}
   .brand small{display:none}
   #q{width:130px}
+  .panel-h{flex-wrap:wrap}
   .bio{grid-template-columns:repeat(2,minmax(0,1fr))}
   .spot{grid-template-columns:1fr}
 }
@@ -293,6 +297,16 @@ footer p{margin:0 0 6px;max-width:60ch}
         <div class="panel-h"><div><h3>Workload</h3><p>Shots faced, split into saves and goals against. Top 12.</p></div><button class="hidebtn" data-hide="workload">Hide</button></div>
         <div class="chart" id="c-workload"></div>
       </div>
+      <div class="panel wide" data-chart="shrink">
+        <div class="panel-h"><div><h3>Save %, with how sure we are</h3><p id="shrinkSub"></p></div><div class="panel-btns"><button class="hidebtn" data-more="shrink" hidden></button><button class="hidebtn" data-hide="shrink">Hide</button></div></div>
+        <div class="flegend" id="shrinkKey"></div>
+        <div class="chart" id="c-shrink"></div>
+      </div>
+      <div class="panel wide" data-chart="gsax">
+        <div class="panel-h"><div><h3>Goals saved vs expected</h3><p id="gsaxSub"></p></div><div class="panel-btns"><button class="hidebtn" data-more="gsax" hidden></button><button class="hidebtn" data-hide="gsax">Hide</button></div></div>
+        <div class="flegend" id="gsaxKey"></div>
+        <div class="chart" id="c-gsax"></div>
+      </div>
     </div>
   </section>
 
@@ -334,6 +348,7 @@ footer p{margin:0 0 6px;max-width:60ch}
 
 <script src="goalies-data.js"></script>
 <script src="goalies-zones-data.js"></script>
+<script src="goalies-uncertainty-data.js"></script>
 <script>
 const DATA = window.GOALIE_DATA;
 const SEASONS = ["2026-27","2025-26","2024-25"];
@@ -493,22 +508,123 @@ function workload(){
     tick:v=>v>=1000?(v/1000)+"k":v
   });
 }
+/* ---------- how sure are we: shrunk save % and goals saved vs expected ---------- */
+// Built by build_uncertainty_data.py; method and checks in analysis/save-pct-uncertainty-plan.md.
+const UN = window.GOALIE_UNCERTAINTY;
+const more = {shrink:false, gsax:false};
+const ROWS_DEFAULT = 20;
+const chartW = el => Math.max(340, Math.round(el.clientWidth || 640));
+const keySvg = inner => `<svg width="22" height="10" viewBox="0 0 22 10" aria-hidden="true">${inner}</svg>`;
+function moreBtn(k, n){
+  const b=document.querySelector(`[data-more="${k}"]`);
+  b.hidden = n<=ROWS_DEFAULT; b.textContent = more[k] ? "Show fewer" : `Show all ${n}`;
+}
+// Where an interval sits against a reference: above (good), below (bad) or overlapping it.
+const side = (lo,hi,ref) => lo>ref ? "good" : hi<ref ? "bad" : "mid";
+const sideFill = {good:"var(--good)", bad:"var(--bad)", mid:"var(--series-b)"};
+
+function shrinkTip(id){
+  const g=byId.get(id), s=g.seasons[state.season], u=UN.seasons[state.season].goalies[id], lg=UN.seasons[state.season].league;
+  const where = {good:"Clear of league average, on the good side", bad:"Clear of league average, on the bad side", mid:"Can't yet be told apart from league average"}[side(u.lo,u.hi,lg)];
+  return `<b>${esc(g.name)}</b>${esc(s.team)} · ${s.gp} GP · ${s.sa.toLocaleString()} shots<br>Actual SV% ${fmtSv(s.sv/s.sa)} · best estimate ${fmtSv(u.m)}<br>90% range ${fmtSv(u.lo)} to ${fmtSv(u.hi)}<br>${where}`;
+}
+function shrink(){
+  const el=$("#c-shrink"), S=UN.seasons[state.season];
+  const k=S&&S.k, rel=n=>Math.round(100*n/(n+k));
+  $("#shrinkSub").textContent = S
+    ? `Each bar is the range a goalie's true save % most likely sits in (90%), after pulling small samples toward the league rate. Save % is noisy: at 1,000 shots only about ${rel(1000)}% of the gap between goalies is skill, and it takes about ${k.toLocaleString()} shots to reach half.${rows().every(r=>!r.sa||r.sa<k/2)?" No goalie is near that yet this season, so every estimate still sits close to the league rate: it is too soon to tell.":""}`
+    : "";
+  $("#shrinkKey").innerHTML = S ? [
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="3" fill="var(--good)"/>`)}Clearly above league`,
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="3" fill="var(--series-b)"/>`)}Can't tell yet`,
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="3" fill="var(--bad)"/>`)}Clearly below league`,
+    `${keySvg(`<line x1="1" y1="5" x2="21" y2="5" stroke="var(--mute)" stroke-width="1"/>`)}Range from this season's shots alone`,
+    `${keySvg(`<circle cx="11" cy="5" r="3.5" fill="none" stroke="var(--chalk)" stroke-width="1.5"/>`)}Actual save %`,
+    `${keySvg(`<line x1="11" y1="0" x2="11" y2="10" stroke="var(--warn)" stroke-dasharray="2 2"/>`)}League ${fmtSv(S.league)}`].map(x=>`<span>${x}</span>`).join("") : "";
+  if(!S){ el.innerHTML=`<div class="empty">The ${state.season} snapshot has no shot counts, so the range can't be worked out. Switch to 2025-26 or 2026-27.</div>`; moreBtn("shrink",0); return; }
+  const all=qualified().filter(r=>r.sa && S.goalies[r.g.id]).map(r=>({...r,u:S.goalies[r.g.id]})).sort((a,b)=>b.u.m-a.u.m);
+  moreBtn("shrink", all.length);
+  if(!all.length){ el.innerHTML=`<div class="empty">No qualified goalies yet. Lower Min GP.</div>`; return; }
+  const list = more.shrink ? all : all.slice(0,ROWS_DEFAULT);
+  const W=chartW(el), narrow=W<560, row=22, m={l:narrow?104:150,r:narrow?58:118,t:6,b:24}, H=m.t+m.b+list.length*row;
+  const lo=Math.floor(Math.min(...list.map(r=>Math.min(r.u.rlo,r.u.lo)))*100)/100, hi=Math.ceil(Math.max(...list.map(r=>Math.max(r.u.rhi,r.u.hi)))*100)/100;
+  const X=v=>m.l+(Math.min(hi,Math.max(lo,v))-lo)/(hi-lo)*(W-m.l-m.r);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" role="img" aria-label="Save percentage ranges for ${list.length} goalies">`;
+  s+=nice(lo,hi,narrow?3:6).map(v=>`<line class="gl" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H-m.b}"/><text class="ax" x="${X(v)}" y="${H-6}" text-anchor="middle">${fmtSv(v)}</text>`).join("");
+  if(!narrow) s+=`<text class="ax" x="${W-4}" y="${H-6}" text-anchor="end">EST. · SHOTS</text>`;
+  list.forEach((r,i)=>{
+    const y=m.t+i*row, cy=y+row/2, u=r.u, sd=side(u.lo,u.hi,S.league);
+    s+=`<g class="dot" data-k="shrink" data-id="${r.g.id}"><rect x="0" y="${y}" width="${W}" height="${row}" fill="transparent"/>
+      <text x="${m.l-8}" y="${cy+4}" text-anchor="end" style="fill:var(--chalk)">${esc(last(r.g.name))}${narrow?"":` <tspan style="fill:var(--mute)">${esc(teamOf(r.team))}</tspan>`}</text>
+      <line x1="${X(u.rlo)}" x2="${X(u.rhi)}" y1="${cy}" y2="${cy}" stroke="var(--mute)" stroke-width="1"/>
+      <rect x="${X(u.lo)}" y="${cy-4}" width="${Math.max(2,X(u.hi)-X(u.lo))}" height="8" rx="4" fill="${sideFill[sd]}" fill-opacity="${sd==="mid"?1:.85}"/>
+      <line x1="${X(u.m)}" x2="${X(u.m)}" y1="${cy-6}" y2="${cy+6}" stroke="var(--chalk)" stroke-width="2"/>
+      <circle cx="${X(r.sv/r.sa)}" cy="${cy}" r="3.5" fill="none" stroke="var(--chalk)" stroke-width="1.5"/>
+      <text x="${W-m.r+10}" y="${cy+4}" style="fill:var(--chalk);font-family:var(--f-data)">${fmtSv(u.m)}${narrow?"":`<tspan style="fill:var(--mute)"> · ${r.sa.toLocaleString()}</tspan>`}</text></g>`;
+  });
+  s+=`<line x1="${X(S.league)}" x2="${X(S.league)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--warn)" stroke-dasharray="3 3"/></svg>`;
+  el.innerHTML=s;
+}
+
+const GX = UN.gsax, gxById = new Map(GX.goalies.map(g=>[g.id,g]));
+const GX_MIN = 50; // shots on goal before a goalie is listed
+const fmtGsax = v => (v>0?"+":v<0?"−":"±")+Math.abs(v).toFixed(1);
+function gsaxTip(id){
+  const g=gxById.get(id), per60=g.toi? g.v*60/g.toi : 0;
+  const where = {good:"More saves than expected, beyond chance", bad:"Fewer saves than expected, beyond chance", mid:"Within what luck alone could explain"}[side(g.v-g.e,g.v+g.e,0)];
+  return `<b>${esc(g.name)}</b>${esc(g.team)} · ${g.gp} GP · ${g.toi} min · ${g.sog} shots<br>Expected GA ${g.xga.toFixed(1)} · actual ${g.ga}<br>Saved ${fmtGsax(g.v)} goals vs expected · ${per60>0?"+":per60<0?"−":"±"}${Math.abs(per60).toFixed(2)} per 60<br>Rough 90% range ${fmtGsax(g.v-g.e)} to ${fmtGsax(g.v+g.e)}<br>${where}`;
+}
+function gsax(){
+  const el=$("#c-gsax");
+  $("#gsaxSub").textContent = `${GX.season}, ${GX.from} to ${GX.to} (${GX.games} games), whatever season is picked above. Expected goals use MoneyPuck's shot-quality model; across the league it expected ${GX.xga.toFixed(0)} goals and ${GX.ga} went in. Goalies with ${GX_MIN}+ shots. About 1 goalie in 10 lands outside the range by luck alone, so a coloured bar is a lead to check, not a verdict.`;
+  $("#gsaxKey").innerHTML = [
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--good)"/>`)}Saved more than expected, beyond chance`,
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--series-b)"/>`)}Within luck`,
+    `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--bad)"/>`)}Allowed more than expected, beyond chance`,
+    `${keySvg(`<line x1="1" y1="5" x2="21" y2="5" stroke="var(--chalk)" stroke-width="1"/><line x1="1" y1="2" x2="1" y2="8" stroke="var(--chalk)"/><line x1="21" y1="2" x2="21" y2="8" stroke="var(--chalk)"/>`)}Rough 90% range`].map(x=>`<span>${x}</span>`).join("");
+  const all=GX.goalies.filter(g=>g.sog>=GX_MIN).sort((a,b)=>b.v-a.v);
+  moreBtn("gsax", all.length);
+  if(!all.length){ el.innerHTML=`<div class="empty">No goalie has ${GX_MIN} shots yet.</div>`; return; }
+  const half=ROWS_DEFAULT/2, list = more.gsax || all.length<=ROWS_DEFAULT ? all : [...all.slice(0,half), null, ...all.slice(-half)];
+  const W=chartW(el), narrow=W<560, row=22, m={l:narrow?104:150,r:narrow?46:92,t:6,b:24}, H=m.t+m.b+list.length*row;
+  const ext=Math.ceil(Math.max(...list.filter(Boolean).map(g=>Math.abs(g.v)+g.e)));
+  const X=v=>m.l+(v+ext)/(2*ext)*(W-m.l-m.r);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" role="img" aria-label="Goals saved versus expected for ${list.filter(Boolean).length} goalies">`;
+  s+=nice(-ext,ext,narrow?4:8).map(v=>`<line class="gl" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H-m.b}"/><text class="ax" x="${X(v)}" y="${H-6}" text-anchor="middle">${v>0?"+":""}${v}</text>`).join("");
+  if(!narrow) s+=`<text class="ax" x="${W-4}" y="${H-6}" text-anchor="end">GSAX · SHOTS</text>`;
+  list.forEach((g,i)=>{
+    const y=m.t+i*row, cy=y+row/2;
+    if(!g){ s+=`<text class="ax" x="${X(0)}" y="${cy+4}" text-anchor="middle">· · ·  ${all.length-ROWS_DEFAULT} more  · · ·</text>`; return; }
+    const sd=side(g.v-g.e,g.v+g.e,0), x0=X(Math.min(0,g.v)), x1=X(Math.max(0,g.v));
+    s+=`<g class="dot" data-k="gsax" data-id="${g.id}"><rect x="0" y="${y}" width="${W}" height="${row}" fill="transparent"/>
+      <text x="${m.l-8}" y="${cy+4}" text-anchor="end" style="fill:var(--chalk)">${esc(last(g.name))}${narrow?"":` <tspan style="fill:var(--mute)">${esc(g.team)}</tspan>`}</text>
+      <rect x="${x0}" y="${cy-5}" width="${Math.max(1.5,x1-x0)}" height="10" rx="2" fill="${sideFill[sd]}" fill-opacity="${sd==="mid"?1:.85}"/>
+      <path d="M${X(g.v-g.e)} ${cy}H${X(g.v+g.e)}M${X(g.v-g.e)} ${cy-3}V${cy+3}M${X(g.v+g.e)} ${cy-3}V${cy+3}" stroke="var(--chalk)" stroke-opacity=".55" stroke-width="1" fill="none"/>
+      <text x="${W-m.r+10}" y="${cy+4}" style="fill:var(--chalk);font-family:var(--f-data)">${fmtGsax(g.v)}${narrow?"":`<tspan style="fill:var(--mute)"> · ${g.sog}</tspan>`}</text></g>`;
+  });
+  s+=`<line x1="${X(0)}" x2="${X(0)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--mute)"/></svg>`;
+  el.innerHTML=s;
+}
+
 function renderCharts(){
   const sec=$("#chartSec");
   sec.hidden=!state.gfx;
   if(!state.gfx) return;
   document.querySelectorAll(".panel[data-chart]").forEach(p=>p.hidden=state.hidden.includes(p.dataset.chart));
   const hid=state.hidden;
-  const names={scatter:"Save % vs goals-against",svbar:"Save % ladder",workload:"Workload"};
+  const names={scatter:"Save % vs goals-against",svbar:"Save % ladder",workload:"Workload",shrink:"Save %, with how sure we are",gsax:"Goals saved vs expected"};
   $("#collapsed").hidden=!hid.length;
   $("#collapsed").innerHTML = hid.length ? `Hidden:` + hid.map(k=>`<button type="button" data-show="${k}">Show ${names[k]}</button>`).join("") : "";
-  $("#charts").hidden = hid.length===3;
+  $("#charts").hidden = hid.length===Object.keys(names).length;
   if(!hid.includes("scatter")) scatter();
   if(!hid.includes("svbar")) svbar();
   if(!hid.includes("workload")) workload();
+  if(!hid.includes("shrink")) shrink();
+  if(!hid.includes("gsax")) gsax();
 }
 $("#chartSec").addEventListener("click",e=>{
-  const h=e.target.closest("[data-hide]"), s=e.target.closest("[data-show]");
+  const h=e.target.closest("[data-hide]"), s=e.target.closest("[data-show]"), mo=e.target.closest("[data-more]");
+  if(mo){ more[mo.dataset.more]=!more[mo.dataset.more]; mo.dataset.more==="shrink"?shrink():gsax(); return; }
   if(h){ state.hidden=[...new Set([...state.hidden,h.dataset.hide])]; }
   else if(s){ state.hidden=state.hidden.filter(k=>k!==s.dataset.show); }
   else { const d=e.target.closest(".dot[data-id]"); if(d) openGoalie(+d.dataset.id); return; }
@@ -516,6 +632,7 @@ $("#chartSec").addEventListener("click",e=>{
 });
 $("#chartSec").addEventListener("mousemove",e=>{
   const d=e.target.closest(".dot[data-id]"); if(!d){hideTip();return;}
+  if(d.dataset.k) return showTip(e, d.dataset.k==="gsax" ? gsaxTip(+d.dataset.id) : shrinkTip(+d.dataset.id));
   const g=byId.get(+d.dataset.id), s=g.seasons[state.season];
   showTip(e,`<b>${esc(g.name)}</b>${esc(s.team)} · ${s.gp} GP · ${s.w}-${s.l}-${s.otl}<br>SV% ${fmtSv(s.svp)} · GAA ${fmtGaa(s.gaa)}${s.sa?` · ${s.sa} shots`:""}`);
 });
@@ -732,6 +849,7 @@ $("#foot").innerHTML = `
   <div><h4>Data</h4><p>Season totals, records and bios come from the NHL's public stats feed (api.nhle.com), captured ${DATA.asOf}. 2026-27 is a live season, so its numbers are an early-season snapshot.</p></div>
   <div><h4>Cross-checks</h4><p>QuantHockey's 2026-27 goalie table and InGoal Magazine's goaltender index were read on the same day. Each profile shows QuantHockey's line next to the NHL figures and links to InGoal.</p></div>
   <div><h4>Not included</h4><p>PuckPedia's goalie and contract lists did not return any rows to a plain page read, so cap hits are not in this snapshot. Profiles link out to PuckPedia instead.</p></div>
+  <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses the expected-goals totals in the MoneyPuck-format files below, with a rough range of ±1.645·√xGA. Rebuilt by build_uncertainty_data.py; method and checks are in the analysis folder.</p></div>
   <div><h4>Save % by zone</h4><p>Built from game-by-game shot and goalie files in MoneyPuck.com's format for ${ZD.from} to ${ZD.to}. Only games in both files are counted. Left and right are as drawn, with the goal at the top.</p></div>`;
 
 function renderAll(){
