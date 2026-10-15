@@ -1,0 +1,48 @@
+# Research bot: refreshes the goaltending clothesline (clothesline.js) once a day.
+# Needs Settings > Actions > General > Workflow permissions set to "Read and write permissions".
+# Add a repository secret named ANTHROPIC_API_KEY to let Claude search the web and review the articles;
+# without it the bot still runs, using free news, blog and research feeds with a keyword filter.
+name: Update clothesline
+
+on:
+  schedule:
+    - cron: "30 10 * * *"   # every day at 10:30 UTC (early morning in North America)
+  workflow_dispatch:         # adds a "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-clothesline
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the Anthropic SDK
+        run: pip install anthropic
+
+      - name: Research and update clothesline.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 fetch_clothesline.py --write
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- clothesline.js; then
+            echo "No new articles."
+            exit 0
+          fi
+          git config user.name "goalie-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add clothesline.js
+          git commit -m "Update clothesline articles"
+          git push
