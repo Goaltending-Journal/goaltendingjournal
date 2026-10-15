@@ -1,26 +1,27 @@
 // Articles for the goaltending "clothesline" across the top of index.html. One post-it note per line.
-// Fields: d = date (YYYY-MM-DD, or "" if unknown), t = title, u = link, s = publisher or journal,
-// tp = topic: "dev" (goalie development), "train" (training), "coach" (NHL goalie coaches),
-// "stats" (advanced stats), "bio" (biomechanics), "coaching" (goalie coaching),
+// Fields: d = date (YYYY-MM-DD, or "" if unknown), t = title, u = link, s = journal, lab or publisher,
+// tp = topic: "dev" (goalie development), "train" (training), "coaching" (goalie coaching),
+// "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
 const CLOTHESLINE_UPDATED = "15 October 2026";
 const CLOTHESLINE = [
-{"d": "2026-10-08", "t": "PWHL Goalie Moves: Nicole Hensley Leads All 46 Camp Invites", "u": "https://ingoalmag.com/2026/10/08/pwhl-training-camp-goalies-2026-27/", "s": "InGoal Magazine", "tp": "dev", "m": false},
-{"d": "2026-10-08", "t": "Goalie News: Daily Hockey Goaltending Roundup", "u": "https://ingoalmag.com/2026/10/08/introducing-goalie-news/", "s": "InGoal Magazine", "tp": "coaching", "m": false},
-{"d": "2026-07-31", "t": "Analytics Advantage: The Disappearance of the 60-Start Goalie and New Goaltending Trends", "u": "https://dobberhockey.com/2026/07/31/analytics-advantage-the-disappearance-of-the-60-start-goalie-and-new-goaltending-trends/", "s": "DobberHockey", "tp": "stats", "m": false},
+{"d": "", "t": "Ice hockey goaltenders' gaze behavior: differences between elites and amateurs", "u": "https://link.springer.com/article/10.1007/s11332-026-01774-x", "s": "Sport Sciences for Health", "tp": "dev", "m": false},
 {"d": "", "t": "Lower-Extremity Kinematics During Ice Hockey Goaltender Stances", "u": "https://pubmed.ncbi.nlm.nih.gov/42486464/", "s": "Journal of Applied Biomechanics", "tp": "bio", "m": false},
-{"d": "", "t": "NHL Goaltending Coaches: Complete Guide", "u": "https://ingoalmag.com/nhl-goaltending-coaches/", "s": "InGoal Magazine", "tp": "coach", "m": false},
-{"d": "", "t": "LA Kings Announce Hockey Operations Staff Additions for 2026-27 Season", "u": "https://www.nhl.com/kings/news/la-kings-announce-hockey-operations-staff-additions-2026-27-season", "s": "NHL.com", "tp": "coach", "m": false},
-{"d": "", "t": "2026 National Goaltending and Women's Defense Development Camp Invitees and Staff Named", "u": "https://teamusa.usahockey.com/news_article/show/1360766", "s": "USA Hockey", "tp": "dev", "m": false},
-{"d": "", "t": "Adjusting How We Evaluate and Analyze Goaltenders", "u": "https://thehockeywriters.com/evaluating-analyzing-goaltenders-changes/", "s": "The Hockey Writers", "tp": "stats", "m": false},
-{"d": "", "t": "The Perceived Demands of Ice Hockey Goaltending Movements on the Hip and Groin Region: An Elite Coach and Player Perspective", "u": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8647250/", "s": "PMC", "tp": "bio", "m": false},
-{"d": "", "t": "Ice Hockey Goaltender Physiology Profile and Physical Testing: A Review", "u": "https://digitalcommons.wku.edu/cgi/viewcontent.cgi?article=3028&context=ijes", "s": "Int J Exercise Science", "tp": "train", "m": false},
-{"d": "", "t": "2026 NHL Draft: Top 15 goaltenders", "u": "https://www.dailyfaceoff.com/news/2026-nhl-draft-top-15-goaltenders-trejbal-borichev-boettiger", "s": "Daily Faceoff", "tp": "dev", "m": false},
-{"d": "", "t": "How to Read GSAx: A Simple Guide to Understanding Goalie Performance", "u": "https://tapetotapemk.substack.com/p/why-save-percentage-isnt-enough-a", "s": "Tape to Tape", "tp": "stats", "m": false},
-{"d": "", "t": "New Jersey Devils make four changes to coaching, development staff", "u": "https://www.dailyfaceoff.com/news/new-jersey-devils-make-four-changes-coaching-development-staff-nhl-news", "s": "Daily Faceoff", "tp": "coach", "m": false},
-{"d": "", "t": "Generals add new goalie coach", "u": "https://chl.ca/ohl-generals/article/generals-add-new-goalie-coach/", "s": "CHL", "tp": "coaching", "m": false},
-{"d": "2025-06-10", "t": "Pro Training with Kristen Campbell and James Wendland", "u": "https://ingoalmag.com/2025/06/10/pro-training-with-kristen-campbell-and-james-wendland/", "s": "InGoal Magazine", "tp": "train", "m": true},
-{"d": "2024-11-19", "t": "Teaching Young Goalies to \"Be a Pro\" (InGoal Radio Ep. 280)", "u": "https://ingoalmag.com/2024/11/19/podcast-segment-for-goalie-parents-episode-280-learning-to-be-a-pro-at-a-young-age/", "s": "InGoal Magazine", "tp": "coaching", "m": true},
-{"d": "2023-07-14", "t": "5 Damn Things to Improve Goalie Hip Health", "u": "https://ingoalmag.com/2023/07/14/5-damn-things-to-improve-goalie-hip-health/", "s": "InGoal Magazine", "tp": "train", "m": true}
+{"d": "", "t": "Towards an ecological dynamics theory of flow in sport", "u": "https://www.sciencedirect.com/science/article/pii/S0001691825000782", "s": "Acta Psychologica", "tp": "ed", "m": false},
+{"d": "", "t": "The ecological dynamics of cognizant action in sport", "u": "https://www.sciencedirect.com/science/article/pii/S1469029225001347", "s": "Psychology of Sport and Exercise", "tp": "ed", "m": false},
+{"d": "", "t": "Perceptual Training in Ice Hockey: Bridging the Eyes-Puck Gap Using Virtual Reality", "u": "https://sportsmedicine-open.springeropen.com/articles/10.1186/s40798-025-00840-x", "s": "Sports Medicine - Open", "tp": "train", "m": false},
+{"d": "", "t": "Ecological Dynamics as an Accurate and Parsimonious Contributor to Applied Practice: A Critical Appraisal", "u": "https://link.springer.com/article/10.1007/s40279-024-02161-7", "s": "Sports Medicine", "tp": "ed", "m": false},
+{"d": "", "t": "Affordances for throwing: An uncontrolled manifold analysis", "u": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0301320", "s": "PLOS ONE", "tp": "sa", "m": false},
+{"d": "", "t": "Beyond a One-Size-Fits-All Approach to Coaching", "u": "https://emergentmvmt.com/beyond-a-one-size-fits-all-approach-to-coaching/", "s": "Emergence (Myszka & Yearby)", "tp": "coaching", "m": false},
+{"d": "", "t": "The Eventual Evolution of Ecological Dynamics", "u": "https://emergentmvmt.com/the-eventual-evolution-of-ecological-dynamics/", "s": "Emergence (Myszka & Yearby)", "tp": "ed", "m": false},
+{"d": "", "t": "The Perceived Demands of Ice Hockey Goaltending Movements on the Hip and Groin Region: An Elite Coach and Player Perspective", "u": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8647250/", "s": "PubMed Central", "tp": "bio", "m": false},
+{"d": "", "t": "Ice Hockey Goaltender Physiology Profile and Physical Testing: A Review", "u": "https://digitalcommons.wku.edu/cgi/viewcontent.cgi?article=3028&context=ijes", "s": "International Journal of Exercise Science", "tp": "train", "m": false},
+{"d": "", "t": "Sport Practitioners as Sport Ecology Designers: How Ecological Dynamics Has Progressively Changed Perceptions of Skill \"Acquisition\" in the Sporting Habitat", "u": "https://philpapers.org/rec/WOOSPA-10", "s": "Woods, Araújo, Davids et al.", "tp": "sa", "m": false},
+{"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
+{"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
+{"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
+{"d": "", "t": "Quiet eye predicts goaltender success in deflected ice hockey shots", "u": "https://pubmed.ncbi.nlm.nih.gov/26949176/", "s": "European Journal of Sport Science", "tp": "sa", "m": true},
+{"d": "", "t": "DIGR: A Defense Independent Rating of NHL Goaltenders Using Spatially Smoothed Save Percentage Maps", "u": "https://www.sloansportsconference.com/research-papers/digr-a-defense-independent-rating-of-nhl-goaltenders-using-spatially-smoothed-save-percentage-maps", "s": "MIT Sloan Sports Analytics Conference", "tp": "stats", "m": true},
+{"d": "", "t": "Evaluating NHL Goalies, Skaters, and Teams Using Weighted Shots", "u": "https://arxiv.org/abs/1205.1746", "s": "arXiv", "tp": "stats", "m": true}
 ];

@@ -243,10 +243,10 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 /* Clothesline: post-it notes of recent goaltending articles, hung on a line that scrolls like a ticker.
    Filled from clothesline.js, which the research bot (fetch_clothesline.py) updates daily. */
 .cl { --pin: #c49a62; --pin-edge: #8f6a3c; --rope: color-mix(in srgb, var(--muted) 70%, transparent); --ink: #1d2a36; --ink-soft: #4a5866;
-  --pn-dev: #fff2a8; --pn-train: #d6ebfb; --pn-coach: #d6f2e1; --pn-stats: #ffdfc9; --pn-bio: #e5dcfa; --pn-coaching: #fbd9e5;
+  --pn-dev: #fff2a8; --pn-train: #d6ebfb; --pn-coaching: #fbd9e5; --pn-stats: #ffdfc9; --pn-bio: #e5dcfa; --pn-ed: #d6f2e1; --pn-sa: #e8f3c2;
   position: relative; border-bottom: 1px solid var(--rule); background: linear-gradient(180deg, var(--surface), var(--bg)); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coach: #c1e4cf; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-coaching: #ecc6d3; } }
-:root[data-theme="dark"] .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coach: #c1e4cf; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-coaching: #ecc6d3; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coaching: #ecc6d3; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-ed: #c1e4cf; --pn-sa: #d6e5ad; } }
+:root[data-theme="dark"] .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coaching: #ecc6d3; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-ed: #c1e4cf; --pn-sa: #d6e5ad; }
 .cl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-top: 12px; font: 12.5px var(--sans); color: var(--muted); }
 .cl-head b { font-weight: 600; color: var(--fg); letter-spacing: 0.02em; }
 .cl-toggle { font: 500 12.5px var(--sans); color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; }
@@ -255,26 +255,26 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 .cl-track { display: flex; width: max-content; animation: cl-scroll var(--cl-dur, 120s) linear infinite; }
 .cl:hover .cl-track, .cl:focus-within .cl-track { animation-play-state: paused; }
 @keyframes cl-scroll { to { transform: translateX(-50%); } }
-.cl-slot { position: relative; flex: 0 0 auto; width: 212px; padding-top: 14px; }
+.cl-slot { position: relative; flex: 0 0 auto; width: 170px; padding-top: 14px; }
 .cl-rope { position: absolute; left: 0; top: 0; width: 100%; height: 24px; overflow: visible; pointer-events: none; }
 .cl-rope path { fill: none; stroke: var(--rope); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
-.cl-note { position: relative; display: flex; flex-direction: column; gap: 8px; width: 172px; min-height: 160px; margin: 0 auto; padding: 22px 14px 12px;
+.cl-note { position: relative; display: flex; flex-direction: column; gap: 6px; width: 140px; min-height: 128px; margin: 0 auto; padding: 18px 11px 10px;
   background: var(--pn, var(--pn-dev)); color: var(--ink); text-decoration: none; border-radius: 2px 2px 3px 14px / 2px 2px 3px 6px;
   box-shadow: 0 1px 1px rgba(0,0,0,0.08), 0 10px 18px -10px rgba(10,30,50,0.45);
   transform: rotate(var(--tilt, 0deg)); transform-origin: 50% -10px; animation: cl-sway 5.5s ease-in-out var(--delay, 0s) infinite alternate;
   transition: box-shadow 0.2s ease; }
-.cl-note::before { content: ""; position: absolute; top: -18px; left: 50%; width: 10px; height: 30px; margin-left: -5px; border-radius: 2px;
+.cl-note::before { content: ""; position: absolute; top: -17px; left: 50%; width: 9px; height: 26px; margin-left: -4.5px; border-radius: 2px;
   background: linear-gradient(90deg, var(--pin) 0 45%, var(--pin-edge) 45% 55%, var(--pin) 55%); box-shadow: 0 1px 2px rgba(0,0,0,0.25); }
 .cl-note:hover, .cl-note:focus-visible { box-shadow: 0 1px 1px rgba(0,0,0,0.08), 0 16px 26px -12px rgba(10,30,50,0.55); }
 .cl-note:hover h3, .cl-note:focus-visible h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .cl-note:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @keyframes cl-sway { from { transform: rotate(calc(var(--tilt, 0deg) - 1deg)); } to { transform: rotate(calc(var(--tilt, 0deg) + 1deg)); } }
-.cl-tp { font: 600 10.5px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
-.cl-note h3 { font: 600 15px/1.3 var(--serif); color: var(--ink); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; text-wrap: pretty; }
-.cl-meta { margin-top: auto; font: 11.5px/1.35 var(--sans); color: var(--ink-soft); }
-.cl-go { font: 600 12px var(--sans); color: #15507f; }
-.cl-pn-dev { --pn: var(--pn-dev); } .cl-pn-train { --pn: var(--pn-train); } .cl-pn-coach { --pn: var(--pn-coach); }
-.cl-pn-stats { --pn: var(--pn-stats); } .cl-pn-bio { --pn: var(--pn-bio); } .cl-pn-coaching { --pn: var(--pn-coaching); }
+.cl-tp { font: 600 9.5px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.cl-note h3 { font: 600 13px/1.28 var(--serif); color: var(--ink); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; text-wrap: pretty; }
+.cl-meta { margin-top: auto; font: 10.5px/1.35 var(--sans); color: var(--ink-soft); }
+.cl-go { font: 600 11px var(--sans); color: #15507f; }
+.cl-pn-dev { --pn: var(--pn-dev); } .cl-pn-train { --pn: var(--pn-train); } .cl-pn-coaching { --pn: var(--pn-coaching); }
+.cl-pn-stats { --pn: var(--pn-stats); } .cl-pn-bio { --pn: var(--pn-bio); } .cl-pn-ed { --pn: var(--pn-ed); } .cl-pn-sa { --pn: var(--pn-sa); }
 .cl.still .cl-view { overflow-x: auto; scrollbar-width: thin; }
 .cl.still .cl-track { animation: none; }
 .cl.still .cl-dup { display: none; }
@@ -288,9 +288,9 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 }
 @media (max-width: 640px) {
   .cl-desc { display: none; }
-  .cl-slot { width: 176px; }
-  .cl-note { width: 146px; min-height: 140px; padding: 20px 12px 10px; }
-  .cl-note h3 { font-size: 14px; }
+  .cl-slot { width: 148px; }
+  .cl-note { width: 122px; min-height: 116px; padding: 16px 9px 9px; }
+  .cl-note h3 { font-size: 12.5px; }
 }
 
 @media (max-width: 880px) {
@@ -338,7 +338,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 <section class="cl" id="clothesline" aria-labelledby="h-cl" hidden>
   <div class="wrap cl-head">
-    <span><b id="h-cl">On the line</b><span class="cl-desc"> · New reading on goaltending development, training, coaching, stats and biomechanics</span><span id="cl-stamp"></span></span>
+    <span><b id="h-cl">On the line</b><span class="cl-desc"> · Evidence-based reading on goaltending, ecological dynamics and skill acquisition</span><span id="cl-stamp"></span></span>
     <button type="button" class="cl-toggle" id="cl-toggle" aria-pressed="false">Pause</button>
   </div>
   <div class="cl-view" id="cl-view">
@@ -878,7 +878,7 @@ render();
 // The notes are drawn twice so the line loops without a gap; the copy is hidden from screen readers.
 (function () {
   if (typeof CLOTHESLINE === "undefined" || !CLOTHESLINE.length) return;
-  const LABELS = { dev: "Goalie development", train: "Training", coach: "NHL goalie coaches", stats: "Advanced stats", bio: "Biomechanics", coaching: "Goalie coaching" };
+  const LABELS = { dev: "Goalie development", train: "Training", coaching: "Goalie coaching", stats: "Advanced stats", bio: "Biomechanics", ed: "Ecological dynamics", sa: "Skill acquisition" };
   const box = document.getElementById("clothesline"), track = document.getElementById("cl-track"), btn = document.getElementById("cl-toggle");
 
   // Newest first, then deal the topics out in turn so neighbouring notes differ in colour.
