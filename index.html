@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Goaltending Open Source Journal</title>
-<meta name="description" content="A sports journal dedicated to the ice hockey goaltending position.">
+<title>The Goaltending Research Journal</title>
+<meta name="description" content="An open source sports journal dedicated to ice hockey goaltending.">
 <meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -248,7 +248,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coaching: #ecc6d3; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-ed: #c1e4cf; --pn-sa: #d6e5ad; } }
 :root[data-theme="dark"] .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #efe08f; --pn-train: #c0dcf2; --pn-coaching: #ecc6d3; --pn-stats: #f2cfb6; --pn-bio: #d3c9ef; --pn-ed: #c1e4cf; --pn-sa: #d6e5ad; }
 .cl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-top: 12px; font: 12.5px var(--sans); color: var(--muted); }
-.cl-head b { font-weight: 600; color: var(--fg); letter-spacing: 0.02em; }
+.cl-desc::after { content: " · "; }
 .cl-toggle { font: 500 12.5px var(--sans); color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; }
 .cl-toggle:hover { text-decoration: underline; text-underline-offset: 3px; }
 .cl-view { overflow: hidden; padding: 4px 0 26px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
@@ -336,9 +336,9 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </div>
 </div>
 
-<section class="cl" id="clothesline" aria-labelledby="h-cl" hidden>
+<section class="cl" id="clothesline" aria-label="Goaltending research reading" hidden>
   <div class="wrap cl-head">
-    <span><b id="h-cl">On the line</b><span class="cl-desc"> · Evidence-based reading on goaltending, ecological dynamics and skill acquisition</span><span id="cl-stamp"></span></span>
+    <span><span class="cl-desc">Evidence-based reading on goaltending, ecological dynamics and skill acquisition</span><span id="cl-stamp"></span></span>
     <button type="button" class="cl-toggle" id="cl-toggle" aria-pressed="false">Pause</button>
   </div>
   <div class="cl-view" id="cl-view">
@@ -349,8 +349,8 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 <main id="main" class="wrap">
   <header class="masthead" id="masthead">
     <img class="logo" src="logo.png" alt="" width="168" height="168" decoding="async">
-    <h1>The Goaltending Open Source Journal</h1>
-    <p>A sports journal dedicated to the ice hockey goaltending position.</p>
+    <h1>The Goaltending Research Journal</h1>
+    <p>An open source sports journal dedicated to ice hockey goaltending.</p>
     <ul class="facts" id="facts"></ul>
   </header>
 
@@ -496,7 +496,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </section>
 
   <footer>
-    <span>The Goaltending Open Source Journal. All rights reserved. Copyright 2026. </span>
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
     <span>Data last updated <span id="updated-foot"></span></span>
   </footer>
 </main>
@@ -913,7 +913,7 @@ render();
   items.forEach((r, i) => track.append(note(r, i, false)));
   items.forEach((r, i) => track.append(note(r, i, true)));
   track.style.setProperty("--cl-dur", Math.max(40, items.length * 7) + "s");   // about 7 seconds per note
-  if (typeof CLOTHESLINE_UPDATED !== "undefined") document.getElementById("cl-stamp").textContent = " · Updated " + CLOTHESLINE_UPDATED;
+  if (typeof CLOTHESLINE_UPDATED !== "undefined") document.getElementById("cl-stamp").textContent = "Updated " + CLOTHESLINE_UPDATED;
 
   btn.addEventListener("click", () => {
     const still = box.classList.toggle("still");
