@@ -14,6 +14,9 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. |
 | `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
 | `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
+| `clothesline.js` | The articles shown as post-it notes on the scrolling line at the top of the page. |
+| `fetch_clothesline.py` | The research bot that updates `clothesline.js` (OpenAlex research and researcher feeds, plus Claude web research when an API key is set). |
+| `.github/workflows/update-clothesline.yml` | Optional: lets GitHub run the research bot every day. |
 | `research.js` | The list for the Ecological dynamics and skill acquisition research section. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
@@ -104,3 +107,5 @@ To update later, open `data.js` in the repository, click the pencil icon, edit, 
 - Fill in or remove the Peers and Virtual Conference placeholders. They currently say "To be announced".
 - Add a contact address so readers and authors can reach the journal.
 - Check the "About these records" note under Research Articles.
+
+**Clothesline (research bot).** The line of post-it notes across the top of the page reads `clothesline.js`: one article per line with a date, title, link, journal or publisher, and topic (`dev`, `train`, `coaching`, `stats`, `bio`, `ed` for ecological dynamics or `sa` for skill acquisition; each topic has its own note colour). Add one by hand with `"m": true` to keep it permanently. The research bot, `fetch_clothesline.py`, focuses on evidence-based work: it searches OpenAlex (peer-reviewed research) for each topic and for the researchers listed in `WATCH_AUTHORS` (Rob Gray, Duarte Araújo, Keith Davids, Andrew D. Wilson and others), and reads the Perception & Action and Emergence feeds. InGoal Magazine is blocked (`BLOCKED`). If a repository secret named `ANTHROPIC_API_KEY` is set, Claude also searches the web for research on each topic and drops news, magazines and blogs; without a key, a keyword filter is used. Run `python3 fetch_clothesline.py` to preview and `--write` to update. `.github/workflows/update-clothesline.yml` runs it every day and commits the result (needs Read and write workflow permissions, as above). The line pauses when the pointer is over it, has a Pause button, and stays still for visitors who have reduced motion turned on.
