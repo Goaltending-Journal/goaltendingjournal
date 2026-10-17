@@ -150,7 +150,11 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .chart .gl{stroke:var(--line);stroke-width:1}
 .chart .ax{fill:var(--mute);font-size:10px;letter-spacing:.06em}
 .dot{cursor:pointer;transition:opacity .15s}
-.dot:hover{stroke:var(--chalk);stroke-width:2}
+circle.dot:hover{stroke:var(--chalk);stroke-width:2}
+/* bar-chart rows: tint the row and switch its label and value to the accent, instead of outlining the text */
+g.dot > rect:first-child{transition:fill .12s}
+g.dot:hover > rect:first-child{fill:var(--crease-dim)}
+g.dot:hover text,g.dot:hover tspan{fill:var(--crease)!important;font-weight:700}
 .collapsed{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--mute);font-size:12px}
 .collapsed button{border:1px dashed var(--line);background:transparent;color:var(--fog);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
 .panel-btns{display:flex;gap:6px;flex:none}
@@ -189,6 +193,12 @@ tbody tr:last-child td{border-bottom:0}
 .bar i{display:inline-block;height:6px;border-radius:3px;background:var(--crease);opacity:.75}
 .good{color:var(--good)} .bad{color:var(--bad)}
 .empty{padding:28px;text-align:center;color:var(--mute)}
+.pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;color:var(--fog);font-size:13px}
+.pager .pg{display:flex;gap:4px;flex-wrap:wrap}
+.pager button{border:1px solid var(--line);background:var(--glass);color:var(--fog);border-radius:999px;min-width:34px;height:32px;padding:0 12px;font-size:12px;font-weight:600;cursor:pointer}
+.pager button:hover:not(:disabled){color:var(--chalk);border-color:var(--mute)}
+.pager button[aria-current="page"]{background:var(--crease);border-color:var(--crease);color:var(--on-accent)}
+.pager button:disabled{opacity:.4;cursor:default}
 
 /* profile drawer */
 .scrim{position:fixed;inset:0;background:rgba(8,14,22,.5);z-index:40}
@@ -210,26 +220,41 @@ tbody tr:last-child td{border-bottom:0}
 .links{display:flex;gap:10px;flex-wrap:wrap}
 .links a{border:1px solid var(--line);background:var(--glass);padding:7px 12px;border-radius:8px;font-weight:600;font-size:13px}
 
-/* zone heat map */
-.zone-top{display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:14px}
-.zone-top .stats{display:flex;gap:22px;flex-wrap:wrap}
+/* zone heat map: one card with the controls on top, the rink and its table side by side */
+.zone-card{margin-top:14px;background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:18px}
+.zone-top{display:flex;gap:14px 18px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.zone-top .field{background:var(--ice)}
+.zone-top .stats{display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:center}
+.zone-top .stats .kv{background:var(--ice);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:92px}
+.zone-top .stats .kv b{font-size:22px}
+.zone-top .stats .kv span{display:block;margin-top:3px;font-size:9px}
+.zone-top .stats .who{padding-right:6px}
 #zGoalie{max-width:230px}
-.zone-grid{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:22px;align-items:start;margin-top:14px}
+.zone-grid{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:24px;align-items:start}
 .zone-grid.nomap{grid-template-columns:1fr}
 .rink svg{display:block;width:100%;height:auto;overflow:visible}
-.rink .zc{stroke:var(--boards);stroke-width:.6;cursor:default;transition:opacity .15s}
-.rink .zc:hover,.rink .zc.on{stroke:var(--chalk);stroke-width:.5}
-.rink .mk{fill:none;stroke:color-mix(in srgb,var(--chalk) 28%,transparent);stroke-width:.35;pointer-events:none}
+.rink .zc{stroke:var(--boards);stroke-width:.8;cursor:default;transition:opacity .15s,filter .15s}
+.rink .zc:hover,.rink .zc.on{filter:brightness(1.06) saturate(1.15);stroke:var(--crease);stroke-width:.7}
+.rink .mk{fill:none;stroke:color-mix(in srgb,var(--chalk) 16%,transparent);stroke-width:.3;pointer-events:none}
 .rink text{font-family:var(--f-display);font-weight:700;text-anchor:middle;pointer-events:none}
 .rink .zs{font-family:var(--f-body);font-weight:600}
-.zlegend{display:flex;flex-direction:column;gap:4px;margin-top:10px;font-size:11px;color:var(--mute)}
-.zlegend .ramp{height:8px;border-radius:4px}
-.zlegend .ends{display:flex;justify-content:space-between}
-.ztbl{min-width:0}
-.ztbl tbody tr{cursor:default}
-.ztbl tbody tr.on{background:var(--glass)}
-.ztbl td.l i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:-1px}
-@media (max-width:960px){ .zone-grid{grid-template-columns:1fr} .rink{max-width:440px;margin-inline:auto;width:100%} }
+.zlegend{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:11px;color:var(--fog)}
+.zlegend .ramp{height:10px;border-radius:999px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--chalk) 8%,transparent)}
+.zlegend .ends{display:flex;justify-content:space-between;gap:8px}
+.zlegend .ends span:nth-child(2){text-align:center}
+.zlegend > span{color:var(--mute)}
+.ztbl{min-width:0;background:var(--ice)}
+.ztbl .mini th{padding:10px 12px;font-size:10px;border-bottom:1px solid var(--line)}
+.ztbl .mini td{padding:9px 12px;font-size:13px}
+.ztbl .mini td.l{font-weight:600}
+.ztbl tbody tr{cursor:default;transition:background .12s}
+.ztbl tbody tr:nth-child(even){background:color-mix(in srgb,var(--boards) 55%,transparent)}
+.ztbl tbody tr.on{background:var(--crease-dim)}
+.ztbl tbody tr.on td{color:var(--crease)}
+.ztbl tbody tr.on td.good{color:var(--good)} .ztbl tbody tr.on td.bad{color:var(--bad)}
+.ztbl td.l i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:10px;vertical-align:-2px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--chalk) 12%,transparent)}
+@media (max-width:960px){ .zone-grid{grid-template-columns:1fr} .rink{max-width:420px;margin-inline:auto;width:100%} .zone-top .stats{justify-content:flex-start} }
+@media (max-width:520px){ .zone-card{padding:12px} .ztbl .mini th,.ztbl .mini td{padding:8px 6px} .ztbl td.l i{margin-right:6px} .zone-top .stats{flex-basis:100%} .zone-top .stats .kv{min-width:0;flex:1 1 40%} }
 
 footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 footer h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
@@ -244,6 +269,7 @@ footer p{margin:0 0 6px;max-width:60ch}
   .leaders{grid-template-columns:1fr}
   .brand small{display:none}
   #q{width:130px}
+  .pager .pg button:not([aria-label]):not([aria-current]),.pager .pg span{display:none}
   .panel-h{flex-wrap:wrap}
   .bio{grid-template-columns:repeat(2,minmax(0,1fr))}
   .spot{grid-template-columns:1fr}
@@ -279,6 +305,24 @@ footer p{margin:0 0 6px;max-width:60ch}
   <section>
     <div class="sec-h"><h2>League leaders</h2><span class="note" id="leadNote"></span></div>
     <div class="leaders" id="leaders" style="margin-top:14px"></div>
+  </section>
+
+  <section id="zoneSec">
+    <div class="sec-h"><h2>Save % by zone</h2><span class="note" id="zoneNote"></span></div>
+    <div class="zone-card">
+    <div class="zone-top">
+      <div class="field"><label for="zGoalie">Goalie</label><select id="zGoalie"><option value="">All goalies (league)</option></select></div>
+      <div class="stats" id="zStats"></div>
+      <button class="hidebtn" id="zHide" type="button">Hide map</button>
+    </div>
+    <div class="zone-grid" id="zGrid">
+      <div class="rink" id="zMapWrap">
+        <div id="c-zones"></div>
+        <div class="zlegend" id="zLegend"></div>
+      </div>
+      <div class="tbl-wrap ztbl"><table class="mini" id="zTbl"><thead></thead><tbody></tbody></table></div>
+    </div>
+    </div>
   </section>
 
   <section id="chartSec">
@@ -321,23 +365,9 @@ footer p{margin:0 0 6px;max-width:60ch}
     <div class="tbl-wrap">
       <table id="tbl"><thead><tr></tr></thead><tbody></tbody></table>
     </div>
+    <nav class="pager" id="pager" aria-label="Goaltender table pages"></nav>
   </section>
 
-  <section id="zoneSec">
-    <div class="sec-h"><h2>Save % by zone</h2><span class="note" id="zoneNote"></span></div>
-    <div class="zone-top">
-      <div class="field"><label for="zGoalie">Goalie</label><select id="zGoalie"><option value="">All goalies (league)</option></select></div>
-      <div class="stats" id="zStats"></div>
-      <button class="hidebtn" id="zHide" type="button">Hide map</button>
-    </div>
-    <div class="zone-grid" id="zGrid">
-      <div class="rink" id="zMapWrap">
-        <div id="c-zones"></div>
-        <div class="zlegend" id="zLegend"></div>
-      </div>
-      <div class="tbl-wrap ztbl"><table class="mini" id="zTbl"><thead></thead><tbody></tbody></table></div>
-    </div>
-  </section>
 
   <footer id="foot"></footer>
 </main>
@@ -362,7 +392,7 @@ const state = {
   season: store.get("season","2026-27"),
   gfx: store.get("gfx", true),
   hidden: store.get("hidden", []),
-  sort: {key:"gp", dir:-1},
+  sort: {key:"gp", dir:-1}, page:0,
   q:"", team:"", catch:"", mingp:null
 };
 if(!SEASONS.includes(state.season)) state.season = "2026-27";
@@ -397,7 +427,7 @@ function renderSeg(){
 }
 $("#seasonSeg").addEventListener("click", e=>{
   const b=e.target.closest("button"); if(!b) return;
-  state.season=b.dataset.s; state.mingp=null; store.set("season",state.season);
+  state.season=b.dataset.s; state.mingp=null; state.page=0; store.set("season",state.season);
   state.sort = state.season==="2024-25" && ["sa","sv","ga","gs"].includes(state.sort.key) ? {key:"gp",dir:-1} : state.sort;
   renderAll();
 });
@@ -655,9 +685,11 @@ function renderHead(){
 }
 $("#tbl thead").addEventListener("click",e=>{
   const th=e.target.closest("th"); if(!th) return; const k=th.dataset.k;
+  state.page=0;
   state.sort = state.sort.key===k ? {key:k,dir:-state.sort.dir} : {key:k,dir:(["name","team","gaa","l","otl","ga"].includes(k)?1:-1)};
   renderTable();
 });
+const PAGE = 10;
 function renderTable(){
   renderHead();
   const m=state.mingp ?? 0;
@@ -670,8 +702,12 @@ function renderTable(){
   const maxGp=Math.max(1,...rows().map(r=>r.gp));
   const lsv=leagueSv(qualified());
   $("#countNote").textContent=`${list.length} of ${rows().length} goalies · click a row for the full profile`;
+  const pages=Math.max(1,Math.ceil(list.length/PAGE));
+  state.page=Math.min(state.page,pages-1);
+  const from=state.page*PAGE;
+  renderPager(list.length,pages,from);
   const cs=cols();
-  $("#tbl tbody").innerHTML = list.length ? list.map(r=>`<tr data-id="${r.g.id}">${cs.map(col=>{
+  $("#tbl tbody").innerHTML = list.length ? list.slice(from,from+PAGE).map(r=>`<tr data-id="${r.g.id}">${cs.map(col=>{
     switch(col.k){
       case "name": return `<td class="l"><div class="who">${mono(r.g,"sm")}<div><b>${esc(r.g.name)}</b><small>${r.g.catches==="R"?"Catches right":"Catches left"}${r.g.born?` · ${age(r.g.born)} yrs`:""}</small></div></div></td>`;
       case "team": return `<td class="l"><span class="pill">${esc(r.team)}</span></td>`;
@@ -682,11 +718,19 @@ function renderTable(){
       default: return `<td class="num">${r[col.k]??"–"}</td>`;
     }}).join("")}</tr>`).join("") : `<tr><td colspan="${cs.length}" class="empty">No goalies match these filters.</td></tr>`;
 }
+// The table shows PAGE goalies at a time; sorting or filtering goes back to the first page.
+function renderPager(n,pages,from){
+  const pg=$("#pager"); pg.hidden = n<=PAGE; if(pg.hidden){ pg.innerHTML=""; return; }
+  const p=state.page, nums=[...Array(pages).keys()].filter(i=>pages<=7||i===0||i===pages-1||Math.abs(i-p)<=1);
+  const btns=nums.map((i,j)=>(j&&i-nums[j-1]>1?`<span aria-hidden="true">…</span>`:"")+`<button type="button" data-pg="${i}" ${i===p?'aria-current="page"':""}>${i+1}</button>`).join("");
+  pg.innerHTML=`<span class="num">Showing ${from+1}–${Math.min(n,from+PAGE)} of ${n}</span><div class="pg"><button type="button" data-pg="${p-1}" ${p===0?"disabled":""} aria-label="Previous page">‹ Prev</button>${btns}<button type="button" data-pg="${p+1}" ${p===pages-1?"disabled":""} aria-label="Next page">Next ›</button></div>`;
+}
+$("#pager").addEventListener("click",e=>{ const b=e.target.closest("button[data-pg]"); if(!b||b.disabled) return; state.page=+b.dataset.pg; renderTable(); });
 $("#tbl tbody").addEventListener("click",e=>{ const tr=e.target.closest("tr[data-id]"); if(tr) openGoalie(+tr.dataset.id); });
-$("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); renderTable();});
-$("#team").addEventListener("change",e=>{state.team=e.target.value; renderTable();});
-$("#catch").addEventListener("change",e=>{state.catch=e.target.value; renderTable();});
-$("#mingp").addEventListener("input",e=>{state.mingp=+e.target.value; $("#mingpV").textContent=e.target.value; renderHero(); renderLeaders(); renderCharts(); renderTable();});
+$("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); state.page=0; renderTable();});
+$("#team").addEventListener("change",e=>{state.team=e.target.value; state.page=0; renderTable();});
+$("#catch").addEventListener("change",e=>{state.catch=e.target.value; state.page=0; renderTable();});
+$("#mingp").addEventListener("input",e=>{state.mingp=+e.target.value; state.page=0; $("#mingpV").textContent=e.target.value; renderHero(); renderLeaders(); renderCharts(); renderTable();});
 function fillTeams(){
   $("#team").innerHTML = `<option value="">All teams</option>` + Object.keys(TEAMS).sort().map(t=>`<option value="${t}">${t} · ${TEAMS[t][0]}</option>`).join("");
 }
@@ -780,9 +824,9 @@ function zMap(cells){
     <clipPath id="zClip"><path d="${R}"/></clipPath>
     <pattern id="zHatch" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.4" height="2.4" fill="${ZC.none}"/><line x1="0" y1="0" x2="0" y2="2.4" stroke="${ZC.hatch}" stroke-width="1"/></pattern></defs>
     <path d="${R}" fill="var(--ice)"/><g clip-path="url(#zClip)">`;
-  const cellSvg = c => { const [x,y,w,h]=ZRECT[c.id]; return `<rect class="zc${zone.on===c.id?" on":""}" data-z="${c.id}" x="${x}" y="${y}" width="${w}" height="${h}" fill="${c.fill}"/>`; };
+  const cellSvg = c => { const [x,y,w,h]=ZRECT[c.id]; return `<rect class="zc${zone.on===c.id?" on":""}" data-z="${c.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="1.4" fill="${c.fill}"/>`; };
   s += cells.filter(c=>c.id!=="long").map(cellSvg).join("") + `</g>`;
-  s += cellSvg(cells.find(c=>c.id==="long")).replace("<rect","<rect rx=\"2\"");
+  s += cellSvg(cells.find(c=>c.id==="long")).replace('rx="1.4"','rx="2.5"');
   // rink markings
   s += `<g class="mk"><path d="${R}"/><line x1="0" y1="11" x2="85" y2="11" clip-path="url(#zClip)"/>
     <path d="M36.5 11 A6 6 0 0 0 48.5 11"/><rect x="39.5" y="7.7" width="6" height="3.3"/>
