@@ -1,0 +1,45 @@
+# Stats bot: refreshes the Goalie Stats page (goalies-data.js) from the NHL stats feed once a day,
+# then rebuilds goalies-uncertainty-data.js so the "How sure are we" panels match.
+# Needs Settings > Actions > General > Workflow permissions set to "Read and write permissions".
+name: Update goalie stats
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # every day at 09:00 UTC (early morning in North America, after the night's games)
+  workflow_dispatch:       # adds a "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-goalie-stats
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull this season's goalie totals
+        run: python3 build_goalies_data.py
+
+      - name: Rebuild the save % ranges
+        run: python3 build_uncertainty_data.py
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "goalie-stats-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add goalies-data.js goalies-uncertainty-data.js
+          if git diff --cached --quiet; then
+            echo "No new stats."
+            exit 0
+          fi
+          git commit -m "Update goalie stats for $(TZ=America/New_York date +%F)"
+          git push
