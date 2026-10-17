@@ -11,7 +11,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `news.js` | The NHL goaltending news list. |
 | `videos.js` | The video list for the Ecological dynamics videos section. |
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar. |
-| `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. |
+| `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
+| `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
 | `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
 | `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
 | `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
