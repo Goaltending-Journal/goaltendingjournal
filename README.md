@@ -9,7 +9,6 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `index.html` | The page: layout, wording, and sections such as Peers and Virtual Conference. |
 | `data.js` | The research data: every article, the open-access journal table, and the "last updated" date. |
 | `news.js` | The NHL goaltending news list. |
-| `videos.js` | The video list for the Ecological dynamics videos section. |
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
 | `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
@@ -24,12 +23,11 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
 | `fetch_research.py` | Optional helper that adds recent articles to `research.js` using OpenAlex (no key needed). |
-| `fetch_videos.py` | Optional helper that adds videos to `videos.js` using the YouTube Data API (needs a free key). |
-| `.github/workflows/update-feeds.yml` | Optional: lets GitHub run the research and video helpers every day. |
+| `.github/workflows/update-feeds.yml` | Optional: lets GitHub run the research helper every day. |
 | `.github/workflows/update-news.yml` | Optional: lets GitHub run `fetch_news.py` every day. This is a hidden folder; on a Mac press Cmd+Shift+. in Finder to see it. |
 | `README.md` | This file. |
 
-`index.html`, `data.js`, `news.js`, `videos.js` and `research.js` must stay in the same folder.
+`index.html`, `data.js`, `news.js`, `research.js` and the `flags` folder must stay in the same folder.
 
 ## Preview on your computer
 
@@ -83,11 +81,13 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Colours and the masthead glow.** The colour tokens are at the top of the style block in `index.html`. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`, with separate dark-mode values below them. `goalies.html` uses the same colours under its own token names (also at the top of its style block, with a note on which `index.html` token each one matches), so a colour change on the front page should be copied there too.
 
-**Videos.** Edit `videos.js` by hand: one video per line. `id` is the 11 characters after `v=` in a YouTube link, `tg` is `"ed"` (ecological dynamics), `"gk"` (goaltending) or both. Each video plays inside the page when selected and always links to YouTube. A video the owner has switched off embedding for will not play in the page, but its YouTube link still works. The search links under the videos always show the latest results for each topic.
+**Featured video.** One YouTube video is embedded in the Featured video section of `index.html`. To change it, replace the 11-character id (`THgShNfSibk`) in both the `iframe` and the "Watch on YouTube" link.
+
+**Peer reviewers.** The reviewer list is plain HTML in the Peers section of `index.html`, one `<li>` per person. Replace each placeholder name (`Reviewer 01` and so on). Flags are small SVG files in `flags/`, named by two-letter country code (`us.svg`, `fr.svg`).
 
 **Research (ecological dynamics and skill acquisition).** Edit `research.js` by hand: one article per line (fields are listed at the top of the file). To add articles automatically, run `python3 fetch_research.py` to preview and `python3 fetch_research.py --write` to add. It searches OpenAlex for "ecological dynamics", "constraints-led approach" and "skill acquisition" in sport. To follow particular researchers, put their names in `WATCH_AUTHORS` at the top of that file. Automatic items have no summary line.
 
-**Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. For videos, create a free YouTube Data API key in Google Cloud and save it in GitHub under Settings, Secrets and variables, Actions as a secret named `YOUTUBE_API_KEY`; without it the video helper does nothing. Not tested against the live services, so check the first run in the Actions tab.
+**Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. Not tested against the live services, so check the first run in the Actions tab.
 
 **Other wording.** Peers, Virtual Conference, the notes under Research Articles, the menu and the masthead text are plain HTML in `index.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
 
