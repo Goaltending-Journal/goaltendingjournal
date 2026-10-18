@@ -71,19 +71,3 @@ const REC = [
 {"i": 63, "y": 2026, "yl": "2026", "t": "Impact of an intervention program on agility, flexibility and reaction speed in ice hockey goalkeepers", "a": "Dvořáková", "j": "Bachelor's thesis, Charles University", "doi": null, "pmid": null, "link": "http://hdl.handle.net/20.500.11956/208867", "sc": "goaltending", "sn": "", "qe": false, "tp": ["vis", "phy"], "nt": "in Czech", "nodoi": "—"},
 {"i": 64, "y": null, "yl": "n.d.", "t": "The effects of ice hockey goaltender leg pads on safety and performance", "a": "Frayne", "j": "Thesis, Western University", "doi": null, "pmid": null, "link": "https://ir.lib.uwo.ca/etd/4221", "sc": "goaltending", "sn": "", "qe": false, "tp": ["inj", "eq"], "nt": "", "nodoi": "—"}
 ];
-
-// Open-access journal table: [name, publisher, "Yes" if authors pay a fee else "No", link]
-const OA = [
-["Open Access Journal of Sports Medicine", "Dove Medical Press", "Yes", "https://www.dovepress.com/open-access-journal-of-sports-medicine-journal"],
-["JOSPT Open", "JOSPT Inc.", "Yes", "https://www.jospt.org/josptopen"],
-["Sports Medicine International Open", "Thieme", "Yes", "https://lp.thieme.de/journals/sports-medicine-international-open/2367-1890"],
-["Sports Medicine, Arthroscopy, Rehabilitation, Therapy & Technology", "BMC", "Yes", "https://bmcsportsscimedrehabil.biomedcentral.com/"],
-["JSAMS Plus", "Elsevier", "Yes", "https://www.sciencedirect.com/journal/jsams-plus"],
-["Journal of Exercise Science & Fitness", "Elsevier", "Yes", "https://www.sciencedirect.com/journal/journal-of-exercise-science-and-fitness"],
-["Sports Medicine and Health Science", "KeAi", "No", "https://www.keaipublishing.com/en/journals/sports-medicine-and-health-science/"],
-["Journal of Sport and Health Science", "Elsevier", "No", "https://www.sciencedirect.com/journal/journal-of-sport-and-health-science"],
-["Current Issues in Sport Science", "Bern Open Publishing", "No", "https://bop.unibe.ch/ciss"],
-["Acta Gymnica", "Palacký University", "No", "https://gymnica.upol.cz/"],
-["Deutsche Zeitschrift für Sportmedizin", "SportMed Verlag", "No", "https://www.germanjournalsportsmedicine.com"],
-["Montenegrin Journal of Sports Science and Medicine", "Montenegrin Sports Academy", "No", "http://www.mjssm.me"]
-];

@@ -7,14 +7,16 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | File | What it is |
 | --- | --- |
 | `index.html` | The page: layout, wording, and sections such as Peers and Virtual Conference. |
-| `data.js` | The research data: every article, the open-access journal table, and the "last updated" date. |
+| `data.js` | The research data: every article and the "last updated" date. |
+| `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
+| `build_journals_data.py` | Rebuilds `journals-data.js` from the DOAJ search API: `python build_journals_data.py`. |
 | `news.js` | The NHL goaltending news list. |
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar as NHL Stats. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
 | `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
 | `box-control.html` | Brief 1 (Research to Practice): box control under fatigue, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
 | `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
-| `about.html` | The About page: the journal's mission and a short tour of the site. Linked from the home page top bar. |
+| `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
 | `today.js` | Fills in today's date in each page footer, in the visitor's own time zone. |
 | `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
 | `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
@@ -75,7 +77,7 @@ The page works out the record count, the "last updated" date and the Records by 
 
 Records already in `data.js` are skipped by PubMed ID, so you can re-run an export safely.
 
-**Open-access journals.** Edit the `OA` list at the bottom of `data.js`.
+**Open-access journals.** Run `python build_journals_data.py` to refresh `journals-data.js` from doaj.org. The list appears under Sources on `about.html`.
 
 **Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Clicking a year lists that year's records; earlier years are found under Research Articles.
 
