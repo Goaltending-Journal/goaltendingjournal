@@ -12,6 +12,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
 | `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
+| `box-control.html` | The Box Control page: an interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar. |
 | `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
 | `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
 | `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
