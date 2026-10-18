@@ -12,7 +12,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar as NHL Stats. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
 | `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
-| `box-control.html` | The Box Control page: an interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar. |
+| `box-control.html` | Brief 1 (Research to Practice): box control under fatigue, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
+| `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
 | `about.html` | The About page: the journal's mission and a short tour of the site. Linked from the home page top bar. |
 | `today.js` | Fills in today's date in each page footer, in the visitor's own time zone. |
 | `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |

@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="site-nav.css">
 <style>
 /* Layout: same top bar, masthead and running-head sections as index.html. Colours and type are copied from its style block. */
 :root {
@@ -70,19 +71,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
 .item h3, .news h3 { text-wrap: pretty; }
 button, input, select { font-family: var(--sans); }
-.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: var(--r); font: 500 14px var(--sans); text-decoration: none; }
-.skip:focus { top: 8px; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Top bar: journal name and section links. Sticky on wide screens, with the current section marked. */
-.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); }
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: var(--nav-h); }
-.brand { font: 500 14px var(--sans); color: var(--fg); white-space: nowrap; }
-.topbar nav { display: flex; gap: 2px 22px; font: 14px var(--sans); }
-.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
-.topbar nav a:hover { color: var(--fg); }
-.topbar nav a[aria-current="true"] { color: var(--fg); }
-.topbar nav a[aria-current="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); }
 
 /* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
 .masthead {
@@ -130,12 +120,6 @@ button, input, select { font-family: var(--sans); }
 footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 @media (max-width: 880px) {
   body { font-size: 16px; }
-  .topbar { position: static; }
-  .bar { flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
-  .topbar nav { overflow-x: auto; white-space: nowrap; scrollbar-width: none; gap: 20px; margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); padding-inline: clamp(16px, 4vw, 40px); }
-  .topbar nav::-webkit-scrollbar { display: none; }
-  .topbar nav { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
-  .topbar nav a { padding-block: 12px; }
   .masthead { padding: 88px 22px 24px; margin-block-start: 20px; }
   .masthead > .logo { top: 20px; right: 22px; width: 52px; height: 52px; transform: none; }
   .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
@@ -151,19 +135,18 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="topbar">
-  <div class="wrap bar">
-    <a class="brand" href="index.html" style="text-decoration:none">Open Source Sports Journal</a>
-    <nav aria-label="Sections" id="nav">
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html">Open Source Sports Journal</a>
+    <nav aria-label="Main" id="nav">
       <a href="index.html#articles">Articles</a>
-      <a href="index.html#peers">Peers</a>
       <a href="index.html#conference">Conference</a>
       <a href="goalies.html">NHL Stats</a>
-      <a href="box-control.html">Box Control</a>
-      <a href="about.html" aria-current="true">About</a>
+      <a href="box-control.html">Briefs</a>
+      <a href="about.html" aria-current="page">About</a>
     </nav>
   </div>
-</div>
+</header>
 
 <main id="main" class="wrap">
   <header class="masthead">
@@ -194,7 +177,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
         <div><dt><a href="index.html#clothesline">Daily reading</a></dt><dd>New articles on goaltending, ecological dynamics and skill acquisition, hung on the clothesline at the top of the home page and refreshed each day.</dd></div>
         <div><dt><a href="index.html#skill-acquisition">Skill acquisition</a></dt><dd>Recent research on how athletes learn and adapt, as background for coaches and researchers.</dd></div>
         <div><dt><a href="goalies.html">NHL Stats</a></dt><dd>Every NHL goaltender's numbers across three seasons, with save % ranges that show how sure we can be.</dd></div>
-        <div><dt><a href="box-control.html">Research in practice</a></dt><dd>Interactive explainers, starting with Box Control, that turn a study into something you can see on the ice.</dd></div>
+        <div><dt><a href="box-control.html">Briefs</a></dt><dd>Research to Practice briefs that turn a study into practice-planning ideas for coaches, starting with box control under fatigue and its interactive explainer.</dd></div>
       </dl>
     </div>
   </section>

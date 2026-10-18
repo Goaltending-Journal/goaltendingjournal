@@ -1,0 +1,22 @@
+/* Site-wide top bar: journal name and the main menu, the same on every page.
+   Colours come from the page's own tokens: index.html and about.html name them --bg, --fg, --muted, --rule, --accent;
+   goalies.html and box-control.html name the same colours --ice, --chalk, --fog, --line, --crease. */
+.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg, var(--ice)) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule, var(--line)); line-height: 1.6; font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+.site-bar { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: 56px; }
+.topbar .brand { font: 500 14px "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: normal; text-transform: none; color: var(--fg, var(--chalk)); white-space: nowrap; text-decoration: none; }
+.topbar .brand:hover { text-decoration: none; color: var(--accent, var(--crease)); }
+.topbar nav { display: flex; gap: 2px 22px; font-size: 14px; }
+.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted, var(--fog)); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
+.topbar nav a:hover { color: var(--fg, var(--chalk)); text-decoration: none; }
+.topbar nav a[aria-current] { color: var(--fg, var(--chalk)); }
+.topbar nav a[aria-current]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent, var(--crease)); }
+.topbar a:focus-visible { outline: 2px solid var(--accent, var(--crease)); outline-offset: 2px; }
+.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg, var(--chalk)); color: var(--bg, var(--ice)); padding: 8px 14px; border-radius: 3px; font: 500 14px "IBM Plex Sans", system-ui, sans-serif; text-decoration: none; }
+.skip:focus { top: 8px; }
+@media (max-width: 880px) {
+  .topbar { position: static; }
+  .site-bar { flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
+  .topbar nav { overflow-x: auto; white-space: nowrap; scrollbar-width: none; gap: 20px; margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); padding-inline: clamp(16px, 4vw, 40px); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav a { padding-block: 12px; }
+}
