@@ -4,9 +4,11 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "17 October 2026";
+const CLOTHESLINE_UPDATED = "18 October 2026";
 const CLOTHESLINE = [
 {"d": "2026-10-16", "t": "Navigating access and participation in grappling sports among adults with visual impairments: a qualitative study", "u": "https://doi.org/10.1080/13573322.2026.2748351", "s": "Sport Education and Society", "tp": "ed", "m": false},
+{"d": "2026-10-16", "t": "Perceived viewing-experience enhancement and audience acceptance: applying TAM to AI-based sports broadcasting services", "u": "https://doi.org/10.3389/fspor.2026.1945033", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
+{"d": "2026-10-16", "t": "A resonant Doughnut for sustainable youth elite sport: Compass to navigate between growth and well-being logic in the 21st century", "u": "https://doi.org/10.1177/10126902261494684", "s": "International Review for the Sociology of Sport", "tp": "ed", "m": false},
 {"d": "2026-10-15", "t": "Forest bathing as a pathway toward ecological identity: a community case study", "u": "https://doi.org/10.3389/fcosc.2026.1981874", "s": "Frontiers in Conservation Science", "tp": "ed", "m": false},
 {"d": "2026-10-15", "t": "Assessing consequences of anthropogenic hybridization: Great Lakes mallard movement and resource selection", "u": "https://doi.org/10.1186/s40462-026-00657-7", "s": "Movement Ecology", "tp": "ed", "m": false},
 {"d": "2026-10-15", "t": "Reconceptualizing sports tourism destination competitiveness through the knowledge-based view: evidence from Iran", "u": "https://doi.org/10.1080/14775085.2026.2734980", "s": "Journal of Sport & Tourism", "tp": "sa", "m": false},
@@ -40,8 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-06-01", "t": "Ice hockey goaltenders’ gaze behavior: differences between elites and amateurs", "u": "https://doi.org/10.1007/s11332-026-01774-x", "s": "Sport Sciences for Health", "tp": "train", "m": false},
 {"d": "2026-05-26", "t": "Establishing Expert Consensus on Athletic Movement Quality Assessment Components", "u": "https://doi.org/10.1519/jsc.0000000000005478", "s": "The Journal of Strength and Conditioning Research", "tp": "ed", "m": false},
 {"d": "2026-05-21", "t": "Ecological Learning", "u": "https://doi.org/10.4324/9781003641445-2", "s": "Routledge eBooks", "tp": "sa", "m": false},
-{"d": "2026-05-14", "t": "An ecological dynamics interpretation of match-wide performance outcomes in elite ISSF air rifle shooting competitions", "u": "https://doi.org/10.1177/17479541261447202", "s": "International Journal of Sports Science & Coaching", "tp": "ed", "m": false},
-{"d": "2026-05-07", "t": "The constraints-led approach: how skill acquisition principles can inform learning design in sport", "u": "https://doi.org/10.4337/9781035341641.00018", "s": "Edward Elgar Publishing eBooks", "tp": "sa", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
