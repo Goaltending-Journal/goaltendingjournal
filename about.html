@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About · The Goaltending Research Journal</title>
+<meta name="description" content="Why the Goaltending Research Journal exists: an open, living evidence map of ice hockey goaltending research for coaches and researchers.">
+<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: same top bar, masthead and running-head sections as index.html. Colours and type are copied from its style block. */
+:root {
+  --bg: #fbfdff;
+  --surface: #eff6fc;
+  --fg: #12202e;
+  --muted: #53667a;
+  --rule: #d5e1ec;
+  --accent: #1a67a3;
+  --accent-soft: #e1f0fb;
+  --series-b: #a9c0d6;
+  --field-line: #b9c9d9;
+  /* Masthead glow: edit these to change the ice-blue effect */
+  --mast-a: #f6fbff;
+  --mast-b: #dcedfa;
+  --h1-hover: #0f6cb5;
+  --glow-text: 0 0 14px rgba(96, 180, 240, 0.55), 0 0 38px rgba(126, 205, 255, 0.45);
+  --glow-text-hover: 0 0 8px rgba(70, 200, 255, 0.85), 0 0 26px rgba(40, 160, 255, 0.65), 0 0 60px rgba(120, 225, 255, 0.55);
+  --glow-spot: rgba(110, 195, 255, 0.42);
+  --glow-edge: rgba(60, 170, 255, 0.35);
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 3px;
+  --nav-h: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
+    --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+    --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+    --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+    --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
+  --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+  --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+  --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+  --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--accent-soft); }
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+.item h3, .news h3 { text-wrap: pretty; }
+button, input, select { font-family: var(--sans); }
+.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: var(--r); font: 500 14px var(--sans); text-decoration: none; }
+.skip:focus { top: 8px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Top bar: journal name and section links. Sticky on wide screens, with the current section marked. */
+.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: var(--nav-h); }
+.brand { font: 500 14px var(--sans); color: var(--fg); white-space: nowrap; }
+.topbar nav { display: flex; gap: 2px 22px; font: 14px var(--sans); }
+.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
+.topbar nav a:hover { color: var(--fg); }
+.topbar nav a[aria-current="true"] { color: var(--fg); }
+.topbar nav a[aria-current="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); }
+
+/* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
+.masthead {
+  position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; isolation: isolate;
+  background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
+  transition: border-color 0.45s ease, box-shadow 0.45s ease;
+}
+.masthead > * { position: relative; z-index: 2; max-width: 760px; }
+.masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
+.masthead h1 { font-size: clamp(34px, 5.6vw, 56px); line-height: 1.08; letter-spacing: -0.015em; text-shadow: var(--glow-text); cursor: default; }
+.masthead h1 .wd { display: inline-block; white-space: nowrap; }
+.masthead h1 .ch { display: inline-block; color: inherit; text-shadow: var(--glow-text); transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
+.masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
+.masthead > .logo { position: absolute; z-index: 1; top: 50%; right: 56px; width: 168px; height: 168px; max-width: none; transform: translateY(-58%); object-fit: contain; pointer-events: none; user-select: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); } }
+:root[data-theme="dark"] .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); }
+.masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
+.masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
+.facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .masthead, .masthead h1 .ch { transition: none; }
+}
+
+/* Sections */
+.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
+.sec:first-of-type { border-top: 0; padding-top: 56px; }
+.sec.slim { padding-block: 48px; }
+.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
+.sec-head h2 { font-size: 22px; letter-spacing: -0.005em; }
+.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
+.sec-body { min-width: 0; }
+
+.prose p { margin: 0 0 18px; max-width: 62ch; }
+.prose p:last-child { margin-bottom: 0; }
+.prose .lead { font-size: 20px; line-height: 1.5; }
+.info { margin: 0; display: grid; border-top: 1px solid var(--rule); font: 15px var(--sans); }
+.info > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 4px 20px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
+.info dt { color: var(--muted); }
+.info dd { margin: 0; }
+.info dd { margin: 0; }
+.info dt a { color: var(--fg); }
+footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
+@media (max-width: 880px) {
+  body { font-size: 16px; }
+  .topbar { position: static; }
+  .bar { flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
+  .topbar nav { overflow-x: auto; white-space: nowrap; scrollbar-width: none; gap: 20px; margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); padding-inline: clamp(16px, 4vw, 40px); }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .topbar nav a { padding-block: 12px; }
+  .masthead { padding: 88px 22px 24px; margin-block-start: 20px; }
+  .masthead > .logo { top: 20px; right: 22px; width: 52px; height: 52px; transform: none; }
+  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
+  .sec:first-of-type { padding-top: 40px; }
+  .sec-head { position: static; }
+  .sec-head .sub { max-width: 60ch; }
+}
+
+@media (max-width: 640px) {
+  .info > div { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" style="text-decoration:none">Open Source Sports Journal</a>
+    <nav aria-label="Sections" id="nav">
+      <a href="index.html#articles">Articles</a>
+      <a href="index.html#peers">Peers</a>
+      <a href="index.html#conference">Conference</a>
+      <a href="goalies.html">NHL Stats</a>
+      <a href="box-control.html">Box Control</a>
+      <a href="about.html" aria-current="true">About</a>
+    </nav>
+  </div>
+</div>
+
+<main id="main" class="wrap">
+  <header class="masthead">
+    <img class="logo" src="logo.png" alt="" width="168" height="168" decoding="async">
+    <h1>About the Journal</h1>
+    <p>A living evidence map of ice hockey goaltending research, built so coaches can put it to work.</p>
+  </header>
+
+  <section class="sec" id="mission" aria-labelledby="h-mission">
+    <div class="sec-head">
+      <h2 id="h-mission">Our mission</h2>
+    </div>
+    <div class="sec-body prose">
+      <p class="lead">To gather the evidence on ice hockey goaltending in one open place, keep it current, and help coaches understand what it means for how they teach and plan practice.</p>
+      <p>There is no single, up-to-date map of what research says about goaltending. Studies are spread across sports science, medicine, psychology and coaching journals, and through theses and conference abstracts. Much of it never reaches the people who train goalies.</p>
+      <p>The Goaltending Research Journal exists to close that gap. It is free to read, every record links back to its source, and it grows as new work is published.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="whats-here" aria-labelledby="h-here">
+    <div class="sec-head">
+      <h2 id="h-here">What you will find</h2>
+      <p class="sub">The project's main parts, each linked.</p>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt><a href="index.html#by-year">Research Tracker</a></dt><dd>A working bibliography of <b id="n-rec"></b> goaltending and hockey studies, searchable by topic, decade and scope.</dd></div>
+        <div><dt><a href="index.html#clothesline">Daily reading</a></dt><dd>New articles on goaltending, ecological dynamics and skill acquisition, hung on the clothesline at the top of the home page and refreshed each day.</dd></div>
+        <div><dt><a href="index.html#skill-acquisition">Skill acquisition</a></dt><dd>Recent research on how athletes learn and adapt, as background for coaches and researchers.</dd></div>
+        <div><dt><a href="goalies.html">NHL Stats</a></dt><dd>Every NHL goaltender's numbers across three seasons, with save % ranges that show how sure we can be.</dd></div>
+        <div><dt><a href="box-control.html">Research in practice</a></dt><dd>Interactive explainers, starting with Box Control, that turn a study into something you can see on the ice.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="how" aria-labelledby="h-how">
+    <div class="sec-head">
+      <h2 id="h-how">How we work</h2>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt>Open</dt><dd>Free to read, with DOIs and PubMed links on every record so you can check the source yourself.</dd></div>
+        <div><dt>Honest about evidence</dt><dd>We keep what a study found separate from coaching ideas it did not test.</dd></div>
+        <div><dt>Living</dt><dd>Research feeds and NHL stats update automatically, so the map stays current.</dd></div>
+        <div><dt>Peer reviewed</dt><dd>An international panel of researchers, clinicians and coaches will review submissions when the journal launches in 2027.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec slim" id="people" aria-labelledby="h-people">
+    <div class="sec-head">
+      <h2 id="h-people">The project</h2>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt>Project Director</dt><dd>Justin Goldman</dd></div>
+        <div><dt>Launch</dt><dd>2027</dd></div>
+        <div><dt>Peers and conference</dt><dd>See <a href="index.html#peers">Peers</a> and <a href="index.html#conference">Virtual Conference</a> on the home page.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <footer>
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
+    <span>Data last updated <span id="updated-foot"></span> · Today is <time data-today></time></span>
+  </footer>
+</main>
+
+<script src="today.js"></script>
+<script src="data.js"></script>
+<script>
+document.getElementById("n-rec").textContent = REC.length;
+document.getElementById("updated-foot").textContent = UPDATED;
+</script>
+</body>
+</html>
