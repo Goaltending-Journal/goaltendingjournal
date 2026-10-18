@@ -895,7 +895,8 @@ $("#foot").innerHTML = `
   <div><h4>Cross-checks</h4><p>QuantHockey's 2026-27 goalie table and InGoal Magazine's goaltender index were read on the same day. Each profile shows QuantHockey's line next to the NHL figures and links to InGoal.</p></div>
   <div><h4>Not included</h4><p>PuckPedia's goalie and contract lists did not return any rows to a plain page read, so cap hits are not in this snapshot. Profiles link out to PuckPedia instead.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses the expected-goals totals in the MoneyPuck-format files below, with a rough range of ±1.645·√xGA. Rebuilt by build_uncertainty_data.py; method and checks are in the analysis folder.</p></div>
-  <div><h4>Save % by zone</h4><p>Built from game-by-game shot and goalie files in MoneyPuck.com's format for ${ZD.from} to ${ZD.to}. Only games in both files are counted. Left and right are as drawn, with the goal at the top.</p></div>`;
+  <div><h4>Save % by zone</h4><p>Built from game-by-game shot and goalie files in MoneyPuck.com's format for ${ZD.from} to ${ZD.to}. Only games in both files are counted. Left and right are as drawn, with the goal at the top.</p></div>
+  <div><h4>Today</h4><p><time data-today></time></p></div>`;
 
 function renderAll(){
   renderSeg();
@@ -907,6 +908,7 @@ fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
 </script>
+<script src="today.js"></script>
 
 </body>
 </html>

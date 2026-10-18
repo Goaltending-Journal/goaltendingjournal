@@ -242,11 +242,11 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   position: relative; border-bottom: 1px solid var(--rule); background: linear-gradient(180deg, var(--surface), var(--bg)); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #284b78; --pn-train: #a3232e; --pn-coaching: #3a6640; --pn-stats: #b9551f; --pn-bio: #454c54; --pn-ed: #2c6c8a; --pn-sa: #82661b; } }
 :root[data-theme="dark"] .cl { --pin: #b08a58; --pin-edge: #6f5230; --pn-dev: #284b78; --pn-train: #a3232e; --pn-coaching: #3a6640; --pn-stats: #b9551f; --pn-bio: #454c54; --pn-ed: #2c6c8a; --pn-sa: #82661b; }
-.cl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-top: 12px; font: 12.5px var(--sans); color: var(--muted); }
-.cl-desc::after { content: " · "; }
+.cl-head { position: absolute; z-index: 3; bottom: 6px; left: 0; right: 0; display: flex; justify-content: flex-end; pointer-events: none; }
+.cl-head > * { pointer-events: auto; }
 .cl-toggle { font: 500 12.5px var(--sans); color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; }
 .cl-toggle:hover { text-decoration: underline; text-underline-offset: 3px; }
-.cl-view { overflow: hidden; padding: 4px 0 26px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+.cl-view { overflow: hidden; padding: 14px 0 30px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
 .cl-track { display: flex; width: max-content; animation: cl-scroll var(--cl-dur, 120s) linear infinite; }
 .cl:hover .cl-track, .cl:focus-within .cl-track { animation-play-state: paused; }
 @keyframes cl-scroll { to { transform: translateX(-50%); } }
@@ -282,7 +282,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   .cl-toggle { display: none; }
 }
 @media (max-width: 640px) {
-  .cl-desc { display: none; }
   .cl-slot { width: 148px; }
   .cl-note { width: 122px; min-height: 116px; padding: 16px 9px 9px; }
   .cl-note h3 { font-size: 12.5px; }
@@ -325,16 +324,15 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       <a href="#articles">Articles</a>
       <a href="#peers">Peers</a>
       <a href="#conference">Conference</a>
-      <a href="#skill-acquisition">Coaching Resources</a>
-      <a href="goalies.html">NHL Goalies</a>
+      <a href="goalies.html">NHL Stats</a>
       <a href="box-control.html">Box Control</a>
+      <a href="about.html">About</a>
     </nav>
   </div>
 </div>
 
 <section class="cl" id="clothesline" aria-label="Goaltending research reading" hidden>
   <div class="wrap cl-head">
-    <span><span class="cl-desc">Evidence-based reading on goaltending, ecological dynamics and skill acquisition</span><span id="cl-stamp"></span></span>
     <button type="button" class="cl-toggle" id="cl-toggle" aria-pressed="false">Pause</button>
   </div>
   <div class="cl-view" id="cl-view">
@@ -509,10 +507,11 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
   <footer>
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span>Data last updated <span id="updated-foot"></span></span>
+    <span>Data last updated <span id="updated-foot"></span> · Today is <time data-today></time></span>
   </footer>
 </main>
 
+<script src="today.js"></script>
 <script src="data.js"></script>
 <script src="research.js"></script>
 <script>
@@ -891,7 +890,6 @@ render();
   items.forEach((r, i) => track.append(note(r, i, false)));
   items.forEach((r, i) => track.append(note(r, i, true)));
   track.style.setProperty("--cl-dur", Math.max(40, items.length * 7) + "s");   // about 7 seconds per note
-  if (typeof CLOTHESLINE_UPDATED !== "undefined") document.getElementById("cl-stamp").textContent = "Updated " + CLOTHESLINE_UPDATED;
 
   btn.addEventListener("click", () => {
     const still = box.classList.toggle("still");

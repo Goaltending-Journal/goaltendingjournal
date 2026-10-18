@@ -114,6 +114,7 @@ ul.find li::marker{color:var(--crease)}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px}
 footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;max-width:1120px;margin:28px auto 0}
 footer p{margin:0;max-width:75ch}
+footer .today{margin-top:8px}
 </style>
 </head>
 <body>
@@ -124,7 +125,7 @@ footer p{margin:0;max-width:75ch}
       Box Control <small>Research in practice</small>
     </div>
     <span class="spacer"></span>
-    <a class="back" href="goalies.html">NHL Goalies</a>
+    <a class="back" href="goalies.html">NHL Stats</a>
     <a class="back" href="index.html">← Journal</a>
   </div>
 </header>
@@ -226,8 +227,9 @@ footer p{margin:0;max-width:75ch}
   </div>
 </main>
 
-<footer><p>The rink geometry (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration. The study does not publish per-puck values, so the hot-spot callouts paraphrase its findings rather than plot its data.</p></footer>
+<footer><p>The rink geometry (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration. The study does not publish per-puck values, so the hot-spot callouts paraphrase its findings rather than plot its data.</p><p class="today">Today is <time data-today></time></p></footer>
 
+<script src="today.js"></script>
 <script>
 (function(){
   // Rink coords in feet: x across (0 = net center), y out from goal line. SVG y = 42 - y.
