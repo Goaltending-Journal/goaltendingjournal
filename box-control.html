@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Box Control · The Goaltending Research Journal</title>
+<meta name="description" content="An interactive explainer on goalie depth, angle and glove position, drawn from Kwan, Daley &amp; MacLean (2026).">
+<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same top bar and colours as goalies.html. Rink diagram left, readout + study card right; stacks on phones. */
+:root{
+  color-scheme: light;
+  --ice: #fbfdff;          /* page ground (index --bg) */
+  --boards: #eff6fc;       /* panels (index --surface) */
+  --glass: #e1f0fb;        /* raised rows, inputs (index --accent-soft) */
+  --line: #d5e1ec;         /* hairlines (index --rule) */
+  --chalk: #12202e;        /* primary text (index --fg) */
+  --fog: #53667a;          /* secondary text (index --muted) */
+  --mute: #627488;         /* tertiary */
+  --crease: #1a67a3;       /* accent (index --accent) */
+  --crease-dim: rgba(26,103,163,.14);
+  --series-b: #a9c0d6;     /* second chart series (index --series-b) */
+  --mast-a: #f6fbff; --mast-b: #dcedfa;   /* index masthead gradient */
+  --on-accent: #ffffff;
+  --shadow: rgba(18,32,46,.16);
+  --good: #17865a;
+  --bad: #c8364a;
+  --warn: #a8690c;
+  --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 10px;
+  --rink: var(--ice);       /* rink surface in the diagram */
+  --paint: var(--bad);      /* rink markings */
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+    --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
+    --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
+    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+  --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
+  --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
+  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ice);color:var(--chalk)}
+body{margin:0;font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:0 48px;-webkit-font-smoothing:antialiased}
+a{color:var(--crease);text-decoration:none}
+a:hover{text-decoration:underline}
+.back{color:var(--fog);font-size:13px;font-weight:600;white-space:nowrap}
+.back:hover{color:var(--chalk);text-decoration:none}
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1*clamp(16px,3vw,40px));padding:12px clamp(16px,3vw,40px);background:color-mix(in srgb,var(--ice) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1320px;margin-inline:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+.brand .logo{flex:none;width:34px;height:34px;object-fit:contain}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)} }
+:root[data-theme="dark"] .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)}
+.brand small{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--fog);text-transform:uppercase;border-left:1px solid var(--line);padding-left:10px}
+.spacer{flex:1}
+@media (max-width:520px){.brand small{display:none}}
+header.intro{padding-top:28px}
+main.wrap{max-width:1120px;margin:0 auto;display:grid;gap:20px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--crease)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,5vw,56px);line-height:.95;text-transform:uppercase;margin:6px 0 10px;text-wrap:balance}
+.lede{color:var(--fog);max-width:62ch;margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+#rink,#zoom{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+#zoom{margin-top:10px;border:1px solid var(--line);border-radius:8px;max-height:240px;pointer-events:none}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.presets button{font:600 12px var(--f-body);letter-spacing:.04em;color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.presets button:hover{border-color:var(--crease)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--crease);outline-offset:2px}
+.ctl{display:grid;gap:4px;margin-top:14px}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--fog)}
+.ctl label b{font-family:var(--f-data);font-weight:500;color:var(--chalk)}
+input[type=range]{width:100%;accent-color:var(--crease)}
+.hint{font-size:12px;color:var(--mute);margin:8px 0 0}
+h2{font-family:var(--f-display);font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.03em;margin:0 0 10px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kv div{background:var(--glass);border-radius:8px;padding:10px 12px}
+.kv span{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fog)}
+.kv b{font-family:var(--f-display);font-size:26px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.kv small{font-size:13px;color:var(--fog);font-family:var(--f-body);font-weight:500}
+.stack{display:grid;gap:20px;min-width:0}
+.flag{border-left:3px solid var(--mute);padding:8px 12px;background:var(--glass);border-radius:0 8px 8px 0;font-size:13px;margin-top:12px}
+.flag.hot{border-left-color:var(--warn)}
+.flag strong{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-bottom:2px}
+.flag.hot strong{color:var(--warn)}
+ul.find{margin:0;padding-left:18px;display:grid;gap:6px;color:var(--chalk)}
+ul.find li::marker{color:var(--crease)}
+.cite{font-size:12px;color:var(--fog);margin-top:12px}
+.cite a{color:var(--crease)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--fog);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;max-width:1120px;margin:28px auto 0}
+footer p{margin:0;max-width:75ch}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <img class="logo" src="logo.png" alt="" width="34" height="34" decoding="async">
+      Box Control <small>Research in practice</small>
+    </div>
+    <span class="spacer"></span>
+    <a class="back" href="goalies.html">NHL Goalies</a>
+    <a class="back" href="index.html">← Journal</a>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <header class="intro">
+    <div class="eyebrow">Goaltending Journal · Research in practice</div>
+    <h1>Box control</h1>
+    <p class="lede">From the shooter's point of view, the net is a "box" that shrinks as the goalie steps out to meet the puck and widens as they drift back. Drag the puck to see the angle, the box the goalie has to fill, and where a 2026 motion-capture study found goalies lose it.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <svg id="rink" viewBox="-43 -1 86 49" role="img" aria-label="Top-down view of the defensive zone with a draggable puck, the shooting lanes to each post, and the goalie's position">
+        <g id="scene"><rect x="-42.5" y="-1" width="85" height="49" rx="3" fill="var(--rink)" stroke="var(--line)" stroke-width=".3"/>
+        <!-- faceoff circles and dots (22 ft wide, 20 ft out) -->
+        <g fill="none" stroke="var(--paint)" stroke-width=".25" opacity=".55">
+          <circle cx="-22" cy="22" r="15"/><circle cx="22" cy="22" r="15"/>
+        </g>
+        <circle cx="-22" cy="22" r=".9" fill="var(--paint)" opacity=".8"/>
+        <circle cx="22" cy="22" r=".9" fill="var(--paint)" opacity=".8"/>
+        <!-- goal line -->
+        <line x1="-42.5" y1="42" x2="42.5" y2="42" stroke="var(--paint)" stroke-width=".25" opacity=".8"/>
+        <!-- crease -->
+        <path d="M-4 42 L-4 37.5 A6 6 0 0 1 4 37.5 L4 42 Z" fill="var(--crease-dim)" stroke="var(--crease)" stroke-width=".2"/>
+        <!-- shooting lanes -->
+        <polygon id="lanes" fill="var(--crease-dim)" stroke="var(--crease)" stroke-width=".15" stroke-opacity=".6"/>
+        <line id="centerline" stroke="var(--fog)" stroke-width=".15" stroke-dasharray=".8 .6"/>
+        <!-- net -->
+        <rect x="-3" y="42" width="6" height="3.3" rx=".6" fill="var(--glass)" stroke="var(--chalk)" stroke-width=".3"/>
+        <!-- ghost (drifted) goalie -->
+        <g id="ghost" opacity=".55">
+          <line id="ghostseg" stroke="var(--warn)" stroke-width=".5" stroke-dasharray=".6 .4" stroke-linecap="round"/>
+          <circle id="ghostdot" r="1" fill="none" stroke="var(--warn)" stroke-width=".3"/>
+        </g>
+        <!-- goalie: box segment + body + glove -->
+        <g id="goalie">
+          <line id="boxseg" stroke="var(--crease)" stroke-width=".6" stroke-linecap="round"/>
+          <circle id="body" r="1.15" fill="var(--crease)"/>
+          <circle id="glove" r=".55" fill="var(--good)"/>
+        </g>
+        <!-- puck -->
+        <g id="puck" style="cursor:grab">
+          <circle id="puckhit" r="3" fill="transparent"/>
+          <circle id="puckdot" r=".8" fill="var(--chalk)"/>
+          <circle id="puckring" r="1.6" fill="none" stroke="var(--chalk)" stroke-width=".15" opacity=".5"/>
+        </g>
+        </g>
+      </svg>
+      <svg id="zoom" viewBox="-10 32.5 20 13.5" aria-label="Close-up of the crease showing the goalie, glove and box"><use href="#scene"/></svg>
+      <div class="legend">
+        <span><i style="background:var(--crease-dim);border:1px solid var(--crease)"></i>Shooting lanes to the posts</span>
+        <span><i style="background:var(--crease)"></i>Box the goalie must fill</span>
+        <span><i style="background:var(--good)"></i>Glove (left catcher)</span>
+        <span><i style="border:1px dashed var(--warn)"></i>Drifted position</span>
+      </div>
+      <div class="presets" role="group" aria-label="Puck presets">
+        <button data-x="0" data-y="18">Slot</button>
+        <button data-x="-22" data-y="20">Left dot</button>
+        <button data-x="22" data-y="20">Right dot</button>
+        <button data-x="-14" data-y="34">Left circle top</button>
+        <button data-x="0" data-y="40">Point</button>
+      </div>
+      <div class="ctl">
+        <label for="depth">Goalie depth from goal line <b id="depthv"></b></label>
+        <input id="depth" type="range" min="0" max="8" step=".25" value="4.5">
+      </div>
+      <div class="ctl">
+        <label for="drift">Drift back <b id="driftv"></b></label>
+        <input id="drift" type="range" min="0" max="60" step="5" value="0">
+      </div>
+      <p class="hint">Drag the puck, or tap a preset. Drift is set by hand; the study reports drift as a trend, not a fixed amount.</p>
+    </section>
+
+    <div class="stack">
+      <section class="panel" aria-live="polite">
+        <h2>From the puck</h2>
+        <div class="kv">
+          <div><span>Distance to net</span><b id="dist"></b></div>
+          <div><span>Angle off center</span><b id="ang"></b></div>
+          <div><span>Net visible</span><b id="vis"></b></div>
+          <div><span>Box at goalie</span><b id="box"></b></div>
+        </div>
+        <div class="flag" id="driftflag"><strong>Drift cost</strong><span id="drifttxt"></span></div>
+        <div class="flag" id="studyflag"><strong id="studyhead"></strong><span id="studytxt"></span></div>
+      </section>
+
+      <section class="panel">
+        <h2>What the study found</h2>
+        <ul class="find">
+          <li>Glove errors were largest on wide pucks near the face-off dots, with lost depth and angle.</li>
+          <li>Squareness (glove turned in or out) carried the most rotation error.</li>
+          <li>Across six repeated movement patterns, the glove drifted back toward the goal line, measurably by rep 3.</li>
+          <li>Higher perceived exertion went with larger position error (r = 0.55).</li>
+        </ul>
+        <p class="cite">Kwan, Daley &amp; MacLean (2026). "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. <a href="https://doi.org/10.1177/17479541261492184" target="_blank" rel="noopener">doi:10.1177/17479541261492184</a>. 14 experienced recreational goalies, lab setting. Diagram geometry here is our own illustration, not the study's data.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer><p>The rink geometry (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration. The study does not publish per-puck values, so the hot-spot callouts paraphrase its findings rather than plot its data.</p></footer>
+
+<script>
+(function(){
+  // Rink coords in feet: x across (0 = net center), y out from goal line. SVG y = 42 - y.
+  const NET = 6, NET_H = 4, FT_IN = 12;
+  const $ = id => document.getElementById(id);
+  const svg = $('rink');
+  const sy = y => 42 - y;
+  let puck = {x:-22, y:20};
+
+  function setAttrs(el, a){ for (const k in a) el.setAttribute(k, a[k]); }
+
+  function render(){
+    const depth = +$('depth').value, driftCm = +$('drift').value;
+    const driftFt = driftCm / 30.48;
+    const D = Math.hypot(puck.x, puck.y);
+    const ux = -puck.x / D, uy = -puck.y / D;            // unit vector puck -> net center
+    const theta = Math.atan2(Math.abs(puck.x), puck.y);  // angle off center line
+    const visW = NET * Math.cos(theta);                  // net width facing the puck
+
+    // goalie sits on the puck-center line, `depth` ft out from the goal-line center
+    const place = d => ({x: -ux * d, y: -uy * d});
+    const g = place(depth), gd = place(Math.max(0, depth - driftFt));
+    const scale = d => (D - d) / D;                      // box shrinks linearly toward the puck
+    const boxW = visW * scale(depth), boxWd = visW * scale(Math.max(0, depth - driftFt));
+    const px = -uy, py = ux;                             // perpendicular to the lane
+
+    setAttrs($('lanes'), {points:`${puck.x},${sy(puck.y)} ${-NET/2},${sy(0)} ${NET/2},${sy(0)}`});
+    setAttrs($('centerline'), {x1:puck.x, y1:sy(puck.y), x2:0, y2:sy(0)});
+    const seg = (el, p, w) => setAttrs(el, {x1:p.x - px*w/2, y1:sy(p.y - py*w/2), x2:p.x + px*w/2, y2:sy(p.y + py*w/2)});
+    seg($('boxseg'), g, boxW);
+    setAttrs($('body'), {cx:g.x, cy:sy(g.y)});
+    // facing the puck (-u); a left catcher's glove is on their left: rotate facing +90deg
+    const fx = -ux, fy = -uy, lx = -fy, ly = fx;
+    setAttrs($('glove'), {cx:g.x + lx*1.5, cy:sy(g.y + ly*1.5)});
+    $('ghost').style.display = driftFt > 0 ? '' : 'none';
+    seg($('ghostseg'), gd, boxWd);
+    setAttrs($('ghostdot'), {cx:gd.x, cy:sy(gd.y)});
+    $('puck').setAttribute('transform', `translate(${puck.x} ${sy(puck.y)})`);
+
+    $('depthv').textContent = `${depth.toFixed(2)} ft`;
+    $('driftv').textContent = driftCm ? `${driftCm} cm` : 'none';
+    $('dist').innerHTML = `${D.toFixed(0)}<small> ft</small>`;
+    $('ang').innerHTML = `${(theta*180/Math.PI).toFixed(0)}<small>°</small>`;
+    $('vis').innerHTML = `${(visW*FT_IN).toFixed(0)}<small> in wide</small>`;
+    $('box').innerHTML = `${(boxW*FT_IN).toFixed(0)}<small> × ${(NET_H*scale(depth)*FT_IN).toFixed(0)} in</small>`;
+
+    const extraIn = (boxWd - boxW) * FT_IN;
+    $('drifttxt').textContent = driftFt > 0
+      ? `Drifting back ${driftCm} cm leaves ${extraIn.toFixed(1)} in more net width to cover from this puck, with no change in the goalie's size.`
+      : 'Slide "Drift back" to see how much extra net opens when the goalie retreats. The closer the shot, the more each centimetre costs.';
+    $('driftflag').classList.toggle('hot', driftFt > 0);
+
+    const deg = theta*180/Math.PI;
+    const wide = deg > 40 && puck.y < 32, wideSide = puck.x < 0 ? 'left' : 'right';
+    $('studyflag').classList.toggle('hot', wide);
+    $('studyhead').textContent = wide ? 'Study hot spot' : 'Study note';
+    $('studytxt').textContent = wide
+      ? `Wide ${wideSide}-side pucks like this one produced the largest glove errors in the study: lost depth, off angle, and a glove turned out of square (around 10 cm and 10°).`
+      : 'Errors were smaller on central pucks. Move the puck toward a face-off dot to see where goalies struggled most.';
+  }
+
+  function toRink(evt){
+    const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return {x: Math.max(-40, Math.min(40, p.x)), y: Math.max(4, Math.min(42, 42 - p.y))};
+  }
+  let dragging = false;
+  svg.addEventListener('pointerdown', e => { dragging = true; svg.setPointerCapture(e.pointerId); puck = toRink(e); render(); });
+  svg.addEventListener('pointermove', e => { if (dragging){ puck = toRink(e); render(); } });
+  svg.addEventListener('pointerup', () => dragging = false);
+  svg.addEventListener('pointercancel', () => dragging = false);
+  document.querySelectorAll('.presets button').forEach(b => b.addEventListener('click', () => {
+    puck = {x:+b.dataset.x, y:Math.min(42, +b.dataset.y)}; render();
+  }));
+  $('depth').addEventListener('input', render);
+  $('drift').addEventListener('input', render);
+  render();
+})();
+</script>
+</body>
+</html>
