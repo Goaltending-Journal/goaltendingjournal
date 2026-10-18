@@ -13,12 +13,11 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site-nav.css">
 <style>
 [hidden]{display:none!important}
-.back{color:var(--fog);font-size:13px;font-weight:600;white-space:nowrap}
-.back:hover{color:var(--chalk);text-decoration:none}
-/* Layout: arena-dark broadcast board. Top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
+/* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
 /* Colours match the journal's front page (index.html): ice-blue on white, with the same dark palette when the device is in dark mode. */
 :root{
   color-scheme: light;
@@ -71,7 +70,7 @@
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}
-body{font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:0 48px;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:0 48px;-webkit-font-smoothing:antialiased}
 a{color:var(--crease);text-decoration:none}
 a:hover{text-decoration:underline}
 button,input,select{font:inherit;color:inherit}
@@ -79,18 +78,13 @@ button,input,select{font:inherit;color:inherit}
 .num{font-variant-numeric:tabular-nums}
 .wrap{max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
 
-/* top bar */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1*clamp(16px,3vw,40px));padding:12px clamp(16px,3vw,40px);background:color-mix(in srgb,var(--ice) 88%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
-.top-in{max-width:1320px;margin-inline:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
-.brand .logo{flex:none;width:34px;height:34px;object-fit:contain}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)} }
-:root[data-theme="dark"] .brand .logo{padding:3px;background:#eaf5ff;border-radius:8px;box-shadow:0 0 14px -4px rgba(120,200,255,.45)}
-.brand small{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--fog);text-transform:uppercase;border-left:1px solid var(--line);padding-left:10px}
+/* site top bar (site-nav.css) spans the full width despite the body padding */
+.topbar{margin-inline:calc(-1*clamp(16px,3vw,40px))}
+
 .seg{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:3px}
 .seg button{border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;color:var(--fog);font-weight:600;font-size:13px}
 .seg button[aria-pressed="true"]{background:var(--crease);color:var(--on-accent)}
-.spacer{flex:1}
+.sec-l{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap}
 .switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--fog);font-size:13px;font-weight:600;user-select:none}
 .switch input{appearance:none;width:34px;height:20px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin:0}
 .switch input::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--chalk);transition:transform .2s}
@@ -267,7 +261,6 @@ footer p{margin:0 0 6px;max-width:60ch}
 }
 @media (max-width:520px){
   .leaders{grid-template-columns:1fr}
-  .brand small{display:none}
   #q{width:130px}
   .pager .pg button:not([aria-label]):not([aria-current]),.pager .pg span{display:none}
   .panel-h{flex-wrap:wrap}
@@ -279,21 +272,21 @@ footer p{margin:0 0 6px;max-width:60ch}
 
 </head>
 <body>
-<header class="top">
-  <div class="top-in">
-    <div class="brand">
-      <img class="logo" src="logo.png" alt="" width="34" height="34" decoding="async">
-      Goalie Analyst <small>NHL Goaltending</small>
-    </div>
-    <div class="seg" role="group" aria-label="Season" id="seasonSeg"></div>
-    <span class="spacer"></span>
-    <a class="back" href="box-control.html">Box Control</a>
-    <a class="back" href="index.html">← Journal</a>
-    <label class="switch" for="gfx"><input type="checkbox" id="gfx" checked> Show graphics</label>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html">Open Source Sports Journal</a>
+    <nav aria-label="Main" id="nav">
+      <a href="index.html#articles">Articles</a>
+      <a href="index.html#conference">Conference</a>
+      <a href="goalies.html" aria-current="page">NHL Stats</a>
+      <a href="box-control.html">Briefs</a>
+      <a href="about.html">About</a>
+    </nav>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="main">
   <section class="hero">
     <div>
       <div class="eyebrow" id="heroEyebrow"></div>
@@ -304,7 +297,7 @@ footer p{margin:0 0 6px;max-width:60ch}
   </section>
 
   <section>
-    <div class="sec-h"><h2>League leaders</h2><span class="note" id="leadNote"></span></div>
+    <div class="sec-h"><div class="sec-l"><h2>League leaders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="leadNote"></span></div>
     <div class="leaders" id="leaders" style="margin-top:14px"></div>
   </section>
 
@@ -327,7 +320,7 @@ footer p{margin:0 0 6px;max-width:60ch}
   </section>
 
   <section id="chartSec">
-    <div class="sec-h"><h2>Visualizers</h2><span class="note">Hide any chart, or switch all graphics off in the top bar.</span></div>
+    <div class="sec-h"><div class="sec-l"><h2>Visualizers</h2><label class="switch" for="gfx"><input type="checkbox" id="gfx" checked> Show graphics</label></div><span class="note">Hide any chart, or switch all graphics off here.</span></div>
     <div class="collapsed" id="collapsed" style="margin-top:12px" hidden></div>
     <div class="charts" id="charts" style="margin-top:14px">
       <div class="panel wide" data-chart="scatter">
