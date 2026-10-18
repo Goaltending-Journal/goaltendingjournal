@@ -73,7 +73,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 button, input, select { font-family: var(--sans); }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-
 /* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
 .masthead {
   position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
@@ -213,15 +212,6 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .info dt { color: var(--muted); }
 .info dd { margin: 0; }
 .tba { color: var(--muted); font-style: italic; }
-.reviewers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px 20px; }
-.reviewers li { display: grid; grid-template-columns: 21px minmax(0, 1fr); align-items: center; column-gap: 10px; }
-.reviewers .flag { width: 21px; height: 14px; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); }
-.rv-name { color: var(--fg); }
-.rv-country { grid-column: 2; font-size: 12.5px; color: var(--muted); }
-.tablewrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font: 14px var(--sans); min-width: 520px; }
-th, td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-thead th { font-weight: 500; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--rule); }
 .note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
 footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 
@@ -410,39 +400,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
   </section>
 
-  <section class="sec slim" id="peers" aria-labelledby="h-peers">
-    <div class="sec-head">
-      <h2 id="h-peers">Peers</h2>
-      <p class="sub">The researchers, clinicians and coaches who review submissions. Names will be listed once confirmed.</p>
-    </div>
-    <div class="sec-body">
-      <dl class="info">
-        <div><dt>Project Director</dt><dd class="tba">Justin Goldman</dd></div>
-        <div><dt>Advisory Board</dt><dd class="tba">To be announced</dd></div>
-        <div><dt>Peer Reviewers</dt><dd>
-          <ul class="reviewers">
-            <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 01</span><span class="rv-country">United States</span></li>
-            <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 02</span><span class="rv-country">Canada</span></li>
-            <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 03</span><span class="rv-country">Finland</span></li>
-            <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 04</span><span class="rv-country">Sweden</span></li>
-            <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 05</span><span class="rv-country">Slovakia</span></li>
-            <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">United Kingdom</span></li>
-            <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Germany</span></li>
-            <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">Austria</span></li>
-            <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Australia</span></li>
-            <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Norway</span></li>
-            <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">France</span></li>
-            <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">Japan</span></li>
-            <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Switzerland</span></li>
-            <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Denmark</span></li>
-            <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">France</span></li>
-          </ul>
-        </dd></div>
-        <div><dt>Review Model</dt><dd class="tba">To be announced</dd></div>
-      </dl>
-    </div>
-  </section>
-
   <section class="sec slim" id="conference" aria-labelledby="h-conf">
     <div class="sec-head">
       <h2 id="h-conf">Virtual Conference</h2>
@@ -455,22 +412,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
         <div><dt>Call for abstracts</dt><dd class="tba">To be announced</dd></div>
         <div><dt>Registration</dt><dd class="tba">To be announced</dd></div>
       </dl>
-    </div>
-  </section>
-
-  <section class="sec" id="open-access" aria-labelledby="h-oa">
-    <div class="sec-head">
-      <h2 id="h-oa">Open-access sports journals</h2>
-      <p class="sub">Sports medicine journals from the Directory of Open Access Journals. A fee means authors pay an article processing charge.</p>
-    </div>
-    <div class="sec-body">
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th scope="col">Journal</th><th scope="col">Publisher</th><th scope="col">Author fee</th></tr></thead>
-          <tbody id="oa-body"></tbody>
-        </table>
-      </div>
-      <p class="note">A sample of the directory, which lists 132 matches for this search. Browse the full list at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
     </div>
   </section>
 
@@ -718,10 +659,6 @@ function filterChips(box, options, current, onPick) {
   }
   paint();
 })();
-
-/* Open-access table */
-$("oa-body").innerHTML = OA.map(([n, p, fee, u]) =>
-  `<tr><td><a href="${esc(u)}" rel="noopener">${esc(n)}</a></td><td>${esc(p)}</td><td>${fee === "Yes" ? "Fee" : "No fee"}</td></tr>`).join("");
 
 /* Filters */
 const PAGE_SIZE = 5;

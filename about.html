@@ -117,6 +117,38 @@ button, input, select { font-family: var(--sans); }
 .info dd { margin: 0; }
 .info dd { margin: 0; }
 .info dt a { color: var(--fg); }
+.tba { color: var(--muted); font-style: italic; }
+.reviewers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px 20px; }
+.reviewers li { display: grid; grid-template-columns: 21px minmax(0, 1fr); align-items: center; column-gap: 10px; }
+.reviewers .flag { width: 21px; height: 14px; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); }
+.rv-name { color: var(--fg); }
+.rv-country { grid-column: 2; font-size: 12.5px; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font: 14px var(--sans); min-width: 520px; }
+th, td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-weight: 500; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--rule); }
+.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
+.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 24px; font: 14px var(--sans); }
+.pager button { min-width: 38px; height: 38px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; font-size: 14px; font-variant-numeric: tabular-nums; }
+.pager button:hover:not(:disabled) { border-color: var(--accent); }
+.pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.pager button:disabled { color: var(--muted); cursor: default; opacity: 0.55; }
+.pager .gap { color: var(--muted); padding: 0 2px; }
+.count { font: 14px var(--sans); color: var(--muted); margin: 0 0 10px; font-variant-numeric: tabular-nums; scroll-margin-top: 72px; }
+.count:focus { outline: none; }
+.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
+td.fee { white-space: nowrap; }
+td.fee.yes { color: var(--fg); }
+td.fee.no { color: var(--muted); }
+/* Phones: each journal becomes a small card (title, then publisher, then country and fee) so nothing scrolls sideways */
+@media (max-width: 640px) {
+  #sources table { min-width: 0; }
+  #sources thead { display: none; }
+  #sources tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
+  #sources td { border: 0; padding: 0; }
+  #sources td:first-child, #sources td:nth-child(2) { grid-column: 1 / -1; }
+  #sources td:nth-child(2), #sources td:nth-child(3), #sources td.fee { font-size: 13px; color: var(--muted); }
+}
 footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 @media (max-width: 880px) {
   body { font-size: 16px; }
@@ -196,16 +228,67 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
   </section>
 
+  <section class="sec slim" id="peers" aria-labelledby="h-peers">
+    <div class="sec-head">
+      <h2 id="h-peers">Peers</h2>
+      <p class="sub">The researchers, clinicians and coaches who review submissions. Names will be listed once confirmed.</p>
+    </div>
+    <div class="sec-body">
+      <dl class="info">
+        <div><dt>Project Director</dt><dd class="tba">Justin Goldman</dd></div>
+        <div><dt>Advisory Board</dt><dd class="tba">To be announced</dd></div>
+        <div><dt>Peer Reviewers</dt><dd>
+          <ul class="reviewers">
+            <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 01</span><span class="rv-country">United States</span></li>
+            <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 02</span><span class="rv-country">Canada</span></li>
+            <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 03</span><span class="rv-country">Finland</span></li>
+            <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 04</span><span class="rv-country">Sweden</span></li>
+            <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 05</span><span class="rv-country">Slovakia</span></li>
+            <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">United Kingdom</span></li>
+            <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Germany</span></li>
+            <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">Austria</span></li>
+            <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Australia</span></li>
+            <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Norway</span></li>
+            <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">France</span></li>
+            <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">Japan</span></li>
+            <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Switzerland</span></li>
+            <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Denmark</span></li>
+            <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">France</span></li>
+          </ul>
+        </dd></div>
+        <div><dt>Review Model</dt><dd class="tba">To be announced</dd></div>
+      </dl>
+    </div>
+  </section>
+
   <section class="sec slim" id="people" aria-labelledby="h-people">
     <div class="sec-head">
       <h2 id="h-people">The project</h2>
     </div>
     <div class="sec-body">
       <dl class="info">
-        <div><dt>Project Director</dt><dd>Justin Goldman</dd></div>
         <div><dt>Launch</dt><dd>2027</dd></div>
-        <div><dt>Peers and conference</dt><dd>See <a href="index.html#peers">Peers</a> and <a href="index.html#conference">Virtual Conference</a> on the home page.</dd></div>
+        <div><dt>Virtual Conference</dt><dd>See <a href="index.html#conference">Virtual Conference</a> on the home page.</dd></div>
       </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="sources" aria-labelledby="h-sources">
+    <div class="sec-head">
+      <h2 id="h-sources">Sources</h2>
+      <p class="sub">Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p>
+      <p class="stamp">Updated <span id="journals-updated"></span></p>
+    </div>
+    <div class="sec-body">
+      <p class="count" id="j-count" role="status" aria-live="polite" tabindex="-1"></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Journal</th><th scope="col">Publisher</th><th scope="col">Country</th><th scope="col">Author fee</th></tr></thead>
+          <tbody id="j-body"></tbody>
+        </table>
+      </div>
+      <nav class="pager" id="j-pager" aria-label="Journal pages"></nav>
+      <p class="note">From the subject "Sports" (which includes sports medicine) at <a href="https://doaj.org" rel="noopener">doaj.org</a>. Rebuilt by build_journals_data.py.</p>
     </div>
   </section>
 
@@ -217,9 +300,47 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 <script src="today.js"></script>
 <script src="data.js"></script>
+<script src="journals-data.js"></script>
 <script>
 document.getElementById("n-rec").textContent = REC.length;
 document.getElementById("updated-foot").textContent = UPDATED;
+
+/* Sources: the open-access journal list, a page at a time */
+(function sources() {
+  const $ = (id) => document.getElementById(id);
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const names = typeof Intl.DisplayNames === "function" ? new Intl.DisplayNames(["en"], { type: "region" }) : null;
+  const country = (c) => { try { return (names && c && names.of(c)) || c; } catch (e) { return c; } };
+  const PAGE = 15, pages = Math.ceil(JOURNALS.length / PAGE);
+  let cur = 1;
+  $("journals-updated").textContent = JOURNALS_UPDATED;
+  function pager() {
+    const keep = [...new Set([1, pages, cur - 1, cur, cur + 1])].filter((p) => p >= 1 && p <= pages).sort((a, b) => a - b);
+    let html = `<button type="button" data-p="prev" ${cur === 1 ? "disabled" : ""} aria-label="Previous page">Previous</button>`;
+    keep.forEach((p, i) => {
+      if (i > 0 && p - keep[i - 1] > 1) html += `<span class="gap" aria-hidden="true">…</span>`;
+      html += `<button type="button" data-p="${p}" ${p === cur ? 'aria-current="page"' : ""} aria-label="Page ${p}">${p}</button>`;
+    });
+    html += `<button type="button" data-p="next" ${cur === pages ? "disabled" : ""} aria-label="Next page">Next</button>`;
+    $("j-pager").innerHTML = html;
+  }
+  function paint() {
+    const from = (cur - 1) * PAGE, rows = JOURNALS.slice(from, from + PAGE);
+    $("j-body").innerHTML = rows.map(([t, p, fee, u, c]) =>
+      `<tr><td>${u ? `<a href="${esc(u)}" rel="noopener">${esc(t)}</a>` : esc(t)}</td><td>${esc(p)}</td><td>${esc(country(c))}</td><td class="fee ${fee ? "yes" : "no"}">${fee ? "Fee" : "No fee"}</td></tr>`).join("");
+    $("j-count").textContent = `${from + 1}–${from + rows.length} of ${JOURNALS.length} journals`;
+    pager();
+  }
+  $("j-pager").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-p]"); if (!b || b.disabled) return;
+    const p = b.dataset.p;
+    cur = p === "prev" ? cur - 1 : p === "next" ? cur + 1 : +p;
+    paint();
+    $("j-count").focus({ preventScroll: true });
+    $("j-count").scrollIntoView({ block: "start" });
+  });
+  paint();
+})();
 </script>
 </body>
 </html>
