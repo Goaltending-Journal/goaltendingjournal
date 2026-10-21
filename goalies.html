@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Goalie Analyst · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
-<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#e8f5ee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -18,29 +18,29 @@
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
-/* Colours match the journal's front page (index.html): ice-blue on white, with the same dark palette when the device is in dark mode. */
+/* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses the front page's dark palette. */
 :root{
   color-scheme: light;
-  --ice: #fbfdff;          /* page ground (index --bg) */
-  --boards: #eff6fc;       /* panels (index --surface) */
-  --glass: #e1f0fb;        /* raised rows, inputs (index --accent-soft) */
-  --line: #d5e1ec;         /* hairlines (index --rule) */
+  --ice: #e8f5ee;          /* page ground: light jade */
+  --boards: #f6fbf8;       /* panels: near-white jade so cards lift off the ground */
+  --glass: #d9eee3;        /* raised rows, inputs */
+  --line: #c4dfd1;         /* hairlines */
   --chalk: #12202e;        /* primary text (index --fg) */
   --fog: #53667a;          /* secondary text (index --muted) */
   --mute: #627488;         /* tertiary */
   --crease: #1a67a3;       /* accent (index --accent) */
   --crease-dim: rgba(26,103,163,.14);
   --series-b: #a9c0d6;     /* second chart series (index --series-b) */
-  --mast-a: #f6fbff; --mast-b: #dcedfa;   /* index masthead gradient */
+  --mast-a: #f3fbf7; --mast-b: #d2ecdf;   /* spotlight card gradient, jade */
   --on-accent: #ffffff;
   --shadow: rgba(18,32,46,.16);
   --good: #17865a;
   --bad: #c8364a;
   --warn: #a8690c;
   /* heat maps (read by the script, so keep these as hex) */
-  --z-lo: #e6eff7; --z-hi: #e0603f;
-  --z-bad: #e0603f; --z-mid: #e3ebf2; --z-good: #1a67a3;
-  --z-none: #eff6fc; --z-hatch: #c9d7e4;
+  --z-lo: #e2f0e9; --z-hi: #e0603f;
+  --z-bad: #e0603f; --z-mid: #e1ece6; --z-good: #1a67a3;
+  --z-none: #f6fbf8; --z-hatch: #c4dccf;
   --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -301,7 +301,7 @@ footer p{margin:0 0 6px;max-width:60ch}
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="site-bar">
-    <a class="brand" href="index.html">Open Source Sports Journal</a>
+    <a class="brand" href="index.html">The Goaltending Sports Journal</a>
     <nav aria-label="Main" id="nav">
       <a href="index.html#articles">Articles</a>
       <a href="index.html#conference">Conference</a>
