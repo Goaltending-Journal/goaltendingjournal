@@ -31,7 +31,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--csv-dir")
     args = ap.parse_args()
-    data, unc, zones = load_js("goalies-data.js"), load_js("goalies-uncertainty-data.js"), load_js("goalies-zones-data.js")
+    data, unc = load_js("goalies-data.js"), load_js("goalies-uncertainty-data.js")
     report = []
 
     # 1. Totals reconcile (snapshot internal consistency, and against raw exports if given).
@@ -60,17 +60,17 @@ def main():
                 for k_raw, k_snap in (("shotsAgainst", "sa"), ("saves", "sv"), ("goalsAgainst", "ga"), ("gamesPlayed", "gp")):
                     if int(raw[pid][k_raw]) != snap[pid][k_snap]:
                         bad.append(f"{season} {pid}: {k_raw} {raw[pid][k_raw]} vs snapshot {snap[pid][k_snap]}")
-    zone_vs_feed = []
+    nst_vs_feed = []
     snap27 = {g["id"]: g["seasons"].get("2026-27") for g in data["goalies"]}
-    for z in zones["goalies"]:
+    for z in unc["gsax"]["goalies"]:
         s = snap27.get(z["id"])
         if s and s["gp"] == z["gp"] and abs(s["ga"] - z["ga"]) > 0:
-            zone_vs_feed.append(f"{z['name']}: GA {z['ga']} (MoneyPuck file) vs {s['ga']} (NHL feed), both {z['gp']} GP")
+            nst_vs_feed.append(f"{z['name']}: GA {z['ga']} (Natural Stat Trick) vs {s['ga']} (NHL feed), both {z['gp']} GP")
     report.append(("Totals reconcile", "PASS" if not bad else "FAIL",
                    f"{len(bad)} mismatches in the snapshot" + (" and raw exports" if args.csv_dir else "")
                    + f"; {len(noshot)} goalie-seasons where GA exceeds shots - saves by 1-2 (goals with no recorded shot,"
                    " in the raw export too; save % uses shots - saves); play-by-play rebuild not run (endpoint blocked)", bad))
-    report.append(("MoneyPuck file vs NHL feed (same GP)", "INFO", f"{len(zone_vs_feed)} goalies differ on GA", zone_vs_feed))
+    report.append(("Natural Stat Trick vs NHL feed (same GP)", "INFO", f"{len(nst_vs_feed)} goalies differ on GA", nst_vs_feed))
 
     # 2. xG calibration (league total only; per-shot xG is not stored, so no per-bin plot).
     xg, ga = unc["gsax"]["xga"], unc["gsax"]["ga"]
@@ -99,8 +99,8 @@ def main():
     report.append(("Reliability from the prior", "INFO",
                    f"skill share = n/(n+{k}): {1000 / (1000 + k):.2f} at 1,000 shots, {1500 / (1500 + k):.2f} at 1,500, 0.50 at {k}", []))
 
-    report.append(("External models agree", "NOT RUN", "Natural Stat Trick / Evolving-Hockey not reachable; GSAx here is MoneyPuck's own xG", []))
-    report.append(("Video confirms", "NOT RUN", "no shot-level locations rebuilt from play-by-play to sample", []))
+    report.append(("External models agree", "NOT RUN", "GSAx here is Natural Stat Trick's xG; no second model (Evolving-Hockey, MoneyPuck) to compare against", []))
+    report.append(("Video confirms", "NOT RUN", "shot locations are in data/goal-map/ but no clips were sampled", []))
 
     for name, status, why, detail in report:
         print(f"[{status}] {name}: {why}")
