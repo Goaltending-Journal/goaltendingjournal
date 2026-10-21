@@ -14,6 +14,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar as NHL Stats. |
 | `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
 | `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
+| `fetch_nst.py`, `data/nst/` | Natural Stat Trick goalie tables for this season (all situations and 5v5), saved as CSV each morning by the same stats workflow. Needs the `NST_KEY` repository secret. Credit "Data courtesy of Natural Stat Trick" wherever it is shown. |
 | `box-control.html` | Brief 1 (Research to Practice): box control under fatigue, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
 | `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
 | `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
