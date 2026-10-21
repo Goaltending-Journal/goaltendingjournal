@@ -1,5 +1,8 @@
 # Stats bot: refreshes the Goalie Stats page (goalies-data.js) from the NHL stats feed once a day,
-# then rebuilds goalies-uncertainty-data.js so the "How sure are we" panels match.
+# then rebuilds goalies-uncertainty-data.js so the "How sure are we" panels match,
+# and saves this season's Natural Stat Trick goalie tables in data/nst/.
+# Needs a repository secret named NST_KEY (the Natural Stat Trick access key) for that last part;
+# without it the NHL numbers still update.
 # Needs Settings > Actions > General > Workflow permissions set to "Read and write permissions".
 name: Update goalie stats
 
@@ -32,11 +35,17 @@ jobs:
       - name: Rebuild the save % ranges
         run: python3 build_uncertainty_data.py
 
+      - name: Pull Natural Stat Trick goalie stats
+        continue-on-error: true
+        env:
+          NST_KEY: ${{ secrets.NST_KEY }}
+        run: python3 fetch_nst.py
+
       - name: Commit if anything changed
         run: |
           git config user.name "goalie-stats-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add goalies-data.js goalies-uncertainty-data.js
+          git add goalies-data.js goalies-uncertainty-data.js data/nst
           if git diff --cached --quiet; then
             echo "No new stats."
             exit 0
