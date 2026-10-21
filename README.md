@@ -21,10 +21,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
 | `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
 | `today.js` | Fills in today's date in each page footer, in the visitor's own time zone. |
-| `goalies-zones-data.js` | Save % by zone for the heat map at the bottom of `goalies.html`. |
-| `build_zone_data.py` | Rebuilds `goalies-zones-data.js` from a MoneyPuck-format shot CSV and goalie game-by-game CSV: `python build_zone_data.py shots.csv goalies.csv`. |
 | `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
-| `build_uncertainty_data.py` | Rebuilds `goalies-uncertainty-data.js` from `goalies-data.js` and `goalies-zones-data.js`: `python build_uncertainty_data.py`. Run it after either of those changes. Checks: `python analysis/validate_uncertainty.py`. |
+| `build_uncertainty_data.py` | Rebuilds `goalies-uncertainty-data.js` from `goalies-data.js` and the Natural Stat Trick table in `data/nst/`: `python build_uncertainty_data.py`. The morning stats workflow runs it after both are refreshed. Checks: `python analysis/validate_uncertainty.py`. |
 | `clothesline.js` | The articles shown as post-it notes on the scrolling line at the top of the page. |
 | `fetch_clothesline.py` | The research bot that updates `clothesline.js` (OpenAlex research and researcher feeds, plus Claude web research when an API key is set). |
 | `.github/workflows/update-clothesline.yml` | Optional: lets GitHub run the research bot every day. |

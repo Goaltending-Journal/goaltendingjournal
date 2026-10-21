@@ -1,6 +1,6 @@
 /* Goalie Analyst, part two: the goals heat map and the Natural Stat Trick visualizers on goalies.html.
    Loaded after the page's main script, so it reuses its helpers ($, esc, store, state, showTip, hideTip, nice,
-   chartW, fmtSv, mono, byId, openGoalie, TEAMS, color, last) and the zone map's colour tokens (zPalette, seqFill, divFill, lum).
+   chartW, fmtSv, mono, byId, openGoalie, TEAMS, color, last) and its heat-map colour helpers (zPalette, seqFill, divFill, lum).
    Goals heat map: goal-map-data.js, rebuilt each morning by build_goal_map.py from the NHL play-by-play feed.
    Advanced stats: data/nst/*.csv, saved each morning by fetch_nst.py. Data courtesy of Natural Stat Trick. */
 
@@ -13,7 +13,7 @@ const kv = (v,l,c="") => `<div class="kv"><b class="num ${c}">${v}</b><span>${l}
 
 /* ======================= goals heat map ======================= */
 const GM = window.GOAL_MAP;
-// Map geometry matches the zone map above: x across the ice (0-85), y down from the end boards, goal line y=11, blue line y=75.
+// Map geometry, in feet: x across the ice (0-85), y down from the end boards, goal line y=11, blue line y=75.
 const GM_RINK = `M0 75 V28 A28 28 0 0 1 28 0 H57 A28 28 0 0 1 85 28 V75 Z`;
 const GM_VIEWS = [["goals","Goals"],["shots","Shots"],["sv","Save %"]];
 const GM_STR = [["all","All"],["0","5v5"],["1","Power play against"],["2","Short-handed"]];
@@ -30,7 +30,12 @@ if(!GM_STR.some(v=>v[0]===gm.str)) gm.str="all";
 // x,y in feet (feed coordinates, goal at x=89, positive y on the left as drawn) to map units
 const gmX = y => 42.5 - y, gmY = x => 100 - x;
 const gmDist = s => Math.hypot(89 - s[1], s[2]);
-// Same regions as the zone map (build_zone_data.py zone_of), so the two tables line up.
+const GM_ZONES = [
+  ["behind","Behind the net"],["crease","Crease"],["lowslot","Low slot"],["highslot","High slot"],
+  ["lowL","Low wing (left)"],["lowR","Low wing (right)"],["circL","Upper circle (left)"],["circR","Upper circle (right)"],
+  ["pointL","Left point"],["pointC","Centre point"],["pointR","Right point"],["long","Outside the zone"]
+].map(([id,name])=>({id,name}));
+// Areas: crease and slots down the middle, wings and circles either side, points up to the blue line.
 function gmZone(x, y){
   if(x>89) return "behind";
   if(x<25) return "long";
@@ -123,7 +128,7 @@ function gmStats(c){
     + kv(gl.length?pct(near/gl.length):"–","Goals from 20 ft or closer") + kv(avg==null?"–":avg.toFixed(0)+" ft","Average goal distance");
 }
 function gmTable(c){
-  const rows=ZD.zones.map(z=>({...z,n:0,g:0}));
+  const rows=GM_ZONES.map(z=>({...z,n:0,g:0}));
   const at=Object.fromEntries(rows.map(r=>[r.id,r]));
   c.shots.forEach(s=>{ const r=at[gmZone(s[1],s[2])]; r.n++; r.g+=s[3]; });
   const G=Math.max(1,rows.reduce((a,r)=>a+r.g,0));
@@ -196,7 +201,7 @@ const NST_METRICS = [
 const DANGER = [
   {k:"hd", t:"High danger", s:"HD"}, {k:"md", t:"Medium danger", s:"MD"}, {k:"ld", t:"Low danger", s:"LD"}
 ];
-// Approximate areas, drawn on the same rink as the maps above. NST assigns each shot to a level using its own zone map.
+// Approximate areas, drawn on the same rink as the goals map. NST assigns each shot to a level using its own zone map.
 const DANGER_SHAPE = {
   hd: `M33 11 H52 V37 H33 Z`,
   md: `M20.5 11 H64.5 V46 H53 V58 H32 V46 H20.5 Z`,
@@ -232,10 +237,11 @@ function parseCsv(text){
   const [head,...body]=out;
   return body.map(r=>Object.fromEntries(head.map((h,i)=>[h,r[i]])));
 }
+const NST_TEAMS = {"L.A":"LAK","N.J":"NJD","S.J":"SJS","T.B":"TBL"}; // NST's dotted codes to the NHL's
 const numOr = v => { const n=parseFloat(v); return isFinite(n) ? n : null; };
 function nstRow(r){
   const n=k=>numOr(r[k]);
-  const o={name:r["Player"], team:r["Team"], gp:n("GP"), toi:n("TOI"), sa:n("Shots Against"), sv:n("Saves"), ga:n("Goals Against"),
+  const o={name:r["Player"], team:(r["Team"]||"").split(",").map(t=>NST_TEAMS[t.trim()]||t.trim()).join(", "), gp:n("GP"), toi:n("TOI"), sa:n("Shots Against"), sv:n("Saves"), ga:n("Goals Against"),
     svp:n("SV%"), gaa:n("GAA"), gsaa:n("GSAA"), xga:n("xG Against"),
     hdsa:n("HD Shots Against"), hdga:n("HD Goals Against"), hdsv:n("HDSV%"), hdgsaa:n("HDGSAA"),
     mdsa:n("MD Shots Against"), mdga:n("MD Goals Against"), mdsv:n("MDSV%"), mdgsaa:n("MDGSAA"),

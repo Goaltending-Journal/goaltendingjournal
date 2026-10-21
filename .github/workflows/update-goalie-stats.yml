@@ -1,6 +1,6 @@
 # Stats bot: refreshes the Goalie Stats page (goalies-data.js) from the NHL stats feed once a day,
-# then rebuilds goalies-uncertainty-data.js so the "How sure are we" panels match,
-# saves this season's Natural Stat Trick goalie tables in data/nst/, and rebuilds goal-map-data.js
+# saves this season's Natural Stat Trick goalie tables in data/nst/, then rebuilds goalies-uncertainty-data.js
+# so the "How sure are we" panels match (its expected goals come from NST), and rebuilds goal-map-data.js
 # (every shot on goal, with its location) from the NHL play-by-play feed for the goals heat map.
 # Needs a repository secret named NST_KEY (the Natural Stat Trick access key) for that last part;
 # without it the NHL numbers still update.
@@ -33,14 +33,14 @@ jobs:
       - name: Pull this season's goalie totals
         run: python3 build_goalies_data.py
 
-      - name: Rebuild the save % ranges
-        run: python3 build_uncertainty_data.py
-
       - name: Pull Natural Stat Trick goalie stats
         continue-on-error: true
         env:
           NST_KEY: ${{ secrets.NST_KEY }}
         run: python3 fetch_nst.py
+
+      - name: Rebuild the save % ranges
+        run: python3 build_uncertainty_data.py
 
       - name: Rebuild the goals heat map
         continue-on-error: true
