@@ -144,8 +144,9 @@ def write_js(games, season_label, today):
             latest[int(pid)] = info
     shooters, shooter_idx = [], {}
     for g in order:
-        di = len(dates)
-        dates.append(g["date"])
+        if not dates or dates[-1] != g["date"]:
+            dates.append(g["date"])
+        di = len(dates) - 1
         for s in g["shots"]:
             gid = s["g"]
             if gid not in goalie_idx:
