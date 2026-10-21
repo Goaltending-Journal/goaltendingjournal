@@ -250,6 +250,33 @@ tbody tr:last-child td{border-bottom:0}
 @media (max-width:960px){ .zone-grid{grid-template-columns:1fr} .rink{max-width:420px;margin-inline:auto;width:100%} .zone-top .stats{justify-content:flex-start} }
 @media (max-width:520px){ .zone-card{padding:12px} .ztbl .mini th,.ztbl .mini td{padding:8px 6px} .ztbl td.l i{margin-right:6px} .zone-top .stats{flex-basis:100%} .zone-top .stats .kv{min-width:0;flex:1 1 40%} }
 
+/* goals heat map (goalies-advanced.js) */
+.rink .hx{stroke:var(--boards);stroke-width:.35;transition:filter .12s}
+.rink .hx:hover,.rink .hx.on{filter:brightness(1.08) saturate(1.2);stroke:var(--crease);stroke-width:.5}
+.rink .gd,.zlegend .gd{fill:var(--chalk);stroke:var(--boards);stroke-width:.3;cursor:pointer}
+.zlegend .gd{stroke-width:1}
+.rink .zlegend svg{display:inline-block;width:10px;height:10px}
+.rink .gd:hover{fill:var(--crease);r:1.6}
+.rink text[font-size="3"]{font-family:var(--f-body);font-weight:600}
+.gm-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.gm-side .bar i{background:var(--z-hi);opacity:.85}
+.gm-types h4{margin:0 0 8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.tyrow{display:grid;grid-template-columns:110px minmax(0,1fr) 36px;align-items:center;gap:10px;font-size:13px;padding:3px 0}
+.tyrow i{display:block;height:8px;border-radius:4px;background:var(--crease);opacity:.8;min-width:2px}
+.tyrow b{text-align:right;font-family:var(--f-data);font-weight:500}
+#gmGoalie,#dzGoalie{max-width:250px}
+/* Natural Stat Trick section */
+#dzCard .dz-rink{max-width:380px;width:100%;margin-inline:auto}
+#dzCard .field{background:var(--ice)}
+.chart circle.sel{stroke-width:2}
+.nst-tbl{max-height:560px;overflow:auto}
+.nst-tbl table{min-width:1500px}
+.nst-tbl tbody tr.on{background:var(--crease-dim)}
+.nst-tbl th:first-child,.nst-tbl td:first-child{position:sticky;left:0;background:var(--boards);z-index:1}
+.nst-tbl th:first-child{z-index:2}
+.nst-tbl tbody tr:hover td:first-child,.nst-tbl tbody tr.on td:first-child{background:var(--glass)}
+@media (max-width:520px){ .gm-side .bar i{display:none} .gm-side .mini th,.gm-side .mini td{padding:8px 6px} .tyrow{grid-template-columns:90px minmax(0,1fr) 30px} #gmGoalie,#dzGoalie{max-width:180px} .zone-top .seg button{padding:6px 10px} }
+
 footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 footer h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 footer p{margin:0 0 6px;max-width:60ch}
@@ -299,6 +326,63 @@ footer p{margin:0 0 6px;max-width:60ch}
   <section>
     <div class="sec-h"><div class="sec-l"><h2>League leaders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="leadNote"></span></div>
     <div class="leaders" id="leaders" style="margin-top:14px"></div>
+  </section>
+
+  <section id="gmSec">
+    <div class="sec-h"><h2>Where goals go in</h2><span class="note" id="gmNote"></span></div>
+    <div class="zone-card">
+    <div class="zone-top">
+      <div class="field"><label for="gmGoalie">Goalie</label><select id="gmGoalie"><option value="">All goalies (league)</option></select></div>
+      <div class="seg" role="group" aria-label="Show" id="gmView"></div>
+      <div class="seg" role="group" aria-label="Strength" id="gmStr"></div>
+      <label class="switch" for="gmDots" id="gmDotsLbl"><input type="checkbox" id="gmDots"> Each goal</label>
+      <button class="hidebtn" id="gmHide" type="button">Hide map</button>
+    </div>
+    <div class="zone-top"><div class="stats" id="gmStats"></div></div>
+    <div class="zone-grid" id="gmGrid">
+      <div class="rink" id="gmMapWrap">
+        <div id="c-goalmap"></div>
+        <div class="zlegend" id="gmLegend"></div>
+      </div>
+      <div class="gm-side">
+        <div class="tbl-wrap ztbl"><table class="mini" id="gmTbl"><thead></thead><tbody></tbody></table></div>
+        <div class="gm-types"><h4>How the goals went in</h4><div id="gmTypes"></div></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section id="nstSec">
+    <div class="sec-h"><div class="sec-l"><h2>Advanced stats</h2><div class="seg" role="group" aria-label="Situation" id="nstStr"></div></div><span class="note" id="nstNote"></span></div>
+    <div id="nstBody">
+    <div class="filters" style="margin-top:14px">
+      <div class="field"><label for="nstMetric">Rank by</label><select id="nstMetric"></select></div>
+      <div class="field"><label for="nstMin">Min shots</label><input id="nstMin" type="range" min="0" max="400" step="10" value="0"><span class="num" id="nstMinV" style="width:30px">0</span></div>
+    </div>
+    <div class="collapsed" id="nstCollapsed" style="margin-top:12px" hidden></div>
+    <div class="charts" style="margin-top:14px">
+      <div class="panel" data-nst="top">
+        <div class="panel-h"><div><h3>Top goaltenders</h3><p id="nstTopSub"></p></div><button class="hidebtn" data-nhide="top">Hide</button></div>
+        <div class="chart" id="c-nsttop"></div>
+      </div>
+      <div class="panel" id="dzCard">
+        <div class="panel-h"><div><h3>Danger zones</h3><p>Save % on high-, medium- and low-danger shots, as Natural Stat Trick grades them.</p></div><button class="hidebtn" id="dzHide" type="button">Hide map</button></div>
+        <div class="filters"><div class="field"><label for="dzGoalie">Goalie</label><select id="dzGoalie"></select></div></div>
+        <div id="dzWho"></div>
+        <div class="rink dz-rink" id="dzMapWrap"><div id="c-danger"></div><div class="zlegend" id="dzLegend"></div></div>
+        <div class="tbl-wrap ztbl"><table class="mini" id="dzTbl"><thead></thead><tbody></tbody></table></div>
+      </div>
+      <div class="panel wide" data-nst="scatter">
+        <div class="panel-h"><div><h3>High danger vs everything else</h3><p>Top right stops both the hard chances and the routine ones. Bubble size is shots faced. Dashed lines are the league rates. Click a goalie for their danger zones.</p></div><button class="hidebtn" data-nhide="scatter">Hide</button></div>
+        <div class="chart" id="c-nstscatter"></div>
+      </div>
+    </div>
+    <div class="filters" style="margin-block:18px 12px">
+      <div class="field"><label for="nstQ">Search</label><input id="nstQ" type="search" placeholder="Name or team"></div>
+      <span class="note" id="nstCount"></span>
+    </div>
+    <div class="tbl-wrap nst-tbl"><table id="nstTbl"><thead><tr></tr></thead><tbody></tbody></table></div>
+    </div>
   </section>
 
   <section id="zoneSec">
@@ -373,6 +457,7 @@ footer p{margin:0 0 6px;max-width:60ch}
 <script src="goalies-data.js"></script>
 <script src="goalies-zones-data.js"></script>
 <script src="goalies-uncertainty-data.js"></script>
+<script src="goal-map-data.js"></script>
 <script>
 const DATA = window.GOALIE_DATA;
 const SEASONS = ["2026-27","2025-26","2024-25"];
@@ -888,6 +973,8 @@ $("#foot").innerHTML = `
   <div><h4>Cross-checks</h4><p>QuantHockey's 2026-27 goalie table and InGoal Magazine's goaltender index were read on the same day. Each profile shows QuantHockey's line next to the NHL figures and links to InGoal.</p></div>
   <div><h4>Not included</h4><p>PuckPedia's goalie and contract lists did not return any rows to a plain page read, so cap hits are not in this snapshot. Profiles link out to PuckPedia instead.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses the expected-goals totals in the MoneyPuck-format files below, with a rough range of ±1.645·√xGA. Rebuilt by build_uncertainty_data.py; method and checks are in the analysis folder.</p></div>
+  <div><h4>Where goals go in</h4><p>Every shot on goal from the NHL's public play-by-play feed (api-web.nhle.com), read each morning by build_goal_map.py. Each goal is placed where the shot was taken. Empty nets and shootouts are left out.</p></div>
+  <div><h4>Advanced stats</h4><p>Data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>: its goalie tables for all situations and 5v5, saved each morning by fetch_nst.py. Danger levels are NST's; the areas on the danger map are drawn approximately.</p></div>
   <div><h4>Save % by zone</h4><p>Built from game-by-game shot and goalie files in MoneyPuck.com's format for ${ZD.from} to ${ZD.to}. Only games in both files are counted. Left and right are as drawn, with the goal at the top.</p></div>
   <div><h4>Today</h4><p><time data-today></time></p></div>`;
 
@@ -901,6 +988,7 @@ fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
 </script>
+<script src="goalies-advanced.js"></script>
 <script src="today.js"></script>
 
 </body>
