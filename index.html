@@ -75,53 +75,32 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 button, input, select { font-family: var(--sans); }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Masthead: the name and one line about the journal on the left, a line drawing of a goalie mask on the right.
-   The title sits flat; each letter glows ice-blue as the pointer passes over it. */
-.masthead { display: grid; grid-template-columns: minmax(0, 1fr) clamp(180px, 22vw, 250px); align-items: center; gap: 40px; padding: 64px 0 40px; }
-.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(46px, 7.4vw, 92px); line-height: 0.9; letter-spacing: 0.02em; text-transform: uppercase; cursor: default; }
-.masthead h1 .wd { display: inline-block; white-space: nowrap; }
-.masthead h1 .ch { display: inline-block; color: inherit; text-shadow: none; transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
-.masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
-.masthead p { margin: 18px 0 0; color: var(--muted); font-size: 21px; line-height: 1.45; max-width: 30em; }
-.mast-art { display: block; width: 100%; height: auto; color: var(--accent); opacity: 0.5; overflow: visible; }
-.masthead { position: relative; isolation: isolate; }
-/* Ask box, after Antimetal's hero: a question types itself out and the newest articles on that topic appear under it as links.
-   Typing in the box and pressing Enter searches the Research Tracker. Fed by clothesline.js, like the ticker. */
-.ask { margin-top: 30px; max-width: 640px; }
-.ask-box { position: relative; display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 8px 0 18px; background: var(--bg); border: 1px solid var(--rule); border-radius: 14px;
-  box-shadow: 0 1px 2px rgba(10, 30, 50, 0.06), 0 14px 34px -18px rgba(20, 80, 140, 0.45); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
-.ask-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), 0 14px 34px -18px rgba(20, 80, 140, 0.45); }
-.ask-box > svg { width: 18px; height: 18px; flex: none; color: var(--muted); }
-.ask-box input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; color: var(--fg); font: 16px var(--sans); outline: none; }
-.ask-typed { position: absolute; left: 46px; right: 60px; top: 50%; transform: translateY(-50%); font: 16px var(--sans); color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
-.ask-typed::after { content: ""; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -0.18em; background: var(--accent); animation: ask-caret 1s steps(1) infinite; }
-.ask-box:focus-within .ask-typed, .ask-box.has-text .ask-typed { display: none; }
-@keyframes ask-caret { 50% { opacity: 0; } }
-.ask-go { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border: 0; border-radius: 10px; background: var(--fg); color: var(--bg); cursor: pointer; }
-.ask-go svg { width: 16px; height: 16px; }
-.ask-go:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.ask-list { list-style: none; margin: 10px 0 0; padding: 0 0 0 4px; min-height: 76px; font: 14.5px/1.4 var(--sans); }
-.ask-list li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; align-items: baseline; gap: 10px; padding: 5px 0; opacity: 0; transform: translateY(4px); transition: opacity 0.45s ease, transform 0.45s ease; }
-.ask-list li.in { opacity: 1; transform: none; }
-.ask-list li > svg { width: 14px; height: 14px; flex: none; align-self: center; color: var(--muted); }
-.ask-list a { color: var(--fg); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ask-list a:hover, .ask-list a:focus-visible { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-.ask-list small { max-width: 34ch; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* a few faint crosses and dots that twinkle around the hero */
-.sparks { position: absolute; inset: 0; z-index: -1; pointer-events: none; color: var(--accent); }
-.sparks i { position: absolute; width: 9px; height: 9px; opacity: 0; animation: spark 7s ease-in-out infinite; }
-.sparks i::before, .sparks i::after { content: ""; position: absolute; background: currentColor; }
-.sparks i::before { left: 4px; top: 0; width: 1px; height: 9px; }
-.sparks i::after { top: 4px; left: 0; height: 1px; width: 9px; }
-.sparks i.dot::before { left: 3px; top: 3px; width: 3px; height: 3px; border-radius: 50%; }
-.sparks i.dot::after { display: none; }
-@keyframes spark { 0%, 100% { opacity: 0; } 40%, 60% { opacity: 0.55; } }
+/* Splash: a dark full-height opening scene, after Giga's hero. The letters GRJ assemble out of a dot grid,
+   an ice-blue glow rises from the bottom, then the journal's name and a scroll cue fade in.
+   Drawn on a canvas by the splash script below; the research follows underneath. */
+.splash { position: relative; isolation: isolate; overflow: hidden; display: grid; place-items: end center; padding-bottom: clamp(48px, 11vh, 120px); min-height: max(520px, calc(100svh - var(--nav-h)));
+  background: #070b10; color: #e9f1f8; }
+.splash::before { content: ""; position: absolute; inset: auto -20% -6% -20%; height: 70%; z-index: -1; opacity: 0;
+  background: radial-gradient(50% 70% at 50% 100%, rgba(70, 160, 255, 0.42), rgba(30, 100, 200, 0.14) 55%, transparent 78%);
+  animation: sp-rise 2.4s cubic-bezier(.2, .7, .2, 1) 0.9s forwards; }
+#main { scroll-margin-top: calc(var(--nav-h) + 24px); }
+.splash canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.splash-copy { position: relative; display: grid; justify-items: center; gap: 10px; padding: 0 16px; text-align: center; }
+.splash-copy h1 { margin: 0; font: 600 clamp(22px, 2.6vw, 30px)/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: #f2f7fc; }
+.splash-copy p { margin: 0; font: 17px/1.45 var(--serif); color: #9fb2c6; }
+.splash-copy > * { opacity: 0; transform: translateY(8px); animation: sp-in 0.9s ease forwards; }
+.splash-copy h1 { animation-delay: 1.9s; } .splash-copy p { animation-delay: 2.2s; } .splash-copy .cue { animation-delay: 2.6s; }
+.cue { margin-top: 26px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 18px; border: 1px solid rgba(233, 241, 248, 0.22); border-radius: 999px;
+  font: 500 14px var(--sans); color: #e9f1f8; text-decoration: none; background: rgba(255, 255, 255, 0.04); }
+.cue:hover { background: rgba(255, 255, 255, 0.1); text-decoration: none; }
+.cue:focus-visible { outline: 2px solid #86c5f4; outline-offset: 3px; }
+.cue svg { width: 14px; height: 14px; animation: sp-bob 1.8s ease-in-out 3.4s infinite; }
+@keyframes sp-rise { to { opacity: 1; } }
+@keyframes sp-in { to { opacity: 1; transform: none; } }
+@keyframes sp-bob { 50% { transform: translateY(3px); } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .masthead h1 .ch { transition: none; }
-  .sparks { display: none; }
-  .ask-typed::after { animation: none; }
-  .ask-list li { transition: none; }
+  .splash::before, .splash-copy > *, .cue svg { animation: none; opacity: 1; transform: none; }
 }
 
 /* Sections */
@@ -260,11 +239,11 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
 footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 
-/* Research ticker: the latest articles in one line under the masthead, scrolling like a sports-broadcast ticker.
+/* Research ticker: the latest articles in one line under the splash, scrolling like a sports-broadcast ticker.
    Filled from clothesline.js, which the research bot (fetch_clothesline.py) updates daily. Hover or focus pauses it. */
 .tk { --tk-bg: #12202e; --tk-fg: #f2f6fa; --tk-soft: #9fb2c6; --tk-rule: rgba(255,255,255,0.14); --tk-label: var(--accent);
   --tp-dev: #8cb8ff; --tp-train: #ff9aa3; --tp-coaching: #95d6a4; --tp-stats: #ffb886; --tp-bio: #cfd6dd; --tp-ed: #86d4f0; --tp-sa: #ecd07a;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch; height: 52px; margin-top: 14px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch; height: 52px; margin-top: 32px;
   background: var(--tk-bg); color: var(--tk-fg); border-radius: 8px; overflow: hidden; font-family: var(--sans); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tk { --tk-bg: #151d27; --tk-label: #1a67a3; box-shadow: inset 0 0 0 1px var(--rule); } }
 :root[data-theme="dark"] .tk { --tk-bg: #151d27; --tk-label: #1a67a3; box-shadow: inset 0 0 0 1px var(--rule); }
@@ -315,8 +294,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 @media (max-width: 880px) {
   body { font-size: 16px; }
-  .masthead { grid-template-columns: minmax(0, 1fr) 96px; gap: 20px; padding: 40px 0 28px; }
-  .masthead p { font-size: 18px; }
   .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
   .sec:first-of-type { padding-top: 40px; }
   .sec-head { position: static; }
@@ -343,11 +320,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   .sort { margin-left: 0; }
   .news { grid-template-columns: minmax(0, 1fr); }
   .info > div { grid-template-columns: minmax(0, 1fr); }
-  .masthead { grid-template-columns: minmax(0, 1fr); padding-top: 32px; }
-  .mast-art { display: none; }
-  .ask { margin-top: 22px; }
-  .sparks { display: none; }
-  .ask-list small { display: none; }
+  .splash-copy p { font-size: 16px; }
 }
 </style>
 </head>
@@ -366,50 +339,16 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </div>
 </header>
 
+<section class="splash" id="splash" aria-labelledby="splash-title">
+  <canvas id="splash-art" aria-hidden="true"></canvas>
+  <div class="splash-copy">
+    <h1 id="splash-title"><span class="vh">GRJ: </span>The Goaltending Research Journal</h1>
+    <p>An open source sports journal dedicated to ice hockey goaltending.</p>
+    <a class="cue" href="#main">Explore the research <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</section>
 
 <main id="main" class="wrap">
-  <header class="masthead" id="masthead">
-    <div class="sparks" aria-hidden="true"><i style="left:3%;top:14%"></i><i class="dot" style="left:46%;top:8%;animation-delay:-2s"></i><i style="left:58%;top:30%;animation-delay:-4.5s"></i><i class="dot" style="left:38%;top:62%;animation-delay:-1s"></i><i style="left:64%;top:78%;animation-delay:-3s"></i><i class="dot" style="left:72%;top:12%;animation-delay:-5.5s"></i><i style="left:96%;top:70%;animation-delay:-6s"></i><i class="dot" style="left:22%;top:92%;animation-delay:-3.8s"></i><i style="left:84%;top:94%;animation-delay:-1.6s"></i></div>
-    <div>
-      <h1>The Goaltending Research Journal</h1>
-      <p>An open source sports journal dedicated to ice hockey goaltending.</p>
-      <div class="ask" id="ask" hidden>
-        <form class="ask-box" id="ask-form" role="search" aria-label="Search the research">
-          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13.5 13.5 18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <input id="ask-q" type="search" autocomplete="off" aria-label="Search the research by title, author or journal">
-          <span class="ask-typed" id="ask-typed" aria-hidden="true"></span>
-          <button type="submit" class="ask-go" aria-label="Search"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </form>
-        <ul class="ask-list" id="ask-list" aria-live="polite"></ul>
-      </div>
-    </div>
-    <svg class="mast-art" viewBox="0 0 300 360" aria-hidden="true" focusable="false">
-      <defs><clipPath id="cage-cut"><path d="M88 112 C112 101 188 101 212 112 C219 156 216 204 199 242 C186 270 169 285 150 287 C131 285 114 270 101 242 C84 204 81 156 88 112Z"/></clipPath></defs>
-      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke-width="2" d="M150 16 C218 16 262 60 266 124 C270 180 260 228 238 268 C216 306 186 328 150 332 C114 328 84 306 62 268 C40 228 30 180 34 124 C38 60 82 16 150 16Z"/>
-        <path stroke-width="1.4" d="M66 98 C98 74 202 74 234 98"/>
-        <path stroke-width="1.2" d="M150 16 V74" opacity=".6"/>
-        <path stroke-width="1.4" d="M112 46 L120 60 M188 46 L180 60 M130 40 L134 56 M170 40 L166 56"/>
-        <path stroke-width="1.4" d="M40 150 C52 196 70 232 96 258"/>
-        <path stroke-width="1.4" d="M260 150 C248 196 230 232 204 258"/>
-        <path stroke-width="1.2" opacity=".7" d="M78 104 C108 90 192 90 222 104 C230 154 227 208 208 250 C193 282 172 298 150 300 C128 298 107 282 92 250 C73 208 70 154 78 104Z"/>
-        <path stroke-width="2.4" d="M88 112 C112 101 188 101 212 112 C219 156 216 204 199 242 C186 270 169 285 150 287 C131 285 114 270 101 242 C84 204 81 156 88 112Z"/>
-        <g clip-path="url(#cage-cut)" stroke-width="2">
-          <path d="M70 146 C110 140 190 140 230 146"/>
-          <path d="M70 182 C110 176 190 176 230 182"/>
-          <path d="M70 218 C110 212 190 212 230 218"/>
-          <path d="M70 252 C110 247 190 247 230 252"/>
-          <path d="M124 100 C122 170 128 240 138 300"/>
-          <path d="M176 100 C178 170 172 240 162 300"/>
-        </g>
-        <path stroke-width="2.4" d="M88 146 C112 160 136 160 150 150 C164 160 188 160 212 146"/>
-        <circle cx="90" cy="118" r="4" stroke-width="1.6"/><circle cx="210" cy="118" r="4" stroke-width="1.6"/>
-        <circle cx="100" cy="236" r="4" stroke-width="1.6"/><circle cx="200" cy="236" r="4" stroke-width="1.6"/>
-        <path stroke-width="1.4" d="M124 306 C140 314 160 314 176 306"/>
-        <path stroke-width="1.8" d="M126 330 L130 350 C142 356 158 356 170 350 L174 330"/>
-      </g>
-    </svg>
-  </header>
 
   <section class="tk" id="ticker" aria-labelledby="tk-label" hidden>
     <div class="tk-label"><i class="live" aria-hidden="true"></i><b id="tk-label">Latest<span class="long"> research</span></b></div>
@@ -641,27 +580,6 @@ window.addEventListener("resize", () => {
   if (w !== chartW) { chartW = w; drawChart(); }
 });
 
-/* Masthead: each letter of the title glows as the pointer passes over it, then fades */
-(function mast() {
-  const h = document.querySelector(".masthead h1");
-  const text = h.textContent;
-  h.setAttribute("aria-label", text);
-  h.innerHTML = text.split(" ").map((w) => `<span class="wd" aria-hidden="true">${[...w].map((c) => `<span class="ch">${esc(c)}</span>`).join("")}</span>`).join(" ");
-  const lit = (el) => {
-    if (!el || !el.classList || !el.classList.contains("ch")) return;
-    el.classList.add("lit");
-    clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("lit"), 450);
-  };
-  const touch = (e) => {
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    lit(el);
-    // a faint neighbour glow so the effect feels like a wave, not a single letter
-    if (el && el.classList.contains("ch")) { lit(el.previousElementSibling); lit(el.nextElementSibling); }
-  };
-  h.addEventListener("pointermove", touch);
-  h.addEventListener("pointerdown", touch);
-})();
-
 /* Research feed (items live in research.js) */
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const fmtDate = (d) => { const [y, m, dd] = String(d).split("-").map(Number); return dd ? `${dd} ${MON[m - 1]} ${y}` : ""; };
@@ -840,60 +758,61 @@ render();
 </script>
 <script src="clothesline.js"></script>
 <script>
-// Ask box: a question about one topic types itself out, then that topic's newest articles fade in underneath as links.
-// It moves to the next topic every few seconds and stops for good once the visitor clicks into the box.
+// Splash: GRJ drawn in Teko on a hidden canvas, sampled on a grid, then each dot eases into place from a scatter,
+// sweeping left to right. Afterwards a few dots shimmer. Reduced motion draws the finished letters at once.
 (function () {
-  if (typeof CLOTHESLINE === "undefined" || !CLOTHESLINE.length) return;
-  const ASK = { dev: "What's new in goalie development?", train: "What's new in goaltender training?", coaching: "What should goalie coaches read this week?",
-    stats: "What's new in goalie analytics?", bio: "What's new in goalie biomechanics?", ed: "What's new in ecological dynamics?", sa: "What's new in skill acquisition?" };
-  const box = document.getElementById("ask"), form = document.getElementById("ask-form"), input = document.getElementById("ask-q");
-  const typed = document.getElementById("ask-typed"), list = document.getElementById("ask-list");
-  // Goalie and hockey papers lead each topic, and topics that have one come first, so the box opens on goaltending.
-  const GOALIE = /goal(ie|tend|keep)|hockey|netminder|keeper/i, groups = {};
-  CLOTHESLINE.slice().sort((a, b) => (GOALIE.test(b.t) - GOALIE.test(a.t)) || (b.d || "").localeCompare(a.d || ""))
-    .forEach(r => { if (ASK[r.tp]) (groups[r.tp] = groups[r.tp] || []).push(r); });
-  const topics = Object.keys(groups);
-  if (!topics.length) return;
-  const fmt = d => { if (!d) return ""; const t = new Date(d + "T12:00:00"); return isNaN(t) ? "" : t.toLocaleDateString("en-US", { month: "short", day: "numeric" }); };
-  const BUBBLE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3.5h10a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H7l-3 2.5V11.5H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
-  const show = (tp) => {
-    list.innerHTML = "";
-    groups[tp].slice(0, 2).forEach((r, i) => {
-      const li = document.createElement("li");
-      li.innerHTML = BUBBLE;
-      const a = document.createElement("a"); a.href = r.u; a.target = "_blank"; a.rel = "noopener"; a.textContent = r.t; a.title = r.t;
-      const meta = document.createElement("small"); meta.textContent = [r.s, fmt(r.d)].filter(Boolean).join(" · ");
-      li.append(a, meta); list.append(li);
-      setTimeout(() => li.classList.add("in"), 60 + i * 180);
-    });
-  };
-  box.hidden = false;
-  const HINT = "Search by title, author or journal";
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { typed.hidden = true; input.placeholder = HINT; show(topics[0]); }
-  else {
-    let k = 0, stopped = false, timer;
-    const wait = (ms) => new Promise(res => { timer = setTimeout(res, ms); });
-    (async () => {
-      while (!stopped) {
-        const tp = topics[k++ % topics.length], q = ASK[tp];
-        list.querySelectorAll("li").forEach(li => li.classList.remove("in"));
-        await wait(350);
-        for (let i = 1; i <= q.length && !stopped; i++) { typed.textContent = q.slice(0, i); await wait(38); }
-        if (stopped) break;
-        await wait(250); show(tp); await wait(5200);
+  const cv = document.getElementById("splash-art"), box = document.getElementById("splash");
+  if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext("2d"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let dots = [], W = 0, H = 0, step = 8, t0 = 0, raf = 0;
+  const ease = (x) => 1 - Math.pow(1 - x, 3);
+  const build = () => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = box.clientWidth; H = box.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    step = W < 640 ? 6 : W < 1100 ? 8 : 10;
+    const off = document.createElement("canvas"); off.width = W; off.height = H;
+    const o = off.getContext("2d");
+    const font = (px) => `600 ${px}px Teko, "Barlow Condensed", "Arial Narrow", sans-serif`;
+    o.font = font(100);
+    const m = o.measureText("GRJ"), capH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+    // fit the letters inside the band above the name, at most 72% of the width (88% on phones)
+    const top = H * 0.1, bottom = H - (box.querySelector(".splash-copy").offsetHeight + parseFloat(getComputedStyle(box).paddingBottom) + H * 0.05);
+    const size = 100 * Math.min((W * (W < 640 ? 0.88 : 0.72)) / m.width, Math.max(60, bottom - top) / capH);
+    o.font = font(size);
+    o.textAlign = "center"; o.textBaseline = "alphabetic"; o.fillStyle = "#000";
+    const mm = o.measureText("GRJ");
+    o.fillText("GRJ", W / 2, (top + bottom) / 2 + (mm.actualBoundingBoxAscent - mm.actualBoundingBoxDescent) / 2);
+    const px = o.getImageData(0, 0, W, H).data;
+    dots = [];
+    for (let y = step / 2; y < H; y += step) for (let x = step / 2; x < W; x += step) {
+      if (px[(Math.floor(y) * W + Math.floor(x)) * 4 + 3] > 128) {
+        dots.push({ x, y, sx: W / 2 + (Math.random() - 0.5) * W * 1.1, sy: H + Math.random() * H * 0.3, d: (x / W) * 0.7 + Math.random() * 0.35, tw: Math.random() * 6.28 });
       }
-    })();
-    const stop = () => { stopped = true; clearTimeout(timer); typed.hidden = true; input.placeholder = HINT; list.querySelectorAll("li").forEach(li => li.classList.add("in")); };
-    input.addEventListener("focus", stop, { once: true });
-  }
-  input.addEventListener("input", () => form.classList.toggle("has-text", !!input.value));
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const q = $("q");
-    q.value = input.value.trim();
-    q.dispatchEvent(new Event("input"));
-    document.getElementById("articles").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-  });
+    }
+  };
+  const draw = (now) => {
+    const t = still ? 99 : (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    const r = step * 0.28;
+    for (const p of dots) {
+      const k = ease(Math.max(0, Math.min(1, (t - p.d) / 1.1)));
+      if (k <= 0) continue;
+      const x = p.sx + (p.x - p.sx) * k, y = p.sy + (p.y - p.sy) * k;
+      const glow = k >= 1 ? 0.78 + 0.22 * Math.sin(t * 1.6 + p.tw) : k;
+      ctx.fillStyle = `rgba(${Math.round(150 + 80 * glow)}, ${Math.round(205 + 40 * glow)}, 255, ${0.25 + 0.75 * glow})`;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+    }
+    if (!still) raf = requestAnimationFrame(draw);
+  };
+  const start = () => { cancelAnimationFrame(raf); build(); t0 = performance.now(); raf = requestAnimationFrame(draw); };
+  // wait for Teko so the dots trace the right letter shapes
+  (document.fonts && document.fonts.load ? document.fonts.load('600 100px Teko').catch(() => {}) : Promise.resolve()).then(start);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { build(); if (still) draw(0); }, 150); });
+  // stop drawing while the splash is scrolled out of view
+  if ("IntersectionObserver" in window && !still) new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(draw); } else { cancelAnimationFrame(raf); raf = 0; }
+  }).observe(box);
 })();
 
 // Research ticker: one line per article in clothesline.js, newest first, with topics dealt out in turn so neighbours differ.
