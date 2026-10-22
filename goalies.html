@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Teko:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
@@ -488,7 +489,7 @@ tbody tr:last-child td{border-bottom:0}
 
   <footer class="site-foot">
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span>Built by GoldyDev</span>
+    <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
   </footer>
 </main>
 
@@ -932,6 +933,8 @@ $("#gfx").checked=state.gfx;
 fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
+/* Redraw with the new colours when the footer switch changes light/dark */
+addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="function") renderGoalMap(); dispatchEvent(new Event("resize")); });
 
 /* ---------- leaderboard (this season, from the play-by-play daily counts in goal-map-data.js) ---------- */
 (function leaderboard(){

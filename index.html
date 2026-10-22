@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Teko:wght@500;600&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
 <style>
 /* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
 :root {
@@ -346,7 +347,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       <div>
         <h2 id="h-tracker">Goaltending Research</h2>
         <p class="sub">A database of all published goalie-specific and goalie-related studies.</p>
-        <p class="sub" id="year-sub"></p>
       </div>
       <button type="button" class="btn" id="export">Export CSV</button>
     </div>
@@ -415,7 +415,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
   <footer>
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span>Built by GoldyDev</span>
+    <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
   </footer>
 </main>
 
@@ -519,7 +519,6 @@ function drawChart() {
     `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
     `<span>Select a year to filter the table.</span>` +
     (hidden.length ? `<span>Not shown: ${hidden.join(" and ")}; they are in the table.</span>` : "");
-  $("year-sub").textContent = `Every study we track, ${first} to ${CHART_TO}. Search it, filter it by scope, decade or topic, or pick a year on the chart.`;
 }
 function pickYear(y) {
   state.year = state.year === y ? null : y;

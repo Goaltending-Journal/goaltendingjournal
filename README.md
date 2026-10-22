@@ -21,6 +21,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `goalies-advanced.js` | The goals heat map and the Natural Stat Trick visualizers (top goaltenders, danger zones, high danger vs everything else, full NST table) on `goalies.html`. Reads `data/nst/*.csv` in the browser. |
 | `box-control.html` | Brief 1 (Research to Practice): box control under fatigue, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
 | `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
+| `theme.js` | The light/dark switch in every page footer. It remembers the visitor's choice; with none saved, pages follow the device setting. |
 | `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
 | `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
 | `build_uncertainty_data.py` | Rebuilds `goalies-uncertainty-data.js` from `goalies-data.js` and the Natural Stat Trick table in `data/nst/`: `python build_uncertainty_data.py`. The morning stats workflow runs it after both are refreshed. Checks: `python analysis/validate_uncertainty.py`. |
