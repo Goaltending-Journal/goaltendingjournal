@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Box Control Under Fatigue · Briefs · The Goaltending Research Journal</title>
+<title>Box Control Under Fatigue · Briefs · The Goaltending Sports Journal</title>
 <meta name="description" content="Research to Practice Brief 1: why goalies give up more net late in a drill, with an interactive box-control explainer. From Kwan, Daley &amp; MacLean (2026).">
 <meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
@@ -114,6 +114,77 @@ h2{font-family:var(--f-display);font-weight:700;font-size:22px;text-transform:up
 .flag.hot strong{color:var(--warn)}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--fog);margin-top:10px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+/* Brief layout: reading column plus a sticky "On this page" rail on the right (patterns from Codecademy and Obvious articles on Mobbin).
+   Below 1000px the rail becomes a collapsible contents list above the brief. */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--crease);z-index:40;transition:width .1s linear}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:18px;font-size:13px;color:var(--fog)}
+.meta>span+span::before{content:"·";margin-right:14px;color:var(--line)}
+.meta .grade{margin-left:6px}
+@media (max-width:640px){.meta{gap:6px 12px}.meta>span+span::before{display:none}}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 210px;grid-template-areas:"body rail";gap:48px;align-items:start}
+.layout>article{grid-area:body;display:grid;gap:44px;min-width:0}
+.rail{grid-area:rail;position:sticky;top:80px;display:grid;gap:18px;font-size:13px}
+.toc summary{list-style:none;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-bottom:10px}
+.toc summary::-webkit-details-marker{display:none}
+.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.toc a{display:grid;grid-template-columns:22px 1fr;padding:5px 0 5px 12px;margin-left:-1px;border-left:2px solid transparent;color:var(--fog);line-height:1.35}
+.toc a:hover{color:var(--chalk);text-decoration:none}
+.toc a[aria-current]{color:var(--chalk);border-left-color:var(--crease);font-weight:600}
+.toc a span{font-family:var(--f-data);font-size:11px;color:var(--mute);padding-top:1px}
+.rail-key{border-top:1px solid var(--line);padding-top:14px;color:var(--fog);line-height:1.45}
+.rail-key strong{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.rail-key .grade{margin:0 0 4px}
+@media (max-width:1000px){
+  .layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"rail" "body";gap:28px}
+  .rail{position:static}
+  .toc{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px}
+  .toc summary{margin:0;cursor:pointer;display:flex;justify-content:space-between}
+  .toc summary::after{content:"+";font-size:16px;line-height:1;color:var(--crease)}
+  .toc[open] summary{margin-bottom:10px}
+  .toc[open] summary::after{content:"–"}
+  .rail-key{display:none}
+}
+/* numbered section label above each h2, one per part of the 7-part brief format */
+.num{display:block;font-family:var(--f-data);font-size:12px;letter-spacing:.06em;color:var(--crease);margin-bottom:2px}
+section[id]{scroll-margin-top:84px}
+/* At a glance: what the study found next to what it did not test (Unity Learn "What you will learn" box, Obvious executive summary) */
+.glance{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.glance-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.glance-head h2{margin:0;font-size:20px}
+.glance-head p{margin:0;font-size:12px;color:var(--fog)}
+.glance-cols{display:grid;grid-template-columns:1fr 1fr}
+.glance-cols>div{padding:16px 20px 18px}
+.glance-cols>div+div{border-left:1px solid var(--line)}
+.glance h3{margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--good)}
+.glance .not h3{color:var(--warn)}
+.glance ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px;line-height:1.5}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--glass)}
+.facts div{padding:10px 20px}
+.facts div+div{border-left:1px solid var(--line)}
+.facts span{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fog)}
+.facts b{font-size:13px;font-weight:600}
+@media (max-width:640px){
+  .glance-cols{grid-template-columns:1fr}
+  .glance-cols>div+div{border-left:0;border-top:1px solid var(--line)}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(3){border-left:0}
+  .facts div:nth-child(n+3){border-top:1px solid var(--line)}
+}
+sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
+/* references and the end-of-brief block (Uxcel lesson footer) */
+.refs{margin:0;padding-left:26px;font-size:14px;color:var(--fog)}
+.refs li::marker{font-family:var(--f-data);color:var(--crease)}
+.cite-box{margin-top:18px;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:8px}
+.cite-box strong{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.cite-box p{margin:0;font-size:13px;color:var(--fog)}
+.cite-box button{justify-self:start;font:600 12px var(--f-body);color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.cite-box button:hover{border-color:var(--crease)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tags span{font-size:12px;color:var(--fog);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--line);padding-top:18px;margin-top:8px}
+.next span{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.next b{font-family:var(--f-display);font-size:24px;font-weight:600;text-transform:uppercase;line-height:1.1}
+.next em{font-style:normal;font-size:12px;color:var(--mute);white-space:nowrap}
 footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;max-width:1040px;margin:48px auto 0}
 footer p{margin:0;max-width:75ch}
 footer p+p{margin-top:8px}
@@ -121,6 +192,7 @@ footer p+p{margin-top:8px}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
 <header class="topbar">
   <div class="site-bar">
     <a class="brand" href="index.html">The Goaltending Sports Journal</a>
@@ -138,24 +210,73 @@ footer p+p{margin-top:8px}
   <header class="intro">
     <div class="eyebrow">Research to Practice · Brief 1 · October 2026</div>
     <h1>Box control under fatigue</h1>
-    <p class="question"><span>The coaching question</span>My goalie looks sharp at the start of a drill. Why are they giving up more net by the end of it?</p>
+    <p class="question" id="question"><span>01 · The coaching question</span>My goalie looks sharp at the start of a drill. Why are they giving up more net by the end of it?</p>
+    <div class="meta"><span>Evidence <span class="grade">Emerging</span></span><span>1 study</span><span>4 min read</span><span>Interactive explainer</span></div>
   </header>
 
-  <section class="brief" aria-labelledby="h-says">
-    <h2 id="h-says">What the research says</h2>
-    <p>A 2026 motion-capture study tracked the glove of 14 experienced goalies as they moved between four puck locations on synthetic ice. Each goalie's glove position was compared with their own set stance.</p>
+  <div class="layout">
+  <aside class="rail">
+    <details class="toc" id="toc" open>
+      <summary>On this page</summary>
+      <nav aria-label="On this page">
+        <ol>
+          <li><a href="#question"><span>01</span>The coaching question</a></li>
+          <li><a href="#says"><span>02</span>What the research says</a></li>
+          <li><a href="#see"><span>▸</span>See it on the ice</a></li>
+          <li><a href="#sure"><span>03</span>How sure we are</a></li>
+          <li><a href="#ice"><span>04</span>On the ice</a></li>
+          <li><a href="#plan"><span>05</span>In your practice plan</a></li>
+          <li><a href="#gap"><span>06</span>What we still don't know</a></li>
+          <li><a href="#src"><span>07</span>Sources</a></li>
+        </ol>
+      </nav>
+    </details>
+    <div class="rail-key"><strong>Evidence grades</strong><span class="grade">Emerging</span><br>One or two small goalie-specific studies. Stronger grades need replication or a large, well-designed goalie study.</div>
+  </aside>
+
+  <article>
+  <section class="glance" aria-labelledby="h-glance">
+    <div class="glance-head"><h2 id="h-glance">At a glance</h2><p>What the study found, kept apart from what it didn't test</p></div>
+    <div class="glance-cols">
+      <div>
+        <h3>The study found</h3>
+        <ul>
+          <li>Glove errors were largest on wide pucks near the face-off dots.</li>
+          <li>Goalies drifted back toward the goal line as reps piled up.</li>
+          <li>More self-rated effort went with more position error.</li>
+        </ul>
+      </div>
+      <div class="not">
+        <h3>It didn't test</h3>
+        <ul>
+          <li>Live shots, passes or game speed.</li>
+          <li>Elite or youth goalies, or the blocker side.</li>
+          <li>Whether any drill reduces drift.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="facts">
+      <div><span>Goalies</span><b>14 recreational</b></div>
+      <div><span>Setting</span><b>Lab, synthetic ice</b></div>
+      <div><span>Method</span><b>Motion capture</b></div>
+      <div><span>Study</span><b>Kwan et al. 2026</b></div>
+    </div>
+  </section>
+
+  <section class="brief" id="says" aria-labelledby="h-says">
+    <span class="num">02</span><h2 id="h-says">What the research says</h2>
+    <p>A 2026 motion-capture study tracked the glove of 14 experienced goalies as they moved between four puck locations on synthetic ice. Each goalie's glove position was compared with their own set stance.<sup class="cite"><a href="#ref-1" aria-label="Source 1">[1]</a></sup></p>
     <ul class="findings">
       <li><b>Wide pucks cost the most.</b> Glove errors were largest for pucks near the face-off dots. Goalies lost depth and drifted off angle. <span class="grade">Emerging</span></li>
       <li><b>Squareness slips first.</b> Of the three rotation errors, the glove most often turned in or out instead of facing the puck. <span class="grade">Emerging</span></li>
       <li><b>Goalies retreat as reps pile up.</b> Across six repeated movement patterns, the glove sank back toward the goal line. By the third rep it was measurably deeper than on the first. <span class="grade">Emerging</span></li>
       <li><b>Tired goalies are less precise.</b> Higher self-rated exertion went with more position error (r = 0.55, a moderate link). <span class="grade">Emerging</span></li>
     </ul>
-    <p class="key"><span class="grade">Emerging</span> means one or two small goalie-specific studies. Stronger grades need replication or a large, well-designed goalie study.</p>
   </section>
 
-  <section class="viz" aria-labelledby="h-see">
+  <section class="viz" id="see" aria-labelledby="h-see">
     <div class="brief">
-      <h2 id="h-see">See it on the ice</h2>
+      <span class="num">Interactive</span><h2 id="h-see">See it on the ice</h2>
       <p>Drag the puck to see how big the net looks from the shooter, the box the goalie has to fill, and what a few centimetres of drift costs. The geometry is our own illustration, not the study's data.</p>
     </div>
     <div class="grid">
@@ -237,18 +358,18 @@ footer p+p{margin-top:8px}
     </div>
   </section>
 
-  <section class="brief" aria-labelledby="h-sure">
-    <h2 id="h-sure">How sure we are</h2>
+  <section class="brief" id="sure" aria-labelledby="h-sure">
+    <span class="num">03</span><h2 id="h-sure">How sure we are</h2>
     <p>This is one small lab study: 14 recreational goalies (9 men's league, 5 women's league), synthetic ice, no live shots or passes, and no rink markings to orient by. It assumes each goalie's set stance is their ideal. It is the first study to measure glove box control at all, so treat it as a strong hint, not a rule. A larger on-ice study with shooters and elite goalies would tell us whether the same drift happens at higher levels.</p>
   </section>
 
-  <section class="brief" aria-labelledby="h-ice">
-    <h2 id="h-ice">On the ice</h2>
+  <section class="brief" id="ice" aria-labelledby="h-ice">
+    <span class="num">04</span><h2 id="h-ice">On the ice</h2>
     <p>The "box" is how big the net looks from the puck. The closer a goalie plays to the shooter, the less net they need to cover. Every centimetre a goalie drifts back hands the shooter more net, and from a wide angle the margin is already small. The study suggests drift is gradual and the goalie doesn't notice it, which fits what coaches see late in penalty kills and long defensive-zone shifts.</p>
   </section>
 
-  <section class="brief" aria-labelledby="h-plan">
-    <h2 id="h-plan">In your practice plan</h2>
+  <section class="brief" id="plan" aria-labelledby="h-plan">
+    <span class="num">05</span><h2 id="h-plan">In your practice plan</h2>
     <p class="caveat">These are coaching applications of the findings. The study did not test them.</p>
     <ol class="plan">
       <li><b>Score the last rep, not the first.</b> In any multi-puck sequence, judge depth and squareness on the final rep. That's where the study found the errors.</li>
@@ -259,8 +380,8 @@ footer p+p{margin-top:8px}
     </ol>
   </section>
 
-  <section class="brief" aria-labelledby="h-gap">
-    <h2 id="h-gap">What we still don't know</h2>
+  <section class="brief" id="gap" aria-labelledby="h-gap">
+    <span class="num">06</span><h2 id="h-gap">What we still don't know</h2>
     <ul class="gaps">
       <li>Whether elite goalies drift the same way.</li>
       <li>How much drift actually changes goals against.</li>
@@ -270,15 +391,60 @@ footer p+p{margin-top:8px}
     <p>Glove and positioning biomechanics is one of the thinnest areas in goalie research.</p>
   </section>
 
-  <section class="brief" aria-labelledby="h-src">
-    <h2 id="h-src">Sources</h2>
-    <p class="src">Kwan J, Daley WS, MacLean KFE. "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. 2026. <a href="https://doi.org/10.1177/17479541261492184" rel="noopener">doi:10.1177/17479541261492184</a></p>
+  <section class="brief" id="src" aria-labelledby="h-src">
+    <span class="num">07</span><h2 id="h-src">Sources</h2>
+    <ol class="refs">
+      <li id="ref-1">Kwan J, Daley WS, MacLean KFE. "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. 2026. <a href="https://doi.org/10.1177/17479541261492184" rel="noopener">doi:10.1177/17479541261492184</a></li>
+    </ol>
+    <div class="cite-box">
+      <strong>Cite this brief</strong>
+      <p id="cite-text">The Goaltending Sports Journal. Box control under fatigue. Research to Practice, Brief 1. October 2026. https://goaltending-journal.github.io/goaltendingjournal/box-control.html</p>
+      <button type="button" id="cite-copy">Copy citation</button>
+    </div>
+    <div class="tags" aria-label="Topics"><span>Positioning</span><span>Glove</span><span>Fatigue</span><span>Biomechanics</span><span>Practice design</span></div>
+    <div class="next"><div><span>Next in the series</span><b>Eyes on the stick blade</b></div><em>Coming soon</em></div>
   </section>
+  </article>
+  </div>
 </main>
 
 <footer><p>Research to Practice briefs turn goaltending studies into practice-planning ideas. Each one keeps what a study found separate from coaching ideas it did not test. The rink geometry in the explainer (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration; the study does not publish per-puck values.</p><p class="today">Today is <time data-today></time></p></footer>
 
 <script src="today.js"></script>
+<script>
+// Brief chrome: reading progress bar, "On this page" highlight, contents list open on wide screens, copy citation.
+(function(){
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = (max > 0 ? Math.min(1, scrollY / max) * 100 : 0) + '%';
+  };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  const toc = document.getElementById('toc'), wide = matchMedia('(min-width:1001px)');
+  const sync = () => { if (wide.matches) toc.open = true; else toc.open = false; };
+  wide.addEventListener('change', sync); sync();
+  toc.querySelector('summary').addEventListener('click', e => { if (wide.matches) e.preventDefault(); });
+
+  const links = [...toc.querySelectorAll('a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    let i = 0;
+    targets.forEach((t, k) => { if (t.getBoundingClientRect().top < 140) i = k; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) i = targets.length - 1;
+    links.forEach((a, k) => a.toggleAttribute('aria-current', k === i));
+  };
+  addEventListener('scroll', mark, {passive:true}); mark();
+
+  const btn = document.getElementById('cite-copy');
+  btn.addEventListener('click', () => {
+    const text = document.getElementById('cite-text').textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(
+      () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy citation', 2000); },
+      () => { btn.textContent = 'Select the text above to copy'; });
+  });
+})();
+</script>
 <script>
 (function(){
   // Rink coords in feet: x across (0 = net center), y out from goal line. SVG y = 42 - y.
