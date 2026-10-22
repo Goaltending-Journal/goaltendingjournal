@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coaches · The Goaltending Research Journal</title>
+<meta name="description" content="Resources for coaches from The Goaltending Research Journal: research on skill acquisition, ecological dynamics and practice design.">
+<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Teko:wght@500;600&display=swap">
+<link rel="stylesheet" href="site-nav.css">
+<style>
+/* Layout: same top bar, masthead and running-head sections as conference.html. The research list styles came from index.html. */
+:root {
+  --bg: #fbfdff;
+  --surface: #eff6fc;
+  --fg: #12202e;
+  --muted: #53667a;
+  --rule: #d5e1ec;
+  --accent: #1a67a3;
+  --accent-soft: #e1f0fb;
+  --series-b: #a9c0d6;
+  --field-line: #b9c9d9;
+  /* Masthead glow: edit these to change the ice-blue effect */
+  --mast-a: #f6fbff;
+  --mast-b: #dcedfa;
+  --h1-hover: #0f6cb5;
+  --glow-text: 0 0 14px rgba(96, 180, 240, 0.55), 0 0 38px rgba(126, 205, 255, 0.45);
+  --glow-text-hover: 0 0 8px rgba(70, 200, 255, 0.85), 0 0 26px rgba(40, 160, 255, 0.65), 0 0 60px rgba(120, 225, 255, 0.55);
+  --glow-spot: rgba(110, 195, 255, 0.42);
+  --glow-edge: rgba(60, 170, 255, 0.35);
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Teko", "Barlow Condensed", "Arial Narrow", sans-serif;   /* titles and section heads, the same face on every page */
+  --r: 3px;
+  --nav-h: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
+    --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+    --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+    --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+    --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
+  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
+  --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
+  --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
+  --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
+  --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--accent-soft); }
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+.item h3, .news h3 { text-wrap: pretty; }
+button, input, select { font-family: var(--sans); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+
+/* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
+.masthead {
+  position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; isolation: isolate;
+  background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
+  transition: border-color 0.45s ease, box-shadow 0.45s ease;
+}
+.masthead > * { position: relative; z-index: 2; max-width: 760px; }
+.masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
+.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(42px, 6.6vw, 68px); line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase; text-shadow: var(--glow-text); cursor: default; }
+.masthead h1 .wd { display: inline-block; white-space: nowrap; }
+.masthead h1 .ch { display: inline-block; color: inherit; text-shadow: var(--glow-text); transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
+.masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
+.masthead > .logo { position: absolute; z-index: 1; top: 50%; right: 56px; width: 168px; height: 168px; max-width: none; transform: translateY(-58%); object-fit: contain; pointer-events: none; user-select: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); } }
+:root[data-theme="dark"] .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); }
+.masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
+.masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
+.facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .masthead, .masthead h1 .ch { transition: none; }
+}
+/* Sections */
+.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
+.sec:first-of-type { border-top: 0; padding-top: 56px; }
+.sec.slim { padding-block: 48px; }
+.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
+.sec-head h2 { font-family: var(--display); font-weight: 600; font-size: 28px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
+.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+.sec-body { min-width: 0; }
+/* Research list: newest first, filtered by tag */
+.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 13px; line-height: 1; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.filter-row { margin: 0 0 24px; }
+.empty { padding: 32px 16px; color: var(--muted); font-family: var(--sans); }
+.news-list { display: grid; border-top: 1px solid var(--rule); }
+.news { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 4px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.news .dt { font: 500 13px var(--sans); font-variant-numeric: tabular-nums; color: var(--muted); padding-top: 4px; }
+.news h3 { font-size: 18px; line-height: 1.3; }
+.news p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+.cite { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+.news .kind { color: var(--accent); font-weight: 500; }
+.news-more { margin-top: 18px; font: 14px var(--sans); }
+.news-more button { padding: 9px 16px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
+.news-more button:hover { border-color: var(--accent); }
+.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
+footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
+@media (max-width: 880px) {
+  body { font-size: 16px; }
+  .masthead { padding: 88px 22px 24px; margin-block-start: 20px; }
+  .masthead > .logo { top: 20px; right: 22px; width: 52px; height: 52px; transform: none; }
+  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
+  .sec:first-of-type { padding-top: 40px; }
+  .sec-head { position: static; }
+}
+@media (max-width: 640px) {
+  .news { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="26" height="26">The Goaltending Research Journal</a>
+    <nav aria-label="Main" id="nav">
+      <a href="box-control.html">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="coaches.html" aria-current="page">Coaches</a>
+      <a href="conference.html">Conference</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <header class="masthead">
+    <img class="logo" src="logo.svg" alt="" width="168" height="168" decoding="async">
+    <h1>Coaches</h1>
+    <p>Resources for coaches on how athletes learn and how to design practice. Most of it is not goalie-specific.</p>
+  </header>
+
+  <section class="sec" id="skill-acquisition" aria-labelledby="h-sa">
+    <div class="sec-head">
+      <h2 id="h-sa">Ecological dynamics and skill acquisition</h2>
+      <p class="sub">Recent research on how athletes learn and adapt, from ecological dynamics, the constraints-led approach and motor learning. Most is not about goaltending; it is background for coaches and researchers.</p>
+      <p class="stamp">Updated <span id="research-updated"></span></p>
+    </div>
+    <div class="sec-body">
+      <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
+      <div class="news-list" id="research-list"></div>
+      <div class="news-more" id="research-more"></div>
+      <p class="note" id="research-links"></p>
+    </div>
+  </section>
+
+  <footer>
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
+    <span>Built by GoldyDev</span>
+  </footer>
+</main>
+
+<script src="research.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+/* Research feed (items live in research.js) */
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmtDate = (d) => { const [y, m, dd] = String(d).split("-").map(Number); return dd ? `${dd} ${MON[m - 1]} ${y}` : ""; };
+const moreButton = (box, id, total, shown, show, onToggle) => {
+  box.innerHTML = total > show ? `<button type="button" id="${id}" aria-expanded="${shown}">${shown ? "Show fewer" : `Show all ${total} items`}</button>` : "";
+  const b = document.getElementById(id);
+  if (b) b.addEventListener("click", () => { onToggle(); document.getElementById(id).focus(); });
+};
+function filterChips(box, options, current, onPick) {
+  box.innerHTML = options.map(([k, n]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="${k === current}">${esc(n)}</button>`).join("");
+  box.onclick = (e) => { const b = e.target.closest("button[data-k]"); if (b) onPick(b.dataset.k); };
+}
+
+(function research() {
+  const list = (typeof RESEARCH !== "undefined" ? RESEARCH.slice() : []).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0));
+  const TAGS = { ed: "Ecological dynamics", sa: "Skill acquisition" };
+  $("research-updated").textContent = typeof RESEARCH_UPDATED !== "undefined" ? RESEARCH_UPDATED : "";
+  const pm = (s) => "https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=" + encodeURIComponent(s);
+  $("research-links").innerHTML = "Search for more: " + [
+    ["PubMed: ecological dynamics", pm('"ecological dynamics"')],
+    ["PubMed: constraints-led approach", pm('"constraints-led approach"')],
+    ["PubMed: skill acquisition in sport", pm('"skill acquisition" AND sport')],
+    ["Google Scholar", "https://scholar.google.com/scholar?q=%22ecological+dynamics%22+%22skill+acquisition%22&as_ylo=2026"]
+  ].map(([n, u]) => `<a href="${esc(u)}" rel="noopener">${esc(n)}</a>`).join(" · ");
+  if (!list.length) { $("research-list").innerHTML = `<p class="empty">No research items yet.</p>`; $("research-filter").innerHTML = ""; return; }
+  const SHOW = 6;
+  let tag = "all", all = false;
+  function paint() {
+    const rows = list.filter((r) => tag === "all" || (r.tg || []).includes(tag));
+    const shown = all ? rows : rows.slice(0, SHOW);
+    filterChips($("research-filter"), [["all", "All"], ["ed", TAGS.ed], ["sa", TAGS.sa]], tag, (k) => { tag = k; all = false; paint(); });
+    $("research-list").innerHTML = rows.length ? shown.map((r) => {
+      const href = r.doi ? "https://doi.org/" + r.doi : r.u;
+      const title = href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
+      const tags = (r.tg || []).map((k) => TAGS[k]).filter(Boolean);
+      return `<article class="news"><div class="dt">${esc(fmtDate(r.d))}</div><div><h3>${title}</h3>` +
+        (r.n ? `<p>${esc(r.n)}</p>` : "") +
+        `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}${tags.length ? ` · <span class="kind">${esc(tags.join(", "))}</span>` : ""}</div></div></article>`;
+    }).join("") : `<p class="empty">No items match this filter.</p>`;
+    moreButton($("research-more"), "research-toggle", rows.length, all, SHOW, () => { all = !all; paint(); });
+  }
+  paint();
+})();
+/* Hide the "Updated" stamp when the list has no date */
+if (!$("research-updated").textContent) $("research-updated").parentElement.hidden = true;
+</script>
+</body>
+</html>

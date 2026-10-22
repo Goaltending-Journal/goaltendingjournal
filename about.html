@@ -173,10 +173,10 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   <div class="site-bar">
     <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="26" height="26">The Goaltending Research Journal</a>
     <nav aria-label="Main" id="nav">
-      <a href="index.html#articles">Articles</a>
-      <a href="conference.html">Conference</a>
-      <a href="goalies.html">NHL Stats</a>
       <a href="box-control.html">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="coaches.html">Coaches</a>
+      <a href="conference.html">Conference</a>
       <a href="about.html" aria-current="page">About</a>
     </nav>
   </div>
@@ -207,9 +207,9 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
     <div class="sec-body">
       <dl class="info">
-        <div><dt><a href="index.html#by-year">Research Tracker</a></dt><dd>A working bibliography of <b id="n-rec"></b> goaltending and hockey studies, searchable by topic, decade and scope.</dd></div>
-        <div><dt><a href="index.html#clothesline">Daily reading</a></dt><dd>New articles on goaltending, ecological dynamics and skill acquisition, hung on the clothesline at the top of the home page and refreshed each day.</dd></div>
-        <div><dt><a href="index.html#skill-acquisition">Skill acquisition</a></dt><dd>Recent research on how athletes learn and adapt, as background for coaches and researchers.</dd></div>
+        <div><dt><a href="index.html#articles">Goaltending Research</a></dt><dd>A working bibliography of <b id="n-rec"></b> goaltending and hockey studies, searchable by topic, decade and scope.</dd></div>
+        <div><dt><a href="index.html#ticker">Latest studies</a></dt><dd>New articles on goaltending, ecological dynamics and skill acquisition, in the ticker at the top of the home page and refreshed each day.</dd></div>
+        <div><dt><a href="coaches.html">Coaches</a></dt><dd>Recent research on how athletes learn and adapt, from ecological dynamics and skill acquisition, as background for coaches.</dd></div>
         <div><dt><a href="goalies.html">NHL Stats</a></dt><dd>Every NHL goaltender's numbers across three seasons, with save % ranges that show how sure we can be.</dd></div>
         <div><dt><a href="box-control.html">Briefs</a></dt><dd>Research to Practice briefs that turn a study into practice-planning ideas for coaches, starting with box control under fatigue and its interactive explainer.</dd></div>
       </dl>
@@ -296,16 +296,14 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
   <footer>
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span>Data last updated <span id="updated-foot"></span> · Today is <time data-today></time></span>
+    <span>Built by GoldyDev</span>
   </footer>
 </main>
 
-<script src="today.js"></script>
 <script src="data.js"></script>
 <script src="journals-data.js"></script>
 <script>
 document.getElementById("n-rec").textContent = REC.length;
-document.getElementById("updated-foot").textContent = UPDATED;
 
 /* Sources: the open-access journal list, a page at a time */
 (function sources() {

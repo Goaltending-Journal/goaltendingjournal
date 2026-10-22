@@ -316,9 +316,11 @@ tbody tr:last-child td{border-bottom:0}
 .nst-tbl tbody tr:hover td:first-child,.nst-tbl tbody tr.on td:first-child{background:var(--glass)}
 @media (max-width:520px){ .gm-side .bar i{display:none} .gm-side .mini th,.gm-side .mini td{padding:8px 6px} .tyrow{grid-template-columns:90px minmax(0,1fr) 30px} #gmGoalie,#dzGoalie{max-width:180px} .zone-top .seg button{padding:6px 10px} }
 
-footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-footer h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-footer p{margin:0 0 6px;max-width:60ch}
+.notes{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.notes h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.notes p{margin:0 0 6px;max-width:60ch}
+/* Site footer: the same line on every page */
+.site-foot{margin-top:40px;border-top:1px solid var(--line);padding-top:24px;color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between}
 
 @media (max-width:960px){
   .hero{grid-template-columns:1fr}
@@ -343,10 +345,10 @@ footer p{margin:0 0 6px;max-width:60ch}
   <div class="site-bar">
     <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="26" height="26">The Goaltending Research Journal</a>
     <nav aria-label="Main" id="nav">
-      <a href="index.html#articles">Articles</a>
-      <a href="conference.html">Conference</a>
-      <a href="goalies.html" aria-current="page">NHL Stats</a>
       <a href="box-control.html">Briefs</a>
+      <a href="goalies.html" aria-current="page">NHL Goalies</a>
+      <a href="coaches.html">Coaches</a>
+      <a href="conference.html">Conference</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -482,7 +484,12 @@ footer p{margin:0 0 6px;max-width:60ch}
   </section>
 
 
-  <footer id="foot"></footer>
+  <section class="notes" id="foot" aria-label="About this data"></section>
+
+  <footer class="site-foot">
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
+    <span>Built by GoldyDev</span>
+  </footer>
 </main>
 
 <div class="tip" id="tip" hidden></div>
@@ -914,8 +921,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 $("#foot").innerHTML = `
   <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for Where goals go in: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
-  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to InGoal Magazine and PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>
-  <div><h4>Today</h4><p><time data-today></time></p></div>`;
+  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to InGoal Magazine and PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
 function renderAll(){
   renderSeg();
@@ -1054,7 +1060,6 @@ let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCha
 })();
 </script>
 <script src="goalies-advanced.js"></script>
-<script src="today.js"></script>
 
 </body>
 </html>

@@ -6,7 +6,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The home page: the Research Tracker (year chart, filters and the paper table, with CSV export) and the Ecological dynamics and skill acquisition list. |
+| `index.html` | The home page: the GRJ splash, the Latest studies ticker and the Goaltending Research database (year chart, filters and the paper table, with CSV export). |
+| `coaches.html` | The Coaches page: the Ecological dynamics and skill acquisition list, for coaches looking for non-goalie-specific practice design research. |
 | `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
 | `data.js` | The research data: every article and the "last updated" date. |
 | `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
@@ -21,13 +22,12 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `box-control.html` | Brief 1 (Research to Practice): box control under fatigue, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
 | `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
 | `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
-| `today.js` | Fills in today's date in each page footer, in the visitor's own time zone. |
 | `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
 | `build_uncertainty_data.py` | Rebuilds `goalies-uncertainty-data.js` from `goalies-data.js` and the Natural Stat Trick table in `data/nst/`: `python build_uncertainty_data.py`. The morning stats workflow runs it after both are refreshed. Checks: `python analysis/validate_uncertainty.py`. |
 | `clothesline.js` | The articles shown in the Latest research ticker under the masthead on the home page. |
 | `fetch_clothesline.py` | The research bot that updates `clothesline.js` (OpenAlex research and researcher feeds, plus Claude web research when an API key is set). |
 | `.github/workflows/update-clothesline.yml` | Optional: lets GitHub run the research bot every day. |
-| `research.js` | The list for the Ecological dynamics and skill acquisition research section. |
+| `research.js` | The list for the Ecological dynamics and skill acquisition section on the Coaches page. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
 | `fetch_research.py` | Optional helper that adds recent articles to `research.js` using OpenAlex (no key needed). |
@@ -57,7 +57,7 @@ Double-click `index.html`. It opens in your browser. Fonts load from Google Font
 | `pmid` | PubMed ID as text, or `null`. |
 | `link` | Web address for items with no DOI or PubMed ID, such as theses. Otherwise `null`. |
 | `sc` | `"goaltending"` or `"hockey-wide"`. |
-| `qe` | `true` if it is a Quiet Eye study. These are tagged Quiet Eye in the Research Tracker table. |
+| `qe` | `true` if it is a Quiet Eye study. These are tagged Quiet Eye in the Goaltending Research table. |
 | `tp` | Topic tags, from: `hip`, `inj`, `eq`, `vis`, `phy`, `bio`, `psy`. |
 | `nt` | A short note shown as a tag, such as `"in Finnish"`. Otherwise `""`. |
 | `sn`, `nodoi` | Optional notes that are not shown on the page. |
@@ -97,7 +97,7 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. Not tested against the live services, so check the first run in the Actions tab.
 
-**Other wording.** The notes under the Research Tracker, the menu and the masthead text are plain HTML in `index.html`; the Virtual Conference details are in `conference.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
+**Other wording.** The notes under the Goaltending Research, the menu and the masthead text are plain HTML in `index.html`; the Virtual Conference details are in `conference.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
 
 ## Publishing the site
 
@@ -117,6 +117,6 @@ To update later, open `data.js` in the repository, click the pencil icon, edit, 
 
 - Fill in or remove the Peers and Virtual Conference placeholders. They currently say "To be announced".
 - Add a contact address so readers and authors can reach the journal.
-- Check the "About these records" note under the Research Tracker.
+- Check the "About these records" note under the Goaltending Research.
 
 **Latest research ticker (research bot).** The scrolling ticker under the masthead reads `clothesline.js`: one article per line with a date, title, link, journal or publisher, and topic (`dev`, `train`, `coaching`, `stats`, `bio`, `ed` for ecological dynamics or `sa` for skill acquisition; each topic has its own label colour in the ticker). Add one by hand with `"m": true` to keep it permanently. The research bot, `fetch_clothesline.py`, focuses on evidence-based work: it searches OpenAlex (peer-reviewed research) for each topic and for the researchers listed in `WATCH_AUTHORS` (Rob Gray, Duarte Araújo, Keith Davids, Andrew D. Wilson and others), and reads the Perception & Action and Emergence feeds. InGoal Magazine is blocked (`BLOCKED`). If a repository secret named `ANTHROPIC_API_KEY` is set, Claude also searches the web for research on each topic and drops news, magazines and blogs; without a key, a keyword filter is used. Run `python3 fetch_clothesline.py` to preview and `--write` to update. `.github/workflows/update-clothesline.yml` runs it every day and commits the result (needs Read and write workflow permissions, as above). The line pauses when the pointer is over it, has a Pause button, and stays still for visitors who have reduced motion turned on.
