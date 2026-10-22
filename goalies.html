@@ -6,7 +6,7 @@
 <title>Goalie Analyst · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#e8f5ee" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0b1713" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -16,10 +16,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Teko:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
-/* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses the front page's dark palette. */
+/* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses a deep jade with the front page's text and accent colours. */
 :root{
   color-scheme: light;
   --ice: #e8f5ee;          /* page ground: light jade */
@@ -50,24 +51,24 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+    --ice: #0b1713; --boards: #11211b; --glass: #182d25; --line: #233a31;
     --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
     --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --mast-a: #10231c; --mast-b: #0b2b21; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-    --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
-    --z-none: #151d27; --z-hatch: #2b3442;
+    --z-lo: #182d25; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #283f35; --z-good: #86c5f4;
+    --z-none: #11211b; --z-hatch: #283f35;
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+  --ice: #0b1713; --boards: #11211b; --glass: #182d25; --line: #233a31;
   --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
   --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --mast-a: #10231c; --mast-b: #0b2b21; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-  --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
-  --z-none: #151d27; --z-hatch: #2b3442;
+  --z-lo: #182d25; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #283f35; --z-good: #86c5f4;
+  --z-none: #11211b; --z-hatch: #283f35;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}
@@ -316,9 +317,11 @@ tbody tr:last-child td{border-bottom:0}
 .nst-tbl tbody tr:hover td:first-child,.nst-tbl tbody tr.on td:first-child{background:var(--glass)}
 @media (max-width:520px){ .gm-side .bar i{display:none} .gm-side .mini th,.gm-side .mini td{padding:8px 6px} .tyrow{grid-template-columns:90px minmax(0,1fr) 30px} #gmGoalie,#dzGoalie{max-width:180px} .zone-top .seg button{padding:6px 10px} }
 
-footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-footer h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-footer p{margin:0 0 6px;max-width:60ch}
+.notes{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.notes h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.notes p{margin:0 0 6px;max-width:60ch}
+/* Site footer: the same line on every page */
+.site-foot{margin-top:40px;border-top:1px solid var(--line);padding-top:24px;color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between}
 
 @media (max-width:960px){
   .hero{grid-template-columns:1fr}
@@ -343,10 +346,10 @@ footer p{margin:0 0 6px;max-width:60ch}
   <div class="site-bar">
     <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="26" height="26">The Goaltending Research Journal</a>
     <nav aria-label="Main" id="nav">
-      <a href="index.html#articles">Articles</a>
-      <a href="conference.html">Conference</a>
-      <a href="goalies.html" aria-current="page">NHL Stats</a>
       <a href="box-control.html">Briefs</a>
+      <a href="goalies.html" aria-current="page">NHL Goalies</a>
+      <a href="coaches.html">Coaches</a>
+      <a href="conference.html">Conference</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -482,7 +485,12 @@ footer p{margin:0 0 6px;max-width:60ch}
   </section>
 
 
-  <footer id="foot"></footer>
+  <section class="notes" id="foot" aria-label="About this data"></section>
+
+  <footer class="site-foot">
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
+    <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
+  </footer>
 </main>
 
 <div class="tip" id="tip" hidden></div>
@@ -914,8 +922,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 $("#foot").innerHTML = `
   <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for Where goals go in: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
-  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to InGoal Magazine and PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>
-  <div><h4>Today</h4><p><time data-today></time></p></div>`;
+  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to InGoal Magazine and PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
 function renderAll(){
   renderSeg();
@@ -926,6 +933,8 @@ $("#gfx").checked=state.gfx;
 fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
+/* Redraw with the new colours when the footer switch changes light/dark */
+addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="function") renderGoalMap(); dispatchEvent(new Event("resize")); });
 
 /* ---------- leaderboard (this season, from the play-by-play daily counts in goal-map-data.js) ---------- */
 (function leaderboard(){
@@ -1054,7 +1063,6 @@ let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCha
 })();
 </script>
 <script src="goalies-advanced.js"></script>
-<script src="today.js"></script>
 
 </body>
 </html>

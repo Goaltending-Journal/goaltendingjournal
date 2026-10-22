@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Teko:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
 <style>
 /* Layout: Research to Practice Brief 1. Site top bar, then the brief in one reading column, with the interactive rink (diagram left, readout right) full width after the findings. Colours match goalies.html. */
 :root{
@@ -186,9 +187,10 @@ sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
 .next span{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
 .next b{font-family:var(--f-display);font-size:24px;font-weight:600;text-transform:uppercase;line-height:1.1}
 .next em{font-style:normal;font-size:12px;color:var(--mute);white-space:nowrap}
-footer{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;max-width:1040px;margin:48px auto 0}
-footer p{margin:0;max-width:75ch}
-footer p+p{margin-top:8px}
+.endnote{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;max-width:1040px;margin:48px auto 0}
+.endnote p{margin:0;max-width:75ch}
+/* Site footer: the same line on every page */
+.site-foot{max-width:1040px;margin:40px auto 0;border-top:1px solid var(--line);padding-top:24px;color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between}
 </style>
 </head>
 <body>
@@ -198,10 +200,10 @@ footer p+p{margin-top:8px}
   <div class="site-bar">
     <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="26" height="26">The Goaltending Research Journal</a>
     <nav aria-label="Main" id="nav">
-      <a href="index.html#articles">Articles</a>
-      <a href="conference.html">Conference</a>
-      <a href="goalies.html">NHL Stats</a>
       <a href="box-control.html" aria-current="page">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="coaches.html">Coaches</a>
+      <a href="conference.html">Conference</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -409,9 +411,13 @@ footer p+p{margin-top:8px}
   </div>
 </main>
 
-<footer><p>Research to Practice briefs turn goaltending studies into practice-planning ideas. Each one keeps what a study found separate from coaching ideas it did not test. The rink geometry in the explainer (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration; the study does not publish per-puck values.</p><p class="today">Today is <time data-today></time></p></footer>
+<aside class="endnote"><p>Research to Practice briefs turn goaltending studies into practice-planning ideas. Each one keeps what a study found separate from coaching ideas it did not test. The rink geometry in the explainer (net 6 ft wide, goalie on the line from the puck to the centre of the net, box shrinking toward the puck) is our own illustration; the study does not publish per-puck values.</p></aside>
 
-<script src="today.js"></script>
+<footer class="site-foot">
+  <span>The Goaltending Research Journal. Copyright 2027.</span>
+  <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
+</footer>
+
 <script>
 // Brief chrome: reading progress bar, "On this page" highlight, contents list open on wide screens, copy citation.
 (function(){
