@@ -38,7 +38,8 @@ STRENGTHS = ["5v5", "Power play", "Short-handed", "4v4 / 3v3"]
 HEADER = ("/* Shots on goal faced by each NHL goalie this season, from the NHL play-by-play feed (api-web.nhle.com).\n"
           "   Rebuilt by build_goal_map.py; shown in the goals heat map on goalies.html.\n"
           "   x: feet from centre ice toward the goal (goal line at 89). y: feet across the ice, positive on the left as drawn.\n"
-          "   Each shot: [goalie index, x, y, goal 0/1, strength index, shot type index]; a goal adds [shooter, date index, period, time]. */\n")
+          "   Each shot: [goalie index, x, y, goal 0/1, strength index, shot type index]; a goal adds [shooter, date index, period, time].\n"
+          "   daily: for each goalie index, [date index, shots on goal, goals] for every date they faced a shot (the NHL Stats leaderboard). */\n")
 
 
 def get(url):
@@ -143,6 +144,7 @@ def write_js(games, season_label, today):
         for pid, info in g["goalies"].items():
             latest[int(pid)] = info
     shooters, shooter_idx = [], {}
+    daily = {}  # (goalie index, date index) -> [shots, goals]
     for g in order:
         if not dates or dates[-1] != g["date"]:
             dates.append(g["date"])
@@ -161,11 +163,17 @@ def write_js(games, season_label, today):
                     shooters.append(s.get("by", ""))
                 row += [shooter_idx[s.get("by", "")], di, s.get("p") or 0, s.get("at", "")]
             rows.append(row)
+            day = daily.setdefault((goalie_idx[gid], di), [0, 0])
+            day[0] += 1
+            day[1] += s["goal"]
+    by_goalie = [[] for _ in goalie_list]
+    for (gi, di), (n, ga) in sorted(daily.items()):
+        by_goalie[gi].append([di, n, ga])
     data = {
         "season": season_label, "asOf": today.isoformat(), "games": len(order),
         "from": dates[0] if dates else "", "to": dates[-1] if dates else "",
         "dates": dates, "strengths": STRENGTHS, "shotTypes": SHOT_TYPES,
-        "goalies": goalie_list, "shooters": shooters, "shots": rows,
+        "goalies": goalie_list, "shooters": shooters, "daily": by_goalie, "shots": rows,
     }
     body = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     body = body.replace('"shots":[[', '"shots":[\n[').replace("],[", "],\n[") if rows else body

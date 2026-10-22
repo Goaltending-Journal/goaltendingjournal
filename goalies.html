@@ -114,6 +114,45 @@ h1 span{color:var(--fog)}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
+
+/* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).
+   Five leaders get a validated categorical colour that stays with the goalie; the rest of the top 10 are drawn in a quiet grey. */
+.lb-card{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 14px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:10px 24px}
+.lb-card{--s1:#2a78d6;--s2:#e86a1a;--s3:#1f9e6e;--s4:#6250d6;--s5:#c2389b;--s-rest:#a5b7c4}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .lb-card{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#9085e9;--s5:#d55181;--s-rest:#4a5869} }
+:root[data-theme="dark"] .lb-card{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#9085e9;--s5:#d55181;--s-rest:#4a5869}
+.lb-top{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-start;gap:10px 16px;flex-wrap:wrap}
+.lb-top h3{margin:0;font-size:15px;font-weight:700}
+.lb-top p{margin:2px 0 0;color:var(--fog);font-size:12.5px;max-width:70ch}
+.lb-range{display:inline-flex;align-items:center;gap:2px;background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lb-range button{width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:var(--chalk);cursor:pointer;font-size:15px;line-height:1}
+.lb-range button:hover:not(:disabled){background:var(--boards)}
+.lb-range button:disabled{opacity:.35;cursor:default}
+.lb-range b{min-width:96px;text-align:center;font-size:12.5px;font-weight:700}
+.lb-plot{position:relative;min-width:0}
+.lb-plot svg{display:block;width:100%;height:auto;overflow:visible}
+.lb-plot .ax{fill:var(--mute);font-size:11px;font-family:var(--f-body)}
+.lb-plot .gl{stroke:var(--line);stroke-width:1}
+.lb-plot .gl.zero{stroke:var(--fog);stroke-opacity:.55}
+.lb-plot .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;transition:opacity .15s}
+.lb-plot .ln.rest{stroke:var(--s-rest);stroke-width:1.5}
+.lb-plot.focus .ln:not(.on){opacity:.18}
+.lb-plot .lab{font-size:11.5px;font-weight:600;fill:var(--chalk);font-family:var(--f-body)}
+.lb-plot .xh{stroke:var(--fog);stroke-width:1;stroke-dasharray:3 3}
+.lb-plot .dot{stroke:var(--boards);stroke-width:2}
+.lb-list{list-style:none;margin:0;padding:0;display:grid;align-content:start;border-left:1px solid var(--line);padding-left:18px}
+.lb-list li{display:grid;grid-template-columns:22px 10px minmax(0,1fr) auto 12px;align-items:center;gap:8px;padding:7px 6px;margin-inline:-6px;border-radius:8px;cursor:pointer}
+.lb-list li:hover,.lb-list li:focus-visible,.lb-list li.on{background:var(--glass)}
+.lb-list .rk{color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums;text-align:right}
+.lb-list i{width:10px;height:10px;border-radius:3px;display:block}
+.lb-list .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;font-size:13px}
+.lb-list .nm small{font-weight:500;color:var(--mute);margin-left:6px;font-size:11.5px}
+.lb-list b{font-family:var(--f-data);font-size:12.5px;font-weight:500}
+.lb-list .go{color:var(--mute);font-size:13px}
+.lb-foot{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:10px}
+.lb-foot a{font-weight:600}
+@media (max-width:960px){ .lb-card{grid-template-columns:minmax(0,1fr)} .lb-list{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:8px} }
+
 /* leaders */
 .leaders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .lead{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -325,6 +364,19 @@ footer p{margin:0 0 6px;max-width:60ch}
   <section>
     <div class="sec-h"><div class="sec-l"><h2>League leaders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="leadNote"></span></div>
     <div class="leaders" id="leaders" style="margin-top:14px"></div>
+  </section>
+
+  <section id="lbSec">
+    <div class="sec-h"><div class="sec-l"><h2>Leaderboard</h2><div class="seg" role="group" aria-label="Leaderboard measure" id="lbMetric"></div></div><span class="note" id="lbNote"></span></div>
+    <div class="lb-card" style="margin-top:14px">
+      <div class="lb-top">
+        <div><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
+        <div class="lb-range" role="group" aria-label="Date range"><button type="button" id="lbPrev" aria-label="Shorter range">‹</button><b id="lbRange" aria-live="polite"></b><button type="button" id="lbNext" aria-label="Longer range">›</button></div>
+      </div>
+      <div class="lb-plot" id="lbPlot"></div>
+      <ol class="lb-list" id="lbList"></ol>
+      <div class="lb-foot"><span id="lbFoot"></span><a href="#tbl">View all goaltenders ›</a></div>
+    </div>
   </section>
 
   <section id="gmSec">
@@ -873,6 +925,132 @@ $("#gfx").checked=state.gfx;
 fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
+
+/* ---------- leaderboard (this season, from the play-by-play daily counts in goal-map-data.js) ---------- */
+(function leaderboard(){
+  const GM = window.GOAL_MAP;
+  if(!GM || !GM.daily || !GM.dates.length){ $("#lbSec").hidden = true; return; }
+  const METRICS = [
+    {k:"gsaa", t:"Goals saved", title:"Goals saved above average", sub:"Saves minus what a league-average goalie would have saved on the same shots, added up day by day. Above zero is better than average.", f:v=>(v>0?"+":"")+v.toFixed(1)},
+    {k:"sv", t:"Saves", title:"Saves", sub:"Shots on goal stopped, added up day by day.", f:v=>Math.round(v).toLocaleString()},
+    {k:"svp", t:"Save %", title:"Save %", sub:"Save % to date. Ranked among goalies who faced at least a set number of shots in the range.", f:v=>fmtSv(v)}
+  ];
+  const RANGES = [{d:7,t:"Last 7 days"},{d:14,t:"Last 14 days"},{d:0,t:"Season"}];
+  const SLOTS = 5, TOP = 10;
+  const lb = {m: store.get("lbM","gsaa"), r: store.get("lbR",2), focus:null};
+  if(!METRICS.some(m=>m.k===lb.m)) lb.m="gsaa";
+  if(!(lb.r>=0 && lb.r<RANGES.length)) lb.r=2;
+  const slotOf = new Map();   // goalie id -> colour slot, kept while the goalie stays among the leaders
+  const N = GM.dates.length;
+  const day = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US",{month:"short",day:"numeric"}); };
+
+  function compute(){
+    const R = RANGES[lb.r];
+    const from = R.d ? Math.max(0, N - R.d) : 0;
+    const len = N - from;
+    let ls=0, lg=0;
+    GM.daily.forEach(d=>d.forEach(([di,n,g])=>{ if(di>=from){ ls+=n; lg+=g; } }));
+    const lsv = ls ? 1 - lg/ls : 0;
+    const minShots = R.d===7 ? 40 : R.d===14 ? 80 : 150;
+    const out = GM.goalies.map(([id,name,team],gi)=>{
+      const shots=new Array(len).fill(0), goals=new Array(len).fill(0);
+      GM.daily[gi].forEach(([di,n,g])=>{ if(di>=from){ shots[di-from]+=n; goals[di-from]+=g; } });
+      let cs=0, cg=0; const pts=[];
+      for(let i=0;i<len;i++){
+        cs+=shots[i]; cg+=goals[i];
+        const v = lb.m==="gsaa" ? (cs-cg) - cs*lsv : lb.m==="sv" ? cs-cg : (cs ? 1-cg/cs : null);
+        pts.push(cs ? v : (lb.m==="svp" ? null : 0));
+      }
+      return {id,name,team,shots:cs,goals:cg,pts,val:pts[len-1]};
+    }).filter(r=>r.shots>0 && (lb.m!=="svp" || r.shots>=minShots));
+    out.sort((a,b)=>b.val-a.val || b.shots-a.shots);
+    return {rows:out.slice(0,TOP), from, len, lsv, minShots, R};
+  }
+  function assignSlots(rows){
+    const lead = rows.slice(0,SLOTS).map(r=>r.id);
+    [...slotOf.keys()].forEach(id=>{ if(!lead.includes(id)) slotOf.delete(id); });
+    lead.forEach(id=>{ if(!slotOf.has(id)){ const used=new Set(slotOf.values()); for(let s=1;s<=SLOTS;s++) if(!used.has(s)){ slotOf.set(id,s); break; } } });
+  }
+  const col = id => slotOf.has(id) ? `var(--s${slotOf.get(id)})` : "var(--s-rest)";
+
+  function render(){
+    const M = METRICS.find(m=>m.k===lb.m), C = compute();
+    $("#lbMetric").innerHTML = METRICS.map(m=>`<button type="button" data-k="${m.k}" aria-pressed="${m.k===lb.m}">${m.t}</button>`).join("");
+    $("#lbRange").textContent = C.R.t;
+    $("#lbPrev").disabled = lb.r===0; $("#lbNext").disabled = lb.r===RANGES.length-1;
+    const span = `${day(GM.dates[C.from])} – ${day(GM.dates[N-1])}`;
+    $("#lbTitle").textContent = `${M.title}, ${C.R.t.toLowerCase()}`;
+    $("#lbSub").textContent = M.sub + (lb.m==="svp" ? ` Minimum ${C.minShots} shots.` : "");
+    $("#lbNote").textContent = `${GM.season} regular season · ${span}`;
+    $("#lbFoot").textContent = `League save % in this range: ${fmtSv(C.lsv)} · NHL play-by-play shots on goal, empty nets and shootouts left out · updated ${GM.asOf}`;
+    assignSlots(C.rows);
+    drawPlot(C, M);
+    $("#lbList").innerHTML = C.rows.length ? C.rows.map((r,i)=>`<li tabindex="0" data-id="${r.id}" title="Open ${esc(r.name)}"><span class="rk">${i+1}</span><i style="background:${col(r.id)}"></i><span class="nm">${esc(r.name)}<small>${esc(r.team)}</small></span><b>${M.f(r.val)}</b><span class="go" aria-hidden="true">›</span></li>`).join("")
+      : `<li class="note">No goalie has enough shots in this range yet.</li>`;
+  }
+
+  function drawPlot(C, M){
+    const box=$("#lbPlot"), W=Math.max(320, Math.round(box.getBoundingClientRect().width)||720), H=W<560?240:300;
+    const L=44, Rt=W<560?12:96, T=12, B=26, iw=W-L-Rt, ih=H-T-B;
+    const vals=C.rows.flatMap(r=>r.pts.filter(v=>v!=null));
+    if(!vals.length){ box.innerHTML=""; return; }
+    let lo=Math.min(...vals), hi=Math.max(...vals);
+    if(lb.m!=="svp"){ lo=Math.min(0,lo); hi=Math.max(0,hi); }
+    if(hi===lo){ hi+=1; lo-=1; }
+    const pad=(hi-lo)*.06; lo-=lb.m==="svp"?pad:(lo<0?pad:0); hi+=pad;
+    const nice = (()=>{ const raw=(hi-lo)/4, p=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/p; return (m<1.5?1:m<3?2:m<7?5:10)*p; })();
+    const x = i => L + (C.len<=1 ? iw/2 : i*iw/(C.len-1));
+    const y = v => T + ih - (v-lo)/(hi-lo)*ih;
+    let g="";
+    for(let v=Math.ceil(lo/nice)*nice; v<=hi+1e-9; v+=nice){
+      const zero=Math.abs(v)<1e-9 && lb.m==="gsaa";
+      g+=`<line class="gl${zero?" zero":""}" x1="${L}" x2="${L+iw}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L-8}" y="${y(v)+4}" text-anchor="end">${lb.m==="svp"?fmtSv(v):(Math.abs(v)<1e-9?0:+v.toFixed(nice<1?1:0)).toLocaleString()}</text>`;
+    }
+    const step=Math.max(1,Math.ceil(C.len/(W<560?4:7)));
+    for(let i=0;i<C.len;i+=step) g+=`<text class="ax" x="${x(i)}" y="${H-6}" text-anchor="middle">${day(GM.dates[C.from+i])}</text>`;
+    const path = r => { let d="", pen=false; r.pts.forEach((v,i)=>{ if(v==null){pen=false;return;} d+=(pen?"L":"M")+x(i).toFixed(1)+","+y(v).toFixed(1); pen=true; }); return d; };
+    const order=[...C.rows].reverse();   // leaders drawn last, on top
+    g+=order.map(r=>`<path class="ln${slotOf.has(r.id)?"":" rest"}${lb.focus===r.id?" on":""}" data-id="${r.id}" d="${path(r)}" style="stroke:${col(r.id)}"/>`).join("");
+    if(W>=560){   // direct labels for the coloured leaders, nudged apart
+      const labs=C.rows.filter(r=>slotOf.has(r.id)).map(r=>({r,yy:y(r.val)})).sort((a,b)=>a.yy-b.yy);
+      for(let i=1;i<labs.length;i++) if(labs[i].yy-labs[i-1].yy<14) labs[i].yy=labs[i-1].yy+14;
+      g+=labs.map(o=>`<text class="lab" x="${x(C.len-1)+8}" y="${o.yy+4}">${esc(last(o.r.name))}</text>`).join("");
+    }
+    g+=`<line class="xh" id="lbXh" y1="${T}" y2="${T+ih}" visibility="hidden"/><g id="lbDots"></g><rect id="lbHit" x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent"/>`;
+    box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(M.title)} by day for the top ${C.rows.length} goalies; the ranked list beside the chart has the values">${g}</svg>`;
+    box.classList.toggle("focus", lb.focus!=null && C.rows.some(r=>r.id===lb.focus));
+    const hit=box.querySelector("#lbHit"), xh=box.querySelector("#lbXh"), dots=box.querySelector("#lbDots"), svg=box.querySelector("svg");
+    hit.addEventListener("pointermove", e=>{
+      const pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+      const i=Math.max(0,Math.min(C.len-1,Math.round((p.x-L)/(iw/Math.max(1,C.len-1)))));
+      xh.setAttribute("x1",x(i)); xh.setAttribute("x2",x(i)); xh.setAttribute("visibility","visible");
+      const at=C.rows.filter(r=>r.pts[i]!=null).sort((a,b)=>b.pts[i]-a.pts[i]);
+      dots.innerHTML=at.filter(r=>slotOf.has(r.id)).map(r=>`<circle class="dot" cx="${x(i)}" cy="${y(r.pts[i])}" r="4" fill="${col(r.id)}"/>`).join("");
+      showTip(e, `<b>${day(GM.dates[C.from+i])}</b>`+at.slice(0,6).map(r=>`<div style="display:flex;justify-content:space-between;gap:12px"><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:${col(r.id)}"></i>${esc(last(r.name))}</span><b class="num">${M.f(r.pts[i])}</b></div>`).join(""));
+    });
+    hit.addEventListener("pointerleave", ()=>{ xh.setAttribute("visibility","hidden"); dots.innerHTML=""; tip.hidden=true; });
+  }
+
+  function focus(id){
+    lb.focus=id;
+    $("#lbPlot").classList.toggle("focus", id!=null);
+    $("#lbPlot").querySelectorAll(".ln").forEach(p=>p.classList.toggle("on", +p.dataset.id===id));
+    $("#lbList").querySelectorAll("li[data-id]").forEach(li=>li.classList.toggle("on", +li.dataset.id===id));
+  }
+  $("#lbMetric").addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; lb.m=b.dataset.k; store.set("lbM",lb.m); render(); });
+  $("#lbPrev").addEventListener("click", ()=>{ if(lb.r>0){ lb.r--; store.set("lbR",lb.r); render(); } });
+  $("#lbNext").addEventListener("click", ()=>{ if(lb.r<RANGES.length-1){ lb.r++; store.set("lbR",lb.r); render(); } });
+  const list=$("#lbList");
+  list.addEventListener("pointerover", e=>{ const li=e.target.closest("li[data-id]"); if(li) focus(+li.dataset.id); });
+  list.addEventListener("pointerleave", ()=>focus(null));
+  list.addEventListener("focusin", e=>{ const li=e.target.closest("li[data-id]"); if(li) focus(+li.dataset.id); });
+  list.addEventListener("focusout", ()=>focus(null));
+  const open = li => { const id=+li.dataset.id; if(byId.has(id)) openGoalie(id); };
+  list.addEventListener("click", e=>{ const li=e.target.closest("li[data-id]"); if(li) open(li); });
+  list.addEventListener("keydown", e=>{ const li=e.target.closest("li[data-id]"); if(li && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); open(li); } });
+  render();
+  let w=0; addEventListener("resize", ()=>{ const nw=Math.round($("#lbPlot").getBoundingClientRect().width); if(nw!==w){ w=nw; render(); } });
+})();
 </script>
 <script src="goalies-advanced.js"></script>
 <script src="today.js"></script>
