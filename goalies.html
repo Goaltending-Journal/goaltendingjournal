@@ -6,7 +6,7 @@
 <title>Goalie Analyst · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#e8f5ee" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0b1713" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -20,7 +20,7 @@
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
-/* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses the front page's dark palette. */
+/* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses a deep jade with the front page's text and accent colours. */
 :root{
   color-scheme: light;
   --ice: #e8f5ee;          /* page ground: light jade */
@@ -51,24 +51,24 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+    --ice: #0b1713; --boards: #11211b; --glass: #182d25; --line: #233a31;
     --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
     --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --mast-a: #10231c; --mast-b: #0b2b21; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-    --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
-    --z-none: #151d27; --z-hatch: #2b3442;
+    --z-lo: #182d25; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #283f35; --z-good: #86c5f4;
+    --z-none: #11211b; --z-hatch: #283f35;
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
+  --ice: #0b1713; --boards: #11211b; --glass: #182d25; --line: #233a31;
   --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
   --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --mast-a: #10231c; --mast-b: #0b2b21; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-  --z-lo: #1c2633; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #2b3442; --z-good: #86c5f4;
-  --z-none: #151d27; --z-hatch: #2b3442;
+  --z-lo: #182d25; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #283f35; --z-good: #86c5f4;
+  --z-none: #11211b; --z-hatch: #283f35;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}
