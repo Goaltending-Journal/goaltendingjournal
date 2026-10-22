@@ -6,7 +6,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The page: layout, wording, and sections such as Peers and Virtual Conference. |
+| `index.html` | The home page: the Research Tracker (year chart, filters and the paper table, with CSV export) and the Ecological dynamics and skill acquisition list. |
+| `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
 | `data.js` | The research data: every article and the "last updated" date. |
 | `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
 | `build_journals_data.py` | Rebuilds `journals-data.js` from the DOAJ search API: `python build_journals_data.py`. |
@@ -56,7 +57,7 @@ Double-click `index.html`. It opens in your browser. Fonts load from Google Font
 | `pmid` | PubMed ID as text, or `null`. |
 | `link` | Web address for items with no DOI or PubMed ID, such as theses. Otherwise `null`. |
 | `sc` | `"goaltending"` or `"hockey-wide"`. |
-| `qe` | `true` if it is a Quiet Eye study. These are tagged Quiet Eye in Research Articles. |
+| `qe` | `true` if it is a Quiet Eye study. These are tagged Quiet Eye in the Research Tracker table. |
 | `tp` | Topic tags, from: `hip`, `inj`, `eq`, `vis`, `phy`, `bio`, `psy`. |
 | `nt` | A short note shown as a tag, such as `"in Finnish"`. Otherwise `""`. |
 | `sn`, `nodoi` | Optional notes that are not shown on the page. |
@@ -80,7 +81,7 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Open-access journals.** Run `python build_journals_data.py` to refresh `journals-data.js` from doaj.org. The list appears under Sources on `about.html`.
 
-**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Clicking a year lists that year's records; earlier years are found under Research Articles.
+**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Selecting a year filters the table below it. Clicking a year lists that year's records; earlier years are found under Research Articles.
 
 **NHL goaltending news.** Edit `news.js` by hand: one item per line, newest anywhere (the page sorts by date). Fields are listed at the top of the file. Set `"m": true` on items you add yourself. To collect headlines automatically, run `python3 fetch_news.py` to preview and `python3 fetch_news.py --write` to add them. It reads Google News search results for "NHL goalie", "NHL goaltending" and "NHL goaltender" and keeps your hand-added items. Automatic items have no summary line and link to Google News, which forwards to the publisher.
 
@@ -96,7 +97,7 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. Not tested against the live services, so check the first run in the Actions tab.
 
-**Other wording.** Peers, Virtual Conference, the notes under Research Articles, the menu and the masthead text are plain HTML in `index.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
+**Other wording.** The notes under the Research Tracker, the menu and the masthead text are plain HTML in `index.html`; the Virtual Conference details are in `conference.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
 
 ## Publishing the site
 
@@ -116,6 +117,6 @@ To update later, open `data.js` in the repository, click the pencil icon, edit, 
 
 - Fill in or remove the Peers and Virtual Conference placeholders. They currently say "To be announced".
 - Add a contact address so readers and authors can reach the journal.
-- Check the "About these records" note under Research Articles.
+- Check the "About these records" note under the Research Tracker.
 
 **Clothesline (research bot).** The line of pucks across the top of the page reads `clothesline.js`: one article per line with a date, title, link, journal or publisher, and topic (`dev`, `train`, `coaching`, `stats`, `bio`, `ed` for ecological dynamics or `sa` for skill acquisition; each topic has its own ring colour on the puck). Add one by hand with `"m": true` to keep it permanently. The research bot, `fetch_clothesline.py`, focuses on evidence-based work: it searches OpenAlex (peer-reviewed research) for each topic and for the researchers listed in `WATCH_AUTHORS` (Rob Gray, Duarte Araújo, Keith Davids, Andrew D. Wilson and others), and reads the Perception & Action and Emergence feeds. InGoal Magazine is blocked (`BLOCKED`). If a repository secret named `ANTHROPIC_API_KEY` is set, Claude also searches the web for research on each topic and drops news, magazines and blogs; without a key, a keyword filter is used. Run `python3 fetch_clothesline.py` to preview and `--write` to update. `.github/workflows/update-clothesline.yml` runs it every day and commits the result (needs Read and write workflow permissions, as above). The line pauses when the pointer is over it, has a Pause button, and stays still for visitors who have reduced motion turned on.
