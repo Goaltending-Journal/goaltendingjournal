@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Research bot for the goaltending "clothesline" at the top of index.html.
+"""Research bot for the Latest research ticker under the masthead of index.html.
 
 It looks for recent evidence-based articles on the topics in TOPICS and writes them to clothesline.js,
-which the page shows as post-it notes on a scrolling line.
+which the page shows as a scrolling ticker.
 
 How it works:
   1. Free sources, no key needed: OpenAlex (an index of peer-reviewed research) for each topic and for
@@ -152,7 +152,7 @@ def keyword_filter(items):
 
 
 PROMPT = """You are the research bot for The Goaltending Research Journal, an evidence-based journal about ice
-hockey goaltending. Today is {today}. Find and choose articles for a ticker of post-it notes on the home page,
+hockey goaltending. Today is {today}. Find and choose articles for a research ticker on the home page,
 covering:
 {topics}
 
