@@ -1,4 +1,4 @@
-// Articles for the goaltending "clothesline" across the top of index.html. One post-it note per line.
+// Articles for the Latest research ticker under the masthead of index.html. One ticker item per line.
 // Fields: d = date (YYYY-MM-DD, or "" if unknown), t = title, u = link, s = journal, lab or publisher,
 // tp = topic: "dev" (goalie development), "train" (training), "coaching" (goalie coaching),
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
