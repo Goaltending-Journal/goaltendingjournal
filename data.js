@@ -1,4 +1,4 @@
-// The Goaltending Open Source Journal: article data.
+// The Goaltending Research Journal: article data.
 // Edit this file to add, correct or remove records, then reload index.html. See README.md.
 // Each record is one line of JSON. Keep the commas between lines and the closing bracket.
 

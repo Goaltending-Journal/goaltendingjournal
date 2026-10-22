@@ -130,66 +130,84 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .key i { width: 9px; height: 9px; display: inline-block; }
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
-.year-panel { margin-top: 28px; }
-.year-panel:empty { display: none; }
-.year-head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
-.year-head h3 { font-size: 20px; }
-.year-head .n { font: 14px var(--sans); color: var(--muted); font-weight: 400; margin-left: 10px; }
 
-/* Controls */
-.toolbar { display: grid; grid-template-columns: minmax(200px, 2fr) repeat(3, minmax(120px, 1fr)); gap: 14px 16px; margin-bottom: 26px; }
+/* Research Tracker: the homepage's main section. A year chart that filters the table, a filter sidebar, and a paper table
+   modelled on Elicit's results table (title, authors and journal, then year and source links on one quiet line). */
+.tracker { padding-block: 48px 64px; scroll-margin-top: var(--nav-h); }
+.tr-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; margin-bottom: 18px; }
+.tr-head h2 { font-family: var(--display); font-weight: 600; font-size: 40px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
+.tr-head .sub { max-width: 62ch; }
+.btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
+.btn:hover { border-color: var(--accent); }
+.tr-chart { border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px 12px; background: var(--surface); margin-bottom: 28px; }
+.tr-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+.side { position: sticky; top: calc(var(--nav-h) + 20px); display: grid; gap: 18px; font-family: var(--sans); }
+.side .extra { display: grid; gap: 18px; }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
-.field > label, .lab { font: 500 12.5px var(--sans); color: var(--muted); }
-.field input[type="search"], .field select {
+.field > label, .lab, .group legend, .sort span { font: 500 12.5px var(--sans); color: var(--muted); }
+.field input[type="search"], .field select, .sort select {
   font-size: 14px; color: var(--fg); background-color: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r);
-  height: 40px; padding: 0 12px; width: 100%; min-width: 0; transition: border-color 0.15s ease;
+  height: 38px; padding: 0 12px; width: 100%; min-width: 0; transition: border-color 0.15s ease;
 }
-.field input[type="search"]:hover, .field select:hover { border-color: var(--muted); }
-.field select {
+.field input[type="search"]:hover, .field select:hover, .sort select:hover { border-color: var(--muted); }
+.field select, .sort select {
   appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237b8ba0' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 12px center;
 }
-.toolbar .grow { grid-column: auto; }
-.toolbar .extra { display: contents; }
-.toolbar .foot { grid-column: 1 / -1; display: grid; gap: 8px; }
-.lab-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.group legend { padding: 0; margin-bottom: 6px; }
+.opts { display: grid; gap: 1px; }
+.opt { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 5px 6px; margin-inline: -6px; border-radius: var(--r); font-size: 14px; color: var(--fg); cursor: pointer; }
+.opt:hover { background: var(--accent-soft); }
+.opt input { margin: 0; accent-color: var(--accent); }
+.opt .n { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .more-btn { display: none; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 13px; line-height: 1; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
 .chip:hover { border-color: var(--accent); }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.reset { font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.reset { justify-self: start; font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .filter-row { margin: 0 0 24px; }
-.count { font: 14px var(--sans); color: var(--muted); margin: 0 0 6px; font-variant-numeric: tabular-nums; scroll-margin-top: calc(var(--nav-h) + 16px); }
+.tr-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-bottom: 12px; font-family: var(--sans); }
+.count { font: 14px var(--sans); color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; scroll-margin-top: calc(var(--nav-h) + 16px); }
 .count:focus { outline: none; }
+.active { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+.active button { font: 12.5px var(--sans); color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.active button::after { content: " ×"; }
+.sort { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.sort select { width: auto; height: 34px; font-size: 13.5px; }
 
-/* Lists */
-.results { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-.item { padding-block: 22px; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
-.item h3 { font-size: 19px; font-weight: 600; line-height: 1.3; }
-.item h3 a, .news h3 a { color: var(--fg); text-decoration: none; }
-.item h3 a:hover, .news h3 a:hover { color: var(--accent); text-decoration: underline; }
-.meta { font-size: 15px; color: var(--muted); }
-.meta em { color: var(--fg); }
-.item .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 28px; margin-top: 4px; font: 13px var(--sans); }
-.tags { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); align-items: center; }
-.tag-scope { display: inline-flex; align-items: center; gap: 7px; color: var(--fg); font-weight: 500; }
-.dot { width: 8px; height: 8px; display: inline-block; }
+/* The paper table */
+.tablewrap { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.papers { width: 100%; border-collapse: collapse; }
+.papers th { text-align: left; font: 500 12px var(--sans); letter-spacing: 0.04em; color: var(--muted); background: var(--surface); padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+.papers th:nth-child(2) { width: 150px; }
+.papers th:nth-child(3) { width: 200px; }
+.papers td { vertical-align: top; padding: 16px; border-bottom: 1px solid var(--rule); }
+.papers tr:last-child td { border-bottom: 0; }
+.papers tbody tr:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+.papers td + td { border-left: 1px solid var(--rule); }
+.p-title { font-size: 16.5px; font-weight: 600; line-height: 1.35; margin: 0; text-wrap: pretty; }
+.p-title a { color: var(--fg); text-decoration: none; }
+.p-title a:hover { color: var(--accent); text-decoration: underline; }
+.p-by { margin-top: 4px; font: 13.5px/1.45 var(--sans); color: var(--muted); }
+.p-line { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font: 12.5px var(--sans); color: var(--muted); }
+.p-line b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.p-line a { color: var(--muted); text-decoration: none; }
+.p-line a:hover { color: var(--accent); text-decoration: underline; }
+.scope { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--sans); color: var(--fg); }
+.dot { width: 8px; height: 8px; display: inline-block; flex: none; }
 .dot.a { background: var(--accent); }
 .dot.b { background: var(--series-b); }
-.tag-qe { color: var(--accent); font-weight: 500; }
-.links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
-.links a { text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 38%, transparent); }
-.links a:hover { border-bottom-color: var(--accent); }
-.empty { padding-block: 32px; color: var(--muted); }
-.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 24px; font: 14px var(--sans); }
-.pager button { min-width: 38px; height: 38px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; font-size: 14px; font-variant-numeric: tabular-nums; }
-.pager button:hover:not(:disabled) { border-color: var(--accent); }
-.pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.pager button:disabled { color: var(--muted); cursor: default; opacity: 0.55; }
-.pager .gap { color: var(--muted); padding: 0 2px; }
-.about { margin-top: 36px; max-width: 640px; font: 14px/1.6 var(--sans); color: var(--muted); }
+.flags { display: grid; gap: 4px; margin-top: 6px; font: 12.5px var(--sans); color: var(--muted); }
+.flags .qe { color: var(--accent); font-weight: 500; }
+.pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.pills span { white-space: nowrap; font: 12px var(--sans); color: var(--fg); background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 9px; }
+.pills .none { background: none; border: 0; padding: 0; color: var(--muted); }
+.empty { padding: 32px 16px; color: var(--muted); font-family: var(--sans); }
+.load { display: flex; justify-content: center; padding-top: 18px; }
+.about { margin-top: 28px; max-width: 640px; font: 14px/1.6 var(--sans); color: var(--muted); }
 .about summary { cursor: pointer; color: var(--accent); width: max-content; }
 .about p, .about ul { margin: 12px 0 0; }
 .about ul { padding-left: 20px; }
@@ -281,14 +299,26 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   .sec:first-of-type { padding-top: 40px; }
   .sec-head { position: static; }
   .sec-head .sub { max-width: 60ch; }
+  .tr-body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .side { position: static; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
+  .side .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 16px 20px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+  .side .extra.open { display: grid; }
+  .side .extra > .reset { grid-column: 1 / -1; }
+  .more-btn { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
+  .more-btn[aria-expanded="true"] { border-color: var(--accent); }
 }
 @media (max-width: 640px) {
-  .toolbar { grid-template-columns: minmax(0, 1fr) auto; align-items: end; margin-bottom: 20px; }
-  .more-btn { display: inline-flex; align-items: center; height: 40px; padding: 0 14px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
-  .more-btn[aria-expanded="true"] { border-color: var(--accent); }
-  .toolbar .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
-  .toolbar .extra.open { display: grid; }
-  .toolbar .extra > .field:nth-of-type(3) { grid-column: 1 / -1; }
+  .tr-head h2 { font-size: 34px; }
+  .side .extra { grid-template-columns: minmax(0, 1fr); }
+  /* the table becomes one card per study: title block, then focus and topics underneath */
+  .papers thead { display: none; }
+  .papers, .papers tbody, .papers tr, .papers td { display: block; }
+  .papers tr { padding: 14px 14px 12px; border-bottom: 1px solid var(--rule); }
+  .papers tr:last-child { border-bottom: 0; }
+  .papers td { padding: 0; border: 0; }
+  .papers td + td { border-left: 0; margin-top: 10px; }
+  .papers td:nth-child(2) .flags { display: inline-flex; gap: 12px; margin: 0 0 0 12px; }
+  .sort { margin-left: 0; }
   .news { grid-template-columns: minmax(0, 1fr); }
   .info > div { grid-template-columns: minmax(0, 1fr); }
   .masthead .facts { gap: 6px 20px; }
@@ -299,10 +329,10 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="site-bar">
-    <span class="brand">The Goaltending Sports Journal</span>
+    <span class="brand">The Goaltending Research Journal</span>
     <nav aria-label="Main" id="nav">
       <a href="#articles">Articles</a>
-      <a href="#conference">Conference</a>
+      <a href="conference.html">Conference</a>
       <a href="goalies.html">NHL Stats</a>
       <a href="box-control.html">Briefs</a>
       <a href="about.html">About</a>
@@ -327,97 +357,73 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     <ul class="facts" id="facts"></ul>
   </header>
 
-  <section class="sec" id="by-year" aria-labelledby="h-years">
-    <div class="sec-head">
-      <h2 id="h-years">Research Tracker</h2>
-      <p class="sub" id="year-sub"></p>
+  <section class="tracker" id="articles" aria-labelledby="h-tracker">
+    <div class="tr-head">
+      <div>
+        <h2 id="h-tracker">Research Tracker</h2>
+        <p class="sub" id="year-sub"></p>
+      </div>
+      <button type="button" class="btn" id="export">Export CSV</button>
     </div>
-    <div class="sec-body">
-      <figure>
-        <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 680 250" preserveAspectRatio="xMidYMid meet"></svg>
-        <figcaption id="chart-cap"></figcaption>
-      </figure>
-      <div class="year-panel" id="year-panel" aria-live="polite"></div>
-    </div>
-  </section>
 
-  <section class="sec" id="articles" aria-labelledby="h-articles">
-    <div class="sec-head">
-      <h2 id="h-articles">Research Articles</h2>
-      <p class="sub">All <span id="n-all"></span> articles. Filter by search, scope, decade or topic.</p>
-    </div>
-    <div class="sec-body">
-      <form class="toolbar" id="filters" role="search" aria-label="Filter articles">
-        <div class="field grow">
+    <figure class="tr-chart">
+      <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 190" preserveAspectRatio="xMidYMid meet"></svg>
+      <figcaption id="chart-cap"></figcaption>
+    </figure>
+
+    <div class="tr-body">
+      <form class="side" id="filters" role="search" aria-label="Filter records">
+        <div class="field">
           <label for="q">Search</label>
           <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
         </div>
         <button class="more-btn" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-extra">Filters</button>
         <div class="extra" id="filters-extra">
-          <div class="field">
-            <label for="scope">Scope</label>
-            <select id="scope">
-              <option value="all">All records</option>
-              <option value="goaltending">Goalie-specific</option>
-              <option value="hockey-wide">Hockey-wide</option>
-            </select>
-          </div>
+          <fieldset class="group">
+            <legend>Scope</legend>
+            <div id="scope" class="opts"></div>
+          </fieldset>
           <div class="field">
             <label for="decade">Decade</label>
             <select id="decade"></select>
           </div>
-          <div class="field">
-            <label for="sort">Sort</label>
+          <fieldset class="group">
+            <legend>Topic</legend>
+            <div id="topics" class="opts"></div>
+          </fieldset>
+          <button class="reset" type="button" id="reset">Clear filters</button>
+        </div>
+      </form>
+
+      <div class="tr-main">
+        <div class="tr-bar">
+          <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
+          <div class="active" id="active"></div>
+          <label class="sort"><span>Sort</span>
             <select id="sort">
               <option value="new">Newest first</option>
               <option value="old">Oldest first</option>
+              <option value="az">Title A–Z</option>
             </select>
-          </div>
-          <div class="foot">
-            <div class="lab-row"><span class="lab" id="topics-label">Topic</span><button class="reset" type="button" id="reset">Clear filters</button></div>
-            <div class="chips" id="topics" role="group" aria-labelledby="topics-label"></div>
-          </div>
+          </label>
         </div>
-      </form>
-      <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
-      <ol class="results" id="results"></ol>
-      <nav class="pager" id="pager" aria-label="Pagination"></nav>
-      <details class="about">
-        <summary>About these records</summary>
-        <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
-        <ul>
-          <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
-          <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
-        </ul>
-        <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses, or had no DOI that could be confirmed.</p>
-      </details>
-    </div>
-  </section>
-
-  <section class="sec" id="videos" aria-labelledby="h-videos">
-    <div class="sec-head">
-      <h2 id="h-videos">Featured video</h2>
-    </div>
-    <div class="sec-body">
-      <div class="vid-frame">
-        <iframe src="https://www.youtube-nocookie.com/embed/THgShNfSibk?rel=0" title="Featured video on YouTube" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="tablewrap">
+          <table class="papers">
+            <thead><tr><th scope="col">Study</th><th scope="col">Focus</th><th scope="col">Topics</th></tr></thead>
+            <tbody id="results"></tbody>
+          </table>
+        </div>
+        <div class="load" id="load"></div>
+        <details class="about">
+          <summary>About these records</summary>
+          <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
+          <ul>
+            <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
+            <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
+          </ul>
+          <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses, or had no DOI that could be confirmed.</p>
+        </details>
       </div>
-      <p class="note"><a href="https://www.youtube.com/watch?v=THgShNfSibk" rel="noopener">Watch on YouTube</a></p>
-    </div>
-  </section>
-
-  <section class="sec slim" id="conference" aria-labelledby="h-conf">
-    <div class="sec-head">
-      <h2 id="h-conf">Virtual Conference</h2>
-      <p class="sub">An online meeting for goaltending research and practice design. Details will follow once confirmed.</p>
-    </div>
-    <div class="sec-body">
-      <dl class="info">
-        <div><dt>Date</dt><dd class="tba">To be announced</dd></div>
-        <div><dt>Format</dt><dd>Online</dd></div>
-        <div><dt>Call for abstracts</dt><dd class="tba">To be announced</dd></div>
-        <div><dt>Registration</dt><dd class="tba">To be announced</dd></div>
-      </dl>
     </div>
   </section>
 
@@ -454,6 +460,8 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
 const topicName = Object.fromEntries(TOPICS);
+const PAGE_SIZE = 15;
+const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), sort: "new", shown: PAGE_SIZE, sig: "" };
 const YEARS = REC.map((r) => r.y).filter((y) => y != null);
 const DECADES = [];
 for (let d = decadeOf(Math.min(...YEARS)); d <= decadeOf(Math.max(...YEARS)); d += 10) DECADES.push(d);
@@ -466,9 +474,9 @@ function primaryLink(r) {
 }
 function linksHtml(r) {
   const out = [];
-  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener">DOI ${esc(r.doi)}</a>`);
-  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener">PubMed ${esc(r.pmid)}</a>`);
-  if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source</a>`);
+  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener" title="DOI ${esc(r.doi)}">DOI ↗</a>`);
+  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener" title="PubMed ${esc(r.pmid)}">PubMed ↗</a>`);
+  if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source ↗</a>`);
   return out.join("");
 }
 function titleHtml(r) {
@@ -479,7 +487,6 @@ function titleHtml(r) {
 /* Facts under the masthead */
 (function facts() {
   $("updated-foot").textContent = UPDATED;
-  $("n-all").textContent = REC.length;
   const years = REC.map((r) => r.y).filter((y) => y != null);
   const goal = REC.filter((r) => r.sc === "goaltending").length;
   const doi = REC.filter((r) => r.doi).length;
@@ -493,24 +500,21 @@ function titleHtml(r) {
   $("facts").innerHTML = items.map((h) => `<li>${h}</li>`).join("");
 })();
 
-/* One list item, used by the year panel and by Research Articles */
-function itemHtml(r) {
-  const meta = [r.a ? esc(r.a) : "", `<em>${esc(r.j)}</em>`, esc(r.yl)].filter(Boolean).join(" · ");
+/* One table row: the study (title, authors and journal, then year and links), its focus, and its topics */
+function rowHtml(r) {
   const goal = r.sc === "goaltending";
-  const tags = [`<span class="tag-scope"><i class="dot ${goal ? "a" : "b"}"></i>${goal ? "Goaltending" : "Hockey-wide"}</span>`]
-    .concat(r.qe ? [`<span class="tag-qe">Quiet Eye</span>`] : [])
-    .concat(r.tp.map((t) => `<span>${esc(topicName[t])}</span>`))
-    .concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
-  return `<li class="item"><h3>${titleHtml(r)}</h3><div class="meta">${meta}</div><div class="foot"><div class="tags">${tags.join("")}</div><div class="links">${linksHtml(r)}</div></div></li>`;
+  const by = [r.a ? esc(r.a) : "", `<i>${esc(r.j)}</i>`].filter(Boolean).join(" · ");
+  const flags = (r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
+  const pills = r.tp.length ? r.tp.map((t) => `<span>${esc(topicName[t])}</span>`).join("") : `<span class="none">Not tagged</span>`;
+  return `<tr><td><h3 class="p-title">${titleHtml(r)}</h3><div class="p-by">${by}</div>` +
+    `<div class="p-line"><b>${esc(r.yl)}</b>${linksHtml(r)}</div></td>` +
+    `<td><span class="scope"><i class="dot ${goal ? "a" : "b"}"></i>${goal ? "Goaltending" : "Hockey-wide"}</span>${flags.length ? `<div class="flags">${flags.join("")}</div>` : ""}</td>` +
+    `<td><div class="pills">${pills}</div></td></tr>`;
 }
 
-/* Records by year: stacked counts by scope. Click, tap or press Enter on a year to list its studies. */
+/* Records by year: stacked counts by scope. Click, tap or press Enter on a year to filter the table to it. */
 const CHART_FROM = 2010;                       // first year shown on the chart
 const CHART_TO = Math.max(2026, ...YEARS);     // last year shown (grows if newer records are added)
-const yearState = { sel: null };
-function yearRows(y) {
-  return REC.filter((r) => r.y === y).sort((a, b) => (a.sc === b.sc ? a.i - b.i : a.sc === "goaltending" ? -1 : 1));
-}
 function drawChart() {
   const svg = $("chart");
   const data = [];
@@ -522,11 +526,11 @@ function drawChart() {
   const step = maxTotal <= 10 ? 2 : 5;
   const top = Math.ceil(maxTotal / step) * step;
   const measured = svg.getBoundingClientRect ? Math.round(svg.getBoundingClientRect().width) : 0;
-  const W = Math.max(300, measured || 680), H = 250, L = 30, R = 6, T = 24, B = 34;
+  const W = Math.max(300, measured || 1040), H = 190, L = 30, R = 6, T = 22, B = 30;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const iw = W - L - R, ih = H - T - B;
   const y = (v) => T + ih - (v / top) * ih;
-  const slot = iw / data.length, bw = Math.min(30, Math.max(6, slot * 0.52));
+  const slot = iw / data.length, bw = Math.min(34, Math.max(6, slot * 0.52));
   const narrow = slot < 30;
   let s = `<title id="chart-title">Records by year of publication, ${CHART_FROM} to ${CHART_TO}</title><desc id="chart-desc">${esc(data.map((x) => `${x.y}: ${x.a + x.b}`).join("; "))}</desc>`;
   for (let v = 0; v <= top; v += step) {
@@ -538,18 +542,18 @@ function drawChart() {
     const cx = L + slot * i + slot / 2, x0 = cx - bw / 2;
     const showLabel = !narrow || i % 2 === 0;
     const label = narrow ? `’${String(x.y).slice(2)}` : String(x.y);
-    const aria = n ? ` role="button" tabindex="0" aria-pressed="${yearState.sel === x.y}" aria-label="${x.y}: ${n} ${n === 1 ? "record" : "records"}. Show studies."` : "";
-    s += `<g class="col ${n ? "on" : "off"}${yearState.sel === x.y ? " sel" : ""}" data-y="${x.y}"${aria}>`;
+    const aria = n ? ` role="button" tabindex="0" aria-pressed="${state.year === x.y}" aria-label="${x.y}: ${n} ${n === 1 ? "record" : "records"}. Filter the table to this year."` : "";
+    s += `<g class="col ${n ? "on" : "off"}${state.year === x.y ? " sel" : ""}" data-y="${x.y}"${aria}>`;
     s += `<rect class="hit" x="${L + slot * i}" y="${T - 14}" width="${slot}" height="${ih + 14 + B}" rx="3"/>`;
     if (x.a) s += `<rect class="bar-a" x="${x0}" y="${y(x.a)}" width="${bw}" height="${(x.a / top) * ih}"/>`;
     if (x.b) s += `<rect class="bar-b" x="${x0}" y="${y(n)}" width="${bw}" height="${(x.b / top) * ih}"/>`;
     if (n) s += `<text class="val" x="${cx}" y="${y(n) - 6}" text-anchor="middle">${n}</text>`;
     else s += `<line class="zero" x1="${x0}" x2="${x0 + bw}" y1="${y(0) - 1}" y2="${y(0) - 1}"/>`;
-    if (showLabel) s += `<text class="lbl" x="${cx}" y="${H - 12}" text-anchor="middle">${label}</text>`;
+    if (showLabel) s += `<text class="lbl" x="${cx}" y="${H - 10}" text-anchor="middle">${label}</text>`;
     s += `</g>`;
   });
   svg.innerHTML = s;
-  svg.classList.toggle("has-sel", yearState.sel != null);
+  svg.classList.toggle("has-sel", state.year != null);
   const earlier = REC.filter((r) => r.y != null && r.y < CHART_FROM).length;
   const undated = REC.filter((r) => r.y == null).length;
   const first = Math.min(...YEARS), lastEarlier = Math.max(...YEARS.filter((v) => v < CHART_FROM));
@@ -558,32 +562,20 @@ function drawChart() {
   if (undated) hidden.push(`${undated} undated`);
   $("chart-cap").innerHTML =
     `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
-    (hidden.length ? `<span>Not shown: ${hidden.join(" and ")}. Find them under Research Articles.</span>` : "");
-  const inRange = REC.filter((r) => r.y != null && r.y >= CHART_FROM && r.y <= CHART_TO).length;
-  $("year-sub").textContent = `${inRange} of ${REC.length} records were published from ${CHART_FROM} to ${CHART_TO}. Select a year to list its studies.`;
+    `<span>Select a year to filter the table.</span>` +
+    (hidden.length ? `<span>Not shown: ${hidden.join(" and ")}; they are in the table.</span>` : "");
+  $("year-sub").textContent = `Every study we track, ${first} to ${CHART_TO}. Search it, filter it by scope, decade or topic, or pick a year on the chart.`;
 }
-function showYear(y) {
-  yearState.sel = y;
-  const svg = $("chart");
-  svg.classList.toggle("has-sel", y != null);
-  svg.querySelectorAll(".col.on").forEach((g) => {
-    const on = Number(g.dataset.y) === y;
-    g.classList.toggle("sel", on);
-    g.setAttribute("aria-pressed", String(on));
-  });
-  const panel = $("year-panel");
-  if (y == null) { panel.innerHTML = ""; return; }
-  const rows = yearRows(y);
-  panel.innerHTML =
-    `<div class="year-head"><h3>${y}<span class="n">${rows.length} ${rows.length === 1 ? "record" : "records"}</span></h3>` +
-    `<button class="reset" type="button" id="year-clear">Clear selection</button></div>` +
-    `<ol class="results">${rows.map(itemHtml).join("")}</ol>`;
-  $("year-clear").addEventListener("click", () => showYear(null));
+function pickYear(y) {
+  state.year = state.year === y ? null : y;
+  if (state.year != null) { state.decade = "all"; $("decade").value = "all"; }
+  drawChart();
+  render();
 }
 $("chart").addEventListener("click", (e) => {
   const g = e.target.closest(".col.on"); if (!g) return;
-  const y = Number(g.dataset.y);
-  showYear(yearState.sel === y ? null : y);
+  pickYear(Number(g.dataset.y));
+  const k = $("chart").querySelector(`.col[data-y="${g.dataset.y}"]`); if (k && e.detail === 0) k.focus();
 });
 $("chart").addEventListener("keydown", (e) => {
   const g = e.target.closest ? e.target.closest(".col.on") : null; if (!g) return;
@@ -666,37 +658,21 @@ function filterChips(box, options, current, onPick) {
   paint();
 })();
 
-/* Filters */
-const PAGE_SIZE = 5;
-const state = { q: "", scope: "all", decade: "all", topics: new Set(), sort: "new", page: 1, sig: "" };
-function renderPager(pages) {
-  if (pages <= 1) { $("pager").innerHTML = ""; return; }
-  const cur = state.page;
-  const keep = [...new Set([1, pages, cur - 1, cur, cur + 1])].filter((p) => p >= 1 && p <= pages).sort((a, b) => a - b);
-  let html = `<button type="button" data-p="prev" ${cur === 1 ? "disabled" : ""} aria-label="Previous page">Previous</button>`;
-  keep.forEach((p, i) => {
-    if (i > 0 && p - keep[i - 1] > 1) html += `<span class="gap" aria-hidden="true">…</span>`;
-    html += `<button type="button" data-p="${p}" ${p === cur ? 'aria-current="page"' : ""} aria-label="Page ${p}">${p}</button>`;
-  });
-  html += `<button type="button" data-p="next" ${cur === pages ? "disabled" : ""} aria-label="Next page">Next</button>`;
-  $("pager").innerHTML = html;
-}
-$("pager").addEventListener("click", (e) => {
-  const b = e.target.closest("button[data-p]");
-  if (!b || b.disabled) return;
-  const p = b.dataset.p;
-  if (p === "prev") state.page -= 1; else if (p === "next") state.page += 1; else state.page = Number(p);
-  render();
-  $("count").scrollIntoView({ block: "start" });
-  $("count").focus({ preventScroll: true });
-});
+/* Table filters. The state is declared before the chart, which reads state.year. */
+const SCOPES = [["all", "All records"], ["goaltending", "Goaltending"], ["hockey-wide", "Hockey-wide"]];
+$("scope").innerHTML = SCOPES.map(([k, n]) => {
+  const c = k === "all" ? REC.length : REC.filter((r) => r.sc === k).length;
+  return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === "all" ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
+}).join("");
+$("topics").innerHTML = TOPICS.map(([k, n]) =>
+  `<label class="opt"><input type="checkbox" value="${k}"><span>${esc(n)}</span><span class="n">${REC.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
 $("decade").innerHTML = `<option value="all">All years</option>` +
   DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
   (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
-$("topics").innerHTML = TOPICS.map(([k, n]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="false">${esc(n)}</button>`).join("");
 
 function matches(r) {
   if (state.scope !== "all" && r.sc !== state.scope) return false;
+  if (state.year != null && r.y !== state.year) return false;
   if (state.decade !== "all") {
     if (state.decade === "nd") { if (r.y != null) return false; }
     else if (decadeOf(r.y) !== Number(state.decade)) return false;
@@ -708,35 +684,59 @@ function matches(r) {
   }
   return true;
 }
-function render() {
-  const rows = REC.filter(matches).sort((a, b) => {
+function filtered() {
+  return REC.filter(matches).sort((a, b) => {
+    if (state.sort === "az") return a.t.localeCompare(b.t);
     const ay = a.y == null ? -1 : a.y, by = b.y == null ? -1 : b.y;
-    const d = state.sort === "new" ? by - ay || b.i - a.i : ay - by || a.i - b.i;
-    return d;
+    return state.sort === "new" ? by - ay || b.i - a.i : ay - by || a.i - b.i;
   });
-  const sig = JSON.stringify([state.q, state.scope, state.decade, [...state.topics], state.sort]);
-  if (sig !== state.sig) { state.sig = sig; state.page = 1; }
-  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  if (state.page > pages) state.page = pages;
-  const from = (state.page - 1) * PAGE_SIZE;
-  const shown = rows.slice(from, from + PAGE_SIZE);
-  filterBadge();
-  $("count").textContent = rows.length
-    ? `Showing ${from + 1}–${from + shown.length} of ${rows.length}${rows.length === REC.length ? "" : " matching"} records`
-    : "No matching records";
-  renderPager(pages);
-  if (!rows.length) { $("results").innerHTML = `<li class="empty">No records match these filters. Clear a filter or change the search.</li>`; return; }
-  $("results").innerHTML = shown.map(itemHtml).join("");
 }
-$("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
-$("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });
-$("decade").addEventListener("change", (e) => { state.decade = e.target.value; render(); });
-$("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
-$("topics").addEventListener("click", (e) => {
+function render() {
+  const rows = filtered();
+  const sig = JSON.stringify([state.q, state.scope, state.decade, state.year, [...state.topics], state.sort]);
+  if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
+  const shown = rows.slice(0, state.shown);
+  filterBadge();
+  activeChips();
+  $("count").textContent = rows.length
+    ? `${shown.length < rows.length ? `Showing ${shown.length} of ` : ""}${rows.length}${rows.length === REC.length ? "" : " matching"} ${rows.length === 1 ? "record" : "records"}`
+    : "No matching records";
+  $("results").innerHTML = rows.length ? shown.map(rowHtml).join("")
+    : `<tr><td colspan="3" class="empty">No records match these filters. Clear a filter or change the search.</td></tr>`;
+  const left = rows.length - shown.length;
+  $("load").innerHTML = left > 0 ? `<button type="button" class="btn" id="load-more">Load ${Math.min(PAGE_SIZE, left)} more</button>` : "";
+  const more = $("load-more");
+  if (more) more.addEventListener("click", () => { state.shown += PAGE_SIZE; render(); });
+}
+/* Active filters as removable chips beside the count */
+function activeChips() {
+  const out = [];
+  if (state.year != null) out.push(["year", String(state.year)]);
+  if (state.scope !== "all") out.push(["scope", SCOPES.find(([k]) => k === state.scope)[1]]);
+  if (state.decade !== "all") out.push(["decade", state.decade === "nd" ? "Undated" : state.decade + "s"]);
+  state.topics.forEach((t) => out.push(["topic:" + t, topicName[t]]));
+  $("active").innerHTML = out.map(([k, n]) => `<button type="button" data-k="${esc(k)}" aria-label="Remove filter ${esc(n)}">${esc(n)}</button>`).join("");
+}
+$("active").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-k]"); if (!b) return;
   const k = b.dataset.k;
-  if (state.topics.has(k)) state.topics.delete(k); else state.topics.add(k);
-  b.setAttribute("aria-pressed", String(state.topics.has(k)));
+  if (k === "year") { pickYear(state.year); return; }
+  if (k === "scope") { state.scope = "all"; $("scope").querySelector('input[value="all"]').checked = true; }
+  if (k === "decade") { state.decade = "all"; $("decade").value = "all"; }
+  if (k.startsWith("topic:")) { const t = k.slice(6); state.topics.delete(t); $("topics").querySelector(`input[value="${t}"]`).checked = false; }
+  render();
+});
+$("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
+$("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });
+$("decade").addEventListener("change", (e) => {
+  state.decade = e.target.value;
+  if (state.decade !== "all" && state.year != null) { state.year = null; drawChart(); }
+  render();
+});
+$("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+$("topics").addEventListener("change", (e) => {
+  const k = e.target.value;
+  if (e.target.checked) state.topics.add(k); else state.topics.delete(k);
   render();
 });
 $("filters").addEventListener("submit", (e) => e.preventDefault());
@@ -745,14 +745,29 @@ $("filters-toggle").addEventListener("click", () => {
   $("filters-toggle").setAttribute("aria-expanded", String(open));
 });
 function filterBadge() {
-  const n = (state.scope !== "all") + (state.decade !== "all") + state.topics.size;
+  const n = (state.scope !== "all") + (state.decade !== "all") + (state.year != null) + state.topics.size;
   $("filters-toggle").textContent = n ? `Filters · ${n}` : "Filters";
 }
 $("reset").addEventListener("click", () => {
-  state.q = ""; state.scope = "all"; state.decade = "all"; state.sort = "new"; state.topics.clear();
-  $("q").value = ""; $("scope").value = "all"; $("decade").value = "all"; $("sort").value = "new";
-  document.querySelectorAll("#topics .chip").forEach((c) => c.setAttribute("aria-pressed", "false"));
+  state.q = ""; state.scope = "all"; state.decade = "all"; state.year = null; state.sort = "new"; state.topics.clear();
+  $("q").value = ""; $("decade").value = "all"; $("sort").value = "new";
+  $("scope").querySelector('input[value="all"]').checked = true;
+  $("topics").querySelectorAll("input").forEach((c) => (c.checked = false));
+  drawChart();
   render();
+});
+/* Export the records that match the current filters */
+$("export").addEventListener("click", () => {
+  const cols = [["Year", (r) => r.yl], ["Title", (r) => r.t], ["Authors", (r) => r.a], ["Journal", (r) => r.j],
+    ["Scope", (r) => r.sc], ["Topics", (r) => r.tp.map((t) => topicName[t]).join("; ")],
+    ["DOI", (r) => r.doi], ["PubMed", (r) => r.pmid], ["Link", (r) => r.link]];
+  const cell = (v) => { const t = v == null ? "" : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
+  const csv = [cols.map(([h]) => h).join(",")].concat(filtered().map((r) => cols.map(([, f]) => cell(f(r))).join(","))).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" }));
+  a.download = "goaltending-research-tracker.csv";
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 });
 render();
 
