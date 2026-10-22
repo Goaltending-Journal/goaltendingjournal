@@ -1,4 +1,4 @@
-# The Goaltending Open Source Journal: site files
+# The Goaltending Research Journal: site files
 
 A static website. There is nothing to install and no server: it is plain HTML and JavaScript that any web host can serve.
 

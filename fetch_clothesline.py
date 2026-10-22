@@ -151,7 +151,7 @@ def keyword_filter(items):
     return [r for r in items if relevant(r)]
 
 
-PROMPT = """You are the research bot for The Goaltending Open Source Journal, an evidence-based journal about ice
+PROMPT = """You are the research bot for The Goaltending Research Journal, an evidence-based journal about ice
 hockey goaltending. Today is {today}. Find and choose articles for a ticker of post-it notes on the home page,
 covering:
 {topics}
