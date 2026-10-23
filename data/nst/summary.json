@@ -1,16 +1,16 @@
 {
   "season": "2026-2027",
-  "fetched_at": "2026-10-22T10:13:59-04:00",
+  "fetched_at": "2026-10-23T09:56:30-04:00",
   "source": "https://data.naturalstattrick.com/playerteams.php",
   "credit": "Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com)",
   "files": {
     "all": {
       "file": "goalies_20262027_all.csv",
-      "goalies": 65
+      "goalies": 68
     },
     "5v5": {
       "file": "goalies_20262027_5v5.csv",
-      "goalies": 65
+      "goalies": 68
     }
   }
 }
