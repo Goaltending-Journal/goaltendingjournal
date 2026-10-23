@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Glove Positioning Analysis · Briefs · The Goaltending Research Journal</title>
 <meta name="description" content="Research to Practice Brief 1: glove positioning analysis, and why goalies give up more net late in a drill, with an interactive box-control explainer. From Kwan, Daley &amp; MacLean (2026).">
-<meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -21,17 +21,17 @@
 /* Layout: Research to Practice Brief 1. Site top bar, then the brief in one reading column, with the interactive rink (diagram left, readout right) full width after the findings. Colours match goalies.html. */
 :root{
   color-scheme: light;
-  --ice: #fbfdff;          /* page ground (index --bg) */
-  --boards: #eff6fc;       /* panels (index --surface) */
-  --glass: #e1f0fb;        /* raised rows, inputs (index --accent-soft) */
-  --line: #d5e1ec;         /* hairlines (index --rule) */
-  --chalk: #12202e;        /* primary text (index --fg) */
-  --fog: #53667a;          /* secondary text (index --muted) */
-  --mute: #627488;         /* tertiary */
-  --crease: #1a67a3;       /* accent (index --accent) */
-  --crease-dim: rgba(26,103,163,.14);
-  --series-b: #a9c0d6;     /* second chart series (index --series-b) */
-  --mast-a: #f6fbff; --mast-b: #dcedfa;   /* index masthead gradient */
+  --ice: #f8f6ef;          /* page ground (index --bg) */
+  --boards: #efece2;       /* panels (index --surface) */
+  --glass: #e2ece4;        /* raised rows, inputs (index --accent-soft) */
+  --line: #dcd6c6;         /* hairlines (index --rule) */
+  --chalk: #142019;        /* primary text (index --fg) */
+  --fog: #56625a;          /* secondary text (index --muted) */
+  --mute: #69746c;         /* tertiary */
+  --crease: #0b5d47;       /* accent (index --accent) */
+  --crease-dim: rgba(11,93,71,.14);
+  --series-b: #cdb985;     /* second chart series (index --series-b) */
+  --mast-a: #f6f3e8; --mast-b: #d8e9dd;   /* index masthead gradient */
   --on-accent: #ffffff;
   --shadow: rgba(18,32,46,.16);
   --good: #17865a;
@@ -47,19 +47,19 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
-    --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
-    --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
+    --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
+    --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
+    --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
-  --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
-  --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
+  --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
+  --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
+  --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
 }
 *{box-sizing:border-box}

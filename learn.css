@@ -2,17 +2,17 @@
    Copied from the brief page (glove-positioning.html) so modules read like briefs: same tokens, contents rail, at-a-glance box and reference list. */
 :root{
   color-scheme: light;
-  --ice: #fbfdff;          /* page ground (index --bg) */
-  --boards: #eff6fc;       /* panels (index --surface) */
-  --glass: #e1f0fb;        /* raised rows, inputs (index --accent-soft) */
-  --line: #d5e1ec;         /* hairlines (index --rule) */
-  --chalk: #12202e;        /* primary text (index --fg) */
-  --fog: #53667a;          /* secondary text (index --muted) */
-  --mute: #627488;         /* tertiary */
-  --crease: #1a67a3;       /* accent (index --accent) */
-  --crease-dim: rgba(26,103,163,.14);
-  --series-b: #a9c0d6;     /* second chart series (index --series-b) */
-  --mast-a: #f6fbff; --mast-b: #dcedfa;   /* index masthead gradient */
+  --ice: #f8f6ef;          /* page ground (index --bg) */
+  --boards: #efece2;       /* panels (index --surface) */
+  --glass: #e2ece4;        /* raised rows, inputs (index --accent-soft) */
+  --line: #dcd6c6;         /* hairlines (index --rule) */
+  --chalk: #142019;        /* primary text (index --fg) */
+  --fog: #56625a;          /* secondary text (index --muted) */
+  --mute: #69746c;         /* tertiary */
+  --crease: #0b5d47;       /* accent (index --accent) */
+  --crease-dim: rgba(11,93,71,.14);
+  --series-b: #cdb985;     /* second chart series (index --series-b) */
+  --mast-a: #f6f3e8; --mast-b: #d8e9dd;   /* index masthead gradient */
   --on-accent: #ffffff;
   --shadow: rgba(18,32,46,.16);
   --good: #17865a;
@@ -28,19 +28,19 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
-    --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
-    --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-    --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+    --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
+    --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
+    --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
+    --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --ice: #0e141b; --boards: #151d27; --glass: #1c2633; --line: #273241;
-  --chalk: #e6ebf1; --fog: #9aa8b8; --mute: #74849a;
-  --crease: #86c5f4; --crease-dim: rgba(134,197,244,.14); --series-b: #4c5c6e;
-  --mast-a: #111c29; --mast-b: #0e2338; --on-accent: #0e141b; --shadow: rgba(0,0,0,.5);
+  --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
+  --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
+  --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
+  --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
 }
 *{box-sizing:border-box}
@@ -233,9 +233,9 @@ sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
 .bar-key{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--fog)}
 .bar-key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
 /* stage colours: low to high representativeness */
-:root{--st1:#a9c0d6;--st2:#6fa3cf;--st3:#1a67a3;--st4:#0f3f66;--st5:#a8690c}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--st1:#4c5c6e;--st2:#4d86b8;--st3:#86c5f4;--st4:#c4e3fa;--st5:#ffc65c}}
-:root[data-theme="dark"]{--st1:#4c5c6e;--st2:#4d86b8;--st3:#86c5f4;--st4:#c4e3fa;--st5:#ffc65c}
+:root{--st1:#cdb985;--st2:#6fa98e;--st3:#0b5d47;--st4:#06392b;--st5:#a8690c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--st1:#8a7442;--st2:#2f8a68;--st3:#4cc79b;--st4:#b9ecd6;--st5:#ffc65c}}
+:root[data-theme="dark"]{--st1:#8a7442;--st2:#2f8a68;--st3:#4cc79b;--st4:#b9ecd6;--st5:#ffc65c}
 /* session sheet */
 .sheet-wrap{overflow-x:auto;contain:inline-size}
 .sheet{border-collapse:collapse;width:100%;min-width:900px;font-size:13px}
