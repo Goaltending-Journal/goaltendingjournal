@@ -1,6 +1,6 @@
 /* Site-wide top bar: journal name and the main menu, the same on every page.
    Colours come from the page's own tokens: index.html and about.html name them --bg, --fg, --muted, --rule, --accent;
-   goalies.html and box-control.html name the same colours --ice, --chalk, --fog, --line, --crease.
+   goalies.html and glove-positioning.html name the same colours --ice, --chalk, --fog, --line, --crease.
    The journal name is set in Teko, the display face every page loads for its titles. */
 .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg, var(--ice)) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule, var(--line)); line-height: 1.6; font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
 .site-bar { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: 56px; }
