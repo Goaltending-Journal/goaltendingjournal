@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coaches · The Goaltending Research Journal</title>
-<meta name="description" content="Resources for coaches from The Goaltending Research Journal: research on skill acquisition, ecological dynamics and practice design.">
+<meta name="description" content="A free learning path for goalie coaches: practice design in five short modules, with a constraint explorer, links to the briefs and the latest skill acquisition research.">
 <meta name="theme-color" content="#fbfdff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -14,134 +14,110 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Teko:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Teko:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<link rel="stylesheet" href="learn.css">
 <script src="theme.js"></script>
 <style>
-/* Layout: same top bar, masthead and running-head sections as conference.html. The research list styles came from index.html. */
-:root {
-  --bg: #fbfdff;
-  --surface: #eff6fc;
-  --fg: #12202e;
-  --muted: #53667a;
-  --rule: #d5e1ec;
-  --accent: #1a67a3;
-  --accent-soft: #e1f0fb;
-  --series-b: #a9c0d6;
-  --field-line: #b9c9d9;
-  /* Masthead glow: edit these to change the ice-blue effect */
-  --mast-a: #f6fbff;
-  --mast-b: #dcedfa;
-  --h1-hover: #0f6cb5;
-  --glow-text: 0 0 14px rgba(96, 180, 240, 0.55), 0 0 38px rgba(126, 205, 255, 0.45);
-  --glow-text-hover: 0 0 8px rgba(70, 200, 255, 0.85), 0 0 26px rgba(40, 160, 255, 0.65), 0 0 60px rgba(120, 225, 255, 0.55);
-  --glow-spot: rgba(110, 195, 255, 0.42);
-  --glow-edge: rgba(60, 170, 255, 0.35);
-  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
-  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Teko", "Barlow Condensed", "Arial Narrow", sans-serif;   /* titles and section heads, the same face on every page */
-  --r: 3px;
-  --nav-h: 56px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-    --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
-    --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
-    --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
-    --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
-    --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0e141b; --surface: #151d27; --fg: #e6ebf1; --muted: #9aa8b8;
-  --rule: #273241; --accent: #86c5f4; --accent-soft: #16283a; --series-b: #4c5c6e; --field-line: #3a4a5d;
-  --mast-a: #111c29; --mast-b: #0e2338; --h1-hover: #d9f3ff;
-  --glow-text: 0 0 12px rgba(140, 210, 255, 0.55), 0 0 34px rgba(90, 180, 255, 0.5);
-  --glow-text-hover: 0 0 8px rgba(190, 240, 255, 0.95), 0 0 28px rgba(110, 200, 255, 0.8), 0 0 64px rgba(70, 170, 255, 0.6);
-  --glow-spot: rgba(90, 185, 255, 0.28); --glow-edge: rgba(120, 205, 255, 0.4);
-  color-scheme: dark;
-}
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-::selection { background: var(--accent-soft); }
-.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
-.item h3, .news h3 { text-wrap: pretty; }
-button, input, select { font-family: var(--sans); }
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-
-/* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
-.masthead {
-  position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
-  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; isolation: isolate;
-  background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
-  transition: border-color 0.45s ease, box-shadow 0.45s ease;
-}
-.masthead > * { position: relative; z-index: 2; max-width: 760px; }
-.masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
-.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(42px, 6.6vw, 68px); line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase; text-shadow: var(--glow-text); cursor: default; }
-.masthead h1 .wd { display: inline-block; white-space: nowrap; }
-.masthead h1 .ch { display: inline-block; color: inherit; text-shadow: var(--glow-text); transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
-.masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
-.masthead > .logo { position: absolute; z-index: 1; top: 50%; right: 56px; width: 168px; height: 168px; max-width: none; transform: translateY(-58%); object-fit: contain; pointer-events: none; user-select: none; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); } }
-:root[data-theme="dark"] .masthead > .logo { box-sizing: border-box; padding: 12px; background: #eaf5ff; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(120, 200, 255, 0.45); }
-.masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
-.masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
-.facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .masthead, .masthead h1 .ch { transition: none; }
-}
-/* Sections */
-.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
-.sec:first-of-type { border-top: 0; padding-top: 56px; }
-.sec.slim { padding-block: 48px; }
-.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
-.sec-head h2 { font-family: var(--display); font-weight: 600; font-size: 28px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
-.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
-.sec-body { min-width: 0; }
-/* Research list: newest first, filtered by tag */
-.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: 13px; line-height: 1; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
-.chip:hover { border-color: var(--accent); }
-.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.filter-row { margin: 0 0 24px; }
-.empty { padding: 32px 16px; color: var(--muted); font-family: var(--sans); }
-.news-list { display: grid; border-top: 1px solid var(--rule); }
-.news { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 4px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
-.news .dt { font: 500 13px var(--sans); font-variant-numeric: tabular-nums; color: var(--muted); padding-top: 4px; }
-.news h3 { font-size: 18px; line-height: 1.3; }
-.news p { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
-.cite { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
-.news .kind { color: var(--accent); font-weight: 500; }
-.news-more { margin-top: 18px; font: 14px var(--sans); }
-.news-more button { padding: 9px 16px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
-.news-more button:hover { border-color: var(--accent); }
-.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
-footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
-@media (max-width: 880px) {
-  body { font-size: 16px; }
-  .masthead { padding: 88px 22px 24px; margin-block-start: 20px; }
-  .masthead > .logo { top: 20px; right: 22px; width: 52px; height: 52px; transform: none; }
-  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
-  .sec:first-of-type { padding-top: 40px; }
-  .sec-head { position: static; }
-}
-@media (max-width: 640px) {
-  .news { grid-template-columns: minmax(0, 1fr); }
-}
+/* Coaches hub: path overview hero (Optimal Workshop course landing on Mobbin), module list with time and grade (Magnific Academy),
+   numbered tabs that swap a rink diagram (Heron AI), a changelog (Gumloop / Canny), then the research feed. Tokens come from learn.css. */
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;align-items:stretch;margin-top:28px;padding:36px 36px 30px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(135deg,var(--mast-a),var(--mast-b))}
+.hero h1{font-size:clamp(40px,6vw,68px);margin:8px 0 12px}
+.hero .lead{margin:0}
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.chips-row span{font-size:12.5px;font-weight:600;color:var(--fog);background:var(--ice);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.hero .btns{margin-top:22px;align-items:center}
+.hero .btn.primary{font-size:14px;padding:10px 20px}
+.prog{display:grid;gap:6px;margin-top:20px;max-width:340px;font-size:12.5px;color:var(--fog)}
+.prog .meter i{background:var(--good)}
+.overview{background:var(--ice);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:6px;align-content:start}
+.overview strong{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.overview ol{list-style:none;margin:0;padding:0}
+.overview li a{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);color:var(--chalk);font-size:14px;line-height:1.35}
+.overview li:last-child a{border-bottom:0}
+.overview li a:hover{text-decoration:none;color:var(--crease)}
+.overview .n{font-family:var(--f-data);font-size:12px;color:var(--mute)}
+.overview .done .n{color:var(--good)}
+.overview .t{font-size:12px;color:var(--fog);white-space:nowrap}
+.sec-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
+.sec-title h2{margin:0;font-size:28px}
+.sec-title p{margin:0;font-size:13px;color:var(--fog);max-width:60ch}
+section.block{scroll-margin-top:84px}
+/* module list */
+.mods{list-style:none;margin:0;padding:0}
+.mods li{display:grid;grid-template-columns:64px minmax(0,1fr) 170px;gap:6px 22px;padding:20px 0;border-bottom:1px solid var(--line)}
+.mods .num-big{font-family:var(--f-display);font-size:44px;font-weight:600;line-height:.9;color:var(--crease)}
+.mods .done .num-big{color:var(--good)}
+.mods h3{margin:0 0 4px;font-family:var(--f-display);font-size:25px;font-weight:600;text-transform:uppercase;line-height:1.05}
+.mods h3 a{color:var(--chalk)}
+.mods h3 a:hover{color:var(--crease);text-decoration:none}
+.mods p{margin:0;font-size:14.5px;line-height:1.55;color:var(--fog);max-width:62ch}
+.mods p.out{margin-top:6px;color:var(--chalk);font-size:13.5px}
+.mods p.out b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-right:6px}
+.mods .side{display:grid;gap:6px;align-content:start;justify-items:start;font-size:13px;color:var(--fog)}
+.mods .side .grade{margin:0}
+.mods .side .ok{color:var(--good);font-weight:700}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding:26px 20px}.mods li{grid-template-columns:44px minmax(0,1fr)}.mods .num-big{font-size:34px}.mods .side{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}}
+/* constraint explorer */
+.ex{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ex{grid-template-columns:1fr}}
+.ex-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.ex-tabs button{display:inline-flex;align-items:baseline;gap:8px;font:600 13.5px var(--f-body);color:var(--fog);background:var(--boards);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.ex-tabs button span{font-family:var(--f-data);font-size:11px;color:var(--mute)}
+.ex-tabs button[aria-selected="true"]{color:var(--on-accent);background:var(--crease);border-color:var(--crease)}
+.ex-tabs button[aria-selected="true"] span{color:inherit;opacity:.75}
+#ex-rink{display:block;width:100%;height:auto}
+#ex-rink [data-on]{transition:opacity .25s ease}
+#ex-rink[data-k] [data-on]{opacity:.22}
+#ex-rink[data-k="ind"] [data-on~="ind"],#ex-rink[data-k="task"] [data-on~="task"],#ex-rink[data-k="env"] [data-on~="env"]{opacity:1}
+#ex-rink .lbl{font:600 2.1px var(--f-body);fill:var(--chalk)}
+#ex-rink .lbl.s{font-weight:500;fill:var(--fog)}
+.ex-panel h3{margin:0 0 4px;font-family:var(--f-display);font-size:24px;font-weight:700;text-transform:uppercase}
+.ex-panel .def{margin:0 0 12px;font-size:14px;color:var(--fog);line-height:1.5}
+.ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ex-list li{background:var(--ice);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.45}
+.ex-list b{display:block}
+.ex-list span{display:block;color:var(--fog);font-size:13px;margin-top:2px}
+.ex-list span::before{content:"Invites: ";font-weight:700;color:var(--crease)}
+/* apply it */
+.apply{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{display:grid;gap:6px;align-content:start;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;background:var(--boards);color:var(--chalk)}
+a.card:hover{border-color:var(--crease);text-decoration:none}
+.card span{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.card b{font-family:var(--f-display);font-size:24px;font-weight:600;text-transform:uppercase;line-height:1.05}
+.card p{margin:0;font-size:14px;color:var(--fog);line-height:1.5}
+.card.soon{opacity:.75}
+/* what changed */
+.log{list-style:none;margin:0;padding:0}
+.log li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 22px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.5}
+.log time{font-family:var(--f-data);font-size:12.5px;color:var(--fog);padding-top:2px}
+.badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:1px 8px;margin-right:8px;vertical-align:1px;color:var(--crease);background:var(--crease-dim)}
+.badge.study{color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
+.badge.brief{color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent)}
+@media (max-width:640px){.log li{grid-template-columns:1fr}}
+/* latest research feed (ported from the old Coaches page) */
+.stamp{margin:0;font-size:12.5px;color:var(--fog)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 13px var(--f-body);line-height:1;color:var(--chalk);background:var(--ice);border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer}
+.chip:hover{border-color:var(--crease)}
+.chip[aria-pressed="true"]{background:var(--crease);border-color:var(--crease);color:var(--on-accent)}
+.filter-row{margin:10px 0 14px}
+.news-list{display:grid;border-top:1px solid var(--line)}
+.news{display:grid;grid-template-columns:108px minmax(0,1fr);gap:4px 24px;padding:18px 0;border-bottom:1px solid var(--line)}
+.news .dt{font:500 12.5px var(--f-data);color:var(--fog);padding-top:4px}
+.news h3{margin:0;font-size:16.5px;line-height:1.35;font-weight:600}
+.news p{margin:6px 0 0;color:var(--fog);font-size:14.5px;line-height:1.55}
+.news .cite{font-size:12.5px;color:var(--fog);margin-top:8px}
+.news .kind{color:var(--crease);font-weight:600}
+.news-more{margin-top:16px}
+.news-more button{font:600 13px var(--f-body);color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.news-more button:hover{border-color:var(--crease)}
+.note{font-size:13px;color:var(--fog);margin:14px 0 0}
+.empty{color:var(--fog)}
+@media (max-width:640px){.news{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body data-module="0">
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="site-bar">
@@ -156,33 +132,161 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </div>
 </header>
 
-<main id="main" class="wrap">
-  <header class="masthead">
-    <img class="logo" src="logo.svg" alt="" width="168" height="168" decoding="async">
-    <h1>Coaches</h1>
-    <p>Resources for coaches on how athletes learn and how to design practice. Most of it is not goalie-specific.</p>
+<main class="wrap" id="main">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Coaches · Learning path</div>
+      <h1>Practice design in five short modules</h1>
+      <p class="lead">Learn to design goalie practice that keeps the shooter's information intact, then check a week later whether it stuck. Every claim is graded, and every hockey example is marked when no study has tested it.</p>
+      <div class="chips-row"><span>5 modules</span><span id="total-min">About 40 min</span><span>Free, no sign-up</span><span>Evidence graded</span></div>
+      <div class="btns"><a class="btn primary" id="start" href="coaches-cla.html">Start module 1</a><a class="btn" href="#explore">Try the constraint explorer</a></div>
+      <div class="prog"><span id="prog-txt">0 of 5 modules done</span><div class="meter" aria-hidden="true"><i id="prog-bar"></i></div></div>
+    </div>
+    <nav class="overview" aria-label="Course overview">
+      <strong>Course overview</strong>
+      <ol id="overview"></ol>
+    </nav>
   </header>
 
-  <section class="sec" id="skill-acquisition" aria-labelledby="h-sa">
-    <div class="sec-head">
-      <h2 id="h-sa">Ecological dynamics and skill acquisition</h2>
-      <p class="sub">Recent research on how athletes learn and adapt, from ecological dynamics, the constraints-led approach and motor learning. Most is not about goaltending; it is background for coaches and researchers.</p>
-      <p class="stamp">Updated <span id="research-updated"></span></p>
+  <section class="block" id="modules" aria-labelledby="h-modules">
+    <div class="sec-title"><h2 id="h-modules">The modules</h2><p>Each takes about ten minutes and ends with one thing to try this week.</p></div>
+    <ol class="mods" id="mods"></ol>
+    <p class="key"><span class="grade">Borrowed</span> solid in other sports, assumed to carry over · <span class="grade">Practice wisdom</span> expert planning or experience, untested · <span class="tag-adapt">Adaptation</span> a hockey example no study has tested</p>
+  </section>
+
+  <section class="block" id="explore" aria-labelledby="h-explore">
+    <div class="sec-title"><h2 id="h-explore">Constraint explorer</h2><p>Tap a kind of constraint to see what you can change, and the behaviour each change invites. From module 2; every example is an adaptation.</p></div>
+    <div class="ex-tabs" role="tablist" aria-label="Kinds of constraint">
+      <button type="button" role="tab" id="tab-ind" aria-controls="ex-panel" aria-selected="true" data-k="ind"><span>01</span>Individual</button>
+      <button type="button" role="tab" id="tab-task" aria-controls="ex-panel" aria-selected="false" data-k="task"><span>02</span>Task</button>
+      <button type="button" role="tab" id="tab-env" aria-controls="ex-panel" aria-selected="false" data-k="env"><span>03</span>Environment</button>
     </div>
-    <div class="sec-body">
-      <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
-      <div class="news-list" id="research-list"></div>
-      <div class="news-more" id="research-more"></div>
-      <p class="note" id="research-links"></p>
+    <div class="ex">
+      <div class="panel">
+        <svg id="ex-rink" data-k="ind" viewBox="-43 -1 86 49" role="img" aria-labelledby="ex-rink-t">
+          <title id="ex-rink-t">Top-down view of the defensive zone with the goalie, a shooter, a far-side passer and a screen</title>
+          <rect x="-42.5" y="-1" width="85" height="49" rx="3" fill="var(--ice)" stroke="var(--line)" stroke-width=".3"/>
+          <g fill="none" stroke="var(--bad)" stroke-width=".25" opacity=".45"><circle cx="-22" cy="22" r="15"/><circle cx="22" cy="22" r="15"/></g>
+          <line x1="-42.5" y1="42" x2="42.5" y2="42" stroke="var(--bad)" stroke-width=".25" opacity=".7"/>
+          <path d="M-4 42 L-4 37.5 A6 6 0 0 1 4 37.5 L4 42 Z" fill="var(--crease-dim)" stroke="var(--crease)" stroke-width=".2"/>
+          <rect x="-3" y="42" width="6" height="3.3" rx=".6" fill="var(--glass)" stroke="var(--chalk)" stroke-width=".3"/>
+          <!-- environment: tight small-area space, landmark cones, off-ice note -->
+          <g data-on="env">
+            <rect x="-30" y="6" width="60" height="38.5" rx="2" fill="none" stroke="var(--warn)" stroke-width=".45" stroke-dasharray="1.4 .9"/>
+            <text class="lbl" x="-29" y="4.6" style="fill:var(--warn)">Tight space: small-area game</text>
+            <path d="M-6.4 35.2 l.9 -1.6 l.9 1.6z M5.5 35.2 l.9 -1.6 l.9 1.6z" fill="var(--warn)"/>
+            <text class="lbl s" x="8.2" y="35" >Cones at set depth</text>
+          </g>
+          <!-- task: passer, pass lane, screen, double-goal zone, live rebound -->
+          <g data-on="task">
+            <path d="M-13 21 Q2 15 15.5 23" fill="none" stroke="var(--crease)" stroke-width=".4" stroke-dasharray="1 .7"/>
+            <circle cx="16.5" cy="23.5" r="1.4" fill="var(--crease)"/>
+            <text class="lbl" x="18.6" y="23.6">Far-side passer</text>
+            <text class="lbl s" x="18.6" y="26.2">Pass goals count x2</text>
+            <circle cx="2.5" cy="33" r="1.4" fill="var(--fog)"/>
+            <text class="lbl s" x="-20.5" y="33.8">Screen must stay</text>
+            <path d="M-1 37 q-5 -2 -9 1" fill="none" stroke="var(--crease)" stroke-width=".35" marker-end="url(#ah)"/>
+            <text class="lbl s" x="-25" y="40">Rebound stays live</text>
+          </g>
+          <defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="var(--crease)"/></marker></defs>
+          <!-- shooter with puck -->
+          <g data-on="task env">
+            <circle cx="-14" cy="20.5" r="1.4" fill="var(--chalk)"/>
+            <circle cx="-12.2" cy="22" r=".55" fill="var(--chalk)"/>
+            <text class="lbl s" x="-23" y="17.6">Shooter</text>
+          </g>
+          <!-- goalie -->
+          <g data-on="ind">
+            <circle cx="0" cy="38.6" r="4.2" fill="var(--good)" opacity=".12"/>
+            <circle cx="0" cy="38.6" r="1.25" fill="var(--good)"/>
+            <text class="lbl" x="5.3" y="40.6" style="fill:var(--good)">Goalie: size, hips, fatigue, fear</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ex-panel" id="ex-panel" role="tabpanel" aria-live="polite"></div>
     </div>
   </section>
 
-  <footer>
-    <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
-  </footer>
+  <section class="block" id="apply" aria-labelledby="h-apply">
+    <div class="sec-title"><h2 id="h-apply">Apply it</h2><p>Each brief ends with a constraint menu, a "Try it this week" and a "Check it" box built on this path.</p></div>
+    <div class="apply">
+      <a class="card" href="glove-positioning.html#design"><span>Brief 1 · Emerging</span><b>Glove Positioning Analysis</b><p>Why goalies give up more net late in a drill, with constraints to hold depth on wide pucks.</p></a>
+      <div class="card soon"><span>Brief 2 · Coming soon</span><b>Eyes on the stick blade</b><p>What expert goalies look at before the release, and how to keep that information in practice.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="changes" aria-labelledby="h-changes">
+    <div class="sec-title"><h2 id="h-changes">What changed</h2><p>This path is kept current. New studies, updated briefs and grade changes are logged here.</p></div>
+    <ol class="log">
+      <li><time datetime="2026-10-23">23 Oct 2026</time><div><span class="badge new">New</span><b>Coaches learning path.</b> Five short modules on goalie practice design, drawn from our reports on the constraints-led approach and Otte's PoST framework.</div></li>
+      <li><time datetime="2026-10-23">23 Oct 2026</time><div><span class="badge brief">Updated brief</span><b>Glove Positioning Analysis</b> gained Design it, Try it this week and Check it sections.</div></li>
+      <li><time datetime="2026-10-22">22 Oct 2026</time><div><span class="badge brief">Updated brief</span>Brief 1 was renamed <b>Glove Positioning Analysis</b> and now opens with the study it is based on.</div></li>
+      <li><time datetime="2026-10-10">10 Oct 2026</time><div><span class="badge study">New study</span>Kwan, Daley &amp; MacLean's glove position study was published online. It is the evidence behind Brief 1 and module 2's depth examples.</div></li>
+    </ol>
+  </section>
+
+  <section class="block" id="skill-acquisition" aria-labelledby="h-sa">
+    <div class="sec-title"><h2 id="h-sa">Latest research</h2><p>New studies on ecological dynamics, the constraints-led approach and motor learning. Most are not about goaltending. <span class="stamp">Updated <span id="research-updated"></span></span></p></div>
+    <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
+    <div class="news-list" id="research-list"></div>
+    <div class="news-more" id="research-more"></div>
+    <p class="note" id="research-links"></p>
+  </section>
 </main>
 
+<footer class="site-foot">
+  <span>The Goaltending Research Journal. Copyright 2027.</span>
+  <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
+</footer>
+
+<script src="learn.js"></script>
+<script>
+// Hub: course overview, module list, progress, and the constraint explorer
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const done = learnDone();
+  const total = LEARN.reduce((a, m) => a + m.min, 0);
+  $("total-min").textContent = "About " + total + " min";
+  $("overview").innerHTML = LEARN.map((m) => `<li${done.has(m.n) ? ' class="done"' : ""}><a href="${m.href}"><span class="n">${done.has(m.n) ? "✓" : "0" + m.n}</span><span>${m.title}</span><span class="t">${m.min} min</span></a></li>`).join("");
+  $("mods").innerHTML = LEARN.map((m) => `<li${done.has(m.n) ? ' class="done"' : ""}><div class="num-big">0${m.n}</div><div><h3><a href="${m.href}">${m.title}</a></h3><p>${m.blurb}</p><p class="out"><b>You'll be able to</b>${m.outcome}</p></div><div class="side"><span>${m.min} min read</span><span class="grade">${m.grade}</span>${done.has(m.n) ? '<span class="ok">✓ Done</span>' : ""}</div></li>`).join("");
+  $("prog-txt").textContent = done.size + " of 5 modules done";
+  $("prog-bar").style.width = done.size / 5 * 100 + "%";
+  const next = LEARN.find((m) => !done.has(m.n));
+  if (done.size && next) { $("start").href = next.href; $("start").textContent = "Continue with module " + next.n; }
+  else if (!next) { $("start").href = "#apply"; $("start").textContent = "Apply it in a brief"; }
+
+  const EX = {
+    ind: { t: "Individual", d: "The goalie's own structure and state: size, hip mobility, strength, fatigue, confidence, attention.", items: [
+      ["Scale shot speed and distance to the goalie's size, fatigue and confidence", "success rates that keep the goalie searching, not surviving"],
+      ["Count butterfly and RVH reps in each block, and log them", "a plan that respects the hips; no study sets a safe number"],
+      ["For a goalie who fears high shots, use a slower live shooter instead of cutting the shooter out", "staying set while still reading a real release"] ] },
+    task: { t: "Task", d: "Rules, equipment, goals and space: what the drill asks for and what counts.", items: [
+      ["Add a live far-side passer", "depth matched to the play, because over-challenging gives up the backdoor"],
+      ["Goals off a far-side pass count double", "reading the pass instead of guessing the shot"],
+      ["A net-front player with a “screen must stay” rule; rebounds stay live", "finding the puck around traffic and controlling the first save"] ] },
+    env: { t: "Environment", d: "The physical and social setting: rink space, landmarks, lighting, crowd, team culture.", items: [
+      ["Run reads inside a tight small-area game instead of a line drill", "reading and recovering under fatigue and pressure"],
+      ["Place cones at the goalie's set depth, then remove them over a few sessions", "self-correction from rink landmarks without the coach"],
+      ["Move pattern work off the ice to a slide board or synthetic ice", "more ice time spent on game-like work"] ] }
+  };
+  const rink = $("ex-rink"), panel = $("ex-panel"), tabs = [...document.querySelectorAll(".ex-tabs button")];
+  function show(k) {
+    const e = EX[k];
+    rink.dataset.k = k;
+    tabs.forEach((b) => { const on = b.dataset.k === k; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
+    panel.setAttribute("aria-labelledby", "tab-" + k);
+    panel.innerHTML = `<h3>${e.t} constraints</h3><p class="def">${e.d}</p><ul class="ex-list">` + e.items.map(([c, i]) => `<li><b>${c}</b><span>${i}</span></li>`).join("") + `</ul><p class="hint">Adaptations from module 2. <a href="coaches-constraints.html#menu">See the full constraint menu</a>.</p>`;
+  }
+  tabs.forEach((b, i) => {
+    b.addEventListener("click", () => show(b.dataset.k));
+    b.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const t = tabs[(i + d + tabs.length) % tabs.length]; t.focus(); show(t.dataset.k); }
+    });
+  });
+  show("ind");
+})();
+</script>
 <script src="research.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
