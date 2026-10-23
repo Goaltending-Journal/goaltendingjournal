@@ -4,9 +4,12 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "22 October 2026";
+const CLOTHESLINE_UPDATED = "23 October 2026";
 const CLOTHESLINE = [
+{"d": "2026-10-22", "t": "TENNIS RACKET HANDLES, OVERGRIPS, AND MOTOR SKILL LEARNING: A NARRATIVE REVIEW", "u": "https://doi.org/10.61784/wjsr3021", "s": "World Journal of Sport Research", "tp": "ed", "m": false},
 {"d": "2026-10-21", "t": "Individual Resilience as Human Capital Stock: Neighborhood Social Capital, Environmental Perceptions, and Dynamic Pathways Across COVID-19 Phases", "u": "https://doi.org/10.1007/s11067-026-09795-2", "s": "Networks and Spatial Economics", "tp": "ed", "m": false},
+{"d": "2026-10-21", "t": "The Effect of Acute Beetroot Juice and Caffeine Supplementation on Specific Judo Performance During a Simulated Competition Day in Judo Athletes", "u": "https://doi.org/10.1002/ejsc.70278", "s": "European Journal of Sport Science", "tp": "ed", "m": false},
+{"d": "2026-10-21", "t": "Post‐Intervention Differences in Perceived Soft Skills Following a Sport Education Model‐Based Unit in Secondary Physical Education", "u": "https://doi.org/10.1111/ejed.70895", "s": "European Journal of Education", "tp": "sa", "m": false},
 {"d": "2026-10-20", "t": "591– Gibson, The Ecological Approach to Visual Perception, Chap 13– Locomotion & Manipulation", "u": "https://perceptionaction.com/591-3/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
 {"d": "2026-10-20", "t": "Toward institutional change through critical feminist service-learning: a case study in an outdoor physical activity and sport course", "u": "https://doi.org/10.1007/s42322-026-00265-4", "s": "Journal of Outdoor and Environmental Education", "tp": "ed", "m": false},
 {"d": "2026-10-20", "t": "The effect of teams-games-tournament model on fundamental basketball skills among secondary school students: A quasi-experimental study", "u": "https://doi.org/10.68701/jpspa.v1i1.3", "s": "Research article", "tp": "ed", "m": false},
@@ -39,9 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-09-09", "t": "The reliability and measurement error of the movement quality assessment for athletes", "u": "https://doi.org/10.3389/fspor.2026.1878021", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
 {"d": "2026-09-01", "t": "588 – Using Sports Analytics to Inform Practice Design", "u": "https://perceptionaction.com/587-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
 {"d": "2026-08-25", "t": "587 – The CLA: Why do we Constrain Revisited", "u": "https://perceptionaction.com/586-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
-{"d": "2026-08-18", "t": "586 – Common Misconceptions about Ecological Dynamics, a discussion with Steve Whelan", "u": "https://perceptionaction.com/583-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
-{"d": "2026-08-17", "t": "585 – An Ecological Dynamics Approach to Golf Practice-Upcoming Webinar, Will Stubbs, Zen Golf", "u": "https://perceptionaction.com/584b/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
-{"d": "2026-08-11", "t": "584 – The Talent Thief. What if the way we train young athletes is stealing the very talent we are trying to develop? Ted Kroeten", "u": "https://perceptionaction.com/584-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
