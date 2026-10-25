@@ -27,6 +27,8 @@ TOPICS = [
     ("phy", r"physiolog|fitness|thermoregulation|dehydration|load management|agility|physical|body composition|conditioning|loading"),
     ("bio", r"kinematic|movement pattern|stance|blade|torso|biomechanic|butterfly"),
     ("psy", r"psycholog|cognitive|neurophysiolog|anxiety|mental"),
+    ("dev", r"youth|development|specializ|relative age|coach"),
+    ("stats", r"save percentage|analytics|rating|statistic"),
 ]
 SUFFIXES = {"Jr", "Sr", "2nd", "3rd", "4th"}
 
