@@ -4,7 +4,7 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "24 October 2026";
+const CLOTHESLINE_UPDATED = "25 October 2026";
 const CLOTHESLINE = [
 {"d": "2026-10-22", "t": "TENNIS RACKET HANDLES, OVERGRIPS, AND MOTOR SKILL LEARNING: A NARRATIVE REVIEW", "u": "https://doi.org/10.61784/wjsr3021", "s": "World Journal of Sport Research", "tp": "ed", "m": false},
 {"d": "2026-10-21", "t": "Individual Resilience as Human Capital Stock: Neighborhood Social Capital, Environmental Perceptions, and Dynamic Pathways Across COVID-19 Phases", "u": "https://doi.org/10.1007/s11067-026-09795-2", "s": "Networks and Spatial Economics", "tp": "ed", "m": false},
