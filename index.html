@@ -137,7 +137,7 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Evidence heatmap: topics by period, or topics studied together. One jade ramp in five steps; tap a cell to filter the table. */
+/* Research heatmap: topics by period, or topics studied together. One jade ramp in five steps; tap a cell to filter the table. */
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
 .hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
@@ -260,59 +260,6 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
 footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 
-/* Research ticker: the latest articles in one line under the splash, scrolling like a sports-broadcast ticker.
-   Filled from clothesline.js, which the research bot (fetch_clothesline.py) updates daily. Hover or focus pauses it. */
-.tk { --tk-bg: #0b3f31; --tk-fg: #f6f1e3; --tk-soft: #c9bf9f; --tk-rule: rgba(255,255,255,0.14); --tk-label: var(--accent);
-  --tp-dev: #8cb8ff; --tp-train: #ff9aa3; --tp-coaching: #95d6a4; --tp-stats: #ffb886; --tp-bio: #cfd6dd; --tp-ed: #86d4f0; --tp-sa: #ecd07a;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch; height: 52px; margin-top: 32px;
-  background: var(--tk-bg); color: var(--tk-fg); border-radius: 8px; overflow: hidden; font-family: var(--sans); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tk { --tk-bg: #0d1c16; --tk-label: #9a6b12; box-shadow: inset 0 0 0 1px var(--rule); } }
-:root[data-theme="dark"] .tk { --tk-bg: #0d1c16; --tk-label: #9a6b12; box-shadow: inset 0 0 0 1px var(--rule); }
-.tk-label { display: flex; align-items: center; gap: 10px; padding: 0 18px 0 16px; background: var(--tk-label); color: #fff; white-space: nowrap;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); padding-right: 28px; }
-.tk-label b { font: 600 21px/1 var(--display); letter-spacing: 0.05em; text-transform: uppercase; padding-top: 3px; }
-.tk-label .live { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 0 rgba(255,255,255,0.6); animation: tk-pulse 2s ease-out infinite; }
-@keyframes tk-pulse { 70% { box-shadow: 0 0 0 7px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
-.tk-view { overflow: hidden; display: flex; align-items: center; -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 36px), transparent); }
-.tk-track { display: flex; width: max-content; list-style: none; margin: 0; padding: 0; animation: tk-scroll var(--tk-dur, 120s) linear infinite; }
-.tk:hover .tk-track, .tk:focus-within .tk-track { animation-play-state: paused; }
-@keyframes tk-scroll { to { transform: translateX(-50%); } }
-.tk-item { flex: none; display: flex; align-items: center; }
-.tk-item::after { content: ""; width: 1px; height: 18px; background: var(--tk-rule); margin-inline: 22px; }
-.tk-item a { display: inline-flex; align-items: baseline; gap: 10px; color: var(--tk-fg); text-decoration: none; white-space: nowrap; padding-block: 4px; }
-.tk-tp { font: 600 10.5px var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--tp, var(--tp-dev)); }
-.tk-t { font: 500 14.5px var(--sans); max-width: 80ch; overflow: hidden; text-overflow: ellipsis; }
-.tk-s { font: 12.5px var(--sans); color: var(--tk-soft); }
-.tk-item a:hover .tk-t, .tk-item a:focus-visible .tk-t { text-decoration: underline; text-underline-offset: 3px; }
-.tk-item a:focus-visible { outline: 2px solid var(--tk-fg); outline-offset: 2px; border-radius: 2px; }
-.tk-tp-dev { --tp: var(--tp-dev); } .tk-tp-train { --tp: var(--tp-train); } .tk-tp-coaching { --tp: var(--tp-coaching); }
-.tk-tp-stats { --tp: var(--tp-stats); } .tk-tp-bio { --tp: var(--tp-bio); } .tk-tp-ed { --tp: var(--tp-ed); } .tk-tp-sa { --tp: var(--tp-sa); }
-.tk-ctl { display: flex; align-items: center; gap: 4px; padding: 0 10px; border-left: 1px solid var(--tk-rule); }
-.tk-ctl button { width: 32px; height: 32px; display: grid; place-items: center; color: var(--tk-fg); background: none; border: 1px solid transparent; border-radius: 50%; cursor: pointer; }
-.tk-ctl button:hover { border-color: var(--tk-rule); }
-.tk-ctl button:focus-visible { outline: 2px solid var(--tk-fg); outline-offset: 1px; }
-.tk-ctl svg { width: 14px; height: 14px; fill: currentColor; }
-.tk.still .tk-view { overflow-x: auto; scrollbar-width: none; }
-.tk.still .tk-view::-webkit-scrollbar { display: none; }
-.tk.still .tk-track { animation: none; }
-.tk.still .tk-dup { display: none; }
-@media (prefers-reduced-motion: reduce) {
-  .tk-track { animation: none; }
-  .tk-dup { display: none; }
-  .tk-view { overflow-x: auto; scrollbar-width: none; }
-  .tk-label .live { animation: none; }
-  #tk-toggle { display: none; }
-}
-@media (max-width: 640px) {
-  .tk { height: 46px; margin-top: 10px; }
-  .tk-label { padding: 0 22px 0 12px; gap: 8px; }
-  .tk-label b { font-size: 18px; }
-  .tk-label .long { display: none; }
-  .tk-ctl { padding: 0 4px; }
-  .tk-t { font-size: 13.5px; max-width: 44ch; }
-  .tk-s { display: none; }
-}
-
 @media (max-width: 880px) {
   body { font-size: 16px; }
   .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
@@ -370,21 +317,12 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 <main id="main" class="wrap">
 
-  <section class="tk" id="ticker" aria-labelledby="tk-label" hidden>
-    <div class="tk-label"><i class="live" aria-hidden="true"></i><b id="tk-label">Latest<span class="long"> studies</span></b></div>
-    <div class="tk-view" id="tk-view"><ul class="tk-track" id="tk-track"></ul></div>
-    <div class="tk-ctl">
-      <button type="button" id="tk-toggle" aria-pressed="false" aria-label="Pause ticker" title="Pause"><svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3" height="11" rx="1"/><rect x="8.5" y="1.5" width="3" height="11" rx="1"/></svg></button>
-    </div>
-  </section>
-
   <section class="tracker" id="articles" aria-labelledby="h-tracker">
     <div class="tr-head">
       <div>
         <h2 id="h-tracker">Goaltending Research</h2>
         <p class="sub">A database of all published goalie-specific and goalie-related studies.</p>
       </div>
-      <button type="button" class="btn" id="export">Export CSV</button>
     </div>
 
     <figure class="tr-chart">
@@ -394,7 +332,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
     <figure class="tr-chart" aria-labelledby="hm-title">
       <div class="hm-head">
-        <h3 id="hm-title">Evidence heatmap</h3>
+        <h3 id="hm-title">Research Heatmap</h3>
         <div class="hm-tabs" role="tablist" aria-label="Heatmap view">
           <button type="button" role="tab" id="hm-tab-time" aria-selected="true" aria-controls="hm" data-v="time">Topics over time</button>
           <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm" data-v="pair">Topics together</button>
@@ -562,16 +500,9 @@ function drawChart() {
   });
   svg.innerHTML = s;
   svg.classList.toggle("has-sel", state.year != null);
-  const earlier = REC.filter((r) => r.y != null && r.y < CHART_FROM).length;
-  const undated = REC.filter((r) => r.y == null).length;
-  const first = Math.min(...YEARS), lastEarlier = Math.max(...YEARS.filter((v) => v < CHART_FROM));
-  const hidden = [];
-  if (earlier) hidden.push(`${earlier} earlier records (${first}–${lastEarlier})`);
-  if (undated) hidden.push(`${undated} undated`);
   $("chart-cap").innerHTML =
     `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
-    `<span>Select a year to filter the table.</span>` +
-    (hidden.length ? `<span>Not shown: ${hidden.join(" and ")}; they are in the table.</span>` : "");
+    `<span>Select a year to filter the table.</span>`;
 }
 function pickYear(y) {
   state.year = state.year === y ? null : y;
@@ -704,7 +635,7 @@ $("reset").addEventListener("click", () => {
   drawChart();
   render();
 });
-/* Evidence heatmap. "Topics over time": studies per topic in each period. "Topics together": studies tagged with both topics,
+/* Research heatmap. "Topics over time": studies per topic in each period. "Topics together": studies tagged with both topics,
    with each topic's own total on the diagonal. Colour is one jade ramp in five steps of the largest cell. Tap a cell to filter the table. */
 const SPAN_TO = Math.max(...YEARS);
 const SPANS = [{ from: Math.min(...YEARS), to: 1999, label: "Before 2000", short: "Pre-2000", tiny: "<2000" }];
@@ -741,10 +672,6 @@ function drawHeat() {
       });
       html += `<span class="tot">${REC.filter((r) => r.tp.includes(t)).length}</span>`;
     });
-    const tot = TOPICS.map(([t, name]) => [name, REC.filter((r) => r.tp.includes(t)).length]).sort((a, b) => b[1] - a[1]);
-    const recent = SPANS.slice(-2), recentLabel = `${recent[0].from}–${String(recent[1].to).slice(2)}`;
-    const growth = TOPICS.map(([t, name], i) => [name, m[i].slice(-2).reduce((a, b) => a + b, 0)]).sort((a, b) => b[1] - a[1])[0];
-    cap = `<span class="hm-note">Most studied: ${esc(tot[0][0])} (${tot[0][1]}). Thinnest: ${esc(tot[tot.length - 1][0])} (${tot[tot.length - 1][1]}). Busiest since ${recent[0].from}: ${esc(growth[0])} (${growth[1]}).</span>`;
   } else {
     const n = (a, b) => REC.filter((r) => r.tp.includes(a) && r.tp.includes(b)).length;
     const pairs = [];
@@ -808,25 +735,11 @@ $("hm").addEventListener("focusin", (e) => showTip(e.target.closest(".c")));
 $("hm").addEventListener("focusout", () => (tip.hidden = true));
 addEventListener("scroll", () => (tip.hidden = true), { passive: true });
 
-/* Export the records that match the current filters */
-$("export").addEventListener("click", () => {
-  const cols = [["Year", (r) => r.yl], ["Title", (r) => r.t], ["Authors", (r) => r.a], ["Journal", (r) => r.j],
-    ["Scope", (r) => r.sc], ["Topics", (r) => r.tp.map((t) => topicName[t]).join("; ")],
-    ["DOI", (r) => r.doi], ["PubMed", (r) => r.pmid], ["Link", (r) => r.link]];
-  const cell = (v) => { const t = v == null ? "" : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
-  const csv = [cols.map(([h]) => h).join(",")].concat(filtered().map((r) => cols.map(([, f]) => cell(f(r))).join(","))).join("\n");
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" }));
-  a.download = "goaltending-research-tracker.csv";
-  document.body.append(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-});
 render();
 
 
 
 </script>
-<script src="clothesline.js"></script>
 <script>
 // Splash: GRJ drawn in Teko on a hidden canvas, sampled on a grid, then each dot eases into place from a scatter,
 // sweeping left to right. Afterwards a few dots shimmer. Reduced motion draws the finished letters at once.
@@ -885,51 +798,6 @@ render();
   }).observe(box);
 })();
 
-// Research ticker: one line per article in clothesline.js, newest first, with topics dealt out in turn so neighbours differ.
-// The items are drawn twice so the line loops without a gap; the copy is hidden from screen readers and keyboard.
-(function () {
-  if (typeof CLOTHESLINE === "undefined" || !CLOTHESLINE.length) return;
-  const LABELS = { dev: "Goalie development", train: "Training", coaching: "Goalie coaching", stats: "Advanced stats", bio: "Biomechanics", ed: "Ecological dynamics", sa: "Skill acquisition" };
-  const box = document.getElementById("ticker"), track = document.getElementById("tk-track"), btn = document.getElementById("tk-toggle");
-
-  const groups = {};
-  CLOTHESLINE.slice().sort((a, b) => (b.d || "").localeCompare(a.d || "")).forEach(r => (groups[r.tp] = groups[r.tp] || []).push(r));
-  const items = [], lists = Object.values(groups);
-  while (lists.some(l => l.length)) lists.forEach(l => l.length && items.push(l.shift()));
-
-  const fmt = d => { if (!d) return ""; const t = new Date(d + "T12:00:00"); return isNaN(t) ? "" : t.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); };
-  const item = (r, dup) => {
-    const li = document.createElement("li");
-    li.className = "tk-item" + (dup ? " tk-dup" : "");
-    if (dup) li.setAttribute("aria-hidden", "true");
-    const a = document.createElement("a");
-    a.href = r.u; a.target = "_blank"; a.rel = "noopener";
-    a.className = "tk-tp-" + (LABELS[r.tp] ? r.tp : "dev");
-    a.title = [r.t, r.s, fmt(r.d)].filter(Boolean).join(" · ");
-    if (dup) a.tabIndex = -1;
-    const tp = document.createElement("span"); tp.className = "tk-tp"; tp.textContent = LABELS[r.tp] || "Goaltending";
-    const t = document.createElement("span"); t.className = "tk-t"; t.textContent = r.t;
-    const src = document.createElement("span"); src.className = "tk-s"; src.textContent = r.s || "";
-    a.append(tp, t, src);
-    li.append(a);
-    return li;
-  };
-  items.forEach(r => track.append(item(r, false)));
-  items.forEach(r => track.append(item(r, true)));
-  box.hidden = false;
-  // a steady reading speed of about 55 pixels a second, whatever the number of items
-  track.style.setProperty("--tk-dur", Math.max(30, track.scrollWidth / 2 / 55) + "s");
-
-  const PAUSE = '<rect x="2.5" y="1.5" width="3" height="11" rx="1"/><rect x="8.5" y="1.5" width="3" height="11" rx="1"/>';
-  const PLAY = '<path d="M3 1.8v10.4a.8.8 0 0 0 1.2.7l8.4-5.2a.8.8 0 0 0 0-1.4L4.2 1.1A.8.8 0 0 0 3 1.8z"/>';
-  btn.addEventListener("click", () => {
-    const still = box.classList.toggle("still");
-    btn.querySelector("svg").innerHTML = still ? PLAY : PAUSE;
-    btn.setAttribute("aria-pressed", String(still));
-    btn.setAttribute("aria-label", still ? "Play ticker" : "Pause ticker");
-    btn.title = still ? "Play" : "Pause";
-  });
-})();
 </script>
 </body>
 </html>
