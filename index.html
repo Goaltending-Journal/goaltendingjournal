@@ -426,6 +426,7 @@ function linksHtml(r) {
   if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener" title="DOI ${esc(r.doi)}">DOI ↗</a>`);
   if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener" title="PubMed ${esc(r.pmid)}">PubMed ↗</a>`);
   if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source ↗</a>`);
+  for (const v of r.v || []) out.push(`<a href="${esc(v.h)}" rel="noopener" title="Another version of this study">${esc(v.l)} ↗</a>`);
   return out.join("");
 }
 function titleHtml(r) {
