@@ -131,18 +131,20 @@ figure { margin: 0; }
 .chart.has-sel .col.on:not(.sel):not(:hover) .bar-a, .chart.has-sel .col.on:not(.sel):not(:hover) .bar-b { opacity: 0.45; }
 .chart .col.off .lbl { opacity: 0.55; }
 .chart .zero { stroke: var(--rule); stroke-width: 2; }
-figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
+figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
 .key { display: inline-flex; gap: 7px; align-items: center; }
 .key i { width: 9px; height: 9px; display: inline-block; }
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Research heatmap: topics by period, or topics studied together. One jade ramp in five steps; tap a cell to filter the table. */
+/* Research heatmap: topics by period, topics studied together, or studies by year. One jade ramp in five steps; tap a cell to filter the table. */
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
 .hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
 .hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
+.hm-tabs .ts { display: none; }
+@media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 .hm-scroll { overflow-x: auto; }
 .hm { display: grid; gap: 3px; font: 12px var(--sans); }
 .hm .rl { color: var(--fg); display: flex; align-items: center; padding-right: 8px; line-height: 1.2; }
@@ -242,11 +244,6 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .pills .none { background: none; border: 0; padding: 0; color: var(--muted); }
 .empty { padding: 32px 16px; color: var(--muted); font-family: var(--sans); }
 .load { display: flex; justify-content: center; padding-top: 18px; }
-.about { margin-top: 28px; max-width: 640px; font: 14px/1.6 var(--sans); color: var(--muted); }
-.about summary { cursor: pointer; color: var(--accent); width: max-content; }
-.about p, .about ul { margin: 12px 0 0; }
-.about ul { padding-left: 20px; }
-.about li { margin-bottom: 4px; }
 
 .vid-frame { position: relative; aspect-ratio: 16 / 9; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
 .vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -324,21 +321,23 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       </div>
     </div>
 
-    <figure class="tr-chart">
-      <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 190" preserveAspectRatio="xMidYMid meet"></svg>
-      <figcaption id="chart-cap"></figcaption>
-    </figure>
-
     <figure class="tr-chart" aria-labelledby="hm-title">
       <div class="hm-head">
         <h3 id="hm-title">Research Heatmap</h3>
         <div class="hm-tabs" role="tablist" aria-label="Heatmap view">
-          <button type="button" role="tab" id="hm-tab-time" aria-selected="true" aria-controls="hm" data-v="time">Topics over time</button>
-          <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm" data-v="pair">Topics together</button>
+          <button type="button" role="tab" id="hm-tab-time" aria-selected="true" aria-controls="hm" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
+          <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
+          <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
         </div>
       </div>
-      <div class="hm-scroll"><div class="hm" id="hm" role="tabpanel" aria-labelledby="hm-title"></div></div>
-      <figcaption id="hm-cap"></figcaption>
+      <div id="hm-panel">
+        <div class="hm-scroll"><div class="hm" id="hm" role="tabpanel" aria-labelledby="hm-title"></div></div>
+        <div class="cap" id="hm-cap"></div>
+      </div>
+      <div id="yr" role="tabpanel" aria-labelledby="hm-tab-year" hidden>
+        <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 190" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="cap" id="chart-cap"></div>
+      </div>
       <div class="hm-tip" id="hm-tip" role="tooltip" hidden></div>
     </figure>
 
@@ -385,16 +384,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
           </table>
         </div>
         <div class="load" id="load"></div>
-        <details class="about">
-          <summary>About these records</summary>
-          <p>This is a working bibliography, not a systematic review. Records came from two sources.</p>
-          <ul>
-            <li>PubMed searches run on 10 October 2026 for goaltender, goaltenders or goaltending with hockey, and for goalie or goalies with hockey. Results were exported with titles and DOIs, then reviewed for ice hockey goaltending.</li>
-            <li>Web searches of journal sites, repositories and theses for items PubMed does not index, such as theses, conference abstracts and trade articles.</li>
-            <li>The journal's researcher registry, which tracks the published work of ice hockey goaltending researchers. Its goalie items were added on 25 October 2026.</li>
-          </ul>
-          <p>Soccer and field hockey goalkeeper studies are excluded. Records tagged hockey-wide matched the keywords but are not focused on goaltending. Web of Science, Scopus and SPORTDiscus were not searched, so some articles are missing. Records without a DOI are older, are theses or conference abstracts, or had no DOI that could be confirmed. Preprints are marked.</p>
-        </details>
       </div>
     </div>
   </section>
@@ -713,8 +702,12 @@ $("hm").addEventListener("click", (e) => {
 });
 document.querySelector(".hm-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
-  heat.view = b.dataset.v;
   document.querySelectorAll(".hm-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
+  const year = b.dataset.v === "year";
+  $("yr").hidden = !year; $("hm-panel").hidden = year;
+  if (year) { drawChart(); chartW = Math.round($("chart").getBoundingClientRect().width); return; }
+  heat.view = b.dataset.v;
   drawHeat();
 });
 const tip = $("hm-tip");
