@@ -5,7 +5,7 @@ Run by .github/workflows/update-goalie-stats.yml every morning, or by hand:
   python build_goalies_data.py
 
 Only the current season is re-downloaded (api.nhle.com/stats/rest goalie summary,
-regular season). Earlier seasons, the QuantHockey line (qh) and InGoal links are
+regular season). Earlier seasons and the QuantHockey line (qh) are
 kept as they are. A goalie who appears for the first time gets his bio from the
 same feed's goalie bios table. Uses only the standard library.
 
@@ -16,7 +16,6 @@ import argparse
 import json
 import re
 import sys
-import unicodedata
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -75,11 +74,6 @@ def season_line(row):
     }
 
 
-def slug(name):
-    plain = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
-    return re.sub(r"[^a-z0-9]+", "-", plain.lower()).strip("-")
-
-
 def new_goalie(row, bio):
     draft = None
     if bio.get("draftYear"):
@@ -94,7 +88,6 @@ def new_goalie(row, bio):
         "ht": bio.get("height"),
         "wt": bio.get("weight"),
         "draft": draft,
-        "ingoal": f"https://ingoalmag.com/goaltenders/{slug(row['goalieFullName'])}/",
         "seasons": {},
         "qh": None,
     }

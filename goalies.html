@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Goalie Analyst · The Goaltending Research Journal</title>
+<title>NHL Goalies / Stats Visualizers · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
@@ -78,7 +78,9 @@ a:hover{text-decoration:underline}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--crease);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums}
-.wrap{max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
+.wrap{max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:40px}
+/* a clean rule between the stats and each visualizer */
+#main>section+section{border-top:1px solid var(--line);padding-top:40px}
 
 /* site top bar (site-nav.css) spans the full width despite the body padding */
 .topbar{margin-inline:calc(-1*clamp(16px,3vw,40px))}
@@ -94,12 +96,12 @@ button,input,select{font:inherit;color:inherit}
 .switch input:checked::after{transform:translateX(14px)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:end;padding-top:28px}
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--crease)}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;padding-top:28px}
 h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,6vw,72px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;margin:8px 0 12px;text-wrap:balance}
 h1 span{color:var(--fog)}
-.lede{color:var(--fog);max-width:60ch;margin:0}
 .spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
+.spot .ph{position:absolute;right:0;bottom:0;height:100%;max-height:200px;width:auto;object-fit:contain;object-position:right bottom;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
+.spot>:not(.ph){position:relative;z-index:1}
 .spot::before{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;border-radius:50%;border:1px solid var(--crease-dim)}
 .spot .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .spot .nm{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;text-transform:uppercase;margin:4px 0 10px}
@@ -335,6 +337,7 @@ tbody tr:last-child td{border-bottom:0}
   .panel-h{flex-wrap:wrap}
   .bio{grid-template-columns:repeat(2,minmax(0,1fr))}
   .spot{grid-template-columns:1fr}
+  .spot .ph{top:0;bottom:auto;height:136px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -358,9 +361,7 @@ tbody tr:last-child td{border-bottom:0}
 <main class="wrap" id="main">
   <section class="hero">
     <div>
-      <div class="eyebrow" id="heroEyebrow"></div>
-      <h1>Every NHL goalie. <span>Every save.</span></h1>
-      <p class="lede" id="heroLede"></p>
+      <h1>NHL Goalies <span>/ Stats Visualizers</span></h1>
     </div>
     <div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div>
   </section>
@@ -555,17 +556,16 @@ $("#seasonSeg").addEventListener("click", e=>{
 
 /* ---------- hero ---------- */
 function renderHero(){
-  const all=rows(), q=qualified();
-  const live = state.season==="2026-27";
-  $("#heroEyebrow").textContent = live ? `${state.season} regular season · snapshot ${DATA.asOf}` : `${state.season} regular season · final`;
-  const shots = all.reduce((a,r)=>a+(r.sa||0),0);
-  $("#heroLede").innerHTML = `${all.length} goaltenders have played in ${state.season}${shots?`, facing ${shots.toLocaleString()} shots`:""}. Sort the full table, compare workloads, and open any goalie for bio, season history and a cross-check against QuantHockey and InGoal.`;
+  const q=qualified();
   const best = [...q].sort((a,b)=>b.svp-a.svp)[0];
   if(!best){ $("#spot").innerHTML=""; return; }
   $("#spot").dataset.id=best.g.id;
-  $("#spot").innerHTML = `${mono(best.g,"lg")}<div><div class="tag">Save % leader · min ${state.mingp || defaultMin()} GP</div><div class="nm">${esc(best.g.name)}</div>
+  const yr=state.season.slice(0,4), team=best.g.seasons[state.season]?.team||best.g.team;
+  const shot=(y)=>`https://assets.nhle.com/mugs/nhl/${y}${+y+1}/${team}/${best.g.id}.png`;
+  $("#spot").innerHTML = `<img class="ph" src="${shot(yr)}" data-alt="${shot(yr-1)}" alt="${esc(best.g.name)}" loading="lazy" decoding="async">${mono(best.g,"lg")}<div><div class="tag">Save % leader · min ${state.mingp || defaultMin()} GP</div><div class="nm">${esc(best.g.name)}</div>
     <div class="stats"><div class="kv"><b class="num">${fmtSv(best.svp)}</b><span>SV%</span></div><div class="kv"><b class="num">${fmtGaa(best.gaa)}</b><span>GAA</span></div><div class="kv"><b class="num">${best.w}-${best.l}-${best.otl}</b><span>Record</span></div><div class="kv"><b class="num">${best.gp}</b><span>GP</span></div></div></div>`;
 }
+$("#spot").addEventListener("error",e=>{ const im=e.target; if(im.tagName!=="IMG") return; if(im.dataset.alt){ im.src=im.dataset.alt; im.dataset.alt=""; } else im.remove(); },true);
 $("#spot").addEventListener("click",()=>openGoalie(+$("#spot").dataset.id));
 $("#spot").addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openGoalie(+$("#spot").dataset.id);} });
 
@@ -893,7 +893,7 @@ function openGoalie(id){
       ${SEASONS.filter(s=>g.seasons[s]).map(s=>{const d=g.seasons[s];return `<tr><td class="l">${s}</td><td class="l">${esc(d.team)}</td><td class="num">${d.gp}</td><td class="num">${d.w}-${d.l}-${d.otl}</td><td class="num">${fmtSv(d.svp)}</td><td class="num">${fmtGaa(d.gaa)}</td><td class="num">${d.so}</td></tr>`}).join("")}
     </tbody></table></div></div>
     <div class="dr-sec"><h4>Source cross-check</h4><div class="xcheck">${xc}</div></div>
-    <div class="links"><a href="https://www.nhl.com/player/${g.id}" target="_blank" rel="noopener">NHL.com profile ↗</a><a href="${esc(g.ingoal)}" target="_blank" rel="noopener">InGoal Magazine ↗</a><a href="https://puckpedia.com/" target="_blank" rel="noopener">PuckPedia ↗</a></div>`;
+    <div class="links"><a href="https://www.nhl.com/player/${g.id}" target="_blank" rel="noopener">NHL.com profile ↗</a><a href="https://puckpedia.com/" target="_blank" rel="noopener">PuckPedia ↗</a></div>`;
   $("#drawer").hidden=false; $("#scrim").hidden=false;
   $("#drClose").focus();
 }
@@ -922,7 +922,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 $("#foot").innerHTML = `
   <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for Where goals go in: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
-  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to InGoal Magazine and PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
+  <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
 function renderAll(){
   renderSeg();
