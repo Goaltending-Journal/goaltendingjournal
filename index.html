@@ -160,7 +160,6 @@ figcaption { font: 13px var(--sans); color: var(--muted); margin-top: 10px; disp
 .hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
 .hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
 .hm-ramp i.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
-.hm-note { color: var(--fg); }
 .hm .ch .sm { display: none; }
 .hm { min-width: 0; }
 @media (max-width: 640px) {
@@ -658,7 +657,7 @@ function cellHtml(n, max, label, tip, data, sel) {
 }
 function drawHeat() {
   const box = $("hm"), only = state.topics.size === 1 ? [...state.topics][0] : null;
-  let html = "", cap = "";
+  let html = "";
   if (heat.view === "time") {
     const m = TOPICS.map(([t]) => SPANS.map((s) => REC.filter((r) => r.tp.includes(t) && r.y != null && r.y >= s.from && r.y <= s.to).length));
     const max = Math.max(1, ...m.flat());
@@ -692,12 +691,9 @@ function drawHeat() {
         html += cellHtml(k, max, `${an} with ${bn}`, `<b>${esc(an)} + ${esc(bn)}</b>${plural(k)} tagged with both`, `data-a="${a}" data-b="${b}"`, sel);
       });
     });
-    const top = pairs.sort((x, y) => y[2] - x[2]).slice(0, 2);
-    const empty = pairs.filter((p) => !p[2]).length;
-    cap = `<span class="hm-note">Strongest links: ${top.map((p) => `${esc(topicName[p[0]])} with ${esc(topicName[p[1]])} (${p[2]})`).join("; ")}. ${empty} of ${pairs.length} topic pairs have no study yet.</span>`;
   }
   box.innerHTML = html;
-  $("hm-cap").innerHTML = cap + `<span class="hm-ramp" aria-hidden="true">Fewer <i class="z"></i>${STEP.slice(1).map((k) => `<i style="--k:${k}%"></i>`).join("")} More</span>` +
+  $("hm-cap").innerHTML = `<span class="hm-ramp" aria-hidden="true">Fewer <i class="z"></i>${STEP.slice(1).map((k) => `<i style="--k:${k}%"></i>`).join("")} More</span>` +
     `<span>${heat.view === "time" ? "Select a cell to filter the table. Studies can carry more than one topic." : "Grey numbers are each topic's total. Select a cell to see the studies."}</span>`;
 }
 $("hm").addEventListener("click", (e) => {
