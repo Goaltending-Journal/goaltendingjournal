@@ -159,6 +159,34 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm .c.sel { outline: 2px solid var(--h1-hover); outline-offset: 1px; }
 .hm-tip { position: fixed; z-index: 30; pointer-events: none; max-width: 260px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 8px 10px; font: 12.5px/1.4 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
 .hm-tip b { display: block; }
+/* Researcher Network Map: tracked researchers as dots (size = goalie studies), lines between people who published a goalie study together.
+   Clusters are laid out separately and packed into rows. Select a person to see their profile and filter the table to their studies. */
+.nw { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: start; }
+.nw svg { width: 100%; height: auto; display: block; font-family: var(--sans); overflow: visible; }
+.nw .lk { stroke: var(--field-line); stroke-linecap: round; }
+.nw .lk.on { stroke: var(--accent); }
+.nw .nd { cursor: pointer; outline: none; }
+.nw .nd circle { fill: var(--accent); stroke: var(--surface); stroke-width: 2; transition: opacity .15s ease; }
+.nw .nd text { fill: var(--fg); font-size: 11.5px; pointer-events: none; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+.nw .nd:hover circle, .nw .nd:focus-visible circle { stroke: var(--fg); }
+.nw .nd.sel circle { fill: var(--h1-hover); }
+.nw.has-sel .nd.dim circle { opacity: .22; } .nw.has-sel .nd.dim text { opacity: 0; } .nw.has-sel .lk:not(.on) { opacity: .25; }
+.nw-side { font-family: var(--sans); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.nw-side h4 { font: 600 26px/1 var(--display); letter-spacing: 0.02em; }
+.nw-side .org { font-size: 13px; color: var(--muted); margin-top: -4px; }
+.nw-side .lab { font: 500 12px var(--sans); color: var(--muted); }
+.nw-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); }
+.nw-stats b { display: block; font: 600 21px/1.1 var(--sans); color: var(--fg); font-variant-numeric: tabular-nums; }
+.nw-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.nw-list button, .nw-list span { font: 12px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: 999px; padding: 3px 10px; }
+.nw-list button { cursor: pointer; } .nw-list button:hover { border-color: var(--accent); }
+.nw-top { display: grid; gap: 2px; }
+.nw-top button { all: unset; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; padding: 6px 8px; border-radius: var(--r); font-size: 13.5px; }
+.nw-top button:hover, .nw-top button:focus-visible { background: var(--accent-soft); }
+.nw-top small { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nw-side .btn { justify-self: start; color: var(--accent); border-color: var(--accent); }
+.nw-cap { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+@media (max-width: 880px) { .nw { grid-template-columns: 1fr; } }
 .hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
 .hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
 .hm-ramp i.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
@@ -341,6 +369,15 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       <div class="hm-tip" id="hm-tip" role="tooltip" hidden></div>
     </figure>
 
+    <figure class="tr-chart" aria-labelledby="nw-title">
+      <div class="hm-head"><h3 id="nw-title">Researcher Network Map</h3></div>
+      <div class="nw" id="nw">
+        <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
+        <div class="nw-side" id="nw-side" aria-live="polite"></div>
+      </div>
+      <div class="nw-cap" id="nw-cap"></div>
+    </figure>
+
     <div class="tr-body">
       <form class="side" id="filters" role="search" aria-label="Filter records">
         <div class="field">
@@ -396,6 +433,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 </main>
 
 <script src="data.js"></script>
+<script src="researchers-data.js"></script>
 <script>
 const TOPICS = [
   ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
@@ -410,7 +448,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
 const topicName = Object.fromEntries(TOPICS);
 const PAGE_SIZE = 5;
-const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), span: null, sort: "new", shown: PAGE_SIZE, sig: "" };
+const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), span: null, person: null, sort: "new", shown: PAGE_SIZE, sig: "" };
 const YEARS = REC.map((r) => r.y).filter((y) => y != null);
 const DECADES = [];
 for (let d = decadeOf(Math.min(...YEARS)); d <= decadeOf(Math.max(...YEARS)); d += 10) DECADES.push(d);
@@ -533,10 +571,12 @@ $("decade").innerHTML = `<option value="all">All years</option>` +
   DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
   (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
 
+const recKey = (r) => (r.doi || "").toLowerCase() || (r.t || "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60);
 function matches(r) {
   if (state.scope !== "all" && r.sc !== state.scope) return false;
   if (state.year != null && r.y !== state.year) return false;
   if (state.span && (r.y == null || r.y < state.span.from || r.y > state.span.to)) return false;
+  if (state.person && !state.person.keys.has(recKey(r))) return false;
   if (state.decade !== "all") {
     if (state.decade === "nd") { if (r.y != null) return false; }
     else if (decadeOf(r.y) !== Number(state.decade)) return false;
@@ -557,7 +597,7 @@ function filtered() {
 }
 function render() {
   const rows = filtered();
-  const sig = JSON.stringify([state.q, state.scope, state.decade, state.year, state.span && state.span.label, [...state.topics], state.sort]);
+  const sig = JSON.stringify([state.q, state.scope, state.decade, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
   if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
   const shown = rows.slice(0, state.shown);
   filterBadge();
@@ -577,6 +617,7 @@ function render() {
 function activeChips() {
   const out = [];
   if (state.year != null) out.push(["year", String(state.year)]);
+  if (state.person) out.push(["person", state.person.name]);
   if (state.span) out.push(["span", state.span.label]);
   if (state.scope !== "all") out.push(["scope", SCOPES.find(([k]) => k === state.scope)[1]]);
   if (state.decade !== "all") out.push(["decade", state.decade === "nd" ? "Undated" : state.decade + "s"]);
@@ -588,6 +629,7 @@ $("active").addEventListener("click", (e) => {
   const k = b.dataset.k;
   if (k === "year") { pickYear(state.year); return; }
   if (k === "span") state.span = null;
+  if (k === "person") { state.person = null; drawNetwork(); }
   if (k === "scope") { state.scope = "all"; $("scope").querySelector('input[value="all"]').checked = true; }
   if (k === "decade") { state.decade = "all"; $("decade").value = "all"; }
   if (k.startsWith("topic:")) { const t = k.slice(6); state.topics.delete(t); $("topics").querySelector(`input[value="${t}"]`).checked = false; }
@@ -613,15 +655,16 @@ $("filters-toggle").addEventListener("click", () => {
   $("filters-toggle").setAttribute("aria-expanded", String(open));
 });
 function filterBadge() {
-  const n = (state.scope !== "all") + (state.decade !== "all") + (state.year != null) + (state.span != null) + state.topics.size;
+  const n = (state.scope !== "all") + (state.decade !== "all") + (state.year != null) + (state.span != null) + (state.person != null) + state.topics.size;
   $("filters-toggle").textContent = n ? `Filters · ${n}` : "Filters";
 }
 $("reset").addEventListener("click", () => {
-  state.q = ""; state.scope = "all"; state.decade = "all"; state.year = null; state.span = null; state.sort = "new"; state.topics.clear();
+  state.q = ""; state.scope = "all"; state.decade = "all"; state.year = null; state.span = null; state.person = null; state.sort = "new"; state.topics.clear();
   $("q").value = ""; $("decade").value = "all"; $("sort").value = "new";
   $("scope").querySelector('input[value="all"]').checked = true;
   $("topics").querySelectorAll("input").forEach((c) => (c.checked = false));
   drawChart();
+  drawNetwork();
   render();
 });
 /* Research heatmap. "Topics over time": studies per topic in each period. "Topics together": studies tagged with both topics,
@@ -724,6 +767,126 @@ $("hm").addEventListener("pointerleave", () => (tip.hidden = true));
 $("hm").addEventListener("focusin", (e) => showTip(e.target.closest(".c")));
 $("hm").addEventListener("focusout", () => (tip.hidden = true));
 addEventListener("scroll", () => (tip.hidden = true), { passive: true });
+
+/* Researcher Network Map. Each connected group is laid out with a small force simulation, then the groups are packed into rows,
+   largest first, and people with no shared goalie study sit in the last rows. Selecting a dot opens that researcher's profile. */
+const NW = { sel: null, layoutW: 0, pos: null };
+const NWP = NETWORK.people, NWI = Object.fromEntries(NWP.map((p, i) => [p.id, i]));
+const NWL = NETWORK.links.filter(([a, b]) => a in NWI && b in NWI);
+const NWN = NWP.map(() => new Set());
+NWL.forEach(([a, b]) => { NWN[NWI[a]].add(NWI[b]); NWN[NWI[b]].add(NWI[a]); });
+const nwR = (p) => 4 + Math.sqrt(p.n) * 3.1;
+const nwYears = (p) => (p.yrs ? (p.yrs[0] === p.yrs[1] ? String(p.yrs[0]) : `${p.yrs[0]}–${p.yrs[1]}`) : "—");
+function nwLayout(W) {
+  const seen = new Array(NWP.length).fill(false), groups = [];
+  NWP.forEach((_, i) => {
+    if (seen[i]) return;
+    const g = [], q = [i]; seen[i] = true;
+    while (q.length) { const k = q.pop(); g.push(k); NWN[k].forEach((j) => { if (!seen[j]) { seen[j] = true; q.push(j); } }); }
+    groups.push(g);
+  });
+  groups.sort((a, b) => b.length - a.length || NWP[b[0]].n - NWP[a[0]].n);
+  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pos = new Array(NWP.length), boxes = [];
+  groups.forEach((g) => {
+    const pts = g.map((k, j) => ({ k, x: Math.cos(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), y: Math.sin(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), vx: 0, vy: 0 }));
+    const at = Object.fromEntries(pts.map((p, j) => [p.k, j]));
+    for (let t = 0; t < 300 && pts.length > 1; t++) {
+      const cool = 1 - t / 300;
+      for (let a = 0; a < pts.length; a++) for (let b = a + 1; b < pts.length; b++) {
+        const A = pts[a], B = pts[b], dx = A.x - B.x, dy = A.y - B.y, d2 = Math.max(dx * dx + dy * dy, 1), f = 150 / d2;
+        A.vx += dx * f; A.vy += dy * f; B.vx -= dx * f; B.vy -= dy * f;
+      }
+      g.forEach((k) => NWN[k].forEach((j) => {
+        if (j < k) return;
+        const A = pts[at[k]], B = pts[at[j]], dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1, f = (d - 34) * 0.08;
+        A.vx += (dx / d) * f; A.vy += (dy / d) * f; B.vx -= (dx / d) * f; B.vy -= (dy / d) * f;
+      }));
+      pts.forEach((p) => { p.vx -= p.x * 0.02; p.vy -= p.y * 0.02; p.x += p.vx * cool; p.y += p.vy * cool; p.vx *= 0.5; p.vy *= 0.5; });
+    }
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    pts.forEach((p) => { const r = nwR(NWP[p.k]) + 6; x0 = Math.min(x0, p.x - r); x1 = Math.max(x1, p.x + r); y0 = Math.min(y0, p.y - r); y1 = Math.max(y1, p.y + r); });
+    const named = g.some((k) => NWP[k].n >= 3);
+    boxes.push({ pts, w: x1 - x0 + (named ? 96 : 6), h: y1 - y0 + (pts.length > 1 ? 18 : 2), x0, y0 });   // room on the right for name labels
+  });
+  let x = 0, y = 0, rowH = 0;
+  boxes.forEach((b) => {
+    if (x > 0 && x + b.w > W) { x = 0; y += rowH; rowH = 0; }
+    b.pts.forEach((p) => { pos[p.k] = { x: x + (p.x - b.x0), y: y + (p.y - b.y0) + 14 }; });
+    x += b.w; rowH = Math.max(rowH, b.h);
+  });
+  return { pos, H: y + rowH };
+}
+// Labels flip left near the right edge, and step down a line when they would overlap a label already placed.
+const nwText = (p, x, y, W, placed) => {
+  const r = nwR(p) + 4, w = p.name.length * 6.3, left = x + r + w > W;
+  for (const dy of [4, 17, -9]) {
+    const x0 = left ? x - r - w : x + r, box = [x0, y + dy - 10, x0 + w, y + dy + 3];
+    if (placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
+    placed.push(box);
+    return `<text x="${(left ? -r : r).toFixed(1)}" y="${dy}"${left ? ' text-anchor="end"' : ""}>${esc(p.name)}</text>`;
+  }
+  return "";
+};
+function drawNetwork() {
+  const svg = $("nw-svg"), box = $("nw");
+  const W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 760);
+  if (!NW.pos || NW.layoutW !== W) { const l = nwLayout(W); NW.pos = l.pos; NW.H = l.H; NW.layoutW = W; }
+  const { pos } = NW, sel = NW.sel, near = sel == null ? null : NWN[sel];
+  const label = (i) => sel == null ? NWP[i].n >= 3 : i === sel || near.has(i);
+  svg.setAttribute("viewBox", `0 0 ${W} ${Math.ceil(NW.H)}`);
+  let h = "";
+  NWL.forEach(([a, b, w]) => {
+    const i = NWI[a], j = NWI[b], on = sel != null && (i === sel || j === sel);
+    h += `<line class="lk${on ? " on" : ""}" x1="${pos[i].x.toFixed(1)}" y1="${pos[i].y.toFixed(1)}" x2="${pos[j].x.toFixed(1)}" y2="${pos[j].y.toFixed(1)}" stroke-width="${Math.min(4, 1 + w * 0.7)}"/>`;
+  });
+  const placed = [], texts = {};
+  NWP.map((p, i) => i).filter(label).sort((a, b) => (b === sel) - (a === sel) || NWP[b].n - NWP[a].n)
+    .forEach((i) => { texts[i] = nwText(NWP[i], pos[i].x, pos[i].y, W, placed); });
+  NWP.forEach((p, i) => {
+    const cls = i === sel ? " sel" : sel != null && !near.has(i) ? " dim" : "";
+    h += `<g class="nd${cls}" data-i="${i}" tabindex="0" role="button" aria-pressed="${i === sel}" aria-label="${esc(p.name)}, ${p.n} goalie ${p.n === 1 ? "study" : "studies"}, ${NWN[i].size} collaborators" transform="translate(${pos[i].x.toFixed(1)},${pos[i].y.toFixed(1)})">` +
+      `<circle r="${nwR(p).toFixed(1)}"/>${texts[i] || ""}<title>${esc(p.name)}</title></g>`;
+  });
+  svg.innerHTML = h;
+  box.classList.toggle("has-sel", sel != null);
+  const side = $("nw-side");
+  if (sel == null) {
+    const top = NWP.map((p, i) => [p, i]).sort((a, b) => NWN[b[1]].size - NWN[a[1]].size || b[0].n - a[0].n).slice(0, 6);
+    side.innerHTML = `<div class="lab">Most connected</div><div class="nw-top">${top.map(([p, i]) =>
+      `<button type="button" data-i="${i}"><span>${esc(p.name)}</span><small>${NWN[i].size} collaborators</small></button>`).join("")}</div>`;
+  } else {
+    const p = NWP[sel], cols = [...near].sort((a, b) => NWP[b].n - NWP[a].n);
+    const nh = REC.filter((r) => p.home.includes(recKey(r))).length;
+    side.innerHTML = `<h4>${esc(p.name)}</h4>${p.org ? `<div class="org">${esc(p.org)}</div>` : ""}` +
+      `<div class="nw-stats"><span><b>${p.n}</b>goalie ${p.n === 1 ? "study" : "studies"}</span><span><b>${cols.length}</b>collaborators</span><span><b>${nwYears(p)}</b>active</span></div>` +
+      (p.tp.length ? `<div class="nw-list">${p.tp.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : "") +
+      (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
+      (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
+  }
+  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies`;
+}
+function nwPick(i) { NW.sel = NW.sel === i ? null : i; drawNetwork(); }
+$("nw-svg").addEventListener("click", (e) => { const g = e.target.closest(".nd"); if (g) nwPick(Number(g.dataset.i)); });
+$("nw-svg").addEventListener("keydown", (e) => {
+  const g = e.target.closest(".nd"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
+  e.preventDefault(); const i = Number(g.dataset.i); nwPick(i);
+  const again = $("nw-svg").querySelector(`.nd[data-i="${i}"]`); if (again) again.focus();
+});
+$("nw-side").addEventListener("click", (e) => {
+  if (e.target.closest("#nw-show")) {
+    const p = NWP[NW.sel];
+    state.person = { id: p.id, name: p.name, keys: new Set(p.home) };
+    render();
+    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    $("count").focus({ preventScroll: true });
+    return;
+  }
+  const b = e.target.closest("button[data-i]"); if (b) { NW.sel = Number(b.dataset.i); drawNetwork(); }
+});
+drawNetwork();
+let nwW = 0;
+window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
 
 render();
 
