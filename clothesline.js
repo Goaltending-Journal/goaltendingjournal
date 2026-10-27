@@ -4,7 +4,7 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "26 October 2026";
+const CLOTHESLINE_UPDATED = "27 October 2026";
 const CLOTHESLINE = [
 {"d": "2026-10-26", "t": "Coachingdynamiek in prestatiegerichte teamsport: Een seizoensbreed perspectief op coachleiderschap in het Belgische nationale herenvolleybal", "u": "https://lirias.kuleuven.be/handle/20.500.12942/795732", "s": "Lirias (KU Leuven)", "tp": "ed", "m": false},
 {"d": "2026-10-23", "t": "Sporcularda Sportif Öz-Düzenlemenin Etkili Karar Verme Becerilerine Etkisi", "u": "https://doi.org/10.70007/yalovaspor.1939577", "s": "Yalova Üniversitesi spor bilimleri dergisi.", "tp": "ed", "m": false},
