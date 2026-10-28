@@ -194,6 +194,17 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw-side .btn { justify-self: start; color: var(--accent); border-color: var(--accent); }
 .nw-cap { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
 @media (max-width: 880px) { .nw { grid-template-columns: 1fr; } }
+/* Where the research happens: Equal Earth land from places-data.js, one dot per city. The view buttons pan and zoom the viewBox. */
+.pl svg { overflow: hidden; background: var(--bg); border: 1px solid var(--rule); }
+.pl .land { fill: var(--rule); }
+.pl .ct circle { fill: var(--accent); stroke: var(--surface); fill-opacity: .9; }
+.pl .ct { cursor: pointer; outline: none; }
+.pl .ct text { fill: var(--fg); pointer-events: none; paint-order: stroke; stroke: var(--bg); stroke-linejoin: round; }
+.pl .ct:hover circle, .pl .ct:focus-visible circle, .pl .ct.hl circle { fill: var(--h1-hover); stroke: var(--fg); }
+.pl .ct.sel circle { fill: var(--h1-hover); }
+.pl.has-sel .ct.dim circle { opacity: .35; } .pl.has-sel .ct.dim text { opacity: 0; }
+.pl-org { display: grid; gap: 5px; }
+.pl-org .lab { color: var(--fg); font-weight: 600; }
 .hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
 .hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
 .hm-ramp i.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
@@ -357,18 +368,30 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
 
     <figure class="tr-chart" aria-labelledby="nw-title">
-      <div class="hm-head"><h3 id="nw-title">Researcher Network Map</h3></div>
-      <div class="nw" id="nw">
-        <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
-        <div class="nw-side" id="nw-side" aria-live="polite"></div>
+      <div class="hm-head">
+        <h3 id="nw-title">Researcher Network Map</h3>
+        <div class="hm-tabs" id="nw-tabs" role="tablist" aria-label="Network map view"></div>
       </div>
-      <div class="nw-cap" id="nw-cap"></div>
+      <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
+        <div class="nw" id="nw">
+          <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
+          <div class="nw-side" id="nw-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="nw-cap"></div>
+      </div>
+      <div id="nw-geo" role="tabpanel" hidden>
+        <div class="nw pl" id="pl">
+          <svg id="pl-svg" role="group" aria-label="Cities where goalie researchers work, sized by number of researchers"></svg>
+          <div class="nw-side" id="pl-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="pl-cap"></div>
+      </div>
     </figure>
 
     <figure class="tr-chart" aria-labelledby="hm-title">
       <div class="hm-head">
         <h3 id="hm-title">Research Heatmap</h3>
-        <div class="hm-tabs" role="tablist" aria-label="Heatmap view">
+        <div class="hm-tabs" id="hm-tabs" role="tablist" aria-label="Heatmap view">
           <button type="button" role="tab" id="hm-tab-time" aria-selected="true" aria-controls="hm" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
           <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
           <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
@@ -441,6 +464,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 <script src="data.js"></script>
 <script src="researchers-data.js"></script>
+<script src="places-data.js"></script>
 <script>
 const TOPICS = [
   ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
@@ -636,7 +660,7 @@ $("active").addEventListener("click", (e) => {
   const k = b.dataset.k;
   if (k === "year") { pickYear(state.year); return; }
   if (k === "span") state.span = null;
-  if (k === "person") { state.person = null; drawNetwork(); }
+  if (k === "person") { state.person = null; drawNetwork(); drawPlaces(); }
   if (k === "scope") { state.scope = "all"; $("scope").querySelector('input[value="all"]').checked = true; }
   if (k === "decade") { state.decade = "all"; $("decade").value = "all"; }
   if (k.startsWith("topic:")) { const t = k.slice(6); state.topics.delete(t); $("topics").querySelector(`input[value="${t}"]`).checked = false; }
@@ -751,9 +775,9 @@ $("hm").addEventListener("click", (e) => {
   const again = $("hm").querySelector(c.dataset.s != null ? `[data-t="${c.dataset.t}"][data-s="${c.dataset.s}"]` : `[data-a="${c.dataset.a}"]${c.dataset.b ? `[data-b="${c.dataset.b}"]` : ":not([data-b])"}`);
   if (again && e.detail === 0) again.focus();
 });
-document.querySelector(".hm-tabs").addEventListener("click", (e) => {
+$("hm-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
-  document.querySelectorAll(".hm-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  document.querySelectorAll("#hm-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
   // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
   const year = b.dataset.v === "year";
   $("yr").hidden = !year; $("hm-panel").hidden = year;
@@ -921,6 +945,132 @@ $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW
 drawNetwork();
 let nwW = 0;
 window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
+
+// ---- Where the research happens ----
+// Each city is a dot sized by its researchers. The tabs move the viewBox between world, North America and Europe;
+// dots and labels are scaled back so they keep the same size on screen at every zoom.
+const PL = { view: 0, vb: PLACES.views[0].slice(1), sel: null, raf: 0 };
+const PLC = PLACES.places.map((c) => {
+  const ids = c.orgs.flatMap(([, ids]) => ids).filter((id) => id in NWI);
+  return { ...c, ids, n: ids.length, keys: new Set(ids.flatMap((id) => NWP[NWI[id]].home)) };
+});
+const plCount = (n) => `${n} ${n === 1 ? "researcher" : "researchers"}`;
+// Tabs on the Network Map: the network itself, then one tab per map view.
+$("nw-tabs").innerHTML = `<button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Network</span><span class="ts">Network</span></button>` +
+  PLACES.views.map(([l], i) => `<button type="button" role="tab" id="nw-tab-${i}" aria-selected="false" aria-controls="nw-geo" data-v="${i}"><span class="tl">${l}</span><span class="ts">${l === "North America" ? "N. America" : l}</span></button>`).join("");
+const plOff = (c) => !PLACES.views.some(([, vx, vy, vw, vh]) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh);
+function drawPlaces() {
+  const svg = $("pl-svg"), [vx, vy, vw, vh] = PL.vb;
+  const px = svg.getBoundingClientRect().width || 760, k = vw / px;   // SVG units per screen pixel
+  const sel = PL.sel, inView = (c) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh;
+  svg.setAttribute("viewBox", `${vx} ${vy} ${vw} ${vh}`);
+  const r = (c) => (3.5 + Math.sqrt(c.n) * 2.6) * k;
+  // label the bigger cities first; skip any label that would collide with one already placed
+  const placed = [], label = {};
+  const order = PLC.map((c, i) => i).filter((i) => inView(PLC[i])).sort((a, b) => (b === sel) - (a === sel) || PLC[b].n - PLC[a].n);
+  order.forEach((i) => { const c = PLC[i], rr = r(c); placed.push([c.x - rr, c.y - rr, c.x + rr, c.y + rr, i]); });   // labels keep off other dots
+  const minN = 1;
+  order.forEach((i) => {
+    const c = PLC[i]; if (i !== sel && c.n < minN) return;
+    const w = c.city.length * 6.6 * k, rr = r(c) + 3 * k, h = 12 * k;
+    for (const [dx, dy, a] of [[rr, 4 * k, ""], [-rr, 4 * k, "end"], [0, -rr - 3 * k, "middle"], [0, rr + 11 * k, "middle"]]) {
+      const x0 = c.x + dx - (a === "end" ? w : a === "middle" ? w / 2 : 0), y0 = c.y + dy - h + 2 * k;
+      const b = [x0, y0, x0 + w, y0 + h];
+      if (b[0] < vx || b[2] > vx + vw || placed.some((q) => q[4] !== i && b[0] < q[2] && b[2] > q[0] && b[1] < q[3] && b[3] > q[1])) continue;
+      placed.push(b);
+      label[i] = `<text x="${(dx).toFixed(2)}" y="${dy.toFixed(2)}"${a ? ` text-anchor="${a}"` : ""} font-size="${(11.5 * k).toFixed(3)}" stroke-width="${(3 * k).toFixed(3)}">${esc(c.city)}</text>`;
+      break;
+    }
+  });
+  let h = `<path class="land" d="${PLACES.land}"/>`;
+  PLC.map((c, i) => i).sort((a, b) => PLC[b].n - PLC[a].n).forEach((i) => {   // small dots on top of big ones
+    const c = PLC[i], cls = i === sel ? " sel" : sel != null ? " dim" : "";
+    h += `<g class="ct${cls}" data-i="${i}" tabindex="${inView(c) ? 0 : -1}" role="button" aria-pressed="${i === sel}" aria-label="${esc(c.city)}, ${c.country}: ${plCount(c.n)}" transform="translate(${c.x},${c.y})">` +
+      `<circle r="${r(c).toFixed(2)}" stroke-width="${(1.5 * k).toFixed(3)}"/>${label[i] || ""}<title>${esc(c.city)}, ${plCount(c.n)}</title></g>`;
+  });
+  svg.innerHTML = h;
+}
+function plSide() {
+  const side = $("pl-side");
+  $("pl").classList.toggle("has-sel", PL.sel != null);
+  if (PL.sel == null) {
+    side.innerHTML = `<div class="lab">Cities by researchers</div><div class="nw-az" id="pl-az">` +
+      PLC.map((c, i) => `<button type="button" data-c="${i}"><span>${esc(c.city)}${plOff(c) ? "*" : ""} <small>${esc(c.country)}</small></span><small>${c.n}</small></button>`).join("") + `</div>`;
+    const h = $("pl-svg").getBoundingClientRect().height;
+    $("pl-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && h ? Math.max(200, Math.round(h) - 30) + "px" : "240px";
+    return;
+  }
+  const c = PLC[PL.sel], nh = REC.filter((r) => c.keys.has(recKey(r))).length;
+  side.innerHTML = `<button type="button" class="nw-back" id="pl-back">‹ All cities</button><h4>${esc(c.city)}</h4><div class="org">${esc(c.country)}${plOff(c) ? " · not on these maps" : ""}</div>` +
+    `<div class="nw-stats"><span><b>${c.n}</b>${c.n === 1 ? "researcher" : "researchers"}</span><span><b>${c.orgs.length}</b>${c.orgs.length === 1 ? "institution" : "institutions"}</span></div>` +
+    c.orgs.map(([o, ids]) => `<div class="pl-org"><div class="lab">${esc(o)}</div><div class="nw-list">${ids.filter((id) => id in NWI).map((id) => `<button type="button" data-p="${NWI[id]}">${esc(NWP[NWI[id]].name)}</button>`).join("")}</div></div>`).join("") +
+    (nh ? `<button type="button" class="btn" id="pl-show">Show ${nh === 1 ? "its study" : `its ${nh} studies`}</button>` : "");
+}
+function plPick(i) { PL.sel = PL.sel === i ? null : i; drawPlaces(); plSide(); }
+function plView(v) {
+  PL.view = v;
+  document.querySelectorAll("#nw-tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.v === String(v))));
+  const from = PL.vb.slice(), to = PLACES.views[v].slice(1), t0 = performance.now(), ms = 450;
+  cancelAnimationFrame(PL.raf);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { PL.vb = to; drawPlaces(); return; }
+  const step = (t) => {
+    const u = Math.min(1, (t - t0) / ms), e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+    PL.vb = from.map((a, j) => a + (to[j] - a) * e);
+    // during the move only the viewBox changes; dots and labels are redrawn once it lands
+    if (u < 1) { $("pl-svg").setAttribute("viewBox", PL.vb.join(" ")); PL.raf = requestAnimationFrame(step); } else drawPlaces();
+  };
+  PL.raf = requestAnimationFrame(step);
+}
+$("nw-tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-v]"); if (!b) return;
+  const net = b.dataset.v === "net", wasNet = !$("nw-net").hidden;
+  $("nw-net").hidden = !net; $("nw-geo").hidden = net;
+  $("nw-geo").setAttribute("aria-labelledby", net ? "nw-tab-0" : b.id);
+  if (net) { document.querySelectorAll("#nw-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b))); drawNetwork(); return; }
+  const v = Number(b.dataset.v);
+  if (wasNet) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
+});
+$("pl-svg").addEventListener("click", (e) => { const g = e.target.closest(".ct"); if (g) plPick(Number(g.dataset.i)); });
+$("pl-svg").addEventListener("keydown", (e) => {
+  const g = e.target.closest(".ct"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
+  e.preventDefault(); const i = Number(g.dataset.i); plPick(i);
+  const again = $("pl-svg").querySelector(`.ct[data-i="${i}"]`); if (again) again.focus();
+});
+$("pl-side").addEventListener("click", (e) => {
+  if (e.target.closest("#pl-back")) { PL.sel = null; drawPlaces(); plSide(); return; }
+  if (e.target.closest("#pl-show")) {
+    const c = PLC[PL.sel];
+    state.person = { id: "place:" + c.city, name: c.city, keys: c.keys };
+    NW.sel = null; drawNetwork(); render();
+    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    $("count").focus({ preventScroll: true });
+    return;
+  }
+  const c = e.target.closest("button[data-c]");
+  if (c) {   // a city off the current view: move to the closest view that shows it
+    const i = Number(c.dataset.c), { x, y } = PLC[i], has = ([, vx, vy, vw, vh]) => x >= vx && x <= vx + vw && y >= vy && y <= vy + vh;
+    plPick(i); $("pl-back").focus();
+    if (!has(PLACES.views[PL.view])) { const v = PLACES.views.findIndex(has); if (v >= 0) plView(v); }
+    return;
+  }
+  const p = e.target.closest("button[data-p]");   // a researcher: open their profile on the network map
+  if (p) { NW.sel = Number(p.dataset.p); $("nw-tab-net").click(); $("nw").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); }
+});
+// Pointing at a city in the list rings its dot.
+const plRing = (e) => {
+  const b = e.target.closest ? e.target.closest("#pl-az button[data-c]") : null;
+  $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"));
+  if (b) { const g = $("pl-svg").querySelector(`.ct[data-i="${b.dataset.c}"]`); if (g) g.classList.add("hl"); }
+};
+["pointerover", "focusin"].forEach((t) => $("pl-side").addEventListener(t, plRing));
+["pointerleave", "focusout"].forEach((t) => $("pl-side").addEventListener(t, () => $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"))));
+const plPeople = PLC.reduce((a, c) => a + c.n, 0);
+const plAway = PLC.filter(plOff).map((c) => `${c.city}, ${c.country}`);
+$("pl-cap").textContent = `${plPeople} researchers in ${PLC.length} cities · Placed by current or last known institution · Dot size shows researchers` +
+  (plAway.length ? ` · *Not on these maps: ${plAway.join("; ")}` : "");
+drawPlaces(); plSide();
+let plW = 0;
+window.addEventListener("resize", () => { const w = Math.round($("pl-svg").getBoundingClientRect().width); if (w !== plW) { plW = w; drawPlaces(); plSide(); } });
 
 render();
 
