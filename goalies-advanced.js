@@ -23,7 +23,7 @@ const SHOT_NAMES = {wrist:"Wrist",snap:"Snap",slap:"Slap",backhand:"Backhand","t
 const gm = {
   id: store.get("gm:goalie",""), view: store.get("gm:view","goals"), str: store.get("gm:str","all"),
   dots: store.get("gm:dots", true), hidden: store.get("gm:hidden", false), on: null,
-  dim: store.get("gm:dim","2d"), cam: "point"
+  dim: store.get("gm:dim","3d"), cam: "point"
 };
 if(gm.dim!=="3d") gm.dim="2d";
 if(!GM_VIEWS.some(v=>v[0]===gm.view)) gm.view="goals";
