@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NHL Goaltending Dataviz · The Goaltending Research Journal</title>
-<meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
+<title>NHL Goaltending Dataviz Project · The Goaltending Research Journal</title>
+<meta name="description" content="Every NHL goaltender's statistics: a 3D map of where goals go in, a leaderboard, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -20,7 +20,7 @@
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 [hidden]{display:none!important}
-/* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
+/* Layout: arena-dark broadcast board. Site top bar, 3D goal map, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
 /* Light mode sits on a light jade ground with the journal's blue accent; dark mode uses a deep jade with the front page's text and accent colours. */
 :root{
   color-scheme: light;
@@ -157,21 +157,6 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .lb-foot{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:10px}
 .lb-foot a{font-weight:600}
 @media (max-width:960px){ .lb-card{grid-template-columns:minmax(0,1fr)} .lb-list{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:8px} }
-
-/* leaders */
-.leaders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.lead{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.lead h3{margin:0;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog);display:flex;justify-content:space-between}
-.lead .first{display:flex;align-items:center;gap:12px;cursor:pointer}
-.lead .first .v{font-family:var(--f-display);font-size:40px;line-height:1;font-weight:700;color:var(--crease)}
-.lead .first .n{font-weight:700;line-height:1.2}
-.lead .first .t{font-size:12px;color:var(--mute)}
-.lead ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.lead li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);cursor:pointer;font-size:13px}
-.lead li:last-child{border-bottom:0}
-.lead li .r{color:var(--mute);width:18px;display:inline-block}
-.lead li:hover .nm2{color:var(--crease)}
-.lead li .nm2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* charts */
 .charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -335,11 +320,9 @@ tbody tr:last-child td{border-bottom:0}
 
 @media (max-width:960px){
   .hero{grid-template-columns:1fr}
-  .leaders{grid-template-columns:repeat(2,minmax(0,1fr))}
   .charts{grid-template-columns:1fr}
 }
 @media (max-width:520px){
-  .leaders{grid-template-columns:1fr}
   #q{width:130px}
   .pager .pg button:not([aria-label]):not([aria-current]),.pager .pg span{display:none}
   .panel-h{flex-wrap:wrap}
@@ -369,27 +352,9 @@ tbody tr:last-child td{border-bottom:0}
 <main class="wrap" id="main">
   <section class="hero">
     <div>
-      <h1>NHL Goaltending <span>Dataviz</span></h1>
+      <h1>NHL Goaltending <span>Dataviz Project</span></h1>
     </div>
     <div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div>
-  </section>
-
-  <section>
-    <div class="sec-h"><div class="sec-l"><h2>League leaders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="leadNote"></span></div>
-    <div class="leaders" id="leaders" style="margin-top:14px"></div>
-  </section>
-
-  <section id="lbSec">
-    <div class="sec-h"><div class="sec-l"><h2>Leaderboard</h2><div class="seg" role="group" aria-label="Leaderboard measure" id="lbMetric"></div></div><span class="note" id="lbNote"></span></div>
-    <div class="lb-card" style="margin-top:14px">
-      <div class="lb-top">
-        <div><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
-        <div class="lb-range" role="group" aria-label="Date range"><button type="button" id="lbPrev" aria-label="Shorter range">‹</button><b id="lbRange" aria-live="polite"></b><button type="button" id="lbNext" aria-label="Longer range">›</button></div>
-      </div>
-      <div class="lb-plot" id="lbPlot"></div>
-      <ol class="lb-list" id="lbList"></ol>
-      <div class="lb-foot"><span id="lbFoot"></span><a href="#tbl">View all goaltenders ›</a></div>
-    </div>
   </section>
 
   <section id="gmSec">
@@ -415,6 +380,19 @@ tbody tr:last-child td{border-bottom:0}
         <div class="gm-types"><h4>How the goals went in</h4><div id="gmTypes"></div></div>
       </div>
     </div>
+    </div>
+  </section>
+
+  <section id="lbSec">
+    <div class="sec-h"><div class="sec-l"><h2>Leaderboard</h2><div class="seg" role="group" aria-label="Leaderboard measure" id="lbMetric"></div></div><span class="note" id="lbNote"></span></div>
+    <div class="lb-card" style="margin-top:14px">
+      <div class="lb-top">
+        <div><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
+        <div class="lb-range" role="group" aria-label="Date range"><button type="button" id="lbPrev" aria-label="Shorter range">‹</button><b id="lbRange" aria-live="polite"></b><button type="button" id="lbNext" aria-label="Longer range">›</button></div>
+      </div>
+      <div class="lb-plot" id="lbPlot"></div>
+      <ol class="lb-list" id="lbList"></ol>
+      <div class="lb-foot"><span id="lbFoot"></span><a href="#tbl">View all goaltenders ›</a></div>
     </div>
   </section>
 
@@ -482,7 +460,7 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section>
-    <div class="sec-h"><h2>All goaltenders</h2><span class="note" id="countNote"></span></div>
+    <div class="sec-h"><div class="sec-l"><h2>All goaltenders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="countNote"></span></div>
     <div class="filters" style="margin-block:14px">
       <div class="field"><label for="q">Search</label><input id="q" type="search" placeholder="Name"></div>
       <div class="field"><label for="team">Team</label><select id="team"><option value="">All teams</option></select></div>
@@ -578,28 +556,6 @@ function renderHero(){
 $("#spot").addEventListener("error",e=>{ const im=e.target; if(im.tagName!=="IMG") return; if(im.dataset.alt){ im.src=im.dataset.alt; im.dataset.alt=""; } else im.remove(); },true);
 $("#spot").addEventListener("click",()=>openGoalie(+$("#spot").dataset.id));
 $("#spot").addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openGoalie(+$("#spot").dataset.id);} });
-
-/* ---------- leaders ---------- */
-const LEADS = [
-  {k:"svp", t:"Save %", f:fmtSv, dir:-1},
-  {k:"gaa", t:"Goals-against avg", f:fmtGaa, dir:1},
-  {k:"w", t:"Wins", f:v=>v, dir:-1, all:true},
-  {k:"so", t:"Shutouts", f:v=>v, dir:-1, all:true},
-];
-function renderLeaders(){
-  const q=qualified(), all=rows();
-  $("#leadNote").textContent = `Rate stats need ${state.mingp || defaultMin()}+ GP · adjust with Min GP below`;
-  $("#leaders").innerHTML = LEADS.map(L=>{
-    const src = L.all? all : q;
-    const top = [...src].sort((a,b)=>(a[L.k]-b[L.k])*L.dir || b.gp-a.gp).slice(0,5);
-    if(!top.length) return `<div class="lead"><h3>${L.t}</h3><div class="note">No qualified goalies</div></div>`;
-    const [f,...rest]=top;
-    return `<div class="lead"><h3>${L.t}</h3>
-      <div class="first" data-id="${f.g.id}">${mono(f.g)}<div style="min-width:0"><div class="v num">${L.f(f[L.k])}</div><div class="n">${esc(f.g.name)}</div><div class="t">${esc(f.team)} · ${f.gp} GP</div></div></div>
-      <ol>${rest.map((r,i)=>`<li data-id="${r.g.id}"><span class="nm2"><span class="r">${i+2}</span>${esc(r.g.name)} <span class="note">${esc(teamOf(r.team))}</span></span><b class="num">${L.f(r[L.k])}</b></li>`).join("")}</ol></div>`;
-  }).join("");
-}
-$("#leaders").addEventListener("click",e=>{ const el=e.target.closest("[data-id]"); if(el) openGoalie(+el.dataset.id); });
 
 /* ---------- charts ---------- */
 const tip=$("#tip");
@@ -861,7 +817,7 @@ $("#tbl tbody").addEventListener("click",e=>{ const tr=e.target.closest("tr[data
 $("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); state.page=0; renderTable();});
 $("#team").addEventListener("change",e=>{state.team=e.target.value; state.page=0; renderTable();});
 $("#catch").addEventListener("change",e=>{state.catch=e.target.value; state.page=0; renderTable();});
-$("#mingp").addEventListener("input",e=>{state.mingp=+e.target.value; state.page=0; $("#mingpV").textContent=e.target.value; renderHero(); renderLeaders(); renderCharts(); renderTable();});
+$("#mingp").addEventListener("input",e=>{state.mingp=+e.target.value; state.page=0; $("#mingpV").textContent=e.target.value; renderHero(); renderCharts(); renderTable();});
 function fillTeams(){
   $("#team").innerHTML = `<option value="">All teams</option>` + Object.keys(TEAMS).sort().map(t=>`<option value="${t}">${t} · ${TEAMS[t][0]}</option>`).join("");
 }
@@ -937,7 +893,7 @@ $("#foot").innerHTML = `
 function renderAll(){
   renderSeg();
   const m=state.mingp ?? 0; $("#mingp").value=m; $("#mingpV").textContent=m;
-  renderHero(); renderLeaders(); renderCharts(); renderTable();
+  renderHero(); renderCharts(); renderTable();
 }
 $("#gfx").checked=state.gfx;
 fillTeams();
