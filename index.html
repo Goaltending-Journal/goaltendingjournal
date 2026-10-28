@@ -368,24 +368,24 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
 
     <figure class="tr-chart" aria-labelledby="nw-title">
-      <div class="hm-head"><h3 id="nw-title">Researcher Network Map</h3></div>
-      <div class="nw" id="nw">
-        <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
-        <div class="nw-side" id="nw-side" aria-live="polite"></div>
-      </div>
-      <div class="nw-cap" id="nw-cap"></div>
-    </figure>
-
-    <figure class="tr-chart" aria-labelledby="pl-title">
       <div class="hm-head">
-        <h3 id="pl-title">Where the Research Happens</h3>
-        <div class="hm-tabs" id="pl-tabs" role="tablist" aria-label="Map view"></div>
+        <h3 id="nw-title">Researcher Network Map</h3>
+        <div class="hm-tabs" id="nw-tabs" role="tablist" aria-label="Network map view"></div>
       </div>
-      <div class="nw pl" id="pl">
-        <svg id="pl-svg" role="group" aria-label="Cities where goalie researchers work, sized by number of researchers"></svg>
-        <div class="nw-side" id="pl-side" aria-live="polite"></div>
+      <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
+        <div class="nw" id="nw">
+          <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
+          <div class="nw-side" id="nw-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="nw-cap"></div>
       </div>
-      <div class="nw-cap" id="pl-cap"></div>
+      <div id="nw-geo" role="tabpanel" hidden>
+        <div class="nw pl" id="pl">
+          <svg id="pl-svg" role="group" aria-label="Cities where goalie researchers work, sized by number of researchers"></svg>
+          <div class="nw-side" id="pl-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="pl-cap"></div>
+      </div>
     </figure>
 
     <figure class="tr-chart" aria-labelledby="hm-title">
@@ -955,8 +955,10 @@ const PLC = PLACES.places.map((c) => {
   return { ...c, ids, n: ids.length, keys: new Set(ids.flatMap((id) => NWP[NWI[id]].home)) };
 });
 const plCount = (n) => `${n} ${n === 1 ? "researcher" : "researchers"}`;
-$("pl-tabs").innerHTML = PLACES.views.map(([l], i) =>
-  `<button type="button" role="tab" aria-selected="${i === 0}" aria-controls="pl-svg" data-v="${i}"><span class="tl">${l}</span><span class="ts">${l === "North America" ? "N. America" : l}</span></button>`).join("");
+// Tabs on the Network Map: the network itself, then one tab per map view.
+$("nw-tabs").innerHTML = `<button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Network</span><span class="ts">Network</span></button>` +
+  PLACES.views.map(([l], i) => `<button type="button" role="tab" id="nw-tab-${i}" aria-selected="false" aria-controls="nw-geo" data-v="${i}"><span class="tl">${l}</span><span class="ts">${l === "North America" ? "N. America" : l}</span></button>`).join("");
+const plOff = (c) => !PLACES.views.some(([, vx, vy, vw, vh]) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh);
 function drawPlaces() {
   const svg = $("pl-svg"), [vx, vy, vw, vh] = PL.vb;
   const px = svg.getBoundingClientRect().width || 760, k = vw / px;   // SVG units per screen pixel
@@ -967,7 +969,7 @@ function drawPlaces() {
   const placed = [], label = {};
   const order = PLC.map((c, i) => i).filter((i) => inView(PLC[i])).sort((a, b) => (b === sel) - (a === sel) || PLC[b].n - PLC[a].n);
   order.forEach((i) => { const c = PLC[i], rr = r(c); placed.push([c.x - rr, c.y - rr, c.x + rr, c.y + rr, i]); });   // labels keep off other dots
-  const minN = PL.view === 0 ? 3 : 1;
+  const minN = 1;
   order.forEach((i) => {
     const c = PLC[i]; if (i !== sel && c.n < minN) return;
     const w = c.city.length * 6.6 * k, rr = r(c) + 3 * k, h = 12 * k;
@@ -993,13 +995,13 @@ function plSide() {
   $("pl").classList.toggle("has-sel", PL.sel != null);
   if (PL.sel == null) {
     side.innerHTML = `<div class="lab">Cities by researchers</div><div class="nw-az" id="pl-az">` +
-      PLC.map((c, i) => `<button type="button" data-c="${i}"><span>${esc(c.city)} <small>${esc(c.country)}</small></span><small>${c.n}</small></button>`).join("") + `</div>`;
+      PLC.map((c, i) => `<button type="button" data-c="${i}"><span>${esc(c.city)}${plOff(c) ? "*" : ""} <small>${esc(c.country)}</small></span><small>${c.n}</small></button>`).join("") + `</div>`;
     const h = $("pl-svg").getBoundingClientRect().height;
     $("pl-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && h ? Math.max(200, Math.round(h) - 30) + "px" : "240px";
     return;
   }
   const c = PLC[PL.sel], nh = REC.filter((r) => c.keys.has(recKey(r))).length;
-  side.innerHTML = `<button type="button" class="nw-back" id="pl-back">‹ All cities</button><h4>${esc(c.city)}</h4><div class="org">${esc(c.country)}</div>` +
+  side.innerHTML = `<button type="button" class="nw-back" id="pl-back">‹ All cities</button><h4>${esc(c.city)}</h4><div class="org">${esc(c.country)}${plOff(c) ? " · not on these maps" : ""}</div>` +
     `<div class="nw-stats"><span><b>${c.n}</b>${c.n === 1 ? "researcher" : "researchers"}</span><span><b>${c.orgs.length}</b>${c.orgs.length === 1 ? "institution" : "institutions"}</span></div>` +
     c.orgs.map(([o, ids]) => `<div class="pl-org"><div class="lab">${esc(o)}</div><div class="nw-list">${ids.filter((id) => id in NWI).map((id) => `<button type="button" data-p="${NWI[id]}">${esc(NWP[NWI[id]].name)}</button>`).join("")}</div></div>`).join("") +
     (nh ? `<button type="button" class="btn" id="pl-show">Show ${nh === 1 ? "its study" : `its ${nh} studies`}</button>` : "");
@@ -1007,7 +1009,7 @@ function plSide() {
 function plPick(i) { PL.sel = PL.sel === i ? null : i; drawPlaces(); plSide(); }
 function plView(v) {
   PL.view = v;
-  document.querySelectorAll("#pl-tabs button").forEach((b) => b.setAttribute("aria-selected", String(Number(b.dataset.v) === v)));
+  document.querySelectorAll("#nw-tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.v === String(v))));
   const from = PL.vb.slice(), to = PLACES.views[v].slice(1), t0 = performance.now(), ms = 450;
   cancelAnimationFrame(PL.raf);
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) { PL.vb = to; drawPlaces(); return; }
@@ -1019,7 +1021,15 @@ function plView(v) {
   };
   PL.raf = requestAnimationFrame(step);
 }
-$("pl-tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (b) plView(Number(b.dataset.v)); });
+$("nw-tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-v]"); if (!b) return;
+  const net = b.dataset.v === "net", wasNet = !$("nw-net").hidden;
+  $("nw-net").hidden = !net; $("nw-geo").hidden = net;
+  $("nw-geo").setAttribute("aria-labelledby", net ? "nw-tab-0" : b.id);
+  if (net) { document.querySelectorAll("#nw-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b))); drawNetwork(); return; }
+  const v = Number(b.dataset.v);
+  if (wasNet) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
+});
 $("pl-svg").addEventListener("click", (e) => { const g = e.target.closest(".ct"); if (g) plPick(Number(g.dataset.i)); });
 $("pl-svg").addEventListener("keydown", (e) => {
   const g = e.target.closest(".ct"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
@@ -1040,11 +1050,11 @@ $("pl-side").addEventListener("click", (e) => {
   if (c) {   // a city off the current view: move to the closest view that shows it
     const i = Number(c.dataset.c), { x, y } = PLC[i], has = ([, vx, vy, vw, vh]) => x >= vx && x <= vx + vw && y >= vy && y <= vy + vh;
     plPick(i); $("pl-back").focus();
-    if (!has(PLACES.views[PL.view])) { const v = [1, 2].find((j) => has(PLACES.views[j])); plView(v == null ? 0 : v); }
+    if (!has(PLACES.views[PL.view])) { const v = PLACES.views.findIndex(has); if (v >= 0) plView(v); }
     return;
   }
   const p = e.target.closest("button[data-p]");   // a researcher: open their profile on the network map
-  if (p) { NW.sel = Number(p.dataset.p); drawNetwork(); $("nw").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); }
+  if (p) { NW.sel = Number(p.dataset.p); $("nw-tab-net").click(); $("nw").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); }
 });
 // Pointing at a city in the list rings its dot.
 const plRing = (e) => {
@@ -1055,7 +1065,9 @@ const plRing = (e) => {
 ["pointerover", "focusin"].forEach((t) => $("pl-side").addEventListener(t, plRing));
 ["pointerleave", "focusout"].forEach((t) => $("pl-side").addEventListener(t, () => $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"))));
 const plPeople = PLC.reduce((a, c) => a + c.n, 0);
-$("pl-cap").textContent = `${plPeople} researchers in ${PLC.length} cities · Placed by current or last known institution · Dot size shows researchers`;
+const plAway = PLC.filter(plOff).map((c) => `${c.city}, ${c.country}`);
+$("pl-cap").textContent = `${plPeople} researchers in ${PLC.length} cities · Placed by current or last known institution · Dot size shows researchers` +
+  (plAway.length ? ` · *Not on these maps: ${plAway.join("; ")}` : "");
 drawPlaces(); plSide();
 let plW = 0;
 window.addEventListener("resize", () => { const w = Math.round($("pl-svg").getBoundingClientRect().width); if (w !== plW) { plW = w; drawPlaces(); plSide(); } });

@@ -96,7 +96,6 @@ CITIES = {
 }
 # map views: (label, west, south, east, north)
 VIEWS = [
-    ("World", -170, -50, 180, 75),
     ("North America", -126, 24, -51, 57),
     ("Europe", -13, 47, 33, 66),
 ]
