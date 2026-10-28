@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, season leaders rail, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
@@ -299,6 +300,13 @@ tbody tr:last-child td{border-bottom:0}
 .zlegend .gd{stroke-width:1}
 .rink .zlegend svg{display:inline-block;width:10px;height:10px}
 .rink .gd:hover{fill:var(--crease);r:1.6}
+.zone-grid.is3d{grid-template-columns:minmax(0,1fr)}
+.zone-grid.is3d .rink{max-width:none}
+.zone-grid.is3d .gm-side{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.gm3d-canvas{display:block;border-radius:12px;touch-action:none;cursor:grab}
+.gm3d-canvas:active{cursor:grabbing}
+.gm3d-msg{margin:0;padding:80px 16px;text-align:center;color:var(--fog);font-size:14px}
+.gm3d-bar:has(#gm3dViews[hidden]){display:none}
 .rink text[font-size="3"]{font-family:var(--f-body);font-weight:600}
 .gm-side{display:flex;flex-direction:column;gap:16px;min-width:0}
 .gm-side .bar i{background:var(--z-hi);opacity:.85}
@@ -392,9 +400,11 @@ tbody tr:last-child td{border-bottom:0}
       <div class="seg" role="group" aria-label="Show" id="gmView"></div>
       <div class="seg" role="group" aria-label="Strength" id="gmStr"></div>
       <label class="switch" for="gmDots" id="gmDotsLbl"><input type="checkbox" id="gmDots"> Each goal</label>
+      <div class="seg" role="group" aria-label="Map style" id="gmDim"></div>
       <button class="hidebtn" id="gmHide" type="button">Hide map</button>
     </div>
     <div class="zone-top"><div class="stats" id="gmStats"></div></div>
+    <div class="zone-top gm3d-bar"><div class="seg" role="group" aria-label="Camera" id="gm3dViews" hidden></div></div>
     <div class="zone-grid" id="gmGrid">
       <div class="rink" id="gmMapWrap">
         <div id="c-goalmap"></div>

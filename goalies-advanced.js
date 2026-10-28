@@ -22,8 +22,10 @@ const GM_MIN = {goalie:6, league:25};             // fewest shots in a hex to co
 const SHOT_NAMES = {wrist:"Wrist",snap:"Snap",slap:"Slap",backhand:"Backhand","tip-in":"Tip-in",deflected:"Deflection","wrap-around":"Wrap-around",poke:"Poke",bat:"Batted","between-legs":"Between the legs",cradle:"Lacrosse"};
 const gm = {
   id: store.get("gm:goalie",""), view: store.get("gm:view","goals"), str: store.get("gm:str","all"),
-  dots: store.get("gm:dots", true), hidden: store.get("gm:hidden", false), on: null
+  dots: store.get("gm:dots", true), hidden: store.get("gm:hidden", false), on: null,
+  dim: store.get("gm:dim","2d"), cam: "point"
 };
+if(gm.dim!=="3d") gm.dim="2d";
 if(!GM_VIEWS.some(v=>v[0]===gm.view)) gm.view="goals";
 if(!GM_STR.some(v=>v[0]===gm.str)) gm.str="all";
 
@@ -49,15 +51,20 @@ function gmShots(goalieOnly){
   const gi = goalieOnly ? GM.goalies.findIndex(g=>String(g[0])===gm.id) : -1;
   return GM.shots.filter(s=>(gi<0 || s[0]===gi) && (gm.str==="all" || s[4]===+gm.str));
 }
+// Axial hex coordinates of the cell a shot falls in (pointy-top hexes of radius r)
+function hexQR(s, r){
+  const s3=Math.sqrt(3), X=gmX(s[2]), Y=gmY(s[1]);
+  let q=(s3/3*X - Y/3)/r, rr=(2/3*Y)/r, cx=-q-rr;
+  let Q=Math.round(q), R=Math.round(rr), C=Math.round(cx);
+  const dq=Math.abs(Q-q), dr=Math.abs(R-rr), dc=Math.abs(C-cx);
+  if(dq>dr && dq>dc) Q=-R-C; else if(dr>dc) R=-Q-C;
+  return [Q,R];
+}
 function hexBins(shots, r){
   const bins=new Map(), s3=Math.sqrt(3);
   for(const s of shots){
     if(s[1]<25) continue; // outside the zone: counted in the table, not drawn
-    const X=gmX(s[2]), Y=gmY(s[1]);
-    let q=(s3/3*X - Y/3)/r, rr=(2/3*Y)/r, cx=-q-rr;
-    let Q=Math.round(q), R=Math.round(rr), C=Math.round(cx);
-    const dq=Math.abs(Q-q), dr=Math.abs(R-rr), dc=Math.abs(C-cx);
-    if(dq>dr && dq>dc) Q=-R-C; else if(dr>dc) R=-Q-C;
+    const [Q,R]=hexQR(s, r);
     const k=Q+","+R; let b=bins.get(k);
     if(!b){ b={q:Q,r:R,x:r*s3*(Q+R/2),y:r*1.5*R,n:0,g:0,k}; bins.set(k,b); }
     b.n++; b.g+=s[3];
@@ -115,7 +122,7 @@ function gmLegend(c){
     return;
   }
   const what = gm.view==="goals" ? "goals" : "shots";
-  $("#gmLegend").innerHTML = `<div class="ramp" style="background:linear-gradient(90deg,${mix(ZSEQ[0],ZSEQ[1],.18)},${ZSEQ[1]})"></div><div class="ends"><span>1 ${what.slice(0,-1)}</span><span>Each hexagon is about ${Math.round(GM_SIZE[gm.view]*1.73)} ft across</span><span>${c.maxN} ${what}</span></div>${gm.dots&&gm.view!=="sv"?`<span><svg width="10" height="10" style="vertical-align:-1px;margin-right:6px"><circle cx="5" cy="5" r="3.5" class="gd"/></svg>Each dot is one goal, placed where the shot was taken. Hover for who scored.</span>`:""}`;
+  $("#gmLegend").innerHTML = `<div class="ramp" style="background:linear-gradient(90deg,${mix(ZSEQ[0],ZSEQ[1],.18)},${ZSEQ[1]})"></div><div class="ends"><span>1 ${what.slice(0,-1)}</span><span>Each hexagon is about ${Math.round(GM_SIZE[gm.view]*1.73)} ft across</span><span>${c.maxN} ${what}</span></div>${gm.dots&&gm.view!=="sv"?`<span><svg width="10" height="10" style="vertical-align:-1px;margin-right:6px"><circle cx="5" cy="5" r="3.5" class="gd"/></svg>${gm.dim==="3d"?"Each puck is one goal, resting where the shot was taken. Drag to turn, scroll or pinch to zoom, hover for who scored.":"Each dot is one goal, placed where the shot was taken. Hover for who scored."}</span>`:""}`;
 }
 function gmStats(c){
   const n=c.shots.length, gl=c.shots.filter(s=>s[3]), sv=n?1-gl.length/n:null;
@@ -148,11 +155,44 @@ function renderGoalMap(){
   $("#gmView").innerHTML = segBtns(GM_VIEWS, gm.view);
   $("#gmStr").innerHTML = segBtns(GM_STR, gm.str);
   $("#gmDots").checked = gm.dots; $("#gmDotsLbl").hidden = gm.view==="sv" || !map;
-  $("#gmMapWrap").hidden=!map; $("#gmGrid").classList.toggle("nomap",!map);
+  $("#gmMapWrap").hidden=!map; $("#gmGrid").classList.toggle("nomap",!map); $("#gmGrid").classList.toggle("is3d",map&&gm.dim==="3d");
   $("#gmHide").hidden=!state.gfx; $("#gmHide").textContent = gm.hidden?"Show map":"Hide map";
-  if(map){ $("#c-goalmap").innerHTML=gmMap(c); gmLegend(c); }
+  $("#gmDim").innerHTML = segBtns([["2d","2D"],["3d","3D"]], gm.dim); $("#gmDim").hidden=!map;
+  $("#gm3dViews").hidden = !map || gm.dim!=="3d";
+  $("#gm3dViews").innerHTML = segBtns(GM3D_VIEWS, gm.cam);
+  if(map){
+    if(gm.dim==="3d") gm3dShow(c); else { gm3dHide(); $("#c-goalmap").innerHTML=gmMap(c); }
+    gmLegend(c);
+  } else gm3dHide();
   gmStats(c); gmTable(c);
 }
+
+/* ---- 3D view: goal-map-3d.js and three.js load only when 3D is picked ---- */
+const GM3D_VIEWS = [["point","From the point"],["over","Overhead"],["goalie","Goalie's eye"]];
+let gm3d=null, gm3dLoading=null;
+function gm3dApi(){
+  return {
+    binKey: (s,r)=>hexQR(s,r).join(","), mapX: s=>gmX(s[2]), mapY: s=>gmY(s[1]), hideTip,
+    puckTip: (e,s)=>{ const g=GM.goalies[s[0]]; showTip(e,`<b>${esc(GM.shooters[s[6]]||"Goal")}</b>${esc(GM.dates[s[7]]||"")} · ${s[8]>3?"OT":"Period "+s[8]} · ${esc(s[9])}<br>${esc(SHOT_NAMES[GM.shotTypes[s[5]]]||"Shot")} from ${gmDist(s).toFixed(0)} ft · ${esc(GM.strengths[s[4]]||"")}<br>On ${esc(g[1])}`); },
+    cellTip: (e,b)=>showTip(e,`<b>${b.g} goal${b.g===1?"":"s"} on ${b.n} shot${b.n===1?"":"s"}</b>Save % ${fmtSv(b.sv)}${gm.view==="sv"&&b.lsv!=null?`<br>League here ${fmtSv(b.lsv)}`:""}`)
+  };
+}
+function gm3dShow(c){
+  const host=$("#c-goalmap");
+  if(gm3d){ if(!host.querySelector(".gm3d-canvas")) { host.innerHTML=""; gm3d.destroy(); gm3d=null; } }
+  if(gm3d){ gm3d.update(c,{view:gm.view,dots:gm.dots&&gm.view!=="sv"}); return; }
+  host.innerHTML=`<p class="gm3d-msg">Loading the 3D rink…</p>`;
+  gm3dLoading = gm3dLoading || import("./goal-map-3d.js");
+  gm3dLoading.then(mod=>{
+    if(gm.dim!=="3d" || gm3d) return;
+    host.innerHTML="";
+    try { gm3d=mod.create(host, gm3dApi()); }
+    catch(err){ host.innerHTML=`<p class="gm3d-msg">3D needs WebGL, which this browser has turned off. Showing the flat map.</p>`; gm.dim="2d"; setTimeout(renderGoalMap,1500); return; }
+    gm3d.view(gm.cam, true);
+    gm3d.update(gmLast,{view:gm.view,dots:gm.dots&&gm.view!=="sv"});
+  }).catch(()=>{ gm3dLoading=null; host.innerHTML=`<p class="gm3d-msg">The 3D view couldn't load. Check your connection and pick 3D again.</p>`; });
+}
+function gm3dHide(){ if(gm3d){ gm3d.destroy(); gm3d=null; } }
 if(GM && GM.shots.length){
   const counts=new Map(); GM.shots.forEach(s=>counts.set(s[0],(counts.get(s[0])||0)+1));
   $("#gmGoalie").innerHTML += [...GM.goalies.entries()].filter(([i])=>counts.get(i)).sort((a,b)=>a[1][1].split(" ").slice(-1)[0].localeCompare(b[1][1].split(" ").slice(-1)[0]))
@@ -164,9 +204,12 @@ $("#gmGoalie").addEventListener("change",e=>{ gm.id=e.target.value; store.set("g
 $("#gmView").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.view=b.dataset.v; store.set("gm:view",gm.view); renderGoalMap(); });
 $("#gmStr").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.str=b.dataset.v; store.set("gm:str",gm.str); renderGoalMap(); });
 $("#gmDots").addEventListener("change",e=>{ gm.dots=e.target.checked; store.set("gm:dots",gm.dots); renderGoalMap(); });
+$("#gmDim").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||b.dataset.v===gm.dim) return; gm.dim=b.dataset.v; store.set("gm:dim",gm.dim); renderGoalMap(); });
+$("#gm3dViews").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.cam=b.dataset.v; $("#gm3dViews").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); if(gm3d) gm3d.view(gm.cam); });
 $("#gmHide").addEventListener("click",()=>{ gm.hidden=!gm.hidden; store.set("gm:hidden",gm.hidden); renderGoalMap(); });
 $("#gmSec").addEventListener("click",e=>{ const a=e.target.closest("[data-open]"); if(a){ e.preventDefault(); openGoalie(+a.dataset.open); } });
 $("#gmSec").addEventListener("mousemove",e=>{
+  if(e.target.closest(".gm3d-canvas")) return;   // the 3D view runs its own hover
   const d=e.target.closest("[data-gi]"), h=e.target.closest("[data-hx]");
   if(d){
     const s=GM.shots[+d.dataset.gi], g=GM.goalies[s[0]];
