@@ -1,4 +1,4 @@
-/* 3D view of "Where goals go in" on goalies.html, drawn with three.js (loaded from jsDelivr only when 3D is picked).
+/* 3D view of the Scoring Heat Map on goalies.html, drawn with three.js (loaded from jsDelivr when the 3D view is shown).
    Same data and filters as the flat map: each hexagon becomes a column whose height follows its goals (or shots),
    and each goal is a puck resting on top of the column it was shot from. Drag to orbit, scroll or pinch to zoom.
    Units are feet, in the flat map's coordinates: x across the ice (0-85), y down from the end boards,
