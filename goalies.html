@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NHL Goalies / Stats Visualizers · The Goaltending Research Journal</title>
+<title>NHL Goaltending Dataviz · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: league leaders, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Teko:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
@@ -43,7 +43,7 @@
   --z-lo: #ece6d6; --z-hi: #e0603f;
   --z-bad: #e0603f; --z-mid: #e9e4d6; --z-good: #0b5d47;
   --z-none: #fdfbf5; --z-hatch: #d6cfbb;
-  --f-display: "Teko", "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-display: "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --r: 10px;
@@ -98,7 +98,7 @@ button,input,select{font:inherit;color:inherit}
 /* hero */
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;padding-top:28px}
 h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,6vw,72px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;margin:8px 0 12px;text-wrap:balance}
-h1 span{color:var(--fog)}
+h1 span{color:var(--fog);display:block}
 .spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
 .spot .ph{position:absolute;right:0;bottom:0;height:100%;max-height:200px;width:auto;object-fit:contain;object-position:right bottom;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
 .spot>:not(.ph){position:relative;z-index:1}
@@ -361,7 +361,7 @@ tbody tr:last-child td{border-bottom:0}
 <main class="wrap" id="main">
   <section class="hero">
     <div>
-      <h1>NHL Goalies <span>/ Stats Visualizers</span></h1>
+      <h1>NHL Goaltending <span>Dataviz</span></h1>
     </div>
     <div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div>
   </section>

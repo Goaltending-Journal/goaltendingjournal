@@ -1,10 +1,10 @@
 /* Site-wide top bar: journal name and the main menu, the same on every page.
    Colours come from the page's own tokens: index.html and about.html name them --bg, --fg, --muted, --rule, --accent;
    goalies.html and glove-positioning.html name the same colours --ice, --chalk, --fog, --line, --crease.
-   The journal name is set in Teko, the display face every page loads for its titles. */
+   The journal name is set in Big Shoulders Display, the display face every page loads for its titles. */
 .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg, var(--ice)) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule, var(--line)); line-height: 1.6; font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
 .site-bar { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: 56px; }
-.topbar .brand { font: 600 21px/1 "Teko", "Barlow Condensed", "Arial Narrow", sans-serif; padding-top: 3px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--fg, var(--chalk)); white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.topbar .brand { font: 600 21px/1 "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", sans-serif; padding-top: 3px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--fg, var(--chalk)); white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
 .topbar .brand-logo { width: 26px; height: 26px; flex: none; margin-top: -3px; }
 .topbar .brand:hover { text-decoration: none; color: var(--accent, var(--crease)); }
 .topbar nav { display: flex; gap: 2px 22px; font-size: 14px; }

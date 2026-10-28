@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Teko:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Big+Shoulders+Display:wght@600;700;800&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
@@ -40,7 +40,7 @@
   --glow-edge: rgba(214, 172, 84, 0.35);
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Teko", "Barlow Condensed", "Arial Narrow", sans-serif;   /* titles and section heads, the same face on every page */
+  --display: "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", sans-serif;   /* titles and section heads, the same face on every page */
   --r: 3px;
   --nav-h: 56px;
 }
@@ -140,6 +140,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 /* Research heatmap: topics by period, topics studied together, or studies by year. One jade ramp in five steps; tap a cell to filter the table. */
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
+.ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.ex-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
+.ex-grp h3 { font: 600 19px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+.ex-grp:has([aria-selected="true"]) h3 { color: var(--fg); }
 .hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
 .hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
@@ -222,9 +226,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 /* Goaltending Research: the homepage's main section. A year chart that filters the table, a filter sidebar, and a paper table
    modelled on Elicit's results table (title, authors and journal, then year and source links on one quiet line). */
 .tracker { padding-block: 48px 64px; scroll-margin-top: var(--nav-h); }
-.tr-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; margin-bottom: 18px; }
-.tr-head h2 { font-family: var(--display); font-weight: 600; font-size: 40px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
-.tr-head .sub { max-width: 62ch; }
 .btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
 .btn:hover { border-color: var(--accent); }
 .tr-chart { border: 1px solid var(--rule); border-radius: 0; padding: 16px 18px 12px; background: var(--surface); margin-bottom: 28px; }
@@ -317,7 +318,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   .more-btn[aria-expanded="true"] { border-color: var(--accent); }
 }
 @media (max-width: 640px) {
-  .tr-head h2 { font-size: 34px; }
   .side .extra { grid-template-columns: minmax(0, 1fr); }
   /* the table becomes one card per study: title block, then focus and topics underneath */
   .papers thead { display: none; }
@@ -359,18 +359,18 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
 <main id="main" class="wrap">
 
-  <section class="tracker" id="articles" aria-labelledby="h-tracker">
-    <div class="tr-head">
-      <div>
-        <h2 id="h-tracker">Goaltending Research</h2>
-        <p class="sub">A database of all published goalie-specific and goalie-related studies.</p>
-      </div>
-    </div>
+  <section class="tracker" id="articles" aria-label="Goaltending research">
+    <h2 class="vh">Goaltending Research</h2>
 
-    <figure class="tr-chart" aria-labelledby="nw-title">
-      <div class="hm-head">
-        <h3 id="nw-title">Researcher Network Map</h3>
-        <div class="hm-tabs" id="nw-tabs" role="tablist" aria-label="Network map view"></div>
+    <!-- One explorer: the Researcher Network Map and the Research Heatmap share this frame, each with its own row of tabs. -->
+    <figure class="tr-chart ex" aria-label="Explore the research">
+      <div class="ex-head">
+        <div class="ex-grp"><h3 id="nw-title">Researcher Network Map</h3><div class="hm-tabs" id="nw-tabs" role="tablist" aria-labelledby="nw-title"></div></div>
+        <div class="ex-grp"><h3 id="hm-title">Research Heatmap</h3><div class="hm-tabs" id="hm-tabs" role="tablist" aria-labelledby="hm-title">
+          <button type="button" role="tab" id="hm-tab-time" aria-selected="false" aria-controls="hm-panel" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
+          <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm-panel" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
+          <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
+        </div></div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
         <div class="nw" id="nw">
@@ -386,19 +386,8 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
         </div>
         <div class="nw-cap" id="pl-cap"></div>
       </div>
-    </figure>
-
-    <figure class="tr-chart" aria-labelledby="hm-title">
-      <div class="hm-head">
-        <h3 id="hm-title">Research Heatmap</h3>
-        <div class="hm-tabs" id="hm-tabs" role="tablist" aria-label="Heatmap view">
-          <button type="button" role="tab" id="hm-tab-time" aria-selected="true" aria-controls="hm" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
-          <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
-          <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
-        </div>
-      </div>
-      <div id="hm-panel">
-        <div class="hm-scroll"><div class="hm" id="hm" role="tabpanel" aria-labelledby="hm-title"></div></div>
+      <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
+        <div class="hm-scroll"><div class="hm" id="hm"></div></div>
         <div class="cap" id="hm-cap"></div>
       </div>
       <div id="yr" role="tabpanel" aria-labelledby="hm-tab-year" hidden>
@@ -775,12 +764,17 @@ $("hm").addEventListener("click", (e) => {
   const again = $("hm").querySelector(c.dataset.s != null ? `[data-t="${c.dataset.t}"][data-s="${c.dataset.s}"]` : `[data-a="${c.dataset.a}"]${c.dataset.b ? `[data-b="${c.dataset.b}"]` : ":not([data-b])"}`);
   if (again && e.detail === 0) again.focus();
 });
+// One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
+function exTabs(b, keep) {
+  document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  if (!keep) ["nw-net", "nw-geo", "hm-panel", "yr"].forEach((id) => ($(id).hidden = true));
+}
 $("hm-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
-  document.querySelectorAll("#hm-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  exTabs(b);
   // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
   const year = b.dataset.v === "year";
-  $("yr").hidden = !year; $("hm-panel").hidden = year;
+  $("yr").hidden = !year; $("hm-panel").hidden = year; $("hm-panel").setAttribute("aria-labelledby", b.id);
   if (year) { drawChart(); chartW = Math.round($("chart").getBoundingClientRect().width); return; }
   heat.view = b.dataset.v;
   drawHeat();
@@ -1009,7 +1003,7 @@ function plSide() {
 function plPick(i) { PL.sel = PL.sel === i ? null : i; drawPlaces(); plSide(); }
 function plView(v) {
   PL.view = v;
-  document.querySelectorAll("#nw-tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.v === String(v))));
+  exTabs($("nw-tab-" + v), true);
   const from = PL.vb.slice(), to = PLACES.views[v].slice(1), t0 = performance.now(), ms = 450;
   cancelAnimationFrame(PL.raf);
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) { PL.vb = to; drawPlaces(); return; }
@@ -1023,12 +1017,13 @@ function plView(v) {
 }
 $("nw-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
-  const net = b.dataset.v === "net", wasNet = !$("nw-net").hidden;
+  const net = b.dataset.v === "net", wasMap = !$("nw-geo").hidden;
+  exTabs(b);
   $("nw-net").hidden = !net; $("nw-geo").hidden = net;
   $("nw-geo").setAttribute("aria-labelledby", net ? "nw-tab-0" : b.id);
-  if (net) { document.querySelectorAll("#nw-tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === b))); drawNetwork(); return; }
+  if (net) { drawNetwork(); return; }
   const v = Number(b.dataset.v);
-  if (wasNet) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
+  if (!wasMap) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
 });
 $("pl-svg").addEventListener("click", (e) => { const g = e.target.closest(".ct"); if (g) plPick(Number(g.dataset.i)); });
 $("pl-svg").addEventListener("keydown", (e) => {
@@ -1078,7 +1073,7 @@ render();
 
 </script>
 <script>
-// Splash: GRJ drawn in Teko on a hidden canvas, sampled on a grid, then each dot eases into place from a scatter,
+// Splash: GRJ drawn in the display face (Big Shoulders Display) on a hidden canvas, sampled on a grid, then each dot eases into place from a scatter,
 // sweeping left to right. Afterwards a few dots shimmer. Reduced motion draws the finished letters at once.
 (function () {
   const cv = document.getElementById("splash-art"), box = document.getElementById("splash");
@@ -1093,7 +1088,7 @@ render();
     step = W < 640 ? 6 : W < 1100 ? 8 : 10;
     const off = document.createElement("canvas"); off.width = W; off.height = H;
     const o = off.getContext("2d");
-    const font = (px) => `600 ${px}px Teko, "Barlow Condensed", "Arial Narrow", sans-serif`;
+    const font = (px) => `600 ${px}px "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", sans-serif`;
     o.font = font(100);
     const m = o.measureText("GRJ"), capH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
     // fit the letters inside the band above the name, at most 72% of the width (88% on phones)
@@ -1126,8 +1121,8 @@ render();
     if (!still) raf = requestAnimationFrame(draw);
   };
   const start = () => { cancelAnimationFrame(raf); build(); t0 = performance.now(); raf = requestAnimationFrame(draw); };
-  // wait for Teko so the dots trace the right letter shapes
-  (document.fonts && document.fonts.load ? document.fonts.load('600 100px Teko').catch(() => {}) : Promise.resolve()).then(start);
+  // wait for the display face so the dots trace the right letter shapes
+  (document.fonts && document.fonts.load ? document.fonts.load("600 100px \"Big Shoulders Display\"").catch(() => {}) : Promise.resolve()).then(start);
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { build(); if (still) draw(0); }, 150); });
   // stop drawing while the splash is scrolled out of view
   if ("IntersectionObserver" in window && !still) new IntersectionObserver(([e]) => {
