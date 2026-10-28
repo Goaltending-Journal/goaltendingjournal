@@ -29,3 +29,7 @@
 .theme-btn:hover { color: var(--accent, currentColor); border-color: currentColor; }
 .theme-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
 .theme-btn svg path:only-child { fill: currentColor; stroke: none; }
+/* Tip jar: a brass pill in every footer that opens the journal's Ko-fi page. Brass is --h1-hover on index-style pages, --warn on goalies/brief pages. */
+.tip-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--h1-hover, var(--warn)); border: 1px solid currentColor; border-radius: 999px; padding: 4px 12px 4px 9px; text-decoration: none; font-weight: 500; transition: background-color .15s ease, color .15s ease; }
+.tip-btn:hover, .tip-btn:focus-visible { background: var(--h1-hover, var(--warn)); color: var(--bg, var(--ice)); text-decoration: none; }
+.tip-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }

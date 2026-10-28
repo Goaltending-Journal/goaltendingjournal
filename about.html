@@ -110,6 +110,9 @@ button, input, select { font-family: var(--sans); }
 .sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
 .stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
 .sec-body { min-width: 0; }
+.tip-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 18px; font: 13.5px var(--sans); color: var(--muted); }
+.tip-cta { display: inline-flex; align-items: center; font: 600 15px var(--sans); color: var(--bg); background: var(--h1-hover); padding: 10px 20px; border-radius: 999px; text-decoration: none; transition: filter .15s ease; }
+.tip-cta:hover, .tip-cta:focus-visible { filter: brightness(1.12); text-decoration: none; }
 
 .prose p { margin: 0 0 18px; max-width: 62ch; }
 .prose p:last-child { margin-bottom: 0; }
@@ -217,6 +220,16 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     </div>
   </section>
 
+  <section class="sec slim" id="tip-jar" aria-labelledby="h-tip">
+    <div class="sec-head">
+      <h2 id="h-tip">Tip jar</h2>
+    </div>
+    <div class="sec-body prose">
+      <p class="lead">The GRJ is free and open source. If it helps your coaching, a small tip keeps it that way.</p>
+      <p class="tip-row"><a class="tip-cta" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener">Leave a tip on Ko-fi</a><span>No account needed.</span></p>
+    </div>
+  </section>
+
   <section class="sec" id="whats-here" aria-labelledby="h-here">
     <div class="sec-head">
       <h2 id="h-here">What we offer</h2>
@@ -224,7 +237,6 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
     <div class="sec-body">
       <dl class="info">
         <div><dt><a href="index.html#articles">Goaltending Research</a></dt><dd>A working bibliography of <b id="n-rec"></b> goaltending and hockey studies, searchable by topic, decade and scope.</dd></div>
-        <div><dt><a href="index.html#ticker">Latest studies</a></dt><dd>New articles on goaltending, ecological dynamics and skill acquisition, in the ticker at the top of the home page and refreshed each day.</dd></div>
         <div><dt><a href="coaches.html">Coaches</a></dt><dd>Recent research on how athletes learn and adapt, from ecological dynamics and skill acquisition, as background for coaches.</dd></div>
         <div><dt><a href="goalies.html">NHL Goalies</a></dt><dd>Every NHL goaltender's numbers across three seasons, with save % ranges that show how sure we can be.</dd></div>
         <div><dt><a href="glove-positioning.html">Briefs</a></dt><dd>Research to Practice briefs that turn a study into practice-planning ideas for coaches, starting with Glove Positioning Analysis and its interactive explainer.</dd></div>
@@ -300,7 +312,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 
   <footer>
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span class="foot-end">Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
+    <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
   </footer>
 </main>
 
