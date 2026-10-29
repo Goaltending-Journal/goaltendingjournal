@@ -1,0 +1,77 @@
+<title>Goalie Style Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: one band per style, the same four goalies side by side, then the same four at the real 32 px leaderboard size. My pick comes last. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --pick: #5563c4;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --pick: #aeb6f5; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --pick: #aeb6f5; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+.lede { margin: 0; color: var(--muted); max-width: 66ch }
+.subjects { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.subjects b { color: var(--fg); font-weight: 500 }
+.style { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--rule); display: grid; gap: 14px }
+.style.pick { border-top: 2px solid var(--pick) }
+.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px }
+.head h2 { font: 600 24px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 }
+.head .letter { font: 600 13px var(--label); letter-spacing: .14em; color: var(--muted) }
+.badge { font: 600 11px var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--bg); background: var(--pick); padding: 4px 10px; border-radius: 99px }
+.head p { flex-basis: 100%; margin: 0; color: var(--muted); max-width: 70ch }
+.row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 720px) { .row { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0 }
+figure svg { width: 100%; height: auto; display: block; border-radius: 4px }
+figcaption { font: 13px/1.35 var(--sans); color: var(--muted) }
+figcaption b { color: var(--fg); font-weight: 500; display: block }
+.tiny { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font: 12.5px var(--sans); color: var(--muted) }
+.tiny .s { display: inline-flex; gap: 8px; padding: 8px 10px; border-radius: 4px; background: var(--surface); border: 1px solid var(--rule) }
+.tiny svg { width: 32px; height: 32px; display: block }
+.why { margin: 0; font: 14px/1.5 var(--sans); color: var(--muted); max-width: 76ch }
+.why b { color: var(--fg); font-weight: 500 }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
+.foot a { color: var(--accent) }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 3</p>
+  <h1>Four Style Mockups</h1>
+  <p class="lede">The same four goalies, in the same four types, drawn four very different ways. Every style sits on the shared skeleton from Step 2, so a restyle never redraws a pose.</p>
+  <ul class="subjects" id="subjects"></ul>
+  <div id="styles"></div>
+  <p class="foot">Team colours were read from <a href="https://www.designyourway.net/blog/nhl-team-color-codes/" rel="noopener">designyourway.net's NHL colour list</a> and saved with their source in the repo. A second list (<a href="https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox" rel="noopener">Wikipedia's sports colour module</a>) differs slightly for Dallas; each team's own brand page gets checked in Step 4. Generic goalies only: no player likeness, mask art or team logos. The reader preference test is set aside for now.</p>
+</div>
+<script>/*SKELETON*/</script>
+<script>/*STYLES*/</script>
+<script>
+const TEAMS = /*TEAMS*/.teams;
+const G = window.GoalieSkeleton, ST = window.GoalieStyles.STYLES;
+const SUBJECTS = [
+  { pose: "donut-king", team: "DAL", num: "29", who: "Jake Oettinger" },
+  { pose: "style-king", team: "TOR", num: "41", who: "Anthony Stolarz" },
+  { pose: "wall", team: "OTT", num: "35", who: "Linus Ullmark" },
+  { pose: "hd-stopper", team: "SJS", num: "30", who: "Yaroslav Askarov" },
+];
+const ORDER = [
+  ["plate", "A", "Line-only drawing loses the most at 32 px: the white strokes thin out to a smudge on the dark plates. It suits figure pages in a brief better than leaderboard rows."],
+  ["riso", "B", "The paper ground keeps every team readable, and the halftone pads give it texture. At 32 px the pale second ink fades, so pads and gear lose their edges."],
+  ["illuminated", "C", "The closest fit to the GRJ's own look: the periwinkle field and the gilded frame. Dark jerseys (Toronto, San Jose) sit low against the navy field, so they would need a lighter field or a halo."],
+  ["glass", "D", "The lead lines outline every part in every team's colours, so shapes stay separate on light and dark jerseys alike, and it holds up best at 32 px. The arched window also reads as a frame of its own, with no extra border."],
+];
+document.getElementById("subjects").innerHTML = SUBJECTS.map((s) => `<li><b>${G.POSES[s.pose].name}</b> ${s.who}, ${TEAMS[s.team].name}</li>`).join("");
+document.getElementById("styles").innerHTML = ORDER.map(([k, letter, why], i) => {
+  const st = ST[k], pick = i === ORDER.length - 1;
+  const big = SUBJECTS.map((s) => `<figure>${st.draw(s.pose, TEAMS[s.team], s.num, { label: `${G.POSES[s.pose].name}, ${TEAMS[s.team].name} colours, in ${st.name}` })}<figcaption><b>${G.POSES[s.pose].name}</b>${TEAMS[s.team].name} · #${s.num}</figcaption></figure>`).join("");
+  const tiny = SUBJECTS.map((s) => st.draw(s.pose, TEAMS[s.team], s.num, { label: G.POSES[s.pose].name + " at 32 px" })).join("");
+  return `<section class="style${pick ? " pick" : ""}"><div class="head"><span class="letter">${letter}</span><h2>${st.name}</h2>${pick ? '<span class="badge">My pick</span>' : ""}<p>${st.conceit}</p></div>
+    <div class="row">${big}</div>
+    <div class="tiny"><span class="s">${tiny}</span><span>At 32 px, the leaderboard size</span></div>
+    <p class="why">${pick ? "<b>Why it's my pick:</b> " : ""}${why}</p></section>`;
+}).join("");
+</script>

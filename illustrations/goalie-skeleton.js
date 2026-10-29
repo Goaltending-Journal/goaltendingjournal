@@ -155,89 +155,113 @@
   ];
 
   const f = (n) => Math.round(n * 10) / 10;
-  const pt = (p) => `${f(p[0])},${f(p[1])}`;
+  const pt = (p) => `${f(p[0])} ${f(p[1])}`;
 
-  // A thick rounded segment as a closed path
+  /* Every part is a closed path, so any style can fill it, outline it, or both. */
+  // A rounded segment of width w (a stadium)
   function capsule(a, b, w) {
-    return `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(b[0])}" y2="${f(b[1])}" stroke-width="${w}" stroke-linecap="round"/>`;
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 0.001, r = w / 2;
+    const n = [-d[1] / L * r, d[0] / L * r];
+    const a1 = [a[0] + n[0], a[1] + n[1]], b1 = [b[0] + n[0], b[1] + n[1]];
+    const b2 = [b[0] - n[0], b[1] - n[1]], a2 = [a[0] - n[0], a[1] - n[1]];
+    return `M${pt(a1)}L${pt(b1)}A${f(r)} ${f(r)} 0 0 1 ${pt(b2)}L${pt(a2)}A${f(r)} ${f(r)} 0 0 1 ${pt(a1)}Z`;
   }
-  // A quadrilateral band from a to b, width wa at a and wb at b
+  // A quadrilateral from a to b, width wa at a and wb at b, corners softened by the renderer's stroke
   function band(a, b, wa, wb) {
     const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1;
     const n = [-d[1] / L, d[0] / L];
     const q = [add(a, n, wa / 2), add(b, n, wb / 2), add(b, n, -wb / 2), add(a, n, -wa / 2)];
-    return `<polygon points="${q.map(pt).join(" ")}" stroke-linejoin="round" stroke-width="1.5"/>`;
+    return "M" + q.map(pt).join("L") + "Z";
   }
+  const circle = (c, r) => `M${f(c[0] - r)} ${f(c[1])}a${f(r)} ${f(r)} 0 1 0 ${f(2 * r)} 0a${f(r)} ${f(r)} 0 1 0 ${f(-2 * r)} 0Z`;
+  const ellipse = (c, rx, ry) => `M${f(c[0] - rx)} ${f(c[1])}a${f(rx)} ${f(ry)} 0 1 0 ${f(2 * rx)} 0a${f(rx)} ${f(ry)} 0 1 0 ${f(-2 * rx)} 0Z`;
 
-  /** Style 0: flat silhouette. Everything in one colour, so only shape can tell types apart. */
-  function silhouette(poseKey, opts = {}) {
-    const pose = POSES[poseKey], P = skeleton(pose), ink = opts.ink || "#000";
-    const g = [];
-    const props = pose.props || [];
+  /** The posed goalie as named parts, back to front. Each is { role, d } with d a closed SVG path.
+      Roles: net, shadow, thigh, pad, skate, torso, arm, glove, blocker, mask, shaft, paddle, blade, puck, donut, streak.
+      Also returns anchors a style needs: the chest (for the number) and the torso angle. */
+  function parts(poseKey) {
+    const pose = POSES[poseKey], P = skeleton(pose), props = pose.props || [], out = [];
+    const push = (role, d, side) => out.push({ role, d, side });
     if (props.includes("net")) {
       // Goal frame behind the goalie: 6 ft by 4 ft, posts and crossbar only
-      g.push(`<path d="M14 ${GROUND} V50 H86 V${GROUND}" fill="none" stroke-width="4.5" stroke-linejoin="round"/>`);
+      push("net", capsule([14, GROUND], [14, 50], 4.5));
+      push("net", capsule([14, 50], [86, 50], 4.5));
+      push("net", capsule([86, 50], [86, GROUND], 4.5));
     }
+    if (pose.airborne) push("shadow", ellipse([50, GROUND], 16, 1.6));
     // Legs: thigh, then the pad from just above the knee to the boot, then the skate
     for (const s of ["L", "R"]) {
       const hip = P["hip" + s], knee = P["knee" + s], ankle = P["ankle" + s], toe = P["toe" + s];
-      g.push(capsule(hip, knee, 11));
+      push("thigh", capsule(hip, knee, 11), s);
       const padTop = add(knee, [knee[0] - ankle[0], knee[1] - ankle[1]].map((v) => v / CANON.shin), 5);
-      g.push(band(padTop, ankle, 12.5, 12));
-      g.push(capsule(ankle, toe, 4));
+      push("pad", band(padTop, ankle, 12.5, 12), s);
+      push("skate", capsule(ankle, toe, 4), s);
     }
     // Torso: chest protector, wider at the shoulders
-    g.push(band(P.pelvis, add(P.neck, dir(pose.torso), -1), 17, 23));
+    const chestTop = add(P.neck, dir(pose.torso), -1);
+    push("torso", band(P.pelvis, chestTop, 17, 23));
     // Arms
-    g.push(capsule(P.shBlocker, P.elbowBlocker, 8.5), capsule(P.elbowBlocker, P.handBlocker, 7.5));
-    g.push(capsule(P.shGlove, P.elbowGlove, 8.5), capsule(P.elbowGlove, P.handGlove, 7.5));
+    push("arm", capsule(P.shBlocker, P.elbowBlocker, 8.5), "blocker");
+    push("arm", capsule(P.elbowBlocker, P.handBlocker, 7.5), "blocker");
+    push("arm", capsule(P.shGlove, P.elbowGlove, 8.5), "glove");
+    push("arm", capsule(P.elbowGlove, P.handGlove, 7.5), "glove");
     // Mask
-    g.push(`<circle cx="${f(P.head[0])}" cy="${f(P.head[1])}" r="5.6"/>`);
+    push("mask", circle(P.head, 5.6));
     // Stick
     if (pose.stick) {
       const h = P.handBlocker, S = pose.stick;
-      let end;
       if (S.yoke) {
         const y = (h[1] + P.handGlove[1]) / 2;   // across the shoulders, hand to hand and a little past
-        end = [P.handGlove[0] + 10, y];
-        g.push(capsule([h[0] - 8, y], end, 3));
+        push("shaft", capsule([h[0] - 8, y], [P.handGlove[0] + 10, y], 3));
       } else if (S.cane) {
-        end = [h[0] + 3, GROUND - 1];
-        g.push(capsule(h, end, 3), capsule(end, add(end, dir(S.blade), 9), 3));
+        const end = [h[0] + 3, GROUND - 1];
+        push("shaft", capsule(h, end, 3));
+        push("blade", capsule(end, add(end, dir(S.blade), 9), 3));
       } else {
         const d = dir(S.fromBlocker || 95);
         const len = Math.min(CANON.stick, (GROUND - 1 - h[1]) / d[1]);
-        end = add(h, d, len);
-        g.push(capsule(h, end, 3));
-        g.push(band(add(h, d, len - 13), end, 5, 5));
-        g.push(capsule(end, add(end, dir(S.blade), 10), 3));
+        const end = add(h, d, len);
+        push("shaft", capsule(h, end, 3));
+        push("paddle", band(add(h, d, len - 13), end, 5, 5));
+        push("blade", capsule(end, add(end, dir(S.blade), 10), 3));
       }
     }
     // Blocker: a board on the stick hand, square to the forearm
-    {
-      const d = dir(pose.blocker[1]);
-      g.push(band(add(P.handBlocker, d, -4), add(P.handBlocker, d, 4), 12, 12));
-    }
-    // Glove: a round catcher with the cuff
-    g.push(`<circle cx="${f(P.handGlove[0])}" cy="${f(P.handGlove[1])}" r="6.6"/>`);
+    const bd = dir(pose.blocker[1]);
+    push("blocker", band(add(P.handBlocker, bd, -4), add(P.handBlocker, bd, 4), 12, 12));
+    // Glove: a round catcher
+    push("glove", circle(P.handGlove, 6.6));
     // Props that are part of the defining action
-    if (props.includes("puck-doorstep")) g.push(`<ellipse cx="${f(P.toeR[0] - 14)}" cy="${GROUND - 9}" rx="3.2" ry="1.6"/>`);
-    if (props.includes("puck-smother")) g.push(`<ellipse cx="${f(P.handGlove[0] + 5)}" cy="${GROUND - 1.5}" rx="3.2" ry="1.6"/>`);
+    if (props.includes("puck-doorstep")) push("puck", ellipse([P.toeR[0] - 14, GROUND - 9], 3.2, 1.6));
+    if (props.includes("puck-smother")) push("puck", ellipse([P.handGlove[0] + 5, GROUND - 1.5], 3.2, 1.6));
     if (props.includes("donut")) {
       const c = [(P.handBlocker[0] + P.handGlove[0]) / 2, Math.min(P.handBlocker[1], P.handGlove[1]) - 11];
-      g.push(`<circle cx="${f(c[0])}" cy="${f(c[1])}" r="9.5" fill="none" stroke-width="7"/>`);
+      push("donut", circle(c, 13) + circle(c, 6).replace("a6 6 0 1 0 12 0a6 6 0 1 0 -12 0", "a6 6 0 1 1 12 0a6 6 0 1 1 -12 0"));
     }
     if (props.includes("shots")) {
       for (const [x, y, a] of [[14, 22, 30], [84, 18, 150], [10, 52, 5], [90, 48, 175], [50, 8, 90]]) {
-        const tail = add([x, y], dir(a + 180), 7);
-        g.push(`<line x1="${f(tail[0])}" y1="${f(tail[1])}" x2="${x}" y2="${y}" stroke-width="1.6" stroke-linecap="round"/>`);
-        g.push(`<circle cx="${x}" cy="${y}" r="2.6"/>`);
+        push("streak", capsule(add([x, y], dir(a + 180), 7), [x, y], 1.6));
+        push("puck", circle([x, y], 2.6));
       }
     }
-    if (pose.airborne) g.push(`<ellipse cx="50" cy="${GROUND}" rx="16" ry="1.6" opacity=".35"/>`);
-    const size = opts.size ? ` width="${opts.size}" height="${opts.size}"` : "";
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${size} role="img" aria-label="${pose.name}"><g fill="${ink}" stroke="${ink}">${g.join("")}</g></svg>`;
+    // The number sits on the chest, square to the torso; a goalie seen side-on still shows it
+    const chest = add(P.pelvis, dir(pose.torso), CANON.torso * 0.62);
+    // Highest point drawn, so a style's frame can fit the whole figure
+    let top = Math.min(P.head[1] - 5.6, P.handGlove[1] - 6.6, P.handBlocker[1] - 7);
+    if (props.includes("donut")) top = Math.min(top, Math.min(P.handBlocker[1], P.handGlove[1]) - 24);
+    if (props.includes("shots")) top = Math.min(top, 5);
+    if (props.includes("net")) top = Math.min(top, 47);
+    return { pose, P, parts: out, chest, torsoAngle: pose.torso, top };
   }
 
-  return { GROUND, CANON, POSES, BONES, skeleton, silhouette, ORDER: Object.keys(POSES) };
+  const svgOpen = (pose, opts) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${opts.size ? ` width="${opts.size}" height="${opts.size}"` : ""} role="img" aria-label="${opts.label || pose.name}">`;
+
+  /** Style 0: flat silhouette. Everything in one colour, so only shape can tell types apart. */
+  function silhouette(poseKey, opts = {}) {
+    const { pose, parts: list } = parts(poseKey), ink = opts.ink || "#000";
+    const body = list.map((p) => `<path d="${p.d}"${p.role === "shadow" ? ' opacity=".35"' : ""} fill-rule="evenodd"/>`).join("");
+    return `${svgOpen(pose, opts)}<g fill="${ink}" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${body}</g></svg>`;
+  }
+
+  return { GROUND, CANON, POSES, BONES, skeleton, parts, silhouette, svgOpen, ORDER: Object.keys(POSES) };
 });

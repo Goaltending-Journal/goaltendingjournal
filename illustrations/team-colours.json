@@ -1,0 +1,14 @@
+{
+  "note": "Team colours as published, read from the sources below and saved with them. Two public lists disagree slightly on some teams (Dallas green is #00843D on one and #006847 on the other); confirm against each team's own brand page before release (step 4).",
+  "sources": {
+    "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
+    "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+  },
+  "read": "2026-10-29",
+  "teams": {
+    "DAL": { "name": "Dallas Stars", "primary": "#00843D", "secondary": "#000000", "accent": "#A2AAAD", "source": "designyourway", "names": ["Victory Green", "Black", "Silver"] },
+    "TOR": { "name": "Toronto Maple Leafs", "primary": "#00205B", "secondary": "#FFFFFF", "accent": "#00205B", "source": "designyourway", "names": ["Blue", "White", "Blue"] },
+    "OTT": { "name": "Ottawa Senators", "primary": "#C8102E", "secondary": "#000000", "accent": "#B9975B", "source": "designyourway", "names": ["Red", "Black", "Gold"] },
+    "SJS": { "name": "San Jose Sharks", "primary": "#006272", "secondary": "#000000", "accent": "#E57200", "source": "designyourway", "names": ["Deep Pacific Teal", "Black", "Burnt Orange"] }
+  }
+}

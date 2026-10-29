@@ -14,6 +14,9 @@ The brief, the type list and the budgets live in the Goalie Type Illustrations b
 | `audit-silhouettes.cjs` | Step 2 audit: overlap of every pair at 32 px after a 1 px blur, plus bone-length drift |
 | `audit/silhouettes.json` | The latest audit result |
 | `preview/silhouettes.html` | The silhouette sheet (self-contained; built from `silhouettes.tpl.html`) |
+| `styles.js` | The styles library: every style tried, each a function from the posed parts to SVG |
+| `team-colours.json` | Team colours, saved with the source each was read from |
+| `preview/styles.html` | Step 3 mockups: four styles on the same four goalies (built from `styles.tpl.html`) |
 
 Run the audit (needs Playwright with Chromium):
 
@@ -54,3 +57,14 @@ Neighbouring types differ in shape, not in detail:
 | Grandpa | Bent question mark, leaning on the stick |
 | Young Gun | Airborne star, daylight under the skates |
 | Style King | T-bar on top: stick across the shoulders |
+
+## Styles library
+
+Every style tried stays here, so a restyle costs minutes. Each one has a one-sentence conceit.
+
+| Key | Style | Conceit |
+|---|---|---|
+| `glass` | Stained Glass | Each goalie is a cathedral window: lead lines and panes of team colour. |
+| `plate` | Research Plate | A figure from the journal: each goalie drafted in white line on a plate of team colour. |
+| `riso` | Two-Ink Print | A club-room risograph in two team inks, with halftone pads and a little misregistration. |
+| `illuminated` | Illuminated Plate | A page from the GRJ's book of keepers: flat colour in ink outline, inside a gilded frame. |

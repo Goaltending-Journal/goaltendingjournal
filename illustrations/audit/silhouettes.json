@@ -5,28 +5,28 @@
  "worst": [
   {
    "a": "steady",
+   "b": "standout",
+   "overlap": 0.63
+  },
+  {
+   "a": "steady",
    "b": "grandpa",
-   "overlap": 0.613
-  },
-  {
-   "a": "steady",
-   "b": "standout",
-   "overlap": 0.599
-  },
-  {
-   "a": "workhorse",
-   "b": "standout",
-   "overlap": 0.578
-  },
-  {
-   "a": "steady",
-   "b": "style-king",
-   "overlap": 0.563
+   "overlap": 0.606
   },
   {
    "a": "steady",
    "b": "wall",
-   "overlap": 0.56
+   "overlap": 0.573
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.545
+  },
+  {
+   "a": "wall",
+   "b": "donut-king",
+   "overlap": 0.545
   }
  ],
  "fails": [],
@@ -34,203 +34,198 @@
  "pairs": [
   {
    "a": "steady",
+   "b": "standout",
+   "overlap": 0.63
+  },
+  {
+   "a": "steady",
    "b": "grandpa",
-   "overlap": 0.613
-  },
-  {
-   "a": "steady",
-   "b": "standout",
-   "overlap": 0.599
-  },
-  {
-   "a": "workhorse",
-   "b": "standout",
-   "overlap": 0.578
-  },
-  {
-   "a": "steady",
-   "b": "style-king",
-   "overlap": 0.563
+   "overlap": 0.606
   },
   {
    "a": "steady",
    "b": "wall",
-   "overlap": 0.56
+   "overlap": 0.573
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.545
   },
   {
    "a": "wall",
    "b": "donut-king",
-   "overlap": 0.556
+   "overlap": 0.545
+  },
+  {
+   "a": "standout",
+   "b": "donut-king",
+   "overlap": 0.541
+  },
+  {
+   "a": "wall",
+   "b": "standout",
+   "overlap": 0.527
+  },
+  {
+   "a": "siege",
+   "b": "standout",
+   "overlap": 0.523
+  },
+  {
+   "a": "hd-stopper",
+   "b": "grandpa",
+   "overlap": 0.519
+  },
+  {
+   "a": "siege",
+   "b": "young-gun",
+   "overlap": 0.516
+  },
+  {
+   "a": "standout",
+   "b": "style-king",
+   "overlap": 0.516
+  },
+  {
+   "a": "steady",
+   "b": "donut-king",
+   "overlap": 0.512
   },
   {
    "a": "steady",
    "b": "workhorse",
-   "overlap": 0.546
-  },
-  {
-   "a": "siege",
-   "b": "young-gun",
-   "overlap": 0.545
-  },
-  {
-   "a": "siege",
-   "b": "standout",
-   "overlap": 0.539
-  },
-  {
-   "a": "standout",
-   "b": "donut-king",
-   "overlap": 0.539
-  },
-  {
-   "a": "wall",
-   "b": "standout",
-   "overlap": 0.528
-  },
-  {
-   "a": "standout",
-   "b": "style-king",
-   "overlap": 0.524
+   "overlap": 0.502
   },
   {
    "a": "workhorse",
-   "b": "siege",
-   "overlap": 0.523
-  },
-  {
-   "a": "steady",
-   "b": "donut-king",
-   "overlap": 0.518
-  },
-  {
-   "a": "hd-stopper",
-   "b": "grandpa",
-   "overlap": 0.515
-  },
-  {
-   "a": "wall",
-   "b": "style-king",
-   "overlap": 0.507
+   "b": "standout",
+   "overlap": 0.5
   },
   {
    "a": "steady",
    "b": "hd-stopper",
-   "overlap": 0.487
+   "overlap": 0.482
+  },
+  {
+   "a": "wall",
+   "b": "style-king",
+   "overlap": 0.482
   },
   {
    "a": "workhorse",
-   "b": "donut-king",
-   "overlap": 0.472
+   "b": "siege",
+   "overlap": 0.473
   },
   {
    "a": "donut-king",
    "b": "style-king",
-   "overlap": 0.466
+   "overlap": 0.462
   },
   {
    "a": "siege",
    "b": "donut-king",
-   "overlap": 0.462
+   "overlap": 0.45
   },
   {
    "a": "standout",
    "b": "grandpa",
-   "overlap": 0.451
-  },
-  {
-   "a": "siege",
-   "b": "style-king",
-   "overlap": 0.448
+   "overlap": 0.436
   },
   {
    "a": "steady",
    "b": "crease",
-   "overlap": 0.443
+   "overlap": 0.428
+  },
+  {
+   "a": "workhorse",
+   "b": "donut-king",
+   "overlap": 0.426
+  },
+  {
+   "a": "siege",
+   "b": "style-king",
+   "overlap": 0.425
   },
   {
    "a": "workhorse",
    "b": "wall",
-   "overlap": 0.443
-  },
-  {
-   "a": "workhorse",
-   "b": "grandpa",
-   "overlap": 0.437
+   "overlap": 0.421
   },
   {
    "a": "wall",
    "b": "siege",
-   "overlap": 0.437
-  },
-  {
-   "a": "wall",
-   "b": "grandpa",
-   "overlap": 0.432
+   "overlap": 0.419
   },
   {
    "a": "grandpa",
    "b": "style-king",
-   "overlap": 0.424
+   "overlap": 0.418
   },
   {
-   "a": "workhorse",
-   "b": "hd-stopper",
-   "overlap": 0.409
+   "a": "wall",
+   "b": "grandpa",
+   "overlap": 0.417
   },
   {
    "a": "hd-stopper",
    "b": "standout",
-   "overlap": 0.409
+   "overlap": 0.411
   },
   {
-   "a": "hd-stopper",
-   "b": "wall",
-   "overlap": 0.394
+   "a": "workhorse",
+   "b": "grandpa",
+   "overlap": 0.4
   },
   {
    "a": "steady",
    "b": "siege",
-   "overlap": 0.387
+   "overlap": 0.383
   },
   {
-   "a": "workhorse",
-   "b": "young-gun",
-   "overlap": 0.384
+   "a": "hd-stopper",
+   "b": "wall",
+   "overlap": 0.383
   },
   {
    "a": "donut-king",
    "b": "grandpa",
-   "overlap": 0.37
+   "overlap": 0.369
   },
   {
-   "a": "young-gun",
-   "b": "style-king",
-   "overlap": 0.367
+   "a": "workhorse",
+   "b": "hd-stopper",
+   "overlap": 0.365
+  },
+  {
+   "a": "workhorse",
+   "b": "young-gun",
+   "overlap": 0.361
   },
   {
    "a": "crease",
    "b": "style-king",
-   "overlap": 0.357
-  },
-  {
-   "a": "hd-stopper",
-   "b": "rebound",
    "overlap": 0.356
   },
   {
    "a": "crease",
    "b": "grandpa",
-   "overlap": 0.352
+   "overlap": 0.345
   },
   {
-   "a": "standout",
-   "b": "young-gun",
-   "overlap": 0.35
+   "a": "crease",
+   "b": "donut-king",
+   "overlap": 0.343
   },
   {
    "a": "hd-stopper",
    "b": "donut-king",
-   "overlap": 0.345
+   "overlap": 0.342
+  },
+  {
+   "a": "hd-stopper",
+   "b": "rebound",
+   "overlap": 0.34
   },
   {
    "a": "steady",
@@ -238,129 +233,134 @@
    "overlap": 0.338
   },
   {
-   "a": "siege",
-   "b": "grandpa",
-   "overlap": 0.338
-  },
-  {
-   "a": "crease",
-   "b": "donut-king",
-   "overlap": 0.338
-  },
-  {
-   "a": "wall",
-   "b": "young-gun",
+   "a": "young-gun",
+   "b": "style-king",
    "overlap": 0.337
   },
   {
    "a": "hd-stopper",
    "b": "style-king",
-   "overlap": 0.333
+   "overlap": 0.331
   },
   {
-   "a": "steady",
+   "a": "standout",
    "b": "young-gun",
-   "overlap": 0.322
+   "overlap": 0.33
+  },
+  {
+   "a": "wall",
+   "b": "young-gun",
+   "overlap": 0.319
+  },
+  {
+   "a": "siege",
+   "b": "grandpa",
+   "overlap": 0.319
   },
   {
    "a": "donut-king",
    "b": "young-gun",
-   "overlap": 0.317
-  },
-  {
-   "a": "grandpa",
-   "b": "young-gun",
-   "overlap": 0.316
-  },
-  {
-   "a": "workhorse",
-   "b": "style-king",
-   "overlap": 0.313
-  },
-  {
-   "a": "wall",
-   "b": "crease",
-   "overlap": 0.31
-  },
-  {
-   "a": "hd-stopper",
-   "b": "siege",
    "overlap": 0.309
+  },
+  {
+   "a": "steady",
+   "b": "young-gun",
+   "overlap": 0.308
   },
   {
    "a": "rebound",
    "b": "crease",
-   "overlap": 0.303
+   "overlap": 0.308
+  },
+  {
+   "a": "hd-stopper",
+   "b": "siege",
+   "overlap": 0.307
   },
   {
    "a": "rebound",
    "b": "grandpa",
-   "overlap": 0.301
+   "overlap": 0.298
+  },
+  {
+   "a": "wall",
+   "b": "crease",
+   "overlap": 0.292
+  },
+  {
+   "a": "grandpa",
+   "b": "young-gun",
+   "overlap": 0.288
   },
   {
    "a": "crease",
    "b": "young-gun",
-   "overlap": 0.292
+   "overlap": 0.286
+  },
+  {
+   "a": "workhorse",
+   "b": "style-king",
+   "overlap": 0.279
   },
   {
    "a": "workhorse",
    "b": "crease",
-   "overlap": 0.286
+   "overlap": 0.272
   },
   {
    "a": "crease",
    "b": "standout",
-   "overlap": 0.278
+   "overlap": 0.265
   },
   {
    "a": "siege",
    "b": "crease",
-   "overlap": 0.269
+   "overlap": 0.264
   },
   {
    "a": "rebound",
    "b": "standout",
-   "overlap": 0.254
+   "overlap": 0.245
   },
   {
    "a": "wall",
    "b": "rebound",
-   "overlap": 0.241
+   "overlap": 0.238
   },
   {
    "a": "rebound",
    "b": "donut-king",
-   "overlap": 0.239
+   "overlap": 0.234
   },
   {
    "a": "workhorse",
    "b": "rebound",
-   "overlap": 0.234
-  },
-  {
-   "a": "rebound",
-   "b": "style-king",
-   "overlap": 0.227
+   "overlap": 0.222
   },
   {
    "a": "hd-stopper",
    "b": "crease",
-   "overlap": 0.223
+   "overlap": 0.217
+  },
+  {
+   "a": "rebound",
+   "b": "style-king",
+   "overlap": 0.216
   },
   {
    "a": "hd-stopper",
    "b": "young-gun",
-   "overlap": 0.211
+   "overlap": 0.198
   },
   {
    "a": "rebound",
    "b": "siege",
-   "overlap": 0.211
+   "overlap": 0.194
   },
   {
    "a": "rebound",
    "b": "young-gun",
-   "overlap": 0.202
+   "overlap": 0.183
   }
  ]
 }
