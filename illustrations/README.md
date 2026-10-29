@@ -68,3 +68,10 @@ Every style tried stays here, so a restyle costs minutes. Each one has a one-sen
 | `plate` | Research Plate | A figure from the journal: each goalie drafted in white line on a plate of team colour. |
 | `riso` | Two-Ink Print | A club-room risograph in two team inks, with halftone pads and a little misregistration. |
 | `illuminated` | Illuminated Plate | A page from the GRJ's book of keepers: flat colour in ink outline, inside a gilded frame. |
+| `skeletons` | Skeletons | The bone crew: every goalie is a skeleton suiting up, glowing in team colour after dark. |
+| `knights` | Knights | Knights of the crease: plate armour under a team-colour tabard, with a kite shield for a blocker. |
+| `fantasy` | High Fantasy | An epic-quest keeper: rune-lit armour and a team-colour cloak against a dusk sky over far mountains. |
+
+Round 1 (Research Plate, Two-Ink Print, Stained Glass, Illuminated Plate): Goldy kept Illuminated Plate.
+Round 2 added Skeletons, Knights and High Fantasy, and gave Illuminated Plate a gilded nimbus so dark jerseys
+stand off its navy field.

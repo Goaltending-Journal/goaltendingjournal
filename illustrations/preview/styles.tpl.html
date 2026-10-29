@@ -40,9 +40,9 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
 .foot a { color: var(--accent) }
 </style>
 <div class="wrap">
-  <p class="eyebrow">Goalie illustrations · Step 3</p>
-  <h1>Four Style Mockups</h1>
-  <p class="lede">The same four goalies, in the same four types, drawn four very different ways. Every style sits on the shared skeleton from Step 2, so a restyle never redraws a pose.</p>
+  <p class="eyebrow">Goalie illustrations · Step 3 · Round 2</p>
+  <h1>Style Mockups, Round 2</h1>
+  <p class="lede">Goldy kept the Illuminated Plate and asked for Skeletons, Knights and High Fantasy. The same four goalies, in the same four types, drawn each way on the shared skeleton from Step 2. Round 1's Research Plate, Two-Ink Print and Stained Glass stay in the styles library.</p>
   <ul class="subjects" id="subjects"></ul>
   <div id="styles"></div>
   <p class="foot">Team colours were read from <a href="https://www.designyourway.net/blog/nhl-team-color-codes/" rel="noopener">designyourway.net's NHL colour list</a> and saved with their source in the repo. A second list (<a href="https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox" rel="noopener">Wikipedia's sports colour module</a>) differs slightly for Dallas; each team's own brand page gets checked in Step 4. Generic goalies only: no player likeness, mask art or team logos. The reader preference test is set aside for now.</p>
@@ -59,10 +59,10 @@ const SUBJECTS = [
   { pose: "hd-stopper", team: "SJS", num: "30", who: "Yaroslav Askarov" },
 ];
 const ORDER = [
-  ["plate", "A", "Line-only drawing loses the most at 32 px: the white strokes thin out to a smudge on the dark plates. It suits figure pages in a brief better than leaderboard rows."],
-  ["riso", "B", "The paper ground keeps every team readable, and the halftone pads give it texture. At 32 px the pale second ink fades, so pads and gear lose their edges."],
-  ["illuminated", "C", "The closest fit to the GRJ's own look: the periwinkle field and the gilded frame. Dark jerseys (Toronto, San Jose) sit low against the navy field, so they would need a lighter field or a halo."],
-  ["glass", "D", "The lead lines outline every part in every team's colours, so shapes stay separate on light and dark jerseys alike, and it holds up best at 32 px. The arched window also reads as a frame of its own, with no extra border."],
+  ["skeletons", "E", "The most fun of the set: bone limbs, a ribcage over the jersey and a skull mask, lit in team colour. The pads and gear stay in team colours, so teams still read. At 32 px the bones turn to a busy speckle, and the dark ground needs the team glow to separate the figure."],
+  ["knights", "F", "Plate armour, a team-colour tabard and banner, and a kite shield in place of the blocker. It reads as a goalie and a knight at once. At 32 px the grey steel sinks into the grey stone, so it would need a darker wall or a coloured field."],
+  ["fantasy", "G", "Rune-lit gear, gold pauldrons, a horned helm and a cloak, against a dusk sky over mountains. Inspired by the genre, with no characters, emblems or names from any game or book. At 32 px the dark armour on a dark sky loses most of the body; the glowing gear edges carry it."],
+  ["illuminated", "C", "Kept from round 1, now with a pale gilded nimbus behind the figure, so Toronto's navy and San Jose's teal stand clear of the field. It is the closest fit to the GRJ's own look, and at 32 px every figure still separates from its ground."],
 ];
 document.getElementById("subjects").innerHTML = SUBJECTS.map((s) => `<li><b>${G.POSES[s.pose].name}</b> ${s.who}, ${TEAMS[s.team].name}</li>`).join("");
 document.getElementById("styles").innerHTML = ORDER.map(([k, letter, why], i) => {

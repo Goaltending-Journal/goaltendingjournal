@@ -103,7 +103,8 @@
       ${number(A, num, `font: 600 8.5px Jost, Futura, sans-serif; fill: ${paper}`)}</g></svg>`;
   }
 
-  /* D · Illuminated plate. Conceit: a page from the GRJ's book of keepers, flat colour in ink outline inside a gilded frame. */
+  /* C · Illuminated plate. Conceit: a page from the GRJ's book of keepers, flat colour in ink outline inside a gilded frame.
+     Round 2: a pale gilded nimbus behind the figure lifts dark jerseys off the navy field. */
   function illuminated(poseKey, t, num, opts = {}) {
     const A = G.parts(poseKey), gear = trim(t), ink = "#14152a", gold = "#C9A54A", field = "#262B63";
     const id = `dia-${poseKey}`;
@@ -112,14 +113,136 @@
       let fill = roleFill(p.role, t, gear);
       if (p.role === "pad") fill = "#F7F3E6";
       if (p.role === "net") fill = gold;
+      if (p.role === "glove" || p.role === "blocker") fill = lum(gear) < 0.02 ? gold : gear;
       return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${ink}" stroke-width="1.1" stroke-linejoin="round"/>`;
     }).join("");
-    return `${G.svgOpen(A.pose, opts)}<defs><pattern id="${id}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M4 2.4L5.6 4 4 5.6 2.4 4Z" fill="${gold}" opacity=".45"/></pattern></defs>
+    return `${G.svgOpen(A.pose, opts)}<defs><pattern id="${id}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M4 2.4L5.6 4 4 5.6 2.4 4Z" fill="${gold}" opacity=".45"/></pattern><radialGradient id="halo-${poseKey}" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#F3ECD2"/><stop offset=".72" stop-color="#E4D6A8"/><stop offset="1" stop-color="#E4D6A8" stop-opacity="0"/></radialGradient></defs>
       <rect width="100" height="100" fill="${gold}"/><rect x="3" y="3" width="94" height="94" fill="${field}"/><rect x="3" y="3" width="94" height="94" fill="url(#${id})"/>
       <rect x="5.5" y="5.5" width="89" height="89" fill="none" stroke="${gold}" stroke-width=".8"/>
       ${[[3, 3], [97, 3], [3, 97], [97, 97]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.4" fill="${gold}" stroke="${ink}" stroke-width=".6"/>`).join("")}
+      <path d="M17 ${(7 + 0.82 * G.GROUND).toFixed(1)}V40A33 30 0 0 1 83 40V${(7 + 0.82 * G.GROUND).toFixed(1)}Z" fill="url(#halo-${poseKey})" stroke="${gold}" stroke-width=".8"/>
       <path d="M5.5 ${(7 + 0.82 * G.GROUND).toFixed(1)}H94.5V94.5H5.5Z" fill="#3a417f"/><g transform="${inset(A)}">${body}
       ${number(A, num, `font: 600 8.5px Jost, Futura, sans-serif; fill: #fff; paint-order: stroke; stroke: ${ink}; stroke-width: 1.2`)}</g></svg>`;
+  }
+
+
+  // Path helpers for styles that draw their own shapes from the skeleton's joints
+  const fx = (n) => Math.round(n * 10) / 10;
+  const P2 = (p) => `${fx(p[0])} ${fx(p[1])}`;
+  const unit = (a, b) => { const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1; return [d[0] / L, d[1] / L]; };
+  const along = (p, u, k) => [p[0] + u[0] * k, p[1] + u[1] * k];
+  const circ = (c, r) => `M${fx(c[0] - r)} ${fx(c[1])}a${fx(r)} ${fx(r)} 0 1 0 ${fx(2 * r)} 0a${fx(r)} ${fx(r)} 0 1 0 ${fx(-2 * r)} 0Z`;
+  const stad = (a, b, w) => {
+    const u = unit(a, b), r = w / 2, n = [-u[1] * r, u[0] * r];
+    return `M${P2([a[0] + n[0], a[1] + n[1]])}L${P2([b[0] + n[0], b[1] + n[1]])}A${fx(r)} ${fx(r)} 0 0 1 ${P2([b[0] - n[0], b[1] - n[1]])}L${P2([a[0] - n[0], a[1] - n[1]])}A${fx(r)} ${fx(r)} 0 0 1 ${P2([a[0] + n[0], a[1] + n[1]])}Z`;
+  };
+  // A long bone: a shaft with two knuckles at each end
+  const bone = (a, b, w) => {
+    const u = unit(a, b), n = [-u[1], u[0]], k = w * 0.55;
+    return stad(along(a, u, w * 0.4), along(b, u, -w * 0.4), w * 0.55) +
+      [[a, 1], [b, -1]].map(([p, sgn]) => circ(along(along(p, u, sgn * w * 0.25), n, k), w * 0.45) + circ(along(along(p, u, sgn * w * 0.25), n, -k), w * 0.45)).join("");
+  };
+  const LIMBS = [["shBlocker", "elbowBlocker"], ["elbowBlocker", "handBlocker"], ["shGlove", "elbowGlove"], ["elbowGlove", "handGlove"], ["hipL", "kneeL"], ["hipR", "kneeR"]];
+
+  /* E · Skeletons. Conceit: the bone crew. Every goalie is a skeleton still suiting up, glowing in team colour after dark. */
+  function skeletons(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, ivory = "#EEE6CF", ink = "#0f1016", glow = ink2Of(t) === "#000000" ? t.accent : mix(t.primary, 0.25);
+    const keep = new Set(["net", "pad", "skate", "glove", "blocker", "shaft", "paddle", "blade", "puck", "donut", "streak", "torso"]);
+    const gear = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="${glow}" opacity=".35"/>`;
+      if (!keep.has(p.role)) return "";
+      const fill = { net: ivory, pad: t.primary, skate: ivory, glove: t.primary, blocker: t.primary, shaft: "#3a2e24", paddle: "#3a2e24", blade: ivory,
+        puck: ivory, donut: "#E9A4B8", streak: glow, torso: t.primary }[p.role];
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${p.role === "torso" ? ivory : ink}" stroke-width="${p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
+    }).join("");
+    // Pads get bone-white straps, the torso a ribcage over the jersey
+    const straps = ["L", "R"].map((s) => {
+      const k = P["knee" + s], a = P["ankle" + s], u = unit(k, a), n = [-u[1], u[0]];
+      return [0.3, 0.65].map((f) => { const c = along(k, u, 20 * f); return `<path d="M${P2(along(c, n, -5.5))}L${P2(along(c, n, 5.5))}" stroke="${ivory}" stroke-width="1.4"/>`; }).join("");
+    }).join("");
+    const up = unit(P.pelvis, P.neck), side = [-up[1], up[0]];
+    const spine = `<path d="M${P2(along(P.pelvis, up, 2))}L${P2(along(P.neck, up, -2))}" stroke="${ivory}" stroke-width="1.8" stroke-dasharray="1.6 .9"/>`;
+    const ribs = [0.55, 0.68, 0.8].map((f) => {
+      const c = along(P.pelvis, up, 24 * f), w = 7.5 - (f - 0.55) * 6;
+      return `<path d="M${P2(along(along(c, side, -w), up, -2))}Q${P2(c)} ${P2(along(along(c, side, w), up, -2))}" fill="none" stroke="${ivory}" stroke-width="1.5" stroke-linecap="round"/>`;
+    }).join("");
+    const bones = LIMBS.map(([a, b]) => `<path d="${bone(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".7"/>`).join("") +
+      ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 4)}" fill="${ivory}" stroke="${ink}" stroke-width=".6" opacity=".0"/>`).join("");
+    // Skull, facing the way the head points
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const eye = (sgn) => circ(along(along(h, hn, sgn * 2.1), hd, 0.6), 1.35);
+    const skull = `<path d="${circ(h, 5.4)}" fill="${ivory}" stroke="${ink}" stroke-width=".8"/>
+      <path d="${stad(along(h, hd, -5), along(h, hd, -6.4), 6)}" fill="${ivory}" stroke="${ink}" stroke-width=".7"/>
+      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`;
+    const bodyParts = A.parts.filter((p) => p.role !== "torso");
+    const torso = A.parts.find((p) => p.role === "torso");
+    return `${G.svgOpen(A.pose, opts)}<defs><radialGradient id="night-${poseKey}" cx="50%" cy="58%" r="62%"><stop offset="0" stop-color="${mix(glow, -0.25)}"/><stop offset=".55" stop-color="${mix(glow, -0.72)}"/><stop offset="1" stop-color="#0b0c12"/></radialGradient></defs>
+      <rect width="100" height="100" fill="url(#night-${poseKey})"/><path d="M0 ${(7 + 0.82 * G.GROUND).toFixed(1)}H100V100H0Z" fill="#0b0c12" opacity=".6"/>
+      <g transform="${inset(A)}">${gear}${straps}${bones}${spine}${ribs}${skull}
+      ${number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${ivory}; paint-order: stroke; stroke: ${ink}; stroke-width: 1.4`)}</g></svg>`;
+  }
+
+  /* F · Knights. Conceit: the keeper as a knight of the crease, plate armour under a tabard in team colours, shield for a blocker. */
+  function knights(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, ink = "#1d1e26", trimC = t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : "#D9DCE4";
+    const steel = `url(#steel-${poseKey})`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="#000" opacity=".3"/>`;
+      if (p.role === "blocker" || p.role === "mask") return "";
+      const fill = { net: "#8b5a2b", thigh: steel, pad: steel, skate: "#5d6170", torso: t.primary, arm: steel, glove: steel,
+        shaft: "#6b4a2e", paddle: "#6b4a2e", blade: "#c9ced8", puck: ink, donut: "#E9A4B8", streak: "#c9ced8" }[p.role];
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${p.role === "torso" ? trimC : ink}" stroke-width="${p.role === "torso" ? 1.6 : 1}" stroke-linejoin="round"/>`;
+    }).join("");
+    // Kite shield on the blocker hand, square to the forearm
+    const hb = P.handBlocker, fu = unit(P.elbowBlocker, hb), fn = [-fu[1], fu[0]];
+    const sh = [along(along(hb, fu, -6), fn, -6.5), along(along(hb, fu, -6), fn, 6.5), along(hb, fn, 6), along(along(hb, fu, 8), fn, 0), along(hb, fn, -6)];
+    const shield = `<path d="M${P2(sh[0])}L${P2(sh[1])}L${P2(sh[2])}Q${P2(along(along(hb, fu, 5), fn, 4))} ${P2(sh[3])}Q${P2(along(along(hb, fu, 5), fn, -4))} ${P2(sh[4])}Z" fill="${t.primary}" stroke="${trimC}" stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M${P2(along(hb, fu, -5))}L${P2(along(hb, fu, 6))}M${P2(along(along(hb, fu, -1), fn, -4.5))}L${P2(along(along(hb, fu, -1), fn, 4.5))}" stroke="${trimC}" stroke-width="1"/>`;
+    // Great helm with a visor slit and a plume in the trim colour
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const c = (a, b) => along(along(h, hd, a), hn, b);
+    const helm = `<path d="M${P2(c(5.5, 6))}Q${P2(c(9, 0))} ${P2(c(13, -3))}" fill="none" stroke="${trimC}" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M${P2(c(5, -5))}L${P2(c(5, 5))}L${P2(c(-5.5, 5))}L${P2(c(-5.5, -5))}Z" fill="${steel}" stroke="${ink}" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M${P2(c(1, -4))}L${P2(c(1, 4))}" stroke="${ink}" stroke-width="1.3"/><path d="M${P2(c(5, 0))}L${P2(c(-5.5, 0))}" stroke="${ink}" stroke-width=".5" opacity=".6"/>`;
+    const blocks = [];
+    for (let y = 0; y < 84; y += 8) for (let x = (y / 8) % 2 ? -6 : 0; x < 100; x += 12) blocks.push(`<rect x="${x}" y="${y}" width="12" height="8"/>`);
+    return `${G.svgOpen(A.pose, opts)}<defs><linearGradient id="steel-${poseKey}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2F4F8"/><stop offset=".5" stop-color="#B8BECC"/><stop offset="1" stop-color="#8D94A6"/></linearGradient></defs>
+      <rect width="100" height="100" fill="#a9a59a"/><g fill="#b7b3a7" stroke="#8d897e" stroke-width=".6">${blocks.join("")}</g>
+      <path d="M38 0H62V30L50 24 38 30Z" fill="${t.primary}" stroke="${ink}" stroke-width=".8" opacity=".9"/><path d="M38 0H62V3H38Z" fill="${trimC}"/>
+      <path d="M0 ${(7 + 0.82 * G.GROUND).toFixed(1)}H100V100H0Z" fill="#6e6a60"/>
+      <g transform="${inset(A)}">${body}${shield}${helm}
+      ${number(A, num, `font: 600 8px Jost, Futura, sans-serif; fill: #fff; paint-order: stroke; stroke: ${ink}; stroke-width: 1.3`)}</g></svg>`;
+  }
+
+  /* G · High fantasy. Conceit: an epic-quest keeper, rune-lit armour and a team-colour cloak against a dusk sky over far mountains. */
+  function fantasy(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, ink = "#16112a", gold = "#E2B85A";
+    const rune = mix(t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : t.primary, 0.45);
+    const dark = mix(t.primary, -0.55);
+    // A cloak from the shoulders, flaring behind the body toward the ice
+    const up = unit(P.pelvis, P.neck), side = [-up[1], up[0]];
+    const sb = P.shBlocker, sg = P.shGlove, foot = Math.max(P.ankleL[1], P.ankleR[1]) - 4;
+    const cloak = `<path d="M${P2(sb)}C${P2([sb[0] - 10, sb[1] + 20])} ${P2([P.pelvis[0] - 20, foot - 6])} ${P2([P.pelvis[0] - 18, foot])}L${P2([P.pelvis[0] + 18, foot])}C${P2([P.pelvis[0] + 20, foot - 6])} ${P2([sg[0] + 10, sg[1] + 20])} ${P2(sg)}Z" fill="${dark}" stroke="${ink}" stroke-width="1"/>`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="${rune}" opacity=".4"/>`;
+      const fill = { net: gold, thigh: "#2f2846", pad: "#3b3358", skate: "#2f2846", torso: t.primary, arm: "#3b3358", glove: "#3b3358", blocker: "#3b3358",
+        mask: "#3b3358", shaft: "#4a3a2a", paddle: "#4a3a2a", blade: gold, puck: ink, donut: "#E9A4B8", streak: rune }[p.role];
+      const glowing = ["pad", "glove", "blocker", "mask", "paddle"].includes(p.role);
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${glowing ? rune : p.role === "torso" ? gold : ink}" stroke-width="${glowing ? 1.2 : 1}" stroke-linejoin="round"${glowing ? ` filter="url(#glow-${poseKey})"` : ""}/>`;
+    }).join("");
+    // Pauldrons, and horns on the helm
+    const pauldrons = [sb, sg].map((s) => `<path d="${circ(s, 5.2)}" fill="${gold}" stroke="${ink}" stroke-width="1"/>`).join("");
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const horn = (sgn) => { const b = along(along(h, hn, sgn * 4), hd, 2); return `<path d="M${P2(b)}Q${P2(along(along(b, hn, sgn * 6), hd, 1))} ${P2(along(along(b, hn, sgn * 5), hd, 8))}Q${P2(along(along(b, hn, sgn * 3), hd, 3))} ${P2(along(b, hd, -1.5))}Z" fill="#E9E1C8" stroke="${ink}" stroke-width=".8"/>`; };
+    const eyes = `<path d="M${P2(along(along(h, hd, .5), hn, -2.6))}L${P2(along(along(h, hd, .5), hn, 2.6))}" stroke="${rune}" stroke-width="1.2" filter="url(#glow-${poseKey})"/>`;
+    const gy = (7 + 0.82 * G.GROUND).toFixed(1);
+    return `${G.svgOpen(A.pose, opts)}<defs><linearGradient id="dusk-${poseKey}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1440"/><stop offset=".55" stop-color="#5b2f6e"/><stop offset=".85" stop-color="#d98a52"/></linearGradient>
+      <filter id="glow-${poseKey}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation=".9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <rect width="100" height="100" fill="url(#dusk-${poseKey})"/><circle cx="78" cy="20" r="7" fill="#F4E7C3" opacity=".9"/>
+      <path d="M0 70L14 52 24 62 38 40 52 60 64 46 78 64 90 50 100 60V${gy}H0Z" fill="#2a1d48"/><path d="M0 76L18 64 30 72 46 60 60 72 76 62 100 74V${gy}H0Z" fill="#20163a"/>
+      <path d="M0 ${gy}H100V100H0Z" fill="#140e26"/>
+      <g transform="${inset(A)}">${cloak}${body}${pauldrons}${horn(1)}${horn(-1)}${eyes}
+      ${number(A, num, `font: 600 8px Jost, Futura, sans-serif; fill: ${gold}; paint-order: stroke; stroke: ${ink}; stroke-width: 1.3`)}</g></svg>`;
   }
 
   return {
@@ -129,6 +252,9 @@
       plate: { name: "Research Plate", conceit: "A figure from the journal: each goalie drafted in white line on a plate of team colour.", draw: plate },
       riso: { name: "Two-Ink Print", conceit: "A club-room risograph in two team inks, with halftone pads and a little misregistration.", draw: riso },
       illuminated: { name: "Illuminated Plate", conceit: "A page from the GRJ's book of keepers: flat colour in ink outline, inside a gilded frame.", draw: illuminated },
+      skeletons: { name: "Skeletons", conceit: "The bone crew: every goalie is a skeleton suiting up, glowing in team colour after dark.", draw: skeletons },
+      knights: { name: "Knights", conceit: "Knights of the crease: plate armour under a team-colour tabard, with a kite shield for a blocker.", draw: knights },
+      fantasy: { name: "High Fantasy", conceit: "An epic-quest keeper: rune-lit armour and a team-colour cloak against a dusk sky over far mountains.", draw: fantasy },
     },
   };
 });
