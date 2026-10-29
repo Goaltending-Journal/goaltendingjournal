@@ -1,0 +1,3569 @@
+{
+ "checked": "2026-10-29",
+ "budgets": {
+  "number": "3:1 WCAG",
+  "pairs": "3:1 trim/field, armour/field and tabard/field (or 2:1 trim/tabard when the trim edge carries it), 2:1 cross/shield, in every vision type",
+  "page": "3:1"
+ },
+ "teams": {
+  "ANA": {
+   "tokens": {
+    "tabard": "#CF4520",
+    "field": "#722612",
+    "ground": "#48180B",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Duck's head",
+   "number": {
+    "wcag": 4.64,
+    "apca": -76.6,
+    "whiteWcag": 4.64
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 4.64,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 9.62,
+      "dE": 0.6
+     },
+     "armour/field": {
+      "wcag": 5.21,
+      "dE": 0.41
+     },
+     "trim/tabard": {
+      "wcag": 4.26,
+      "dE": 0.43
+     },
+     "cross/shield": {
+      "wcag": 4.26,
+      "dE": 0.43
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 3.97,
+      "dE": 0.42
+     },
+     "trim/field": {
+      "wcag": 8.73,
+      "dE": 0.58
+     },
+     "armour/field": {
+      "wcag": 4.93,
+      "dE": 0.4
+     },
+     "trim/tabard": {
+      "wcag": 3.64,
+      "dE": 0.39
+     },
+     "cross/shield": {
+      "wcag": 3.64,
+      "dE": 0.39
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 6.2,
+      "dE": 0.52
+     },
+     "trim/field": {
+      "wcag": 11.28,
+      "dE": 0.65
+     },
+     "armour/field": {
+      "wcag": 5.7,
+      "dE": 0.43
+     },
+     "trim/tabard": {
+      "wcag": 5.69,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.69,
+      "dE": 0.49
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 4.68,
+      "dE": 0.47
+     },
+     "trim/field": {
+      "wcag": 9.71,
+      "dE": 0.6
+     },
+     "armour/field": {
+      "wcag": 5.19,
+      "dE": 0.4
+     },
+     "trim/tabard": {
+      "wcag": 4.3,
+      "dE": 0.45
+     },
+     "cross/shield": {
+      "wcag": 4.3,
+      "dE": 0.45
+     }
+    }
+   }
+  },
+  "BOS": {
+   "tokens": {
+    "tabard": "#000000",
+    "field": "#292929",
+    "ground": "#0F0F0F",
+    "trim": "#FFB81C",
+    "cross": "#FFB81C",
+    "edgeNeeded": true,
+    "fieldWhy": "black sweater: a charcoal field so the tabard reads",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Bear's ears",
+   "number": {
+    "wcag": 21,
+    "apca": -107.9,
+    "whiteWcag": 21
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 8.4,
+      "dE": 0.57
+     },
+     "armour/field": {
+      "wcag": 7.22,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 12.12,
+      "dE": 0.84
+     },
+     "cross/shield": {
+      "wcag": 12.12,
+      "dE": 0.84
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 8.98,
+      "dE": 0.58
+     },
+     "armour/field": {
+      "wcag": 7.54,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 12.97,
+      "dE": 0.86
+     },
+     "cross/shield": {
+      "wcag": 12.97,
+      "dE": 0.86
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 7.48,
+      "dE": 0.53
+     },
+     "armour/field": {
+      "wcag": 6.75,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 10.79,
+      "dE": 0.8
+     },
+     "cross/shield": {
+      "wcag": 10.79,
+      "dE": 0.8
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 7.66,
+      "dE": 0.54
+     },
+     "armour/field": {
+      "wcag": 7.16,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 11.06,
+      "dE": 0.82
+     },
+     "cross/shield": {
+      "wcag": 11.06,
+      "dE": 0.82
+     }
+    }
+   }
+  },
+  "BUF": {
+   "tokens": {
+    "tabard": "#003087",
+    "field": "#001A4A",
+    "ground": "#00112F",
+    "trim": "#FFB81C",
+    "cross": "#FFB81C",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Crossed sabres",
+   "number": {
+    "wcag": 11.85,
+    "apca": -100,
+    "whiteWcag": 11.85
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 11.85,
+      "dE": 0.67
+     },
+     "trim/field": {
+      "wcag": 9.73,
+      "dE": 0.65
+     },
+     "armour/field": {
+      "wcag": 8.36,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 6.84,
+      "dE": 0.58
+     },
+     "cross/shield": {
+      "wcag": 6.84,
+      "dE": 0.58
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 11.7,
+      "dE": 0.67
+     },
+     "trim/field": {
+      "wcag": 10.42,
+      "dE": 0.66
+     },
+     "armour/field": {
+      "wcag": 8.75,
+      "dE": 0.59
+     },
+     "trim/tabard": {
+      "wcag": 7.22,
+      "dE": 0.58
+     },
+     "cross/shield": {
+      "wcag": 7.22,
+      "dE": 0.58
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 10.32,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 8.16,
+      "dE": 0.59
+     },
+     "armour/field": {
+      "wcag": 7.37,
+      "dE": 0.54
+     },
+     "trim/tabard": {
+      "wcag": 5.31,
+      "dE": 0.51
+     },
+     "cross/shield": {
+      "wcag": 5.31,
+      "dE": 0.51
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 10.32,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 8.39,
+      "dE": 0.58
+     },
+     "armour/field": {
+      "wcag": 7.84,
+      "dE": 0.55
+     },
+     "trim/tabard": {
+      "wcag": 5.43,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 5.43,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "CGY": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F1BE48",
+    "cross": "#F1BE48",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Flame",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 7.11,
+      "dE": 0.5
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 3.42,
+      "dE": 0.35
+     },
+     "cross/shield": {
+      "wcag": 3.42,
+      "dE": 0.35
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 6.68,
+      "dE": 0.49
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 3,
+      "dE": 0.3
+     },
+     "cross/shield": {
+      "wcag": 3,
+      "dE": 0.3
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 7.92,
+      "dE": 0.54
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 4.6,
+      "dE": 0.39
+     },
+     "cross/shield": {
+      "wcag": 4.6,
+      "dE": 0.39
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 6.42,
+      "dE": 0.46
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 2.88,
+      "dE": 0.29
+     },
+     "cross/shield": {
+      "wcag": 2.88,
+      "dE": 0.29
+     }
+    }
+   }
+  },
+  "CAR": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#A2AAAD",
+    "cross": "#A2AAAD",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Storm spiral",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 5.18,
+      "dE": 0.41
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 2.49,
+      "dE": 0.3
+     },
+     "cross/shield": {
+      "wcag": 2.49,
+      "dE": 0.3
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 4.59,
+      "dE": 0.38
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 2.06,
+      "dE": 0.21
+     },
+     "cross/shield": {
+      "wcag": 2.06,
+      "dE": 0.21
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 6.3,
+      "dE": 0.46
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 3.65,
+      "dE": 0.32
+     },
+     "cross/shield": {
+      "wcag": 3.65,
+      "dE": 0.32
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 4.84,
+      "dE": 0.4
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 2.17,
+      "dE": 0.29
+     },
+     "cross/shield": {
+      "wcag": 2.17,
+      "dE": 0.29
+     }
+    }
+   }
+  },
+  "CHI": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Hawk's head",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 11.22,
+      "dE": 0.64
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 5.4,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.4,
+      "dE": 0.49
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 10.01,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.5,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.5,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 13.56,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.87,
+      "dE": 0.56
+     },
+     "cross/shield": {
+      "wcag": 7.87,
+      "dE": 0.56
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 10.53,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 4.72,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "COL": {
+   "tokens": {
+    "tabard": "#6F263D",
+    "field": "#3D1522",
+    "ground": "#270D15",
+    "trim": "#A2AAAD",
+    "cross": "#A2AAAD",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Snow peak",
+   "number": {
+    "wcag": 10.39,
+    "apca": -97.5,
+    "whiteWcag": 10.39
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 10.39,
+      "dE": 0.62
+     },
+     "trim/field": {
+      "wcag": 6.69,
+      "dE": 0.48
+     },
+     "armour/field": {
+      "wcag": 7.84,
+      "dE": 0.53
+     },
+     "trim/tabard": {
+      "wcag": 4.4,
+      "dE": 0.37
+     },
+     "cross/shield": {
+      "wcag": 4.4,
+      "dE": 0.37
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 9.59,
+      "dE": 0.61
+     },
+     "trim/field": {
+      "wcag": 6.43,
+      "dE": 0.47
+     },
+     "armour/field": {
+      "wcag": 7.93,
+      "dE": 0.54
+     },
+     "trim/tabard": {
+      "wcag": 4.03,
+      "dE": 0.34
+     },
+     "cross/shield": {
+      "wcag": 4.03,
+      "dE": 0.34
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 11.88,
+      "dE": 0.66
+     },
+     "trim/field": {
+      "wcag": 7.11,
+      "dE": 0.5
+     },
+     "armour/field": {
+      "wcag": 7.74,
+      "dE": 0.54
+     },
+     "trim/tabard": {
+      "wcag": 5.06,
+      "dE": 0.4
+     },
+     "cross/shield": {
+      "wcag": 5.06,
+      "dE": 0.4
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 10.35,
+      "dE": 0.62
+     },
+     "trim/field": {
+      "wcag": 6.7,
+      "dE": 0.48
+     },
+     "armour/field": {
+      "wcag": 7.79,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 4.38,
+      "dE": 0.37
+     },
+     "cross/shield": {
+      "wcag": 4.38,
+      "dE": 0.37
+     }
+    }
+   }
+  },
+  "CBJ": {
+   "tokens": {
+    "tabard": "#041E42",
+    "field": "#021124",
+    "ground": "#010B17",
+    "trim": "#A2AAAD",
+    "cross": "#A2AAAD",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Cockade",
+   "number": {
+    "wcag": 16.54,
+    "apca": -105.7,
+    "whiteWcag": 16.54
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 16.54,
+      "dE": 0.76
+     },
+     "trim/field": {
+      "wcag": 8.02,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 9.4,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 7,
+      "dE": 0.5
+     },
+     "cross/shield": {
+      "wcag": 7,
+      "dE": 0.5
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 16.9,
+      "dE": 0.77
+     },
+     "trim/field": {
+      "wcag": 8.04,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 9.91,
+      "dE": 0.64
+     },
+     "trim/tabard": {
+      "wcag": 7.1,
+      "dE": 0.5
+     },
+     "cross/shield": {
+      "wcag": 7.1,
+      "dE": 0.5
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 15.89,
+      "dE": 0.75
+     },
+     "trim/field": {
+      "wcag": 7.96,
+      "dE": 0.55
+     },
+     "armour/field": {
+      "wcag": 8.67,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 6.77,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 6.77,
+      "dE": 0.49
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 15.83,
+      "dE": 0.75
+     },
+     "trim/field": {
+      "wcag": 7.88,
+      "dE": 0.55
+     },
+     "armour/field": {
+      "wcag": 9.16,
+      "dE": 0.61
+     },
+     "trim/tabard": {
+      "wcag": 6.7,
+      "dE": 0.48
+     },
+     "cross/shield": {
+      "wcag": 6.7,
+      "dE": 0.48
+     }
+    }
+   }
+  },
+  "DAL": {
+   "tokens": {
+    "tabard": "#00843D",
+    "field": "#004922",
+    "ground": "#002E15",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Star",
+   "number": {
+    "wcag": 4.81,
+    "apca": -78.1,
+    "whiteWcag": 4.81
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 4.81,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 9.75,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.27,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.41,
+      "dE": 0.46
+     },
+     "cross/shield": {
+      "wcag": 4.41,
+      "dE": 0.46
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 5.11,
+      "dE": 0.47
+     },
+     "trim/field": {
+      "wcag": 10.11,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.71,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.69,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.69,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 4.48,
+      "dE": 0.44
+     },
+     "trim/field": {
+      "wcag": 9.25,
+      "dE": 0.6
+     },
+     "armour/field": {
+      "wcag": 4.68,
+      "dE": 0.39
+     },
+     "trim/tabard": {
+      "wcag": 4.11,
+      "dE": 0.41
+     },
+     "cross/shield": {
+      "wcag": 4.11,
+      "dE": 0.41
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "trim/field": {
+      "wcag": 9.66,
+      "dE": 0.61
+     },
+     "armour/field": {
+      "wcag": 5.16,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 4.35,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.35,
+      "dE": 0.44
+     }
+    }
+   }
+  },
+  "DET": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Pair of wings",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 11.22,
+      "dE": 0.64
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 5.4,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.4,
+      "dE": 0.49
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 10.01,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.5,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.5,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 13.56,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.87,
+      "dE": 0.56
+     },
+     "cross/shield": {
+      "wcag": 7.87,
+      "dE": 0.56
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 10.53,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 4.72,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "EDM": {
+   "tokens": {
+    "tabard": "#00205B",
+    "field": "#001232",
+    "ground": "#000B20",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Drop",
+   "number": {
+    "wcag": 15.47,
+    "apca": -104.6,
+    "whiteWcag": 15.47
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 15.47,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.01,
+      "dE": 0.78
+     },
+     "armour/field": {
+      "wcag": 9.2,
+      "dE": 0.62
+     },
+     "trim/tabard": {
+      "wcag": 14.19,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.19,
+      "dE": 0.71
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 15.51,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.13,
+      "dE": 0.79
+     },
+     "armour/field": {
+      "wcag": 9.68,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 14.22,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.22,
+      "dE": 0.71
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 14.23,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.57,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.38,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 13.06,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.06,
+      "dE": 0.69
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 14.31,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.55,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.85,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 13.17,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.17,
+      "dE": 0.69
+     }
+    }
+   }
+  },
+  "FLA": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Cat's ears",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 11.22,
+      "dE": 0.64
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 5.4,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.4,
+      "dE": 0.49
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 10.01,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.5,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.5,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 13.56,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.87,
+      "dE": 0.56
+     },
+     "cross/shield": {
+      "wcag": 7.87,
+      "dE": 0.56
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 10.53,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 4.72,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "LAK": {
+   "tokens": {
+    "tabard": "#000000",
+    "field": "#292929",
+    "ground": "#0F0F0F",
+    "trim": "#A2AAAD",
+    "cross": "#A2AAAD",
+    "edgeNeeded": true,
+    "fieldWhy": "black sweater: a charcoal field so the tabard reads",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Crown",
+   "number": {
+    "wcag": 21,
+    "apca": -107.9,
+    "whiteWcag": 21
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.16,
+      "dE": 0.45
+     },
+     "armour/field": {
+      "wcag": 7.22,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 8.89,
+      "dE": 0.73
+     },
+     "cross/shield": {
+      "wcag": 8.89,
+      "dE": 0.73
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.11,
+      "dE": 0.45
+     },
+     "armour/field": {
+      "wcag": 7.54,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 8.83,
+      "dE": 0.73
+     },
+     "cross/shield": {
+      "wcag": 8.83,
+      "dE": 0.73
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.2,
+      "dE": 0.45
+     },
+     "armour/field": {
+      "wcag": 6.75,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 8.94,
+      "dE": 0.74
+     },
+     "cross/shield": {
+      "wcag": 8.94,
+      "dE": 0.74
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.16,
+      "dE": 0.45
+     },
+     "armour/field": {
+      "wcag": 7.16,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 8.89,
+      "dE": 0.73
+     },
+     "cross/shield": {
+      "wcag": 8.89,
+      "dE": 0.73
+     }
+    }
+   }
+  },
+  "MIN": {
+   "tokens": {
+    "tabard": "#154734",
+    "field": "#0C271D",
+    "ground": "#071912",
+    "trim": "#EAAA00",
+    "cross": "#EAAA00",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Pine",
+   "number": {
+    "wcag": 10.59,
+    "apca": -98.3,
+    "whiteWcag": 10.59
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 10.59,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 7.74,
+      "dE": 0.55
+     },
+     "armour/field": {
+      "wcag": 7.87,
+      "dE": 0.54
+     },
+     "trim/tabard": {
+      "wcag": 5.17,
+      "dE": 0.45
+     },
+     "cross/shield": {
+      "wcag": 5.17,
+      "dE": 0.45
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 10.88,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 8.41,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 8.34,
+      "dE": 0.55
+     },
+     "trim/tabard": {
+      "wcag": 5.69,
+      "dE": 0.46
+     },
+     "cross/shield": {
+      "wcag": 5.69,
+      "dE": 0.46
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 10.06,
+      "dE": 0.62
+     },
+     "trim/field": {
+      "wcag": 6.82,
+      "dE": 0.5
+     },
+     "armour/field": {
+      "wcag": 7.21,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 4.42,
+      "dE": 0.39
+     },
+     "cross/shield": {
+      "wcag": 4.42,
+      "dE": 0.39
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 10.61,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 7.64,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 7.83,
+      "dE": 0.55
+     },
+     "trim/tabard": {
+      "wcag": 5.09,
+      "dE": 0.46
+     },
+     "cross/shield": {
+      "wcag": 5.09,
+      "dE": 0.46
+     }
+    }
+   }
+  },
+  "MTL": {
+   "tokens": {
+    "tabard": "#A6192E",
+    "field": "#5B0E19",
+    "ground": "#3A0910",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Fleur-de-lis",
+   "number": {
+    "wcag": 7.5,
+    "apca": -89.3,
+    "whiteWcag": 7.5
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 7.5,
+      "dE": 0.56
+     },
+     "trim/field": {
+      "wcag": 12.66,
+      "dE": 0.67
+     },
+     "armour/field": {
+      "wcag": 6.85,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 6.88,
+      "dE": 0.53
+     },
+     "cross/shield": {
+      "wcag": 6.88,
+      "dE": 0.53
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 6.42,
+      "dE": 0.52
+     },
+     "trim/field": {
+      "wcag": 11.65,
+      "dE": 0.65
+     },
+     "armour/field": {
+      "wcag": 6.58,
+      "dE": 0.48
+     },
+     "trim/tabard": {
+      "wcag": 5.89,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.89,
+      "dE": 0.49
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 10.06,
+      "dE": 0.62
+     },
+     "trim/field": {
+      "wcag": 14.58,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 7.37,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 9.23,
+      "dE": 0.59
+     },
+     "cross/shield": {
+      "wcag": 9.23,
+      "dE": 0.59
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 6.91,
+      "dE": 0.55
+     },
+     "trim/field": {
+      "wcag": 12.37,
+      "dE": 0.66
+     },
+     "armour/field": {
+      "wcag": 6.61,
+      "dE": 0.47
+     },
+     "trim/tabard": {
+      "wcag": 6.36,
+      "dE": 0.52
+     },
+     "cross/shield": {
+      "wcag": 6.36,
+      "dE": 0.52
+     }
+    }
+   }
+  },
+  "NSH": {
+   "tokens": {
+    "tabard": "#FFB81C",
+    "field": "#021124",
+    "ground": "#010B17",
+    "trim": "#F4F5F8",
+    "cross": "#1d1e26",
+    "edgeNeeded": false,
+    "fieldWhy": "second team colour, 45% darker (the sweater is gold)",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#1d1e26",
+    "numberEdge": "#FFFFFF",
+    "numberWhy": "fallback: ink, because white is under 3:1 on the tabard"
+   },
+   "crest": "Sabre tooth",
+   "number": {
+    "wcag": 9.58,
+    "apca": 70.3,
+    "whiteWcag": 1.73
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 9.58,
+      "dE": 0.62
+     },
+     "trim/field": {
+      "wcag": 17.38,
+      "dE": 0.8
+     },
+     "armour/field": {
+      "wcag": 9.4,
+      "dE": 0.63
+     },
+     "tabard/field": {
+      "wcag": 10.94,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 9.58,
+      "dE": 0.62
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 10.29,
+      "dE": 0.63
+     },
+     "trim/field": {
+      "wcag": 17.55,
+      "dE": 0.8
+     },
+     "armour/field": {
+      "wcag": 9.91,
+      "dE": 0.64
+     },
+     "tabard/field": {
+      "wcag": 11.81,
+      "dE": 0.7
+     },
+     "cross/shield": {
+      "wcag": 10.29,
+      "dE": 0.63
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.48,
+      "dE": 0.57
+     },
+     "trim/field": {
+      "wcag": 17.14,
+      "dE": 0.79
+     },
+     "armour/field": {
+      "wcag": 8.67,
+      "dE": 0.6
+     },
+     "tabard/field": {
+      "wcag": 9.61,
+      "dE": 0.64
+     },
+     "cross/shield": {
+      "wcag": 8.48,
+      "dE": 0.57
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 8.74,
+      "dE": 0.58
+     },
+     "trim/field": {
+      "wcag": 17.13,
+      "dE": 0.79
+     },
+     "armour/field": {
+      "wcag": 9.16,
+      "dE": 0.61
+     },
+     "tabard/field": {
+      "wcag": 9.8,
+      "dE": 0.64
+     },
+     "cross/shield": {
+      "wcag": 8.74,
+      "dE": 0.58
+     }
+    }
+   }
+  },
+  "NJD": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Horns",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 11.22,
+      "dE": 0.64
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 5.4,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.4,
+      "dE": 0.49
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 10.01,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.5,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.5,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 13.56,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.87,
+      "dE": 0.56
+     },
+     "cross/shield": {
+      "wcag": 7.87,
+      "dE": 0.56
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 10.53,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 4.72,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "NYI": {
+   "tokens": {
+    "tabard": "#003087",
+    "field": "#001A4A",
+    "ground": "#00112F",
+    "trim": "#FC4C02",
+    "cross": "#FC4C02",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Anchor",
+   "number": {
+    "wcag": 11.85,
+    "apca": -100,
+    "whiteWcag": 11.85
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 11.85,
+      "dE": 0.67
+     },
+     "trim/field": {
+      "wcag": 4.95,
+      "dE": 0.52
+     },
+     "armour/field": {
+      "wcag": 8.36,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 3.48,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 3.48,
+      "dE": 0.47
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 11.7,
+      "dE": 0.67
+     },
+     "trim/field": {
+      "wcag": 5.95,
+      "dE": 0.5
+     },
+     "armour/field": {
+      "wcag": 8.75,
+      "dE": 0.59
+     },
+     "trim/tabard": {
+      "wcag": 4.12,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.12,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 10.32,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 3.3,
+      "dE": 0.36
+     },
+     "armour/field": {
+      "wcag": 7.37,
+      "dE": 0.54
+     },
+     "trim/tabard": {
+      "wcag": 2.14,
+      "dE": 0.3
+     },
+     "cross/shield": {
+      "wcag": 2.14,
+      "dE": 0.3
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 10.32,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 4.04,
+      "dE": 0.49
+     },
+     "armour/field": {
+      "wcag": 7.84,
+      "dE": 0.55
+     },
+     "trim/tabard": {
+      "wcag": 2.62,
+      "dE": 0.41
+     },
+     "cross/shield": {
+      "wcag": 2.62,
+      "dE": 0.41
+     }
+    }
+   }
+  },
+  "NYR": {
+   "tokens": {
+    "tabard": "#0033A0",
+    "field": "#001C58",
+    "ground": "#001238",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Crossed arrows",
+   "number": {
+    "wcag": 10.6,
+    "apca": -97.6,
+    "whiteWcag": 10.6
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 10.6,
+      "dE": 0.65
+     },
+     "trim/field": {
+      "wcag": 14.74,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 7.97,
+      "dE": 0.57
+     },
+     "trim/tabard": {
+      "wcag": 9.72,
+      "dE": 0.62
+     },
+     "cross/shield": {
+      "wcag": 9.72,
+      "dE": 0.62
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 10.2,
+      "dE": 0.64
+     },
+     "trim/field": {
+      "wcag": 14.67,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 8.28,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 9.35,
+      "dE": 0.61
+     },
+     "cross/shield": {
+      "wcag": 9.35,
+      "dE": 0.61
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.73,
+      "dE": 0.6
+     },
+     "trim/field": {
+      "wcag": 13.64,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.9,
+      "dE": 0.53
+     },
+     "trim/tabard": {
+      "wcag": 8.01,
+      "dE": 0.57
+     },
+     "cross/shield": {
+      "wcag": 8.01,
+      "dE": 0.57
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 8.88,
+      "dE": 0.6
+     },
+     "trim/field": {
+      "wcag": 13.65,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 7.3,
+      "dE": 0.53
+     },
+     "trim/tabard": {
+      "wcag": 8.17,
+      "dE": 0.57
+     },
+     "cross/shield": {
+      "wcag": 8.17,
+      "dE": 0.57
+     }
+    }
+   }
+  },
+  "OTT": {
+   "tokens": {
+    "tabard": "#000000",
+    "field": "#292929",
+    "ground": "#0F0F0F",
+    "trim": "#B9975B",
+    "cross": "#B9975B",
+    "edgeNeeded": true,
+    "fieldWhy": "black sweater: a charcoal field so the tabard reads",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Laurel",
+   "number": {
+    "wcag": 21,
+    "apca": -107.9,
+    "whiteWcag": 21
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 5.29,
+      "dE": 0.42
+     },
+     "armour/field": {
+      "wcag": 7.22,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 7.64,
+      "dE": 0.7
+     },
+     "cross/shield": {
+      "wcag": 7.64,
+      "dE": 0.7
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 5.48,
+      "dE": 0.43
+     },
+     "armour/field": {
+      "wcag": 7.54,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 7.92,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 7.92,
+      "dE": 0.71
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 4.96,
+      "dE": 0.4
+     },
+     "armour/field": {
+      "wcag": 6.75,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.16,
+      "dE": 0.68
+     },
+     "cross/shield": {
+      "wcag": 7.16,
+      "dE": 0.68
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 5.24,
+      "dE": 0.42
+     },
+     "armour/field": {
+      "wcag": 7.16,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 7.57,
+      "dE": 0.7
+     },
+     "cross/shield": {
+      "wcag": 7.57,
+      "dE": 0.7
+     }
+    }
+   }
+  },
+  "PHI": {
+   "tokens": {
+    "tabard": "#CF4520",
+    "field": "#722612",
+    "ground": "#48180B",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Swept wing",
+   "number": {
+    "wcag": 4.64,
+    "apca": -76.6,
+    "whiteWcag": 4.64
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 4.64,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 9.62,
+      "dE": 0.6
+     },
+     "armour/field": {
+      "wcag": 5.21,
+      "dE": 0.41
+     },
+     "trim/tabard": {
+      "wcag": 4.26,
+      "dE": 0.43
+     },
+     "cross/shield": {
+      "wcag": 4.26,
+      "dE": 0.43
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 3.97,
+      "dE": 0.42
+     },
+     "trim/field": {
+      "wcag": 8.73,
+      "dE": 0.58
+     },
+     "armour/field": {
+      "wcag": 4.93,
+      "dE": 0.4
+     },
+     "trim/tabard": {
+      "wcag": 3.64,
+      "dE": 0.39
+     },
+     "cross/shield": {
+      "wcag": 3.64,
+      "dE": 0.39
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 6.2,
+      "dE": 0.52
+     },
+     "trim/field": {
+      "wcag": 11.28,
+      "dE": 0.65
+     },
+     "armour/field": {
+      "wcag": 5.7,
+      "dE": 0.43
+     },
+     "trim/tabard": {
+      "wcag": 5.69,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.69,
+      "dE": 0.49
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 4.68,
+      "dE": 0.47
+     },
+     "trim/field": {
+      "wcag": 9.71,
+      "dE": 0.6
+     },
+     "armour/field": {
+      "wcag": 5.19,
+      "dE": 0.4
+     },
+     "trim/tabard": {
+      "wcag": 4.3,
+      "dE": 0.45
+     },
+     "cross/shield": {
+      "wcag": 4.3,
+      "dE": 0.45
+     }
+    }
+   }
+  },
+  "PIT": {
+   "tokens": {
+    "tabard": "#000000",
+    "field": "#292929",
+    "ground": "#0F0F0F",
+    "trim": "#FFB81C",
+    "cross": "#FFB81C",
+    "edgeNeeded": true,
+    "fieldWhy": "black sweater: a charcoal field so the tabard reads",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Penguin",
+   "number": {
+    "wcag": 21,
+    "apca": -107.9,
+    "whiteWcag": 21
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 8.4,
+      "dE": 0.57
+     },
+     "armour/field": {
+      "wcag": 7.22,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 12.12,
+      "dE": 0.84
+     },
+     "cross/shield": {
+      "wcag": 12.12,
+      "dE": 0.84
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 8.98,
+      "dE": 0.58
+     },
+     "armour/field": {
+      "wcag": 7.54,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 12.97,
+      "dE": 0.86
+     },
+     "cross/shield": {
+      "wcag": 12.97,
+      "dE": 0.86
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 7.48,
+      "dE": 0.53
+     },
+     "armour/field": {
+      "wcag": 6.75,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 10.79,
+      "dE": 0.8
+     },
+     "cross/shield": {
+      "wcag": 10.79,
+      "dE": 0.8
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 7.66,
+      "dE": 0.54
+     },
+     "armour/field": {
+      "wcag": 7.16,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 11.06,
+      "dE": 0.82
+     },
+     "cross/shield": {
+      "wcag": 11.06,
+      "dE": 0.82
+     }
+    }
+   }
+  },
+  "SJS": {
+   "tokens": {
+    "tabard": "#006272",
+    "field": "#00363F",
+    "ground": "#002228",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Fin",
+   "number": {
+    "wcag": 7.02,
+    "apca": -88.8,
+    "whiteWcag": 7.02
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 7.02,
+      "dE": 0.55
+     },
+     "trim/field": {
+      "wcag": 12.04,
+      "dE": 0.67
+     },
+     "armour/field": {
+      "wcag": 6.52,
+      "dE": 0.5
+     },
+     "trim/tabard": {
+      "wcag": 6.44,
+      "dE": 0.52
+     },
+     "cross/shield": {
+      "wcag": 6.44,
+      "dE": 0.52
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 7.43,
+      "dE": 0.55
+     },
+     "trim/field": {
+      "wcag": 12.44,
+      "dE": 0.67
+     },
+     "armour/field": {
+      "wcag": 7.02,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 6.82,
+      "dE": 0.52
+     },
+     "cross/shield": {
+      "wcag": 6.82,
+      "dE": 0.52
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 6.47,
+      "dE": 0.52
+     },
+     "trim/field": {
+      "wcag": 11.42,
+      "dE": 0.65
+     },
+     "armour/field": {
+      "wcag": 5.78,
+      "dE": 0.46
+     },
+     "trim/tabard": {
+      "wcag": 5.94,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.94,
+      "dE": 0.49
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 6.61,
+      "dE": 0.54
+     },
+     "trim/field": {
+      "wcag": 11.61,
+      "dE": 0.66
+     },
+     "armour/field": {
+      "wcag": 6.21,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 6.08,
+      "dE": 0.51
+     },
+     "cross/shield": {
+      "wcag": 6.08,
+      "dE": 0.51
+     }
+    }
+   }
+  },
+  "SEA": {
+   "tokens": {
+    "tabard": "#051C2C",
+    "field": "#030F18",
+    "ground": "#020A0F",
+    "trim": "#9CDBD9",
+    "cross": "#9CDBD9",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Tentacle",
+   "number": {
+    "wcag": 17.37,
+    "apca": -106.4,
+    "whiteWcag": 17.37
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 17.37,
+      "dE": 0.78
+     },
+     "trim/field": {
+      "wcag": 12.48,
+      "dE": 0.69
+     },
+     "armour/field": {
+      "wcag": 9.6,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 11.21,
+      "dE": 0.63
+     },
+     "cross/shield": {
+      "wcag": 11.21,
+      "dE": 0.63
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 17.56,
+      "dE": 0.79
+     },
+     "trim/field": {
+      "wcag": 12.1,
+      "dE": 0.69
+     },
+     "armour/field": {
+      "wcag": 10.06,
+      "dE": 0.65
+     },
+     "trim/tabard": {
+      "wcag": 10.94,
+      "dE": 0.63
+     },
+     "cross/shield": {
+      "wcag": 10.94,
+      "dE": 0.63
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 16.99,
+      "dE": 0.77
+     },
+     "trim/field": {
+      "wcag": 13.04,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 8.89,
+      "dE": 0.61
+     },
+     "trim/tabard": {
+      "wcag": 11.56,
+      "dE": 0.64
+     },
+     "cross/shield": {
+      "wcag": 11.56,
+      "dE": 0.64
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 17.08,
+      "dE": 0.78
+     },
+     "trim/field": {
+      "wcag": 12.47,
+      "dE": 0.69
+     },
+     "armour/field": {
+      "wcag": 9.49,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 11.04,
+      "dE": 0.63
+     },
+     "cross/shield": {
+      "wcag": 11.04,
+      "dE": 0.63
+     }
+    }
+   }
+  },
+  "STL": {
+   "tokens": {
+    "tabard": "#0072CE",
+    "field": "#003F71",
+    "ground": "#002848",
+    "trim": "#FFB81C",
+    "cross": "#FFB81C",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Music note",
+   "number": {
+    "wcag": 4.89,
+    "apca": -78.5,
+    "whiteWcag": 4.89
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 4.89,
+      "dE": 0.48
+     },
+     "trim/field": {
+      "wcag": 6.22,
+      "dE": 0.54
+     },
+     "armour/field": {
+      "wcag": 5.35,
+      "dE": 0.47
+     },
+     "trim/tabard": {
+      "wcag": 2.82,
+      "dE": 0.43
+     },
+     "cross/shield": {
+      "wcag": 2.82,
+      "dE": 0.43
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 5.37,
+      "dE": 0.5
+     },
+     "trim/field": {
+      "wcag": 7.04,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 5.91,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 3.32,
+      "dE": 0.45
+     },
+     "cross/shield": {
+      "wcag": 3.32,
+      "dE": 0.45
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 4.26,
+      "dE": 0.44
+     },
+     "trim/field": {
+      "wcag": 5.07,
+      "dE": 0.47
+     },
+     "armour/field": {
+      "wcag": 4.58,
+      "dE": 0.43
+     },
+     "trim/tabard": {
+      "wcag": 2.19,
+      "dE": 0.37
+     },
+     "cross/shield": {
+      "wcag": 2.19,
+      "dE": 0.37
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 4.23,
+      "dE": 0.44
+     },
+     "trim/field": {
+      "wcag": 5.19,
+      "dE": 0.46
+     },
+     "armour/field": {
+      "wcag": 4.86,
+      "dE": 0.43
+     },
+     "trim/tabard": {
+      "wcag": 2.23,
+      "dE": 0.31
+     },
+     "cross/shield": {
+      "wcag": 2.23,
+      "dE": 0.31
+     }
+    }
+   }
+  },
+  "TBL": {
+   "tokens": {
+    "tabard": "#00205B",
+    "field": "#001232",
+    "ground": "#000B20",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Lightning bolt",
+   "number": {
+    "wcag": 15.47,
+    "apca": -104.6,
+    "whiteWcag": 15.47
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 15.47,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.01,
+      "dE": 0.78
+     },
+     "armour/field": {
+      "wcag": 9.2,
+      "dE": 0.62
+     },
+     "trim/tabard": {
+      "wcag": 14.19,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.19,
+      "dE": 0.71
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 15.51,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.13,
+      "dE": 0.79
+     },
+     "armour/field": {
+      "wcag": 9.68,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 14.22,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.22,
+      "dE": 0.71
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 14.23,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.57,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.38,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 13.06,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.06,
+      "dE": 0.69
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 14.31,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.55,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.85,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 13.17,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.17,
+      "dE": 0.69
+     }
+    }
+   }
+  },
+  "TOR": {
+   "tokens": {
+    "tabard": "#00205B",
+    "field": "#001232",
+    "ground": "#000B20",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Leaf (a plain leaf, not a maple leaf)",
+   "number": {
+    "wcag": 15.47,
+    "apca": -104.6,
+    "whiteWcag": 15.47
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 15.47,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.01,
+      "dE": 0.78
+     },
+     "armour/field": {
+      "wcag": 9.2,
+      "dE": 0.62
+     },
+     "trim/tabard": {
+      "wcag": 14.19,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.19,
+      "dE": 0.71
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 15.51,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 17.13,
+      "dE": 0.79
+     },
+     "armour/field": {
+      "wcag": 9.68,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 14.22,
+      "dE": 0.71
+     },
+     "cross/shield": {
+      "wcag": 14.22,
+      "dE": 0.71
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 14.23,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.57,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.38,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 13.06,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.06,
+      "dE": 0.69
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 14.31,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 16.55,
+      "dE": 0.77
+     },
+     "armour/field": {
+      "wcag": 8.85,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 13.17,
+      "dE": 0.69
+     },
+     "cross/shield": {
+      "wcag": 13.17,
+      "dE": 0.69
+     }
+    }
+   }
+  },
+  "UTA": {
+   "tokens": {
+    "tabard": "#000000",
+    "field": "#292929",
+    "ground": "#0F0F0F",
+    "trim": "#6CACE4",
+    "cross": "#6CACE4",
+    "edgeNeeded": true,
+    "fieldWhy": "black sweater: a charcoal field so the tabard reads",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Tusks",
+   "number": {
+    "wcag": 21,
+    "apca": -107.9,
+    "whiteWcag": 21
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6,
+      "dE": 0.46
+     },
+     "armour/field": {
+      "wcag": 7.22,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 8.66,
+      "dE": 0.73
+     },
+     "cross/shield": {
+      "wcag": 8.66,
+      "dE": 0.73
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 5.68,
+      "dE": 0.44
+     },
+     "armour/field": {
+      "wcag": 7.54,
+      "dE": 0.52
+     },
+     "trim/tabard": {
+      "wcag": 8.2,
+      "dE": 0.72
+     },
+     "cross/shield": {
+      "wcag": 8.2,
+      "dE": 0.72
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.51,
+      "dE": 0.48
+     },
+     "armour/field": {
+      "wcag": 6.75,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 9.39,
+      "dE": 0.76
+     },
+     "cross/shield": {
+      "wcag": 9.39,
+      "dE": 0.76
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 21,
+      "dE": 1
+     },
+     "trim/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "armour/field": {
+      "wcag": 7.16,
+      "dE": 0.51
+     },
+     "trim/tabard": {
+      "wcag": 8.77,
+      "dE": 0.73
+     },
+     "cross/shield": {
+      "wcag": 8.77,
+      "dE": 0.73
+     }
+    }
+   }
+  },
+  "VAN": {
+   "tokens": {
+    "tabard": "#00205B",
+    "field": "#001232",
+    "ground": "#000B20",
+    "trim": "#00843D",
+    "cross": "#00843D",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Wave",
+   "number": {
+    "wcag": 15.47,
+    "apca": -104.6,
+    "whiteWcag": 15.47
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 15.47,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 3.86,
+      "dE": 0.39
+     },
+     "armour/field": {
+      "wcag": 9.2,
+      "dE": 0.62
+     },
+     "trim/tabard": {
+      "wcag": 3.22,
+      "dE": 0.34
+     },
+     "cross/shield": {
+      "wcag": 3.22,
+      "dE": 0.34
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 15.51,
+      "dE": 0.74
+     },
+     "trim/field": {
+      "wcag": 3.65,
+      "dE": 0.37
+     },
+     "armour/field": {
+      "wcag": 9.68,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 3.03,
+      "dE": 0.32
+     },
+     "cross/shield": {
+      "wcag": 3.03,
+      "dE": 0.32
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 14.23,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 4.04,
+      "dE": 0.39
+     },
+     "armour/field": {
+      "wcag": 8.38,
+      "dE": 0.58
+     },
+     "trim/tabard": {
+      "wcag": 3.18,
+      "dE": 0.33
+     },
+     "cross/shield": {
+      "wcag": 3.18,
+      "dE": 0.33
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 14.31,
+      "dE": 0.72
+     },
+     "trim/field": {
+      "wcag": 3.81,
+      "dE": 0.35
+     },
+     "armour/field": {
+      "wcag": 8.85,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 3.03,
+      "dE": 0.27
+     },
+     "cross/shield": {
+      "wcag": 3.03,
+      "dE": 0.27
+     }
+    }
+   }
+  },
+  "VGK": {
+   "tokens": {
+    "tabard": "#C69214",
+    "field": "#1C2328",
+    "ground": "#121619",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": false,
+    "fieldWhy": "second team colour, 45% darker (the sweater is gold)",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#1d1e26",
+    "numberEdge": "#FFFFFF",
+    "numberWhy": "fallback: ink, because white is under 3:1 on the tabard"
+   },
+   "crest": "Sword",
+   "number": {
+    "wcag": 5.94,
+    "apca": 48,
+    "whiteWcag": 2.79
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.94,
+      "dE": 0.48
+     },
+     "trim/field": {
+      "wcag": 14.59,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 7.89,
+      "dE": 0.54
+     },
+     "tabard/field": {
+      "wcag": 5.7,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 2.56,
+      "dE": 0.31
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 6.32,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 14.74,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 8.33,
+      "dE": 0.56
+     },
+     "tabard/field": {
+      "wcag": 6.1,
+      "dE": 0.48
+     },
+     "cross/shield": {
+      "wcag": 2.42,
+      "dE": 0.3
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 5.35,
+      "dE": 0.45
+     },
+     "trim/field": {
+      "wcag": 14.42,
+      "dE": 0.71
+     },
+     "armour/field": {
+      "wcag": 7.29,
+      "dE": 0.52
+     },
+     "tabard/field": {
+      "wcag": 5.1,
+      "dE": 0.43
+     },
+     "cross/shield": {
+      "wcag": 2.83,
+      "dE": 0.34
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.86,
+      "dE": 0.47
+     },
+     "trim/field": {
+      "wcag": 14.63,
+      "dE": 0.72
+     },
+     "armour/field": {
+      "wcag": 7.83,
+      "dE": 0.54
+     },
+     "tabard/field": {
+      "wcag": 5.61,
+      "dE": 0.46
+     },
+     "cross/shield": {
+      "wcag": 2.61,
+      "dE": 0.3
+     }
+    }
+   }
+  },
+  "WSH": {
+   "tokens": {
+    "tabard": "#C8102E",
+    "field": "#6E0919",
+    "ground": "#460610",
+    "trim": "#F4F5F8",
+    "cross": "#F4F5F8",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "white: no other team colour shows on both",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Dome",
+   "number": {
+    "wcag": 5.88,
+    "apca": -82.4,
+    "whiteWcag": 5.88
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 5.88,
+      "dE": 0.51
+     },
+     "trim/field": {
+      "wcag": 11.22,
+      "dE": 0.64
+     },
+     "armour/field": {
+      "wcag": 6.07,
+      "dE": 0.45
+     },
+     "trim/tabard": {
+      "wcag": 5.4,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 5.4,
+      "dE": 0.49
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 4.91,
+      "dE": 0.46
+     },
+     "trim/field": {
+      "wcag": 10.01,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.65,
+      "dE": 0.44
+     },
+     "trim/tabard": {
+      "wcag": 4.5,
+      "dE": 0.44
+     },
+     "cross/shield": {
+      "wcag": 4.5,
+      "dE": 0.44
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 8.58,
+      "dE": 0.59
+     },
+     "trim/field": {
+      "wcag": 13.56,
+      "dE": 0.7
+     },
+     "armour/field": {
+      "wcag": 6.86,
+      "dE": 0.49
+     },
+     "trim/tabard": {
+      "wcag": 7.87,
+      "dE": 0.56
+     },
+     "cross/shield": {
+      "wcag": 7.87,
+      "dE": 0.56
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 5.13,
+      "dE": 0.49
+     },
+     "trim/field": {
+      "wcag": 10.53,
+      "dE": 0.62
+     },
+     "armour/field": {
+      "wcag": 5.63,
+      "dE": 0.42
+     },
+     "trim/tabard": {
+      "wcag": 4.72,
+      "dE": 0.47
+     },
+     "cross/shield": {
+      "wcag": 4.72,
+      "dE": 0.47
+     }
+    }
+   }
+  },
+  "WPG": {
+   "tokens": {
+    "tabard": "#041E42",
+    "field": "#021124",
+    "ground": "#010B17",
+    "trim": "#A2AAAD",
+    "cross": "#A2AAAD",
+    "edgeNeeded": true,
+    "fieldWhy": "sweater colour, 45% darker",
+    "trimWhy": "first team colour that shows on field and tabard",
+    "number": "#FFFFFF",
+    "numberEdge": "#1d1e26",
+    "numberWhy": "white (3:1 or more on the tabard)"
+   },
+   "crest": "Arrowhead",
+   "number": {
+    "wcag": 16.54,
+    "apca": -105.7,
+    "whiteWcag": 16.54
+   },
+   "vision": {
+    "normal": {
+     "number/tabard": {
+      "wcag": 16.54,
+      "dE": 0.76
+     },
+     "trim/field": {
+      "wcag": 8.02,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 9.4,
+      "dE": 0.63
+     },
+     "trim/tabard": {
+      "wcag": 7,
+      "dE": 0.5
+     },
+     "cross/shield": {
+      "wcag": 7,
+      "dE": 0.5
+     }
+    },
+    "deuteranopia": {
+     "number/tabard": {
+      "wcag": 16.9,
+      "dE": 0.77
+     },
+     "trim/field": {
+      "wcag": 8.04,
+      "dE": 0.56
+     },
+     "armour/field": {
+      "wcag": 9.91,
+      "dE": 0.64
+     },
+     "trim/tabard": {
+      "wcag": 7.1,
+      "dE": 0.5
+     },
+     "cross/shield": {
+      "wcag": 7.1,
+      "dE": 0.5
+     }
+    },
+    "protanopia": {
+     "number/tabard": {
+      "wcag": 15.89,
+      "dE": 0.75
+     },
+     "trim/field": {
+      "wcag": 7.96,
+      "dE": 0.55
+     },
+     "armour/field": {
+      "wcag": 8.67,
+      "dE": 0.6
+     },
+     "trim/tabard": {
+      "wcag": 6.77,
+      "dE": 0.49
+     },
+     "cross/shield": {
+      "wcag": 6.77,
+      "dE": 0.49
+     }
+    },
+    "tritanopia": {
+     "number/tabard": {
+      "wcag": 15.83,
+      "dE": 0.75
+     },
+     "trim/field": {
+      "wcag": 7.88,
+      "dE": 0.55
+     },
+     "armour/field": {
+      "wcag": 9.16,
+      "dE": 0.61
+     },
+     "trim/tabard": {
+      "wcag": 6.7,
+      "dE": 0.48
+     },
+     "cross/shield": {
+      "wcag": 6.7,
+      "dE": 0.48
+     }
+    }
+   }
+  }
+ },
+ "failures": [],
+ "page": {
+  "light #f6f6fb": 15.4,
+  "light #ffffff": 16.59,
+  "dark #11121d": 9.24,
+  "dark #191b2a": 8.46
+ }
+}

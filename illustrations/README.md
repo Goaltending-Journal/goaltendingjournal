@@ -17,10 +17,16 @@ The brief, the type list and the budgets live in the Goalie Type Illustrations b
 | `styles.js` | The styles library: every style tried, each a function from the posed parts to SVG |
 | `team-colours.json` | Team colours, saved with the source each was read from |
 | `preview/styles.html` | Step 3 mockups: four styles on the same four goalies (built from `styles.tpl.html`) |
+| `gilded.js` | Step 4: the chosen style, Knights: Gilded, with its colour rules and the 32 team crests |
+| `STYLE.md` | The model sheet: conceit, tone, proportions, tokens, crests and don'ts |
+| `check-colours.cjs` | Step 4 colour checks: number contrast (WCAG and APCA) and colour-blind simulations for all 32 teams |
+| `audit/colours.json` | The latest colour check result |
+| `preview/gilded-set.html` | Step 4 check sheet: the full set, every size in both themes, all 32 colour sets (built from `gilded-set.tpl.html`) |
 
-Run the audit (needs Playwright with Chromium):
+Run the audits (the silhouette audit needs Playwright with Chromium):
 
     NODE_PATH=$(npm root -g) node illustrations/audit-silhouettes.cjs
+    node illustrations/check-colours.cjs
 
 ## The canon
 
@@ -80,3 +86,4 @@ Round 1 (Research Plate, Two-Ink Print, Stained Glass, Illuminated Plate): Goldy
 Round 2 added Skeletons, Knights and High Fantasy, and gave Illuminated Plate a gilded nimbus so dark jerseys
 stand off its navy field.
 Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each (Light Box, Bold Bones; Tournament, Gilded).
+Goldy picked Knights: Gilded (F3). Step 4 draws the full set in it: see `STYLE.md`.
