@@ -1,0 +1,1653 @@
+<title>Tapestry Knights</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 4 check sheet: the full set, every size in both page themes, all 32 colour sets, colour-vision simulations, the crests and the model sheet. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ok: #17865a; --warn: #a8690c;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+h2 { font: 600 24px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 }
+.lede { margin: 0; color: var(--muted); max-width: 68ch }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.facts b { color: var(--fg); font-weight: 500; font-family: var(--label); font-size: 18px; display: block }
+section { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--rule); display: grid; gap: 14px }
+.note { margin: 0; font: 14px/1.5 var(--sans); color: var(--muted); max-width: 78ch }
+.note b { color: var(--fg); font-weight: 500 }
+.set { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .set { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0 }
+figure svg { width: 100%; height: auto; display: block }
+figcaption { font: 13px/1.35 var(--sans); color: var(--muted) }
+figcaption b { color: var(--fg); font-weight: 500; display: block }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch }
+.sizes { display: grid; gap: 12px; min-width: 1000px }
+.theme { border-radius: 6px; padding: 12px; border: 1px solid var(--rule) }
+.theme.l { background: #f6f6fb; color: #5b5e75 } .theme.d { background: #11121d; color: #a3a6c0 }
+.theme h3 { font: 600 11px var(--label); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px }
+.srow { display: flex; gap: 8px; align-items: center; padding: 4px 0; font: 12px var(--sans) }
+.srow > span { width: 48px; flex: none }
+.srow svg { display: block }
+.teams { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px }
+.team { display: grid; grid-template-columns: 64px 1fr; gap: 8px; align-items: start; font: 12px/1.35 var(--sans); color: var(--muted); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 8px }
+.team b { color: var(--fg); font-weight: 500; display: block; font-size: 13px }
+.chip { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 2px; outline: 1px solid rgba(128,128,128,.4) }
+.fb { color: var(--warn); font-weight: 500 }
+.cvd { display: grid; gap: 10px }
+.cvd .r { display: grid; grid-template-columns: 120px 1fr; gap: 10px; align-items: center; font: 12.5px var(--sans); color: var(--muted) }
+.cvd .r b { color: var(--fg); font-weight: 500; display: block }
+.strip { display: flex; flex-wrap: wrap; gap: 4px }
+.strip svg { width: 40px; height: 40px; display: block }
+.crests { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px }
+.crest { display: grid; justify-items: center; gap: 4px; font: 12px/1.3 var(--sans); color: var(--muted); text-align: center }
+.crest svg { width: 72px; height: 72px; display: block }
+.crest b { color: var(--fg); font-weight: 500 }
+table { border-collapse: collapse; font: 13.5px/1.4 var(--sans); width: 100%; min-width: 520px }
+th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top }
+th { font: 600 11px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+td code { font: 12.5px ui-monospace, Menlo, monospace }
+.plate { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 720px) { .plate { grid-template-columns: 1fr } }
+.donts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .donts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.donts .pair { display: flex; gap: 6px; align-items: end }
+.donts .pair svg { width: 50%; height: auto }
+.donts .pair span svg { width: 100% }
+.x { color: var(--warn) } .ok { color: var(--ok) }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
+.foot a { color: var(--accent) }
+.hero { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 24px; align-items: start }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr } }
+.hero ul { margin: 0; padding-left: 18px; font: 14.5px/1.55 var(--sans); color: var(--muted) }
+.hero li { margin-bottom: 6px } .hero li b { color: var(--fg); font-weight: 500 }
+.lat { font-style: italic }
+.teamgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px }
+.teamgrid figure svg { width: 100%; height: auto }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 4 · Round 3</p>
+  <h1>The Tapestry knights, refined</h1>
+  <p class="lede">The Bayeux Tapestry style Goldy picked, with more definition and real goalie gear stitched in. Same poses, team colours and crests. Each type keeps its Latin caption.</p>
+  <ul class="facts" id="facts"></ul>
+
+  <section><h2>The gear, up close</h2>
+    <div class="hero"><figure id="hero"></figure>
+    <ul>
+      <li><b>Cage helm.</b> The great helm now has a goalie cage in its face, with three bars down and two across, and a throat dangler hanging below.</li>
+      <li><b>Leg pads.</b> Two face channels run down each pad, with a knee stack at the top, a boot break at the bottom, and two leather straps across the lower pad.</li>
+      <li><b>Catcher.</b> It has a cuff at the wrist, a thumb, a dark pocket, and a laced T-trap across the top.</li>
+      <li><b>Blocker.</b> The kite shield keeps the team's cross. A team-colour cuff now shows behind it on the forearm.</li>
+      <li><b>Upper body.</b> Segmented shoulder floaters and round elbow cops, under the team tabard and its trimmed hem.</li>
+      <li><b>Stick.</b> A knob at the top and a taped blade.</li>
+      <li><b>Stitching.</b> The armour is in two wools, ochre and a darker ochre on the shaded side, as the tapestry does it. Every fill is laid-and-couched work (laid threads tied down with small cross stitches), inside a stitched outline.</li>
+    </ul></div></section>
+
+  <section><h2>The full set</h2>
+    <p class="note">Each type in the colours of the team whose goalie leads it today. The numbers are placeholders.</p>
+    <div class="set" id="set"></div></section>
+
+  <section><h2>Small sizes, both themes</h2>
+    <p class="note">Below 100 px the picture switches to a lighter cut. The outlines are solid instead of stitched, and the fine stitching and the caption are dropped, so the figure stays crisp. The shapes, colours and crest stay the same.</p>
+    <div class="scroll"><div class="sizes" id="sizes"></div></div></section>
+
+  <section><h2>All 32 teams</h2>
+    <p class="note">Steady in every team's colours. Nashville and Vegas wear gold, so their knights switch to blue-grey steel wool; otherwise the gold sweater would vanish into the ochre armour.</p>
+    <div class="teamgrid" id="teams"></div></section>
+
+  <p class="foot">Team colours and crests are unchanged from Gilded (sources in illustrations/team-colours.json). Size: about 16 KB of raw SVG for the full cut, 10 KB for the small cut. Compressed, which is how the site sends them, they are 3.5 KB and 2.8 KB, under the 6 KB budget. Type data from <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>. Generic goalies only: no player likeness, mask art or team logos.</p>
+</div>
+<script>/* Goalie illustrations, Step 2: one shared skeleton, posed once per type.
+   A pose is a set of joint angles, never free points, so every bone keeps the length fixed in CANON.
+   Each art style is a function from the posed points to SVG; silhouette() below is the first one.
+   Works in the browser (window.GoalieSkeleton) and in Node (require). See README.md for the canon. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.GoalieSkeleton = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  // Frame: 100 x 100 units, ice at y = GROUND. One head (the mask) is 11 units; a standing goalie is 7 heads.
+  const GROUND = 92;
+  const CANON = {
+    head: 11, neck: 6.5, torso: 24, shoulder: 7.5, hip: 5,
+    upperArm: 13, forearm: 12, thigh: 19, shin: 20, foot: 8, stick: 40,
+  };
+
+  const rad = (d) => (d * Math.PI) / 180;
+  const dir = (d) => [Math.cos(rad(d)), Math.sin(rad(d))];
+  const add = (p, d, len) => [p[0] + d[0] * len, p[1] + d[1] * len];
+
+  /* Angles are in degrees: 0 points right, 90 points down (SVG y runs down), -90 points up.
+     "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
+     "l" and "r" are the legs on the viewer's left and right. */
+  const POSES = {
+    steady: {
+      name: "Steady", shape: "Compact upright rectangle, symmetric",
+      torso: -90, head: -90,
+      blocker: [100, 70], glove: [80, 40],
+      l: [98, 88, 180], r: [82, 92, 0],
+      stick: { blade: 180 },
+    },
+    workhorse: {
+      name: "Workhorse", shape: "Square stance framed by the net behind",
+      torso: -90, head: -90,
+      blocker: [118, 75], glove: [62, 20],
+      l: [122, 86, 180], r: [58, 94, 0],
+      stick: { blade: 180 }, props: ["net"],
+    },
+    "hd-stopper": {
+      name: "High-Danger Stopper", shape: "Low wide triangle, pads flat on the ice",
+      torso: -90, head: -95,
+      blocker: [140, 100], glove: [-25, -70],
+      l: [102, 176, 200], r: [78, 4, -20],
+      stick: { blade: 0, fromBlocker: 75 }, props: ["puck-doorstep"],
+    },
+    wall: {
+      name: "The Wall", shape: "Tall wide box, arms out to both posts",
+      torso: -90, head: -90,
+      blocker: [168, 196], glove: [12, -16],
+      l: [104, 94, 180], r: [76, 86, 0],
+      stick: { blade: 180, fromBlocker: 96 },
+    },
+    rebound: {
+      name: "Rebound Controller", shape: "Low round dome, folded over the puck",
+      torso: -28, head: 15,
+      blocker: [70, 96], glove: [52, 74],
+      l: [95, 180, 180], r: [85, 178, 180],
+      stick: null, props: ["puck-smother"],
+    },
+    siege: {
+      name: "Under Siege", shape: "Hunched wide crouch, shots raining in",
+      torso: -96, head: -100,
+      blocker: [-150, -95], glove: [-30, -85],
+      l: [130, 88, 180], r: [50, 92, 0],
+      stick: null, props: ["shots"],
+    },
+    crease: {
+      name: "Crease Battler", shape: "Hooked lean, head out past the screen",
+      torso: -128, head: -150,
+      blocker: [172, 128], glove: [-95, -55],
+      l: [112, 100, 180], r: [58, 96, 0],
+      stick: { blade: 180 },
+    },
+    standout: {
+      name: "Standout", shape: "Upright with one spike: the glove held high",
+      torso: -90, head: -90,
+      blocker: [112, 70], glove: [-40, -58],
+      l: [108, 88, 180], r: [72, 92, 0],
+      stick: { blade: 180 },
+    },
+    "donut-king": {
+      name: "Donut King", shape: "Ring held over the head",
+      torso: -90, head: -90,
+      blocker: [-112, -78], glove: [-68, -102],
+      l: [110, 88, 180], r: [70, 92, 0],
+      stick: null, props: ["donut"],
+    },
+    grandpa: {
+      name: "Grandpa", shape: "Bent question mark, leaning on the stick",
+      torso: -52, head: 5,
+      blocker: [52, 18], glove: [128, 30],
+      l: [104, 96, 180], r: [84, 102, 0],
+      stick: { blade: 0, cane: true },
+    },
+    "young-gun": {
+      name: "Young Gun", shape: "Airborne star, daylight under the skates",
+      torso: -90, head: -88,
+      blocker: [-140, -135], glove: [-40, -45],
+      l: [135, 150, 200], r: [45, 30, -20],
+      stick: null, airborne: 9,
+    },
+    "style-king": {
+      name: "Style King", shape: "T-bar on top: stick across the shoulders",
+      torso: -90, head: -96,
+      blocker: [196, -95], glove: [-16, -85],
+      l: [80, 112, 180], r: [100, 70, 0],
+      stick: { yoke: true },
+    },
+  };
+
+  /** Posed points for one pose, with the skates (or the shadow line) sitting on the ice. */
+  function skeleton(pose) {
+    const C = CANON;
+    const build = (rootPt) => {
+      const P = { pelvis: rootPt };
+      const up = dir(pose.torso), perp = dir(pose.torso + 90);
+      P.neck = add(P.pelvis, up, C.torso);
+      P.head = add(P.neck, dir(pose.head), C.neck);
+      const base = add(P.neck, up, -2.5);
+      P.shBlocker = add(base, perp, -C.shoulder);
+      P.shGlove = add(base, perp, C.shoulder);
+      P.hipL = add(P.pelvis, perp, -C.hip);
+      P.hipR = add(P.pelvis, perp, C.hip);
+      P.elbowBlocker = add(P.shBlocker, dir(pose.blocker[0]), C.upperArm);
+      P.handBlocker = add(P.elbowBlocker, dir(pose.blocker[1]), C.forearm);
+      P.elbowGlove = add(P.shGlove, dir(pose.glove[0]), C.upperArm);
+      P.handGlove = add(P.elbowGlove, dir(pose.glove[1]), C.forearm);
+      P.kneeL = add(P.hipL, dir(pose.l[0]), C.thigh);
+      P.ankleL = add(P.kneeL, dir(pose.l[1]), C.shin);
+      P.toeL = add(P.ankleL, dir(pose.l[2]), C.foot);
+      P.kneeR = add(P.hipR, dir(pose.r[0]), C.thigh);
+      P.ankleR = add(P.kneeR, dir(pose.r[1]), C.shin);
+      P.toeR = add(P.ankleR, dir(pose.r[2]), C.foot);
+      return P;
+    };
+    const first = build([50, 50]);
+    const low = Math.max(...["kneeL", "kneeR", "ankleL", "ankleR", "toeL", "toeR"].map((k) => first[k][1]));
+    const lift = pose.airborne || 0;
+    const P = build([50, 50 + GROUND - 2 - lift - low]);   // 2 units for the pad and skate thickness
+    // Centre the figure on x = 50
+    const xs = Object.values(P).map((p) => p[0]);
+    const dx = 50 - (Math.min(...xs) + Math.max(...xs)) / 2;
+    for (const k in P) P[k] = [P[k][0] + dx, P[k][1]];
+    return P;
+  }
+
+  /** Bone lengths, for the drift check in the audit. */
+  const BONES = [
+    ["pelvis", "neck", "torso"], ["neck", "head", "neck"],
+    ["shBlocker", "elbowBlocker", "upperArm"], ["elbowBlocker", "handBlocker", "forearm"],
+    ["shGlove", "elbowGlove", "upperArm"], ["elbowGlove", "handGlove", "forearm"],
+    ["hipL", "kneeL", "thigh"], ["kneeL", "ankleL", "shin"], ["ankleL", "toeL", "foot"],
+    ["hipR", "kneeR", "thigh"], ["kneeR", "ankleR", "shin"], ["ankleR", "toeR", "foot"],
+  ];
+
+  const f = (n) => Math.round(n * 10) / 10;
+  const pt = (p) => `${f(p[0])} ${f(p[1])}`;
+
+  /* Every part is a closed path, so any style can fill it, outline it, or both. */
+  // A rounded segment of width w (a stadium)
+  function capsule(a, b, w) {
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 0.001, r = w / 2;
+    const n = [-d[1] / L * r, d[0] / L * r];
+    const a1 = [a[0] + n[0], a[1] + n[1]], b1 = [b[0] + n[0], b[1] + n[1]];
+    const b2 = [b[0] - n[0], b[1] - n[1]], a2 = [a[0] - n[0], a[1] - n[1]];
+    return `M${pt(a1)}L${pt(b1)}A${f(r)} ${f(r)} 0 0 1 ${pt(b2)}L${pt(a2)}A${f(r)} ${f(r)} 0 0 1 ${pt(a1)}Z`;
+  }
+  // A quadrilateral from a to b, width wa at a and wb at b, corners softened by the renderer's stroke
+  function band(a, b, wa, wb) {
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1;
+    const n = [-d[1] / L, d[0] / L];
+    const q = [add(a, n, wa / 2), add(b, n, wb / 2), add(b, n, -wb / 2), add(a, n, -wa / 2)];
+    return "M" + q.map(pt).join("L") + "Z";
+  }
+  const circle = (c, r) => `M${f(c[0] - r)} ${f(c[1])}a${f(r)} ${f(r)} 0 1 0 ${f(2 * r)} 0a${f(r)} ${f(r)} 0 1 0 ${f(-2 * r)} 0Z`;
+  const ellipse = (c, rx, ry) => `M${f(c[0] - rx)} ${f(c[1])}a${f(rx)} ${f(ry)} 0 1 0 ${f(2 * rx)} 0a${f(rx)} ${f(ry)} 0 1 0 ${f(-2 * rx)} 0Z`;
+
+  /** The posed goalie as named parts, back to front. Each is { role, d } with d a closed SVG path.
+      Roles: net, shadow, thigh, pad, skate, torso, arm, glove, blocker, mask, shaft, paddle, blade, puck, donut, streak.
+      Also returns anchors a style needs: the chest (for the number) and the torso angle. */
+  function parts(poseKey) {
+    const pose = POSES[poseKey], P = skeleton(pose), props = pose.props || [], out = [];
+    const push = (role, d, side) => out.push({ role, d, side });
+    if (props.includes("net")) {
+      // Goal frame behind the goalie: 6 ft by 4 ft, posts and crossbar only
+      push("net", capsule([14, GROUND], [14, 50], 4.5));
+      push("net", capsule([14, 50], [86, 50], 4.5));
+      push("net", capsule([86, 50], [86, GROUND], 4.5));
+    }
+    if (pose.airborne) push("shadow", ellipse([50, GROUND], 16, 1.6));
+    // Legs: thigh, then the pad from just above the knee to the boot, then the skate
+    for (const s of ["L", "R"]) {
+      const hip = P["hip" + s], knee = P["knee" + s], ankle = P["ankle" + s], toe = P["toe" + s];
+      push("thigh", capsule(hip, knee, 11), s);
+      const padTop = add(knee, [knee[0] - ankle[0], knee[1] - ankle[1]].map((v) => v / CANON.shin), 5);
+      push("pad", band(padTop, ankle, 12.5, 12), s);
+      push("skate", capsule(ankle, toe, 4), s);
+    }
+    // Torso: chest protector, wider at the shoulders
+    const chestTop = add(P.neck, dir(pose.torso), -1);
+    push("torso", band(P.pelvis, chestTop, 17, 23));
+    // Arms
+    push("arm", capsule(P.shBlocker, P.elbowBlocker, 8.5), "blocker");
+    push("arm", capsule(P.elbowBlocker, P.handBlocker, 7.5), "blocker");
+    push("arm", capsule(P.shGlove, P.elbowGlove, 8.5), "glove");
+    push("arm", capsule(P.elbowGlove, P.handGlove, 7.5), "glove");
+    // Mask
+    push("mask", circle(P.head, 5.6));
+    // Stick
+    if (pose.stick) {
+      const h = P.handBlocker, S = pose.stick;
+      if (S.yoke) {
+        const y = (h[1] + P.handGlove[1]) / 2;   // across the shoulders, hand to hand and a little past
+        push("shaft", capsule([h[0] - 8, y], [P.handGlove[0] + 10, y], 3));
+      } else if (S.cane) {
+        const end = [h[0] + 3, GROUND - 1];
+        push("shaft", capsule(h, end, 3));
+        push("blade", capsule(end, add(end, dir(S.blade), 9), 3));
+      } else {
+        const d = dir(S.fromBlocker || 95);
+        const len = Math.min(CANON.stick, (GROUND - 1 - h[1]) / d[1]);
+        const end = add(h, d, len);
+        push("shaft", capsule(h, end, 3));
+        push("paddle", band(add(h, d, len - 13), end, 5, 5));
+        push("blade", capsule(end, add(end, dir(S.blade), 10), 3));
+      }
+    }
+    // Blocker: a board on the stick hand, square to the forearm
+    const bd = dir(pose.blocker[1]);
+    push("blocker", band(add(P.handBlocker, bd, -4), add(P.handBlocker, bd, 4), 12, 12));
+    // Glove: a round catcher
+    push("glove", circle(P.handGlove, 6.6));
+    // Props that are part of the defining action
+    if (props.includes("puck-doorstep")) push("puck", ellipse([P.toeR[0] - 14, GROUND - 9], 3.2, 1.6));
+    if (props.includes("puck-smother")) push("puck", ellipse([P.handGlove[0] + 5, GROUND - 1.5], 3.2, 1.6));
+    if (props.includes("donut")) {
+      const c = [(P.handBlocker[0] + P.handGlove[0]) / 2, Math.min(P.handBlocker[1], P.handGlove[1]) - 11];
+      push("donut", circle(c, 13) + circle(c, 6).replace("a6 6 0 1 0 12 0a6 6 0 1 0 -12 0", "a6 6 0 1 1 12 0a6 6 0 1 1 -12 0"));
+    }
+    if (props.includes("shots")) {
+      for (const [x, y, a] of [[14, 22, 30], [84, 18, 150], [10, 52, 5], [90, 48, 175], [50, 8, 90]]) {
+        push("streak", capsule(add([x, y], dir(a + 180), 7), [x, y], 1.6));
+        push("puck", circle([x, y], 2.6));
+      }
+    }
+    // The number sits on the chest, square to the torso; a goalie seen side-on still shows it
+    const chest = add(P.pelvis, dir(pose.torso), CANON.torso * 0.62);
+    // Highest point drawn, so a style's frame can fit the whole figure
+    let top = Math.min(P.head[1] - 5.6, P.handGlove[1] - 6.6, P.handBlocker[1] - 7);
+    if (props.includes("donut")) top = Math.min(top, Math.min(P.handBlocker[1], P.handGlove[1]) - 24);
+    if (props.includes("shots")) top = Math.min(top, 5);
+    if (props.includes("net")) top = Math.min(top, 47);
+    return { pose, P, parts: out, chest, torsoAngle: pose.torso, top };
+  }
+
+  const svgOpen = (pose, opts) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${opts.size ? ` width="${opts.size}" height="${opts.size}"` : ""} role="img" aria-label="${opts.label || pose.name}">`;
+
+  /** Style 0: flat silhouette. Everything in one colour, so only shape can tell types apart. */
+  function silhouette(poseKey, opts = {}) {
+    const { pose, parts: list } = parts(poseKey), ink = opts.ink || "#000";
+    const body = list.map((p) => `<path d="${p.d}"${p.role === "shadow" ? ' opacity=".35"' : ""} fill-rule="evenodd"/>`).join("");
+    return `${svgOpen(pose, opts)}<g fill="${ink}" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${body}</g></svg>`;
+  }
+
+  return { GROUND, CANON, POSES, BONES, skeleton, parts, silhouette, svgOpen, ORDER: Object.keys(POSES) };
+});
+</script>
+<script>/* Goalie illustrations, Step 4: Knights: Gilded, the chosen style (Goldy, 2026-10-29).
+   Gold armour on a deep team-colour field scattered with stars, like a herald's roll.
+   draw(poseKey, team, num, opts) -> SVG string, on the shared skeleton (goalie-skeleton.js).
+   tokens(team) gives every colour the picture uses for that team, with the rule that chose it,
+   so the checks (check-colours.cjs) and the model sheet (STYLE.md) read the same numbers the art does.
+   Works in the browser (window.GoalieGilded, after goalie-skeleton.js) and in Node (require). */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./goalie-skeleton.js"));
+  else root.GoalieGilded = factory(root.GoalieSkeleton);
+})(typeof self !== "undefined" ? self : this, function (G) {
+  "use strict";
+
+  // Fixed tokens: the same in every team's picture
+  const T = {
+    gold: ["#FBEFB8", "#D8B256", "#9A6F1F"],   // armour gradient: light, mid, shadow
+    ink: "#1d1e26",                           // every outline
+    ice: "#E8ECF4",                           // net posts, puck rims, blade tape
+    paper: "#FFFFFF",                         // light number
+    wood: "#6b4a2e",                          // stick
+    donut: "#E9A4B8",
+    skate: "#5d6170",
+  };
+
+  const rgb = (hex) => { const n = parseInt(hex.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; };
+  function mix(hex, t) {
+    const to = t > 0 ? 255 : 0, a = Math.abs(t);
+    return "#" + rgb(hex).map((v) => Math.round(v + (to - v) * a).toString(16).padStart(2, "0")).join("").toUpperCase();
+  }
+  const lum = (hex) => rgb(hex).map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
+    .reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+  const wcag = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  // Colour-vision simulation (Machado et al. 2009, full severity), so a trim colour is chosen only if it
+  // still shows for deuteranopia, protanopia and tritanopia as well as normal vision
+  const CVD = {
+    deuteranopia: [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.01182, 0.04294, 0.968881]],
+    protanopia: [[0.152286, 1.052583, -0.204868], [0.114503, 0.786281, 0.099216], [-0.003882, -0.048116, 1.051998]],
+    tritanopia: [[1.255528, -0.076749, -0.178779], [-0.078411, 0.930809, 0.147602], [0.004733, 0.691367, 0.3039]],
+  };
+  const simulate = (hex, m) => {
+    const c = rgb(hex).map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
+    return "#" + m.map((r) => { const v = Math.min(1, Math.max(0, r[0] * c[0] + r[1] * c[1] + r[2] * c[2]));
+      return Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055)).toString(16).padStart(2, "0"); }).join("");
+  };
+  // The lowest contrast of a pair across normal vision and the three simulations
+  const wcagAll = (a, b) => Math.min(wcag(a, b), ...Object.values(CVD).map((m) => wcag(simulate(a, m), simulate(b, m))));
+
+  /* The colour rules. Each team colour comes from its published palette (team-colours.json);
+     only the field and the fallbacks are derived. */
+  function tokens(team) {
+    const pal = (team.palette || [team.primary, team.secondary, team.accent].map((hex) => ({ hex }))).map((c) => c.hex.toUpperCase());
+    const tabard = pal[0];
+    // Field: the sweater colour taken 45% toward black, so the gold armour stands off it.
+    // A black sweater gets a charcoal field instead, so the black tabard still reads on it.
+    // A gold sweater (Nashville, Vegas) would put gold on gold, so its field comes from the next team colour.
+    let base = tabard, why = "sweater colour, 45% darker";
+    if (wcag(mix(tabard, -0.45), T.gold[1]) < 4.5) {
+      const alt = pal.slice(1).find((h) => h !== "#FFFFFF" && wcag(mix(h, -0.45), T.gold[1]) >= 4.5);
+      if (alt) { base = alt; why = "second team colour, 45% darker (the sweater is gold)"; }
+    }
+    let field = lum(base) < 0.01 ? mix(base, 0.16) : mix(base, -0.45);
+    if (lum(base) < 0.01) why = "black sweater: a charcoal field so the tabard reads";
+    const ground = lum(base) < 0.01 ? mix(base, 0.06) : mix(base, -0.65);
+    // Trim (the crest, the tabard's edge, the shield's rim): the first other team colour that shows on the
+    // field (3:1) and against the tabard (2:1) in every vision type; failing that, the best one, or white.
+    // Against the tabard only counts when the tabard itself is under 3:1 on the field (then its edge does the work).
+    const cands = pal.slice(1).filter((h) => h !== tabard);
+    const edgeNeeded = wcagAll(tabard, field) < 3;
+    const score = (h) => Math.min(wcagAll(h, field) / 3, edgeNeeded ? wcagAll(h, tabard) / 2 : 9);
+    let trim = cands.find((h) => h !== "#FFFFFF" && score(h) >= 1), trimWhy = "first team colour that shows on field and tabard";
+    if (!trim) {
+      trim = cands.concat(["#FFFFFF"]).sort((a, b) => score(b) - score(a))[0];
+      trimWhy = trim === "#FFFFFF" ? "white: no other team colour shows on both" : "best other team colour (none reaches both limits)";
+    }
+    if (trim === "#FFFFFF") trim = "#F4F5F8";
+    // The shield's cross sits on the sweater colour, so it needs 2:1 there; else ink or white, whichever shows
+    const cross = wcagAll(trim, tabard) >= 2 ? trim : wcag(T.ink, tabard) >= wcag("#F4F5F8", tabard) ? T.ink : "#F4F5F8";
+    // Number: white with an ink edge, unless white is under 3:1 on the tabard; then ink with a white edge
+    const light = wcag(T.paper, tabard) >= 3;
+    return {
+      tabard, field, ground, trim, cross, edgeNeeded, fieldWhy: why, trimWhy,
+      number: light ? T.paper : T.ink, numberEdge: light ? T.ink : T.paper,
+      numberWhy: light ? "white (3:1 or more on the tabard)" : "fallback: ink, because white is under 3:1 on the tabard",
+    };
+  }
+
+  // A four-point star for the field, centred on (x, y)
+  const STAR = (x, y) => `M${x} ${y - 2.2}L${x + .7} ${y - .7} ${x + 2.2} ${y} ${x + .7} ${y + .7} ${x} ${y + 2.2} ${x - .7} ${y + .7} ${x - 2.2} ${y} ${x - .7} ${y - .7}Z`;
+  const fx = (v) => (Math.round(v * 10) / 10).toString();
+  const P2 = (p) => `${fx(p[0])} ${fx(p[1])}`;
+  const unit = (a, b) => { const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1; return [d[0] / L, d[1] / L]; };
+  const along = (p, u, k) => [p[0] + u[0] * k, p[1] + u[1] * k];
+  const mirror = (d) => d.replace(/(-?\d*\.?\d+)\s+(-?\d*\.?\d+)/g, (m, x, y) => `${fx(-x)} ${y}`);
+
+  /* Crests ({{MARKS}}): a charge on top of the great helm, drawn after each team's nickname as original art.
+     Never a team's logo, crest or wordmark: a generic heraldic figure only. Local frame: the helm's crown is
+     (0, 0), up is -y, about 10 units wide and tall. "f" is filled, "s" is stroked, "m" is mirrored to both sides. */
+  const W = "M0.5 -3C3 -3.5 6 -6 7 -9.5C5 -8.5 4 -8.5 3 -8C4 -7 3.2 -6 2 -6C2.5 -5 1.6 -4.3 0.5 -4.5Z";
+  const star = (() => { const p = []; for (let i = 0; i < 10; i++) { const r = i % 2 ? 2 : 5, a = -Math.PI / 2 + (i * Math.PI) / 5; p.push(P2([r * Math.cos(a), -5 + r * Math.sin(a)])); } return `M${p.join("L")}Z`; })();
+  const CRESTS = {
+    ANA: { charge: "Duck's head", f: "M-3 0C-4.5 -5 -1.5 -9 1 -9C3 -9 3.6 -7.6 3.3 -6.8L6.5 -6.2 3.3 -5C3.2 -3 2 -1.5 3 0Z" },
+    BOS: { charge: "Bear's ears", f: "M-5 0V-2.5A2.6 2.6 0 1 1 -1.2 -4.6H1.2A2.6 2.6 0 1 1 5 -2.5V0Z" },
+    BUF: { charge: "Crossed sabres", f: "M-5.2 -9.2L-3.8 -10 4.8 -0.6 3.4 0.2ZM5.2 -9.2L3.8 -10 -4.8 -0.6 -3.4 0.2ZM-5.4 -2H-1.8V-0.6H-5.4ZM1.8 -2H5.4V-0.6H1.8Z" },
+    CGY: { charge: "Flame", f: "M0 0C-4.5 -1 -4.5 -5.5 -1.2 -9.8C-1.3 -6.8 0.8 -6.5 0.3 -4.3C2 -5.2 3 -6.6 2.3 -9.4C5.4 -5.6 4.6 -0.8 0 0Z" },
+    CAR: { charge: "Storm spiral", s: "M0 -4.5a1 1 0 0 1 1 1a2 2 0 0 1 -2 2a3 3 0 0 1 -3 -3a4 4 0 0 1 4 -4a4.5 4.5 0 0 1 4.5 4.5" },
+    CHI: { charge: "Hawk's head", f: "M-3.5 0C-4 -6 0 -9.5 3.5 -8.5C5.5 -8 6 -6 5 -4.6C4.6 -5.8 3.8 -6 3 -5.6L2.4 -4C1.4 -2.6 1.2 -1.4 2 0Z" },
+    COL: { charge: "Snow peak", f: "M-5.5 0L-1.5 -8.5 0.6 -5.2 2.2 -7.2 5.5 0ZM-1.5 -8.5L-3.2 -4.9-1.6 -5.6-0.4 -4.6 0.6 -5.2Z" },
+    CBJ: { charge: "Cockade", f: "M-4 -4.5A4 4 0 1 0 4 -4.5A4 4 0 1 0 -4 -4.5ZM-1.6 -4.5A1.6 1.6 0 1 1 1.6 -4.5A1.6 1.6 0 1 1 -1.6 -4.5Z" },
+    DAL: { charge: "Star", f: star },
+    DET: { charge: "Pair of wings", f: W, m: true },
+    EDM: { charge: "Drop", f: "M0 -10.5C2 -7 4 -5 4 -3.5A4 4 0 0 1 -4 -3.5C-4 -5 -2 -7 0 -10.5Z" },
+    FLA: { charge: "Cat's ears", f: "M-5 0L-4.2 -7.5 -0.8 -2.4H0.8L4.2 -7.5 5 0Z" },
+    LAK: { charge: "Crown", f: "M-5 0V-7.5L-2.5 -4.2 0 -8.8 2.5 -4.2 5 -7.5V0Z" },
+    MIN: { charge: "Pine", f: "M0 -10.5L4 -5.6H2L5 -1.6H1V0H-1V-1.6H-5L-2 -5.6H-4Z" },
+    MTL: { charge: "Fleur-de-lis", f: "M0 -10.5C2 -8.5 2 -5.5 0.8 -3.3C2 -4.3 4.3 -5 4.3 -7.3C6 -4.5 4 -2.3 1.5 -2.4V0H-1.5V-2.4C-4 -2.3 -6 -4.5 -4.3 -7.3C-4.3 -5 -2 -4.3 -0.8 -3.3C-2 -5.5 -2 -8.5 0 -10.5ZM-3.6 -3.2H3.6V-2H-3.6Z" },
+    NSH: { charge: "Sabre tooth", f: "M-2.8 0C-2.6 -4.5 0 -8.5 2.6 -10.5C1.4 -7.4 1.4 -4 2.8 0Z" },
+    NJD: { charge: "Horns", f: "M-0.5 -2C-3 -2.5 -4.5 -5.5 -3.6 -9.8C-5.8 -7 -6 -2.5 -4 0H-0.5Z", m: true },
+    NYI: { charge: "Anchor", s: "M0 -8.2V0M-4 -3.6C-3 -0.4 3 -0.4 4 -3.6M-2.2 -6.6H2.2M1.2 -9.4A1.2 1.2 0 1 1 -1.2 -9.4A1.2 1.2 0 1 1 1.2 -9.4" },
+    NYR: { charge: "Crossed arrows", f: "M-3.4 -7.6L-2.2 -8.4 4.8 -0.6 3.6 0.2ZM3.4 -7.6L2.2 -8.4 -4.8 -0.6 -3.6 0.2ZM-5.6 -10.6L-1.4 -9.4 -4.6 -6.4ZM5.6 -10.6L1.4 -9.4 4.6 -6.4Z" },
+    OTT: { charge: "Laurel", f: "M-0.6 -0.4C-5.2 -1.4 -6.4 -6 -4.4 -10.4C-3.6 -6.6 -3 -3.4 -0.2 -1.8ZM-5 -3.2C-7.6 -3 -7.6 -5.4 -7.6 -5.4C-5.8 -5.6 -5 -4.4 -5 -3.2ZM-5.6 -6.6C-7.8 -7.2 -7.4 -9.4 -7.4 -9.4C-5.8 -9 -5.4 -7.6 -5.6 -6.6Z", m: true },
+    PHI: { charge: "Swept wing", f: "M-5 0C-1 -1 4 -4 6 -10C3.5 -8.5 2 -8.6 0.5 -8C2 -7 1 -5.8 -0.5 -6C0 -4.8 -1.2 -4 -2.6 -4.4C-2.4 -3 -3.6 -1.6 -5 -1.5Z" },
+    PIT: { charge: "Penguin", f: "M0 -10.5C3 -10.5 4 -5 3.5 0H-3.5C-4 -5 -3 -10.5 0 -10.5ZM-0.6 -8.6L1.6 -8 -0.4 -7.4Z", belly: "M0 -6.6C1.8 -6.6 2.2 -3 1.9 -0.4H-1.9C-2.2 -3 -1.8 -6.6 0 -6.6Z" },
+    SJS: { charge: "Fin", f: "M-5.5 0C-2 -3 0 -7 1 -10.5C1.6 -6.2 3 -2 5.5 0Z" },
+    SEA: { charge: "Tentacle", f: "M-3 0C-4.2 -5 1.8 -5 1.4 -8C1.2 -9 0 -9.1 -0.1 -8.4C-0.6 -9.9 2.9 -10.8 3.1 -8C3.4 -4 -1.2 -4 0.2 0Z" },
+    STL: { charge: "Music note", f: "M-4.2 -1.8A2.3 1.7 -20 1 0 0.4 -1.8A2.3 1.7 -20 1 0 -4.2 -1.8ZM-0.6 -1.8V-10.2H0.6C1 -8 4 -7.6 3.6 -4.6C3 -6.6 1.6 -7 0.6 -7.2V-1.8Z" },
+    TBL: { charge: "Lightning bolt", f: "M1.2 -10.5L-3.4 -4.2H-0.2L-1.8 0 3.6 -6.4H0.4Z" },
+    TOR: { charge: "Leaf (a plain leaf, not a maple leaf)", f: "M0.4 0H-0.4V-1.6C-4.4 -3.4 -4.2 -8 0 -10.8C4.2 -8 4.4 -3.4 0.4 -1.6Z" },
+    UTA: { charge: "Tusks", f: "M-1.2 -0.8C-5.6 -2.2 -6 -7.6 -1.6 -9.8C-3.6 -7.6 -3.6 -3.8 0 -2.2Z", m: true },
+    VAN: { charge: "Wave", f: "M-5.5 0C-5.5 -5 -1 -9.2 3.2 -8.4C1 -7.4 0.2 -5.8 1.6 -4.8C2.6 -4.2 4.2 -4.6 5.2 -6.2C5.8 -3.2 5.2 -1 5.5 0Z" },
+    VGK: { charge: "Sword", f: "M-1.2 -9.6L0 -11.2 1.2 -9.6V-3.4H3.6V-1.8H1.2V0H-1.2V-1.8H-3.6V-3.4H-1.2Z" },
+    WSH: { charge: "Dome", f: "M-5 0Q-5 -6.2 0 -7.2Q5 -6.2 5 0ZM-0.6 -7V-10H0.6V-7Z" },
+    WPG: { charge: "Arrowhead", f: "M0 -10.5L5 -0.6 0 -3.4 -5 -0.6Z" },
+  };
+
+  function crest(code, at, hd, tk, k = 1) {
+    const c = CRESTS[code];
+    if (!c) return `<path d="M${P2(along(at, hd, 0.5))}L${P2(along(at, hd, 7))}" stroke="${tk.trim}" stroke-width="2.6" stroke-linecap="round"/>`;
+    const hn = [-hd[1], hd[0]];
+    const m = `matrix(${[hn[0] * k, hn[1] * k, -hd[0] * k, -hd[1] * k, at[0], at[1]].map((v) => v.toFixed(3)).join(" ")})`;
+    const ds = c.m ? [c.f, mirror(c.f)] : [c.f || c.s];
+    const body = c.s
+      ? `<path d="${c.s}" fill="none" stroke="${T.ink}" stroke-width="2.6" stroke-linecap="round"/><path d="${c.s}" fill="none" stroke="${tk.trim}" stroke-width="1.4" stroke-linecap="round"/>`
+      : ds.map((d) => `<path d="${d}" fill="${tk.trim}" stroke="${T.ink}" stroke-width=".7" stroke-linejoin="round" fill-rule="evenodd"/>`).join("")
+        + (c.belly ? `<path d="${c.belly}" fill="${tk.tabard === tk.trim ? T.ice : T.ice}"/>` : "");
+    return `<g transform="${m}">${body}</g>`;
+  }
+
+  // Fit the figure (and its crest) inside the frame: ice at y = 82.4, the top no higher than y = 10
+  const inset = (A, crested) => {
+    const top = Math.min(A.top, A.P.head[1] - 5.6 - (crested ? 11 : 0));
+    const k = Math.min(0.82, 72 / (G.GROUND - top));
+    return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
+  };
+
+  /** draw(poseKey, team, num, opts): team is an entry of team-colours.json plus { code }.
+      opts.size sets width and height; opts.label the accessible name; opts.id makes gradient ids unique. */
+  function draw(poseKey, team, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, tk = { ...tokens(team), ...(opts.tk || {}) }, ink = T.ink;
+    const id = `gd-${opts.id || poseKey + "-" + (team.code || "x")}`, steel = `url(#${id})`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="#000" opacity=".3"/>`;
+      if (p.role === "blocker" || p.role === "mask") return "";
+      // Net and pucks: drawn in ice with a heavy edge, so they survive the 32 px leaderboard row
+      if (p.role === "net") return `<path d="${p.d}" fill="${T.ice}" stroke="${ink}" stroke-width="1.4" stroke-linejoin="round"/>`;
+      if (p.role === "puck") return `<path d="${p.d}" fill="${ink}" stroke="${T.ice}" stroke-width="1.8" paint-order="stroke"/>`;
+      if (p.role === "streak") return `<path d="${p.d}" fill="${T.gold[0]}" opacity=".85"/>`;
+      const fill = { thigh: steel, pad: steel, skate: T.skate, torso: tk.tabard, arm: steel, glove: steel,
+        shaft: T.wood, paddle: T.wood, blade: T.ice, donut: T.donut }[p.role];
+      const edge = p.role === "torso" ? tk.trim : ink;
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${edge}" stroke-width="${p.role === "torso" ? 1.6 : 1}" stroke-linejoin="round"/>`;
+    }).join("");
+    // Kite shield on the blocker hand, square to the forearm, in the sweater colour with a trim cross
+    const hb = P.handBlocker, fu = unit(P.elbowBlocker, hb), fn = [-fu[1], fu[0]];
+    const sh = [along(along(hb, fu, -6), fn, -6.5), along(along(hb, fu, -6), fn, 6.5), along(hb, fn, 6), along(along(hb, fu, 8), fn, 0), along(hb, fn, -6)];
+    const shield = `<path d="M${P2(sh[0])}L${P2(sh[1])}L${P2(sh[2])}Q${P2(along(along(hb, fu, 5), fn, 4))} ${P2(sh[3])}Q${P2(along(along(hb, fu, 5), fn, -4))} ${P2(sh[4])}Z" fill="${tk.tabard}" stroke="${tk.trim}" stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M${P2(along(hb, fu, -5))}L${P2(along(hb, fu, 6))}M${P2(along(along(hb, fu, -1), fn, -4.5))}L${P2(along(along(hb, fu, -1), fn, 4.5))}" stroke="${tk.cross}" stroke-width="1.2"/>`;
+    // Great helm with a visor slit, and the team crest on top
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const c = (a, b) => along(along(h, hd, a), hn, b);
+    const helm = `<path d="M${P2(c(5, -5))}L${P2(c(5, 5))}L${P2(c(-5.5, 5))}L${P2(c(-5.5, -5))}Z" fill="${steel}" stroke="${ink}" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M${P2(c(1, -4))}L${P2(c(1, 4))}" stroke="${ink}" stroke-width="1.3"/>${crest(team.code, c(5, 0), hd, tk)}`;
+    // The field: stars on a deep team colour, the ice below, a gold rule round the edge
+    const gy = (7 + 0.82 * G.GROUND).toFixed(1);
+    const g = T.gold;
+    return `${G.svgOpen(A.pose, opts)}<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g[0]}"/><stop offset=".5" stop-color="${g[1]}"/><stop offset="1" stop-color="${g[2]}"/></linearGradient>
+      <pattern id="${id}-s" width="14" height="28" patternUnits="userSpaceOnUse" x="0" y="-6"><path d="${STAR(7, 14)}${STAR(0, 0)}${STAR(14, 0)}${STAR(0, 28)}${STAR(14, 28)}" fill="${g[1]}" opacity=".35"/></pattern></defs>
+      <rect width="100" height="100" fill="${tk.field}"/><rect width="100" height="${gy}" fill="url(#${id}-s)"/>
+      <path d="M0 ${gy}H100V100H0Z" fill="${tk.ground}"/>
+      <g transform="${inset(A, !!CRESTS[team.code])}">${body}${shield}${helm}
+      <text x="${A.chest[0].toFixed(1)}" y="${A.chest[1].toFixed(1)}" transform="rotate(${A.torsoAngle + 90} ${A.chest[0].toFixed(1)} ${A.chest[1].toFixed(1)})" text-anchor="middle" dominant-baseline="central" style="font: 600 8px Jost, Futura, sans-serif; fill: ${tk.number}; paint-order: stroke; stroke: ${tk.numberEdge}; stroke-width: 1.3">${num}</text></g>
+      <rect x="2.5" y="2.5" width="95" height="95" fill="none" stroke="${g[1]}" stroke-width="3"/><rect x=".5" y=".5" width="99" height="99" fill="none" stroke="${ink}"/></svg>`;
+  }
+
+  return { NAME: "Knights: Gilded", CONCEIT: "Gold armour on a deep team-colour field scattered with stars, like a herald's roll.",
+    T, CRESTS, CVD, tokens, draw, crest, mix, lum, wcag, wcagAll, simulate };
+});
+</script>
+<script>/* Goalie illustrations, Step 4 round 2: medieval-art knights. Goldy liked Gilded Knights but asked for figures
+   that read as characters rather than blocks, in a medieval art style, keeping the knight and the crests.
+   figure() redraws the same skeleton poses as smooth, tapered parts (one geometry for every style);
+   each style paints those parts. Colour rules and crests come from gilded.js.
+   Works in the browser (window.GoalieMedieval, after goalie-skeleton.js and gilded.js) and in Node. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./goalie-skeleton.js"), require("./gilded.js"));
+  else root.GoalieMedieval = factory(root.GoalieSkeleton, root.GoalieGilded);
+})(typeof self !== "undefined" ? self : this, function (G, GD) {
+  "use strict";
+  const fx = (v) => (Math.round(v * 10) / 10).toString();
+  const P2 = (p) => `${fx(p[0])} ${fx(p[1])}`;
+  const unit = (a, b) => { const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1; return [d[0] / L, d[1] / L]; };
+  const along = (p, u, k) => [p[0] + u[0] * k, p[1] + u[1] * k];
+  const nrm = (u) => [-u[1], u[0]];
+  const mix = GD.mix;
+
+  // A smooth curve through points (Catmull-Rom as cubic Béziers), without the opening M
+  function through(pts) {
+    let d = "";
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      d += `C${P2([p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6])} ${P2([p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6])} ${P2(p2)}`;
+    }
+    return d;
+  }
+  // Normals along a chain of joints, turned so they point to the lit side (light from the upper left)
+  const normals = (pts) => pts.map((p, i) => { const n = nrm(unit(pts[Math.max(0, i - 1)], pts[Math.min(pts.length - 1, i + 1)])); return n[0] + n[1] > 0 ? [-n[0], -n[1]] : n; });
+  // A tapered, rounded limb through joints, widths per joint; shift slides it toward the lit (+) or shaded (-) side
+  function limb(pts, ws, shift = 0) {
+    const ns = normals(pts), P = pts.map((p, i) => along(p, ns[i], shift * ws[i]));
+    const L = P.map((p, i) => along(p, ns[i], ws[i] / 2)), R = P.map((p, i) => along(p, ns[i], -ws[i] / 2)).reverse();
+    const r0 = ws[0] / 2, r1 = ws[ws.length - 1] / 2;
+    const sweep = (a, b, c) => ((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]) > 0 ? 1 : 0);
+    const s1 = sweep(L[L.length - 2] || L[0], L[L.length - 1], R[0]), s0 = sweep(R[R.length - 2] || R[0], R[R.length - 1], L[0]);
+    return `M${P2(L[0])}${through(L)}A${fx(r1)} ${fx(r1)} 0 0 ${s1} ${P2(R[0])}${through(R)}A${fx(r0)} ${fx(r0)} 0 0 ${s0} ${P2(L[0])}Z`;
+  }
+  // A highlight stroke down the lit side of a limb
+  const shine = (pts, ws) => { const ns = normals(pts), Q = pts.map((p, i) => along(p, ns[i], ws[i] * 0.28)); return `M${P2(Q[0])}${through(Q)}`; };
+  const ell = (c, rx, ry, rot) => { const u = [Math.cos(rot), Math.sin(rot)], deg = fx(rot * 180 / Math.PI);
+    return `M${P2(along(c, u, -rx))}a${fx(rx)} ${fx(ry)} ${deg} 1 0 ${P2([2 * rx * u[0], 2 * rx * u[1]])}a${fx(rx)} ${fx(ry)} ${deg} 1 0 ${P2([-2 * rx * u[0], -2 * rx * u[1]])}Z`; };
+
+  /** The posed knight as smooth parts, back to front: [{ role, d }]. Roles:
+      net, shadow, cape, metal (+ shade, shine), tabard, hem, pauldron, wood, tape, catcher, pocket, shield, shieldRim,
+      cross, sabaton, runner, padline, helm / helmShade / visor (in helm space, see .helm), puck, donut, streak. */
+  function figure(poseKey, o = {}) {
+    const A = G.parts(poseKey), P = A.P, k = o.lw || 1, hs = o.hs || 1.15, out = [];
+    const push = (role, d) => out.push({ role, d });
+    const metal = (pts, ws) => { ws = ws.map((w) => w * k); push("metal", limb(pts, ws)); push("shade", limb(pts, ws.map((w) => w * 0.42), -0.3)); push("shine", shine(pts, ws)); };
+    const roles = (r) => A.parts.filter((p) => p.role === r);
+    const up = unit(P.pelvis, P.neck), side = nrm(up);
+    roles("net").forEach((p) => push("net", p.d));
+    roles("shadow").forEach((p) => push("shadow", p.d));
+    if (o.cape) {
+      const sb = P.shBlocker, sg = P.shGlove, foot = Math.min(G.GROUND - 3, P.pelvis[1] + 24), cx = P.pelvis[0], sw = Math.abs(sg[0] - sb[0]);
+      push("cape", `M${P2(sb)}C${P2([sb[0] - 7, sb[1] + 14])} ${P2([cx - sw * 0.85 - 5, foot - 8])} ${P2([cx - sw * 0.75 - 3, foot])}Q${P2([cx - 4, foot - 4])} ${P2([cx, foot + 1])}Q${P2([cx + 4, foot - 4])} ${P2([cx + sw * 0.75 + 3, foot])}C${P2([cx + sw * 0.85 + 5, foot - 8])} ${P2([sg[0] + 7, sg[1] + 14])} ${P2(sg)}Z`);
+    }
+    for (const s of ["L", "R"]) {
+      const hip = P["hip" + s], knee = P["knee" + s], ankle = P["ankle" + s], toe = P["toe" + s];
+      metal([hip, knee], [10, 9]);
+      const sh = unit(knee, ankle), sn = nrm(sh);
+      metal([along(knee, sh, -5), along(knee, sh, 9), ankle], [12.5, 13.5, 11]);
+      // Real pad detail: two vertical face channels, the boot break and two straps across the lower pad
+      const pc = (t, o) => along(along(knee, sh, t), sn, o * k);
+      push("channel", [-2.6, 2.6].map((o) => `M${P2(pc(-2, o))}C${P2(pc(4, o * 1.15))} ${P2(pc(12, o * 1.15))} ${P2(pc(17, o * 0.9))}`).join(""));
+      push("boot", `M${P2(pc(16.5, -5.2))}Q${P2(pc(18.2, 0))} ${P2(pc(16.5, 5.2))}`);
+      push("strap", [13.2, 15.6].map((t) => `M${P2(pc(t, -5.6))}L${P2(pc(t + 0.5, 5.6))}`).join(""));
+      push("padline", [4, 11].map((t) => `M${P2(along(along(knee, sh, t), sn, -5.6 * k))}Q${P2(along(knee, sh, t + 2.6))} ${P2(along(along(knee, sh, t), sn, 5.6 * k))}`).join(""));
+      push("sabaton", limb([ankle, toe], [6 * k, 4.4 * k]));
+      const bu = unit(ankle, toe), bn = nrm(bu), dn = bn[1] > 0 ? bn : [-bn[0], -bn[1]];
+      push("runner", `M${P2(along(along(ankle, dn, 3.2 * k), bu, -2))}L${P2(along(along(toe, dn, 3.2 * k), bu, 2))}`);
+    }
+    // Breastplate, then the tabard over it with a pointed hem
+    const belly = along(P.pelvis, up, 9);
+    metal([along(P.pelvis, up, -1), belly, along(P.neck, up, -1.5)], [16, 17.5, 21]);
+    const hem = along(P.pelvis, up, -6.5), top = along(P.neck, up, -4.5), tw = 7.2 * k;
+    const hl = along(along(P.pelvis, side, -tw), up, -2), hr = along(along(P.pelvis, side, tw), up, -2);
+    push("tabard", `M${P2(along(top, side, -tw))}Q${P2(along(belly, side, -tw - 1.5))} ${P2(hl)}L${P2(hem)}L${P2(hr)}Q${P2(along(belly, side, tw + 1.5))} ${P2(along(top, side, tw))}Q${P2(along(top, up, 2))} ${P2(along(top, side, -tw))}Z`);
+    push("hem", `M${P2(hl)}L${P2(hem)}L${P2(hr)}`);
+    for (const a of ["Blocker", "Glove"]) {
+      metal([P["sh" + a], P["elbow" + a], P["hand" + a]], [8, 7, 6.5]);
+      const ua = unit(P["sh" + a], P["elbow" + a]);
+      push("cop", ell(P["elbow" + a], 3.4 * k, 2.8 * k, Math.atan2(ua[1], ua[0])));
+      push("pauldron", ell(P["sh" + a], 5.3 * k, 4.4 * k, Math.atan2(side[1], side[0])));
+      // Shoulder floater: two segment lines across the cap
+      push("ridge", [-1.6, 1.4].map((t) => { const c0 = along(P["sh" + a], up, t); return `M${P2(along(c0, side, -4.2 * k))}Q${P2(along(c0, up, 1.6))} ${P2(along(c0, side, 4.2 * k))}`; }).join(""));
+    }
+    for (const r of ["shaft", "paddle"]) roles(r).forEach((p) => push("wood", p.d));
+    roles("blade").forEach((p) => push("tape", p.d));
+    if (A.pose.stick && !A.pose.stick.yoke) push("knob", ell(P.handBlocker, 2.2, 2.2, 0));
+    const hg = P.handGlove, gu = unit(P.elbowGlove, hg), ga = Math.atan2(gu[1], gu[0]);
+    const gn = nrm(gu), ts = (gn[0] * (P.pelvis[0] - hg[0]) + gn[1] * (P.pelvis[1] - hg[1])) > 0 ? 1 : -1;
+    const g2 = (a, b) => along(along(hg, gu, a * k), gn, b * k * ts);
+    push("cuff", `M${P2(g2(-6.5, -4.4))}L${P2(g2(-2, -4.8))}L${P2(g2(-2, 4.8))}L${P2(g2(-6.5, 4.4))}Z`);
+    push("catcher", ell(along(hg, gu, 1.5), 7.2 * k, 6.3 * k, ga));
+    push("thumb", ell(g2(1, 6.2), 3.4 * k, 2.4 * k, ga));
+    push("pocket", ell(along(hg, gu, 2.4), 3.4 * k, 3 * k, ga));
+    push("lace", `M${P2(g2(6.6, -4))}Q${P2(g2(8, 0))} ${P2(g2(6.6, 4))}M${P2(g2(7.4, 0))}L${P2(g2(3, 0))}M${P2(g2(-1.5, -5))}Q${P2(g2(-3, 0))} ${P2(g2(-1.5, 5))}`);
+    const hb = P.handBlocker, fu = unit(P.elbowBlocker, hb), fn = nrm(fu);
+    const c = (a, b, s = 1) => along(along(hb, fu, a * k * s), fn, b * k * s);
+    const kite = (s) => `M${P2(c(-6, -6.5, s))}Q${P2(c(-7.5, 0, s))} ${P2(c(-6, 6.5, s))}Q${P2(c(2, 7, s))} ${P2(c(9, 0, s))}Q${P2(c(2, -7, s))} ${P2(c(-6, -6.5, s))}Z`;
+    push("cuff", `M${P2(c(-10, -4))}L${P2(c(-5, -4.4))}L${P2(c(-5, 4.4))}L${P2(c(-10, 4))}Z`);
+    push("shield", kite(1)); push("shieldRim", kite(0.78));
+    push("cross", `M${P2(c(-4.5, 0))}L${P2(c(6, 0))}M${P2(c(-1, -4))}L${P2(c(-1, 4))}`);
+    roles("streak").forEach((p) => push("streak", p.d));
+    roles("puck").forEach((p) => push("puck", p.d));
+    roles("donut").forEach((p) => push("donut", p.d));
+    // The helm, in its own frame: a round bascinet with a dome and a visor slit
+    const hd = unit(P.neck, P.head), hc = along(P.head, hd, (hs - 1) * 4.5), hn = nrm(hd);
+    const helm = { at: hc, dir: hd, s: hs, matrix: `matrix(${[hn[0] * hs, hn[1] * hs, -hd[0] * hs, -hd[1] * hs, hc[0], hc[1]].map((v) => v.toFixed(3)).join(" ")})`,
+      shape: "M-5 4.6L-5.4 -1C-5.6 -7.4 5.6 -7.4 5.4 -1L5 4.6Q0 6.2 -5 4.6Z", shade: "M1.6 -6.2C4.2 -5.6 5.6 -3.6 5.4 -1L5 4.6Q3 5.4 1.4 5.5Z",
+      visor: "M-4.4 -1.2Q0 -2.2 4.4 -1.2L4.2 .6Q0 1.4 -4.2 .6Z",
+      // A goalie cage in the helm's face: an opening, three bars down and two across, and a throat dangler below
+      cageHole: "M-4.3 -2.6Q0 -3.6 4.3 -2.6L3.9 3.2Q0 4.6 -3.9 3.2Z", cage: "M-2 -3.1V4M0 -3.3V4.2M2 -3.1V4M-4.1 -.6Q0 -1.4 4.1 -.6M-3.9 1.7Q0 2.6 3.9 1.7",
+      dangler: "M-2 5L2 5L1.8 8.2Q0 9.2 -1.8 8.2Z", comb: "M0 -6.8V-2.8", breaths: "M-2.6 2.2H-1.4M1.4 2.2H2.6M-2 3.3H-.8M.8 3.3H2", crown: along(hc, hd, 5.6 * hs) };
+    const crestK = Math.max(1, hs * 0.85), topY = Math.min(A.top, helm.crown[1] - 10.5 * crestK);
+    // Fit into the frame: the ice at iceY, the crest no higher than minTop
+    const fit = (iceY = 82.4, minTop = 12) => { const kk = Math.min(0.8, (iceY - minTop) / (G.GROUND - topY));
+      return `translate(${(50 - 50 * kk).toFixed(2)} ${(iceY - G.GROUND * kk).toFixed(2)}) scale(${kk.toFixed(3)})`; };
+    return { A, P, parts: out, helm, crestK, up, numAt: along(P.pelvis, up, 13), numRot: A.torsoAngle + 90, fit };
+  }
+
+  // Draw the parts with a paint table: role -> attributes string (or "" to skip)
+  const paint = (F, table) => F.parts.map((p) => { const a = table[p.role]; return a ? `<path d="${p.d}" ${a}/>` : ""; }).join("");
+  const helmSvg = (F, fill, line, extra = "") => `<g transform="${F.helm.matrix}"><path d="${F.helm.shape}" ${fill}/>${extra}<path d="${F.helm.shape}" fill="none" ${line}/></g>`;
+  const numberSvg = (F, num, style) => `<text x="${fx(F.numAt[0])}" y="${fx(F.numAt[1])}" transform="rotate(${F.numRot} ${fx(F.numAt[0])} ${fx(F.numAt[1])})" text-anchor="middle" dominant-baseline="central" style="${style}">${num}</text>`;
+
+  /* H1 · Illuminated miniature. A knight painted in a Book of Hours: burnished gold leaf, flat tempera with
+     white highlights, on a diapered (lozenge) ground in team colour, inside a gold and red-and-blue frame. */
+  function illuminated(poseKey, team, num, opts = {}) {
+    const F = figure(poseKey, { cape: true }), tk = { ...GD.tokens(team), ...(opts.tk || {}) }, ink = "#2a1c14";
+    const id = `mi-${opts.id || poseKey + (team.code || "")}`, leaf = "#D9A93A", leafDk = "#9C6E1C";
+    const L = `stroke="${ink}" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"`;
+    const body = paint(F, {
+      net: `fill="#EDE6D2" ${L}`, shadow: `fill="#000" opacity=".25"`, cape: `fill="${mix(tk.tabard, -0.25)}" ${L}`,
+      metal: `fill="${leaf}" ${L}`, shade: `fill="${leafDk}" opacity=".5"`, shine: `fill="none" stroke="#FFF6D6" stroke-width=".7" opacity=".9"`,
+      tabard: `fill="${tk.tabard}" ${L}`, hem: `fill="none" stroke="${tk.trim}" stroke-width="1.2"`, pauldron: `fill="${leaf}" ${L}`,
+      wood: `fill="#7a5230" ${L}`, tape: `fill="#F4EEDD" ${L}`, catcher: `fill="${leaf}" ${L}`, pocket: `fill="${leafDk}" opacity=".55"`,
+      shield: `fill="${tk.tabard}" ${L}`, shieldRim: `fill="none" stroke="${tk.trim}" stroke-width="1"`, cross: `fill="none" stroke="${tk.cross}" stroke-width="1.5" stroke-linecap="round"`,
+      padline: `fill="none" stroke="${ink}" stroke-width=".6" opacity=".6"`, sabaton: `fill="#6b6f80" ${L}`, runner: `fill="none" stroke="#F4EEDD" stroke-width="1.4" stroke-linecap="round"`,
+      streak: `fill="${leaf}" opacity=".8"`, puck: `fill="${ink}" stroke="#F4EEDD" stroke-width="1.8" paint-order="stroke"`, donut: `fill="#E9A4B8" fill-rule="evenodd" ${L}`,
+    });
+    const helm = helmSvg(F, `fill="${leaf}"`, `stroke="${ink}" stroke-width="${(1 / F.helm.s).toFixed(2)}"`,
+      `<path d="${F.helm.shade}" fill="${leafDk}" opacity=".5"/><path d="M-3.8 -5.2Q-2 -6.6 0 -6.6" fill="none" stroke="#FFF6D6" stroke-width=".5"/><path d="${F.helm.visor}" fill="${ink}"/><path d="${F.helm.breaths}" stroke="${ink}" stroke-width=".45"/>`);
+    // Diapered ground: lozenges in two tones of the field, a gold dot at each crossing; then an ice floor with ripples
+    const fA = tk.field, fB = mix(tk.field, 0.12), gy = 84;
+    return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="${fA}"/><path d="M5 0L10 5 5 10 0 5Z" fill="${fB}"/><circle cx="5" cy="5" r=".7" fill="${leaf}"/><circle cx="0" cy="0" r=".7" fill="${leaf}"/><circle cx="10" cy="0" r=".7" fill="${leaf}"/><circle cx="0" cy="10" r=".7" fill="${leaf}"/><circle cx="10" cy="10" r=".7" fill="${leaf}"/></pattern></defs>
+      <rect width="100" height="100" fill="#F3E9D2"/><rect x="7" y="7" width="86" height="86" fill="url(#${id})"/>
+      <path d="M7 ${gy}H93V93H7Z" fill="#DCE6EE"/><path d="M14 88.5h14M40 90h18M70 88h14" stroke="#9FB3C4" stroke-width=".8" stroke-linecap="round"/>
+      <g transform="${F.fit(84, 11)}">${body}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, { ...tk }, F.crestK)}
+      ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number}; paint-order: stroke; stroke: ${tk.numberEdge}; stroke-width: 1.2`)}</g>
+      <rect x="5.5" y="5.5" width="89" height="89" fill="none" stroke="${leaf}" stroke-width="3"/><rect x="2" y="2" width="96" height="96" fill="none" stroke="#2F4B9A" stroke-width="2"/>
+      <rect x="2" y="2" width="96" height="96" fill="none" stroke="#B3261E" stroke-width="2" stroke-dasharray="6 6"/>
+      ${[[5.5, 5.5], [94.5, 5.5], [5.5, 94.5], [94.5, 94.5]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3" fill="${leaf}" stroke="${ink}" stroke-width=".6"/>`).join("")}
+      <rect x=".4" y=".4" width="99.2" height="99.2" fill="none" stroke="${ink}" stroke-width=".8"/></svg>`;
+  }
+
+  /* H2 · Tapestry. The goalie stitched into the Bayeux Tapestry: wool colours laid on linen, a stitched outline,
+     patterned border bands, and a Latin caption like the tapestry's own. */
+  const LATIN = { steady: "CVSTOS STABILIS", workhorse: "HIC LABORAT", "hd-stopper": "PERICVLVM VINCIT", wall: "MVRVS", rebound: "HIC PVCK TENET",
+    siege: "OBSESSVS", crease: "IN TVRBA PVGNAT", standout: "EGREGIVS", "donut-king": "REX NIHILI", grandpa: "SENEX", "young-gun": "IVVENIS", "style-king": "REX ELEGANTIAE" };
+  function tapestry(poseKey, team, num, opts = {}) {
+    const F = figure(poseKey, { hs: 1.2 }), tk = { ...GD.tokens(team), ...(opts.tk || {}) };
+    const linen = "#EADFC4", thread = "#3A3550", id = `tp-${opts.id || poseKey + (team.code || "")}`;
+    // Below 100 px a lighter cut: solid outlines, no fine stitching, no caption; the shapes and colours stay
+    const lite = opts.lite ?? (opts.size && opts.size < 100);
+    const wool = (h) => (h === "#000000" ? "#2E2A3A" : h);   // a black dye reads as dark indigo wool
+    // Two wools for the armour, as the tapestry does it: ochre, with a darker ochre on the shaded side
+    const sage = "#7E8F5A", rust = "#9E4A3A", tab = wool(tk.tabard), tabDk = mix(tab, -0.3);
+    // A gold sweater (Nashville, Vegas) would vanish into ochre armour, so those knights wear blue-grey steel wool
+    const steel = GD.wcag(tab, "#C9962E") < 1.6 && Math.abs(parseInt(tab.slice(1, 3), 16) - parseInt(tab.slice(5, 7), 16)) > 90;
+    const ochre = steel ? "#8E98AA" : "#C9962E", ochreDk = steel ? "#5E6679" : "#94681E";
+    const S = lite ? `stroke="${thread}" stroke-width="1.3" stroke-linejoin="round"` : `stroke="${thread}" stroke-width="1.1" stroke-dasharray="1.6 .7" stroke-linejoin="round"`;
+    const fine = (w = 0.55) => `fill="none" stroke="${thread}" stroke-width="${w}" stroke-dasharray="1.2 .7" stroke-linecap="round"`;
+    const couch = `fill="url(#${id}-c)"`;   // laid-and-couched work: parallel laid threads tied down by small cross stitches
+    let lastMetal = "";
+    const parts = F.parts.map((p) => {
+      const d = p.d, P = (a) => (lite && a === couch ? "" : `<path d="${d}" ${a}/>`);
+      if (p.role === "metal") lastMetal = d;
+      if (lite && ["ridge", "channel", "padline", "boot", "strap", "lace", "thumb", "cop", "shieldRim"].includes(p.role)) return "";
+      switch (p.role) {
+        case "net": return P(`fill="#F2EBD8" ${S}`);
+        case "metal": case "pauldron": return P(`fill="${ochre}"`) + P(couch) + (p.role === "metal" ? "" : P(`fill="none" ${S}`));
+        case "shade": return P(`fill="${ochreDk}"`);
+        case "tabard": return P(`fill="${tab}" ${S}`) + P(couch);
+        case "hem": return P(`fill="none" stroke="${tk.trim}" stroke-width="1.4" stroke-dasharray="1.6 .7"`);
+        case "ridge": return P(fine(0.6));
+        case "cop": return P(`fill="${ochre}" ${S}`) + P(`fill="${ochreDk}" opacity=".5"`);
+        case "channel": return P(fine(0.6));
+        case "padline": return P(`fill="none" stroke="${thread}" stroke-width=".7" stroke-dasharray="1.2 .7"`);
+        case "boot": return P(`fill="none" stroke="${thread}" stroke-width=".9"`);
+        case "strap": return P(`fill="none" stroke="${rust}" stroke-width="1.5"`) + P(fine(0.4));
+        case "sabaton": return P(`fill="${sage}" ${S}`);
+        case "runner": return P(`fill="none" stroke="#F2EBD8" stroke-width="1.3"`);
+        case "wood": return P(`fill="#7B5434" ${S}`);
+        case "tape": return P(`fill="#F2EBD8" ${S}`);
+        case "knob": return P(`fill="${thread}"`);
+        case "cuff": return P(`fill="${tabDk}" ${S}`);
+        case "catcher": return P(`fill="${ochre}" ${S}`) + P(couch);
+        case "thumb": return P(`fill="${ochreDk}" ${S}`);
+        case "pocket": return P(`fill="${ochreDk}" opacity=".7"`);
+        case "lace": return P(`fill="none" stroke="${thread}" stroke-width="1.5"`) + P(`fill="none" stroke="#F2EBD8" stroke-width=".7" stroke-dasharray=".8 .6"`);
+        case "shield": return P(`fill="${tab}" ${S}`) + P(couch);
+        case "shieldRim": return P(`fill="none" stroke="${tk.trim}" stroke-width="1.1" stroke-dasharray="1.6 .7"`);
+        case "cross": return P(`fill="none" stroke="${tk.cross}" stroke-width="1.5" stroke-dasharray="1.6 .5"`);
+        case "streak": return P(`fill="${ochre}" opacity=".9"`);
+        case "puck": return P(`fill="${thread}" stroke="#F2EBD8" stroke-width="1.6" paint-order="stroke"`);
+        case "donut": return P(`fill="#D98FA0" fill-rule="evenodd" ${S}`);
+        case "shine": return `<path d="${lastMetal}" fill="none" ${S}/>`;   // each limb's stitched edge, over its dark side
+        default: return "";   // shadow, cape: not part of the tapestry look
+      }
+    });
+    const H = F.helm;
+    const helm = `<g transform="${H.matrix}"><path d="${H.dangler}" fill="${ochre}" stroke="${thread}" stroke-width=".8"/><path d="${H.shape}" fill="${ochre}"/>${lite ? "" : `<path d="${H.shape}" ${couch}/>`}<path d="${H.shade}" fill="${ochreDk}"/>
+      ${lite ? "" : `<path d="${H.comb}" stroke="${thread}" stroke-width=".6" stroke-dasharray="1 .6"/>`}<path d="${H.cageHole}" fill="${thread}"/>${lite ? "" : `<path d="${H.cage}" fill="none" stroke="#F2EBD8" stroke-width=".6"/>`}
+      <path d="${H.shape}" fill="none" stroke="${thread}" stroke-width="${(1.1 / H.s).toFixed(2)}" stroke-dasharray="1.4 .6"/></g>`;
+    // Border bands: diagonal panels with small stitched roundels, top and bottom
+    const band = (y) => { let d = ""; for (let x = 0; x < 100; x += 12.5) d += `M${x} ${y}L${x + 12.5} ${y + 9}`; return `<rect x="0" y="${y}" width="100" height="9" fill="#E2D3B0"/><path d="${d}" stroke="${thread}" stroke-width=".7" stroke-dasharray="1.4 .6"/>`; };
+    const motifs = (y) => [6, 31, 56, 81].map((x, i) => `<circle cx="${x + 3}" cy="${y + 4.5}" r="1.7" fill="${[tab, sage, ochre, rust][i]}"/>`).join("");
+    return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}-c" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><path d="M0 .75H3M0 2.25H3" stroke="#000" stroke-width=".55" opacity=".16"/><path d="M1.5 0V3" stroke="#fff" stroke-width=".3" opacity=".22" stroke-dasharray=".7 2.3"/></pattern>
+      <pattern id="${id}-w" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><path d="M0 .8H1.6M.8 0V1.6" stroke="#B9A983" stroke-width=".25" opacity=".55"/></pattern></defs>
+      <rect width="100" height="100" fill="${linen}"/><rect width="100" height="100" fill="url(#${id}-w)"/>${band(0)}${motifs(0)}${band(91)}${motifs(91)}
+      ${lite ? "" : `<text x="50" y="17.5" text-anchor="middle" style="font: 600 5.6px Cinzel, Georgia, serif; letter-spacing: .4px; fill: ${thread}">${LATIN[poseKey] || ""}</text>`}
+      <path d="M8 84.5C24 82.5 40 86 56 84S86 83 92 84.5" fill="none" stroke="${sage}" stroke-width="1.4" stroke-dasharray="1.6 .7"/>
+      <g transform="${F.fit(84, lite ? 12 : 21)}">${parts.join("")}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, tk, F.crestK)}
+      ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number === "#FFFFFF" ? "#F2EBD8" : thread}; paint-order: stroke; stroke: ${tk.number === "#FFFFFF" ? thread : "#F2EBD8"}; stroke-width: 1.2`)}</g>
+      <rect x=".5" y=".5" width="99" height="99" fill="none" stroke="${thread}"/></svg>`;
+  }
+
+  /* H3 · Woodcut. A hand-coloured woodcut from an early printed chronicle: heavy black line and hatching cut on
+     cream paper, then washed by hand in the team colour and ochre, a little outside the lines. */
+  function woodcut(poseKey, team, num, opts = {}) {
+    const F = figure(poseKey, { hs: 1.15, lw: 1.05 }), tk = { ...GD.tokens(team), ...(opts.tk || {}) };
+    const blk = "#17130f", paper = "#F2E7CC", id = `wc-${opts.id || poseKey + (team.code || "")}`, hatch = `url(#${id})`;
+    const L = `stroke="${blk}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"`;
+    const wash = (h) => `fill="${h}" fill-opacity=".85"`;
+    const body = paint(F, {
+      net: `fill="${paper}" ${L}`, shadow: `fill="${hatch}"`, cape: "",
+      metal: `${wash("#E2B65A")} ${L}`, shade: `fill="${hatch}"`, shine: "",
+      tabard: `${wash(tk.tabard)} ${L}`, hem: `fill="none" stroke="${tk.trim}" stroke-width="1.2"`, pauldron: `${wash("#E2B65A")} ${L}`,
+      wood: `fill="#8a5f36" ${L}`, tape: `fill="${paper}" ${L}`, catcher: `${wash("#E2B65A")} ${L}`, pocket: `fill="${hatch}"`,
+      shield: `${wash(tk.tabard)} ${L}`, shieldRim: `fill="none" stroke="${tk.trim}" stroke-width="1"`, cross: `fill="none" stroke="${tk.cross}" stroke-width="1.5"`,
+      padline: `fill="none" stroke="${blk}" stroke-width=".9"`, sabaton: `fill="${blk}"`, runner: `fill="none" stroke="${paper}" stroke-width="1.3"`,
+      streak: `fill="${blk}"`, puck: `fill="${blk}" stroke="${paper}" stroke-width="1.6" paint-order="stroke"`, donut: `fill="#E9A4B8" fill-rule="evenodd" ${L}`,
+    });
+    const helm = helmSvg(F, wash("#E2B65A"), `stroke="${blk}" stroke-width="${(1.5 / F.helm.s).toFixed(2)}"`,
+      `<path d="${F.helm.shade}" fill="${hatch}"/><path d="${F.helm.visor}" fill="${blk}"/><path d="${F.helm.breaths}" stroke="${blk}" stroke-width=".6"/>`);
+    // Ground: cut tufts and a few strokes of ice; a double rule frame and a cut cloud
+    return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-40)"><path d="M0 1.1H2.2" stroke="${blk}" stroke-width=".9"/></pattern></defs>
+      <rect width="100" height="100" fill="${paper}"/><rect x="5" y="5" width="90" height="90" fill="${mix(tk.tabard, 0.82)}" fill-opacity=".55"/>
+      <path d="M14 22c2-5 9-5 11-1 3-3 9-2 9 2 3 0 4 4 1 5H15c-4 0-4-5-1-6Z" fill="${paper}" stroke="${blk}" stroke-width="1.1"/>
+      <path d="M5 84H95V95H5Z" fill="${paper}"/><path d="M5 84H95" stroke="${blk}" stroke-width="1.4"/>
+      <path d="M10 88h10M30 90.5h16M58 88.5h12M78 91h10" stroke="${blk}" stroke-width=".9" stroke-linecap="round"/>
+      <g transform="${F.fit(84)}">${body}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, tk, F.crestK)}
+      ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number}; paint-order: stroke; stroke: ${tk.numberEdge}; stroke-width: 1.3`)}</g>
+      <rect x="5" y="5" width="90" height="90" fill="none" stroke="${blk}" stroke-width="2"/><rect x="2" y="2" width="96" height="96" fill="none" stroke="${blk}" stroke-width="1"/></svg>`;
+  }
+
+  /* H4 · Marginalia. A knight doodled in the margin of a manuscript page, the way scribes drew odd little
+     figures beside the text: brown ink and pale washes on vellum, beside ruled lines and a gilded ivy border. */
+  function marginalia(poseKey, team, num, opts = {}) {
+    const F = figure(poseKey, { cape: true, hs: 1.3 }), tk = { ...GD.tokens(team), ...(opts.tk || {}) };
+    const brown = "#4A2E1C", vellum = "#F4EAD3", gilt = "#D2A23A";
+    const L = `stroke="${brown}" stroke-width=".9" stroke-linejoin="round" stroke-linecap="round"`;
+    const body = paint(F, {
+      net: `fill="${vellum}" ${L}`, shadow: `fill="${brown}" opacity=".18"`, cape: `fill="${tk.tabard}" fill-opacity=".55" ${L}`,
+      metal: `fill="#E9D7A6" ${L}`, shade: `fill="${brown}" opacity=".16"`, shine: "",
+      tabard: `fill="${tk.tabard}" ${L}`, hem: `fill="none" stroke="${tk.trim}" stroke-width="1.1"`, pauldron: `fill="#E9D7A6" ${L}`,
+      wood: `fill="#9a6a3c" ${L}`, tape: `fill="${vellum}" ${L}`, catcher: `fill="#E9D7A6" ${L}`, pocket: `fill="${brown}" opacity=".2"`,
+      shield: `fill="${tk.tabard}" ${L}`, shieldRim: `fill="none" stroke="${tk.trim}" stroke-width=".9"`, cross: `fill="none" stroke="${tk.cross}" stroke-width="1.3"`,
+      padline: `fill="none" stroke="${brown}" stroke-width=".5"`, sabaton: `fill="#8C8A86" ${L}`, runner: `fill="none" stroke="${brown}" stroke-width=".8"`,
+      streak: `fill="${brown}" opacity=".5"`, puck: `fill="${brown}" stroke="${vellum}" stroke-width="1.6" paint-order="stroke"`, donut: `fill="#E9A4B8" fill-rule="evenodd" ${L}`,
+    });
+    const helm = helmSvg(F, `fill="#E9D7A6"`, `stroke="${brown}" stroke-width="${(.9 / F.helm.s).toFixed(2)}"`,
+      `<path d="${F.helm.shade}" fill="${brown}" opacity=".16"/><path d="${F.helm.visor}" fill="${brown}"/>`);
+    const lines = [12, 18, 24].map((y, i) => `<path d="M30 ${y}H${92 - i * 14}" stroke="${brown}" stroke-width="1.6" stroke-dasharray="${[3, 1.2, 5, 1.2, 2, 1.2].join(" ")}" opacity=".45"/>`).join("");
+    const ivy = [20, 36, 52, 68].map((y, i) => `<path d="M7 ${y}c${i % 2 ? 4 : -1} -2 5 -6 3 -8 -3 1 -4 5 -3 8Z" fill="${gilt}" stroke="${brown}" stroke-width=".4"/>`).join("");
+    return `${G.svgOpen(F.A.pose, opts)}<rect width="100" height="100" fill="${vellum}"/>
+      <rect x="18" y="5" width="9" height="9" fill="${tk.tabard}"/><text x="22.5" y="12.6" text-anchor="middle" style="font: 600 8px Cinzel, Georgia, serif; fill: ${gilt}">G</text>${lines}
+      <path d="M6 6V94" stroke="${gilt}" stroke-width="1.6"/><path d="M6 10c3 8-3 12 0 20s-3 12 0 20 -3 12 0 20 -3 12 0 20" fill="none" stroke="${brown}" stroke-width=".6"/>${ivy}
+      <path d="M14 85C30 83 50 86 92 84" fill="none" stroke="${brown}" stroke-width=".8"/>
+      <g transform="${F.fit(85, 16)}">${body}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, tk, F.crestK)}
+      ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number}; paint-order: stroke; stroke: ${tk.numberEdge}; stroke-width: 1.2`)}</g>
+      <rect x=".5" y=".5" width="99" height="99" fill="none" stroke="#C9B48A"/></svg>`;
+  }
+
+  const STYLES = {
+    illuminated: { name: "Illuminated Miniature", conceit: "A knight painted in a Book of Hours: gold leaf, flat colour with white highlights, on a diapered ground in team colour.", draw: illuminated },
+    tapestry: { name: "Tapestry", conceit: "Stitched into the Bayeux Tapestry: wool on linen, a stitched outline, border bands and a Latin caption.", draw: tapestry },
+    woodcut: { name: "Woodcut", conceit: "A hand-coloured woodcut from an early printed chronicle: heavy cut line and hatching, washed in team colour.", draw: woodcut },
+    marginalia: { name: "Marginalia", conceit: "A knight doodled in a manuscript's margin: brown ink and pale washes beside the text and a gilded ivy border.", draw: marginalia },
+  };
+  return { figure, STYLES, LATIN };
+});
+</script>
+<script>
+const TEAMS = {
+ "note": "Each team's published colours, in the order the source lists them. The first colour is the sweater (tabard) colour. Teams do not publish a public brand page with hex values, so the PMS-based list below is the source of record; the Wikipedia module (a screen-tuned sandbox) is kept as wikiFirst for comparison. It differs most for Dallas (#006847), Anaheim and Ottawa (it lists the old orange-less and red-first sets), Philadelphia and Edmonton (brighter orange).",
+ "sources": {
+  "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
+  "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+ },
+ "read": "2026-10-29",
+ "teams": {
+  "ANA": {
+   "name": "Anaheim Ducks",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#89734C",
+   "palette": [
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#89734C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BOS": {
+   "name": "Boston Bruins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BUF": {
+   "name": "Buffalo Sabres",
+   "primary": "#003087",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002654"
+  },
+  "CGY": {
+   "name": "Calgary Flames",
+   "primary": "#C8102E",
+   "secondary": "#F1BE48",
+   "accent": "#F1BE48",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#F1BE48"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "CAR": {
+   "name": "Carolina Hurricanes",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CC0000"
+  },
+  "CHI": {
+   "name": "Chicago Blackhawks",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "COL": {
+   "name": "Colorado Avalanche",
+   "primary": "#6F263D",
+   "secondary": "#236192",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Burgundy",
+     "hex": "#6F263D"
+    },
+    {
+     "name": "Blue",
+     "hex": "#236192"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#6F263D"
+  },
+  "CBJ": {
+   "name": "Columbus Blue Jackets",
+   "primary": "#041E42",
+   "secondary": "#C8102E",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Union Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Goal Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Capital Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E42"
+  },
+  "DAL": {
+   "name": "Dallas Stars",
+   "primary": "#00843D",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Victory Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006847"
+  },
+  "DET": {
+   "name": "Detroit Red Wings",
+   "primary": "#C8102E",
+   "secondary": "#FFFFFF",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "EDM": {
+   "name": "Edmonton Oilers",
+   "primary": "#00205B",
+   "secondary": "#CF4520",
+   "accent": "#CF4520",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FF4C00"
+  },
+  "FLA": {
+   "name": "Florida Panthers",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#C8102E"
+  },
+  "LAK": {
+   "name": "Los Angeles Kings",
+   "primary": "#000000",
+   "secondary": "#A2AAAD",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "MIN": {
+   "name": "Minnesota Wild",
+   "primary": "#154734",
+   "secondary": "#A6192E",
+   "accent": "#EAAA00",
+   "palette": [
+    {
+     "name": "Forest Green",
+     "hex": "#154734"
+    },
+    {
+     "name": "Iron Range Red",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Harvest Gold",
+     "hex": "#EAAA00"
+    },
+    {
+     "name": "Minnesota Wheat",
+     "hex": "#DDCBA4"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#024930"
+  },
+  "MTL": {
+   "name": "Montreal Canadiens",
+   "primary": "#A6192E",
+   "secondary": "#001E62",
+   "accent": "#001E62",
+   "palette": [
+    {
+     "name": "Rouge",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Bleu",
+     "hex": "#001E62"
+    },
+    {
+     "name": "Blanc",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#AF1E2D"
+  },
+  "NSH": {
+   "name": "Nashville Predators",
+   "primary": "#FFB81C",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FFB81C"
+  },
+  "NJD": {
+   "name": "New Jersey Devils",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "NYI": {
+   "name": "New York Islanders",
+   "primary": "#003087",
+   "secondary": "#FC4C02",
+   "accent": "#FC4C02",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Orange",
+     "hex": "#FC4C02"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00539B"
+  },
+  "NYR": {
+   "name": "New York Rangers",
+   "primary": "#0033A0",
+   "secondary": "#C8102E",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0033A0"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "OTT": {
+   "name": "Ottawa Senators",
+   "primary": "#000000",
+   "secondary": "#C8102E",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "PHI": {
+   "name": "Philadelphia Flyers",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Burnt Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#F74902"
+  },
+  "PIT": {
+   "name": "Pittsburgh Penguins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Pittsburgh Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "SJS": {
+   "name": "San Jose Sharks",
+   "primary": "#006272",
+   "secondary": "#000000",
+   "accent": "#E57200",
+   "palette": [
+    {
+     "name": "Deep Pacific Teal",
+     "hex": "#006272"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Burnt Orange",
+     "hex": "#E57200"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006D75"
+  },
+  "SEA": {
+   "name": "Seattle Kraken",
+   "primary": "#051C2C",
+   "secondary": "#9CDBD9",
+   "accent": "#6BA4B8",
+   "palette": [
+    {
+     "name": "Deep Sea Blue",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Ice Blue",
+     "hex": "#9CDBD9"
+    },
+    {
+     "name": "Shadow Blue",
+     "hex": "#6BA4B8"
+    },
+    {
+     "name": "Red Alert",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "STL": {
+   "name": "St. Louis Blues",
+   "primary": "#0072CE",
+   "secondary": "#FFB81C",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0072CE"
+    },
+    {
+     "name": "Yellow",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002F87"
+  },
+  "TBL": {
+   "name": "Tampa Bay Lightning",
+   "primary": "#00205B",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "TOR": {
+   "name": "Toronto Maple Leafs",
+   "primary": "#00205B",
+   "secondary": "#FFFFFF",
+   "accent": "#00205B",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "UTA": {
+   "name": "Utah Mammoth",
+   "primary": "#000000",
+   "secondary": "#6CACE4",
+   "accent": "#6CACE4",
+   "palette": [
+    {
+     "name": "Rock Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Mountain Blue",
+     "hex": "#6CACE4"
+    },
+    {
+     "name": "Salt White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "VAN": {
+   "name": "Vancouver Canucks",
+   "primary": "#00205B",
+   "secondary": "#00843D",
+   "accent": "#051C2C",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Navy",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Silver",
+     "hex": "#97999B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002D55"
+  },
+  "VGK": {
+   "name": "Vegas Golden Knights",
+   "primary": "#C69214",
+   "secondary": "#333F48",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Metallic Gold",
+     "hex": "#C69214"
+    },
+    {
+     "name": "Steel Grey",
+     "hex": "#333F48"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#333F42"
+  },
+  "WSH": {
+   "name": "Washington Capitals",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CF0A2C"
+  },
+  "WPG": {
+   "name": "Winnipeg Jets",
+   "primary": "#041E42",
+   "secondary": "#004C97",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Polar Night Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Aviator Blue",
+     "hex": "#004C97"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E41"
+  }
+ }
+}.teams;
+const G = window.GoalieSkeleton, M = window.GoalieMedieval, TP = M.STYLES.tapestry.draw;
+const T = (c) => ({ ...TEAMS[c], code: c }), name = (k) => G.POSES[k].name;
+let n = 0;
+const art = (k, c, num, size, extra = {}) => TP(k, T(c), num, { size, id: "p" + (n++), label: `${name(k)}, ${TEAMS[c].name} colours`, ...extra });
+const SET = [["steady", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "MTL"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
+const LAT = { steady: "Custos stabilis", workhorse: "Hic laborat", "hd-stopper": "Periculum vincit", wall: "Murus", rebound: "Hic puck tenet", siege: "Obsessus",
+  crease: "In turba pugnat", standout: "Egregius", "donut-king": "Rex nihili", grandpa: "Senex", "young-gun": "Iuvenis", "style-king": "Rex elegantiae" };
+const EN = { steady: "Steady keeper", workhorse: "Here he labours", "hd-stopper": "He conquers danger", wall: "The wall", rebound: "Here he holds the puck", siege: "Besieged",
+  crease: "He fights in the crowd", standout: "The outstanding one", "donut-king": "King of nothing", grandpa: "The old man", "young-gun": "The youth", "style-king": "King of style" };
+document.getElementById("facts").innerHTML = [["12", "types"], ["32", "teams' colours"], ["7", "pieces of gear detailed"], ["3.5 KB", "largest picture, compressed"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
+document.getElementById("hero").innerHTML = `${art("workhorse", "MIN", "31", null)}<figcaption><b>Workhorse</b>Minnesota Wild colours · <span class="lat">Hic laborat</span>, "here he labours"</figcaption>`;
+document.getElementById("set").innerHTML = SET.map(([k, c], i) => `<figure>${art(k, c, String(30 + i), null)}<figcaption><b>${name(k)}</b><span class="lat">${LAT[k]}</span>, "${EN[k].toLowerCase()}" · ${TEAMS[c].name}</figcaption></figure>`).join("");
+document.getElementById("sizes").innerHTML = [["l", "Light page"], ["d", "Dark page"]].map(([t, label]) => `<div class="theme ${t}"><h3>${label}</h3>${
+  [32, 64, 76].map((px) => `<div class="srow"><span>${px} px</span>${SET.map(([k, c], i) => art(k, c, String(30 + i), px)).join("")}</div>`).join("")}</div>`).join("");
+document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => `<figure>${art("steady", c, "88", null, { lite: false })}<figcaption><b>${TEAMS[c].name}</b>${window.GoalieGilded.CRESTS[c].charge}</figcaption></figure>`).join("");
+</script>

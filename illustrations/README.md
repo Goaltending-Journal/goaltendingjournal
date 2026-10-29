@@ -89,3 +89,4 @@ stand off its navy field.
 Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each (Light Box, Bold Bones; Tournament, Gilded).
 Goldy picked Knights: Gilded (F3). Step 4 draws the full set in it: see `STYLE.md`.
 Round 2 of Step 4: Goldy asked for knights that read as characters, in a medieval art style, keeping the crests: Illuminated Miniature, Tapestry, Woodcut and Marginalia (`medieval.js`).
+Round 3 of Step 4: Goldy picked Tapestry (H2) and asked for more definition and realism on the gear: a cage helm with a dangler, pad channels and straps, a laced catcher, a blocker cuff, floaters, elbow cops and a taped stick, in laid-and-couched wool (`preview/tapestry.html`). Below 100 px it draws a lighter cut. STYLE.md still describes Gilded and gets rewritten for Tapestry once it is locked.

@@ -60,6 +60,11 @@
       metal([hip, knee], [10, 9]);
       const sh = unit(knee, ankle), sn = nrm(sh);
       metal([along(knee, sh, -5), along(knee, sh, 9), ankle], [12.5, 13.5, 11]);
+      // Real pad detail: two vertical face channels, the boot break and two straps across the lower pad
+      const pc = (t, o) => along(along(knee, sh, t), sn, o * k);
+      push("channel", [-2.6, 2.6].map((o) => `M${P2(pc(-2, o))}C${P2(pc(4, o * 1.15))} ${P2(pc(12, o * 1.15))} ${P2(pc(17, o * 0.9))}`).join(""));
+      push("boot", `M${P2(pc(16.5, -5.2))}Q${P2(pc(18.2, 0))} ${P2(pc(16.5, 5.2))}`);
+      push("strap", [13.2, 15.6].map((t) => `M${P2(pc(t, -5.6))}L${P2(pc(t + 0.5, 5.6))}`).join(""));
       push("padline", [4, 11].map((t) => `M${P2(along(along(knee, sh, t), sn, -5.6 * k))}Q${P2(along(knee, sh, t + 2.6))} ${P2(along(along(knee, sh, t), sn, 5.6 * k))}`).join(""));
       push("sabaton", limb([ankle, toe], [6 * k, 4.4 * k]));
       const bu = unit(ankle, toe), bn = nrm(bu), dn = bn[1] > 0 ? bn : [-bn[0], -bn[1]];
@@ -72,15 +77,29 @@
     const hl = along(along(P.pelvis, side, -tw), up, -2), hr = along(along(P.pelvis, side, tw), up, -2);
     push("tabard", `M${P2(along(top, side, -tw))}Q${P2(along(belly, side, -tw - 1.5))} ${P2(hl)}L${P2(hem)}L${P2(hr)}Q${P2(along(belly, side, tw + 1.5))} ${P2(along(top, side, tw))}Q${P2(along(top, up, 2))} ${P2(along(top, side, -tw))}Z`);
     push("hem", `M${P2(hl)}L${P2(hem)}L${P2(hr)}`);
-    for (const a of ["Blocker", "Glove"]) { metal([P["sh" + a], P["elbow" + a], P["hand" + a]], [8, 7, 6.5]); push("pauldron", ell(P["sh" + a], 5.3 * k, 4.4 * k, Math.atan2(side[1], side[0]))); }
+    for (const a of ["Blocker", "Glove"]) {
+      metal([P["sh" + a], P["elbow" + a], P["hand" + a]], [8, 7, 6.5]);
+      const ua = unit(P["sh" + a], P["elbow" + a]);
+      push("cop", ell(P["elbow" + a], 3.4 * k, 2.8 * k, Math.atan2(ua[1], ua[0])));
+      push("pauldron", ell(P["sh" + a], 5.3 * k, 4.4 * k, Math.atan2(side[1], side[0])));
+      // Shoulder floater: two segment lines across the cap
+      push("ridge", [-1.6, 1.4].map((t) => { const c0 = along(P["sh" + a], up, t); return `M${P2(along(c0, side, -4.2 * k))}Q${P2(along(c0, up, 1.6))} ${P2(along(c0, side, 4.2 * k))}`; }).join(""));
+    }
     for (const r of ["shaft", "paddle"]) roles(r).forEach((p) => push("wood", p.d));
     roles("blade").forEach((p) => push("tape", p.d));
+    if (A.pose.stick && !A.pose.stick.yoke) push("knob", ell(P.handBlocker, 2.2, 2.2, 0));
     const hg = P.handGlove, gu = unit(P.elbowGlove, hg), ga = Math.atan2(gu[1], gu[0]);
+    const gn = nrm(gu), ts = (gn[0] * (P.pelvis[0] - hg[0]) + gn[1] * (P.pelvis[1] - hg[1])) > 0 ? 1 : -1;
+    const g2 = (a, b) => along(along(hg, gu, a * k), gn, b * k * ts);
+    push("cuff", `M${P2(g2(-6.5, -4.4))}L${P2(g2(-2, -4.8))}L${P2(g2(-2, 4.8))}L${P2(g2(-6.5, 4.4))}Z`);
     push("catcher", ell(along(hg, gu, 1.5), 7.2 * k, 6.3 * k, ga));
+    push("thumb", ell(g2(1, 6.2), 3.4 * k, 2.4 * k, ga));
     push("pocket", ell(along(hg, gu, 2.4), 3.4 * k, 3 * k, ga));
+    push("lace", `M${P2(g2(6.6, -4))}Q${P2(g2(8, 0))} ${P2(g2(6.6, 4))}M${P2(g2(7.4, 0))}L${P2(g2(3, 0))}M${P2(g2(-1.5, -5))}Q${P2(g2(-3, 0))} ${P2(g2(-1.5, 5))}`);
     const hb = P.handBlocker, fu = unit(P.elbowBlocker, hb), fn = nrm(fu);
     const c = (a, b, s = 1) => along(along(hb, fu, a * k * s), fn, b * k * s);
     const kite = (s) => `M${P2(c(-6, -6.5, s))}Q${P2(c(-7.5, 0, s))} ${P2(c(-6, 6.5, s))}Q${P2(c(2, 7, s))} ${P2(c(9, 0, s))}Q${P2(c(2, -7, s))} ${P2(c(-6, -6.5, s))}Z`;
+    push("cuff", `M${P2(c(-10, -4))}L${P2(c(-5, -4.4))}L${P2(c(-5, 4.4))}L${P2(c(-10, 4))}Z`);
     push("shield", kite(1)); push("shieldRim", kite(0.78));
     push("cross", `M${P2(c(-4.5, 0))}L${P2(c(6, 0))}M${P2(c(-1, -4))}L${P2(c(-1, 4))}`);
     roles("streak").forEach((p) => push("streak", p.d));
@@ -90,7 +109,10 @@
     const hd = unit(P.neck, P.head), hc = along(P.head, hd, (hs - 1) * 4.5), hn = nrm(hd);
     const helm = { at: hc, dir: hd, s: hs, matrix: `matrix(${[hn[0] * hs, hn[1] * hs, -hd[0] * hs, -hd[1] * hs, hc[0], hc[1]].map((v) => v.toFixed(3)).join(" ")})`,
       shape: "M-5 4.6L-5.4 -1C-5.6 -7.4 5.6 -7.4 5.4 -1L5 4.6Q0 6.2 -5 4.6Z", shade: "M1.6 -6.2C4.2 -5.6 5.6 -3.6 5.4 -1L5 4.6Q3 5.4 1.4 5.5Z",
-      visor: "M-4.4 -1.2Q0 -2.2 4.4 -1.2L4.2 .6Q0 1.4 -4.2 .6Z", breaths: "M-2.6 2.2H-1.4M1.4 2.2H2.6M-2 3.3H-.8M.8 3.3H2", crown: along(hc, hd, 5.6 * hs) };
+      visor: "M-4.4 -1.2Q0 -2.2 4.4 -1.2L4.2 .6Q0 1.4 -4.2 .6Z",
+      // A goalie cage in the helm's face: an opening, three bars down and two across, and a throat dangler below
+      cageHole: "M-4.3 -2.6Q0 -3.6 4.3 -2.6L3.9 3.2Q0 4.6 -3.9 3.2Z", cage: "M-2 -3.1V4M0 -3.3V4.2M2 -3.1V4M-4.1 -.6Q0 -1.4 4.1 -.6M-3.9 1.7Q0 2.6 3.9 1.7",
+      dangler: "M-2 5L2 5L1.8 8.2Q0 9.2 -1.8 8.2Z", comb: "M0 -6.8V-2.8", breaths: "M-2.6 2.2H-1.4M1.4 2.2H2.6M-2 3.3H-.8M.8 3.3H2", crown: along(hc, hd, 5.6 * hs) };
     const crestK = Math.max(1, hs * 0.85), topY = Math.min(A.top, helm.crown[1] - 10.5 * crestK);
     // Fit into the frame: the ice at iceY, the crest no higher than minTop
     const fit = (iceY = 82.4, minTop = 12) => { const kk = Math.min(0.8, (iceY - minTop) / (G.GROUND - topY));
@@ -140,29 +162,67 @@
   function tapestry(poseKey, team, num, opts = {}) {
     const F = figure(poseKey, { hs: 1.2 }), tk = { ...GD.tokens(team), ...(opts.tk || {}) };
     const linen = "#EADFC4", thread = "#3A3550", id = `tp-${opts.id || poseKey + (team.code || "")}`;
-    const wool = (h) => mix(h, 0) === "#000000" ? "#2E2A3A" : h;   // a black dye reads as dark indigo wool
-    const ochre = "#C9962E", sage = "#7E8F5A";
-    const S = `stroke="${thread}" stroke-width="1" stroke-dasharray="1.6 .7" stroke-linejoin="round"`;
-    const laid = `url(#${id}-l)`;
-    const body = paint(F, {
-      net: `fill="#F2EBD8" ${S}`, shadow: "", metal: `fill="${ochre}" ${S}`, shade: `fill="${laid}"`, shine: "",
-      tabard: `fill="${wool(tk.tabard)}" ${S}`, hem: `fill="none" stroke="${tk.trim}" stroke-width="1.2" stroke-dasharray="1.6 .7"`, pauldron: `fill="${ochre}" ${S}`,
-      wood: `fill="#7B5434" ${S}`, tape: `fill="#F2EBD8" ${S}`, catcher: `fill="${ochre}" ${S}`, pocket: `fill="${laid}"`,
-      shield: `fill="${wool(tk.tabard)}" ${S}`, shieldRim: `fill="none" stroke="${tk.trim}" stroke-width="1" stroke-dasharray="1.6 .7"`, cross: `fill="none" stroke="${tk.cross}" stroke-width="1.4" stroke-dasharray="1.6 .7"`,
-      padline: `fill="none" stroke="${thread}" stroke-width=".6" stroke-dasharray="1.2 .8"`, sabaton: `fill="${sage}" ${S}`, runner: `fill="none" stroke="#F2EBD8" stroke-width="1.3"`,
-      streak: `fill="${ochre}" opacity=".9"`, puck: `fill="${thread}" stroke="#F2EBD8" stroke-width="1.6" paint-order="stroke"`, donut: `fill="#D98FA0" fill-rule="evenodd" ${S}`,
+    // Below 100 px a lighter cut: solid outlines, no fine stitching, no caption; the shapes and colours stay
+    const lite = opts.lite ?? (opts.size && opts.size < 100);
+    const wool = (h) => (h === "#000000" ? "#2E2A3A" : h);   // a black dye reads as dark indigo wool
+    // Two wools for the armour, as the tapestry does it: ochre, with a darker ochre on the shaded side
+    const sage = "#7E8F5A", rust = "#9E4A3A", tab = wool(tk.tabard), tabDk = mix(tab, -0.3);
+    // A gold sweater (Nashville, Vegas) would vanish into ochre armour, so those knights wear blue-grey steel wool
+    const steel = GD.wcag(tab, "#C9962E") < 1.6 && Math.abs(parseInt(tab.slice(1, 3), 16) - parseInt(tab.slice(5, 7), 16)) > 90;
+    const ochre = steel ? "#8E98AA" : "#C9962E", ochreDk = steel ? "#5E6679" : "#94681E";
+    const S = lite ? `stroke="${thread}" stroke-width="1.3" stroke-linejoin="round"` : `stroke="${thread}" stroke-width="1.1" stroke-dasharray="1.6 .7" stroke-linejoin="round"`;
+    const fine = (w = 0.55) => `fill="none" stroke="${thread}" stroke-width="${w}" stroke-dasharray="1.2 .7" stroke-linecap="round"`;
+    const couch = `fill="url(#${id}-c)"`;   // laid-and-couched work: parallel laid threads tied down by small cross stitches
+    let lastMetal = "";
+    const parts = F.parts.map((p) => {
+      const d = p.d, P = (a) => (lite && a === couch ? "" : `<path d="${d}" ${a}/>`);
+      if (p.role === "metal") lastMetal = d;
+      if (lite && ["ridge", "channel", "padline", "boot", "strap", "lace", "thumb", "cop", "shieldRim"].includes(p.role)) return "";
+      switch (p.role) {
+        case "net": return P(`fill="#F2EBD8" ${S}`);
+        case "metal": case "pauldron": return P(`fill="${ochre}"`) + P(couch) + (p.role === "metal" ? "" : P(`fill="none" ${S}`));
+        case "shade": return P(`fill="${ochreDk}"`);
+        case "tabard": return P(`fill="${tab}" ${S}`) + P(couch);
+        case "hem": return P(`fill="none" stroke="${tk.trim}" stroke-width="1.4" stroke-dasharray="1.6 .7"`);
+        case "ridge": return P(fine(0.6));
+        case "cop": return P(`fill="${ochre}" ${S}`) + P(`fill="${ochreDk}" opacity=".5"`);
+        case "channel": return P(fine(0.6));
+        case "padline": return P(`fill="none" stroke="${thread}" stroke-width=".7" stroke-dasharray="1.2 .7"`);
+        case "boot": return P(`fill="none" stroke="${thread}" stroke-width=".9"`);
+        case "strap": return P(`fill="none" stroke="${rust}" stroke-width="1.5"`) + P(fine(0.4));
+        case "sabaton": return P(`fill="${sage}" ${S}`);
+        case "runner": return P(`fill="none" stroke="#F2EBD8" stroke-width="1.3"`);
+        case "wood": return P(`fill="#7B5434" ${S}`);
+        case "tape": return P(`fill="#F2EBD8" ${S}`);
+        case "knob": return P(`fill="${thread}"`);
+        case "cuff": return P(`fill="${tabDk}" ${S}`);
+        case "catcher": return P(`fill="${ochre}" ${S}`) + P(couch);
+        case "thumb": return P(`fill="${ochreDk}" ${S}`);
+        case "pocket": return P(`fill="${ochreDk}" opacity=".7"`);
+        case "lace": return P(`fill="none" stroke="${thread}" stroke-width="1.5"`) + P(`fill="none" stroke="#F2EBD8" stroke-width=".7" stroke-dasharray=".8 .6"`);
+        case "shield": return P(`fill="${tab}" ${S}`) + P(couch);
+        case "shieldRim": return P(`fill="none" stroke="${tk.trim}" stroke-width="1.1" stroke-dasharray="1.6 .7"`);
+        case "cross": return P(`fill="none" stroke="${tk.cross}" stroke-width="1.5" stroke-dasharray="1.6 .5"`);
+        case "streak": return P(`fill="${ochre}" opacity=".9"`);
+        case "puck": return P(`fill="${thread}" stroke="#F2EBD8" stroke-width="1.6" paint-order="stroke"`);
+        case "donut": return P(`fill="#D98FA0" fill-rule="evenodd" ${S}`);
+        case "shine": return `<path d="${lastMetal}" fill="none" ${S}/>`;   // each limb's stitched edge, over its dark side
+        default: return "";   // shadow, cape: not part of the tapestry look
+      }
     });
-    const helm = helmSvg(F, `fill="${ochre}"`, `stroke="${thread}" stroke-width="${(1 / F.helm.s).toFixed(2)}" stroke-dasharray="1.4 .6"`,
-      `<path d="${F.helm.shade}" fill="${laid}"/><path d="${F.helm.visor}" fill="${thread}"/>`);
-    // Border bands: diagonal panels with little stitched motifs, top and bottom
+    const H = F.helm;
+    const helm = `<g transform="${H.matrix}"><path d="${H.dangler}" fill="${ochre}" stroke="${thread}" stroke-width=".8"/><path d="${H.shape}" fill="${ochre}"/>${lite ? "" : `<path d="${H.shape}" ${couch}/>`}<path d="${H.shade}" fill="${ochreDk}"/>
+      ${lite ? "" : `<path d="${H.comb}" stroke="${thread}" stroke-width=".6" stroke-dasharray="1 .6"/>`}<path d="${H.cageHole}" fill="${thread}"/>${lite ? "" : `<path d="${H.cage}" fill="none" stroke="#F2EBD8" stroke-width=".6"/>`}
+      <path d="${H.shape}" fill="none" stroke="${thread}" stroke-width="${(1.1 / H.s).toFixed(2)}" stroke-dasharray="1.4 .6"/></g>`;
+    // Border bands: diagonal panels with small stitched roundels, top and bottom
     const band = (y) => { let d = ""; for (let x = 0; x < 100; x += 12.5) d += `M${x} ${y}L${x + 12.5} ${y + 9}`; return `<rect x="0" y="${y}" width="100" height="9" fill="#E2D3B0"/><path d="${d}" stroke="${thread}" stroke-width=".7" stroke-dasharray="1.4 .6"/>`; };
-    const motifs = (y) => [6, 31, 56, 81].map((x, i) => `<circle cx="${x + 3}" cy="${y + 4.5}" r="1.7" fill="${[wool(tk.tabard), sage, ochre, "#9E4A3A"][i]}"/>`).join("");
-    return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}-l" width="2" height="2" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="2" height="2" fill="#000" opacity=".22"/><path d="M0 1H2" stroke="#fff" stroke-width=".5" opacity=".25"/></pattern>
+    const motifs = (y) => [6, 31, 56, 81].map((x, i) => `<circle cx="${x + 3}" cy="${y + 4.5}" r="1.7" fill="${[tab, sage, ochre, rust][i]}"/>`).join("");
+    return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}-c" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><path d="M0 .75H3M0 2.25H3" stroke="#000" stroke-width=".55" opacity=".16"/><path d="M1.5 0V3" stroke="#fff" stroke-width=".3" opacity=".22" stroke-dasharray=".7 2.3"/></pattern>
       <pattern id="${id}-w" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><path d="M0 .8H1.6M.8 0V1.6" stroke="#B9A983" stroke-width=".25" opacity=".55"/></pattern></defs>
       <rect width="100" height="100" fill="${linen}"/><rect width="100" height="100" fill="url(#${id}-w)"/>${band(0)}${motifs(0)}${band(91)}${motifs(91)}
-      <text x="50" y="17.5" text-anchor="middle" style="font: 600 5.6px Cinzel, Georgia, serif; letter-spacing: .4px; fill: ${thread}">${LATIN[poseKey] || ""}</text>
+      ${lite ? "" : `<text x="50" y="17.5" text-anchor="middle" style="font: 600 5.6px Cinzel, Georgia, serif; letter-spacing: .4px; fill: ${thread}">${LATIN[poseKey] || ""}</text>`}
       <path d="M8 84.5C24 82.5 40 86 56 84S86 83 92 84.5" fill="none" stroke="${sage}" stroke-width="1.4" stroke-dasharray="1.6 .7"/>
-      <g transform="${F.fit(84, 21)}">${body}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, tk, F.crestK)}
+      <g transform="${F.fit(84, lite ? 12 : 21)}">${parts.join("")}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, tk, F.crestK)}
       ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number === "#FFFFFF" ? "#F2EBD8" : thread}; paint-order: stroke; stroke: ${tk.number === "#FFFFFF" ? thread : "#F2EBD8"}; stroke-width: 1.2`)}</g>
       <rect x=".5" y=".5" width="99" height="99" fill="none" stroke="${thread}"/></svg>`;
   }
