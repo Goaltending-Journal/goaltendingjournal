@@ -19,6 +19,17 @@ TOI / (TOI + SHRINK_MIN) so a hot two-game start doesn't decide a type. The type
 with the highest score among those that reach MIN_Z (MIN_Z_BY_TYPE for minutes); otherwise "plain". The single goalie with the most
 goals saved above average (shrunk the same way) is "standout", if that score reaches STANDOUT_Z.
 
+Five one-goalie titles sit on top of the types, from goalies-data.js (any goalie who has played
+this season, whatever their minutes):
+
+  donut-king   most shutouts (ties go to the better save %)
+  grandpa      oldest
+  young-gun    youngest
+  style-king   most colourful gear, picked by hand in STYLE_KING (there is no data feed for gear)
+  standout     as above
+
+A goalie keeps every title they win in "titles"; their picture uses the first in TITLE_ORDER.
+
 The run is nightly, so types are refined as games are played. To stop goalies flipping between
 types on one game, a goalie keeps yesterday's type unless a new trait beats it by SWITCH_MARGIN.
 Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com).
@@ -39,6 +50,8 @@ MIN_Z = 0.75
 MIN_Z_BY_TYPE = {"workhorse": 1.5}
 STANDOUT_Z = 1.0
 SWITCH_MARGIN = 0.25
+STYLE_KING = None      # NHL player id of the goalie with the most colourful gear, set by hand
+TITLE_ORDER = ["donut-king", "grandpa", "young-gun", "style-king", "standout"]
 
 # key, name, the one trait the picture shows, the rule in words, the value, higher-is-better sign
 TYPES = [
@@ -52,6 +65,10 @@ TYPES = [
 EXTRAS = [
     ("plain", "Steady", "No single trait stands out yet", f"No trait at {MIN_Z} or more"),
     ("standout", "Standout", "Beating expectations", "Most goals saved above average, per 60"),
+    ("donut-king", "Donut King", "Zeros on the scoreboard", "Most shutouts this season"),
+    ("grandpa", "Grandpa", "The league's elder", "Oldest goalie to play this season"),
+    ("young-gun", "Young Gun", "The league's youngest", "Youngest goalie to play this season"),
+    ("style-king", "Style King", "The loudest gear in the league", "Picked by hand: most colourful gear"),
 ]
 
 
@@ -87,14 +104,15 @@ def zscores(rows, key, sign, shrink=True):
 
 def previous():
     try:
-        return {g["id"]: g["type"] for g in load_js(OUT.name)["goalies"]}
+        return {g["id"]: g.get("trait", g["type"]) for g in load_js(OUT.name)["goalies"]}
     except (FileNotFoundError, AttributeError, KeyError, ValueError):
         return {}
 
 
 def main():
     summary = json.loads((NST_DIR / "summary.json").read_text(encoding="utf-8"))
-    ids = {norm_name(g["name"]): g["id"] for g in load_js("goalies-data.js")["goalies"]}
+    nhl = load_js("goalies-data.js")["goalies"]
+    ids = {norm_name(g["name"]): g["id"] for g in nhl}
     rows = []
     with open(NST_DIR / summary["files"]["all"]["file"], newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
@@ -120,9 +138,37 @@ def main():
         if kept in scores and scores[best] - scores[kept] < SWITCH_MARGIN:
             best = kept
         r["type"] = best
+    titles = {}
     top = max(rows, key=lambda r: r["z"]["gsaa60"], default=None)
     if top and top["z"]["gsaa60"] >= STANDOUT_Z:
-        top["type"] = "standout"
+        titles["standout"] = top["id"]
+    y = summary["season"].split("-")
+    season = f"{y[0]}-{y[1][2:]}"                                     # goalies-data.js labels seasons 2026-27
+    played = [g for g in nhl if g["seasons"].get(season, {}).get("gp", 0) > 0]
+    shut = [g for g in played if g["seasons"][season].get("so", 0) > 0]
+    if shut:
+        titles["donut-king"] = max(shut, key=lambda g: (g["seasons"][season]["so"], g["seasons"][season].get("svp") or 0))["id"]
+    aged = [g for g in played if g.get("born")]
+    if aged:
+        titles["grandpa"] = min(aged, key=lambda g: g["born"])["id"]
+        titles["young-gun"] = max(aged, key=lambda g: g["born"])["id"]
+    if STYLE_KING:
+        titles["style-king"] = STYLE_KING
+    by_id = {r["id"]: r for r in rows}
+    for key in TITLE_ORDER:
+        gid = titles.get(key)
+        if gid is None:
+            continue
+        if gid not in by_id:                                          # a title holder under MIN_TOI still gets an entry
+            g = next(g for g in nhl if g["id"] == gid)
+            by_id[gid] = {"id": gid, "name": g["name"], "team": g["seasons"][season].get("team", g.get("team")),
+                          "gp": g["seasons"][season]["gp"], "z": {}, "type": None}
+            rows.append(by_id[gid])
+        by_id[gid].setdefault("titles", []).append(key)
+    for r in rows:
+        r["trait"] = r["type"]                                        # kept so tomorrow's run compares traits, not titles
+        if r.get("titles"):
+            r["type"] = r["titles"][0]
 
     counts = {k: sum(r["type"] == k for r in rows) for k, *_ in TYPES + EXTRAS}
     data = {
@@ -133,7 +179,9 @@ def main():
         "types": [{"key": k, "name": n, "trait": t, "rule": rule, "n": counts[k]} for k, n, t, rule, *_ in TYPES + EXTRAS],
         "league": league,
         "goalies": [{"id": r["id"], "name": r["name"], "team": r["team"], "gp": r["gp"], "type": r["type"],
-                     "z": r["z"]} for r in sorted(rows, key=lambda r: r["name"])],
+                     **({"trait": r["trait"]} if r["trait"] and r["trait"] != r["type"] else {}),
+                     **({"titles": r["titles"]} if r.get("titles") else {}), "z": r["z"]}
+                    for r in sorted(rows, key=lambda r: r["name"])],
     }
     OUT.write_text(
         "/* Each NHL goalie's playing type from Natural Stat Trick data, for the goalie illustrations.\n"
