@@ -4,10 +4,14 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "28 October 2026";
+const CLOTHESLINE_UPDATED = "29 October 2026";
 const CLOTHESLINE = [
+{"d": "2026-10-28", "t": "Dynamic Movement Analysis of Horse and Rider in Showjumping", "u": "https://doi.org/10.13140/rg.2.2.33633.88165", "s": "UWE Research Repository (UWE Bristol)", "tp": "ed", "m": false},
+{"d": "2026-10-28", "t": "Sanitizing the stain: a critical integrative review of sportswashing discourse", "u": "https://doi.org/10.1108/qmr-10-2025-0256", "s": "Qualitative Market Research An International Journal", "tp": "ed", "m": false},
+{"d": "2026-10-28", "t": "Study on The Improvement of Musicl Performance Skills Using the Changba Appllcation Teaching Tool", "u": "https://doi.org/10.14456/augsbejr.2026.55", "s": "AU-GSB e-JOURNAL", "tp": "sa", "m": false},
 {"d": "2026-10-27", "t": "Self-efficacy fluctuation and training engagement in adolescent athletes: online social feedback and the moderating role of comparison orientation", "u": "https://doi.org/10.3389/fpsyg.2026.1908710", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
 {"d": "2026-10-27", "t": "592– Cross-Scale Interactions in Sports Skills, David Farrokh", "u": "https://perceptionaction.com/592-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
+{"d": "2026-10-27", "t": "Perception over phenotype: opponent colour, not colour morph, shapes aggression in polymorphic lizards", "u": "https://doi.org/10.21203/rs.3.rs-11078110/v1", "s": "Research Square", "tp": "ed", "m": false},
 {"d": "2026-10-26", "t": "Coachingdynamiek in prestatiegerichte teamsport: Een seizoensbreed perspectief op coachleiderschap in het Belgische nationale herenvolleybal", "u": "https://lirias.kuleuven.be/handle/20.500.12942/795732", "s": "Lirias (KU Leuven)", "tp": "ed", "m": false},
 {"d": "2026-10-26", "t": "Understanding Climate Change Perception and Cognitive Biases in Shaping Seasonal Migration Adaptation among Nomadic Pastoralists of Kathua District", "u": "https://doi.org/10.21203/rs.3.rs-10737508/v1", "s": "Research Square", "tp": "ed", "m": false},
 {"d": "2026-10-26", "t": "Children's rights and the 2026 FIFA Men's World Cup: navigating legal divergence and sporting convergence", "u": "https://doi.org/10.4324/9781003536413-4", "s": "Routledge eBooks", "tp": "ed", "m": false},
@@ -38,10 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-16", "t": "A resonant Doughnut for sustainable youth elite sport: Compass to navigate between growth and well-being logic in the 21st century", "u": "https://doi.org/10.1177/10126902261494684", "s": "International Review for the Sociology of Sport", "tp": "ed", "m": false},
 {"d": "2026-10-15", "t": "Forest bathing as a pathway toward ecological identity: a community case study", "u": "https://doi.org/10.3389/fcosc.2026.1981874", "s": "Frontiers in Conservation Science", "tp": "ed", "m": false},
 {"d": "2026-10-15", "t": "Assessing consequences of anthropogenic hybridization: Great Lakes mallard movement and resource selection", "u": "https://doi.org/10.1186/s40462-026-00657-7", "s": "Movement Ecology", "tp": "ed", "m": false},
-{"d": "2026-10-15", "t": "Reconceptualizing sports tourism destination competitiveness through the knowledge-based view: evidence from Iran", "u": "https://doi.org/10.1080/14775085.2026.2734980", "s": "Journal of Sport & Tourism", "tp": "sa", "m": false},
-{"d": "2026-10-13", "t": "Biomechanics-driven deep reinforcement learning improves Wushu skill acquisition in physical-education students over an eight-week controlled intervention", "u": "https://doi.org/10.1038/s41598-026-74454-y", "s": "Scientific Reports", "tp": "sa", "m": false},
-{"d": "2026-10-12", "t": "Can Virtual Reality Exercises Support Skill Development While Causing Game Addiction? A Randomized Controlled Pilot Study", "u": "https://doi.org/10.54141/psbd.1864108", "s": "Pamukkale Journal of Sport Sciences", "tp": "sa", "m": false},
-{"d": "2026-10-10", "t": "“Thinking Inside the Box”: Ice Hockey Goaltender Glove Position Analysis", "u": "https://doi.org/10.1177/17479541261492184", "s": "International Journal of Sports Science & Coaching", "tp": "dev", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
