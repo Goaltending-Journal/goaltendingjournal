@@ -5,39 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Glove Positioning Analysis · Briefs · The Goaltending Research Journal</title>
 <meta name="description" content="Research to Practice Brief 1: glove positioning analysis, and why goalies give up more net late in a drill, with an interactive box-control explainer. From Kwan, Daley &amp; MacLean (2026).">
-<meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11121d" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
 /* Layout: Research to Practice Brief 1. Site top bar, then the brief in one reading column, with the interactive rink (diagram left, readout right) full width after the findings. Colours match goalies.html. */
 :root{
   color-scheme: light;
-  --ice: #f8f6ef;          /* page ground (index --bg) */
-  --boards: #efece2;       /* panels (index --surface) */
-  --glass: #e2ece4;        /* raised rows, inputs (index --accent-soft) */
-  --line: #dcd6c6;         /* hairlines (index --rule) */
-  --chalk: #142019;        /* primary text (index --fg) */
-  --fog: #56625a;          /* secondary text (index --muted) */
-  --mute: #69746c;         /* tertiary */
-  --crease: #0b5d47;       /* accent (index --accent) */
-  --crease-dim: rgba(11,93,71,.14);
-  --series-b: #cdb985;     /* second chart series (index --series-b) */
-  --mast-a: #f6f3e8; --mast-b: #d8e9dd;   /* index masthead gradient */
+  --ice: #f6f6fb;          /* page ground (index --bg) */
+  --boards: #eeeff7;       /* panels (index --surface) */
+  --glass: #e4e7f8;        /* raised rows, inputs (index --accent-soft) */
+  --line: #dcddea;         /* hairlines (index --rule) */
+  --chalk: #1b1d2e;        /* primary text (index --fg) */
+  --fog: #5b5e75;          /* secondary text (index --muted) */
+  --mute: #6a6d84;         /* tertiary */
+  --crease: #4450b0;       /* accent (index --accent) */
+  --crease-dim: rgba(68,80,176,.14);
+  --series-b: #a9adb8;     /* second chart series (index --series-b) */
+  --mast-a: #f4f4fb; --mast-b: #dce0f6;   /* index masthead gradient */
   --on-accent: #ffffff;
   --shadow: rgba(18,32,46,.16);
   --good: #17865a;
   --bad: #c8364a;
   --warn: #a8690c;
-  --f-display: "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-display: "Cinzel", "Trajan Pro", Georgia, serif;
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --r: 10px;
@@ -47,19 +47,19 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
-    --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
-    --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
-    --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
+    --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
+    --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
+    --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
+    --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --ice: #07120e; --boards: #0d1c16; --glass: #13271f; --line: #1f362c;
-  --chalk: #efe9da; --fog: #aab3a5; --mute: #7f8a80;
-  --crease: #4cc79b; --crease-dim: rgba(76,199,155,.14); --series-b: #8a7442;
-  --mast-a: #0b1f18; --mast-b: #0a2c20; --on-accent: #07120e; --shadow: rgba(0,0,0,.5);
+  --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
+  --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
+  --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
+  --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
 }
 *{box-sizing:border-box}
