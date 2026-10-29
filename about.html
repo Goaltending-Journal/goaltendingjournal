@@ -5,62 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>About · The Goaltending Research Journal</title>
 <meta name="description" content="Why the Goaltending Research Journal exists: an open, living evidence map of ice hockey goaltending research for coaches and researchers.">
-<meta name="theme-color" content="#f8f6ef" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#07120e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11121d" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Big+Shoulders+Display:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Jost:wght@600&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
 /* Layout: same top bar, masthead and running-head sections as index.html. Colours and type are copied from its style block. */
 :root {
-  --bg: #f8f6ef;
-  --surface: #efece2;
-  --fg: #142019;
-  --muted: #56625a;
-  --rule: #dcd6c6;
-  --accent: #0b5d47;
-  --accent-soft: #e2ece4;
-  --series-b: #cdb985;
-  --field-line: #d3ccb8;
+  --bg: #f6f6fb;
+  --surface: #eeeff7;
+  --fg: #1b1d2e;
+  --muted: #5b5e75;
+  --rule: #dcddea;
+  --accent: #4450b0;
+  --accent-soft: #e4e7f8;
+  --series-b: #a9adb8;
+  --field-line: #d2d4e2;
   /* Masthead glow: edit these to change the ice-blue effect */
-  --mast-a: #f6f3e8;
-  --mast-b: #d8e9dd;
-  --h1-hover: #9a6b12;
-  --glow-text: 0 0 14px rgba(214, 172, 84, 0.55), 0 0 38px rgba(236, 206, 128, 0.45);
-  --glow-text-hover: 0 0 8px rgba(214, 172, 84, 0.85), 0 0 26px rgba(168, 120, 34, 0.65), 0 0 60px rgba(236, 206, 128, 0.55);
-  --glow-spot: rgba(214, 172, 84, 0.42);
-  --glow-edge: rgba(214, 172, 84, 0.35);
-  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --mast-a: #f4f4fb;
+  --mast-b: #dce0f6;
+  --h1-hover: #5563c4;
+  --glow-text: 0 0 14px rgba(85, 99, 196, 0.55), 0 0 38px rgba(174, 182, 245, 0.45);
+  --glow-text-hover: 0 0 8px rgba(85, 99, 196, 0.85), 0 0 26px rgba(68, 80, 176, 0.65), 0 0 60px rgba(174, 182, 245, 0.55);
+  --glow-spot: rgba(85, 99, 196, 0.42);
+  --glow-edge: rgba(85, 99, 196, 0.35);
+  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Big Shoulders Display", "Barlow Condensed", "Arial Narrow", sans-serif;   /* titles and section heads, the same face on every page */
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
   --r: 3px;
   --nav-h: 56px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #07120e; --surface: #0d1c16; --fg: #efe9da; --muted: #aab3a5;
-    --rule: #1f362c; --accent: #4cc79b; --accent-soft: #123327; --series-b: #8a7442; --field-line: #2c4639;
-    --mast-a: #0b1f18; --mast-b: #0a2c20; --h1-hover: #e6c46b;
-    --glow-text: 0 0 12px rgba(236, 206, 128, 0.55), 0 0 34px rgba(214, 172, 84, 0.5);
-    --glow-text-hover: 0 0 8px rgba(236, 206, 128, 0.95), 0 0 28px rgba(214, 172, 84, 0.8), 0 0 64px rgba(214, 172, 84, 0.6);
-    --glow-spot: rgba(214, 172, 84, 0.28); --glow-edge: rgba(236, 206, 128, 0.4);
+    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
+    --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852;
+    --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
+    --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+    --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+    --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #07120e; --surface: #0d1c16; --fg: #efe9da; --muted: #aab3a5;
-  --rule: #1f362c; --accent: #4cc79b; --accent-soft: #123327; --series-b: #8a7442; --field-line: #2c4639;
-  --mast-a: #0b1f18; --mast-b: #0a2c20; --h1-hover: #e6c46b;
-  --glow-text: 0 0 12px rgba(236, 206, 128, 0.55), 0 0 34px rgba(214, 172, 84, 0.5);
-  --glow-text-hover: 0 0 8px rgba(236, 206, 128, 0.95), 0 0 28px rgba(214, 172, 84, 0.8), 0 0 64px rgba(214, 172, 84, 0.6);
-  --glow-spot: rgba(214, 172, 84, 0.28); --glow-edge: rgba(236, 206, 128, 0.4);
+  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
+  --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852;
+  --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
+  --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+  --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+  --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
   color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
@@ -86,13 +86,11 @@ button, input, select { font-family: var(--sans); }
 }
 .masthead > * { position: relative; z-index: 2; max-width: 760px; }
 .masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
-.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(42px, 6.6vw, 68px); line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase; text-shadow: var(--glow-text); cursor: default; }
+.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 4.6vw, 50px); line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase; text-shadow: var(--glow-text); cursor: default; }
 .masthead h1 .wd { display: inline-block; white-space: nowrap; }
 .masthead h1 .ch { display: inline-block; color: inherit; text-shadow: var(--glow-text); transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
 .masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
 .masthead > .logo { position: absolute; z-index: 1; top: 50%; right: 56px; width: 168px; height: 168px; max-width: none; transform: translateY(-58%); object-fit: contain; pointer-events: none; user-select: none; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .masthead > .logo { box-sizing: border-box; padding: 12px; background: #f3ecd9; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(236, 206, 128, 0.45); } }
-:root[data-theme="dark"] .masthead > .logo { box-sizing: border-box; padding: 12px; background: #f3ecd9; border-radius: 22px; box-shadow: 0 0 28px -6px rgba(236, 206, 128, 0.45); }
 .masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
 .masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
 .facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
