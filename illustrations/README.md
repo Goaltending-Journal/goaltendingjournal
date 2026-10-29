@@ -18,6 +18,7 @@ The brief, the type list and the budgets live in the Goalie Type Illustrations b
 | `team-colours.json` | Team colours, saved with the source each was read from |
 | `preview/styles.html` | Step 3 mockups: four styles on the same four goalies (built from `styles.tpl.html`) |
 | `gilded.js` | Step 4: the chosen style, Knights: Gilded, with its colour rules and the 32 team crests |
+| `medieval.js` | Step 4 round 2: the knight redrawn as smooth character shapes, in four medieval art styles (`preview/medieval.html`) |
 | `STYLE.md` | The model sheet: conceit, tone, proportions, tokens, crests and don'ts |
 | `check-colours.cjs` | Step 4 colour checks: number contrast (WCAG and APCA) and colour-blind simulations for all 32 teams |
 | `audit/colours.json` | The latest colour check result |
@@ -87,3 +88,4 @@ Round 2 added Skeletons, Knights and High Fantasy, and gave Illuminated Plate a 
 stand off its navy field.
 Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each (Light Box, Bold Bones; Tournament, Gilded).
 Goldy picked Knights: Gilded (F3). Step 4 draws the full set in it: see `STYLE.md`.
+Round 2 of Step 4: Goldy asked for knights that read as characters, in a medieval art style, keeping the crests: Illuminated Miniature, Tapestry, Woodcut and Marginalia (`medieval.js`).

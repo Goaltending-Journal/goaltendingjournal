@@ -131,11 +131,11 @@
     WPG: { charge: "Arrowhead", f: "M0 -10.5L5 -0.6 0 -3.4 -5 -0.6Z" },
   };
 
-  function crest(code, at, hd, tk) {
+  function crest(code, at, hd, tk, k = 1) {
     const c = CRESTS[code];
     if (!c) return `<path d="M${P2(along(at, hd, 0.5))}L${P2(along(at, hd, 7))}" stroke="${tk.trim}" stroke-width="2.6" stroke-linecap="round"/>`;
     const hn = [-hd[1], hd[0]];
-    const m = `matrix(${[hn[0], hn[1], -hd[0], -hd[1], at[0], at[1]].map((v) => v.toFixed(3)).join(" ")})`;
+    const m = `matrix(${[hn[0] * k, hn[1] * k, -hd[0] * k, -hd[1] * k, at[0], at[1]].map((v) => v.toFixed(3)).join(" ")})`;
     const ds = c.m ? [c.f, mirror(c.f)] : [c.f || c.s];
     const body = c.s
       ? `<path d="${c.s}" fill="none" stroke="${T.ink}" stroke-width="2.6" stroke-linecap="round"/><path d="${c.s}" fill="none" stroke="${tk.trim}" stroke-width="1.4" stroke-linecap="round"/>`
@@ -191,5 +191,5 @@
   }
 
   return { NAME: "Knights: Gilded", CONCEIT: "Gold armour on a deep team-colour field scattered with stars, like a herald's roll.",
-    T, CRESTS, CVD, tokens, draw, mix, lum, wcag, wcagAll, simulate };
+    T, CRESTS, CVD, tokens, draw, crest, mix, lum, wcag, wcagAll, simulate };
 });
