@@ -1,0 +1,366 @@
+{
+ "size": 32,
+ "blur": 1,
+ "limit": 0.85,
+ "worst": [
+  {
+   "a": "steady",
+   "b": "grandpa",
+   "overlap": 0.613
+  },
+  {
+   "a": "steady",
+   "b": "standout",
+   "overlap": 0.599
+  },
+  {
+   "a": "workhorse",
+   "b": "standout",
+   "overlap": 0.578
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.563
+  },
+  {
+   "a": "steady",
+   "b": "wall",
+   "overlap": 0.56
+  }
+ ],
+ "fails": [],
+ "boneErrors": [],
+ "pairs": [
+  {
+   "a": "steady",
+   "b": "grandpa",
+   "overlap": 0.613
+  },
+  {
+   "a": "steady",
+   "b": "standout",
+   "overlap": 0.599
+  },
+  {
+   "a": "workhorse",
+   "b": "standout",
+   "overlap": 0.578
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.563
+  },
+  {
+   "a": "steady",
+   "b": "wall",
+   "overlap": 0.56
+  },
+  {
+   "a": "wall",
+   "b": "donut-king",
+   "overlap": 0.556
+  },
+  {
+   "a": "steady",
+   "b": "workhorse",
+   "overlap": 0.546
+  },
+  {
+   "a": "siege",
+   "b": "young-gun",
+   "overlap": 0.545
+  },
+  {
+   "a": "siege",
+   "b": "standout",
+   "overlap": 0.539
+  },
+  {
+   "a": "standout",
+   "b": "donut-king",
+   "overlap": 0.539
+  },
+  {
+   "a": "wall",
+   "b": "standout",
+   "overlap": 0.528
+  },
+  {
+   "a": "standout",
+   "b": "style-king",
+   "overlap": 0.524
+  },
+  {
+   "a": "workhorse",
+   "b": "siege",
+   "overlap": 0.523
+  },
+  {
+   "a": "steady",
+   "b": "donut-king",
+   "overlap": 0.518
+  },
+  {
+   "a": "hd-stopper",
+   "b": "grandpa",
+   "overlap": 0.515
+  },
+  {
+   "a": "wall",
+   "b": "style-king",
+   "overlap": 0.507
+  },
+  {
+   "a": "steady",
+   "b": "hd-stopper",
+   "overlap": 0.487
+  },
+  {
+   "a": "workhorse",
+   "b": "donut-king",
+   "overlap": 0.472
+  },
+  {
+   "a": "donut-king",
+   "b": "style-king",
+   "overlap": 0.466
+  },
+  {
+   "a": "siege",
+   "b": "donut-king",
+   "overlap": 0.462
+  },
+  {
+   "a": "standout",
+   "b": "grandpa",
+   "overlap": 0.451
+  },
+  {
+   "a": "siege",
+   "b": "style-king",
+   "overlap": 0.448
+  },
+  {
+   "a": "steady",
+   "b": "crease",
+   "overlap": 0.443
+  },
+  {
+   "a": "workhorse",
+   "b": "wall",
+   "overlap": 0.443
+  },
+  {
+   "a": "workhorse",
+   "b": "grandpa",
+   "overlap": 0.437
+  },
+  {
+   "a": "wall",
+   "b": "siege",
+   "overlap": 0.437
+  },
+  {
+   "a": "wall",
+   "b": "grandpa",
+   "overlap": 0.432
+  },
+  {
+   "a": "grandpa",
+   "b": "style-king",
+   "overlap": 0.424
+  },
+  {
+   "a": "workhorse",
+   "b": "hd-stopper",
+   "overlap": 0.409
+  },
+  {
+   "a": "hd-stopper",
+   "b": "standout",
+   "overlap": 0.409
+  },
+  {
+   "a": "hd-stopper",
+   "b": "wall",
+   "overlap": 0.394
+  },
+  {
+   "a": "steady",
+   "b": "siege",
+   "overlap": 0.387
+  },
+  {
+   "a": "workhorse",
+   "b": "young-gun",
+   "overlap": 0.384
+  },
+  {
+   "a": "donut-king",
+   "b": "grandpa",
+   "overlap": 0.37
+  },
+  {
+   "a": "young-gun",
+   "b": "style-king",
+   "overlap": 0.367
+  },
+  {
+   "a": "crease",
+   "b": "style-king",
+   "overlap": 0.357
+  },
+  {
+   "a": "hd-stopper",
+   "b": "rebound",
+   "overlap": 0.356
+  },
+  {
+   "a": "crease",
+   "b": "grandpa",
+   "overlap": 0.352
+  },
+  {
+   "a": "standout",
+   "b": "young-gun",
+   "overlap": 0.35
+  },
+  {
+   "a": "hd-stopper",
+   "b": "donut-king",
+   "overlap": 0.345
+  },
+  {
+   "a": "steady",
+   "b": "rebound",
+   "overlap": 0.338
+  },
+  {
+   "a": "siege",
+   "b": "grandpa",
+   "overlap": 0.338
+  },
+  {
+   "a": "crease",
+   "b": "donut-king",
+   "overlap": 0.338
+  },
+  {
+   "a": "wall",
+   "b": "young-gun",
+   "overlap": 0.337
+  },
+  {
+   "a": "hd-stopper",
+   "b": "style-king",
+   "overlap": 0.333
+  },
+  {
+   "a": "steady",
+   "b": "young-gun",
+   "overlap": 0.322
+  },
+  {
+   "a": "donut-king",
+   "b": "young-gun",
+   "overlap": 0.317
+  },
+  {
+   "a": "grandpa",
+   "b": "young-gun",
+   "overlap": 0.316
+  },
+  {
+   "a": "workhorse",
+   "b": "style-king",
+   "overlap": 0.313
+  },
+  {
+   "a": "wall",
+   "b": "crease",
+   "overlap": 0.31
+  },
+  {
+   "a": "hd-stopper",
+   "b": "siege",
+   "overlap": 0.309
+  },
+  {
+   "a": "rebound",
+   "b": "crease",
+   "overlap": 0.303
+  },
+  {
+   "a": "rebound",
+   "b": "grandpa",
+   "overlap": 0.301
+  },
+  {
+   "a": "crease",
+   "b": "young-gun",
+   "overlap": 0.292
+  },
+  {
+   "a": "workhorse",
+   "b": "crease",
+   "overlap": 0.286
+  },
+  {
+   "a": "crease",
+   "b": "standout",
+   "overlap": 0.278
+  },
+  {
+   "a": "siege",
+   "b": "crease",
+   "overlap": 0.269
+  },
+  {
+   "a": "rebound",
+   "b": "standout",
+   "overlap": 0.254
+  },
+  {
+   "a": "wall",
+   "b": "rebound",
+   "overlap": 0.241
+  },
+  {
+   "a": "rebound",
+   "b": "donut-king",
+   "overlap": 0.239
+  },
+  {
+   "a": "workhorse",
+   "b": "rebound",
+   "overlap": 0.234
+  },
+  {
+   "a": "rebound",
+   "b": "style-king",
+   "overlap": 0.227
+  },
+  {
+   "a": "hd-stopper",
+   "b": "crease",
+   "overlap": 0.223
+  },
+  {
+   "a": "hd-stopper",
+   "b": "young-gun",
+   "overlap": 0.211
+  },
+  {
+   "a": "rebound",
+   "b": "siege",
+   "overlap": 0.211
+  },
+  {
+   "a": "rebound",
+   "b": "young-gun",
+   "overlap": 0.202
+  }
+ ]
+}
