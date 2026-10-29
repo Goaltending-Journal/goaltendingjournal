@@ -113,11 +113,12 @@
       // A goalie cage in the helm's face: an opening, three bars down and two across, and a throat dangler below
       cageHole: "M-4.3 -2.6Q0 -3.6 4.3 -2.6L3.9 3.2Q0 4.6 -3.9 3.2Z", cage: "M-2 -3.1V4M0 -3.3V4.2M2 -3.1V4M-4.1 -.6Q0 -1.4 4.1 -.6M-3.9 1.7Q0 2.6 3.9 1.7",
       dangler: "M-2 5L2 5L1.8 8.2Q0 9.2 -1.8 8.2Z", comb: "M0 -6.8V-2.8", breaths: "M-2.6 2.2H-1.4M1.4 2.2H2.6M-2 3.3H-.8M.8 3.3H2", crown: along(hc, hd, 5.6 * hs) };
-    const crestK = Math.max(1, hs * 0.85), topY = Math.min(A.top, helm.crown[1] - 10.5 * crestK);
+    // o.topY: a loop passes the highest point of all its keys, so the scale holds steady from frame to frame
+    const crestK = Math.max(1, hs * 0.85), topY = o.topY ?? Math.min(A.top, helm.crown[1] - 10.5 * crestK);
     // Fit into the frame: the ice at iceY, the crest no higher than minTop
     const fit = (iceY = 82.4, minTop = 12) => { const kk = Math.min(0.8, (iceY - minTop) / (G.GROUND - topY));
       return `translate(${(50 - 50 * kk).toFixed(2)} ${(iceY - G.GROUND * kk).toFixed(2)}) scale(${kk.toFixed(3)})`; };
-    return { A, P, parts: out, helm, crestK, up, numAt: along(P.pelvis, up, 13), numRot: A.torsoAngle + 90, fit };
+    return { A, P, parts: out, helm, crestK, up, numAt: along(P.pelvis, up, 13), numRot: A.torsoAngle + 90, fit, topY };
   }
 
   // Draw the parts with a paint table: role -> attributes string (or "" to skip)
@@ -175,7 +176,7 @@
   }
 
   function tapestry(poseKey, team, num, opts = {}) {
-    const F = figure(poseKey, { hs: 1.2 }), tk = { ...tapTokens(team), ...(opts.tk || {}) };
+    const F = figure(poseKey, { hs: 1.2, topY: opts.topY }), tk = { ...tapTokens(team), ...(opts.tk || {}) };
     const linen = TAP.linen, thread = TAP.thread, id = `tp-${opts.id || poseKey + (team.code || "")}`;
     // Below 100 px a lighter cut: solid outlines, no fine stitching, no caption; the shapes and colours stay
     const lite = opts.lite ?? (opts.size && opts.size < 100);
@@ -231,7 +232,7 @@
     return `${G.svgOpen(F.A.pose, opts)}<defs><pattern id="${id}-c" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><path d="M0 .75H3M0 2.25H3" stroke="#000" stroke-width=".55" opacity=".16"/><path d="M1.5 0V3" stroke="#fff" stroke-width=".3" opacity=".22" stroke-dasharray=".7 2.3"/></pattern>
       <pattern id="${id}-w" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><path d="M0 .8H1.6M.8 0V1.6" stroke="#B9A983" stroke-width=".25" opacity=".55"/></pattern></defs>
       <rect width="100" height="100" fill="${linen}"/><rect width="100" height="100" fill="url(#${id}-w)"/>${band(0)}${motifs(0)}${band(91)}${motifs(91)}
-      ${lite ? "" : `<text x="50" y="17.5" text-anchor="middle" style="font: 600 5.6px Cinzel, Georgia, serif; letter-spacing: .4px; fill: ${thread}">${LATIN[poseKey] || ""}</text>`}
+      ${lite ? "" : `<text x="50" y="17.5" text-anchor="middle" style="font: 600 5.6px Cinzel, Georgia, serif; letter-spacing: .4px; fill: ${thread}">${LATIN[poseKey.split(/[#@]/)[0]] || ""}</text>`}
       <path d="M8 84.5C24 82.5 40 86 56 84S86 83 92 84.5" fill="none" stroke="${sage}" stroke-width="1.4" stroke-dasharray="1.6 .7"/>
       <g transform="${F.fit(84, lite ? 12 : 21)}">${parts.join("")}${helm}${GD.crest(team.code, F.helm.crown, F.helm.dir, { trim: tk.crest }, F.crestK)}
       ${numberSvg(F, num, `font: 600 8px Cinzel, Georgia, serif; fill: ${tk.number}; paint-order: stroke; stroke: ${tk.numberEdge}; stroke-width: 1.2`)}</g>

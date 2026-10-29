@@ -19,6 +19,7 @@ The brief, the type list and the budgets live in the Goalie Type Illustrations b
 | `preview/styles.html` | Step 3 mockups: four styles on the same four goalies (built from `styles.tpl.html`) |
 | `gilded.js` | Step 4: the chosen style, Knights: Gilded, with its colour rules and the 32 team crests |
 | `medieval.js` | Step 4 round 2: the knight redrawn as smooth character shapes, in four medieval art styles (`preview/medieval.html`) |
+| `motion.js` | Step 5: three key poses per type and eased in-betweens for the detail-card loop (`preview/keys.html`) |
 | `STYLE.md` | The model sheet: conceit, tone, proportions, tokens, crests and don'ts |
 | `check-colours.cjs` | Step 4 colour checks: number contrast (WCAG and APCA) and colour-blind simulations for all 32 teams |
 | `audit/colours.json` | The latest colour check result |
@@ -90,3 +91,4 @@ Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each
 Goldy picked Knights: Gilded (F3). Step 4 draws the full set in it: see `STYLE.md`.
 Round 2 of Step 4: Goldy asked for knights that read as characters, in a medieval art style, keeping the crests: Illuminated Miniature, Tapestry, Woodcut and Marginalia (`medieval.js`).
 Round 3 of Step 4: Goldy picked Tapestry (H2) and asked for more definition and realism on the gear: a cage helm with a dangler, pad channels and straps, a laced catcher, a blocker cuff, floaters, elbow cops and a taped stick, in laid-and-couched wool (`preview/tapestry.html`). Below 100 px it draws a lighter cut. STYLE.md still describes Gilded and gets rewritten for Tapestry once it is locked.
+Tapestry locked (Goldy, 2026-10-29). Step 5 plans each type's 3 to 4 second loop as key poses A (the still), B and C, played as 12 fps stop-motion; frames are drawn once in idle time, then swapped (2.1 ms a frame on average with the CPU slowed 6x).

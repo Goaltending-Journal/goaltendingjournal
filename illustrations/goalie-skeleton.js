@@ -140,7 +140,8 @@
     const P = build([50, 50 + GROUND - 2 - lift - low]);   // 2 units for the pad and skate thickness
     // Centre the figure on x = 50
     const xs = Object.values(P).map((p) => p[0]);
-    const dx = 50 - (Math.min(...xs) + Math.max(...xs)) / 2;
+    // Motion keys pin the pelvis where the still has it (pelvisX), so the body doesn't drift as the arms move; dx is sideways travel
+    const dx = (pose.pelvisX !== undefined ? pose.pelvisX - P.pelvis[0] : 50 - (Math.min(...xs) + Math.max(...xs)) / 2) + (pose.dx || 0);
     for (const k in P) P[k] = [P[k][0] + dx, P[k][1]];
     return P;
   }
