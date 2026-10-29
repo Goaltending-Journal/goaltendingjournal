@@ -1,63 +1,88 @@
-# Model sheet: Knights: Gilded
+# Model sheet: Tapestry
 
-The chosen style for the goalie-type illustrations (Goldy, 2026-10-29). The code is `gilded.js`; the checks are
-`check-colours.cjs` (results in `audit/colours.json`); the check sheet is `preview/gilded-set.html`.
+The chosen style for the goalie-type illustrations (Goldy, 2026-10-29), after Gilded Knights (Step 4 round 1) and
+four medieval art options (round 2). The code is `tapestry()` in `medieval.js`; the colour rules are `tapTokens()`
+there; the checks are `check-colours.cjs` (results in `audit/colours.json`, key `tapestry`); the sheet is
+`preview/tapestry.html`.
 
 ## Conceit and tone
 
-**Conceit:** each goalie is a knight of the crease on a page from a herald's roll: gold armour on a deep
-team-colour field scattered with stars.
+**Conceit:** each goalie is stitched into the Bayeux Tapestry: a knight of the crease in wool on linen, with a
+Latin caption over the scene.
 
-**Tone:** proud and a little playful, like a team banner. It honours the type without mocking the player.
+**Tone:** proud and a little playful, like a team banner. It honours the type without mocking the player
+(Rex Nihili, "king of nothing", is a compliment to a shutout leader).
+
+## Captions
+
+| Type | Caption | Meaning |
+|---|---|---|
+| Steady | CVSTOS STABILIS | Steady keeper |
+| Workhorse | HIC LABORAT | Here he labours |
+| High-Danger Stopper | PERICVLVM VINCIT | He conquers danger |
+| The Wall | MVRVS | The wall |
+| Rebound Controller | HIC PVCK TENET | Here he holds the puck |
+| Under Siege | OBSESSVS | Besieged |
+| Crease Battler | IN TVRBA PVGNAT | He fights in the crowd |
+| Standout | EGREGIVS | The outstanding one |
+| Donut King | REX NIHILI | King of nothing |
+| Grandpa | SENEX | The old man |
+| Young Gun | IVVENIS | The youth |
+| Style King | REX ELEGANTIAE | King of style |
 
 ## Proportions
 
-Frame 100 × 100 units, ice at y = 92 before the figure is fitted into the card (ice at 82.4 after). A pose is joint
-angles on these bones (see `goalie-skeleton.js`), never free points.
+Frame 100 × 100 units. The skeleton, bone lengths and poses are unchanged (`goalie-skeleton.js`): a pose is joint
+angles, never free points. `figure()` in `medieval.js` draws over those joints with smooth, tapered parts.
 
 | Part | Units |
 |---|---|
-| Head (great helm) | 11; a standing goalie is 7 heads tall |
-| Torso, pelvis to neck | 24; shoulders 15 apart, hips 10 apart |
-| Arm | upper 13, forearm 12 |
-| Leg | thigh 19, shin 20, skate 8 |
-| Stick | up to 40 |
-| Crest | up to 11 above the helm |
-| Kite shield | 13 wide, 14 long, square to the blocker forearm |
+| Helm | 1.2 × the skeleton head (13 wide), on the neck; cage in the face, dangler below |
+| Torso | breastplate 16 at the hips to 21 at the shoulders; tabard 14 wide with a pointed hem |
+| Arm | 8 at the shoulder, 7 at the elbow, 6.5 at the wrist; floaters 10.6 × 8.8, elbow cops 6.8 × 5.6 |
+| Leg pad | 12.5 at the knee stack, 13.5 mid-pad, 11 at the boot |
+| Catcher | 14.4 × 12.6 with a 6.8 × 4.8 thumb; cuff 9 wide |
+| Kite shield | 13 wide, 15 long, square to the forearm |
+| Crest | up to 12 above the helm |
+| Caption | Cinzel 600 at 5.6, centred at y = 17.5; the figure stays below y = 21 |
 
-**Turnaround:** front view only, by design. Every surface shows the goalie facing the reader, so the canon
-fixes one view and no side or back view is drawn.
+**Turnaround:** front view only, by design. Every surface shows the goalie facing the reader.
 
 ## Tokens
 
 | Token | Value | Rule |
 |---|---|---|
-| Armour | `#FBEFB8` `#D8B256` `#9A6F1F` | Gold gradient, light to shadow, on every metal part |
-| Ink | `#1d1e26` | Every outline; the outer hairline; the number's edge |
-| Ice | `#E8ECF4` | Net posts, puck rims, blade tape |
-| Tabard | team | The sweater colour: the first colour in the team's published list (`team-colours.json`) |
-| Field | team | Sweater colour 45% darker; charcoal for a black sweater; the second team colour for a gold sweater (Nashville, Vegas) |
-| Ground | team | Sweater colour 65% darker (black sweaters: near-black) |
-| Trim | team | Crest, tabard edge, shield rim: the first other team colour reaching 3:1 on the field, and 2:1 on the tabard when the tabard needs its edge, under normal vision and simulated deuteranopia, protanopia and tritanopia; else white |
-| Number | white or ink | Jost 600 at 8 units. White with an ink edge; ink with a white edge where white is under 3:1 on the tabard (Nashville, Vegas) |
-| Frame | | Gold rule 3 units wide inside an ink hairline; four-point stars at 35% gold |
+| Linen | `#EADFC4` with a fine weave | The ground |
+| Thread | `#3A3550` | Every outline, as a stitched dash (1.6 on, 0.7 off) at 1.1 |
+| Cream | `#F2EBD8` | Net, tape, cage bars, light number |
+| Armour | ochre `#C9962E` / `#94681E` | Two wools: the darker on the shaded side, as the tapestry does it |
+| Steel | `#8E98AA` / `#5E6679` | Armour for gold sweaters (Nashville, Vegas), so the tabard shows |
+| Tabard | team | The sweater colour; black is dyed dark indigo `#2E2A3A` |
+| Crest | team | The trim if it reaches 3:1 on linen in every kind of vision, else the sweater colour, else thread |
+| Number | cream or thread | Cinzel 600 at 8, cream with a thread edge; thread with a cream edge where cream is under 3:1 |
+| Straps, sabatons | rust `#9E4A3A`, sage `#7E8F5A` | Fixed |
+| Couching | 16% dark laid lines, 22% light ties | Over every armour, tabard, shield and catcher fill |
+| Borders | `#E2D3B0` bands, stitched diagonals, four roundels | Top and bottom |
 
-All 32 teams pass every pair in all four kinds of vision (`node illustrations/check-colours.cjs`). Each still
-is under 6 KB.
+All 32 teams pass every pair in all four kinds of vision (`node illustrations/check-colours.cjs`).
+
+## Two cuts
+
+Full cut at 100 px and over (the 240 px detail card): stitched outlines, couching, gear seams and the caption.
+Light cut below 100 px (leaderboard 32, profile 64, carousel 76): solid outlines, no couching, seams or caption.
+Shapes, colours and crest are the same in both. Compressed, the full cut is 3.5 KB at most and the light cut
+2.8 KB (raw 16 KB and 10 KB).
 
 ## Crests (the marks)
 
-One crest per team on top of the helm, drawn after the team's nickname as a plain heraldic figure: `CRESTS` in
-`gilded.js`. None is a team logo, crest, wordmark or mask design. Toronto gets a plain leaf, not a maple leaf;
-the star, crown, fin, bolt and arrowhead are generic shapes that avoid each team's logo layout. Each was
-compared by eye against the team's logo. A formal trademark search has not been done and should be before launch.
+Unchanged from Gilded: one heraldic figure per team after its nickname (`CRESTS` in `gilded.js`), never a logo.
+A formal trademark search has not been done and should be before launch.
 
 ## Don'ts
 
 - No real team logo, wordmark or mask design, and no real player's face.
-- No thin props: anything the type depends on (net, pucks) must survive 32 px.
-- No gold field behind gold armour.
-- No number without its fallback.
-- No trim that only differs from its neighbour by hue; it has to hold contrast for colour-blind readers.
+- No crest or prop that only shows by hue; it needs 3:1 on the linen.
+- No gold sweater on ochre armour.
+- No full cut below 100 px: the stitched dashes blur at small sizes.
 - No type told apart by colour alone; types differ by shape.
 - No new pose drawn as free points; add joint angles to `POSES` in `goalie-skeleton.js`.

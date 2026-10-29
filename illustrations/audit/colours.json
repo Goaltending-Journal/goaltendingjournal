@@ -3565,5 +3565,1424 @@
   "light #ffffff": 16.59,
   "dark #11121d": 9.24,
   "dark #191b2a": 8.46
+ },
+ "tapestry": {
+  "teams": {
+   "ANA": {
+    "tokens": {
+     "tabard": "#CF4520",
+     "armour": "#C9962E",
+     "crest": "#CF4520",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 3.9,
+     "apca": -63.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 3.9,
+      "crest/linen": 3.5,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 4.26
+     },
+     "deuteranopia": {
+      "number/tabard": 3.36,
+      "crest/linen": 3.03,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 3.64
+     },
+     "protanopia": {
+      "number/tabard": 5.15,
+      "crest/linen": 4.6,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.69
+     },
+     "tritanopia": {
+      "number/tabard": 3.93,
+      "crest/linen": 3.51,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.3
+     }
+    }
+   },
+   "BOS": {
+    "tokens": {
+     "tabard": "#2E2A3A",
+     "armour": "#C9962E",
+     "crest": "#2E2A3A",
+     "number": "#F2EBD8",
+     "cross": "#FFB81C",
+     "steel": false
+    },
+    "number": {
+     "wcag": 11.7,
+     "apca": -90.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 11.7,
+      "crest/linen": 10.51,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 8.04
+     },
+     "deuteranopia": {
+      "number/tabard": 11.79,
+      "crest/linen": 10.64,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 8.6
+     },
+     "protanopia": {
+      "number/tabard": 11.56,
+      "crest/linen": 10.33,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.15
+     },
+     "tritanopia": {
+      "number/tabard": 11.67,
+      "crest/linen": 10.43,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 7.32
+     }
+    }
+   },
+   "BUF": {
+    "tokens": {
+     "tabard": "#003087",
+     "armour": "#C9962E",
+     "crest": "#003087",
+     "number": "#F2EBD8",
+     "cross": "#FFB81C",
+     "steel": false
+    },
+    "number": {
+     "wcag": 9.96,
+     "apca": -87.1
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 9.96,
+      "crest/linen": 8.94,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 6.84
+     },
+     "deuteranopia": {
+      "number/tabard": 9.9,
+      "crest/linen": 8.94,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 7.22
+     },
+     "protanopia": {
+      "number/tabard": 8.58,
+      "crest/linen": 7.66,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.31
+     },
+     "tritanopia": {
+      "number/tabard": 8.66,
+      "crest/linen": 7.74,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 5.43
+     }
+    }
+   },
+   "CGY": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F1BE48",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 3.42
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 3
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 4.6
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 2.88
+     }
+    }
+   },
+   "CAR": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#A2AAAD",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 2.49
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 2.06
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 3.65
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 2.17
+     }
+    }
+   },
+   "CHI": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.4
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.5
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.87
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.72
+     }
+    }
+   },
+   "COL": {
+    "tokens": {
+     "tabard": "#6F263D",
+     "armour": "#C9962E",
+     "crest": "#6F263D",
+     "number": "#F2EBD8",
+     "cross": "#A2AAAD",
+     "steel": false
+    },
+    "number": {
+     "wcag": 8.74,
+     "apca": -84.6
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 8.74,
+      "crest/linen": 7.84,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 4.4
+     },
+     "deuteranopia": {
+      "number/tabard": 8.12,
+      "crest/linen": 7.32,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.03
+     },
+     "protanopia": {
+      "number/tabard": 9.88,
+      "crest/linen": 8.82,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.06
+     },
+     "tritanopia": {
+      "number/tabard": 8.69,
+      "crest/linen": 7.76,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.38
+     }
+    }
+   },
+   "CBJ": {
+    "tokens": {
+     "tabard": "#041E42",
+     "armour": "#C9962E",
+     "crest": "#041E42",
+     "number": "#F2EBD8",
+     "cross": "#A2AAAD",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13.9,
+     "apca": -92.8
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13.9,
+      "crest/linen": 12.49,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 7
+     },
+     "deuteranopia": {
+      "number/tabard": 14.31,
+      "crest/linen": 12.91,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 7.1
+     },
+     "protanopia": {
+      "number/tabard": 13.21,
+      "crest/linen": 11.8,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 6.77
+     },
+     "tritanopia": {
+      "number/tabard": 13.29,
+      "crest/linen": 11.87,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 6.7
+     }
+    }
+   },
+   "DAL": {
+    "tokens": {
+     "tabard": "#00843D",
+     "armour": "#C9962E",
+     "crest": "#00843D",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.04,
+     "apca": -65.2
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.04,
+      "crest/linen": 3.63,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 4.41
+     },
+     "deuteranopia": {
+      "number/tabard": 4.33,
+      "crest/linen": 3.91,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.69
+     },
+     "protanopia": {
+      "number/tabard": 3.72,
+      "crest/linen": 3.32,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 4.11
+     },
+     "tritanopia": {
+      "number/tabard": 3.97,
+      "crest/linen": 3.54,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.35
+     }
+    }
+   },
+   "DET": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.4
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.5
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.87
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.72
+     }
+    }
+   },
+   "EDM": {
+    "tokens": {
+     "tabard": "#00205B",
+     "armour": "#C9962E",
+     "crest": "#00205B",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13,
+     "apca": -91.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13,
+      "crest/linen": 11.67,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 14.19
+     },
+     "deuteranopia": {
+      "number/tabard": 13.13,
+      "crest/linen": 11.85,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 14.22
+     },
+     "protanopia": {
+      "number/tabard": 11.83,
+      "crest/linen": 10.57,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 13.06
+     },
+     "tritanopia": {
+      "number/tabard": 12.01,
+      "crest/linen": 10.73,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 13.17
+     }
+    }
+   },
+   "FLA": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.4
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.5
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.87
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.72
+     }
+    }
+   },
+   "LAK": {
+    "tokens": {
+     "tabard": "#2E2A3A",
+     "armour": "#C9962E",
+     "crest": "#2E2A3A",
+     "number": "#F2EBD8",
+     "cross": "#A2AAAD",
+     "steel": false
+    },
+    "number": {
+     "wcag": 11.7,
+     "apca": -90.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 11.7,
+      "crest/linen": 10.51,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.89
+     },
+     "deuteranopia": {
+      "number/tabard": 11.79,
+      "crest/linen": 10.64,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 5.85
+     },
+     "protanopia": {
+      "number/tabard": 11.56,
+      "crest/linen": 10.33,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.92
+     },
+     "tritanopia": {
+      "number/tabard": 11.67,
+      "crest/linen": 10.43,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 5.89
+     }
+    }
+   },
+   "MIN": {
+    "tokens": {
+     "tabard": "#154734",
+     "armour": "#C9962E",
+     "crest": "#154734",
+     "number": "#F2EBD8",
+     "cross": "#EAAA00",
+     "steel": false
+    },
+    "number": {
+     "wcag": 8.9,
+     "apca": -85.4
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 8.9,
+      "crest/linen": 7.99,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.17
+     },
+     "deuteranopia": {
+      "number/tabard": 9.21,
+      "crest/linen": 8.31,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 5.69
+     },
+     "protanopia": {
+      "number/tabard": 8.36,
+      "crest/linen": 7.47,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 4.42
+     },
+     "tritanopia": {
+      "number/tabard": 8.9,
+      "crest/linen": 7.95,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 5.09
+     }
+    }
+   },
+   "MTL": {
+    "tokens": {
+     "tabard": "#A6192E",
+     "armour": "#C9962E",
+     "crest": "#A6192E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 6.3,
+     "apca": -76.4
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 6.3,
+      "crest/linen": 5.66,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 6.88
+     },
+     "deuteranopia": {
+      "number/tabard": 5.44,
+      "crest/linen": 4.91,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 5.89
+     },
+     "protanopia": {
+      "number/tabard": 8.37,
+      "crest/linen": 7.47,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 9.23
+     },
+     "tritanopia": {
+      "number/tabard": 5.8,
+      "crest/linen": 5.18,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 6.36
+     }
+    }
+   },
+   "NSH": {
+    "tokens": {
+     "tabard": "#FFB81C",
+     "armour": "#8E98AA",
+     "crest": "#041E42",
+     "number": "#3A3550",
+     "cross": "#1d1e26",
+     "steel": true
+    },
+    "number": {
+     "wcag": 6.72,
+     "apca": 63.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 6.72,
+      "crest/linen": 12.49,
+      "outline/linen": 8.78,
+      "outline/armour": 4,
+      "cross/shield": 9.58
+     },
+     "deuteranopia": {
+      "number/tabard": 7.21,
+      "crest/linen": 12.91,
+      "outline/linen": 8.91,
+      "outline/armour": 3.96,
+      "cross/shield": 10.29
+     },
+     "protanopia": {
+      "number/tabard": 5.93,
+      "crest/linen": 11.8,
+      "outline/linen": 8.57,
+      "outline/armour": 4.05,
+      "cross/shield": 8.48
+     },
+     "tritanopia": {
+      "number/tabard": 6.05,
+      "crest/linen": 11.87,
+      "outline/linen": 8.61,
+      "outline/armour": 3.98,
+      "cross/shield": 8.74
+     }
+    }
+   },
+   "NJD": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.4
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.5
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.87
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.72
+     }
+    }
+   },
+   "NYI": {
+    "tokens": {
+     "tabard": "#003087",
+     "armour": "#C9962E",
+     "crest": "#003087",
+     "number": "#F2EBD8",
+     "cross": "#FC4C02",
+     "steel": false
+    },
+    "number": {
+     "wcag": 9.96,
+     "apca": -87.1
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 9.96,
+      "crest/linen": 8.94,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 3.48
+     },
+     "deuteranopia": {
+      "number/tabard": 9.9,
+      "crest/linen": 8.94,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.12
+     },
+     "protanopia": {
+      "number/tabard": 8.58,
+      "crest/linen": 7.66,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 2.14
+     },
+     "tritanopia": {
+      "number/tabard": 8.66,
+      "crest/linen": 7.74,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 2.62
+     }
+    }
+   },
+   "NYR": {
+    "tokens": {
+     "tabard": "#0033A0",
+     "armour": "#C9962E",
+     "crest": "#0033A0",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 8.91,
+     "apca": -84.6
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 8.91,
+      "crest/linen": 8,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 9.72
+     },
+     "deuteranopia": {
+      "number/tabard": 8.63,
+      "crest/linen": 7.79,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 9.35
+     },
+     "protanopia": {
+      "number/tabard": 7.26,
+      "crest/linen": 6.48,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 8.01
+     },
+     "tritanopia": {
+      "number/tabard": 7.45,
+      "crest/linen": 6.66,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 8.17
+     }
+    }
+   },
+   "OTT": {
+    "tokens": {
+     "tabard": "#2E2A3A",
+     "armour": "#C9962E",
+     "crest": "#2E2A3A",
+     "number": "#F2EBD8",
+     "cross": "#B9975B",
+     "steel": false
+    },
+    "number": {
+     "wcag": 11.7,
+     "apca": -90.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 11.7,
+      "crest/linen": 10.51,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.07
+     },
+     "deuteranopia": {
+      "number/tabard": 11.79,
+      "crest/linen": 10.64,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 5.25
+     },
+     "protanopia": {
+      "number/tabard": 11.56,
+      "crest/linen": 10.33,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 4.74
+     },
+     "tritanopia": {
+      "number/tabard": 11.67,
+      "crest/linen": 10.43,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 5.01
+     }
+    }
+   },
+   "PHI": {
+    "tokens": {
+     "tabard": "#CF4520",
+     "armour": "#C9962E",
+     "crest": "#CF4520",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 3.9,
+     "apca": -63.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 3.9,
+      "crest/linen": 3.5,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 4.26
+     },
+     "deuteranopia": {
+      "number/tabard": 3.36,
+      "crest/linen": 3.03,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 3.64
+     },
+     "protanopia": {
+      "number/tabard": 5.15,
+      "crest/linen": 4.6,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.69
+     },
+     "tritanopia": {
+      "number/tabard": 3.93,
+      "crest/linen": 3.51,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.3
+     }
+    }
+   },
+   "PIT": {
+    "tokens": {
+     "tabard": "#2E2A3A",
+     "armour": "#C9962E",
+     "crest": "#2E2A3A",
+     "number": "#F2EBD8",
+     "cross": "#FFB81C",
+     "steel": false
+    },
+    "number": {
+     "wcag": 11.7,
+     "apca": -90.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 11.7,
+      "crest/linen": 10.51,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 8.04
+     },
+     "deuteranopia": {
+      "number/tabard": 11.79,
+      "crest/linen": 10.64,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 8.6
+     },
+     "protanopia": {
+      "number/tabard": 11.56,
+      "crest/linen": 10.33,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.15
+     },
+     "tritanopia": {
+      "number/tabard": 11.67,
+      "crest/linen": 10.43,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 7.32
+     }
+    }
+   },
+   "SJS": {
+    "tokens": {
+     "tabard": "#006272",
+     "armour": "#C9962E",
+     "crest": "#006272",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 5.9,
+     "apca": -75.9
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 5.9,
+      "crest/linen": 5.3,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 6.44
+     },
+     "deuteranopia": {
+      "number/tabard": 6.29,
+      "crest/linen": 5.68,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 6.82
+     },
+     "protanopia": {
+      "number/tabard": 5.38,
+      "crest/linen": 4.81,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 5.94
+     },
+     "tritanopia": {
+      "number/tabard": 5.55,
+      "crest/linen": 4.96,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 6.08
+     }
+    }
+   },
+   "SEA": {
+    "tokens": {
+     "tabard": "#051C2C",
+     "armour": "#C9962E",
+     "crest": "#051C2C",
+     "number": "#F2EBD8",
+     "cross": "#9CDBD9",
+     "steel": false
+    },
+    "number": {
+     "wcag": 14.6,
+     "apca": -93.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 14.6,
+      "crest/linen": 13.11,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 11.21
+     },
+     "deuteranopia": {
+      "number/tabard": 14.87,
+      "crest/linen": 13.42,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 10.94
+     },
+     "protanopia": {
+      "number/tabard": 14.12,
+      "crest/linen": 12.62,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 11.56
+     },
+     "tritanopia": {
+      "number/tabard": 14.34,
+      "crest/linen": 12.81,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 11.04
+     }
+    }
+   },
+   "STL": {
+    "tokens": {
+     "tabard": "#0072CE",
+     "armour": "#C9962E",
+     "crest": "#0072CE",
+     "number": "#F2EBD8",
+     "cross": "#FFB81C",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.11,
+     "apca": -65.6
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.11,
+      "crest/linen": 3.69,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 2.82
+     },
+     "deuteranopia": {
+      "number/tabard": 4.55,
+      "crest/linen": 4.1,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 3.32
+     },
+     "protanopia": {
+      "number/tabard": 3.54,
+      "crest/linen": 3.16,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 2.19
+     },
+     "tritanopia": {
+      "number/tabard": 3.55,
+      "crest/linen": 3.17,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 2.23
+     }
+    }
+   },
+   "TBL": {
+    "tokens": {
+     "tabard": "#00205B",
+     "armour": "#C9962E",
+     "crest": "#00205B",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13,
+     "apca": -91.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13,
+      "crest/linen": 11.67,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 14.19
+     },
+     "deuteranopia": {
+      "number/tabard": 13.13,
+      "crest/linen": 11.85,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 14.22
+     },
+     "protanopia": {
+      "number/tabard": 11.83,
+      "crest/linen": 10.57,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 13.06
+     },
+     "tritanopia": {
+      "number/tabard": 12.01,
+      "crest/linen": 10.73,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 13.17
+     }
+    }
+   },
+   "TOR": {
+    "tokens": {
+     "tabard": "#00205B",
+     "armour": "#C9962E",
+     "crest": "#00205B",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13,
+     "apca": -91.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13,
+      "crest/linen": 11.67,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 14.19
+     },
+     "deuteranopia": {
+      "number/tabard": 13.13,
+      "crest/linen": 11.85,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 14.22
+     },
+     "protanopia": {
+      "number/tabard": 11.83,
+      "crest/linen": 10.57,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 13.06
+     },
+     "tritanopia": {
+      "number/tabard": 12.01,
+      "crest/linen": 10.73,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 13.17
+     }
+    }
+   },
+   "UTA": {
+    "tokens": {
+     "tabard": "#2E2A3A",
+     "armour": "#C9962E",
+     "crest": "#2E2A3A",
+     "number": "#F2EBD8",
+     "cross": "#6CACE4",
+     "steel": false
+    },
+    "number": {
+     "wcag": 11.7,
+     "apca": -90.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 11.7,
+      "crest/linen": 10.51,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.74
+     },
+     "deuteranopia": {
+      "number/tabard": 11.79,
+      "crest/linen": 10.64,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 5.44
+     },
+     "protanopia": {
+      "number/tabard": 11.56,
+      "crest/linen": 10.33,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 6.22
+     },
+     "tritanopia": {
+      "number/tabard": 11.67,
+      "crest/linen": 10.43,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 5.81
+     }
+    }
+   },
+   "VAN": {
+    "tokens": {
+     "tabard": "#00205B",
+     "armour": "#C9962E",
+     "crest": "#00843D",
+     "number": "#F2EBD8",
+     "cross": "#00843D",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13,
+     "apca": -91.7
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13,
+      "crest/linen": 3.63,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 3.22
+     },
+     "deuteranopia": {
+      "number/tabard": 13.13,
+      "crest/linen": 3.91,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 3.03
+     },
+     "protanopia": {
+      "number/tabard": 11.83,
+      "crest/linen": 3.32,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 3.18
+     },
+     "tritanopia": {
+      "number/tabard": 12.01,
+      "crest/linen": 3.54,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 3.03
+     }
+    }
+   },
+   "VGK": {
+    "tokens": {
+     "tabard": "#C69214",
+     "armour": "#8E98AA",
+     "crest": "#333F48",
+     "number": "#3A3550",
+     "cross": "#F4F5F8",
+     "steel": true
+    },
+    "number": {
+     "wcag": 4.17,
+     "apca": 41.2
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.17,
+      "crest/linen": 8.15,
+      "outline/linen": 8.78,
+      "outline/armour": 4,
+      "cross/shield": 2.56
+     },
+     "deuteranopia": {
+      "number/tabard": 4.43,
+      "crest/linen": 8.41,
+      "outline/linen": 8.91,
+      "outline/armour": 3.96,
+      "cross/shield": 2.42
+     },
+     "protanopia": {
+      "number/tabard": 3.74,
+      "crest/linen": 7.83,
+      "outline/linen": 8.57,
+      "outline/armour": 4.05,
+      "cross/shield": 2.83
+     },
+     "tritanopia": {
+      "number/tabard": 4.05,
+      "crest/linen": 8.09,
+      "outline/linen": 8.61,
+      "outline/armour": 3.98,
+      "cross/shield": 2.61
+     }
+    }
+   },
+   "WSH": {
+    "tokens": {
+     "tabard": "#C8102E",
+     "armour": "#C9962E",
+     "crest": "#C8102E",
+     "number": "#F2EBD8",
+     "cross": "#F4F5F8",
+     "steel": false
+    },
+    "number": {
+     "wcag": 4.94,
+     "apca": -69.5
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 4.94,
+      "crest/linen": 4.44,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 5.4
+     },
+     "deuteranopia": {
+      "number/tabard": 4.15,
+      "crest/linen": 3.75,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 4.5
+     },
+     "protanopia": {
+      "number/tabard": 7.13,
+      "crest/linen": 6.37,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 7.87
+     },
+     "tritanopia": {
+      "number/tabard": 4.3,
+      "crest/linen": 3.85,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 4.72
+     }
+    }
+   },
+   "WPG": {
+    "tokens": {
+     "tabard": "#041E42",
+     "armour": "#C9962E",
+     "crest": "#041E42",
+     "number": "#F2EBD8",
+     "cross": "#A2AAAD",
+     "steel": false
+    },
+    "number": {
+     "wcag": 13.9,
+     "apca": -92.8
+    },
+    "vision": {
+     "normal": {
+      "number/tabard": 13.9,
+      "crest/linen": 12.49,
+      "outline/linen": 8.78,
+      "outline/armour": 4.37,
+      "cross/shield": 7
+     },
+     "deuteranopia": {
+      "number/tabard": 14.31,
+      "crest/linen": 12.91,
+      "outline/linen": 8.91,
+      "outline/armour": 4.65,
+      "cross/shield": 7.1
+     },
+     "protanopia": {
+      "number/tabard": 13.21,
+      "crest/linen": 11.8,
+      "outline/linen": 8.57,
+      "outline/armour": 3.93,
+      "cross/shield": 6.77
+     },
+     "tritanopia": {
+      "number/tabard": 13.29,
+      "crest/linen": 11.87,
+      "outline/linen": 8.61,
+      "outline/armour": 4.27,
+      "cross/shield": 6.7
+     }
+    }
+   }
+  },
+  "failures": [],
+  "page": {
+   "light #f6f6fb": 10.8,
+   "light #ffffff": 11.63,
+   "dark #11121d": 14.05,
+   "dark #191b2a": 12.87
+  }
  }
 }

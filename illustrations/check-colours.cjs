@@ -6,6 +6,7 @@
    Writes audit/colours.json and prints the failures. Run: node illustrations/check-colours.cjs */
 const fs = require("fs"), path = require("path");
 const GD = require("./gilded.js");
+const MD = require("./medieval.js");
 const TEAMS = require("./team-colours.json").teams;
 
 const lin = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
@@ -62,8 +63,34 @@ for (const [theme, bgs] of Object.entries(PAGES)) for (const bg of bgs) {
   out.page = out.page || {}; out.page[`${theme} ${bg}`] = r2(c);
   if (c < 3) out.failures.push({ page: theme, bg, wcag: r2(c), min: 3 });
 }
+// Tapestry (the style Goldy locked on 2026-10-29): pale linen ground, so the crest, outline and card edge are checked on linen
+const TAP = MD.TAP, tap = { teams: {}, failures: [], page: {} };
+for (const [code, team] of Object.entries(TEAMS)) {
+  const tk = MD.tapTokens(team);
+  const pairs = { "number/tabard": [tk.number, tk.tab, 3], "crest/linen": [tk.crest, TAP.linen, 3], "outline/linen": [TAP.thread, TAP.linen, 3],
+    "outline/armour": [TAP.thread, tk.armour[0], 3], "cross/shield": [tk.cross, tk.tab, 2] };
+  const row = { tokens: { tabard: tk.tab, armour: tk.armour[0], crest: tk.crest, number: tk.number, cross: tk.cross, steel: tk.steel }, number: { wcag: r2(GD.wcag(tk.number, tk.tab)), apca: apca(tk.number, tk.tab) }, vision: {} };
+  for (const [vision, m] of Object.entries({ normal: null, ...CVD })) {
+    row.vision[vision] = {};
+    for (const [name, [a, b, min]] of Object.entries(pairs)) {
+      const A = m ? simulate(a, m) : a, B = m ? simulate(b, m) : b, c = GD.wcag(A, B);
+      row.vision[vision][name] = r2(c);
+      if (c < min) tap.failures.push({ team: code, vision, pair: name, wcag: r2(c), min });
+    }
+  }
+  tap.teams[code] = row;
+}
+// The card's edge: linen with a thread rule round it; whichever is stronger separates it from the page
+for (const [theme, bgs] of Object.entries(PAGES)) for (const bg of bgs) {
+  const c = Math.max(GD.wcag(TAP.linen, bg), GD.wcag(TAP.thread, bg));
+  tap.page[`${theme} ${bg}`] = r2(c);
+  if (c < 3) tap.failures.push({ page: theme, bg, wcag: r2(c), min: 3 });
+}
+out.tapestry = tap;
 fs.mkdirSync(path.join(__dirname, "audit"), { recursive: true });
 fs.writeFileSync(path.join(__dirname, "audit", "colours.json"), JSON.stringify(out, null, 1));
 const fb = Object.entries(out.teams).filter(([, r]) => r.tokens.number !== "#FFFFFF").map(([c]) => c);
 console.log(`32 teams checked. Number fallback (ink) for: ${fb.join(", ") || "none"}. Page: ${JSON.stringify(out.page)}`);
-console.log(out.failures.length ? out.failures.map((f) => JSON.stringify(f)).join("\n") : "No failures.");
+console.log("Gilded: " + (out.failures.length ? out.failures.map((f) => JSON.stringify(f)).join("\n") : "no failures."));
+console.log(`Tapestry: number falls back to thread for ${Object.entries(tap.teams).filter(([, r]) => r.tokens.number === TAP.thread).map(([c]) => c).join(", ")}; steel for ${Object.entries(tap.teams).filter(([, r]) => r.tokens.steel).map(([c]) => c).join(", ")}. Page: ${JSON.stringify(tap.page)}`);
+console.log("Tapestry: " + (tap.failures.length ? tap.failures.map((f) => JSON.stringify(f)).join("\n") : "no failures."));
