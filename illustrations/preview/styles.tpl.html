@@ -36,13 +36,14 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
 .tiny svg { width: 32px; height: 32px; display: block }
 .why { margin: 0; font: 14px/1.5 var(--sans); color: var(--muted); max-width: 76ch }
 .why b { color: var(--fg); font-weight: 500 }
+.family { font: 600 30px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 56px 0 0 }
 .foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
 .foot a { color: var(--accent) }
 </style>
 <div class="wrap">
-  <p class="eyebrow">Goalie illustrations · Step 3 · Round 2</p>
-  <h1>Style Mockups, Round 2</h1>
-  <p class="lede">Goldy kept the Illuminated Plate and asked for Skeletons, Knights and High Fantasy. The same four goalies, in the same four types, drawn each way on the shared skeleton from Step 2. Round 1's Research Plate, Two-Ink Print and Stained Glass stay in the styles library.</p>
+  <p class="eyebrow">Goalie illustrations · Step 3 · Round 3</p>
+  <h1>Skeletons and Knights</h1>
+  <p class="lede">Goldy kept Skeletons and Knights and asked for two alternatives to each. Each family shows the round 2 version first, then the two new takes, with my pick for that family last. The same four goalies run through every version. Every earlier style stays in the styles library.</p>
   <ul class="subjects" id="subjects"></ul>
   <div id="styles"></div>
   <p class="foot">Team colours were read from <a href="https://www.designyourway.net/blog/nhl-team-color-codes/" rel="noopener">designyourway.net's NHL colour list</a> and saved with their source in the repo. A second list (<a href="https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox" rel="noopener">Wikipedia's sports colour module</a>) differs slightly for Dallas; each team's own brand page gets checked in Step 4. Generic goalies only: no player likeness, mask art or team logos. The reader preference test is set aside for now.</p>
@@ -59,19 +60,21 @@ const SUBJECTS = [
   { pose: "hd-stopper", team: "SJS", num: "30", who: "Yaroslav Askarov" },
 ];
 const ORDER = [
-  ["skeletons", "E", "The most fun of the set: bone limbs, a ribcage over the jersey and a skull mask, lit in team colour. The pads and gear stay in team colours, so teams still read. At 32 px the bones turn to a busy speckle, and the dark ground needs the team glow to separate the figure."],
-  ["knights", "F", "Plate armour, a team-colour tabard and banner, and a kite shield in place of the blocker. It reads as a goalie and a knight at once. At 32 px the grey steel sinks into the grey stone, so it would need a darker wall or a coloured field."],
-  ["fantasy", "G", "Rune-lit gear, gold pauldrons, a horned helm and a cloak, against a dusk sky over mountains. Inspired by the genre, with no characters, emblems or names from any game or book. At 32 px the dark armour on a dark sky loses most of the body; the glowing gear edges carry it."],
-  ["illuminated", "C", "Kept from round 1, now with a pale gilded nimbus behind the figure, so Toronto's navy and San Jose's teal stand clear of the field. It is the closest fit to the GRJ's own look, and at 32 px every figure still separates from its ground."],
+  ["skeletons", "E1", "Round 2's version: bone limbs, a ribcage over the jersey and a skull mask, glowing in team colour after dark. Moody, but at 32 px the knuckled bones turn to speckle on the dark ground.", false, "Skeletons"],
+  ["skeletons-xray", "E2", "The gear goes see-through in team colour on a pale light box, with the whole skeleton showing through, shins included. It is the most clever of the three, but the pale gear is the faintest at 32 px.", false],
+  ["skeletons-bold", "E3", "One-piece bones, a thicker ribcage and spine, and heavier outlines, on a light card tinted in team colour. It keeps the skeleton joke and reads at 32 px, because the jersey and pads stay solid team colour against a pale ground.", true],
+  ["knights", "F1", "Round 2's version: bright steel, a team tabard and banner on a stone wall. At 32 px the grey steel sinks into the grey stone.", false, "Knights"],
+  ["knights-tournament", "F2", "Tilt-yard day: darker gunmetal armour stands off a light pavilion striped in team colour, over a grass field. It reads well and feels the most cheerful.", false],
+  ["knights-gilded", "F3", "Gold armour on a deep team-colour field scattered with stars, inside a gold rule, like a page from a herald's roll. The gold against the dark field gives the strongest outline of all six at 32 px.", true],
 ];
 document.getElementById("subjects").innerHTML = SUBJECTS.map((s) => `<li><b>${G.POSES[s.pose].name}</b> ${s.who}, ${TEAMS[s.team].name}</li>`).join("");
-document.getElementById("styles").innerHTML = ORDER.map(([k, letter, why], i) => {
-  const st = ST[k], pick = i === ORDER.length - 1;
+document.getElementById("styles").innerHTML = ORDER.map(([k, letter, why, pick, family]) => {
+  const st = ST[k];
   const big = SUBJECTS.map((s) => `<figure>${st.draw(s.pose, TEAMS[s.team], s.num, { label: `${G.POSES[s.pose].name}, ${TEAMS[s.team].name} colours, in ${st.name}` })}<figcaption><b>${G.POSES[s.pose].name}</b>${TEAMS[s.team].name} · #${s.num}</figcaption></figure>`).join("");
   const tiny = SUBJECTS.map((s) => st.draw(s.pose, TEAMS[s.team], s.num, { label: G.POSES[s.pose].name + " at 32 px" })).join("");
-  return `<section class="style${pick ? " pick" : ""}"><div class="head"><span class="letter">${letter}</span><h2>${st.name}</h2>${pick ? '<span class="badge">My pick</span>' : ""}<p>${st.conceit}</p></div>
+  return `${family ? `<h2 class="family">${family}</h2>` : ""}<section class="style${pick ? " pick" : ""}"><div class="head"><span class="letter">${letter}</span><h2>${st.name}</h2>${pick ? '<span class="badge">My pick</span>' : ""}<p>${st.conceit}</p></div>
     <div class="row">${big}</div>
     <div class="tiny"><span class="s">${tiny}</span><span>At 32 px, the leaderboard size</span></div>
-    <p class="why">${pick ? "<b>Why it's my pick:</b> " : ""}${why}</p></section>`;
+    <p class="why">${pick ? "<b>Why it's my pick for this family:</b> " : ""}${why}</p></section>`;
 }).join("");
 </script>

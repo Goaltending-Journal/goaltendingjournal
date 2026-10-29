@@ -70,8 +70,13 @@ Every style tried stays here, so a restyle costs minutes. Each one has a one-sen
 | `illuminated` | Illuminated Plate | A page from the GRJ's book of keepers: flat colour in ink outline, inside a gilded frame. |
 | `skeletons` | Skeletons | The bone crew: every goalie is a skeleton suiting up, glowing in team colour after dark. |
 | `knights` | Knights | Knights of the crease: plate armour under a team-colour tabard, with a kite shield for a blocker. |
+| `skeletons-xray` | Skeletons: Light Box | An X-ray on the light box: see-through gear in team colour, the bones showing through. |
+| `skeletons-bold` | Skeletons: Bold Bones | Chunky one-piece bones on a light team-tint card, cut back to read at leaderboard size. |
+| `knights-tournament` | Knights: Tournament | Tilt-yard day: gunmetal armour against a light pavilion striped in team colour. |
+| `knights-gilded` | Knights: Gilded | Gold armour on a deep team-colour field scattered with stars, like a herald's roll. |
 | `fantasy` | High Fantasy | An epic-quest keeper: rune-lit armour and a team-colour cloak against a dusk sky over far mountains. |
 
 Round 1 (Research Plate, Two-Ink Print, Stained Glass, Illuminated Plate): Goldy kept Illuminated Plate.
 Round 2 added Skeletons, Knights and High Fantasy, and gave Illuminated Plate a gilded nimbus so dark jerseys
 stand off its navy field.
+Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each (Light Box, Bold Bones; Tournament, Gilded).
