@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Jost:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
@@ -41,6 +41,7 @@
   --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
   --r: 3px;
   --nav-h: 56px;
 }
@@ -142,7 +143,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-head h3 { font: 600 15px var(--sans); }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
 .ex-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
-.ex-grp h3 { font: 600 19px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+.ex-grp h3 { font: 500 12.5px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .ex-grp:has([aria-selected="true"]) h3 { color: var(--fg); }
 .hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
