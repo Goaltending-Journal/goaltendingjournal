@@ -50,7 +50,7 @@ MIN_Z = 0.75
 MIN_Z_BY_TYPE = {"workhorse": 1.5}
 STANDOUT_Z = 1.0
 SWITCH_MARGIN = 0.25
-STYLE_KING = None      # NHL player id of the goalie with the most colourful gear, set by hand
+STYLE_KING = 8476932   # Anthony Stolarz (Goldy, 2026-10-29); NHL player id of the goalie with the most colourful gear, set by hand
 TITLE_ORDER = ["donut-king", "grandpa", "young-gun", "style-king", "standout"]
 
 # key, name, the one trait the picture shows, the rule in words, the value, higher-is-better sign
