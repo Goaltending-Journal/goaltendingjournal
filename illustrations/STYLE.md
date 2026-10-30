@@ -2,7 +2,8 @@
 
 The chosen style for the goalie archetypes (Goldy, 2026-10-30), after Gilded Knights, Tapestry and goalie masks
 were tried and retired. The code is `skeletons("xray")` in `styles.js` (key `skeletons-xray`); the checks are
-`audit-lightbox.cjs` (results in `audit/lightbox.json`); the sheets are `preview/lightbox.html` and
+`audit-lightbox.cjs` (results in `audit/lightbox.json`); the art is locked by the reference pictures in `golden/`,
+checked by `golden.cjs`; the sheets are `preview/lightbox.html` and
 `preview/lightbox-motion.html`; the site panel is `../goalie-types-panel.js`.
 
 ## Conceit and tone
@@ -67,6 +68,13 @@ Each archetype has a 3.2 to 3.9 second loop of three key poses (`motion.js`): A 
 held, with a 0.3 s eased move between. It plays at 12 frames a second, prebuilt in idle time. On the site a card
 plays only while hovered or focused; nothing plays under reduced motion, and nothing flashes. Frame time is 1.1 ms
 on average with the CPU slowed 6x (budget 8 ms).
+
+## Locked art
+
+`golden.cjs` renders every archetype at 32, 64, 76 and 240 px and in plain mode, plus all 32 teams by all 12
+archetypes at 64 px, on the light and dark page, and compares each with its picture in `golden/`. Even a slight
+colour shift fails it. A change to the art is made on purpose: change the code, check the sheets, then rebuild the
+references with `--update` and commit them with the change.
 
 ## Don'ts
 

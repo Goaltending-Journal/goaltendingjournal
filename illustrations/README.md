@@ -20,6 +20,7 @@ X-ray pinned to a light box, gear see-through in team colour with the skeleton s
 | `audit-silhouettes.cjs` | Overlap of every pair at 32 px after a 1 px blur, plus bone-length drift (`audit/silhouettes.json`) |
 | `audit-lightbox.cjs` | Light Box budgets on all 32 teams: contrast in every vision type, loop seams, framing, bone drift, size, frame time (`audit/lightbox.json`) |
 | `audit-board.cjs` | The board: no overlap, clipping or sideways scroll at phone, tablet and desktop widths (`audit/board.json`) |
+| `golden.cjs`, `golden/` | Reference pictures that lock the art: every archetype at every size in both themes, and every team. Fails on any change until rebuilt with `--update` |
 | `build-previews.cjs` | Rebuilds the self-contained preview pages from their `.tpl.html` templates |
 | `preview/lightbox.html` | The Light Box sheet: the set, every size in both themes, one team per row |
 | `preview/lightbox-motion.html` | Every archetype's key poses and live loop |
@@ -31,6 +32,11 @@ Run the audits (they need Playwright with Chromium):
     NODE_PATH=$(npm root -g) node illustrations/audit-silhouettes.cjs
     NODE_PATH=$(npm root -g) node illustrations/audit-lightbox.cjs
     node illustrations/build-previews.cjs && NODE_PATH=$(npm root -g) node illustrations/audit-board.cjs
+
+Check the art against the reference pictures, and rebuild them after a change made on purpose:
+
+    NODE_PATH=$(npm root -g) node illustrations/golden.cjs
+    NODE_PATH=$(npm root -g) node illustrations/golden.cjs --update
 
 ## The canon
 
@@ -93,3 +99,4 @@ Every style tried stays here, so a restyle costs minutes. Each one has a one-sen
 - Goldy then went back to Skeletons: Light Box (2026-10-30), drawn for every archetype and polished: a goalie cage on the skull, a haloed number, the film label at the foot, a light cut under 100 px, a gear outline darkened to 3:1 on the box, and a firm card edge.
 - Steady became Streaky (the longest current win streak, 3+ wins), keeping its pose and loop. The section on the site is called Archetypes.
 - The five-second picture test with readers was skipped at Goldy's request; the instrument audits all pass.
+- The art is locked with reference pictures (`golden.cjs`), the brief's final step.
