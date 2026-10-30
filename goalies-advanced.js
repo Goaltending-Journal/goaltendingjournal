@@ -17,14 +17,17 @@ const GM = window.GOAL_MAP;
 const GM_RINK = `M0 75 V28 A28 28 0 0 1 28 0 H57 A28 28 0 0 1 85 28 V75 Z`;
 const GM_VIEWS = [["goals","Goals"],["shots","Shots"],["sv","Save %"]];
 const GM_STR = [["all","All"],["0","5v5"],["1","Power play against"],["2","Short-handed"]];
+// Cross-ice: the event just before the shot was on the other side of the middle of the ice (our stand-in for the "Royal Road").
+const GM_MOVE = [["all","All shots"],["cross","Cross-ice"],["same","Same side"]];
 const GM_SIZE = {goals:3.2, shots:3.2, sv:4.6};   // hex radius in feet
 const GM_MIN = {goalie:6, league:25};             // fewest shots in a hex to colour it by save %
 const SHOT_NAMES = {wrist:"Wrist",snap:"Snap",slap:"Slap",backhand:"Backhand","tip-in":"Tip-in",deflected:"Deflection","wrap-around":"Wrap-around",poke:"Poke",bat:"Batted","between-legs":"Between the legs",cradle:"Lacrosse"};
 const gm = {
   id: store.get("gm:goalie",""), view: store.get("gm:view","goals"), str: store.get("gm:str","all"),
   dots: store.get("gm:dots", true), hidden: store.get("gm:hidden", false), on: null,
-  dim: store.get("gm:dim","3d"), cam: "point"
+  dim: store.get("gm:dim","3d"), cam: "point", move: store.get("gm:move","all")
 };
+if(!GM?.cross || !GM_MOVE.some(v=>v[0]===gm.move)) gm.move="all";
 if(gm.dim!=="3d") gm.dim="2d";
 if(!GM_VIEWS.some(v=>v[0]===gm.view)) gm.view="goals";
 if(!GM_STR.some(v=>v[0]===gm.str)) gm.str="all";
@@ -45,11 +48,12 @@ function gmZone(x, y){
   if(x>=54){ if(Math.abs(y)<=10) return "highslot"; return y>0?"circL":"circR"; }
   return y>15?"pointL":y<-15?"pointR":"pointC";
 }
-if(GM) GM.shots.forEach((s,i)=>{ s.i=i; });
+if(GM){ GM.shots.forEach((s,i)=>{ s.i=i; }); (GM.cross||[]).forEach(i=>{ if(GM.shots[i]) GM.shots[i].c=1; }); }
 const gmGoalie = () => gm.id==="" ? null : GM.goalies.find(g=>String(g[0])===gm.id) || null;
-function gmShots(goalieOnly){
+function gmShots(goalieOnly, move=gm.move){
   const gi = goalieOnly ? GM.goalies.findIndex(g=>String(g[0])===gm.id) : -1;
-  return GM.shots.filter(s=>(gi<0 || s[0]===gi) && (gm.str==="all" || s[4]===+gm.str));
+  return GM.shots.filter(s=>(gi<0 || s[0]===gi) && (gm.str==="all" || s[4]===+gm.str)
+    && (move==="all" || (move==="cross") === !!s.c));
 }
 // Axial hex coordinates of the cell a shot falls in (pointy-top hexes of radius r)
 function hexQR(s, r){
@@ -129,9 +133,16 @@ function gmStats(c){
   const near=gl.filter(s=>gmDist(s)<=20).length, avg=gl.length?gl.reduce((a,s)=>a+gmDist(s),0)/gl.length:null;
   const lgAll=gmShots(false), lgG=lgAll.filter(s=>s[3]), lgSv=lgAll.length?1-lgG.length/lgAll.length:null;
   const nhl = c.g && byId.has(c.g[0]);
+  // Cross-ice save %, compared with the league's under the same strength filter
+  let cx="";
+  if(GM.cross && gm.move==="all"){
+    const svOf = a => a.length ? 1-a.filter(s=>s[3]).length/a.length : null;
+    const mine=gmShots(!!c.g,"cross"), csv=svOf(mine), lcsv=svOf(gmShots(false,"cross"));
+    cx = kv(fmtSv(csv), `Cross-ice save % (${mine.length.toLocaleString()} shots)`, c.g&&csv!=null&&lcsv!=null ? (csv>lcsv?"good":csv<lcsv?"bad":"") : "");
+  }
   $("#gmStats").innerHTML = (c.g?`<div class="who">${mono({name:c.g[1],team:c.g[2]})}<div><b>${esc(c.g[1])}</b><small>${esc(TEAMS[c.g[2]]?.[0]||c.g[2])}${nhl?` · <a href="#" data-open="${c.g[0]}">Profile</a>`:""}</small></div></div>`:"")
     + kv(n.toLocaleString(),"Shots on goal") + kv(gl.length,"Goals against")
-    + kv(fmtSv(sv),"Save %", c.g&&sv!=null&&lgSv!=null ? (sv>lgSv?"good":sv<lgSv?"bad":"") : "")
+    + kv(fmtSv(sv),"Save %", c.g&&sv!=null&&lgSv!=null ? (sv>lgSv?"good":sv<lgSv?"bad":"") : "") + cx
     + kv(gl.length?pct(near/gl.length):"–","Goals from 20 ft or closer") + kv(avg==null?"–":avg.toFixed(0)+" ft","Average goal distance");
 }
 function gmTable(c){
@@ -154,6 +165,7 @@ function renderGoalMap(){
   $("#gmNote").textContent = `${GM.season} regular season, ${GM.from} to ${GM.to} · ${GM.games} games · NHL play-by-play, updated each morning. Empty nets and shootouts left out.`;
   $("#gmView").innerHTML = segBtns(GM_VIEWS, gm.view);
   $("#gmStr").innerHTML = segBtns(GM_STR, gm.str);
+  $("#gmMove").hidden = !GM.cross; $("#gmMove").innerHTML = segBtns(GM_MOVE, gm.move);
   $("#gmDots").checked = gm.dots; $("#gmDotsLbl").hidden = gm.view==="sv" || !map;
   $("#gmMapWrap").hidden=!map; $("#gmGrid").classList.toggle("nomap",!map); $("#gmGrid").classList.toggle("is3d",map&&gm.dim==="3d");
   $("#gmHide").hidden=!state.gfx; $("#gmHide").textContent = gm.hidden?"Show map":"Hide map";
@@ -203,6 +215,7 @@ if(GM && GM.shots.length){
 $("#gmGoalie").addEventListener("change",e=>{ gm.id=e.target.value; store.set("gm:goalie",gm.id); renderGoalMap(); });
 $("#gmView").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.view=b.dataset.v; store.set("gm:view",gm.view); renderGoalMap(); });
 $("#gmStr").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.str=b.dataset.v; store.set("gm:str",gm.str); renderGoalMap(); });
+$("#gmMove").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.move=b.dataset.v; store.set("gm:move",gm.move); renderGoalMap(); });
 $("#gmDots").addEventListener("change",e=>{ gm.dots=e.target.checked; store.set("gm:dots",gm.dots); renderGoalMap(); });
 $("#gmDim").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||b.dataset.v===gm.dim) return; gm.dim=b.dataset.v; store.set("gm:dim",gm.dim); renderGoalMap(); });
 $("#gm3dViews").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; gm.cam=b.dataset.v; $("#gm3dViews").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); if(gm3d) gm3d.view(gm.cam); });

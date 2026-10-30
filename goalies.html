@@ -423,6 +423,7 @@ tbody tr:last-child td{border-bottom:0}
       <div class="field"><label for="gmGoalie">Goalie</label><select id="gmGoalie"><option value="">All goalies (league)</option></select></div>
       <div class="seg" role="group" aria-label="Show" id="gmView"></div>
       <div class="seg" role="group" aria-label="Strength" id="gmStr"></div>
+      <div class="seg" role="group" aria-label="Puck movement before the shot" id="gmMove" hidden></div>
       <div class="gm-end"><div class="seg" role="group" aria-label="Map style" id="gmDim"></div><button class="hidebtn" id="gmHide" type="button">Hide map</button></div>
     </div>
     <div class="zone-top gm-stats"><div class="stats" id="gmStats"></div></div>
@@ -983,7 +984,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 
 /* ---------- footer ---------- */
 $("#foot").innerHTML = `
-  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Projected starters are our own call from who has started each team's recent games, with back-to-backs going to the backup; the NHL does not confirm starters before puck drop. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
+  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. A cross-ice shot is one where the event logged just before it, within 3 seconds, was in the zone on the other side of the middle of the ice; it is our estimate of the "Royal Road" idea popularised by former NHL goalie Steve Valiquette, since the feed does not record passes. Projected starters are our own call from who has started each team's recent games, with back-to-backs going to the backup; the NHL does not confirm starters before puck drop. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
   <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 

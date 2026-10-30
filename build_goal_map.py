@@ -2,7 +2,9 @@
 
 Reads the NHL's public play-by-play feed (api-web.nhle.com) for every finished
 regular-season game this season and keeps each shot on goal a goalie faced:
-where it was taken, whether it went in, the strength, and the shot type.
+where it was taken, whether it went in, the strength, the shot type, and whether the
+puck had just crossed the middle of the ice (a cross-ice shot, our stand-in for the
+"Royal Road" idea popularised by Steve Valiquette).
 Missed and blocked shots are left out, and so are empty-net shots and shootouts.
 
 Run by .github/workflows/update-goalie-stats.yml every morning, or by hand:
@@ -26,6 +28,9 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+CACHE_VERSION = 2   # 2: shots carry "c" (cross-ice); older cached games are read again
+CROSS_SECS = 3      # the event before a cross-ice shot happened at most this many seconds earlier
+CROSS_MIN_Y = 3     # feet from the middle of the ice both ends must be, so pucks near the middle don't count
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "goal-map-data.js"
 CACHE_DIR = HERE / "data" / "goal-map"
@@ -39,6 +44,8 @@ HEADER = ("/* Shots on goal faced by each NHL goalie this season, from the NHL p
           "   Rebuilt by build_goal_map.py; shown in the goals heat map on goalies.html.\n"
           "   x: feet from centre ice toward the goal (goal line at 89). y: feet across the ice, positive on the left as drawn.\n"
           "   Each shot: [goalie index, x, y, goal 0/1, strength index, shot type index]; a goal adds [shooter, date index, period, time].\n"
+          "   cross: indexes into shots of the cross-ice shots: the event just before (within 3 seconds, same period) was\n"
+          "   in the attacking zone on the other side of the middle of the ice. The feed has no passes, so this is an estimate.\n"
           "   daily: for each goalie index, [date index, shots on goal, goals] for every date they faced a shot (the NHL Stats leaderboard). */\n")
 
 
@@ -87,6 +94,29 @@ def strength(code, goalie_is_home):
     return 1 if shooters > defenders else 2
 
 
+def secs(t):
+    m, _, s = (t or "").partition(":")
+    return int(m) * 60 + int(s) if m.isdigit() and s.isdigit() else None
+
+
+def facing(x, y, net_side):
+    """Feed coordinates turned so the goal being shot at is at x = +89."""
+    return (-x, -y) if net_side == "left" else (x, y)
+
+
+def cross_ice(prev, play, x, y, net_side):
+    """True when the event just before this shot was in the attacking zone, on the other side of the middle of the ice."""
+    if not prev or prev.get("periodDescriptor", {}).get("number") != play.get("periodDescriptor", {}).get("number"):
+        return False
+    t0, t1 = secs(prev.get("timeInPeriod")), secs(play.get("timeInPeriod"))
+    pd = prev.get("details", {})
+    px, py = pd.get("xCoord"), pd.get("yCoord")
+    if t0 is None or t1 is None or not 0 <= t1 - t0 <= CROSS_SECS or px is None or py is None:
+        return False
+    px, py = facing(px, py, net_side)
+    return px >= 25 and abs(py) >= CROSS_MIN_Y and abs(y) >= CROSS_MIN_Y and (py > 0) != (y > 0)
+
+
 def read_game(pbp):
     """One cached line: the game's teams, date, goalies and every shot on goal they faced."""
     home, away = pbp["homeTeam"], pbp["awayTeam"]
@@ -95,9 +125,10 @@ def read_game(pbp):
     for p in pbp.get("rosterSpots", []):
         name = f'{p.get("firstName", {}).get("default", "")} {p.get("lastName", {}).get("default", "")}'.strip()
         people[p["playerId"]] = (name, team_abbr.get(p.get("teamId"), ""), p.get("positionCode"))
-    shots = []
+    shots, prev = [], None
     for play in pbp.get("plays", []):
         kind = play.get("typeDescKey")
+        before, prev = prev, play
         if kind not in ("shot-on-goal", "goal"):
             continue
         per = play.get("periodDescriptor", {})
@@ -113,16 +144,17 @@ def read_game(pbp):
             net_side = "right" if x > 0 else "left"  # no side given: assume the shot came from the attacking zone
         else:
             net_side = side if goalie_is_home else ("left" if side == "right" else "right")
-        if net_side == "left":
-            x, y = -x, -y
+        x, y = facing(x, y, net_side)
         row = {"g": goalie, "x": round(x), "y": round(y), "goal": int(kind == "goal"),
                "s": strength(play.get("situationCode"), goalie_is_home), "t": d.get("shotType") or ""}
+        if cross_ice(before, play, x, y, net_side):
+            row["c"] = 1
         if kind == "goal":
             shooter = d.get("scoringPlayerId")
             row.update(by=people.get(shooter, ("", "", ""))[0], p=per.get("number"), at=play.get("timeInPeriod", ""))
         shots.append(row)
     goalies = {pid: {"name": v[0], "team": v[1]} for pid, v in people.items() if v[2] == "G"}
-    return {"id": pbp["id"], "date": pbp.get("gameDate", ""), "home": home["abbrev"], "away": away["abbrev"],
+    return {"v": CACHE_VERSION, "id": pbp["id"], "date": pbp.get("gameDate", ""), "home": home["abbrev"], "away": away["abbrev"],
             "goalies": goalies, "shots": shots}
 
 
@@ -132,7 +164,8 @@ def load_cache(path):
         for line in path.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 g = json.loads(line)
-                games[g["id"]] = g
+                if g.get("v") == CACHE_VERSION:
+                    games[g["id"]] = g
     return games
 
 
@@ -144,6 +177,7 @@ def write_js(games, season_label, today):
         for pid, info in g["goalies"].items():
             latest[int(pid)] = info
     shooters, shooter_idx = [], {}
+    cross = []
     daily = {}  # (goalie index, date index) -> [shots, goals]
     for g in order:
         if not dates or dates[-1] != g["date"]:
@@ -162,6 +196,8 @@ def write_js(games, season_label, today):
                     shooter_idx[s.get("by", "")] = len(shooters)
                     shooters.append(s.get("by", ""))
                 row += [shooter_idx[s.get("by", "")], di, s.get("p") or 0, s.get("at", "")]
+            if s.get("c"):
+                cross.append(len(rows))
             rows.append(row)
             day = daily.setdefault((goalie_idx[gid], di), [0, 0])
             day[0] += 1
@@ -173,13 +209,13 @@ def write_js(games, season_label, today):
         "season": season_label, "asOf": today.isoformat(), "games": len(order),
         "from": dates[0] if dates else "", "to": dates[-1] if dates else "",
         "dates": dates, "strengths": STRENGTHS, "shotTypes": SHOT_TYPES,
-        "goalies": goalie_list, "shooters": shooters, "daily": by_goalie, "shots": rows,
+        "goalies": goalie_list, "shooters": shooters, "daily": by_goalie, "cross": cross, "shots": rows,
     }
     body = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     body = body.replace('"shots":[[', '"shots":[\n[').replace("],[", "],\n[") if rows else body
     OUT.write_text(f"{HEADER}window.GOAL_MAP = {body};\n", encoding="utf-8")
     goals = sum(r[3] for r in rows)
-    print(f"Wrote {len(rows)} shots on goal ({goals} goals) for {len(goalie_list)} goalies across {len(order)} games to {OUT.name}.")
+    print(f"Wrote {len(rows)} shots on goal ({goals} goals, {len(cross)} cross-ice) for {len(goalie_list)} goalies across {len(order)} games to {OUT.name}.")
 
 
 def main():
