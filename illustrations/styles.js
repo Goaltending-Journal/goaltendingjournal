@@ -29,8 +29,9 @@
     return t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : mix(t.primary, 0.5);
   };
   // The figure sits inside each style's frame: ice at y = 82, the top no higher than y = 10
-  const inset = (A, max = 0.82) => {
-    const k = Math.min(max, 72 / (G.GROUND - A.top));
+  // topY: one top for a whole motion loop, so the figure keeps its scale from frame to frame
+  const inset = (A, max = 0.82, topY) => {
+    const k = Math.min(max, 72 / (G.GROUND - (topY ?? A.top)));
     return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
   };
 
@@ -204,7 +205,7 @@
     }
     // On the light box the bones sit over the see-through gear; elsewhere the gear sits under them anyway
     return `${G.svgOpen(A.pose, opts)}${ground}
-      <g transform="${inset(A, xray ? 0.86 : 0.82)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
+      <g transform="${inset(A, xray ? 0.86 : 0.82, opts.topY)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
       ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: ${xray ? 2.4 : 1.4}`)}</g></svg>`;
   };
 
