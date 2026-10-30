@@ -1,0 +1,171 @@
+<title>Gilded Knights Set</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 4 check sheet: the full set, every size in both page themes, all 32 colour sets, colour-vision simulations, the crests and the model sheet. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ok: #17865a; --warn: #a8690c;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+h2 { font: 600 24px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 }
+.lede { margin: 0; color: var(--muted); max-width: 68ch }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.facts b { color: var(--fg); font-weight: 500; font-family: var(--label); font-size: 18px; display: block }
+section { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--rule); display: grid; gap: 14px }
+.note { margin: 0; font: 14px/1.5 var(--sans); color: var(--muted); max-width: 78ch }
+.note b { color: var(--fg); font-weight: 500 }
+.set { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .set { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0 }
+figure svg { width: 100%; height: auto; display: block }
+figcaption { font: 13px/1.35 var(--sans); color: var(--muted) }
+figcaption b { color: var(--fg); font-weight: 500; display: block }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch }
+.sizes { display: grid; gap: 12px; min-width: 1000px }
+.theme { border-radius: 6px; padding: 12px; border: 1px solid var(--rule) }
+.theme.l { background: #f6f6fb; color: #5b5e75 } .theme.d { background: #11121d; color: #a3a6c0 }
+.theme h3 { font: 600 11px var(--label); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px }
+.srow { display: flex; gap: 8px; align-items: center; padding: 4px 0; font: 12px var(--sans) }
+.srow > span { width: 48px; flex: none }
+.srow svg { display: block }
+.teams { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px }
+.team { display: grid; grid-template-columns: 64px 1fr; gap: 8px; align-items: start; font: 12px/1.35 var(--sans); color: var(--muted); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 8px }
+.team b { color: var(--fg); font-weight: 500; display: block; font-size: 13px }
+.chip { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 2px; outline: 1px solid rgba(128,128,128,.4) }
+.fb { color: var(--warn); font-weight: 500 }
+.cvd { display: grid; gap: 10px }
+.cvd .r { display: grid; grid-template-columns: 120px 1fr; gap: 10px; align-items: center; font: 12.5px var(--sans); color: var(--muted) }
+.cvd .r b { color: var(--fg); font-weight: 500; display: block }
+.strip { display: flex; flex-wrap: wrap; gap: 4px }
+.strip svg { width: 40px; height: 40px; display: block }
+.crests { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px }
+.crest { display: grid; justify-items: center; gap: 4px; font: 12px/1.3 var(--sans); color: var(--muted); text-align: center }
+.crest svg { width: 72px; height: 72px; display: block }
+.crest b { color: var(--fg); font-weight: 500 }
+table { border-collapse: collapse; font: 13.5px/1.4 var(--sans); width: 100%; min-width: 520px }
+th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top }
+th { font: 600 11px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+td code { font: 12.5px ui-monospace, Menlo, monospace }
+.plate { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 720px) { .plate { grid-template-columns: 1fr } }
+.donts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .donts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.donts .pair { display: flex; gap: 6px; align-items: end }
+.donts .pair svg { width: 50%; height: auto }
+.donts .pair span svg { width: 100% }
+.x { color: var(--warn) } .ok { color: var(--ok) }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
+.foot a { color: var(--accent) }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 4</p>
+  <h1>The full set in Gilded Knights</h1>
+  <p class="lede">All twelve types in the style Goldy picked, then the checks: every size in both page themes, all 32 teams' colours, three kinds of colour blindness, a crest for each team, and the model sheet that keeps future drawings on model.</p>
+  <ul class="facts" id="facts"></ul>
+
+  <section><h2>The set</h2>
+    <p class="note">Each type is drawn in the colours of the team whose goalie leads it today, at the 240 px detail-card size. The numbers are placeholders.</p>
+    <div class="set" id="set"></div></section>
+
+  <section><h2>Every size, both themes</h2>
+    <p class="note">All twelve types in set order at the leaderboard row (32 px), the profile card (64 px) and the starters carousel (76 px), on the page's own light and dark grounds. <b>Changed for 32 px:</b> the net is now ice white with a heavy edge and the pucks have a white rim, so Workhorse and Under Siege keep their props at leaderboard size.</p>
+    <div class="scroll"><div class="sizes" id="sizes"></div></div></section>
+
+  <section><h2>All 32 colour sets</h2>
+    <p class="note">Steady in every team's colours, with the colours the picture took and the jersey number's contrast. The three chips are the tabard, the field and the trim. The tabard is the sweater colour. The trim (crest, tabard edge, shield rim) is the first other team colour that shows on the field and the tabard for every kind of colour vision, else white. <b>Number:</b> white with an ink edge where white reaches 3:1 on the tabard; <span class="fb">ink</span> where it doesn't.</p>
+    <div class="teams" id="teams"></div></section>
+
+  <section><h2>Colour blindness</h2>
+    <p class="note">The whole set, then all 32 teams, as seen with each kind of colour blindness (simulated with the Machado 2009 model). The types are told apart by shape, never by colour, so no two types can merge. Inside each picture, every pair the eye relies on holds its contrast in all four rows: number on tabard, trim on field, armour on field and the shield's cross. To get there, four teams' trims (Dallas, Edmonton, Florida, San Jose) switched to white and Columbus's red switched to silver.</p>
+    <div class="cvd" id="cvd"></div></section>
+
+  <section><h2>Crests</h2>
+    <p class="note">The marks: one crest per team on top of the great helm, drawn after the team's nickname as a plain heraldic figure. None is a team logo, crest or mask design. Toronto gets a plain leaf rather than a maple leaf, and the star, crown, fin and bolt are generic shapes that avoid each team's logo layout. I compared each by eye against the team's own logo; a formal trademark search is a legal step I can't do, so the crests should go past whoever handles that before launch.</p>
+    <div class="crests" id="crests"></div></section>
+
+  <section><h2>Model sheet</h2>
+    <p class="note"><b>Conceit:</b> each goalie is a knight of the crease on a page from a herald's roll. <b>Tone:</b> proud and a little playful, like a team banner. It honours the type without mocking the player.</p>
+    <div class="plate"><figure id="plate"></figure><div class="scroll"><table id="tokens"></table></div></div>
+    <p class="note"><b>Turnaround:</b> the set is front view only, by design. Every surface shows the goalie facing the reader, so the canon fixes one view and no side or back view is drawn. The proportions above are the turnaround's front plate.</p>
+    <h2 style="font-size:18px">Don'ts</h2>
+    <div class="donts" id="donts"></div></section>
+
+  <p class="foot">Team colours: <a href="https://www.designyourway.net/blog/nhl-team-color-codes/" rel="noopener">designyourway.net's NHL colour list</a>, saved with the source in illustrations/team-colours.json. No team publishes a public brand page with hex values, so this PMS-based list stays the source of record; <a href="https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox" rel="noopener">Wikipedia's colour module</a> is kept beside it for comparison and differs most for Dallas. Type data from <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>. Generic goalies only: no player likeness, mask art or team logos.</p>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="filters"></defs></svg>
+<script>/*SKELETON*/</script>
+<script>/*GILDED*/</script>
+<script>/*STYLES*/</script>
+<script>
+const TEAMS = /*TEAMS*/.teams;
+const G = window.GoalieSkeleton, GD = window.GoalieGilded, ST = window.GoalieStyles.STYLES;
+const team = (c) => ({ ...TEAMS[c], code: c });
+const name = (k) => G.POSES[k].name;
+let n = 0;
+const art = (k, c, num, size, extra = {}) => GD.draw(k, team(c), num, { size, id: "a" + (n++), label: `${name(k)}, ${TEAMS[c].name} colours`, ...extra });
+// Who leads each type today (goalie-types-data.js, 2026-10-29)
+const SET = [["streaky", "WPG", "Most goalies, this early in the season"], ["workhorse", "MIN", "Wallstedt"], ["hd-stopper", "SJS", "Askarov"], ["wall", "OTT", "Ullmark"],
+  ["rebound", "NSH", "Annunen"], ["siege", "VAN", "Meriläinen"], ["crease", "ANA", "Husso"], ["standout", "MTL", "Fowler"],
+  ["donut-king", "DAL", "Oettinger"], ["grandpa", "CBJ", "Talbot"], ["young-gun", "MTL", "Fowler"], ["style-king", "TOR", "Stolarz"]];
+const sizes = SET.map(([k, c]) => GD.draw(k, team(c), "30", {}).length);
+const audit = /*AUDIT*/;
+document.getElementById("facts").innerHTML = [["12", "types drawn"], ["32", "teams' colours"], [`${audit.failures.length}`, "contrast failures in 4 kinds of vision"],
+  [`${(Math.max(...sizes) / 1024).toFixed(1)} KB`, "largest still (budget 6 KB)"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
+document.getElementById("set").innerHTML = SET.map(([k, c, who], i) => `<figure>${art(k, c, String(30 + i), null)}<figcaption><b>${name(k)}</b>${TEAMS[c].name} · ${who}</figcaption></figure>`).join("");
+document.getElementById("sizes").innerHTML = [["l", "Light page"], ["d", "Dark page"]].map(([t, label]) => `<div class="theme ${t}"><h3>${label}</h3>${
+  [32, 64, 76].map((px) => `<div class="srow"><span>${px} px</span>${SET.map(([k, c], i) => art(k, c, String(30 + i), px)).join("")}</div>`).join("")}</div>`).join("");
+const chip = (h) => `<i class="chip" style="background:${h}"></i>`;
+document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => {
+  const a = audit.teams[c], tk = a.tokens;
+  return `<div class="team">${art("streaky", c, "88", 64)}<div><b>${TEAMS[c].name}</b>${chip(tk.tabard)}${chip(tk.field)}${chip(tk.trim)}<br>
+    Number ${tk.number === "#FFFFFF" ? "white" : '<span class="fb">ink</span>'} · ${a.number.wcag.toFixed(1)}:1 · Lc ${Math.round(Math.abs(a.number.apca))}</div></div>`;
+}).join("");
+// Colour-blindness filters: the same matrices the check script uses, applied in linear RGB
+const M = GD.CVD;
+document.getElementById("filters").innerHTML = Object.entries(M).map(([k, m]) => `<filter id="f-${k}" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="${m.map((r) => r.join(" ") + " 0 0").join(" ")} 0 0 0 1 0"/></filter>`).join("");
+document.getElementById("cvd").innerHTML = [["normal", "Normal vision"], ["deuteranopia", "Deuteranopia"], ["protanopia", "Protanopia"], ["tritanopia", "Tritanopia"]].map(([k, label]) => `
+  <div class="r"><span><b>${label}</b>${k === "normal" ? "for comparison" : { deuteranopia: "no green cones", protanopia: "no red cones", tritanopia: "no blue cones" }[k]}</span>
+  <div class="strip" style="${k === "normal" ? "" : `filter:url(#f-${k})`}">${SET.map(([p, c], i) => art(p, c, String(30 + i), 40)).join("")}</div></div>
+  <div class="r"><span></span><div class="strip" style="${k === "normal" ? "" : `filter:url(#f-${k})`}">${Object.keys(TEAMS).map((c) => art("streaky", c, "88", 40)).join("")}</div></div>`).join("");
+// Crests: zoomed to the helm by cropping the steady pose's viewBox
+document.getElementById("crests").innerHTML = Object.keys(TEAMS).map((c) => {
+  const svg = art("streaky", c, "88", null).replace('viewBox="0 0 100 100"', 'viewBox="34 6 32 32"');
+  return `<div class="crest">${svg}<span><b>${c}</b> ${GD.CRESTS[c].charge}</span></div>`;
+}).join("");
+// Proportions plate: Steady over a head-unit grid
+(() => {
+  const A = G.parts("streaky"), k = 0.82, top = A.P.head[1] - 5.6;
+  const y = (v) => 82.4 - (G.GROUND - v) * Math.min(k, 72 / (G.GROUND - Math.min(A.top, top - 11)));
+  const lines = []; for (let i = 0; i <= 7; i++) { const v = G.GROUND - i * 11 * 0.97; lines.push(`<path d="M6 ${y(v).toFixed(1)}H94" stroke="#D8B256" stroke-width=".3" opacity=".8"/><text x="96" y="${(y(v) + 1).toFixed(1)}" style="font:600 3px Jost,sans-serif;fill:#D8B256">${i}</text>`); }
+  const svg = art("streaky", "WPG", "30", null).replace("</svg>", `<g>${lines.join("")}</g></svg>`);
+  document.getElementById("plate").innerHTML = `${svg}<figcaption><b>Proportions</b>Seven heads tall, ice to crest; gold rules mark each head.</figcaption>`;
+})();
+document.getElementById("tokens").innerHTML = `<tr><th>Token</th><th>Value</th><th>Rule</th></tr>` + [
+  ["Armour", GD.T.gold.map(chip).join("") + " <code>" + GD.T.gold.join(" ") + "</code>", "Gold gradient, light to shadow, on every metal part"],
+  ["Ink", chip(GD.T.ink) + " <code>" + GD.T.ink + "</code>", "Every outline; the outer hairline; the number's edge"],
+  ["Ice", chip(GD.T.ice) + " <code>" + GD.T.ice + "</code>", "Net posts, puck rims, blade tape"],
+  ["Tabard", "team", "The sweater colour: the first colour in the team's published list"],
+  ["Field", "team", "Sweater colour 45% darker; charcoal for black sweaters; the second team colour for gold sweaters"],
+  ["Trim", "team", "First other team colour reaching 3:1 on the field (and 2:1 on the tabard when its edge is needed) in all four kinds of vision; else white"],
+  ["Number", "white or ink", "Jost 600 at 8 units, white with an ink edge; ink with a white edge where white is under 3:1"],
+  ["Proportions", "units of 100", "Head 11, torso 24, arm 13 + 12, thigh 19, shin 20, stick 40; crest up to 11"],
+  ["Frame", "rules", "Gold rule 3 units inside an ink hairline; stars at 35% gold on the field"],
+].map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+// Don'ts: each shown wrong (left) and right (right)
+const wrongTk = { field: "#6D500B", number: "#FFFFFF", numberEdge: GD.T.ink };
+document.getElementById("donts").innerHTML = [
+  ["Thin props", "Round 3's thin brown net (left) sank into the dark field and vanished at 32 px.", ST["knights-gilded"].draw("workhorse", TEAMS.MIN, "30", { size: 64 }), art("workhorse", "MIN", "30", 64)],
+  ["Gold on gold", "A gold sweater's own colour as the field hides the armour.", art("streaky", "VGK", "30", 64, { tk: wrongTk }), art("streaky", "VGK", "30", 64)],
+  ["Number with no fallback", "White on Nashville gold is 1.6:1; the fallback is ink.", art("rebound", "NSH", "30", 64, { tk: { number: "#FFFFFF", numberEdge: "#FFFFFF" } }), art("rebound", "NSH", "30", 64)],
+  ["A colour-only trim", "San Jose's orange edge fades to the teal with no red cones (left, simulated).", `<span style="filter:url(#f-protanopia);width:50%;display:block">${art("hd-stopper", "SJS", "30", 64, { tk: { trim: "#E57200", cross: "#E57200" } })}</span>`, `<span style="filter:url(#f-protanopia);width:50%;display:block">${art("hd-stopper", "SJS", "30", 64)}</span>`],
+].map(([h, why, a, b]) => `<figure><div class="pair">${a}${b}</div><figcaption><b><span class="x">✕</span> ${h} <span class="ok">✓</span></b>${why}</figcaption></figure>`).join("")
+  + `<p class="note" style="grid-column:1/-1">Also never: a real team logo, wordmark or mask design; a real player's face; a type told apart by colour alone; a new pose drawn as free points instead of joint angles on the skeleton.</p>`;
+</script>

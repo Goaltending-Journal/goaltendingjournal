@@ -1,0 +1,127 @@
+<title>Tapestry Knights</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 4 check sheet: the full set, every size in both page themes, all 32 colour sets, colour-vision simulations, the crests and the model sheet. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ok: #17865a; --warn: #a8690c;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+h2 { font: 600 24px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 }
+.lede { margin: 0; color: var(--muted); max-width: 68ch }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.facts b { color: var(--fg); font-weight: 500; font-family: var(--label); font-size: 18px; display: block }
+section { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--rule); display: grid; gap: 14px }
+.note { margin: 0; font: 14px/1.5 var(--sans); color: var(--muted); max-width: 78ch }
+.note b { color: var(--fg); font-weight: 500 }
+.set { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .set { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0 }
+figure svg { width: 100%; height: auto; display: block }
+figcaption { font: 13px/1.35 var(--sans); color: var(--muted) }
+figcaption b { color: var(--fg); font-weight: 500; display: block }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch }
+.sizes { display: grid; gap: 12px; min-width: 1000px }
+.theme { border-radius: 6px; padding: 12px; border: 1px solid var(--rule) }
+.theme.l { background: #f6f6fb; color: #5b5e75 } .theme.d { background: #11121d; color: #a3a6c0 }
+.theme h3 { font: 600 11px var(--label); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px }
+.srow { display: flex; gap: 8px; align-items: center; padding: 4px 0; font: 12px var(--sans) }
+.srow > span { width: 48px; flex: none }
+.srow svg { display: block }
+.teams { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px }
+.team { display: grid; grid-template-columns: 64px 1fr; gap: 8px; align-items: start; font: 12px/1.35 var(--sans); color: var(--muted); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 8px }
+.team b { color: var(--fg); font-weight: 500; display: block; font-size: 13px }
+.chip { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 2px; outline: 1px solid rgba(128,128,128,.4) }
+.fb { color: var(--warn); font-weight: 500 }
+.cvd { display: grid; gap: 10px }
+.cvd .r { display: grid; grid-template-columns: 120px 1fr; gap: 10px; align-items: center; font: 12.5px var(--sans); color: var(--muted) }
+.cvd .r b { color: var(--fg); font-weight: 500; display: block }
+.strip { display: flex; flex-wrap: wrap; gap: 4px }
+.strip svg { width: 40px; height: 40px; display: block }
+.crests { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px }
+.crest { display: grid; justify-items: center; gap: 4px; font: 12px/1.3 var(--sans); color: var(--muted); text-align: center }
+.crest svg { width: 72px; height: 72px; display: block }
+.crest b { color: var(--fg); font-weight: 500 }
+table { border-collapse: collapse; font: 13.5px/1.4 var(--sans); width: 100%; min-width: 520px }
+th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top }
+th { font: 600 11px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+td code { font: 12.5px ui-monospace, Menlo, monospace }
+.plate { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 720px) { .plate { grid-template-columns: 1fr } }
+.donts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 720px) { .donts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.donts .pair { display: flex; gap: 6px; align-items: end }
+.donts .pair svg { width: 50%; height: auto }
+.donts .pair span svg { width: 100% }
+.x { color: var(--warn) } .ok { color: var(--ok) }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
+.foot a { color: var(--accent) }
+.hero { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 24px; align-items: start }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr } }
+.hero ul { margin: 0; padding-left: 18px; font: 14.5px/1.55 var(--sans); color: var(--muted) }
+.hero li { margin-bottom: 6px } .hero li b { color: var(--fg); font-weight: 500 }
+.lat { font-style: italic }
+.teamgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px }
+.teamgrid figure svg { width: 100%; height: auto }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 4 · Round 3</p>
+  <h1>The Tapestry knights, refined</h1>
+  <p class="lede">The Bayeux Tapestry style Goldy picked, with more definition and real goalie gear stitched in. Same poses, team colours and crests. Each type keeps its Latin caption.</p>
+  <ul class="facts" id="facts"></ul>
+
+  <section><h2>The gear, up close</h2>
+    <div class="hero"><figure id="hero"></figure>
+    <ul>
+      <li><b>Cage helm.</b> The great helm now has a goalie cage in its face, with three bars down and two across, and a throat dangler hanging below.</li>
+      <li><b>Leg pads.</b> Two face channels run down each pad, with a knee stack at the top, a boot break at the bottom, and two leather straps across the lower pad.</li>
+      <li><b>Catcher.</b> It has a cuff at the wrist, a thumb, a dark pocket, and a laced T-trap across the top.</li>
+      <li><b>Blocker.</b> The kite shield keeps the team's cross. A team-colour cuff now shows behind it on the forearm.</li>
+      <li><b>Upper body.</b> Segmented shoulder floaters and round elbow cops, under the team tabard and its trimmed hem.</li>
+      <li><b>Stick.</b> A knob at the top and a taped blade.</li>
+      <li><b>Stitching.</b> The armour is in two wools, ochre and a darker ochre on the shaded side, as the tapestry does it. Every fill is laid-and-couched work (laid threads tied down with small cross stitches), inside a stitched outline.</li>
+    </ul></div></section>
+
+  <section><h2>The full set</h2>
+    <p class="note">Each type in the colours of the team whose goalie leads it today. The numbers are placeholders.</p>
+    <div class="set" id="set"></div></section>
+
+  <section><h2>Small sizes, both themes</h2>
+    <p class="note">Below 100 px the picture switches to a lighter cut. The outlines are solid instead of stitched, and the fine stitching and the caption are dropped, so the figure stays crisp. The shapes, colours and crest stay the same.</p>
+    <div class="scroll"><div class="sizes" id="sizes"></div></div></section>
+
+  <section><h2>All 32 teams</h2>
+    <p class="note">Steady in every team's colours. Nashville and Vegas wear gold, so their knights switch to blue-grey steel wool; otherwise the gold sweater would vanish into the ochre armour.</p>
+    <div class="teamgrid" id="teams"></div></section>
+
+  <p class="foot">Team colours and crests are unchanged from Gilded (sources in illustrations/team-colours.json). Size: about 16 KB of raw SVG for the full cut, 10 KB for the small cut. Compressed, which is how the site sends them, they are 3.5 KB and 2.8 KB, under the 6 KB budget. Type data from <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>. Generic goalies only: no player likeness, mask art or team logos.</p>
+</div>
+<script>/*SKELETON*/</script>
+<script>/*GILDED*/</script>
+<script>/*MEDIEVAL*/</script>
+<script>
+const TEAMS = /*TEAMS*/.teams;
+const G = window.GoalieSkeleton, M = window.GoalieMedieval, TP = M.STYLES.tapestry.draw;
+const T = (c) => ({ ...TEAMS[c], code: c }), name = (k) => G.POSES[k].name;
+let n = 0;
+const art = (k, c, num, size, extra = {}) => TP(k, T(c), num, { size, id: "p" + (n++), label: `${name(k)}, ${TEAMS[c].name} colours`, ...extra });
+const SET = [["streaky", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "MTL"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
+const LAT = { streaky: "Vincit iterum", workhorse: "Hic laborat", "hd-stopper": "Periculum vincit", wall: "Murus", rebound: "Hic puck tenet", siege: "Obsessus",
+  crease: "In turba pugnat", standout: "Egregius", "donut-king": "Rex nihili", grandpa: "Senex", "young-gun": "Iuvenis", "style-king": "Rex elegantiae" };
+const EN = { streaky: "He wins again", workhorse: "Here he labours", "hd-stopper": "He conquers danger", wall: "The wall", rebound: "Here he holds the puck", siege: "Besieged",
+  crease: "He fights in the crowd", standout: "The outstanding one", "donut-king": "King of nothing", grandpa: "The old man", "young-gun": "The youth", "style-king": "King of style" };
+document.getElementById("facts").innerHTML = [["12", "types"], ["32", "teams' colours"], ["7", "pieces of gear detailed"], ["3.5 KB", "largest picture, compressed"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
+document.getElementById("hero").innerHTML = `${art("workhorse", "MIN", "31", null)}<figcaption><b>Workhorse</b>Minnesota Wild colours · <span class="lat">Hic laborat</span>, "here he labours"</figcaption>`;
+document.getElementById("set").innerHTML = SET.map(([k, c], i) => `<figure>${art(k, c, String(30 + i), null)}<figcaption><b>${name(k)}</b><span class="lat">${LAT[k]}</span>, "${EN[k].toLowerCase()}" · ${TEAMS[c].name}</figcaption></figure>`).join("");
+document.getElementById("sizes").innerHTML = [["l", "Light page"], ["d", "Dark page"]].map(([t, label]) => `<div class="theme ${t}"><h3>${label}</h3>${
+  [32, 64, 76].map((px) => `<div class="srow"><span>${px} px</span>${SET.map(([k, c], i) => art(k, c, String(30 + i), px)).join("")}</div>`).join("")}</div>`).join("");
+document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => `<figure>${art("streaky", c, "88", null, { lite: false })}<figcaption><b>${TEAMS[c].name}</b>${window.GoalieGilded.CRESTS[c].charge}</figcaption></figure>`).join("");
+</script>

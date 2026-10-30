@@ -1,0 +1,59 @@
+<title>Goalie Type Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 7: every goalie on one board, in rows by type, drawn in the Light Box plain mode with a name plate and a stat plate. */
+:root { --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0;
+  --display: "Cinzel", Georgia, serif; --serif: "EB Garamond", Georgia, serif; --label: "Jost", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif; --halo: none }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; color-scheme: dark; --halo: drop-shadow(0 0 .7px #dde9f1) drop-shadow(0 0 .7px #dde9f1) } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; color-scheme: dark; --halo: drop-shadow(0 0 .7px #dde9f1) drop-shadow(0 0 .7px #dde9f1) }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px }
+.lede { margin: 0; color: var(--muted); max-width: 68ch }
+.group { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--rule) }
+.group h2 { font: 600 20px/1.15 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 }
+.group .rule { font: 13.5px/1.4 var(--sans); color: var(--muted); margin: 4px 0 12px }
+.row { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 18px 12px }
+.subject { display: grid; justify-items: center; align-content: start; gap: 2px; min-width: 0; text-align: center }
+.subject svg { display: block; width: 100%; height: 84px; filter: var(--halo) }
+.name { font: 500 13px/1.25 var(--sans); max-width: 100%; overflow-wrap: anywhere }
+.stat { font: 500 11px/1.3 var(--label); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); max-width: 100% }
+.empty { font: 14px var(--sans); color: var(--muted) }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font: 13px/1.5 var(--sans); color: var(--muted) }
+.foot a { color: var(--accent) }
+</style>
+<script>/*SKELETON*/</script>
+<script>/*STYLES*/</script>
+<script>/*TYPES*/</script>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 7 · The board</p>
+  <h1>Every goalie, by type</h1>
+  <p class="lede" id="lede"></p>
+  <div id="board"></div>
+  <p class="foot" id="foot"></p>
+</div>
+<script>
+const TEAMS = /*TEAMS*/.teams;
+const G = window.GoalieSkeleton, draw = window.GoalieStyles.STYLES["skeletons-xray"].draw, D = window.GOALIE_TYPES;
+const POSE = (key) => key;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const order = G.ORDER.map((k) => D.types.find((t) => POSE(t.key) === k)).filter(Boolean);
+document.getElementById("lede").textContent = `All ${D.goalies.length} goalies with ${D.minToi}+ minutes this season, drawn as their type in their team's colours. Types as of ${D.asOf}.`;
+document.getElementById("board").innerHTML = order.map((t) => {
+  const gs = D.goalies.filter((g) => g.type === t.key).sort((a, b) => a.name.localeCompare(b.name));
+  const cells = gs.map((g) => `<figure class="subject" style="margin:0">${draw(POSE(t.key), { ...TEAMS[g.team], code: g.team }, "", { size: 84, plain: true, label: `${g.name}, ${t.name}` })}
+    <figcaption><div class="name">${esc(g.name)}</div><div class="stat">${esc(g.team)} · ${g.gp} GP</div></figcaption></figure>`).join("");
+  return `<section class="group"><h2>${esc(t.name)}</h2><p class="rule">${esc(t.rule)} · ${gs.length} goalie${gs.length === 1 ? "" : "s"}</p>
+    ${gs.length ? `<div class="row">${cells}</div>` : `<p class="empty">No goalie meets this one yet.</p>`}</section>`;
+}).join("");
+document.getElementById("foot").innerHTML = `${esc(D.credit.replace(/ \(.*\)$/, ""))}: <a href="https://www.naturalstattrick.com">naturalstattrick.com</a>. Generic drawings only; no player likeness.`;
+// Crop each figure tight: the viewBox is its drawn bounds plus a little room
+for (const svg of document.querySelectorAll(".subject svg")) {
+  const b = svg.getBBox(), p = 2;
+  svg.setAttribute("viewBox", `${(b.x - p).toFixed(1)} ${(b.y - p).toFixed(1)} ${(b.width + 2 * p).toFixed(1)} ${(b.height + 2 * p).toFixed(1)}`);
+  svg.setAttribute("preserveAspectRatio", "xMidYMax meet"); svg.removeAttribute("width"); svg.removeAttribute("height");
+}
+</script>

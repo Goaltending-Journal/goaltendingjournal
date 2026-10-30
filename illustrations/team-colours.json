@@ -1,0 +1,771 @@
+{
+ "note": "Each team's published colours, in the order the source lists them. The first colour is the sweater (tabard) colour. Teams do not publish a public brand page with hex values, so the PMS-based list below is the source of record; the Wikipedia module (a screen-tuned sandbox) is kept as wikiFirst for comparison. It differs most for Dallas (#006847), Anaheim and Ottawa (it lists the old orange-less and red-first sets), Philadelphia and Edmonton (brighter orange).",
+ "sources": {
+  "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
+  "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+ },
+ "read": "2026-10-29",
+ "teams": {
+  "ANA": {
+   "name": "Anaheim Ducks",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#89734C",
+   "palette": [
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#89734C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BOS": {
+   "name": "Boston Bruins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BUF": {
+   "name": "Buffalo Sabres",
+   "primary": "#003087",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002654"
+  },
+  "CGY": {
+   "name": "Calgary Flames",
+   "primary": "#C8102E",
+   "secondary": "#F1BE48",
+   "accent": "#F1BE48",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#F1BE48"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "CAR": {
+   "name": "Carolina Hurricanes",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CC0000"
+  },
+  "CHI": {
+   "name": "Chicago Blackhawks",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "COL": {
+   "name": "Colorado Avalanche",
+   "primary": "#6F263D",
+   "secondary": "#236192",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Burgundy",
+     "hex": "#6F263D"
+    },
+    {
+     "name": "Blue",
+     "hex": "#236192"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#6F263D"
+  },
+  "CBJ": {
+   "name": "Columbus Blue Jackets",
+   "primary": "#041E42",
+   "secondary": "#C8102E",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Union Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Goal Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Capital Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E42"
+  },
+  "DAL": {
+   "name": "Dallas Stars",
+   "primary": "#00843D",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Victory Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006847"
+  },
+  "DET": {
+   "name": "Detroit Red Wings",
+   "primary": "#C8102E",
+   "secondary": "#FFFFFF",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "EDM": {
+   "name": "Edmonton Oilers",
+   "primary": "#00205B",
+   "secondary": "#CF4520",
+   "accent": "#CF4520",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FF4C00"
+  },
+  "FLA": {
+   "name": "Florida Panthers",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#C8102E"
+  },
+  "LAK": {
+   "name": "Los Angeles Kings",
+   "primary": "#000000",
+   "secondary": "#A2AAAD",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "MIN": {
+   "name": "Minnesota Wild",
+   "primary": "#154734",
+   "secondary": "#A6192E",
+   "accent": "#EAAA00",
+   "palette": [
+    {
+     "name": "Forest Green",
+     "hex": "#154734"
+    },
+    {
+     "name": "Iron Range Red",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Harvest Gold",
+     "hex": "#EAAA00"
+    },
+    {
+     "name": "Minnesota Wheat",
+     "hex": "#DDCBA4"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#024930"
+  },
+  "MTL": {
+   "name": "Montreal Canadiens",
+   "primary": "#A6192E",
+   "secondary": "#001E62",
+   "accent": "#001E62",
+   "palette": [
+    {
+     "name": "Rouge",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Bleu",
+     "hex": "#001E62"
+    },
+    {
+     "name": "Blanc",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#AF1E2D"
+  },
+  "NSH": {
+   "name": "Nashville Predators",
+   "primary": "#FFB81C",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FFB81C"
+  },
+  "NJD": {
+   "name": "New Jersey Devils",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "NYI": {
+   "name": "New York Islanders",
+   "primary": "#003087",
+   "secondary": "#FC4C02",
+   "accent": "#FC4C02",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Orange",
+     "hex": "#FC4C02"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00539B"
+  },
+  "NYR": {
+   "name": "New York Rangers",
+   "primary": "#0033A0",
+   "secondary": "#C8102E",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0033A0"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "OTT": {
+   "name": "Ottawa Senators",
+   "primary": "#000000",
+   "secondary": "#C8102E",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "PHI": {
+   "name": "Philadelphia Flyers",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Burnt Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#F74902"
+  },
+  "PIT": {
+   "name": "Pittsburgh Penguins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Pittsburgh Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "SJS": {
+   "name": "San Jose Sharks",
+   "primary": "#006272",
+   "secondary": "#000000",
+   "accent": "#E57200",
+   "palette": [
+    {
+     "name": "Deep Pacific Teal",
+     "hex": "#006272"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Burnt Orange",
+     "hex": "#E57200"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006D75"
+  },
+  "SEA": {
+   "name": "Seattle Kraken",
+   "primary": "#051C2C",
+   "secondary": "#9CDBD9",
+   "accent": "#6BA4B8",
+   "palette": [
+    {
+     "name": "Deep Sea Blue",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Ice Blue",
+     "hex": "#9CDBD9"
+    },
+    {
+     "name": "Shadow Blue",
+     "hex": "#6BA4B8"
+    },
+    {
+     "name": "Red Alert",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "STL": {
+   "name": "St. Louis Blues",
+   "primary": "#0072CE",
+   "secondary": "#FFB81C",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0072CE"
+    },
+    {
+     "name": "Yellow",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002F87"
+  },
+  "TBL": {
+   "name": "Tampa Bay Lightning",
+   "primary": "#00205B",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "TOR": {
+   "name": "Toronto Maple Leafs",
+   "primary": "#00205B",
+   "secondary": "#FFFFFF",
+   "accent": "#00205B",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "UTA": {
+   "name": "Utah Mammoth",
+   "primary": "#000000",
+   "secondary": "#6CACE4",
+   "accent": "#6CACE4",
+   "palette": [
+    {
+     "name": "Rock Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Mountain Blue",
+     "hex": "#6CACE4"
+    },
+    {
+     "name": "Salt White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "VAN": {
+   "name": "Vancouver Canucks",
+   "primary": "#00205B",
+   "secondary": "#00843D",
+   "accent": "#051C2C",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Navy",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Silver",
+     "hex": "#97999B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002D55"
+  },
+  "VGK": {
+   "name": "Vegas Golden Knights",
+   "primary": "#C69214",
+   "secondary": "#333F48",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Metallic Gold",
+     "hex": "#C69214"
+    },
+    {
+     "name": "Steel Grey",
+     "hex": "#333F48"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#333F42"
+  },
+  "WSH": {
+   "name": "Washington Capitals",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CF0A2C"
+  },
+  "WPG": {
+   "name": "Winnipeg Jets",
+   "primary": "#041E42",
+   "secondary": "#004C97",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Polar Night Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Aviator Blue",
+     "hex": "#004C97"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E41"
+  }
+ }
+}

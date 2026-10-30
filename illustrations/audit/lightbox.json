@@ -1,0 +1,335 @@
+{
+ "checked": "2026-10-30",
+ "failures": [],
+ "colour": {
+  "ANA": {
+   "edge": "#913016",
+   "gear outline/box": 5.66,
+   "number/halo": 7.05
+  },
+  "BOS": {
+   "edge": "#000000",
+   "gear outline/box": 16.86,
+   "number/halo": 21
+  },
+  "BUF": {
+   "edge": "#00225f",
+   "gear outline/box": 11.18,
+   "number/halo": 13.8
+  },
+  "CGY": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "CAR": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "CHI": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "COL": {
+   "edge": "#4e1b2b",
+   "gear outline/box": 10.59,
+   "number/halo": 13.19
+  },
+  "CBJ": {
+   "edge": "#03152e",
+   "gear outline/box": 14.45,
+   "number/halo": 17.85
+  },
+  "DAL": {
+   "edge": "#005c2b",
+   "gear outline/box": 6.31,
+   "number/halo": 7.72
+  },
+  "DET": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "EDM": {
+   "edge": "#001640",
+   "gear outline/box": 13.62,
+   "number/halo": 16.82
+  },
+  "FLA": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "LAK": {
+   "edge": "#000000",
+   "gear outline/box": 16.86,
+   "number/halo": 21
+  },
+  "MIN": {
+   "edge": "#0f3224",
+   "gear outline/box": 11.11,
+   "number/halo": 13.59
+  },
+  "MTL": {
+   "edge": "#741220",
+   "gear outline/box": 8.1,
+   "number/halo": 10.09
+  },
+  "NSH": {
+   "edge": "#996e11",
+   "gear outline/box": 3.47,
+   "number/halo": 4.32
+  },
+  "NJD": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "NYI": {
+   "edge": "#00225f",
+   "gear outline/box": 11.18,
+   "number/halo": 13.8
+  },
+  "NYR": {
+   "edge": "#002470",
+   "gear outline/box": 10.16,
+   "number/halo": 12.55
+  },
+  "OTT": {
+   "edge": "#000000",
+   "gear outline/box": 16.86,
+   "number/halo": 21
+  },
+  "PHI": {
+   "edge": "#913016",
+   "gear outline/box": 5.66,
+   "number/halo": 7.05
+  },
+  "PIT": {
+   "edge": "#000000",
+   "gear outline/box": 16.86,
+   "number/halo": 21
+  },
+  "SJS": {
+   "edge": "#004550",
+   "gear outline/box": 8.19,
+   "number/halo": 10.02
+  },
+  "SEA": {
+   "edge": "#04141f",
+   "gear outline/box": 14.97,
+   "number/halo": 18.4
+  },
+  "STL": {
+   "edge": "#005090",
+   "gear outline/box": 5.91,
+   "number/halo": 7.3
+  },
+  "TBL": {
+   "edge": "#001640",
+   "gear outline/box": 13.62,
+   "number/halo": 16.82
+  },
+  "TOR": {
+   "edge": "#001640",
+   "gear outline/box": 13.62,
+   "number/halo": 16.82
+  },
+  "UTA": {
+   "edge": "#000000",
+   "gear outline/box": 16.86,
+   "number/halo": 21
+  },
+  "VAN": {
+   "edge": "#001640",
+   "gear outline/box": 13.62,
+   "number/halo": 16.82
+  },
+  "VGK": {
+   "edge": "#8b660e",
+   "gear outline/box": 4,
+   "number/halo": 4.98
+  },
+  "WSH": {
+   "edge": "#8c0b20",
+   "gear outline/box": 6.71,
+   "number/halo": 8.36
+  },
+  "WPG": {
+   "edge": "#03152e",
+   "gear outline/box": 14.45,
+   "number/halo": 17.85
+  }
+ },
+ "fixed": {
+  "bone outline/box": 10.3,
+  "film label/box": 3.82,
+  "card edge/light page": 3.84,
+  "card box/dark page": 15.01
+ },
+ "silhouettes": {
+  "worst": {
+   "a": "streaky",
+   "b": "standout",
+   "overlap": 0.63
+  },
+  "limit": 0.85
+ },
+ "boneDrift": 0,
+ "sizeKB": {
+  "full": 1.73,
+  "lite": 1.12
+ },
+ "loops": {
+  "streaky": {
+   "frames": 40,
+   "seam": 4.92,
+   "maxStep": 13.62,
+   "reach": [
+    29.62,
+    16,
+    72.62,
+    82.83
+   ],
+   "outside": 0
+  },
+  "workhorse": {
+   "frames": 40,
+   "seam": 10.45,
+   "maxStep": 23.16,
+   "reach": [
+    13.02,
+    18.76,
+    91.11,
+    82.83
+   ],
+   "outside": 0
+  },
+  "hd-stopper": {
+   "frames": 46,
+   "seam": 12,
+   "maxStep": 19.71,
+   "reach": [
+    18.36,
+    10.08,
+    81.83,
+    85.83
+   ],
+   "outside": 0
+  },
+  "wall": {
+   "frames": 44,
+   "seam": 5.22,
+   "maxStep": 7.84,
+   "reach": [
+    10.44,
+    15.15,
+    83.02,
+    82.4
+   ],
+   "outside": 0
+  },
+  "rebound": {
+   "frames": 44,
+   "seam": 7.01,
+   "maxStep": 11.6,
+   "reach": [
+    20.85,
+    40,
+    88.01,
+    85.84
+   ],
+   "outside": 0
+  },
+  "siege": {
+   "frames": 38,
+   "seam": 5.79,
+   "maxStep": 7.82,
+   "reach": [
+    11.1,
+    7.09,
+    88.94,
+    82.44
+   ],
+   "outside": 0
+  },
+  "crease": {
+   "frames": 43,
+   "seam": 7.24,
+   "maxStep": 14.74,
+   "reach": [
+    14.98,
+    10.2,
+    74.27,
+    82.75
+   ],
+   "outside": 0
+  },
+  "standout": {
+   "frames": 42,
+   "seam": 1.31,
+   "maxStep": 3.65,
+   "reach": [
+    30.69,
+    10.42,
+    77.85,
+    82.76
+   ],
+   "outside": 0
+  },
+  "donut-king": {
+   "frames": 43,
+   "seam": 6.1,
+   "maxStep": 9.03,
+   "reach": [
+    37.66,
+    10.33,
+    65.76,
+    83.46
+   ],
+   "outside": 0
+  },
+  "grandpa": {
+   "frames": 47,
+   "seam": 4.79,
+   "maxStep": 13.44,
+   "reach": [
+    29.96,
+    20.91,
+    83.54,
+    82.83
+   ],
+   "outside": 0
+  },
+  "young-gun": {
+   "frames": 38,
+   "seam": 11.14,
+   "maxStep": 17.49,
+   "reach": [
+    8.38,
+    5.95,
+    91.62,
+    83.78
+   ],
+   "outside": 0
+  },
+  "style-king": {
+   "frames": 41,
+   "seam": 7.42,
+   "maxStep": 15.11,
+   "reach": [
+    23.18,
+    12.05,
+    78.55,
+    82.94
+   ],
+   "outside": 0
+  }
+ },
+ "frameMs": {
+  "avg": 1.11,
+  "max": 6.5
+ }
+}

@@ -1,0 +1,740 @@
+<title>Goalie Silhouette Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: a contact sheet. One card per type (big sharp, then the real 32 px size sharp and blurred), then the overlap heatmap. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ink: #1b1d2e;
+  --h0: #f1f2fa; --h1: #c9cdf0; --h2: #8f98e0; --h3: #4450b0; --warn: #b4442c;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ink: #e9eaf5; --h0: #1d2033; --h1: #2c3266; --h2: #4b57b8; --h3: #aeb6f5; --warn: #f08a6c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ink: #e9eaf5; --h0: #1d2033; --h1: #2c3266; --h2: #4b57b8; --h3: #aeb6f5; --warn: #f08a6c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+h2 { font: 600 22px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 6px }
+.lede { margin: 0; color: var(--muted); max-width: 64ch }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 26px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.facts b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums }
+section { margin-top: 44px }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-top: 16px }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px 16px; display: grid; gap: 8px; min-width: 0 }
+.card h3 { margin: 0; font: 500 13px/1 var(--label); letter-spacing: .12em; text-transform: uppercase }
+.card p { margin: 0; font: 13.5px/1.4 var(--sans); color: var(--muted) }
+.big { color: var(--ink); width: 100%; max-width: 168px; justify-self: center }
+.big svg { width: 100%; height: auto; display: block }
+.tiny { display: flex; align-items: center; gap: 16px; padding-top: 8px; border-top: 1px solid var(--rule); font: 12px var(--sans); color: var(--muted) }
+.tiny span { display: inline-flex; align-items: center; gap: 7px }
+.tiny .s { color: var(--ink); width: 32px; height: 32px; display: inline-block }
+.tiny .s svg { width: 32px; height: 32px; display: block }
+.tiny .blur svg { filter: blur(1px) }
+.tiny canvas { width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--rule); border-radius: 3px }
+.heat-wrap { overflow-x: auto; margin-top: 14px }
+table.heat { border-collapse: separate; border-spacing: 2px; font: 12px var(--sans); font-variant-numeric: tabular-nums }
+.heat th { font: 500 11px var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 2px 6px; white-space: nowrap; text-align: right }
+.heat thead th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 158px; padding: 6px 2px }
+.heat td { width: 40px; height: 32px; text-align: center; border-radius: 3px; color: var(--fg) }
+.heat td.self { background: transparent }
+.note { font: 13.5px/1.5 var(--sans); color: var(--muted); margin: 12px 0 0; max-width: 72ch }
+.legend { display: flex; gap: 10px; align-items: center; font: 12px var(--sans); color: var(--muted); margin-top: 10px; flex-wrap: wrap }
+.legend i { width: 22px; height: 12px; border-radius: 2px; display: inline-block }
+dl.canon { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; margin: 14px 0 0; font: 14px var(--sans) }
+dl.canon dt { color: var(--muted) } dl.canon dd { margin: 0 }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 2</p>
+  <h1>Silhouette Sheet</h1>
+  <p class="lede">Every type as a flat shape, before any colour or detail. Each one must still read at 32 px, the leaderboard size, after a blur.</p>
+  <ul class="facts" id="facts"></ul>
+
+  <section>
+    <h2>The twelve shapes</h2>
+    <p class="lede">The big drawing, then the same shape at its real 32 px size, sharp and blurred. The zoomed square is exactly what the audit measured.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section>
+    <h2>Overlap at 32 px</h2>
+    <p class="lede">Shared pixels divided by pixels in either shape, after a 1 px blur. The limit is 0.85; anything above it gets redrawn.</p>
+    <div class="legend"><span>Low</span><i style="background:var(--h0)"></i><i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><span>High</span></div>
+    <div class="heat-wrap"><table class="heat" id="heat"></table></div>
+    <p class="note" id="heatnote"></p>
+  </section>
+
+  <section>
+    <h2>The canon</h2>
+    <p class="lede">Fixed once. Every pose is joint angles on these bones, so a bone can't stretch between poses or frames.</p>
+    <dl class="canon" id="canon"></dl>
+  </section>
+</div>
+<script>/* Goalie illustrations, Step 2: one shared skeleton, posed once per type.
+   A pose is a set of joint angles, never free points, so every bone keeps the length fixed in CANON.
+   Each art style is a function from the posed points to SVG; silhouette() below is the first one.
+   Works in the browser (window.GoalieSkeleton) and in Node (require). See README.md for the canon. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.GoalieSkeleton = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  // Frame: 100 x 100 units, ice at y = GROUND. One head (the mask) is 11 units; a standing goalie is 7 heads.
+  const GROUND = 92;
+  const CANON = {
+    head: 11, neck: 6.5, torso: 24, shoulder: 7.5, hip: 5,
+    upperArm: 13, forearm: 12, thigh: 19, shin: 20, foot: 8, stick: 40,
+  };
+
+  const rad = (d) => (d * Math.PI) / 180;
+  const dir = (d) => [Math.cos(rad(d)), Math.sin(rad(d))];
+  const add = (p, d, len) => [p[0] + d[0] * len, p[1] + d[1] * len];
+
+  /* Angles are in degrees: 0 points right, 90 points down (SVG y runs down), -90 points up.
+     "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
+     "l" and "r" are the legs on the viewer's left and right. */
+  const POSES = {
+    steady: {
+      name: "Steady", shape: "Compact upright rectangle, symmetric",
+      torso: -90, head: -90,
+      blocker: [100, 70], glove: [80, 40],
+      l: [98, 88, 180], r: [82, 92, 0],
+      stick: { blade: 180 },
+    },
+    workhorse: {
+      name: "Workhorse", shape: "Square stance framed by the net behind",
+      torso: -90, head: -90,
+      blocker: [118, 75], glove: [62, 20],
+      l: [122, 86, 180], r: [58, 94, 0],
+      stick: { blade: 180 }, props: ["net"],
+    },
+    "hd-stopper": {
+      name: "High-Danger Stopper", shape: "Low wide triangle, pads flat on the ice",
+      torso: -90, head: -95,
+      blocker: [140, 100], glove: [-25, -70],
+      l: [102, 176, 200], r: [78, 4, -20],
+      stick: { blade: 0, fromBlocker: 75 }, props: ["puck-doorstep"],
+    },
+    wall: {
+      name: "The Wall", shape: "Tall wide box, arms out to both posts",
+      torso: -90, head: -90,
+      blocker: [168, 196], glove: [12, -16],
+      l: [104, 94, 180], r: [76, 86, 0],
+      stick: { blade: 180, fromBlocker: 96 },
+    },
+    rebound: {
+      name: "Rebound Controller", shape: "Low round dome, folded over the puck",
+      torso: -28, head: 15,
+      blocker: [70, 96], glove: [52, 74],
+      l: [95, 180, 180], r: [85, 178, 180],
+      stick: null, props: ["puck-smother"],
+    },
+    siege: {
+      name: "Under Siege", shape: "Hunched wide crouch, shots raining in",
+      torso: -96, head: -100,
+      blocker: [-150, -95], glove: [-30, -85],
+      l: [130, 88, 180], r: [50, 92, 0],
+      stick: null, props: ["shots"],
+    },
+    crease: {
+      name: "Crease Battler", shape: "Hooked lean, head out past the screen",
+      torso: -128, head: -150,
+      blocker: [172, 128], glove: [-95, -55],
+      l: [112, 100, 180], r: [58, 96, 0],
+      stick: { blade: 180 },
+    },
+    standout: {
+      name: "Standout", shape: "Upright with one spike: the glove held high",
+      torso: -90, head: -90,
+      blocker: [112, 70], glove: [-40, -58],
+      l: [108, 88, 180], r: [72, 92, 0],
+      stick: { blade: 180 },
+    },
+    "donut-king": {
+      name: "Donut King", shape: "Ring held over the head",
+      torso: -90, head: -90,
+      blocker: [-112, -78], glove: [-68, -102],
+      l: [110, 88, 180], r: [70, 92, 0],
+      stick: null, props: ["donut"],
+    },
+    grandpa: {
+      name: "Grandpa", shape: "Bent question mark, leaning on the stick",
+      torso: -52, head: 5,
+      blocker: [52, 18], glove: [128, 30],
+      l: [104, 96, 180], r: [84, 102, 0],
+      stick: { blade: 0, cane: true },
+    },
+    "young-gun": {
+      name: "Young Gun", shape: "Airborne star, daylight under the skates",
+      torso: -90, head: -88,
+      blocker: [-140, -135], glove: [-40, -45],
+      l: [135, 150, 200], r: [45, 30, -20],
+      stick: null, airborne: 9,
+    },
+    "style-king": {
+      name: "Style King", shape: "T-bar on top: stick across the shoulders",
+      torso: -90, head: -96,
+      blocker: [196, -95], glove: [-16, -85],
+      l: [80, 112, 180], r: [100, 70, 0],
+      stick: { yoke: true },
+    },
+  };
+
+  /** Posed points for one pose, with the skates (or the shadow line) sitting on the ice. */
+  function skeleton(pose) {
+    const C = CANON;
+    const build = (rootPt) => {
+      const P = { pelvis: rootPt };
+      const up = dir(pose.torso), perp = dir(pose.torso + 90);
+      P.neck = add(P.pelvis, up, C.torso);
+      P.head = add(P.neck, dir(pose.head), C.neck);
+      const base = add(P.neck, up, -2.5);
+      P.shBlocker = add(base, perp, -C.shoulder);
+      P.shGlove = add(base, perp, C.shoulder);
+      P.hipL = add(P.pelvis, perp, -C.hip);
+      P.hipR = add(P.pelvis, perp, C.hip);
+      P.elbowBlocker = add(P.shBlocker, dir(pose.blocker[0]), C.upperArm);
+      P.handBlocker = add(P.elbowBlocker, dir(pose.blocker[1]), C.forearm);
+      P.elbowGlove = add(P.shGlove, dir(pose.glove[0]), C.upperArm);
+      P.handGlove = add(P.elbowGlove, dir(pose.glove[1]), C.forearm);
+      P.kneeL = add(P.hipL, dir(pose.l[0]), C.thigh);
+      P.ankleL = add(P.kneeL, dir(pose.l[1]), C.shin);
+      P.toeL = add(P.ankleL, dir(pose.l[2]), C.foot);
+      P.kneeR = add(P.hipR, dir(pose.r[0]), C.thigh);
+      P.ankleR = add(P.kneeR, dir(pose.r[1]), C.shin);
+      P.toeR = add(P.ankleR, dir(pose.r[2]), C.foot);
+      return P;
+    };
+    const first = build([50, 50]);
+    const low = Math.max(...["kneeL", "kneeR", "ankleL", "ankleR", "toeL", "toeR"].map((k) => first[k][1]));
+    const lift = pose.airborne || 0;
+    const P = build([50, 50 + GROUND - 2 - lift - low]);   // 2 units for the pad and skate thickness
+    // Centre the figure on x = 50
+    const xs = Object.values(P).map((p) => p[0]);
+    const dx = 50 - (Math.min(...xs) + Math.max(...xs)) / 2;
+    for (const k in P) P[k] = [P[k][0] + dx, P[k][1]];
+    return P;
+  }
+
+  /** Bone lengths, for the drift check in the audit. */
+  const BONES = [
+    ["pelvis", "neck", "torso"], ["neck", "head", "neck"],
+    ["shBlocker", "elbowBlocker", "upperArm"], ["elbowBlocker", "handBlocker", "forearm"],
+    ["shGlove", "elbowGlove", "upperArm"], ["elbowGlove", "handGlove", "forearm"],
+    ["hipL", "kneeL", "thigh"], ["kneeL", "ankleL", "shin"], ["ankleL", "toeL", "foot"],
+    ["hipR", "kneeR", "thigh"], ["kneeR", "ankleR", "shin"], ["ankleR", "toeR", "foot"],
+  ];
+
+  const f = (n) => Math.round(n * 10) / 10;
+  const pt = (p) => `${f(p[0])},${f(p[1])}`;
+
+  // A thick rounded segment as a closed path
+  function capsule(a, b, w) {
+    return `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(b[0])}" y2="${f(b[1])}" stroke-width="${w}" stroke-linecap="round"/>`;
+  }
+  // A quadrilateral band from a to b, width wa at a and wb at b
+  function band(a, b, wa, wb) {
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1;
+    const n = [-d[1] / L, d[0] / L];
+    const q = [add(a, n, wa / 2), add(b, n, wb / 2), add(b, n, -wb / 2), add(a, n, -wa / 2)];
+    return `<polygon points="${q.map(pt).join(" ")}" stroke-linejoin="round" stroke-width="1.5"/>`;
+  }
+
+  /** Style 0: flat silhouette. Everything in one colour, so only shape can tell types apart. */
+  function silhouette(poseKey, opts = {}) {
+    const pose = POSES[poseKey], P = skeleton(pose), ink = opts.ink || "#000";
+    const g = [];
+    const props = pose.props || [];
+    if (props.includes("net")) {
+      // Goal frame behind the goalie: 6 ft by 4 ft, posts and crossbar only
+      g.push(`<path d="M14 ${GROUND} V50 H86 V${GROUND}" fill="none" stroke-width="4.5" stroke-linejoin="round"/>`);
+    }
+    // Legs: thigh, then the pad from just above the knee to the boot, then the skate
+    for (const s of ["L", "R"]) {
+      const hip = P["hip" + s], knee = P["knee" + s], ankle = P["ankle" + s], toe = P["toe" + s];
+      g.push(capsule(hip, knee, 11));
+      const padTop = add(knee, [knee[0] - ankle[0], knee[1] - ankle[1]].map((v) => v / CANON.shin), 5);
+      g.push(band(padTop, ankle, 12.5, 12));
+      g.push(capsule(ankle, toe, 4));
+    }
+    // Torso: chest protector, wider at the shoulders
+    g.push(band(P.pelvis, add(P.neck, dir(pose.torso), -1), 17, 23));
+    // Arms
+    g.push(capsule(P.shBlocker, P.elbowBlocker, 8.5), capsule(P.elbowBlocker, P.handBlocker, 7.5));
+    g.push(capsule(P.shGlove, P.elbowGlove, 8.5), capsule(P.elbowGlove, P.handGlove, 7.5));
+    // Mask
+    g.push(`<circle cx="${f(P.head[0])}" cy="${f(P.head[1])}" r="5.6"/>`);
+    // Stick
+    if (pose.stick) {
+      const h = P.handBlocker, S = pose.stick;
+      let end;
+      if (S.yoke) {
+        const y = (h[1] + P.handGlove[1]) / 2;   // across the shoulders, hand to hand and a little past
+        end = [P.handGlove[0] + 10, y];
+        g.push(capsule([h[0] - 8, y], end, 3));
+      } else if (S.cane) {
+        end = [h[0] + 3, GROUND - 1];
+        g.push(capsule(h, end, 3), capsule(end, add(end, dir(S.blade), 9), 3));
+      } else {
+        const d = dir(S.fromBlocker || 95);
+        const len = Math.min(CANON.stick, (GROUND - 1 - h[1]) / d[1]);
+        end = add(h, d, len);
+        g.push(capsule(h, end, 3));
+        g.push(band(add(h, d, len - 13), end, 5, 5));
+        g.push(capsule(end, add(end, dir(S.blade), 10), 3));
+      }
+    }
+    // Blocker: a board on the stick hand, square to the forearm
+    {
+      const d = dir(pose.blocker[1]);
+      g.push(band(add(P.handBlocker, d, -4), add(P.handBlocker, d, 4), 12, 12));
+    }
+    // Glove: a round catcher with the cuff
+    g.push(`<circle cx="${f(P.handGlove[0])}" cy="${f(P.handGlove[1])}" r="6.6"/>`);
+    // Props that are part of the defining action
+    if (props.includes("puck-doorstep")) g.push(`<ellipse cx="${f(P.toeR[0] - 14)}" cy="${GROUND - 9}" rx="3.2" ry="1.6"/>`);
+    if (props.includes("puck-smother")) g.push(`<ellipse cx="${f(P.handGlove[0] + 5)}" cy="${GROUND - 1.5}" rx="3.2" ry="1.6"/>`);
+    if (props.includes("donut")) {
+      const c = [(P.handBlocker[0] + P.handGlove[0]) / 2, Math.min(P.handBlocker[1], P.handGlove[1]) - 11];
+      g.push(`<circle cx="${f(c[0])}" cy="${f(c[1])}" r="9.5" fill="none" stroke-width="7"/>`);
+    }
+    if (props.includes("shots")) {
+      for (const [x, y, a] of [[14, 22, 30], [84, 18, 150], [10, 52, 5], [90, 48, 175], [50, 8, 90]]) {
+        const tail = add([x, y], dir(a + 180), 7);
+        g.push(`<line x1="${f(tail[0])}" y1="${f(tail[1])}" x2="${x}" y2="${y}" stroke-width="1.6" stroke-linecap="round"/>`);
+        g.push(`<circle cx="${x}" cy="${y}" r="2.6"/>`);
+      }
+    }
+    if (pose.airborne) g.push(`<ellipse cx="50" cy="${GROUND}" rx="16" ry="1.6" opacity=".35"/>`);
+    const size = opts.size ? ` width="${opts.size}" height="${opts.size}"` : "";
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${size} role="img" aria-label="${pose.name}"><g fill="${ink}" stroke="${ink}">${g.join("")}</g></svg>`;
+  }
+
+  return { GROUND, CANON, POSES, BONES, skeleton, silhouette, ORDER: Object.keys(POSES) };
+});
+</script>
+<script>
+const AUDIT = {
+ "size": 32,
+ "blur": 1,
+ "limit": 0.85,
+ "worst": [
+  {
+   "a": "steady",
+   "b": "grandpa",
+   "overlap": 0.613
+  },
+  {
+   "a": "steady",
+   "b": "standout",
+   "overlap": 0.599
+  },
+  {
+   "a": "workhorse",
+   "b": "standout",
+   "overlap": 0.578
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.563
+  },
+  {
+   "a": "steady",
+   "b": "wall",
+   "overlap": 0.56
+  }
+ ],
+ "fails": [],
+ "boneErrors": [],
+ "pairs": [
+  {
+   "a": "steady",
+   "b": "grandpa",
+   "overlap": 0.613
+  },
+  {
+   "a": "steady",
+   "b": "standout",
+   "overlap": 0.599
+  },
+  {
+   "a": "workhorse",
+   "b": "standout",
+   "overlap": 0.578
+  },
+  {
+   "a": "steady",
+   "b": "style-king",
+   "overlap": 0.563
+  },
+  {
+   "a": "steady",
+   "b": "wall",
+   "overlap": 0.56
+  },
+  {
+   "a": "wall",
+   "b": "donut-king",
+   "overlap": 0.556
+  },
+  {
+   "a": "steady",
+   "b": "workhorse",
+   "overlap": 0.546
+  },
+  {
+   "a": "siege",
+   "b": "young-gun",
+   "overlap": 0.545
+  },
+  {
+   "a": "siege",
+   "b": "standout",
+   "overlap": 0.539
+  },
+  {
+   "a": "standout",
+   "b": "donut-king",
+   "overlap": 0.539
+  },
+  {
+   "a": "wall",
+   "b": "standout",
+   "overlap": 0.528
+  },
+  {
+   "a": "standout",
+   "b": "style-king",
+   "overlap": 0.524
+  },
+  {
+   "a": "workhorse",
+   "b": "siege",
+   "overlap": 0.523
+  },
+  {
+   "a": "steady",
+   "b": "donut-king",
+   "overlap": 0.518
+  },
+  {
+   "a": "hd-stopper",
+   "b": "grandpa",
+   "overlap": 0.515
+  },
+  {
+   "a": "wall",
+   "b": "style-king",
+   "overlap": 0.507
+  },
+  {
+   "a": "steady",
+   "b": "hd-stopper",
+   "overlap": 0.487
+  },
+  {
+   "a": "workhorse",
+   "b": "donut-king",
+   "overlap": 0.472
+  },
+  {
+   "a": "donut-king",
+   "b": "style-king",
+   "overlap": 0.466
+  },
+  {
+   "a": "siege",
+   "b": "donut-king",
+   "overlap": 0.462
+  },
+  {
+   "a": "standout",
+   "b": "grandpa",
+   "overlap": 0.451
+  },
+  {
+   "a": "siege",
+   "b": "style-king",
+   "overlap": 0.448
+  },
+  {
+   "a": "steady",
+   "b": "crease",
+   "overlap": 0.443
+  },
+  {
+   "a": "workhorse",
+   "b": "wall",
+   "overlap": 0.443
+  },
+  {
+   "a": "workhorse",
+   "b": "grandpa",
+   "overlap": 0.437
+  },
+  {
+   "a": "wall",
+   "b": "siege",
+   "overlap": 0.437
+  },
+  {
+   "a": "wall",
+   "b": "grandpa",
+   "overlap": 0.432
+  },
+  {
+   "a": "grandpa",
+   "b": "style-king",
+   "overlap": 0.424
+  },
+  {
+   "a": "workhorse",
+   "b": "hd-stopper",
+   "overlap": 0.409
+  },
+  {
+   "a": "hd-stopper",
+   "b": "standout",
+   "overlap": 0.409
+  },
+  {
+   "a": "hd-stopper",
+   "b": "wall",
+   "overlap": 0.394
+  },
+  {
+   "a": "steady",
+   "b": "siege",
+   "overlap": 0.387
+  },
+  {
+   "a": "workhorse",
+   "b": "young-gun",
+   "overlap": 0.384
+  },
+  {
+   "a": "donut-king",
+   "b": "grandpa",
+   "overlap": 0.37
+  },
+  {
+   "a": "young-gun",
+   "b": "style-king",
+   "overlap": 0.367
+  },
+  {
+   "a": "crease",
+   "b": "style-king",
+   "overlap": 0.357
+  },
+  {
+   "a": "hd-stopper",
+   "b": "rebound",
+   "overlap": 0.356
+  },
+  {
+   "a": "crease",
+   "b": "grandpa",
+   "overlap": 0.352
+  },
+  {
+   "a": "standout",
+   "b": "young-gun",
+   "overlap": 0.35
+  },
+  {
+   "a": "hd-stopper",
+   "b": "donut-king",
+   "overlap": 0.345
+  },
+  {
+   "a": "steady",
+   "b": "rebound",
+   "overlap": 0.338
+  },
+  {
+   "a": "siege",
+   "b": "grandpa",
+   "overlap": 0.338
+  },
+  {
+   "a": "crease",
+   "b": "donut-king",
+   "overlap": 0.338
+  },
+  {
+   "a": "wall",
+   "b": "young-gun",
+   "overlap": 0.337
+  },
+  {
+   "a": "hd-stopper",
+   "b": "style-king",
+   "overlap": 0.333
+  },
+  {
+   "a": "steady",
+   "b": "young-gun",
+   "overlap": 0.322
+  },
+  {
+   "a": "donut-king",
+   "b": "young-gun",
+   "overlap": 0.317
+  },
+  {
+   "a": "grandpa",
+   "b": "young-gun",
+   "overlap": 0.316
+  },
+  {
+   "a": "workhorse",
+   "b": "style-king",
+   "overlap": 0.313
+  },
+  {
+   "a": "wall",
+   "b": "crease",
+   "overlap": 0.31
+  },
+  {
+   "a": "hd-stopper",
+   "b": "siege",
+   "overlap": 0.309
+  },
+  {
+   "a": "rebound",
+   "b": "crease",
+   "overlap": 0.303
+  },
+  {
+   "a": "rebound",
+   "b": "grandpa",
+   "overlap": 0.301
+  },
+  {
+   "a": "crease",
+   "b": "young-gun",
+   "overlap": 0.292
+  },
+  {
+   "a": "workhorse",
+   "b": "crease",
+   "overlap": 0.286
+  },
+  {
+   "a": "crease",
+   "b": "standout",
+   "overlap": 0.278
+  },
+  {
+   "a": "siege",
+   "b": "crease",
+   "overlap": 0.269
+  },
+  {
+   "a": "rebound",
+   "b": "standout",
+   "overlap": 0.254
+  },
+  {
+   "a": "wall",
+   "b": "rebound",
+   "overlap": 0.241
+  },
+  {
+   "a": "rebound",
+   "b": "donut-king",
+   "overlap": 0.239
+  },
+  {
+   "a": "workhorse",
+   "b": "rebound",
+   "overlap": 0.234
+  },
+  {
+   "a": "rebound",
+   "b": "style-king",
+   "overlap": 0.227
+  },
+  {
+   "a": "hd-stopper",
+   "b": "crease",
+   "overlap": 0.223
+  },
+  {
+   "a": "hd-stopper",
+   "b": "young-gun",
+   "overlap": 0.211
+  },
+  {
+   "a": "rebound",
+   "b": "siege",
+   "overlap": 0.211
+  },
+  {
+   "a": "rebound",
+   "b": "young-gun",
+   "overlap": 0.202
+  }
+ ]
+}
+;
+const G = window.GoalieSkeleton;
+const $ = (id) => document.getElementById(id);
+const worst = AUDIT.worst[0];
+$("facts").innerHTML = [
+  `<li><b>${G.ORDER.length}</b> types</li>`,
+  `<li><b>${AUDIT.size} px</b> test size</li>`,
+  `<li>Closest pair <b>${worst.overlap.toFixed(2)}</b> (${G.POSES[worst.a].name} and ${G.POSES[worst.b].name})</li>`,
+  `<li><b>${AUDIT.fails.length}</b> over the 0.85 limit</li>`,
+  `<li><b>${AUDIT.boneErrors.length ? AUDIT.boneErrors.length + " bones drift" : "No bone drift"}</b></li>`].join("");
+
+$("grid").innerHTML = G.ORDER.map((k) => {
+  const P = G.POSES[k], svg = G.silhouette(k, { ink: "currentColor" });
+  return `<article class="card"><h3>${P.name}</h3><p>${P.shape}</p><div class="big">${svg}</div>
+    <div class="tiny"><span><span class="s">${svg}</span>Sharp</span><span><span class="s blur">${svg}</span>Blurred</span><span><canvas width="32" height="32" data-k="${k}" aria-label="${P.name} at 32 pixels, blurred"></canvas></span></div></article>`;
+}).join("");
+// Draw the measured bitmap: 32 px, 1 px blur, thresholded, in the text colour
+const ink = getComputedStyle(document.body).color;
+document.querySelectorAll("canvas[data-k]").forEach(async (c) => {
+  const img = new Image();
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(G.silhouette(c.dataset.k));
+  await img.decode();
+  const x = c.getContext("2d");
+  x.filter = "blur(1px)";
+  x.drawImage(img, 0, 0, 32, 32);
+  const d = x.getImageData(0, 0, 32, 32);
+  const m = ink.match(/\d+/g).map(Number);
+  for (let i = 0; i < d.data.length; i += 4) {
+    const on = d.data[i + 3] >= 128;
+    d.data[i] = m[0]; d.data[i + 1] = m[1]; d.data[i + 2] = m[2]; d.data[i + 3] = on ? 255 : 0;
+  }
+  x.putImageData(d, 0, 0);
+});
+
+const ov = {};
+AUDIT.pairs.forEach((p) => { ov[p.a + "|" + p.b] = ov[p.b + "|" + p.a] = p.overlap; });
+const tone = (v) => v >= 0.6 ? "var(--h3)" : v >= 0.45 ? "var(--h2)" : v >= 0.3 ? "var(--h1)" : "var(--h0)";
+$("heat").innerHTML = `<thead><tr><th></th>${G.ORDER.map((k) => `<th scope="col">${G.POSES[k].name}</th>`).join("")}</tr></thead><tbody>` +
+  G.ORDER.map((r) => `<tr><th scope="row">${G.POSES[r].name}</th>${G.ORDER.map((c) => {
+    if (r === c) return `<td class="self"></td>`;
+    const v = ov[r + "|" + c];
+    return `<td style="background:${tone(v)};${v >= 0.6 ? "color:var(--bg)" : ""}" title="${G.POSES[r].name} / ${G.POSES[c].name}: ${v.toFixed(2)}">${v.toFixed(2).slice(1)}</td>`;
+  }).join("")}</tr>`).join("") + "</tbody>";
+$("heatnote").textContent = `The closest pairs are ${AUDIT.worst.slice(0, 3).map((p) => `${G.POSES[p.a].name} and ${G.POSES[p.b].name} (${p.overlap.toFixed(2)})`).join(", ")}. Before two redraws, Steady and Workhorse, and Standout and Donut King, sat at 0.80; widening the net posts, narrowing Steady and swinging Standout's glove out to the side brought them down. One thing the numbers hide: at 32 px the blur wipes out thin props, so Workhorse's net and Under Siege's pucks vanish (see their zoomed squares). Both still pass on body shape alone, but in Step 4 those props need to be thicker or the type needs a second cue.`;
+
+const C = G.CANON;
+$("canon").innerHTML = [
+  ["Frame", "100 × 100 units, ice at y = 92"],
+  ["Head (mask)", `${C.head} units; a standing goalie is 7 heads tall`],
+  ["Torso", `${C.torso} units, shoulders ${C.shoulder * 2} apart, hips ${C.hip * 2} apart`],
+  ["Arm", `upper ${C.upperArm}, forearm ${C.forearm}`],
+  ["Leg", `thigh ${C.thigh}, shin ${C.shin} (the pad starts 5 above the knee), skate ${C.foot}`],
+  ["Stick", `up to ${C.stick}, paddle on the lower 13, blade 10`],
+  ["Gear", "glove on the viewer's right, blocker and stick on the left (a left-catching goalie facing us)"],
+].map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("");
+</script>

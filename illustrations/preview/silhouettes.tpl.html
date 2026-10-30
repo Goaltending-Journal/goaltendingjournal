@@ -1,0 +1,131 @@
+<title>Goalie Silhouette Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: a contact sheet. One card per type (big sharp, then the real 32 px size sharp and blurred), then the overlap heatmap. GRJ Periwinkle tokens. */
+:root {
+  --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ink: #1b1d2e;
+  --h0: #f1f2fa; --h1: #c9cdf0; --h2: #8f98e0; --h3: #4450b0; --warn: #b4442c;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif; --serif: "EB Garamond", Georgia, serif;
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ink: #e9eaf5; --h0: #1d2033; --h1: #2c3266; --h2: #4b57b8; --h3: #aeb6f5; --warn: #f08a6c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ink: #e9eaf5; --h0: #1d2033; --h1: #2c3266; --h2: #4b57b8; --h3: #aeb6f5; --warn: #f08a6c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 10px; text-wrap: balance }
+h2 { font: 600 22px/1.1 var(--display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 6px }
+.lede { margin: 0; color: var(--muted); max-width: 64ch }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 26px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--rule); list-style: none; font: 14px var(--sans); color: var(--muted) }
+.facts b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums }
+section { margin-top: 44px }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-top: 16px }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px 16px; display: grid; gap: 8px; min-width: 0 }
+.card h3 { margin: 0; font: 500 13px/1 var(--label); letter-spacing: .12em; text-transform: uppercase }
+.card p { margin: 0; font: 13.5px/1.4 var(--sans); color: var(--muted) }
+.big { color: var(--ink); width: 100%; max-width: 168px; justify-self: center }
+.big svg { width: 100%; height: auto; display: block }
+.tiny { display: flex; align-items: center; gap: 16px; padding-top: 8px; border-top: 1px solid var(--rule); font: 12px var(--sans); color: var(--muted) }
+.tiny span { display: inline-flex; align-items: center; gap: 7px }
+.tiny .s { color: var(--ink); width: 32px; height: 32px; display: inline-block }
+.tiny .s svg { width: 32px; height: 32px; display: block }
+.tiny .blur svg { filter: blur(1px) }
+.tiny canvas { width: 64px; height: 64px; image-rendering: pixelated; border: 1px solid var(--rule); border-radius: 3px }
+.heat-wrap { overflow-x: auto; margin-top: 14px }
+table.heat { border-collapse: separate; border-spacing: 2px; font: 12px var(--sans); font-variant-numeric: tabular-nums }
+.heat th { font: 500 11px var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 2px 6px; white-space: nowrap; text-align: right }
+.heat thead th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 158px; padding: 6px 2px }
+.heat td { width: 40px; height: 32px; text-align: center; border-radius: 3px; color: var(--fg) }
+.heat td.self { background: transparent }
+.note { font: 13.5px/1.5 var(--sans); color: var(--muted); margin: 12px 0 0; max-width: 72ch }
+.legend { display: flex; gap: 10px; align-items: center; font: 12px var(--sans); color: var(--muted); margin-top: 10px; flex-wrap: wrap }
+.legend i { width: 22px; height: 12px; border-radius: 2px; display: inline-block }
+dl.canon { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; margin: 14px 0 0; font: 14px var(--sans) }
+dl.canon dt { color: var(--muted) } dl.canon dd { margin: 0 }
+</style>
+<div class="wrap">
+  <p class="eyebrow">Goalie illustrations · Step 2</p>
+  <h1>Silhouette Sheet</h1>
+  <p class="lede">Every type as a flat shape, before any colour or detail. Each one must still read at 32 px, the leaderboard size, after a blur.</p>
+  <ul class="facts" id="facts"></ul>
+
+  <section>
+    <h2>The twelve shapes</h2>
+    <p class="lede">The big drawing, then the same shape at its real 32 px size, sharp and blurred. The zoomed square is exactly what the audit measured.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section>
+    <h2>Overlap at 32 px</h2>
+    <p class="lede">Shared pixels divided by pixels in either shape, after a 1 px blur. The limit is 0.85; anything above it gets redrawn.</p>
+    <div class="legend"><span>Low</span><i style="background:var(--h0)"></i><i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><span>High</span></div>
+    <div class="heat-wrap"><table class="heat" id="heat"></table></div>
+    <p class="note" id="heatnote"></p>
+  </section>
+
+  <section>
+    <h2>The canon</h2>
+    <p class="lede">Fixed once. Every pose is joint angles on these bones, so a bone can't stretch between poses or frames.</p>
+    <dl class="canon" id="canon"></dl>
+  </section>
+</div>
+<script>/*SKELETON*/</script>
+<script>
+const AUDIT = /*AUDIT*/;
+const G = window.GoalieSkeleton;
+const $ = (id) => document.getElementById(id);
+const worst = AUDIT.worst[0];
+$("facts").innerHTML = [
+  `<li><b>${G.ORDER.length}</b> types</li>`,
+  `<li><b>${AUDIT.size} px</b> test size</li>`,
+  `<li>Closest pair <b>${worst.overlap.toFixed(2)}</b> (${G.POSES[worst.a].name} and ${G.POSES[worst.b].name})</li>`,
+  `<li><b>${AUDIT.fails.length}</b> over the 0.85 limit</li>`,
+  `<li><b>${AUDIT.boneErrors.length ? AUDIT.boneErrors.length + " bones drift" : "No bone drift"}</b></li>`].join("");
+
+$("grid").innerHTML = G.ORDER.map((k) => {
+  const P = G.POSES[k], svg = G.silhouette(k, { ink: "currentColor" });
+  return `<article class="card"><h3>${P.name}</h3><p>${P.shape}</p><div class="big">${svg}</div>
+    <div class="tiny"><span><span class="s">${svg}</span>Sharp</span><span><span class="s blur">${svg}</span>Blurred</span><span><canvas width="32" height="32" data-k="${k}" aria-label="${P.name} at 32 pixels, blurred"></canvas></span></div></article>`;
+}).join("");
+// Draw the measured bitmap: 32 px, 1 px blur, thresholded, in the text colour
+const ink = getComputedStyle(document.body).color;
+document.querySelectorAll("canvas[data-k]").forEach(async (c) => {
+  const img = new Image();
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(G.silhouette(c.dataset.k));
+  await img.decode();
+  const x = c.getContext("2d");
+  x.filter = "blur(1px)";
+  x.drawImage(img, 0, 0, 32, 32);
+  const d = x.getImageData(0, 0, 32, 32);
+  const m = ink.match(/\d+/g).map(Number);
+  for (let i = 0; i < d.data.length; i += 4) {
+    const on = d.data[i + 3] >= 128;
+    d.data[i] = m[0]; d.data[i + 1] = m[1]; d.data[i + 2] = m[2]; d.data[i + 3] = on ? 255 : 0;
+  }
+  x.putImageData(d, 0, 0);
+});
+
+const ov = {};
+AUDIT.pairs.forEach((p) => { ov[p.a + "|" + p.b] = ov[p.b + "|" + p.a] = p.overlap; });
+const tone = (v) => v >= 0.6 ? "var(--h3)" : v >= 0.45 ? "var(--h2)" : v >= 0.3 ? "var(--h1)" : "var(--h0)";
+$("heat").innerHTML = `<thead><tr><th></th>${G.ORDER.map((k) => `<th scope="col">${G.POSES[k].name}</th>`).join("")}</tr></thead><tbody>` +
+  G.ORDER.map((r) => `<tr><th scope="row">${G.POSES[r].name}</th>${G.ORDER.map((c) => {
+    if (r === c) return `<td class="self"></td>`;
+    const v = ov[r + "|" + c];
+    return `<td style="background:${tone(v)};${v >= 0.6 ? "color:var(--bg)" : ""}" title="${G.POSES[r].name} / ${G.POSES[c].name}: ${v.toFixed(2)}">${v.toFixed(2).slice(1)}</td>`;
+  }).join("")}</tr>`).join("") + "</tbody>";
+$("heatnote").textContent = `The closest pairs are ${AUDIT.worst.slice(0, 3).map((p) => `${G.POSES[p.a].name} and ${G.POSES[p.b].name} (${p.overlap.toFixed(2)})`).join(", ")}. Before two redraws, Steady and Workhorse, and Standout and Donut King, sat at 0.80; widening the net posts, narrowing Steady and swinging Standout's glove out to the side brought them down. One thing the numbers hide: at 32 px the blur wipes out thin props, so Workhorse's net and Under Siege's pucks vanish (see their zoomed squares). Both still pass on body shape alone, but in Step 4 those props need to be thicker or the type needs a second cue.`;
+
+const C = G.CANON;
+$("canon").innerHTML = [
+  ["Frame", "100 × 100 units, ice at y = 92"],
+  ["Head (mask)", `${C.head} units; a standing goalie is 7 heads tall`],
+  ["Torso", `${C.torso} units, shoulders ${C.shoulder * 2} apart, hips ${C.hip * 2} apart`],
+  ["Arm", `upper ${C.upperArm}, forearm ${C.forearm}`],
+  ["Leg", `thigh ${C.thigh}, shin ${C.shin} (the pad starts 5 above the knee), skate ${C.foot}`],
+  ["Stick", `up to ${C.stick}, paddle on the lower 13, blade 10`],
+  ["Gear", "glove on the viewer's right, blocker and stick on the left (a left-catching goalie facing us)"],
+].map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("");
+</script>

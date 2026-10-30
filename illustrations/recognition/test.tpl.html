@@ -1,0 +1,131 @@
+<title>Goalie Picture Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 6 people test: five-second recognition of the Light Box stills at leaderboard size (32 px). GRJ Periwinkle tokens. */
+:root { --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ok: #17865a; --warn: #a8690c;
+  --display: "Cinzel", Georgia, serif; --serif: "EB Garamond", Georgia, serif; --label: "Jost", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 720px; margin-inline: auto; padding: 36px 16px 64px }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(26px, 5vw, 36px)/1.1 var(--display); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 10px }
+h2 { font: 600 20px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; margin: 28px 0 8px }
+p { margin: 0 0 12px } .muted { color: var(--muted) } .small { font: 14px/1.5 var(--sans); color: var(--muted) }
+button { font: 500 15px var(--sans); border-radius: 8px; border: 1px solid var(--rule); background: var(--surface); color: var(--fg); padding: 10px 14px; cursor: pointer; min-height: 44px }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg) }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+.stage { display: grid; place-items: center; height: 120px; margin: 20px 0; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface) }
+.stage svg { width: 32px; height: 32px; display: block }
+.stage .gone { font: 13px var(--sans); color: var(--muted) }
+.bar { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin-top: -12px; margin-bottom: 16px }
+.bar i { display: block; height: 100%; background: var(--accent); width: 100% }
+.opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px }
+@media (max-width: 520px) { .opts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.opts button { text-align: left; font-size: 14px; line-height: 1.25 }
+.count { font: 500 13px var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted) }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; list-style: none; padding: 0; margin: 12px 0; font: 14px var(--sans); color: var(--muted) }
+.facts b { display: block; color: var(--fg); font: 500 20px var(--label) }
+table { border-collapse: collapse; width: 100%; font: 14px/1.4 var(--sans) }
+th, td { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule) }
+th { font: 600 11px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.ok { color: var(--ok) } .warn { color: var(--warn) }
+[hidden] { display: none !important }
+</style>
+<script>/*SKELETON*/</script>
+<script>/*STYLES*/</script>
+<div class="wrap">
+  <p class="eyebrow">The Goaltending Research Journal · Picture test</p>
+  <h1>Name that goalie</h1>
+  <section id="intro">
+    <p>You'll see 12 tiny pictures, one at a time, each for five seconds. Each shows one type of goalie. Pick the type you think it shows from the list. Guess if you're not sure; there's no wrong way to do this.</p>
+    <p class="small">It takes about two minutes. Your answers are saved with your account so the GRJ can see which pictures are hard to tell apart; nobody else taking the test sees them.</p>
+    <button class="primary" id="start" type="button">Start the test</button>
+  </section>
+  <section id="trial" hidden>
+    <p class="count" id="count"></p>
+    <div class="stage" id="stage" aria-live="polite"></div>
+    <div class="bar" aria-hidden="true"><i id="timer"></i></div>
+    <p class="small">Which type is it?</p>
+    <div class="opts" id="opts"></div>
+  </section>
+  <section id="done" hidden>
+    <h2>Thanks!</h2>
+    <p id="saved"></p>
+  </section>
+  <section id="results" hidden>
+    <h2>Results</h2>
+    <p class="small" id="plan"></p>
+    <ul class="facts" id="facts"></ul>
+    <table><thead><tr><th>Type</th><th>Right</th><th>Most often taken for</th></tr></thead><tbody id="rows"></tbody></table>
+  </section>
+</div>
+<script>
+const TEAMS = /*TEAMS*/.teams;
+const G = window.GoalieSkeleton, draw = window.GoalieStyles.STYLES["skeletons-xray"].draw;
+const TYPES = G.ORDER, NAME = Object.fromEntries(TYPES.map((k) => [k, G.POSES[k].name]));
+// Set before the test (Step 6): 20 readers × 12 pictures = 240 answers; chance is 1 in 12 (8.3%); the budget is 80% right.
+const PLAN = { readers: 20, chance: 1 / 12, budget: 0.8 };
+const $ = (id) => document.getElementById(id);
+const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const codes = Object.keys(TEAMS);
+let order = [], i = 0, shown = 0, answers = [], hideTimer = null;
+
+function next() {
+  if (i >= order.length) return finish();
+  const { type, team } = order[i];
+  $("count").textContent = `Picture ${i + 1} of ${order.length}`;
+  $("stage").innerHTML = draw(type, { ...TEAMS[team], code: team }, "", { size: 32, label: "Goalie picture" });
+  const bar = $("timer"); bar.style.transition = "none"; bar.style.width = "100%"; bar.offsetWidth;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { bar.style.transition = "width 5s linear"; bar.style.width = "0%"; }
+  shown = performance.now(); clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => { $("stage").innerHTML = '<span class="gone">Time\'s up. Pick your best guess.</span>'; }, 5000);
+}
+function pick(type) {
+  const o = order[i]; answers.push({ type: o.type, team: o.team, picked: type, ms: Math.round(performance.now() - shown) });
+  i++; next();
+}
+$("opts").innerHTML = TYPES.map((k) => `<button type="button" data-k="${k}">${NAME[k]}</button>`).join("");
+$("opts").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pick(b.dataset.k); });
+$("start").onclick = () => {
+  order = shuffle(TYPES.map((type) => ({ type, team: codes[Math.floor(Math.random() * codes.length)] })));
+  i = 0; answers = []; $("intro").hidden = true; $("trial").hidden = false; next();
+};
+
+let db = null, user = null;
+async function finish() {
+  clearTimeout(hideTimer); $("trial").hidden = true; $("done").hidden = false;
+  const right = answers.filter((a) => a.type === a.picked).length;
+  let note = `You named ${right} of ${answers.length}.`;
+  try {
+    const id = user && (await user.id());
+    if (db && id) { await db.doc("responses/" + id).set({ answers, right, at: new Date().toISOString() }); note += " Your answers are saved."; }
+    else note += " Your answers could not be saved from this view, so they won't count.";
+  } catch (e) { note += " Your answers could not be saved (" + (e.code || "error") + "), so they won't count."; }
+  $("saved").textContent = note;
+}
+
+// Wilson score interval, 95%
+function wilson(k, n) { if (!n) return [0, 0]; const z = 1.96, p = k / n, d = 1 + z * z / n, c = p + z * z / (2 * n), m = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)); return [(c - m) / d, (c + m) / d]; }
+const pct = (v) => (v * 100).toFixed(0) + "%";
+function showResults(docs) {
+  const all = docs.flatMap((d) => (d.data() || {}).answers || []), n = all.length, k = all.filter((a) => a.type === a.picked).length, [lo, hi] = wilson(k, n);
+  $("plan").textContent = `Set before the test: ${PLAN.readers} readers × 12 pictures = ${PLAN.readers * 12} answers. Chance is 1 in 12 (${pct(PLAN.chance)}). The budget is ${pct(PLAN.budget)} right.`;
+  $("facts").innerHTML = [[docs.length + " of " + PLAN.readers, "readers so far"], [n ? pct(k / n) : "–", "right"], [n ? `${pct(lo)}–${pct(hi)}` : "–", "95% interval"],
+    [n ? (k / n >= PLAN.budget ? '<span class="ok">Meets 80%</span>' : '<span class="warn">Under 80%</span>') : "–", "budget"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
+  $("rows").innerHTML = TYPES.map((t) => {
+    const mine = all.filter((a) => a.type === t), r = mine.filter((a) => a.picked === t).length, wrong = {};
+    mine.forEach((a) => { if (a.picked !== t) wrong[a.picked] = (wrong[a.picked] || 0) + 1; });
+    const top = Object.entries(wrong).sort((a, b) => b[1] - a[1])[0];
+    return `<tr><td>${NAME[t]}</td><td>${mine.length ? `${r} of ${mine.length}` : "–"}</td><td>${top ? `${NAME[top[0]]} (${top[1]})` : "–"}</td></tr>`;
+  }).join("");
+}
+(async () => {
+  [db, user] = await Promise.all([window.claude?.use?.("db") ?? null, window.claude?.use?.("user") ?? null]);
+  if (db && user && (await user.canEdit())) {
+    $("results").hidden = false; showResults([]);
+    db.collection("responses").onSnapshot((s) => showResults(s.docs), () => {});
+  }
+})();
+</script>
