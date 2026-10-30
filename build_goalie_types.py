@@ -16,13 +16,16 @@ Each type is one trait the data can measure, and the illustration for that type 
 
 A goalie's score on a trait is its z-score across qualifying goalies, shrunk toward zero by
 TOI / (TOI + SHRINK_MIN) so a hot two-game start doesn't decide a type. The type is the trait
-with the highest score among those that reach MIN_Z (MIN_Z_BY_TYPE for minutes); otherwise "plain". The single goalie with the most
+with the highest score among those that reach MIN_Z (MIN_Z_BY_TYPE for minutes); a goalie with no trait that high gets
+their strongest trait anyway (Goldy, 2026-10-30: there is no catch-all type any more). The single goalie with the most
 goals saved above average (shrunk the same way) is "standout", if that score reaches STANDOUT_Z.
 
-Five one-goalie titles sit on top of the types, from goalies-data.js (any goalie who has played
-this season, whatever their minutes):
+Six one-goalie titles sit on top of the types, from goalies-data.js and the NHL game logs (any goalie who has
+played this season, whatever their minutes):
 
   donut-king   most shutouts (ties go to the better save %)
+  streaky      longest current win streak, at least STREAK_MIN wins (ties go to the better save %); counted from
+               each goalie's NHL game log (api-web.nhle.com), where games with no decision don't break a streak
   grandpa      oldest
   young-gun    youngest
   style-king   most colourful gear, picked by hand in STYLE_KING (there is no data feed for gear)
@@ -35,11 +38,14 @@ types on one game, a goalie keeps yesterday's type unless a new trait beats it b
 Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com).
 """
 
+import argparse
 import csv
 import json
 import statistics
+import sys
 from datetime import date
 
+from build_goal_map import API, get
 from build_uncertainty_data import HERE, NST_DIR, NST_TEAMS, load_js, norm_name
 
 OUT = HERE / "goalie-types-data.js"
@@ -51,7 +57,8 @@ MIN_Z_BY_TYPE = {"workhorse": 1.5}
 STANDOUT_Z = 1.0
 SWITCH_MARGIN = 0.25
 STYLE_KING = 8476932   # Anthony Stolarz (Goldy, 2026-10-29); NHL player id of the goalie with the most colourful gear, set by hand
-TITLE_ORDER = ["donut-king", "grandpa", "young-gun", "style-king", "standout"]
+STREAK_MIN = 3        # wins in a row before a goalie can be Streaky
+TITLE_ORDER = ["donut-king", "streaky", "grandpa", "young-gun", "style-king", "standout"]
 
 # key, name, the one trait the picture shows, the rule in words, the value, higher-is-better sign
 TYPES = [
@@ -63,7 +70,7 @@ TYPES = [
     ("crease", "Crease Battler", "Fights through traffic", "Highest share of shots from high danger", "hdshare", 1),
 ]
 EXTRAS = [
-    ("plain", "Steady", "No single trait stands out yet", f"No trait at {MIN_Z} or more"),
+    ("streaky", "Streaky", "Riding a hot run", f"Longest current win streak ({STREAK_MIN}+ wins)"),
     ("standout", "Standout", "Beating expectations", "Most goals saved above average, per 60"),
     ("donut-king", "Donut King", "Zeros on the scoreboard", "Most shutouts this season"),
     ("grandpa", "Grandpa", "The league's elder", "Oldest goalie to play this season"),
@@ -109,7 +116,36 @@ def previous():
         return {}
 
 
+def streak(log):
+    """Current win streak from an NHL game log: wins in a row back from the latest game with a decision."""
+    n = 0
+    for g in sorted(log, key=lambda g: g.get("gameDate", ""), reverse=True):
+        d = g.get("decision")
+        if not d:
+            continue                                                  # relief appearance with no decision
+        if d != "W":
+            break
+        n += 1
+    return n
+
+
+def game_logs(players, season, saved=None):
+    """{player id: [games]} for this regular season; from a saved JSON file when testing."""
+    if saved:
+        return {int(k): v for k, v in json.load(open(saved, encoding="utf-8")).items()}
+    logs = {}
+    for g in players:
+        try:
+            logs[g["id"]] = get(f"{API}/player/{g['id']}/game-log/{season}/2").get("gameLog", [])
+        except Exception as e:                                        # one missing log must not stop the nightly run
+            print(f"No game log for {g['name']}: {e}", file=sys.stderr)
+    return logs
+
+
 def main():
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--gamelogs", help="saved {player id: gameLog} JSON to read instead of downloading (for testing)")
+    args = ap.parse_args()
     summary = json.loads((NST_DIR / "summary.json").read_text(encoding="utf-8"))
     nhl = load_js("goalies-data.js")["goalies"]
     ids = {norm_name(g["name"]): g["id"] for g in nhl}
@@ -133,7 +169,9 @@ def main():
     for r in rows:
         scores = {key: r["z"][value] for key, *_rest, value, _sign in TYPES
                   if r["z"][value] >= MIN_Z_BY_TYPE.get(key, MIN_Z)}
-        best = max(scores, key=scores.get, default="plain")
+        if not scores:                                                # no clear trait yet: their strongest one
+            scores = {key: r["z"][value] for key, *_rest, value, _sign in TYPES if key != "workhorse"}   # minutes keep their own bar
+        best = max(scores, key=scores.get)
         kept = before.get(r["id"])
         if kept in scores and scores[best] - scores[kept] < SWITCH_MARGIN:
             best = kept
@@ -148,6 +186,12 @@ def main():
     shut = [g for g in played if g["seasons"][season].get("so", 0) > 0]
     if shut:
         titles["donut-king"] = max(shut, key=lambda g: (g["seasons"][season]["so"], g["seasons"][season].get("svp") or 0))["id"]
+    logs = game_logs(played, summary["season"].replace("-", ""), args.gamelogs)
+    hot = [(streak(logs[g["id"]]), g) for g in played if g["id"] in logs]
+    hot = [(n, g) for n, g in hot if n >= STREAK_MIN]
+    if hot:
+        titles["streaky"] = max(hot, key=lambda x: (x[0], x[1]["seasons"][season].get("svp") or 0))[1]["id"]
+        print(f"Streaky: {next(g['name'] for n, g in hot if g['id'] == titles['streaky'])}, {max(n for n, _ in hot)} wins in a row")
     aged = [g for g in played if g.get("born")]
     if aged:
         titles["grandpa"] = min(aged, key=lambda g: g["born"])["id"]
