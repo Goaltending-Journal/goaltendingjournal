@@ -4,22 +4,22 @@
  "limit": 0.85,
  "worst": [
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "standout",
    "overlap": 0.63
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "grandpa",
    "overlap": 0.606
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "wall",
    "overlap": 0.573
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "style-king",
    "overlap": 0.545
   },
@@ -33,22 +33,22 @@
  "boneErrors": [],
  "pairs": [
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "standout",
    "overlap": 0.63
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "grandpa",
    "overlap": 0.606
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "wall",
    "overlap": 0.573
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "style-king",
    "overlap": 0.545
   },
@@ -88,12 +88,12 @@
    "overlap": 0.516
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "donut-king",
    "overlap": 0.512
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "workhorse",
    "overlap": 0.502
   },
@@ -103,7 +103,7 @@
    "overlap": 0.5
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "hd-stopper",
    "overlap": 0.482
   },
@@ -133,7 +133,7 @@
    "overlap": 0.436
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "crease",
    "overlap": 0.428
   },
@@ -178,7 +178,7 @@
    "overlap": 0.4
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "siege",
    "overlap": 0.383
   },
@@ -228,7 +228,7 @@
    "overlap": 0.34
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "rebound",
    "overlap": 0.338
   },
@@ -263,7 +263,7 @@
    "overlap": 0.309
   },
   {
-   "a": "steady",
+   "a": "streaky",
    "b": "young-gun",
    "overlap": 0.308
   },

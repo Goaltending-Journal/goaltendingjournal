@@ -11,7 +11,7 @@
   // Per type: the action the loop shows, then keys B and C (A is the still). ms = how long each key holds
   // before moving to the next; the move between keys takes 300 ms (eased).
   const KEYS = {
-    steady: { action: "Tracks the puck side to side", ms: [1400, 500, 500], keys: [
+    streaky: { action: "Tracks the puck side to side", ms: [1400, 500, 500], keys: [
       { label: "Shift left", dx: -5, torso: -84, glove: [70, 30], l: [102, 86, 180], r: [86, 90, 0] },
       { label: "Shift right", dx: 5, torso: -96, blocker: [104, 74], l: [94, 90, 180], r: [78, 94, 0] }] },
     workhorse: { action: "Pushes post to post", ms: [1000, 700, 700], keys: [

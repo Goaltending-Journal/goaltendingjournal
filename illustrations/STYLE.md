@@ -17,7 +17,7 @@ Latin caption over the scene.
 
 | Type | Caption | Meaning |
 |---|---|---|
-| Steady | CVSTOS STABILIS | Steady keeper |
+| Streaky | VINCIT ITERVM | He wins again |
 | Workhorse | HIC LABORAT | Here he labours |
 | High-Danger Stopper | PERICVLVM VINCIT | He conquers danger |
 | The Wall | MVRVS | The wall |

@@ -103,7 +103,7 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
 const TEAMS = /*TEAMS*/.teams;
 const G = window.GoalieSkeleton, MO = window.GoalieMotion, TP = window.GoalieStyles.STYLES["skeletons-xray"].draw;
 const T = (c) => ({ ...TEAMS[c], code: c });
-const SET = [["steady", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "CGY"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
+const SET = [["streaky", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "CGY"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
 // One scale per loop: the highest point across its three keys
 const TOP = Object.fromEntries(SET.map(([k]) => [k, Math.min(...[0, 1, 2].map((i) => G.parts(MO.keyPose(k, i)).top))]));
 document.getElementById("facts").innerHTML = [["12", "loops"], ["36", "key poses"], [`${(Math.min(...SET.map(([k]) => MO.loopMs(k))) / 1000).toFixed(1)}–${(Math.max(...SET.map(([k]) => MO.loopMs(k))) / 1000).toFixed(1)} s`, "per loop"], ["12 fps", "stop-motion preview"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");

@@ -113,15 +113,15 @@ const G = window.GoalieSkeleton, M = window.GoalieMedieval, TP = M.STYLES.tapest
 const T = (c) => ({ ...TEAMS[c], code: c }), name = (k) => G.POSES[k].name;
 let n = 0;
 const art = (k, c, num, size, extra = {}) => TP(k, T(c), num, { size, id: "p" + (n++), label: `${name(k)}, ${TEAMS[c].name} colours`, ...extra });
-const SET = [["steady", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "MTL"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
-const LAT = { steady: "Custos stabilis", workhorse: "Hic laborat", "hd-stopper": "Periculum vincit", wall: "Murus", rebound: "Hic puck tenet", siege: "Obsessus",
+const SET = [["streaky", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "MTL"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
+const LAT = { streaky: "Vincit iterum", workhorse: "Hic laborat", "hd-stopper": "Periculum vincit", wall: "Murus", rebound: "Hic puck tenet", siege: "Obsessus",
   crease: "In turba pugnat", standout: "Egregius", "donut-king": "Rex nihili", grandpa: "Senex", "young-gun": "Iuvenis", "style-king": "Rex elegantiae" };
-const EN = { steady: "Steady keeper", workhorse: "Here he labours", "hd-stopper": "He conquers danger", wall: "The wall", rebound: "Here he holds the puck", siege: "Besieged",
+const EN = { streaky: "He wins again", workhorse: "Here he labours", "hd-stopper": "He conquers danger", wall: "The wall", rebound: "Here he holds the puck", siege: "Besieged",
   crease: "He fights in the crowd", standout: "The outstanding one", "donut-king": "King of nothing", grandpa: "The old man", "young-gun": "The youth", "style-king": "King of style" };
 document.getElementById("facts").innerHTML = [["12", "types"], ["32", "teams' colours"], ["7", "pieces of gear detailed"], ["3.5 KB", "largest picture, compressed"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
 document.getElementById("hero").innerHTML = `${art("workhorse", "MIN", "31", null)}<figcaption><b>Workhorse</b>Minnesota Wild colours · <span class="lat">Hic laborat</span>, "here he labours"</figcaption>`;
 document.getElementById("set").innerHTML = SET.map(([k, c], i) => `<figure>${art(k, c, String(30 + i), null)}<figcaption><b>${name(k)}</b><span class="lat">${LAT[k]}</span>, "${EN[k].toLowerCase()}" · ${TEAMS[c].name}</figcaption></figure>`).join("");
 document.getElementById("sizes").innerHTML = [["l", "Light page"], ["d", "Dark page"]].map(([t, label]) => `<div class="theme ${t}"><h3>${label}</h3>${
   [32, 64, 76].map((px) => `<div class="srow"><span>${px} px</span>${SET.map(([k, c], i) => art(k, c, String(30 + i), px)).join("")}</div>`).join("")}</div>`).join("");
-document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => `<figure>${art("steady", c, "88", null, { lite: false })}<figcaption><b>${TEAMS[c].name}</b>${window.GoalieGilded.CRESTS[c].charge}</figcaption></figure>`).join("");
+document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => `<figure>${art("streaky", c, "88", null, { lite: false })}<figcaption><b>${TEAMS[c].name}</b>${window.GoalieGilded.CRESTS[c].charge}</figcaption></figure>`).join("");
 </script>

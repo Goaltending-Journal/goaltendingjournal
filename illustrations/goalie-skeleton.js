@@ -23,8 +23,8 @@
      "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
      "l" and "r" are the legs on the viewer's left and right. */
   const POSES = {
-    steady: {
-      name: "Steady", shape: "Compact upright rectangle, symmetric",
+    streaky: {
+      name: "Streaky", shape: "Compact upright rectangle, symmetric",
       torso: -90, head: -90,
       blocker: [100, 70], glove: [80, 40],
       l: [98, 88, 180], r: [82, 92, 0],

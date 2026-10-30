@@ -112,7 +112,7 @@ const name = (k) => G.POSES[k].name;
 let n = 0;
 const art = (k, c, num, size, extra = {}) => GD.draw(k, team(c), num, { size, id: "a" + (n++), label: `${name(k)}, ${TEAMS[c].name} colours`, ...extra });
 // Who leads each type today (goalie-types-data.js, 2026-10-29)
-const SET = [["steady", "WPG", "Most goalies, this early in the season"], ["workhorse", "MIN", "Wallstedt"], ["hd-stopper", "SJS", "Askarov"], ["wall", "OTT", "Ullmark"],
+const SET = [["streaky", "WPG", "Most goalies, this early in the season"], ["workhorse", "MIN", "Wallstedt"], ["hd-stopper", "SJS", "Askarov"], ["wall", "OTT", "Ullmark"],
   ["rebound", "NSH", "Annunen"], ["siege", "VAN", "Meriläinen"], ["crease", "ANA", "Husso"], ["standout", "MTL", "Fowler"],
   ["donut-king", "DAL", "Oettinger"], ["grandpa", "CBJ", "Talbot"], ["young-gun", "MTL", "Fowler"], ["style-king", "TOR", "Stolarz"]];
 const sizes = SET.map(([k, c]) => GD.draw(k, team(c), "30", {}).length);
@@ -125,7 +125,7 @@ document.getElementById("sizes").innerHTML = [["l", "Light page"], ["d", "Dark p
 const chip = (h) => `<i class="chip" style="background:${h}"></i>`;
 document.getElementById("teams").innerHTML = Object.keys(TEAMS).map((c) => {
   const a = audit.teams[c], tk = a.tokens;
-  return `<div class="team">${art("steady", c, "88", 64)}<div><b>${TEAMS[c].name}</b>${chip(tk.tabard)}${chip(tk.field)}${chip(tk.trim)}<br>
+  return `<div class="team">${art("streaky", c, "88", 64)}<div><b>${TEAMS[c].name}</b>${chip(tk.tabard)}${chip(tk.field)}${chip(tk.trim)}<br>
     Number ${tk.number === "#FFFFFF" ? "white" : '<span class="fb">ink</span>'} · ${a.number.wcag.toFixed(1)}:1 · Lc ${Math.round(Math.abs(a.number.apca))}</div></div>`;
 }).join("");
 // Colour-blindness filters: the same matrices the check script uses, applied in linear RGB
@@ -134,18 +134,18 @@ document.getElementById("filters").innerHTML = Object.entries(M).map(([k, m]) =>
 document.getElementById("cvd").innerHTML = [["normal", "Normal vision"], ["deuteranopia", "Deuteranopia"], ["protanopia", "Protanopia"], ["tritanopia", "Tritanopia"]].map(([k, label]) => `
   <div class="r"><span><b>${label}</b>${k === "normal" ? "for comparison" : { deuteranopia: "no green cones", protanopia: "no red cones", tritanopia: "no blue cones" }[k]}</span>
   <div class="strip" style="${k === "normal" ? "" : `filter:url(#f-${k})`}">${SET.map(([p, c], i) => art(p, c, String(30 + i), 40)).join("")}</div></div>
-  <div class="r"><span></span><div class="strip" style="${k === "normal" ? "" : `filter:url(#f-${k})`}">${Object.keys(TEAMS).map((c) => art("steady", c, "88", 40)).join("")}</div></div>`).join("");
+  <div class="r"><span></span><div class="strip" style="${k === "normal" ? "" : `filter:url(#f-${k})`}">${Object.keys(TEAMS).map((c) => art("streaky", c, "88", 40)).join("")}</div></div>`).join("");
 // Crests: zoomed to the helm by cropping the steady pose's viewBox
 document.getElementById("crests").innerHTML = Object.keys(TEAMS).map((c) => {
-  const svg = art("steady", c, "88", null).replace('viewBox="0 0 100 100"', 'viewBox="34 6 32 32"');
+  const svg = art("streaky", c, "88", null).replace('viewBox="0 0 100 100"', 'viewBox="34 6 32 32"');
   return `<div class="crest">${svg}<span><b>${c}</b> ${GD.CRESTS[c].charge}</span></div>`;
 }).join("");
 // Proportions plate: Steady over a head-unit grid
 (() => {
-  const A = G.parts("steady"), k = 0.82, top = A.P.head[1] - 5.6;
+  const A = G.parts("streaky"), k = 0.82, top = A.P.head[1] - 5.6;
   const y = (v) => 82.4 - (G.GROUND - v) * Math.min(k, 72 / (G.GROUND - Math.min(A.top, top - 11)));
   const lines = []; for (let i = 0; i <= 7; i++) { const v = G.GROUND - i * 11 * 0.97; lines.push(`<path d="M6 ${y(v).toFixed(1)}H94" stroke="#D8B256" stroke-width=".3" opacity=".8"/><text x="96" y="${(y(v) + 1).toFixed(1)}" style="font:600 3px Jost,sans-serif;fill:#D8B256">${i}</text>`); }
-  const svg = art("steady", "WPG", "30", null).replace("</svg>", `<g>${lines.join("")}</g></svg>`);
+  const svg = art("streaky", "WPG", "30", null).replace("</svg>", `<g>${lines.join("")}</g></svg>`);
   document.getElementById("plate").innerHTML = `${svg}<figcaption><b>Proportions</b>Seven heads tall, ice to crest; gold rules mark each head.</figcaption>`;
 })();
 document.getElementById("tokens").innerHTML = `<tr><th>Token</th><th>Value</th><th>Rule</th></tr>` + [
@@ -163,7 +163,7 @@ document.getElementById("tokens").innerHTML = `<tr><th>Token</th><th>Value</th><
 const wrongTk = { field: "#6D500B", number: "#FFFFFF", numberEdge: GD.T.ink };
 document.getElementById("donts").innerHTML = [
   ["Thin props", "Round 3's thin brown net (left) sank into the dark field and vanished at 32 px.", ST["knights-gilded"].draw("workhorse", TEAMS.MIN, "30", { size: 64 }), art("workhorse", "MIN", "30", 64)],
-  ["Gold on gold", "A gold sweater's own colour as the field hides the armour.", art("steady", "VGK", "30", 64, { tk: wrongTk }), art("steady", "VGK", "30", 64)],
+  ["Gold on gold", "A gold sweater's own colour as the field hides the armour.", art("streaky", "VGK", "30", 64, { tk: wrongTk }), art("streaky", "VGK", "30", 64)],
   ["Number with no fallback", "White on Nashville gold is 1.6:1; the fallback is ink.", art("rebound", "NSH", "30", 64, { tk: { number: "#FFFFFF", numberEdge: "#FFFFFF" } }), art("rebound", "NSH", "30", 64)],
   ["A colour-only trim", "San Jose's orange edge fades to the teal with no red cones (left, simulated).", `<span style="filter:url(#f-protanopia);width:50%;display:block">${art("hd-stopper", "SJS", "30", 64, { tk: { trim: "#E57200", cross: "#E57200" } })}</span>`, `<span style="filter:url(#f-protanopia);width:50%;display:block">${art("hd-stopper", "SJS", "30", 64)}</span>`],
 ].map(([h, why, a, b]) => `<figure><div class="pair">${a}${b}</div><figcaption><b><span class="x">✕</span> ${h} <span class="ok">✓</span></b>${why}</figcaption></figure>`).join("")

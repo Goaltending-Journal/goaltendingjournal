@@ -53,7 +53,7 @@ Neighbouring types differ in shape, not in detail:
 
 | Type | Shape |
 |---|---|
-| Steady | Compact upright rectangle, symmetric |
+| Streaky | Compact upright rectangle, symmetric |
 | Workhorse | Square stance framed by the net behind |
 | High-Danger Stopper | Low wide triangle, pads flat on the ice |
 | The Wall | Tall wide box, arms out to both posts |

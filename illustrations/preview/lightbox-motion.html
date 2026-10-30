@@ -121,8 +121,8 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
      "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
      "l" and "r" are the legs on the viewer's left and right. */
   const POSES = {
-    steady: {
-      name: "Steady", shape: "Compact upright rectangle, symmetric",
+    streaky: {
+      name: "Streaky", shape: "Compact upright rectangle, symmetric",
       torso: -90, head: -90,
       blocker: [100, 70], glove: [80, 40],
       l: [98, 88, 180], r: [82, 92, 0],
@@ -560,7 +560,10 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
       + (xray ? `<path d="${[-2.6, 0, 2.6].map((o) => `M${P2(along(along(h, hd, 0.4), hn, o))}L${P2(along(along(h, hd, -6.6), hn, o * 0.8))}`).join("")}${[-2.2, -4.6].map((o) => `M${P2(along(along(h, hd, o), hn, -4.2))}Q${P2(along(h, hd, o - 0.8))} ${P2(along(along(h, hd, o), hn, 4.2))}`).join("")}" fill="none" stroke="${edge}" stroke-width="${lite ? 1.1 : 0.8}" stroke-linecap="round"/>` : "");
     const gy = (7 + 0.82 * G.GROUND).toFixed(1);
     let ground;
-    if (xray) {
+    if (xray && opts.plain) {
+      // Plain mode (Step 7): the figure alone for boards, no box, grid or label, just a ground shadow; crop with plainBox()
+      ground = `<ellipse cx="50" cy="83" rx="22" ry="2.4" fill="#1d3346" opacity=".16"/>`;
+    } else if (xray) {
       const lines = [];
       if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
       const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
@@ -695,7 +698,7 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
   // Per type: the action the loop shows, then keys B and C (A is the still). ms = how long each key holds
   // before moving to the next; the move between keys takes 300 ms (eased).
   const KEYS = {
-    steady: { action: "Tracks the puck side to side", ms: [1400, 500, 500], keys: [
+    streaky: { action: "Tracks the puck side to side", ms: [1400, 500, 500], keys: [
       { label: "Shift left", dx: -5, torso: -84, glove: [70, 30], l: [102, 86, 180], r: [86, 90, 0] },
       { label: "Shift right", dx: 5, torso: -96, blocker: [104, 74], l: [94, 90, 180], r: [78, 94, 0] }] },
     workhorse: { action: "Pushes post to post", ms: [1000, 700, 700], keys: [
@@ -1541,7 +1544,7 @@ const TEAMS = {
 }.teams;
 const G = window.GoalieSkeleton, MO = window.GoalieMotion, TP = window.GoalieStyles.STYLES["skeletons-xray"].draw;
 const T = (c) => ({ ...TEAMS[c], code: c });
-const SET = [["steady", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "CGY"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
+const SET = [["streaky", "WPG"], ["workhorse", "MIN"], ["hd-stopper", "SJS"], ["wall", "OTT"], ["rebound", "NSH"], ["siege", "VAN"], ["crease", "ANA"], ["standout", "CGY"], ["donut-king", "DAL"], ["grandpa", "CBJ"], ["young-gun", "MTL"], ["style-king", "TOR"]];
 // One scale per loop: the highest point across its three keys
 const TOP = Object.fromEntries(SET.map(([k]) => [k, Math.min(...[0, 1, 2].map((i) => G.parts(MO.keyPose(k, i)).top))]));
 document.getElementById("facts").innerHTML = [["12", "loops"], ["36", "key poses"], [`${(Math.min(...SET.map(([k]) => MO.loopMs(k))) / 1000).toFixed(1)}–${(Math.max(...SET.map(([k]) => MO.loopMs(k))) / 1000).toFixed(1)} s`, "per loop"], ["12 fps", "stop-motion preview"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");

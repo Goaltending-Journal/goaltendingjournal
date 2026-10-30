@@ -38,7 +38,7 @@ h1 { font: 600 clamp(28px, 4vw, 40px)/1.05 var(--display); letter-spacing: .03em
 <script>
 const TEAMS = /*TEAMS*/.teams;
 const G = window.GoalieSkeleton, draw = window.GoalieStyles.STYLES["skeletons-xray"].draw, D = window.GOALIE_TYPES;
-const POSE = (key) => (key === "plain" ? "steady" : key);   // the data calls Steady "plain"
+const POSE = (key) => key;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const order = G.ORDER.map((k) => D.types.find((t) => POSE(t.key) === k)).filter(Boolean);
 document.getElementById("lede").textContent = `All ${D.goalies.length} goalies with ${D.minToi}+ minutes this season, drawn as their type in their team's colours. Types as of ${D.asOf}.`;

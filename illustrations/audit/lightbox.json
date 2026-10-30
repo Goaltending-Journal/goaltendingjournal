@@ -171,7 +171,7 @@
  },
  "silhouettes": {
   "worst": {
-   "a": "steady",
+   "a": "streaky",
    "b": "standout",
    "overlap": 0.63
   },
@@ -183,7 +183,7 @@
   "lite": 1.12
  },
  "loops": {
-  "steady": {
+  "streaky": {
    "frames": 40,
    "seam": 4.92,
    "maxStep": 13.62,
@@ -329,7 +329,7 @@
   }
  },
  "frameMs": {
-  "avg": 1.32,
-  "max": 2.7
+  "avg": 1.11,
+  "max": 6.5
  }
 }

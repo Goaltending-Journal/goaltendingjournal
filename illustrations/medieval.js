@@ -158,7 +158,7 @@
 
   /* H2 · Tapestry. The goalie stitched into the Bayeux Tapestry: wool colours laid on linen, a stitched outline,
      patterned border bands, and a Latin caption like the tapestry's own. */
-  const LATIN = { steady: "CVSTOS STABILIS", workhorse: "HIC LABORAT", "hd-stopper": "PERICVLVM VINCIT", wall: "MVRVS", rebound: "HIC PVCK TENET",
+  const LATIN = { streaky: "VINCIT ITERVM", workhorse: "HIC LABORAT", "hd-stopper": "PERICVLVM VINCIT", wall: "MVRVS", rebound: "HIC PVCK TENET",
     siege: "OBSESSVS", crease: "IN TVRBA PVGNAT", standout: "EGREGIVS", "donut-king": "REX NIHILI", grandpa: "SENEX", "young-gun": "IVVENIS", "style-king": "REX ELEGANTIAE" };
   /* Tapestry colour rules, shared by the drawing and check-colours.cjs. The trim, cross and number rules come from
      Gilded; what changes is the ground (pale linen, not a dark field), so the crest and armour get their own rules. */
