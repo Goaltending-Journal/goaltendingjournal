@@ -5,12 +5,15 @@
    Also checks that every bone in every pose keeps its canon length.
 
      NODE_PATH=$(npm root -g) node illustrations/audit-silhouettes.cjs
+     NODE_PATH=$(npm root -g) node illustrations/audit-silhouettes.cjs masks   (the goalie masks, masks.js)
 
    Needs Playwright with Chromium. Writes illustrations/audit/silhouettes.json. */
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 const G = require("./goalie-skeleton.js");
+const MK = require("./masks.js");
+const MASKS = process.argv.includes("masks");
 
 const SIZE = 32, BLUR = 1, LIMIT = 0.85;
 
@@ -29,7 +32,8 @@ function bones() {
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  const svgs = Object.fromEntries(G.ORDER.map((k) => [k, G.silhouette(k)]));
+  const ORDER = MASKS ? MK.ORDER : G.ORDER;
+  const svgs = Object.fromEntries(ORDER.map((k) => [k, MASKS ? MK.silhouette(k) : G.silhouette(k)]));
   const masks = await page.evaluate(async ({ svgs, SIZE, BLUR }) => {
     const out = {};
     for (const [k, svg] of Object.entries(svgs)) {
@@ -50,7 +54,7 @@ function bones() {
   }, { svgs, SIZE, BLUR });
   await browser.close();
 
-  const keys = G.ORDER, pairs = [];
+  const keys = ORDER, pairs = [];
   for (let i = 0; i < keys.length; i++) {
     for (let j = i + 1; j < keys.length; j++) {
       const a = masks[keys[i]], b = masks[keys[j]];
@@ -61,10 +65,10 @@ function bones() {
   }
   pairs.sort((x, y) => y.overlap - x.overlap);
   const fails = pairs.filter((p) => p.overlap > LIMIT);
-  const boneErrors = bones();
+  const boneErrors = MASKS ? [] : bones();
   const result = { size: SIZE, blur: BLUR, limit: LIMIT, worst: pairs.slice(0, 5), fails, boneErrors, pairs };
   fs.mkdirSync(path.join(__dirname, "audit"), { recursive: true });
-  fs.writeFileSync(path.join(__dirname, "audit", "silhouettes.json"), JSON.stringify(result, null, 1) + "\n");
+  fs.writeFileSync(path.join(__dirname, "audit", MASKS ? "mask-silhouettes.json" : "silhouettes.json"), JSON.stringify(result, null, 1) + "\n");
   console.log(`Closest pairs at ${SIZE}px, blurred ${BLUR}px (limit ${LIMIT}):`);
   for (const p of pairs.slice(0, 6)) console.log(`  ${p.overlap.toFixed(2)}  ${p.a} / ${p.b}`);
   console.log(fails.length ? `${fails.length} pair(s) over the limit` : "No pair over the limit");
