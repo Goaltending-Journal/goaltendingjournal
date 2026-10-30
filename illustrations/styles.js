@@ -185,7 +185,9 @@
     const eye = (sgn) => circ(along(along(h, hn, sgn * 2.1), hd, 0.6), 1.35);
     const skull = `<path d="${circ(h, 5.4)}" fill="${ivory}" stroke="${ink}" stroke-width=".8"/>
       <path d="${stad(along(h, hd, -5), along(h, hd, -6.4), 6)}" fill="${ivory}" stroke="${ink}" stroke-width=".7"/>
-      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`;
+      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`
+      // On the light box the skull wears a goalie cage, in the gear's colour
+      + (xray ? `<path d="${[-2.6, 0, 2.6].map((o) => `M${P2(along(along(h, hd, 0.4), hn, o))}L${P2(along(along(h, hd, -6.6), hn, o * 0.8))}`).join("")}${[-2.2, -4.6].map((o) => `M${P2(along(along(h, hd, o), hn, -4.2))}Q${P2(along(h, hd, o - 0.8))} ${P2(along(along(h, hd, o), hn, 4.2))}`).join("")}" fill="none" stroke="${edge}" stroke-width="${lite ? 1.1 : 0.8}" stroke-linecap="round"/>` : "");
     const gy = (7 + 0.82 * G.GROUND).toFixed(1);
     let ground;
     if (xray) {
@@ -193,7 +195,7 @@
       if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
       const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
       ground = `<rect x=".6" y=".6" width="98.8" height="98.8" rx="3" fill="${BOX}" stroke="#5d7d95" stroke-width="1.2"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
-        ${lite ? "" : `<rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="10" style="font: 500 4px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #56748a">${tag}</text>`}`;
+        ${lite ? "" : `<rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="93" style="font: 500 3.6px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #56748a">${tag}</text><text x="93" y="11" text-anchor="end" style="font: 600 5px Jost, Futura, sans-serif; fill: #56748a">R</text>`}`;
     } else if (bold) {
       ground = `<rect width="100" height="100" fill="${mix(t.primary, 0.82)}"/><circle cx="50" cy="48" r="34" fill="${mix(t.primary, 0.92)}"/><path d="M0 ${gy}H100V100H0Z" fill="${mix(t.primary, 0.6)}"/>`;
     } else {
@@ -203,7 +205,7 @@
     // On the light box the bones sit over the see-through gear; elsewhere the gear sits under them anyway
     return `${G.svgOpen(A.pose, opts)}${ground}
       <g transform="${inset(A, xray ? 0.86 : 0.82)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
-      ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: 1.4`)}</g></svg>`;
+      ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: ${xray ? 2.4 : 1.4}`)}</g></svg>`;
   };
 
   /* F · Knights. Conceit: the keeper as a knight of the crease, plate armour under a tabard in team colours, shield for a blocker. */
