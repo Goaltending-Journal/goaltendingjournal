@@ -14,6 +14,7 @@
     const to = t > 0 ? 255 : 0, a = Math.abs(t);
     return "#" + c.map((v) => Math.round(v + (to - v) * a).toString(16).padStart(2, "0")).join("");
   }
+  const wcag = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   const lum = (hex) => {
     const n = parseInt(hex.slice(1), 16);
     return [n >> 16, (n >> 8) & 255, n & 255].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
@@ -28,8 +29,8 @@
     return t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : mix(t.primary, 0.5);
   };
   // The figure sits inside each style's frame: ice at y = 82, the top no higher than y = 10
-  const inset = (A) => {
-    const k = Math.min(0.82, 72 / (G.GROUND - A.top));
+  const inset = (A, max = 0.82) => {
+    const k = Math.min(max, 72 / (G.GROUND - A.top));
     return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
   };
 
@@ -150,6 +151,11 @@
   const skeletons = (variant = "night") => function (poseKey, t, num, opts = {}) {
     const A = G.parts(poseKey), P = A.P, glow = ink2Of(t) === "#000000" ? t.accent : mix(t.primary, 0.25);
     const xray = variant === "xray", bold = variant === "bold";
+    // Light Box, round 2 (Goldy, 2026-10-30): a light cut below 100 px (denser gear, plain bones, no grid, label or number),
+    // a gear outline darkened to 3:1 on the box, a bigger figure and a firm card edge
+    const lite = xray && opts.size && opts.size < 100, BOX = "#dde9f1";
+    let edge = mix(t.primary, -0.3);
+    if (xray) for (let k = 0.3; k < 0.95 && wcag(edge, BOX) < 3; k += 0.1) edge = mix(t.primary, -k);
     const ivory = xray ? "#FBFDFF" : "#EEE6CF", ink = xray ? "#1d3346" : "#0f1016";
     const keep = new Set(["net", "pad", "skate", "glove", "blocker", "shaft", "paddle", "blade", "puck", "donut", "streak", "torso"]);
     const gear = A.parts.map((p) => {
@@ -158,7 +164,7 @@
       const fill = { net: ivory, pad: t.primary, skate: ivory, glove: t.primary, blocker: t.primary, shaft: "#3a2e24", paddle: "#3a2e24", blade: ivory,
         puck: ivory, donut: "#E9A4B8", streak: glow, torso: t.primary }[p.role];
       const seeThrough = xray && ["pad", "glove", "blocker", "torso"].includes(p.role);
-      return `<path d="${p.d}" fill="${fill}"${seeThrough ? ' fill-opacity=".55"' : ""} fill-rule="evenodd" stroke="${p.role === "torso" && !xray ? ivory : xray ? mix(t.primary, -0.3) : ink}" stroke-width="${bold ? 1.5 : p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
+      return `<path d="${p.d}" fill="${fill}"${seeThrough ? ` fill-opacity="${lite ? ".85" : ".6"}"` : ""} fill-rule="evenodd" stroke="${p.role === "torso" && !xray ? ivory : xray ? edge : ink}" stroke-width="${bold ? 1.5 : p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
     }).join("");
     // Pads get bone-white straps, the torso a ribcage over the jersey
     const straps = ["L", "R"].map((s) => {
@@ -171,9 +177,9 @@
       const c = along(P.pelvis, up, 24 * f), w = 7.5 - (f - 0.55) * 6;
       return `<path d="M${P2(along(along(c, side, -w), up, -2))}Q${P2(c)} ${P2(along(along(c, side, w), up, -2))}" fill="none" stroke="${xray ? ink : ivory}" stroke-width="${bold ? 2.3 : 1.5}" stroke-linecap="round"/>`;
     }).join("");
-    const limb = (a, b, w) => bold ? stad(a, b, 4.2) : bone(a, b, w);
-    const bones = LIMBS.map(([a, b]) => `<path d="${limb(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width="${bold ? 1.2 : 0.7}"/>`).join("") +
-      (xray ? ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 3.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".6"/>`).join("") : "");
+    const limb = (a, b, w) => bold || lite ? stad(a, b, lite ? 4.6 : 4.2) : bone(a, b, w);
+    const bones = LIMBS.map(([a, b]) => `<path d="${limb(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width="${bold ? 1.2 : lite ? 1.1 : 0.7}"/>`).join("") +
+      (xray && !lite ? ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 3.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".6"/>`).join("") : "");
     // Skull, facing the way the head points
     const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
     const eye = (sgn) => circ(along(along(h, hn, sgn * 2.1), hd, 0.6), 1.35);
@@ -184,9 +190,10 @@
     let ground;
     if (xray) {
       const lines = [];
-      for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
-      ground = `<rect width="100" height="100" fill="#dde9f1"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
-        <rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="10" style="font: 500 4px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #6d8aa0">${t.name.toUpperCase()} · AP</text>`;
+      if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
+      const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
+      ground = `<rect x=".6" y=".6" width="98.8" height="98.8" rx="3" fill="${BOX}" stroke="#5d7d95" stroke-width="1.2"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
+        ${lite ? "" : `<rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="10" style="font: 500 4px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #56748a">${tag}</text>`}`;
     } else if (bold) {
       ground = `<rect width="100" height="100" fill="${mix(t.primary, 0.82)}"/><circle cx="50" cy="48" r="34" fill="${mix(t.primary, 0.92)}"/><path d="M0 ${gy}H100V100H0Z" fill="${mix(t.primary, 0.6)}"/>`;
     } else {
@@ -195,8 +202,8 @@
     }
     // On the light box the bones sit over the see-through gear; elsewhere the gear sits under them anyway
     return `${G.svgOpen(A.pose, opts)}${ground}
-      <g transform="${inset(A)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
-      ${number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: 1.4`)}</g></svg>`;
+      <g transform="${inset(A, xray ? 0.86 : 0.82)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
+      ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: 1.4`)}</g></svg>`;
   };
 
   /* F · Knights. Conceit: the keeper as a knight of the crease, plate armour under a tabard in team colours, shield for a blocker. */
