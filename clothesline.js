@@ -4,11 +4,15 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "29 October 2026";
+const CLOTHESLINE_UPDATED = "30 October 2026";
 const CLOTHESLINE = [
+{"d": "2026-10-29", "t": "From Pixels to Performance: A Survey of the Estimation-to-Biomechanics Pipeline for Vision-Based Human Pose Estimation in Sports and Movement Health", "u": "https://doi.org/10.48175/ijarsct-40375", "s": "International Journal of Advanced Research in Science Communication and Technology", "tp": "ed", "m": false},
+{"d": "2026-10-29", "t": "Exploratory associations between isometric strength, vertical jump performance, and psychomotor outcomes in elite traditional karate Kumite athletes", "u": "https://doi.org/10.3389/fspor.2026.1952574", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Dynamic Movement Analysis of Horse and Rider in Showjumping", "u": "https://doi.org/10.13140/rg.2.2.33633.88165", "s": "UWE Research Repository (UWE Bristol)", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Sanitizing the stain: a critical integrative review of sportswashing discourse", "u": "https://doi.org/10.1108/qmr-10-2025-0256", "s": "Qualitative Market Research An International Journal", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Study on The Improvement of Musicl Performance Skills Using the Changba Appllcation Teaching Tool", "u": "https://doi.org/10.14456/augsbejr.2026.55", "s": "AU-GSB e-JOURNAL", "tp": "sa", "m": false},
+{"d": "2026-10-28", "t": "Wearable monitoring of pre-shot heart rate in youth golfers: a potential mental-load correlate in ecological putting practice", "u": "https://doi.org/10.3389/fpsyg.2026.1939721", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
+{"d": "2026-10-28", "t": "A multivariate approach to understanding cognitive functioning in high-performance athletes", "u": "https://doi.org/10.1038/s41598-026-75737-0", "s": "Scientific Reports", "tp": "sa", "m": false},
 {"d": "2026-10-27", "t": "Self-efficacy fluctuation and training engagement in adolescent athletes: online social feedback and the moderating role of comparison orientation", "u": "https://doi.org/10.3389/fpsyg.2026.1908710", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
 {"d": "2026-10-27", "t": "592– Cross-Scale Interactions in Sports Skills, David Farrokh", "u": "https://perceptionaction.com/592-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
 {"d": "2026-10-27", "t": "Perception over phenotype: opponent colour, not colour morph, shapes aggression in polymorphic lizards", "u": "https://doi.org/10.21203/rs.3.rs-11078110/v1", "s": "Research Square", "tp": "ed", "m": false},
@@ -38,10 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-17", "t": "Under pressure: an integrative review of the challenges facing young sport officials", "u": "https://doi.org/10.1080/23750472.2026.2747312", "s": "Managing Sport and Leisure", "tp": "ed", "m": false},
 {"d": "2026-10-17", "t": "From knowing to doing: Volleyball knowledge and skills performance among physical education teacher-education students", "u": "https://doi.org/10.64268/jospa.v2i2.25", "s": "Journal of Sports and Physical Activity", "tp": "sa", "m": false},
 {"d": "2026-10-16", "t": "Navigating access and participation in grappling sports among adults with visual impairments: a qualitative study", "u": "https://doi.org/10.1080/13573322.2026.2748351", "s": "Sport Education and Society", "tp": "ed", "m": false},
-{"d": "2026-10-16", "t": "Perceived viewing-experience enhancement and audience acceptance: applying TAM to AI-based sports broadcasting services", "u": "https://doi.org/10.3389/fspor.2026.1945033", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
-{"d": "2026-10-16", "t": "A resonant Doughnut for sustainable youth elite sport: Compass to navigate between growth and well-being logic in the 21st century", "u": "https://doi.org/10.1177/10126902261494684", "s": "International Review for the Sociology of Sport", "tp": "ed", "m": false},
-{"d": "2026-10-15", "t": "Forest bathing as a pathway toward ecological identity: a community case study", "u": "https://doi.org/10.3389/fcosc.2026.1981874", "s": "Frontiers in Conservation Science", "tp": "ed", "m": false},
-{"d": "2026-10-15", "t": "Assessing consequences of anthropogenic hybridization: Great Lakes mallard movement and resource selection", "u": "https://doi.org/10.1186/s40462-026-00657-7", "s": "Movement Ecology", "tp": "ed", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
