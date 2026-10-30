@@ -73,8 +73,8 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
      "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
      "l" and "r" are the legs on the viewer's left and right. */
   const POSES = {
-    steady: {
-      name: "Steady", shape: "Compact upright rectangle, symmetric",
+    streaky: {
+      name: "Streaky", shape: "Compact upright rectangle, symmetric",
       torso: -90, head: -90,
       blocker: [100, 70], glove: [80, 40],
       l: [98, 88, 180], r: [82, 92, 0],
@@ -190,7 +190,8 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
     const P = build([50, 50 + GROUND - 2 - lift - low]);   // 2 units for the pad and skate thickness
     // Centre the figure on x = 50
     const xs = Object.values(P).map((p) => p[0]);
-    const dx = 50 - (Math.min(...xs) + Math.max(...xs)) / 2;
+    // Motion keys pin the pelvis where the still has it (pelvisX), so the body doesn't drift as the arms move; dx is sideways travel
+    const dx = (pose.pelvisX !== undefined ? pose.pelvisX - P.pelvis[0] : 50 - (Math.min(...xs) + Math.max(...xs)) / 2) + (pose.dx || 0);
     for (const k in P) P[k] = [P[k][0] + dx, P[k][1]];
     return P;
   }
@@ -332,6 +333,7 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
     const to = t > 0 ? 255 : 0, a = Math.abs(t);
     return "#" + c.map((v) => Math.round(v + (to - v) * a).toString(16).padStart(2, "0")).join("");
   }
+  const wcag = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   const lum = (hex) => {
     const n = parseInt(hex.slice(1), 16);
     return [n >> 16, (n >> 8) & 255, n & 255].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
@@ -346,8 +348,12 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
     return t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : mix(t.primary, 0.5);
   };
   // The figure sits inside each style's frame: ice at y = 82, the top no higher than y = 10
-  const inset = (A) => {
-    const k = Math.min(0.82, 72 / (G.GROUND - A.top));
+  // topY: one top for a whole motion loop, so the figure keeps its scale from frame to frame
+  // Light Box: the gear outline, the team colour darkened until it reaches 3:1 on the box
+  const XRAY_BOX = "#dde9f1";
+  const xrayEdge = (hex) => { let e = mix(hex, -0.3); for (let k = 0.4; k < 1 && wcag(e, XRAY_BOX) < 3; k += 0.1) e = mix(hex, -k); return e; };
+  const inset = (A, max = 0.82, topY) => {
+    const k = Math.min(max, 72 / (G.GROUND - (topY ?? A.top)));
     return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
   };
 
@@ -468,6 +474,10 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
   const skeletons = (variant = "night") => function (poseKey, t, num, opts = {}) {
     const A = G.parts(poseKey), P = A.P, glow = ink2Of(t) === "#000000" ? t.accent : mix(t.primary, 0.25);
     const xray = variant === "xray", bold = variant === "bold";
+    // Light Box, round 2 (Goldy, 2026-10-30): a light cut below 100 px (denser gear, plain bones, no grid, label or number),
+    // a gear outline darkened to 3:1 on the box, a bigger figure and a firm card edge
+    const lite = xray && opts.size && opts.size < 100, BOX = XRAY_BOX;
+    const edge = xray ? xrayEdge(t.primary) : mix(t.primary, -0.3);
     const ivory = xray ? "#FBFDFF" : "#EEE6CF", ink = xray ? "#1d3346" : "#0f1016";
     const keep = new Set(["net", "pad", "skate", "glove", "blocker", "shaft", "paddle", "blade", "puck", "donut", "streak", "torso"]);
     const gear = A.parts.map((p) => {
@@ -476,7 +486,7 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
       const fill = { net: ivory, pad: t.primary, skate: ivory, glove: t.primary, blocker: t.primary, shaft: "#3a2e24", paddle: "#3a2e24", blade: ivory,
         puck: ivory, donut: "#E9A4B8", streak: glow, torso: t.primary }[p.role];
       const seeThrough = xray && ["pad", "glove", "blocker", "torso"].includes(p.role);
-      return `<path d="${p.d}" fill="${fill}"${seeThrough ? ' fill-opacity=".55"' : ""} fill-rule="evenodd" stroke="${p.role === "torso" && !xray ? ivory : xray ? mix(t.primary, -0.3) : ink}" stroke-width="${bold ? 1.5 : p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
+      return `<path d="${p.d}" fill="${fill}"${seeThrough ? ` fill-opacity="${lite ? ".85" : ".6"}"` : ""} fill-rule="evenodd" stroke="${p.role === "torso" && !xray ? ivory : xray ? edge : ink}" stroke-width="${bold ? 1.5 : p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
     }).join("");
     // Pads get bone-white straps, the torso a ribcage over the jersey
     const straps = ["L", "R"].map((s) => {
@@ -489,22 +499,28 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
       const c = along(P.pelvis, up, 24 * f), w = 7.5 - (f - 0.55) * 6;
       return `<path d="M${P2(along(along(c, side, -w), up, -2))}Q${P2(c)} ${P2(along(along(c, side, w), up, -2))}" fill="none" stroke="${xray ? ink : ivory}" stroke-width="${bold ? 2.3 : 1.5}" stroke-linecap="round"/>`;
     }).join("");
-    const limb = (a, b, w) => bold ? stad(a, b, 4.2) : bone(a, b, w);
-    const bones = LIMBS.map(([a, b]) => `<path d="${limb(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width="${bold ? 1.2 : 0.7}"/>`).join("") +
-      (xray ? ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 3.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".6"/>`).join("") : "");
+    const limb = (a, b, w) => bold || lite ? stad(a, b, lite ? 4.6 : 4.2) : bone(a, b, w);
+    const bones = LIMBS.map(([a, b]) => `<path d="${limb(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width="${bold ? 1.2 : lite ? 1.1 : 0.7}"/>`).join("") +
+      (xray && !lite ? ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 3.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".6"/>`).join("") : "");
     // Skull, facing the way the head points
     const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
     const eye = (sgn) => circ(along(along(h, hn, sgn * 2.1), hd, 0.6), 1.35);
     const skull = `<path d="${circ(h, 5.4)}" fill="${ivory}" stroke="${ink}" stroke-width=".8"/>
       <path d="${stad(along(h, hd, -5), along(h, hd, -6.4), 6)}" fill="${ivory}" stroke="${ink}" stroke-width=".7"/>
-      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`;
+      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`
+      // On the light box the skull wears a goalie cage, in the gear's colour
+      + (xray ? `<path d="${[-2.6, 0, 2.6].map((o) => `M${P2(along(along(h, hd, 0.4), hn, o))}L${P2(along(along(h, hd, -6.6), hn, o * 0.8))}`).join("")}${[-2.2, -4.6].map((o) => `M${P2(along(along(h, hd, o), hn, -4.2))}Q${P2(along(h, hd, o - 0.8))} ${P2(along(along(h, hd, o), hn, 4.2))}`).join("")}" fill="none" stroke="${edge}" stroke-width="${lite ? 1.1 : 0.8}" stroke-linecap="round"/>` : "");
     const gy = (7 + 0.82 * G.GROUND).toFixed(1);
     let ground;
-    if (xray) {
+    if (xray && opts.plain) {
+      // Plain mode (Step 7): the figure alone for boards, no box, grid or label, just a ground shadow; crop with plainBox()
+      ground = `<ellipse cx="50" cy="83" rx="22" ry="2.4" fill="#1d3346" opacity=".16"/>`;
+    } else if (xray) {
       const lines = [];
-      for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
-      ground = `<rect width="100" height="100" fill="#dde9f1"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
-        <rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="10" style="font: 500 4px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #6d8aa0">${t.name.toUpperCase()} · AP</text>`;
+      if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
+      const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
+      ground = `<rect x=".6" y=".6" width="98.8" height="98.8" rx="3" fill="${BOX}" stroke="#5d7d95" stroke-width="1.2"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
+        ${lite ? "" : `<rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="93" style="font: 500 3.6px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #56748a">${tag}</text><text x="93" y="11" text-anchor="end" style="font: 600 5px Jost, Futura, sans-serif; fill: #56748a">R</text>`}`;
     } else if (bold) {
       ground = `<rect width="100" height="100" fill="${mix(t.primary, 0.82)}"/><circle cx="50" cy="48" r="34" fill="${mix(t.primary, 0.92)}"/><path d="M0 ${gy}H100V100H0Z" fill="${mix(t.primary, 0.6)}"/>`;
     } else {
@@ -513,8 +529,8 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
     }
     // On the light box the bones sit over the see-through gear; elsewhere the gear sits under them anyway
     return `${G.svgOpen(A.pose, opts)}${ground}
-      <g transform="${inset(A)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
-      ${number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: 1.4`)}</g></svg>`;
+      <g transform="${inset(A, xray ? 0.86 : 0.82, opts.topY)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
+      ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: ${xray ? 2.4 : 1.4}`)}</g></svg>`;
   };
 
   /* F · Knights. Conceit: the keeper as a knight of the crease, plate armour under a tabard in team colours, shield for a blocker. */
@@ -604,7 +620,7 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
   }
 
   return {
-    mix, lum, trim, ink2Of,
+    mix, lum, wcag, trim, ink2Of, xrayEdge, XRAY_BOX,
     STYLES: {
       glass: { name: "Stained Glass", conceit: "Each goalie is a cathedral window: lead lines and panes of team colour.", draw: glass },
       plate: { name: "Research Plate", conceit: "A figure from the journal: each goalie drafted in white line on a plate of team colour.", draw: plate },
@@ -623,20 +639,776 @@ figcaption b { color: var(--fg); font-weight: 500; display: block }
 </script>
 <script>
 const TEAMS = {
-  "note": "Team colours as published, read from the sources below and saved with them. Two public lists disagree slightly on some teams (Dallas green is #00843D on one and #006847 on the other); confirm against each team's own brand page before release (step 4).",
-  "sources": {
-    "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
-    "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+ "note": "Each team's published colours, in the order the source lists them. The first colour is the sweater (tabard) colour. Teams do not publish a public brand page with hex values, so the PMS-based list below is the source of record; the Wikipedia module (a screen-tuned sandbox) is kept as wikiFirst for comparison. It differs most for Dallas (#006847), Anaheim and Ottawa (it lists the old orange-less and red-first sets), Philadelphia and Edmonton (brighter orange).",
+ "sources": {
+  "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
+  "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+ },
+ "read": "2026-10-29",
+ "teams": {
+  "ANA": {
+   "name": "Anaheim Ducks",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#89734C",
+   "palette": [
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#89734C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
   },
-  "read": "2026-10-29",
-  "teams": {
-    "DAL": { "name": "Dallas Stars", "primary": "#00843D", "secondary": "#000000", "accent": "#A2AAAD", "source": "designyourway", "names": ["Victory Green", "Black", "Silver"] },
-    "TOR": { "name": "Toronto Maple Leafs", "primary": "#00205B", "secondary": "#FFFFFF", "accent": "#00205B", "source": "designyourway", "names": ["Blue", "White", "Blue"] },
-    "OTT": { "name": "Ottawa Senators", "primary": "#C8102E", "secondary": "#000000", "accent": "#B9975B", "source": "designyourway", "names": ["Red", "Black", "Gold"] },
-    "SJS": { "name": "San Jose Sharks", "primary": "#006272", "secondary": "#000000", "accent": "#E57200", "source": "designyourway", "names": ["Deep Pacific Teal", "Black", "Burnt Orange"] }
+  "BOS": {
+   "name": "Boston Bruins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BUF": {
+   "name": "Buffalo Sabres",
+   "primary": "#003087",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002654"
+  },
+  "CGY": {
+   "name": "Calgary Flames",
+   "primary": "#C8102E",
+   "secondary": "#F1BE48",
+   "accent": "#F1BE48",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#F1BE48"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "CAR": {
+   "name": "Carolina Hurricanes",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CC0000"
+  },
+  "CHI": {
+   "name": "Chicago Blackhawks",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "COL": {
+   "name": "Colorado Avalanche",
+   "primary": "#6F263D",
+   "secondary": "#236192",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Burgundy",
+     "hex": "#6F263D"
+    },
+    {
+     "name": "Blue",
+     "hex": "#236192"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#6F263D"
+  },
+  "CBJ": {
+   "name": "Columbus Blue Jackets",
+   "primary": "#041E42",
+   "secondary": "#C8102E",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Union Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Goal Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Capital Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E42"
+  },
+  "DAL": {
+   "name": "Dallas Stars",
+   "primary": "#00843D",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Victory Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006847"
+  },
+  "DET": {
+   "name": "Detroit Red Wings",
+   "primary": "#C8102E",
+   "secondary": "#FFFFFF",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "EDM": {
+   "name": "Edmonton Oilers",
+   "primary": "#00205B",
+   "secondary": "#CF4520",
+   "accent": "#CF4520",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FF4C00"
+  },
+  "FLA": {
+   "name": "Florida Panthers",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#C8102E"
+  },
+  "LAK": {
+   "name": "Los Angeles Kings",
+   "primary": "#000000",
+   "secondary": "#A2AAAD",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "MIN": {
+   "name": "Minnesota Wild",
+   "primary": "#154734",
+   "secondary": "#A6192E",
+   "accent": "#EAAA00",
+   "palette": [
+    {
+     "name": "Forest Green",
+     "hex": "#154734"
+    },
+    {
+     "name": "Iron Range Red",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Harvest Gold",
+     "hex": "#EAAA00"
+    },
+    {
+     "name": "Minnesota Wheat",
+     "hex": "#DDCBA4"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#024930"
+  },
+  "MTL": {
+   "name": "Montreal Canadiens",
+   "primary": "#A6192E",
+   "secondary": "#001E62",
+   "accent": "#001E62",
+   "palette": [
+    {
+     "name": "Rouge",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Bleu",
+     "hex": "#001E62"
+    },
+    {
+     "name": "Blanc",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#AF1E2D"
+  },
+  "NSH": {
+   "name": "Nashville Predators",
+   "primary": "#FFB81C",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FFB81C"
+  },
+  "NJD": {
+   "name": "New Jersey Devils",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "NYI": {
+   "name": "New York Islanders",
+   "primary": "#003087",
+   "secondary": "#FC4C02",
+   "accent": "#FC4C02",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Orange",
+     "hex": "#FC4C02"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00539B"
+  },
+  "NYR": {
+   "name": "New York Rangers",
+   "primary": "#0033A0",
+   "secondary": "#C8102E",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0033A0"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "OTT": {
+   "name": "Ottawa Senators",
+   "primary": "#000000",
+   "secondary": "#C8102E",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "PHI": {
+   "name": "Philadelphia Flyers",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Burnt Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#F74902"
+  },
+  "PIT": {
+   "name": "Pittsburgh Penguins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Pittsburgh Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "SJS": {
+   "name": "San Jose Sharks",
+   "primary": "#006272",
+   "secondary": "#000000",
+   "accent": "#E57200",
+   "palette": [
+    {
+     "name": "Deep Pacific Teal",
+     "hex": "#006272"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Burnt Orange",
+     "hex": "#E57200"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006D75"
+  },
+  "SEA": {
+   "name": "Seattle Kraken",
+   "primary": "#051C2C",
+   "secondary": "#9CDBD9",
+   "accent": "#6BA4B8",
+   "palette": [
+    {
+     "name": "Deep Sea Blue",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Ice Blue",
+     "hex": "#9CDBD9"
+    },
+    {
+     "name": "Shadow Blue",
+     "hex": "#6BA4B8"
+    },
+    {
+     "name": "Red Alert",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "STL": {
+   "name": "St. Louis Blues",
+   "primary": "#0072CE",
+   "secondary": "#FFB81C",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0072CE"
+    },
+    {
+     "name": "Yellow",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002F87"
+  },
+  "TBL": {
+   "name": "Tampa Bay Lightning",
+   "primary": "#00205B",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "TOR": {
+   "name": "Toronto Maple Leafs",
+   "primary": "#00205B",
+   "secondary": "#FFFFFF",
+   "accent": "#00205B",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "UTA": {
+   "name": "Utah Mammoth",
+   "primary": "#000000",
+   "secondary": "#6CACE4",
+   "accent": "#6CACE4",
+   "palette": [
+    {
+     "name": "Rock Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Mountain Blue",
+     "hex": "#6CACE4"
+    },
+    {
+     "name": "Salt White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "VAN": {
+   "name": "Vancouver Canucks",
+   "primary": "#00205B",
+   "secondary": "#00843D",
+   "accent": "#051C2C",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Navy",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Silver",
+     "hex": "#97999B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002D55"
+  },
+  "VGK": {
+   "name": "Vegas Golden Knights",
+   "primary": "#C69214",
+   "secondary": "#333F48",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Metallic Gold",
+     "hex": "#C69214"
+    },
+    {
+     "name": "Steel Grey",
+     "hex": "#333F48"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#333F42"
+  },
+  "WSH": {
+   "name": "Washington Capitals",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CF0A2C"
+  },
+  "WPG": {
+   "name": "Winnipeg Jets",
+   "primary": "#041E42",
+   "secondary": "#004C97",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Polar Night Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Aviator Blue",
+     "hex": "#004C97"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E41"
   }
-}
-.teams;
+ }
+}.teams;
 const G = window.GoalieSkeleton, ST = window.GoalieStyles.STYLES;
 const SUBJECTS = [
   { pose: "donut-king", team: "DAL", num: "29", who: "Jake Oettinger" },

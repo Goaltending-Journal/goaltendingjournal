@@ -1,34 +1,36 @@
 # Goalie illustrations
 
-One illustration per goalie type for the NHL DataViz page (goalies.html). The types come from
-`build_goalie_types.py` (see `goalie-types-data.js`). Every picture is drawn by code as SVG, never traced
-from a photo, and never shows a real player's likeness, mask art, or any NHL or team logo.
+One illustration per goalie archetype for the Archetypes section of the NHL DataViz page (goalies.html). The
+archetypes come from `build_goalie_types.py` (see `goalie-types-data.js`, rebuilt nightly). Every picture is drawn
+by code as SVG, never traced from a photo, and never shows a real player's likeness, mask art, or any NHL or team logo.
 
-The brief, the type list and the budgets live in the Goalie Type Illustrations brief (a Claude Doc).
+**The chosen style is Skeletons: Light Box** (`skeletons-xray` in `styles.js`; Goldy, 2026-10-30): each goalie is an
+X-ray pinned to a light box, gear see-through in team colour with the skeleton showing through. The model sheet is
+`STYLE.md`. On the site, `../goalie-types-panel.js` draws twelve compact cards; a card plays its loop on hover or focus.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `goalie-skeleton.js` | The canon, the shared skeleton, one pose per type, and the first style (`silhouette`) |
-| `audit-silhouettes.cjs` | Step 2 audit: overlap of every pair at 32 px after a 1 px blur, plus bone-length drift |
-| `audit/silhouettes.json` | The latest audit result |
-| `preview/silhouettes.html` | The silhouette sheet (self-contained; built from `silhouettes.tpl.html`) |
-| `styles.js` | The styles library: every style tried, each a function from the posed parts to SVG |
+| `goalie-skeleton.js` | The canon, the shared skeleton, one pose per archetype, and the flat `silhouette` style |
+| `styles.js` | The styles library: every style tried, each a function from the posed parts to SVG. Light Box is `skeletons-xray`, with a light cut below 100 px and a `plain` mode for boards |
+| `motion.js` | Three key poses per archetype and eased in-betweens for the 12 fps loop |
 | `team-colours.json` | Team colours, saved with the source each was read from |
-| `preview/styles.html` | Step 3 mockups: four styles on the same four goalies (built from `styles.tpl.html`) |
-| `gilded.js` | Step 4: the chosen style, Knights: Gilded, with its colour rules and the 32 team crests |
-| `medieval.js` | Step 4 round 2: the knight redrawn as smooth character shapes, in four medieval art styles (`preview/medieval.html`) |
-| `motion.js` | Step 5: three key poses per type and eased in-betweens for the detail-card loop (`preview/keys.html`) |
-| `STYLE.md` | The model sheet: conceit, tone, proportions, tokens, crests and don'ts |
-| `check-colours.cjs` | Step 4 colour checks: number contrast (WCAG and APCA) and colour-blind simulations for all 32 teams |
-| `audit/colours.json` | The latest colour check result |
-| `preview/gilded-set.html` | Step 4 check sheet: the full set, every size in both themes, all 32 colour sets (built from `gilded-set.tpl.html`) |
+| `colour.js` | Contrast and colour-vision helpers for the audits |
+| `audit-silhouettes.cjs` | Overlap of every pair at 32 px after a 1 px blur, plus bone-length drift (`audit/silhouettes.json`) |
+| `audit-lightbox.cjs` | Light Box budgets on all 32 teams: contrast in every vision type, loop seams, framing, bone drift, size, frame time (`audit/lightbox.json`) |
+| `audit-board.cjs` | The board: no overlap, clipping or sideways scroll at phone, tablet and desktop widths (`audit/board.json`) |
+| `build-previews.cjs` | Rebuilds the self-contained preview pages from their `.tpl.html` templates |
+| `preview/lightbox.html` | The Light Box sheet: the set, every size in both themes, one team per row |
+| `preview/lightbox-motion.html` | Every archetype's key poses and live loop |
+| `preview/board.html` | Every goalie in plain mode, in rows by archetype, with name and stat plates |
+| `preview/silhouettes.html`, `preview/styles.html` | The silhouette sheet and the style mockups from the earlier rounds |
 
-Run the audits (the silhouette audit needs Playwright with Chromium):
+Run the audits (they need Playwright with Chromium):
 
     NODE_PATH=$(npm root -g) node illustrations/audit-silhouettes.cjs
-    node illustrations/check-colours.cjs
+    NODE_PATH=$(npm root -g) node illustrations/audit-lightbox.cjs
+    node illustrations/build-previews.cjs && NODE_PATH=$(npm root -g) node illustrations/audit-board.cjs
 
 ## The canon
 
@@ -49,7 +51,7 @@ The glove is on the viewer's right and the blocker and stick on the left: a left
 
 ## Shape language
 
-Neighbouring types differ in shape, not in detail:
+Neighbouring archetypes differ in shape, not in detail:
 
 | Type | Shape |
 |---|---|
@@ -84,11 +86,10 @@ Every style tried stays here, so a restyle costs minutes. Each one has a one-sen
 | `knights-gilded` | Knights: Gilded | Gold armour on a deep team-colour field scattered with stars, like a herald's roll. |
 | `fantasy` | High Fantasy | An epic-quest keeper: rune-lit armour and a team-colour cloak against a dusk sky over far mountains. |
 
-Round 1 (Research Plate, Two-Ink Print, Stained Glass, Illuminated Plate): Goldy kept Illuminated Plate.
-Round 2 added Skeletons, Knights and High Fantasy, and gave Illuminated Plate a gilded nimbus so dark jerseys
-stand off its navy field.
-Round 3: Goldy kept Skeletons and Knights and asked for two alternatives to each (Light Box, Bold Bones; Tournament, Gilded).
-Goldy picked Knights: Gilded (F3). Step 4 draws the full set in it: see `STYLE.md`.
-Round 2 of Step 4: Goldy asked for knights that read as characters, in a medieval art style, keeping the crests: Illuminated Miniature, Tapestry, Woodcut and Marginalia (`medieval.js`).
-Round 3 of Step 4: Goldy picked Tapestry (H2) and asked for more definition and realism on the gear: a cage helm with a dangler, pad channels and straps, a laced catcher, a blocker cuff, floaters, elbow cops and a taped stick, in laid-and-couched wool (`preview/tapestry.html`). Below 100 px it draws a lighter cut. STYLE.md still describes Gilded and gets rewritten for Tapestry once it is locked.
-Tapestry locked (Goldy, 2026-10-29). Step 5 plans each type's 3 to 4 second loop as key poses A (the still), B and C, played as 12 fps stop-motion; frames are drawn once in idle time, then swapped (2.1 ms a frame on average with the CPU slowed 6x).
+## How we got here
+
+- Styles round 1 to 3: Research Plate, Two-Ink Print, Stained Glass, Illuminated Plate, then Skeletons, Knights and High Fantasy, then two alternatives each to Skeletons (Light Box, Bold Bones) and Knights (Tournament, Gilded).
+- Goldy first picked Knights: Gilded, then knights in medieval art styles (Tapestry was chosen), then goalie masks crossed with knight helms (2026-10-30). Those are retired and their code removed; the git history keeps them.
+- Goldy then went back to Skeletons: Light Box (2026-10-30), drawn for every archetype and polished: a goalie cage on the skull, a haloed number, the film label at the foot, a light cut under 100 px, a gear outline darkened to 3:1 on the box, and a firm card edge.
+- Steady became Streaky (the longest current win streak, 3+ wins), keeping its pose and loop. The section on the site is called Archetypes.
+- The five-second picture test with readers was skipped at Goldy's request; the instrument audits all pass.

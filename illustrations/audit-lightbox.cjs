@@ -10,7 +10,7 @@
    Writes audit/lightbox.json. Run: NODE_PATH=$(npm root -g) node illustrations/audit-lightbox.cjs */
 const fs = require("fs"), path = require("path"), zlib = require("zlib");
 const { chromium } = require("playwright");
-const G = require("./goalie-skeleton.js"), S = require("./styles.js"), MO = require("./motion.js"), GD = require("./gilded.js");
+const G = require("./goalie-skeleton.js"), S = require("./styles.js"), MO = require("./motion.js"), GD = require("./colour.js");
 const TEAMS = require("./team-colours.json").teams;
 const draw = S.STYLES["skeletons-xray"].draw, FPS = 12, BOX = S.XRAY_BOX, r2 = (v) => +v.toFixed(2);
 const out = { checked: new Date().toISOString().slice(0, 10), failures: [] };

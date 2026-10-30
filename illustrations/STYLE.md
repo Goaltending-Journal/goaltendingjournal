@@ -1,88 +1,77 @@
-# Model sheet: Tapestry
+# Model sheet: Skeletons: Light Box
 
-The chosen style for the goalie-type illustrations (Goldy, 2026-10-29), after Gilded Knights (Step 4 round 1) and
-four medieval art options (round 2). The code is `tapestry()` in `medieval.js`; the colour rules are `tapTokens()`
-there; the checks are `check-colours.cjs` (results in `audit/colours.json`, key `tapestry`); the sheet is
-`preview/tapestry.html`.
+The chosen style for the goalie archetypes (Goldy, 2026-10-30), after Gilded Knights, Tapestry and goalie masks
+were tried and retired. The code is `skeletons("xray")` in `styles.js` (key `skeletons-xray`); the checks are
+`audit-lightbox.cjs` (results in `audit/lightbox.json`); the sheets are `preview/lightbox.html` and
+`preview/lightbox-motion.html`; the site panel is `../goalie-types-panel.js`.
 
 ## Conceit and tone
 
-**Conceit:** each goalie is stitched into the Bayeux Tapestry: a knight of the crease in wool on linen, with a
-Latin caption over the scene.
+**Conceit:** every goalie is an X-ray pinned to a light box: the gear goes see-through in team colour and the whole
+skeleton shows through, skull, ribs and shins included, with a goalie cage over the skull.
 
-**Tone:** proud and a little playful, like a team banner. It honours the type without mocking the player
-(Rex Nihili, "king of nothing", is a compliment to a shutout leader).
-
-## Captions
-
-| Type | Caption | Meaning |
-|---|---|---|
-| Streaky | VINCIT ITERVM | He wins again |
-| Workhorse | HIC LABORAT | Here he labours |
-| High-Danger Stopper | PERICVLVM VINCIT | He conquers danger |
-| The Wall | MVRVS | The wall |
-| Rebound Controller | HIC PVCK TENET | Here he holds the puck |
-| Under Siege | OBSESSVS | Besieged |
-| Crease Battler | IN TVRBA PVGNAT | He fights in the crowd |
-| Standout | EGREGIVS | The outstanding one |
-| Donut King | REX NIHILI | King of nothing |
-| Grandpa | SENEX | The old man |
-| Young Gun | IVVENIS | The youth |
-| Style King | REX ELEGANTIAE | King of style |
+**Tone:** clever and a little playful, like a team doctor's light box. It honours the archetype without mocking
+the player, and never shows a real face.
 
 ## Proportions
 
 Frame 100 × 100 units. The skeleton, bone lengths and poses are unchanged (`goalie-skeleton.js`): a pose is joint
-angles, never free points. `figure()` in `medieval.js` draws over those joints with smooth, tapered parts.
+angles, never free points. The figure is scaled to fit at up to 0.86, from the highest point of its loop, so it
+keeps one size in every frame.
 
 | Part | Units |
 |---|---|
-| Helm | 1.2 × the skeleton head (13 wide), on the neck; cage in the face, dangler below |
-| Torso | breastplate 16 at the hips to 21 at the shoulders; tabard 14 wide with a pointed hem |
-| Arm | 8 at the shoulder, 7 at the elbow, 6.5 at the wrist; floaters 10.6 × 8.8, elbow cops 6.8 × 5.6 |
-| Leg pad | 12.5 at the knee stack, 13.5 mid-pad, 11 at the boot |
-| Catcher | 14.4 × 12.6 with a 6.8 × 4.8 thumb; cuff 9 wide |
-| Kite shield | 13 wide, 15 long, square to the forearm |
-| Crest | up to 12 above the helm |
-| Caption | Cinzel 600 at 5.6, centred at y = 17.5; the figure stays below y = 21 |
+| Card | 98.8 square, radius 3, edge 1.2; inner film frame 92 square |
+| Grid | lines every 12.5, 0.4 wide (full cut only) |
+| Bones | knuckled limb bones 4.6 wide (plain stadiums in the light cut), shins 3.6 |
+| Skull | radius 5.4, jaw 6 wide; cage of three bars and two curved bars over the face |
+| Spine and ribs | dashed spine; three ribs, 7.5 to 6 wide |
+| Film label | Jost 500 at 3.6, at the foot (y = 93): ARCHETYPE · TEAM |
+| R marker | Jost 600 at 5, top right |
+| Number | Jost 600 at 7.5 on the chest (full cut only) |
 
-**Turnaround:** front view only, by design. Every surface shows the goalie facing the reader.
+**Turnaround:** front view only, by design.
 
 ## Tokens
 
 | Token | Value | Rule |
 |---|---|---|
-| Linen | `#EADFC4` with a fine weave | The ground |
-| Thread | `#3A3550` | Every outline, as a stitched dash (1.6 on, 0.7 off) at 1.1 |
-| Cream | `#F2EBD8` | Net, tape, cage bars, light number |
-| Armour | ochre `#C9962E` / `#94681E` | Two wools: the darker on the shaded side, as the tapestry does it |
-| Steel | `#8E98AA` / `#5E6679` | Armour for gold sweaters (Nashville, Vegas), so the tabard shows |
-| Tabard | team | The sweater colour; black is dyed dark indigo `#2E2A3A` |
-| Crest | team | The trim if it reaches 3:1 on linen in every kind of vision, else the sweater colour, else thread |
-| Number | cream or thread | Cinzel 600 at 8, cream with a thread edge; thread with a cream edge where cream is under 3:1 |
-| Straps, sabatons | rust `#9E4A3A`, sage `#7E8F5A` | Fixed |
-| Couching | 16% dark laid lines, 22% light ties | Over every armour, tabard, shield and catcher fill |
-| Borders | `#E2D3B0` bands, stitched diagonals, four roundels | Top and bottom |
+| Box | `#dde9f1` | The light box |
+| Card edge | `#5d7d95` | 3.8:1 on the light page; the box itself is 15:1 on the dark page |
+| Grid, frame | `#b9cddb`, `#9fb7c8` | |
+| Film label, R | `#56748a` | 3.8:1 on the box |
+| Bone | `#FBFDFF` fill, `#1d3346` outline | The outline is 10.3:1 on the box |
+| Gear | team colour at 60% (85% in the light cut) | Pads, glove, blocker, sweater |
+| Gear outline | the team colour darkened until it reaches 3:1 on the box (`xrayEdge`) | Also the cage and the number |
+| Number | gear outline colour with a 2.4 white halo | |
+| Stick | `#3a2e24` | Fixed |
+| Donut | `#E9A4B8` | Fixed |
+| A type nobody holds yet | Deep Periwinkle `#5563C4` | The site's brand colour, labelled NHL |
 
-All 32 teams pass every pair in all four kinds of vision (`node illustrations/check-colours.cjs`).
+All 32 teams pass in all four kinds of vision. Worst case Nashville: gear outline 3.5:1 on the box, number 4.3:1
+on its halo.
 
-## Two cuts
+## Cuts and modes
 
-Full cut at 100 px and over (the 240 px detail card): stitched outlines, couching, gear seams and the caption.
-Light cut below 100 px (leaderboard 32, profile 64, carousel 76): solid outlines, no couching, seams or caption.
-Shapes, colours and crest are the same in both. Compressed, the full cut is 3.5 KB at most and the light cut
-2.8 KB (raw 16 KB and 10 KB).
+- **Full cut** at 100 px and over: grid, film frame, label, R marker, knuckled bones, shins and number.
+- **Light cut** below 100 px (the site's cards are 64 px, 52 px on phones; leaderboard 32): denser gear, plain
+  bones, no grid, label, shins or number. Shapes and colours are the same.
+- **Plain mode** (`opts.plain`): the figure alone with a ground shadow (`#1d3346` at 16%) and no card, for boards
+  where several goalies stand together; crop it to its drawn bounds.
 
-## Crests (the marks)
+Compressed, a full-cut still is 1.7 KB and a light-cut still 1.1 KB.
 
-Unchanged from Gilded: one heraldic figure per team after its nickname (`CRESTS` in `gilded.js`), never a logo.
-A formal trademark search has not been done and should be before launch.
+## Motion
+
+Each archetype has a 3.2 to 3.9 second loop of three key poses (`motion.js`): A is the still, then B and C, each
+held, with a 0.3 s eased move between. It plays at 12 frames a second, prebuilt in idle time. On the site a card
+plays only while hovered or focused; nothing plays under reduced motion, and nothing flashes. Frame time is 1.1 ms
+on average with the CPU slowed 6x (budget 8 ms).
 
 ## Don'ts
 
 - No real team logo, wordmark or mask design, and no real player's face.
-- No crest or prop that only shows by hue; it needs 3:1 on the linen.
-- No gold sweater on ochre armour.
-- No full cut below 100 px: the stitched dashes blur at small sizes.
-- No type told apart by colour alone; types differ by shape.
+- No gear outline under 3:1 on the box; darken the team colour instead.
+- No full cut below 100 px: the grid and knuckles turn to speckle.
+- No archetype told apart by colour alone; archetypes differ by shape (closest pair at 32 px: 0.63, limit 0.85).
 - No new pose drawn as free points; add joint angles to `POSES` in `goalie-skeleton.js`.
