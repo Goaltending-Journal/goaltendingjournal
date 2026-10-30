@@ -145,30 +145,27 @@ h1 span{color:var(--fog);display:block}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
-/* goalie types: one featured Light Box card that plays its loop, beside twelve stills to pick from */
-.ty-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;margin-top:16px}
-.panel.ty-feat{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:18px;align-items:start}
-.ty-stage svg{display:block;width:100%;height:auto;border-radius:4px}
-.ty-feat h3{margin:0;font-family:var(--f-display);font-size:24px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
-.ty-trait{margin:4px 0 0;color:var(--fog);font-size:15px}
-.ty-rule{margin:10px 0 0;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.ty-who{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0;list-style:none}
-.ty-who button{border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--chalk)}
-.ty-who button:hover{border-color:var(--crease)}
-.ty-who .t{color:var(--mute);font-size:11px;margin-left:5px;font-family:var(--f-data)}
-.ty-none{margin:12px 0 0;color:var(--mute);font-size:13px}
-.ty-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.ty-tile{display:grid;justify-items:center;gap:4px;padding:8px 6px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);cursor:pointer;color:var(--chalk);min-width:0}
-.ty-tile svg{display:block;width:100%;max-width:76px;height:auto;border-radius:3px}
-.ty-tile b{font-size:12px;font-weight:600;line-height:1.2;text-align:center}
-.ty-tile span{font-size:11px;color:var(--mute);font-family:var(--f-data)}
-.ty-tile[aria-pressed="true"]{border-color:var(--crease);box-shadow:0 0 0 2px var(--crease) inset}
-.ty-tile:hover{border-color:var(--crease)}
-@keyframes ty-warm{from{filter:brightness(.45) saturate(.3)}70%{filter:brightness(.92) saturate(.9)}to{filter:none}}
-.ty-stage.warm{animation:ty-warm .8s steps(8,end) both}
-@media (prefers-reduced-motion:reduce){.ty-stage.warm{animation:none}}
-@media (max-width:1100px){ .ty-grid{grid-template-columns:minmax(0,1fr)} }
-@media (max-width:620px){ .panel.ty-feat{grid-template-columns:minmax(0,1fr)} .ty-stage{max-width:300px} .ty-tiles{grid-template-columns:repeat(3,minmax(0,1fr))} }
+/* archetypes: twelve compact cards, each a Light Box still that plays its loop on hover or focus */
+.ty-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:16px;padding:0;list-style:none}
+.ty-card{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);min-width:0}
+.ty-card:hover,.ty-card:focus-within{border-color:var(--crease)}
+.ty-art svg{display:block;width:64px;height:64px;border-radius:3px}
+.ty-txt{min-width:0}
+.ty-txt h3{margin:0;font-size:13px;font-weight:700;line-height:1.2}
+.ty-txt p{margin:2px 0 0;font-size:11px;color:var(--mute);line-height:1.3}
+.ty-row{margin-top:4px;line-height:1.35}
+.ty-lead{display:inline;padding:0;border:0;background:none;color:var(--crease);font-size:12px;font-weight:600;cursor:pointer;text-align:left}
+.ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
+.ty-more{margin-left:4px;padding:0 6px;vertical-align:1px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--fog);font:600 10px var(--f-data);cursor:pointer}
+.ty-pop{margin:0;padding:10px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);color:var(--chalk);box-shadow:0 8px 24px var(--shadow);max-width:min(320px,90vw)}
+.ty-pop h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.ty-pop ul{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.ty-pop button{border:0;background:none;padding:4px 2px;color:var(--chalk);font-size:13px;cursor:pointer;text-align:left;width:100%}
+.ty-pop button:hover{color:var(--crease)}
+.ty-pop .t{color:var(--mute);font:11px var(--f-data);margin-left:6px}
+@media (max-width:1200px){ .ty-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:860px){ .ty-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:620px){ .ty-grid{grid-template-columns:repeat(2,minmax(0,1fr))} .ty-card{grid-template-columns:52px minmax(0,1fr);gap:8px;padding:6px} .ty-art svg{width:52px;height:52px} }
 
 
 /* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).
@@ -415,11 +412,8 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section id="tySec" hidden>
-    <div class="sec-h"><h2>Goalie Types</h2><span class="note" id="tyNote"></span></div>
-    <div class="ty-grid">
-      <div class="panel ty-feat" id="tyFeat" aria-live="polite"></div>
-      <div class="ty-tiles" id="tyTiles" role="group" aria-label="Goalie types"></div>
-    </div>
+    <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
+    <ul class="ty-grid" id="tyGrid" aria-label="Goalie archetypes"></ul>
   </section>
 
   <section id="gmSec">
