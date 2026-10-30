@@ -193,7 +193,10 @@
       + (xray ? `<path d="${[-2.6, 0, 2.6].map((o) => `M${P2(along(along(h, hd, 0.4), hn, o))}L${P2(along(along(h, hd, -6.6), hn, o * 0.8))}`).join("")}${[-2.2, -4.6].map((o) => `M${P2(along(along(h, hd, o), hn, -4.2))}Q${P2(along(h, hd, o - 0.8))} ${P2(along(along(h, hd, o), hn, 4.2))}`).join("")}" fill="none" stroke="${edge}" stroke-width="${lite ? 1.1 : 0.8}" stroke-linecap="round"/>` : "");
     const gy = (7 + 0.82 * G.GROUND).toFixed(1);
     let ground;
-    if (xray) {
+    if (xray && opts.plain) {
+      // Plain mode (Step 7): the figure alone for boards, no box, grid or label, just a ground shadow; crop with plainBox()
+      ground = `<ellipse cx="50" cy="83" rx="22" ry="2.4" fill="#1d3346" opacity=".16"/>`;
+    } else if (xray) {
       const lines = [];
       if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
       const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
