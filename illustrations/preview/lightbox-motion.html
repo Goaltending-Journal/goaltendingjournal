@@ -397,6 +397,9 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
   };
   // The figure sits inside each style's frame: ice at y = 82, the top no higher than y = 10
   // topY: one top for a whole motion loop, so the figure keeps its scale from frame to frame
+  // Light Box: the gear outline, the team colour darkened until it reaches 3:1 on the box
+  const XRAY_BOX = "#dde9f1";
+  const xrayEdge = (hex) => { let e = mix(hex, -0.3); for (let k = 0.4; k < 1 && wcag(e, XRAY_BOX) < 3; k += 0.1) e = mix(hex, -k); return e; };
   const inset = (A, max = 0.82, topY) => {
     const k = Math.min(max, 72 / (G.GROUND - (topY ?? A.top)));
     return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
@@ -521,9 +524,8 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
     const xray = variant === "xray", bold = variant === "bold";
     // Light Box, round 2 (Goldy, 2026-10-30): a light cut below 100 px (denser gear, plain bones, no grid, label or number),
     // a gear outline darkened to 3:1 on the box, a bigger figure and a firm card edge
-    const lite = xray && opts.size && opts.size < 100, BOX = "#dde9f1";
-    let edge = mix(t.primary, -0.3);
-    if (xray) for (let k = 0.3; k < 0.95 && wcag(edge, BOX) < 3; k += 0.1) edge = mix(t.primary, -k);
+    const lite = xray && opts.size && opts.size < 100, BOX = XRAY_BOX;
+    const edge = xray ? xrayEdge(t.primary) : mix(t.primary, -0.3);
     const ivory = xray ? "#FBFDFF" : "#EEE6CF", ink = xray ? "#1d3346" : "#0f1016";
     const keep = new Set(["net", "pad", "skate", "glove", "blocker", "shaft", "paddle", "blade", "puck", "donut", "streak", "torso"]);
     const gear = A.parts.map((p) => {
@@ -663,7 +665,7 @@ button.play { font: 500 13px var(--sans); color: var(--accent); background: none
   }
 
   return {
-    mix, lum, trim, ink2Of,
+    mix, lum, wcag, trim, ink2Of, xrayEdge, XRAY_BOX,
     STYLES: {
       glass: { name: "Stained Glass", conceit: "Each goalie is a cathedral window: lead lines and panes of team colour.", draw: glass },
       plate: { name: "Research Plate", conceit: "A figure from the journal: each goalie drafted in white line on a plate of team colour.", draw: plate },

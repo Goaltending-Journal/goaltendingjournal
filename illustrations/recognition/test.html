@@ -1,0 +1,1485 @@
+<title>Goalie Picture Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=EB+Garamond:wght@400;500&family=Jost:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Step 6 people test: five-second recognition of the Light Box stills at leaderboard size (32 px). GRJ Periwinkle tokens. */
+:root { --bg: #f6f6fb; --surface: #ffffff; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --ok: #17865a; --warn: #a8690c;
+  --display: "Cinzel", Georgia, serif; --serif: "EB Garamond", Georgia, serif; --label: "Jost", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --ok: #3ddc97; --warn: #ffc65c; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 var(--serif); margin: 0 }
+.wrap { max-width: 720px; margin-inline: auto; padding: 36px 16px 64px }
+.eyebrow { font: 500 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px }
+h1 { font: 600 clamp(26px, 5vw, 36px)/1.1 var(--display); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 10px }
+h2 { font: 600 20px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; margin: 28px 0 8px }
+p { margin: 0 0 12px } .muted { color: var(--muted) } .small { font: 14px/1.5 var(--sans); color: var(--muted) }
+button { font: 500 15px var(--sans); border-radius: 8px; border: 1px solid var(--rule); background: var(--surface); color: var(--fg); padding: 10px 14px; cursor: pointer; min-height: 44px }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg) }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+.stage { display: grid; place-items: center; height: 120px; margin: 20px 0; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface) }
+.stage svg { width: 32px; height: 32px; display: block }
+.stage .gone { font: 13px var(--sans); color: var(--muted) }
+.bar { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin-top: -12px; margin-bottom: 16px }
+.bar i { display: block; height: 100%; background: var(--accent); width: 100% }
+.opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px }
+@media (max-width: 520px) { .opts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.opts button { text-align: left; font-size: 14px; line-height: 1.25 }
+.count { font: 500 13px var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted) }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; list-style: none; padding: 0; margin: 12px 0; font: 14px var(--sans); color: var(--muted) }
+.facts b { display: block; color: var(--fg); font: 500 20px var(--label) }
+table { border-collapse: collapse; width: 100%; font: 14px/1.4 var(--sans) }
+th, td { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule) }
+th { font: 600 11px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.ok { color: var(--ok) } .warn { color: var(--warn) }
+[hidden] { display: none !important }
+</style>
+<script>/* Goalie illustrations, Step 2: one shared skeleton, posed once per type.
+   A pose is a set of joint angles, never free points, so every bone keeps the length fixed in CANON.
+   Each art style is a function from the posed points to SVG; silhouette() below is the first one.
+   Works in the browser (window.GoalieSkeleton) and in Node (require). See README.md for the canon. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.GoalieSkeleton = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  // Frame: 100 x 100 units, ice at y = GROUND. One head (the mask) is 11 units; a standing goalie is 7 heads.
+  const GROUND = 92;
+  const CANON = {
+    head: 11, neck: 6.5, torso: 24, shoulder: 7.5, hip: 5,
+    upperArm: 13, forearm: 12, thigh: 19, shin: 20, foot: 8, stick: 40,
+  };
+
+  const rad = (d) => (d * Math.PI) / 180;
+  const dir = (d) => [Math.cos(rad(d)), Math.sin(rad(d))];
+  const add = (p, d, len) => [p[0] + d[0] * len, p[1] + d[1] * len];
+
+  /* Angles are in degrees: 0 points right, 90 points down (SVG y runs down), -90 points up.
+     "glove" and "blocker" are the arms on the viewer's right and left (a left-catching goalie facing us).
+     "l" and "r" are the legs on the viewer's left and right. */
+  const POSES = {
+    steady: {
+      name: "Steady", shape: "Compact upright rectangle, symmetric",
+      torso: -90, head: -90,
+      blocker: [100, 70], glove: [80, 40],
+      l: [98, 88, 180], r: [82, 92, 0],
+      stick: { blade: 180 },
+    },
+    workhorse: {
+      name: "Workhorse", shape: "Square stance framed by the net behind",
+      torso: -90, head: -90,
+      blocker: [118, 75], glove: [62, 20],
+      l: [122, 86, 180], r: [58, 94, 0],
+      stick: { blade: 180 }, props: ["net"],
+    },
+    "hd-stopper": {
+      name: "High-Danger Stopper", shape: "Low wide triangle, pads flat on the ice",
+      torso: -90, head: -95,
+      blocker: [140, 100], glove: [-25, -70],
+      l: [102, 176, 200], r: [78, 4, -20],
+      stick: { blade: 0, fromBlocker: 75 }, props: ["puck-doorstep"],
+    },
+    wall: {
+      name: "The Wall", shape: "Tall wide box, arms out to both posts",
+      torso: -90, head: -90,
+      blocker: [168, 196], glove: [12, -16],
+      l: [104, 94, 180], r: [76, 86, 0],
+      stick: { blade: 180, fromBlocker: 96 },
+    },
+    rebound: {
+      name: "Rebound Controller", shape: "Low round dome, folded over the puck",
+      torso: -28, head: 15,
+      blocker: [70, 96], glove: [52, 74],
+      l: [95, 180, 180], r: [85, 178, 180],
+      stick: null, props: ["puck-smother"],
+    },
+    siege: {
+      name: "Under Siege", shape: "Hunched wide crouch, shots raining in",
+      torso: -96, head: -100,
+      blocker: [-150, -95], glove: [-30, -85],
+      l: [130, 88, 180], r: [50, 92, 0],
+      stick: null, props: ["shots"],
+    },
+    crease: {
+      name: "Crease Battler", shape: "Hooked lean, head out past the screen",
+      torso: -128, head: -150,
+      blocker: [172, 128], glove: [-95, -55],
+      l: [112, 100, 180], r: [58, 96, 0],
+      stick: { blade: 180 },
+    },
+    standout: {
+      name: "Standout", shape: "Upright with one spike: the glove held high",
+      torso: -90, head: -90,
+      blocker: [112, 70], glove: [-40, -58],
+      l: [108, 88, 180], r: [72, 92, 0],
+      stick: { blade: 180 },
+    },
+    "donut-king": {
+      name: "Donut King", shape: "Ring held over the head",
+      torso: -90, head: -90,
+      blocker: [-112, -78], glove: [-68, -102],
+      l: [110, 88, 180], r: [70, 92, 0],
+      stick: null, props: ["donut"],
+    },
+    grandpa: {
+      name: "Grandpa", shape: "Bent question mark, leaning on the stick",
+      torso: -52, head: 5,
+      blocker: [52, 18], glove: [128, 30],
+      l: [104, 96, 180], r: [84, 102, 0],
+      stick: { blade: 0, cane: true },
+    },
+    "young-gun": {
+      name: "Young Gun", shape: "Airborne star, daylight under the skates",
+      torso: -90, head: -88,
+      blocker: [-140, -135], glove: [-40, -45],
+      l: [135, 150, 200], r: [45, 30, -20],
+      stick: null, airborne: 9,
+    },
+    "style-king": {
+      name: "Style King", shape: "T-bar on top: stick across the shoulders",
+      torso: -90, head: -96,
+      blocker: [196, -95], glove: [-16, -85],
+      l: [80, 112, 180], r: [100, 70, 0],
+      stick: { yoke: true },
+    },
+  };
+
+  /** Posed points for one pose, with the skates (or the shadow line) sitting on the ice. */
+  function skeleton(pose) {
+    const C = CANON;
+    const build = (rootPt) => {
+      const P = { pelvis: rootPt };
+      const up = dir(pose.torso), perp = dir(pose.torso + 90);
+      P.neck = add(P.pelvis, up, C.torso);
+      P.head = add(P.neck, dir(pose.head), C.neck);
+      const base = add(P.neck, up, -2.5);
+      P.shBlocker = add(base, perp, -C.shoulder);
+      P.shGlove = add(base, perp, C.shoulder);
+      P.hipL = add(P.pelvis, perp, -C.hip);
+      P.hipR = add(P.pelvis, perp, C.hip);
+      P.elbowBlocker = add(P.shBlocker, dir(pose.blocker[0]), C.upperArm);
+      P.handBlocker = add(P.elbowBlocker, dir(pose.blocker[1]), C.forearm);
+      P.elbowGlove = add(P.shGlove, dir(pose.glove[0]), C.upperArm);
+      P.handGlove = add(P.elbowGlove, dir(pose.glove[1]), C.forearm);
+      P.kneeL = add(P.hipL, dir(pose.l[0]), C.thigh);
+      P.ankleL = add(P.kneeL, dir(pose.l[1]), C.shin);
+      P.toeL = add(P.ankleL, dir(pose.l[2]), C.foot);
+      P.kneeR = add(P.hipR, dir(pose.r[0]), C.thigh);
+      P.ankleR = add(P.kneeR, dir(pose.r[1]), C.shin);
+      P.toeR = add(P.ankleR, dir(pose.r[2]), C.foot);
+      return P;
+    };
+    const first = build([50, 50]);
+    const low = Math.max(...["kneeL", "kneeR", "ankleL", "ankleR", "toeL", "toeR"].map((k) => first[k][1]));
+    const lift = pose.airborne || 0;
+    const P = build([50, 50 + GROUND - 2 - lift - low]);   // 2 units for the pad and skate thickness
+    // Centre the figure on x = 50
+    const xs = Object.values(P).map((p) => p[0]);
+    // Motion keys pin the pelvis where the still has it (pelvisX), so the body doesn't drift as the arms move; dx is sideways travel
+    const dx = (pose.pelvisX !== undefined ? pose.pelvisX - P.pelvis[0] : 50 - (Math.min(...xs) + Math.max(...xs)) / 2) + (pose.dx || 0);
+    for (const k in P) P[k] = [P[k][0] + dx, P[k][1]];
+    return P;
+  }
+
+  /** Bone lengths, for the drift check in the audit. */
+  const BONES = [
+    ["pelvis", "neck", "torso"], ["neck", "head", "neck"],
+    ["shBlocker", "elbowBlocker", "upperArm"], ["elbowBlocker", "handBlocker", "forearm"],
+    ["shGlove", "elbowGlove", "upperArm"], ["elbowGlove", "handGlove", "forearm"],
+    ["hipL", "kneeL", "thigh"], ["kneeL", "ankleL", "shin"], ["ankleL", "toeL", "foot"],
+    ["hipR", "kneeR", "thigh"], ["kneeR", "ankleR", "shin"], ["ankleR", "toeR", "foot"],
+  ];
+
+  const f = (n) => Math.round(n * 10) / 10;
+  const pt = (p) => `${f(p[0])} ${f(p[1])}`;
+
+  /* Every part is a closed path, so any style can fill it, outline it, or both. */
+  // A rounded segment of width w (a stadium)
+  function capsule(a, b, w) {
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 0.001, r = w / 2;
+    const n = [-d[1] / L * r, d[0] / L * r];
+    const a1 = [a[0] + n[0], a[1] + n[1]], b1 = [b[0] + n[0], b[1] + n[1]];
+    const b2 = [b[0] - n[0], b[1] - n[1]], a2 = [a[0] - n[0], a[1] - n[1]];
+    return `M${pt(a1)}L${pt(b1)}A${f(r)} ${f(r)} 0 0 1 ${pt(b2)}L${pt(a2)}A${f(r)} ${f(r)} 0 0 1 ${pt(a1)}Z`;
+  }
+  // A quadrilateral from a to b, width wa at a and wb at b, corners softened by the renderer's stroke
+  function band(a, b, wa, wb) {
+    const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1;
+    const n = [-d[1] / L, d[0] / L];
+    const q = [add(a, n, wa / 2), add(b, n, wb / 2), add(b, n, -wb / 2), add(a, n, -wa / 2)];
+    return "M" + q.map(pt).join("L") + "Z";
+  }
+  const circle = (c, r) => `M${f(c[0] - r)} ${f(c[1])}a${f(r)} ${f(r)} 0 1 0 ${f(2 * r)} 0a${f(r)} ${f(r)} 0 1 0 ${f(-2 * r)} 0Z`;
+  const ellipse = (c, rx, ry) => `M${f(c[0] - rx)} ${f(c[1])}a${f(rx)} ${f(ry)} 0 1 0 ${f(2 * rx)} 0a${f(rx)} ${f(ry)} 0 1 0 ${f(-2 * rx)} 0Z`;
+
+  /** The posed goalie as named parts, back to front. Each is { role, d } with d a closed SVG path.
+      Roles: net, shadow, thigh, pad, skate, torso, arm, glove, blocker, mask, shaft, paddle, blade, puck, donut, streak.
+      Also returns anchors a style needs: the chest (for the number) and the torso angle. */
+  function parts(poseKey) {
+    const pose = POSES[poseKey], P = skeleton(pose), props = pose.props || [], out = [];
+    const push = (role, d, side) => out.push({ role, d, side });
+    if (props.includes("net")) {
+      // Goal frame behind the goalie: 6 ft by 4 ft, posts and crossbar only
+      push("net", capsule([14, GROUND], [14, 50], 4.5));
+      push("net", capsule([14, 50], [86, 50], 4.5));
+      push("net", capsule([86, 50], [86, GROUND], 4.5));
+    }
+    if (pose.airborne) push("shadow", ellipse([50, GROUND], 16, 1.6));
+    // Legs: thigh, then the pad from just above the knee to the boot, then the skate
+    for (const s of ["L", "R"]) {
+      const hip = P["hip" + s], knee = P["knee" + s], ankle = P["ankle" + s], toe = P["toe" + s];
+      push("thigh", capsule(hip, knee, 11), s);
+      const padTop = add(knee, [knee[0] - ankle[0], knee[1] - ankle[1]].map((v) => v / CANON.shin), 5);
+      push("pad", band(padTop, ankle, 12.5, 12), s);
+      push("skate", capsule(ankle, toe, 4), s);
+    }
+    // Torso: chest protector, wider at the shoulders
+    const chestTop = add(P.neck, dir(pose.torso), -1);
+    push("torso", band(P.pelvis, chestTop, 17, 23));
+    // Arms
+    push("arm", capsule(P.shBlocker, P.elbowBlocker, 8.5), "blocker");
+    push("arm", capsule(P.elbowBlocker, P.handBlocker, 7.5), "blocker");
+    push("arm", capsule(P.shGlove, P.elbowGlove, 8.5), "glove");
+    push("arm", capsule(P.elbowGlove, P.handGlove, 7.5), "glove");
+    // Mask
+    push("mask", circle(P.head, 5.6));
+    // Stick
+    if (pose.stick) {
+      const h = P.handBlocker, S = pose.stick;
+      if (S.yoke) {
+        const y = (h[1] + P.handGlove[1]) / 2;   // across the shoulders, hand to hand and a little past
+        push("shaft", capsule([h[0] - 8, y], [P.handGlove[0] + 10, y], 3));
+      } else if (S.cane) {
+        const end = [h[0] + 3, GROUND - 1];
+        push("shaft", capsule(h, end, 3));
+        push("blade", capsule(end, add(end, dir(S.blade), 9), 3));
+      } else {
+        const d = dir(S.fromBlocker || 95);
+        const len = Math.min(CANON.stick, (GROUND - 1 - h[1]) / d[1]);
+        const end = add(h, d, len);
+        push("shaft", capsule(h, end, 3));
+        push("paddle", band(add(h, d, len - 13), end, 5, 5));
+        push("blade", capsule(end, add(end, dir(S.blade), 10), 3));
+      }
+    }
+    // Blocker: a board on the stick hand, square to the forearm
+    const bd = dir(pose.blocker[1]);
+    push("blocker", band(add(P.handBlocker, bd, -4), add(P.handBlocker, bd, 4), 12, 12));
+    // Glove: a round catcher
+    push("glove", circle(P.handGlove, 6.6));
+    // Props that are part of the defining action
+    if (props.includes("puck-doorstep")) push("puck", ellipse([P.toeR[0] - 14, GROUND - 9], 3.2, 1.6));
+    if (props.includes("puck-smother")) push("puck", ellipse([P.handGlove[0] + 5, GROUND - 1.5], 3.2, 1.6));
+    if (props.includes("donut")) {
+      const c = [(P.handBlocker[0] + P.handGlove[0]) / 2, Math.min(P.handBlocker[1], P.handGlove[1]) - 11];
+      push("donut", circle(c, 13) + circle(c, 6).replace("a6 6 0 1 0 12 0a6 6 0 1 0 -12 0", "a6 6 0 1 1 12 0a6 6 0 1 1 -12 0"));
+    }
+    if (props.includes("shots")) {
+      for (const [x, y, a] of [[14, 22, 30], [84, 18, 150], [10, 52, 5], [90, 48, 175], [50, 8, 90]]) {
+        push("streak", capsule(add([x, y], dir(a + 180), 7), [x, y], 1.6));
+        push("puck", circle([x, y], 2.6));
+      }
+    }
+    // The number sits on the chest, square to the torso; a goalie seen side-on still shows it
+    const chest = add(P.pelvis, dir(pose.torso), CANON.torso * 0.62);
+    // Highest point drawn, so a style's frame can fit the whole figure
+    let top = Math.min(P.head[1] - 5.6, P.handGlove[1] - 6.6, P.handBlocker[1] - 7);
+    if (props.includes("donut")) top = Math.min(top, Math.min(P.handBlocker[1], P.handGlove[1]) - 24);
+    if (props.includes("shots")) top = Math.min(top, 5);
+    if (props.includes("net")) top = Math.min(top, 47);
+    return { pose, P, parts: out, chest, torsoAngle: pose.torso, top };
+  }
+
+  const svgOpen = (pose, opts) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${opts.size ? ` width="${opts.size}" height="${opts.size}"` : ""} role="img" aria-label="${opts.label || pose.name}">`;
+
+  /** Style 0: flat silhouette. Everything in one colour, so only shape can tell types apart. */
+  function silhouette(poseKey, opts = {}) {
+    const { pose, parts: list } = parts(poseKey), ink = opts.ink || "#000";
+    const body = list.map((p) => `<path d="${p.d}"${p.role === "shadow" ? ' opacity=".35"' : ""} fill-rule="evenodd"/>`).join("");
+    return `${svgOpen(pose, opts)}<g fill="${ink}" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${body}</g></svg>`;
+  }
+
+  return { GROUND, CANON, POSES, BONES, skeleton, parts, silhouette, svgOpen, ORDER: Object.keys(POSES) };
+});
+</script>
+<script>/* Goalie illustrations, Step 3: the styles library. Each style is a function
+   (poseKey, team colours, sweater number, opts) -> SVG string, built on GoalieSkeleton.parts(),
+   so every style reuses the same poses. Kept even when not chosen; see README.md.
+   Works in the browser (window.GoalieStyles, after goalie-skeleton.js) and in Node (require). */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./goalie-skeleton.js"));
+  else root.GoalieStyles = factory(root.GoalieSkeleton);
+})(typeof self !== "undefined" ? self : this, function (G) {
+  "use strict";
+
+  // Mix a hex colour toward white (t > 0) or black (t < 0)
+  function mix(hex, t) {
+    const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255];
+    const to = t > 0 ? 255 : 0, a = Math.abs(t);
+    return "#" + c.map((v) => Math.round(v + (to - v) * a).toString(16).padStart(2, "0")).join("");
+  }
+  const wcag = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  const lum = (hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [n >> 16, (n >> 8) & 255, n & 255].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
+      .reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+  };
+  // Gear trim: the team's second colour, unless it is white (the pads are already white) or too close to the jersey
+  const trim = (t) => (t.secondary.toUpperCase() === "#FFFFFF" ? "#F4F5F8" : Math.abs(lum(t.secondary) - lum(t.primary)) < 0.02 ? t.accent : t.secondary);
+  // A second ink that shows on paper and differs from the first: the gear colour, else the accent, else a tint
+  const ink2Of = (t) => {
+    const g = trim(t);
+    if (lum(g) < 0.8 && lum(g) > 0.01) return g;
+    return t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : mix(t.primary, 0.5);
+  };
+  // The figure sits inside each style's frame: ice at y = 82, the top no higher than y = 10
+  // topY: one top for a whole motion loop, so the figure keeps its scale from frame to frame
+  // Light Box: the gear outline, the team colour darkened until it reaches 3:1 on the box
+  const XRAY_BOX = "#dde9f1";
+  const xrayEdge = (hex) => { let e = mix(hex, -0.3); for (let k = 0.4; k < 1 && wcag(e, XRAY_BOX) < 3; k += 0.1) e = mix(hex, -k); return e; };
+  const inset = (A, max = 0.82, topY) => {
+    const k = Math.min(max, 72 / (G.GROUND - (topY ?? A.top)));
+    return `translate(${(50 - 50 * k).toFixed(2)} ${(82.4 - G.GROUND * k).toFixed(2)}) scale(${k.toFixed(3)})`;
+  };
+
+  function number(A, text, attrs) {
+    const [x, y] = A.chest;
+    return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="rotate(${A.torsoAngle + 90} ${x.toFixed(1)} ${y.toFixed(1)})" text-anchor="middle" dominant-baseline="central" style="${attrs}">${text}</text>`;
+  }
+
+  // Which colour each part takes in a flat-colour style
+  function roleFill(role, t, gear) {
+    return {
+      net: "#C8102E", shadow: "#000", thigh: mix(t.primary, -0.35), pad: "#F4F5F8", skate: "#22232a",
+      torso: t.primary, arm: t.primary, glove: gear, blocker: gear, mask: "#F4F5F8",
+      shaft: "#2a2b33", paddle: "#2a2b33", blade: "#F4F5F8", puck: "#15161b", donut: "#E9A4B8", streak: "#9aa0b8",
+    }[role];
+  }
+
+  /* A · Stained glass. Conceit: each goalie is a cathedral window, lead lines and panes of team colour. */
+  function glass(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), gear = trim(t), lead = "#17171f";
+    const panes = [];
+    // Background panes: a fixed irregular grid of glass in two cool tints
+    const cols = [0, 22, 47, 71, 100], rows = [0, 26, 55, 78, 100];
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) {
+      const jig = ((i * 7 + j * 3) % 5) - 2;
+      const x0 = cols[i], x1 = cols[i + 1], y0 = rows[j] + (i % 2 ? jig : 0), y1 = rows[j + 1] + (i % 2 ? 0 : jig);
+      panes.push(`<path d="M${x0} ${y0}L${x1} ${rows[j] - jig}L${x1} ${y1}L${x0} ${rows[j + 1]}Z" fill="${(i + j) % 2 ? "#c9d3ef" : "#aebce6"}"/>`);
+    }
+    const body = A.parts.map((p) => {
+      const fill = roleFill(p.role, t, gear);
+      if (p.role === "shadow") return `<path d="${p.d}" fill="#000" opacity=".25"/>`;
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${lead}" stroke-width="2" stroke-linejoin="round"/>`;
+    }).join("");
+    const arch = "M4 100V34A46 30 0 0 1 96 34V100Z";
+    return `${G.svgOpen(A.pose, opts)}<defs><clipPath id="arch-${poseKey}"><path d="${arch}"/></clipPath></defs>
+      <g clip-path="url(#arch-${poseKey})"><g stroke="${lead}" stroke-width="1.6">${panes.join("")}</g><g transform="${inset(A)}">${body}
+      ${number(A, num, `font: 600 8.5px Jost, Futura, sans-serif; fill: #fff; paint-order: stroke; stroke: ${lead}; stroke-width: 1.6`)}</g></g>
+      <path d="${arch}" fill="none" stroke="${lead}" stroke-width="4"/></svg>`;
+  }
+
+  /* B · Research plate. Conceit: a figure from the journal, each goalie drafted in white line on a team-colour plate. */
+  function plate(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), ground = mix(t.primary, -0.45), line = "#f4f6ff";
+    const grid = [];
+    for (let v = 10; v < 100; v += 10) grid.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
+    const body = A.parts.filter((p) => p.role !== "shadow").map((p) =>
+      `<path d="${p.d}" fill="${p.role === "torso" || p.role === "arm" ? mix(t.primary, -0.1) : ground}" fill-rule="evenodd" stroke="${line}" stroke-width="${p.role === "streak" ? 0.6 : 0.9}" stroke-linejoin="round"/>`).join("");
+    const P = A.P, x = Math.max(P.toeL[0], P.toeR[0], P.ankleR[0]) + 6;
+    const top = Math.min(P.head[1] - 5.6, ...A.parts.filter((p) => p.role === "glove").map(() => P.handGlove[1] - 6.6));
+    const fig = `FIG. ${G.ORDER.indexOf(poseKey) + 1}  ${A.pose.name.toUpperCase()}`;
+    return `${G.svgOpen(A.pose, opts)}<rect width="100" height="100" fill="${ground}"/>
+      <g stroke="${line}" stroke-width=".25" opacity=".22">${grid.join("")}</g><g transform="${inset(A)}">${body}
+      ${number(A, num, `font: 600 8px Jost, Futura, sans-serif; fill: none; stroke: ${line}; stroke-width: .6`)}
+      <g stroke="${line}" stroke-width=".6" fill="none" opacity=".85"><path d="M${Math.min(x, 100)} ${top.toFixed(1)}V${G.GROUND}M${Math.min(x, 100) - 2} ${top.toFixed(1)}h4M${Math.min(x, 100) - 2} ${G.GROUND}h4"/></g></g>
+      <text x="4" y="7" style="font: 500 4.2px Jost, Futura, sans-serif; letter-spacing: .12em; fill: ${line}">${fig}</text></svg>`;
+  }
+
+  /* C · Two-ink risograph. Conceit: a club-room print in two team inks, halftone shading and a little misregistration. */
+  function riso(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), paper = "#eceef6", ink1 = t.primary, ink2 = ink2Of(t);
+    const id = `ht-${poseKey}`;
+    const ink1Roles = ["torso", "arm", "thigh", "mask", "net"];
+    const layer1 = A.parts.filter((p) => ink1Roles.includes(p.role)).map((p) => `<path d="${p.d}" fill-rule="evenodd"/>`).join("");
+    const layer2 = A.parts.filter((p) => !ink1Roles.includes(p.role) && p.role !== "shadow").map((p) =>
+      `<path d="${p.d}" fill-rule="evenodd" fill="${p.role === "pad" ? `url(#${id})` : ink2}"/>`).join("");
+    return `${G.svgOpen(A.pose, opts)}<defs><pattern id="${id}" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><circle cx="1.2" cy="1.2" r=".85" fill="${ink2}"/></pattern></defs>
+      <rect width="100" height="100" fill="${paper}"/>
+      <rect x="6" y="6" width="88" height="88" fill="${ink2}" opacity=".12"/>
+      <g transform="${inset(A)}"><g style="mix-blend-mode: multiply" fill="${ink1}">${layer1}</g>
+      <g style="mix-blend-mode: multiply" transform="translate(1.1 .7)" stroke="${ink2}" stroke-width=".9">${layer2}</g>
+      ${number(A, num, `font: 600 8.5px Jost, Futura, sans-serif; fill: ${paper}`)}</g></svg>`;
+  }
+
+  /* C · Illuminated plate. Conceit: a page from the GRJ's book of keepers, flat colour in ink outline inside a gilded frame.
+     Round 2: a pale gilded nimbus behind the figure lifts dark jerseys off the navy field. */
+  function illuminated(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), gear = trim(t), ink = "#14152a", gold = "#C9A54A", field = "#262B63";
+    const id = `dia-${poseKey}`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="#000" opacity=".3"/>`;
+      let fill = roleFill(p.role, t, gear);
+      if (p.role === "pad") fill = "#F7F3E6";
+      if (p.role === "net") fill = gold;
+      if (p.role === "glove" || p.role === "blocker") fill = lum(gear) < 0.02 ? gold : gear;
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${ink}" stroke-width="1.1" stroke-linejoin="round"/>`;
+    }).join("");
+    return `${G.svgOpen(A.pose, opts)}<defs><pattern id="${id}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M4 2.4L5.6 4 4 5.6 2.4 4Z" fill="${gold}" opacity=".45"/></pattern><radialGradient id="halo-${poseKey}" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#F3ECD2"/><stop offset=".72" stop-color="#E4D6A8"/><stop offset="1" stop-color="#E4D6A8" stop-opacity="0"/></radialGradient></defs>
+      <rect width="100" height="100" fill="${gold}"/><rect x="3" y="3" width="94" height="94" fill="${field}"/><rect x="3" y="3" width="94" height="94" fill="url(#${id})"/>
+      <rect x="5.5" y="5.5" width="89" height="89" fill="none" stroke="${gold}" stroke-width=".8"/>
+      ${[[3, 3], [97, 3], [3, 97], [97, 97]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.4" fill="${gold}" stroke="${ink}" stroke-width=".6"/>`).join("")}
+      <path d="M17 ${(7 + 0.82 * G.GROUND).toFixed(1)}V40A33 30 0 0 1 83 40V${(7 + 0.82 * G.GROUND).toFixed(1)}Z" fill="url(#halo-${poseKey})" stroke="${gold}" stroke-width=".8"/>
+      <path d="M5.5 ${(7 + 0.82 * G.GROUND).toFixed(1)}H94.5V94.5H5.5Z" fill="#3a417f"/><g transform="${inset(A)}">${body}
+      ${number(A, num, `font: 600 8.5px Jost, Futura, sans-serif; fill: #fff; paint-order: stroke; stroke: ${ink}; stroke-width: 1.2`)}</g></svg>`;
+  }
+
+
+  // Path helpers for styles that draw their own shapes from the skeleton's joints
+  const fx = (n) => Math.round(n * 10) / 10;
+  const P2 = (p) => `${fx(p[0])} ${fx(p[1])}`;
+  const unit = (a, b) => { const d = [b[0] - a[0], b[1] - a[1]], L = Math.hypot(d[0], d[1]) || 1; return [d[0] / L, d[1] / L]; };
+  const along = (p, u, k) => [p[0] + u[0] * k, p[1] + u[1] * k];
+  const circ = (c, r) => `M${fx(c[0] - r)} ${fx(c[1])}a${fx(r)} ${fx(r)} 0 1 0 ${fx(2 * r)} 0a${fx(r)} ${fx(r)} 0 1 0 ${fx(-2 * r)} 0Z`;
+  const stad = (a, b, w) => {
+    const u = unit(a, b), r = w / 2, n = [-u[1] * r, u[0] * r];
+    return `M${P2([a[0] + n[0], a[1] + n[1]])}L${P2([b[0] + n[0], b[1] + n[1]])}A${fx(r)} ${fx(r)} 0 0 1 ${P2([b[0] - n[0], b[1] - n[1]])}L${P2([a[0] - n[0], a[1] - n[1]])}A${fx(r)} ${fx(r)} 0 0 1 ${P2([a[0] + n[0], a[1] + n[1]])}Z`;
+  };
+  // A long bone: a shaft with two knuckles at each end
+  const bone = (a, b, w) => {
+    const u = unit(a, b), n = [-u[1], u[0]], k = w * 0.55;
+    return stad(along(a, u, w * 0.4), along(b, u, -w * 0.4), w * 0.55) +
+      [[a, 1], [b, -1]].map(([p, sgn]) => circ(along(along(p, u, sgn * w * 0.25), n, k), w * 0.45) + circ(along(along(p, u, sgn * w * 0.25), n, -k), w * 0.45)).join("");
+  };
+  const LIMBS = [["shBlocker", "elbowBlocker"], ["elbowBlocker", "handBlocker"], ["shGlove", "elbowGlove"], ["elbowGlove", "handGlove"], ["hipL", "kneeL"], ["hipR", "kneeR"]];
+
+  /* E · Skeletons. Conceit: the bone crew. Every goalie is a skeleton still suiting up, glowing in team colour after dark. */
+  /* Variants: "night" (round 2), "xray" (a light box: see-through gear in team colour over the bones),
+     "bold" (chunky one-piece bones and a light team-tint card, built to read at 32 px). */
+  const skeletons = (variant = "night") => function (poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, glow = ink2Of(t) === "#000000" ? t.accent : mix(t.primary, 0.25);
+    const xray = variant === "xray", bold = variant === "bold";
+    // Light Box, round 2 (Goldy, 2026-10-30): a light cut below 100 px (denser gear, plain bones, no grid, label or number),
+    // a gear outline darkened to 3:1 on the box, a bigger figure and a firm card edge
+    const lite = xray && opts.size && opts.size < 100, BOX = XRAY_BOX;
+    const edge = xray ? xrayEdge(t.primary) : mix(t.primary, -0.3);
+    const ivory = xray ? "#FBFDFF" : "#EEE6CF", ink = xray ? "#1d3346" : "#0f1016";
+    const keep = new Set(["net", "pad", "skate", "glove", "blocker", "shaft", "paddle", "blade", "puck", "donut", "streak", "torso"]);
+    const gear = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="${glow}" opacity=".35"/>`;
+      if (!keep.has(p.role)) return "";
+      const fill = { net: ivory, pad: t.primary, skate: ivory, glove: t.primary, blocker: t.primary, shaft: "#3a2e24", paddle: "#3a2e24", blade: ivory,
+        puck: ivory, donut: "#E9A4B8", streak: glow, torso: t.primary }[p.role];
+      const seeThrough = xray && ["pad", "glove", "blocker", "torso"].includes(p.role);
+      return `<path d="${p.d}" fill="${fill}"${seeThrough ? ` fill-opacity="${lite ? ".85" : ".6"}"` : ""} fill-rule="evenodd" stroke="${p.role === "torso" && !xray ? ivory : xray ? edge : ink}" stroke-width="${bold ? 1.5 : p.role === "torso" ? 1 : 1.1}" stroke-linejoin="round"/>`;
+    }).join("");
+    // Pads get bone-white straps, the torso a ribcage over the jersey
+    const straps = ["L", "R"].map((s) => {
+      const k = P["knee" + s], a = P["ankle" + s], u = unit(k, a), n = [-u[1], u[0]];
+      return [0.3, 0.65].map((f) => { const c = along(k, u, 20 * f); return `<path d="M${P2(along(c, n, -5.5))}L${P2(along(c, n, 5.5))}" stroke="${ivory}" stroke-width="1.4"/>`; }).join("");
+    }).join("");
+    const up = unit(P.pelvis, P.neck), side = [-up[1], up[0]];
+    const spine = `<path d="M${P2(along(P.pelvis, up, 2))}L${P2(along(P.neck, up, -2))}" stroke="${xray ? ink : ivory}" stroke-width="${bold ? 2.4 : 1.8}" stroke-dasharray="${bold ? "2.4 1.1" : "1.6 .9"}"/>`;
+    const ribs = [0.55, 0.68, 0.8].map((f) => {
+      const c = along(P.pelvis, up, 24 * f), w = 7.5 - (f - 0.55) * 6;
+      return `<path d="M${P2(along(along(c, side, -w), up, -2))}Q${P2(c)} ${P2(along(along(c, side, w), up, -2))}" fill="none" stroke="${xray ? ink : ivory}" stroke-width="${bold ? 2.3 : 1.5}" stroke-linecap="round"/>`;
+    }).join("");
+    const limb = (a, b, w) => bold || lite ? stad(a, b, lite ? 4.6 : 4.2) : bone(a, b, w);
+    const bones = LIMBS.map(([a, b]) => `<path d="${limb(P[a], P[b], 4.6)}" fill="${ivory}" stroke="${ink}" stroke-width="${bold ? 1.2 : lite ? 1.1 : 0.7}"/>`).join("") +
+      (xray && !lite ? ["L", "R"].map((s) => `<path d="${bone(P["knee" + s], P["ankle" + s], 3.6)}" fill="${ivory}" stroke="${ink}" stroke-width=".6"/>`).join("") : "");
+    // Skull, facing the way the head points
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const eye = (sgn) => circ(along(along(h, hn, sgn * 2.1), hd, 0.6), 1.35);
+    const skull = `<path d="${circ(h, 5.4)}" fill="${ivory}" stroke="${ink}" stroke-width=".8"/>
+      <path d="${stad(along(h, hd, -5), along(h, hd, -6.4), 6)}" fill="${ivory}" stroke="${ink}" stroke-width=".7"/>
+      <path d="${eye(1)}${eye(-1)}" fill="${ink}"/><path d="M${P2(along(h, hd, -1.4))}l.6 1.4h-1.2Z" fill="${ink}"/>`
+      // On the light box the skull wears a goalie cage, in the gear's colour
+      + (xray ? `<path d="${[-2.6, 0, 2.6].map((o) => `M${P2(along(along(h, hd, 0.4), hn, o))}L${P2(along(along(h, hd, -6.6), hn, o * 0.8))}`).join("")}${[-2.2, -4.6].map((o) => `M${P2(along(along(h, hd, o), hn, -4.2))}Q${P2(along(h, hd, o - 0.8))} ${P2(along(along(h, hd, o), hn, 4.2))}`).join("")}" fill="none" stroke="${edge}" stroke-width="${lite ? 1.1 : 0.8}" stroke-linecap="round"/>` : "");
+    const gy = (7 + 0.82 * G.GROUND).toFixed(1);
+    let ground;
+    if (xray) {
+      const lines = [];
+      if (!lite) for (let v = 12.5; v < 100; v += 12.5) lines.push(`<path d="M${v} 0V100M0 ${v}H100"/>`);
+      const tag = `${A.pose.name} · ${t.code || t.name}`.toUpperCase();
+      ground = `<rect x=".6" y=".6" width="98.8" height="98.8" rx="3" fill="${BOX}" stroke="#5d7d95" stroke-width="1.2"/><g stroke="#b9cddb" stroke-width=".4">${lines.join("")}</g>
+        ${lite ? "" : `<rect x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="#9fb7c8" stroke-width="1"/><text x="7" y="93" style="font: 500 3.6px Jost, Futura, sans-serif; letter-spacing: .12em; fill: #56748a">${tag}</text><text x="93" y="11" text-anchor="end" style="font: 600 5px Jost, Futura, sans-serif; fill: #56748a">R</text>`}`;
+    } else if (bold) {
+      ground = `<rect width="100" height="100" fill="${mix(t.primary, 0.82)}"/><circle cx="50" cy="48" r="34" fill="${mix(t.primary, 0.92)}"/><path d="M0 ${gy}H100V100H0Z" fill="${mix(t.primary, 0.6)}"/>`;
+    } else {
+      ground = `<defs><radialGradient id="night-${poseKey}" cx="50%" cy="58%" r="62%"><stop offset="0" stop-color="${mix(glow, -0.25)}"/><stop offset=".55" stop-color="${mix(glow, -0.72)}"/><stop offset="1" stop-color="#0b0c12"/></radialGradient></defs>
+        <rect width="100" height="100" fill="url(#night-${poseKey})"/><path d="M0 ${gy}H100V100H0Z" fill="#0b0c12" opacity=".6"/>`;
+    }
+    // On the light box the bones sit over the see-through gear; elsewhere the gear sits under them anyway
+    return `${G.svgOpen(A.pose, opts)}${ground}
+      <g transform="${inset(A, xray ? 0.86 : 0.82, opts.topY)}">${gear}${xray ? "" : straps}${bones}${spine}${ribs}${skull}
+      ${lite ? "" : number(A, num, `font: 600 7.5px Jost, Futura, sans-serif; fill: ${xray ? mix(t.primary, -0.3) : ivory}; paint-order: stroke; stroke: ${xray ? "#fff" : ink}; stroke-width: ${xray ? 2.4 : 1.4}`)}</g></svg>`;
+  };
+
+  /* F · Knights. Conceit: the keeper as a knight of the crease, plate armour under a tabard in team colours, shield for a blocker. */
+  /* Variants: "stone" (round 2), "tournament" (darker gunmetal armour against a light striped tilt-yard pavilion),
+     "gilded" (gold armour on a deep team-colour heraldic field). */
+  const STEEL = {
+    stone: ["#F2F4F8", "#B8BECC", "#8D94A6"],
+    tournament: ["#B9C0CE", "#6F7789", "#3E4454"],
+    gilded: ["#FBEFB8", "#D8B256", "#9A6F1F"],
+  };
+  const knights = (variant = "stone") => function (poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, ink = "#1d1e26", trimC = t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : "#D9DCE4";
+    const steel = `url(#steel-${variant}-${poseKey})`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="#000" opacity=".3"/>`;
+      if (p.role === "blocker" || p.role === "mask") return "";
+      const fill = { net: "#8b5a2b", thigh: steel, pad: steel, skate: "#5d6170", torso: t.primary, arm: steel, glove: steel,
+        shaft: "#6b4a2e", paddle: "#6b4a2e", blade: "#c9ced8", puck: ink, donut: "#E9A4B8", streak: "#c9ced8" }[p.role];
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${p.role === "torso" ? trimC : ink}" stroke-width="${p.role === "torso" ? 1.6 : 1}" stroke-linejoin="round"/>`;
+    }).join("");
+    // Kite shield on the blocker hand, square to the forearm
+    const hb = P.handBlocker, fu = unit(P.elbowBlocker, hb), fn = [-fu[1], fu[0]];
+    const sh = [along(along(hb, fu, -6), fn, -6.5), along(along(hb, fu, -6), fn, 6.5), along(hb, fn, 6), along(along(hb, fu, 8), fn, 0), along(hb, fn, -6)];
+    const shield = `<path d="M${P2(sh[0])}L${P2(sh[1])}L${P2(sh[2])}Q${P2(along(along(hb, fu, 5), fn, 4))} ${P2(sh[3])}Q${P2(along(along(hb, fu, 5), fn, -4))} ${P2(sh[4])}Z" fill="${t.primary}" stroke="${trimC}" stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M${P2(along(hb, fu, -5))}L${P2(along(hb, fu, 6))}M${P2(along(along(hb, fu, -1), fn, -4.5))}L${P2(along(along(hb, fu, -1), fn, 4.5))}" stroke="${trimC}" stroke-width="1"/>`;
+    // Great helm with a visor slit and a plume in the trim colour
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const c = (a, b) => along(along(h, hd, a), hn, b);
+    const helm = `<path d="M${P2(c(5.5, 6))}Q${P2(c(9, 0))} ${P2(c(13, -3))}" fill="none" stroke="${trimC}" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M${P2(c(5, -5))}L${P2(c(5, 5))}L${P2(c(-5.5, 5))}L${P2(c(-5.5, -5))}Z" fill="${steel}" stroke="${ink}" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M${P2(c(1, -4))}L${P2(c(1, 4))}" stroke="${ink}" stroke-width="1.3"/><path d="M${P2(c(5, 0))}L${P2(c(-5.5, 0))}" stroke="${ink}" stroke-width=".5" opacity=".6"/>`;
+    const gy = (7 + 0.82 * G.GROUND).toFixed(1), st = STEEL[variant];
+    let ground;
+    if (variant === "tournament") {
+      const stripes = [];
+      for (let x = 0; x < 100; x += 10) stripes.push(`<rect x="${x}" y="0" width="5" height="${gy}" fill="${mix(t.primary, 0.78)}"/>`);
+      ground = `<rect width="100" height="100" fill="#fbfbfd"/>${stripes.join("")}
+        <path d="M0 0H100V9Q87.5 15 75 9 62.5 15 50 9 37.5 15 25 9 12.5 15 0 9Z" fill="${t.primary}"/>
+        <path d="M0 ${gy}H100V100H0Z" fill="#7d9a5a"/><path d="M0 ${gy}H100" stroke="#5f7a40" stroke-width="1"/>`;
+    } else if (variant === "gilded") {
+      const field = mix(t.primary, -0.45), stars = [];
+      for (let y = 8; y < 80; y += 14) for (let x = (y / 14) % 2 ? 14 : 7; x < 100; x += 14) stars.push(`<path d="M${x} ${y - 2.2}L${x + .7} ${y - .7} ${x + 2.2} ${y} ${x + .7} ${y + .7} ${x} ${y + 2.2} ${x - .7} ${y + .7} ${x - 2.2} ${y} ${x - .7} ${y - .7}Z"/>`);
+      ground = `<rect width="100" height="100" fill="${field}"/><g fill="#D8B256" opacity=".35">${stars.join("")}</g>
+        <path d="M0 ${gy}H100V100H0Z" fill="${mix(t.primary, -0.65)}"/><rect x="2" y="2" width="96" height="96" fill="none" stroke="#D8B256" stroke-width="1.4"/>`;
+    } else {
+      const blocks = [];
+      for (let y = 0; y < 84; y += 8) for (let x = (y / 8) % 2 ? -6 : 0; x < 100; x += 12) blocks.push(`<rect x="${x}" y="${y}" width="12" height="8"/>`);
+      ground = `<rect width="100" height="100" fill="#a9a59a"/><g fill="#b7b3a7" stroke="#8d897e" stroke-width=".6">${blocks.join("")}</g>
+        <path d="M38 0H62V30L50 24 38 30Z" fill="${t.primary}" stroke="${ink}" stroke-width=".8" opacity=".9"/><path d="M38 0H62V3H38Z" fill="${trimC}"/>
+        <path d="M0 ${gy}H100V100H0Z" fill="#6e6a60"/>`;
+    }
+    return `${G.svgOpen(A.pose, opts)}<defs><linearGradient id="steel-${variant}-${poseKey}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${st[0]}"/><stop offset=".5" stop-color="${st[1]}"/><stop offset="1" stop-color="${st[2]}"/></linearGradient></defs>
+      ${ground}
+      <g transform="${inset(A)}">${body}${shield}${helm}
+      ${number(A, num, `font: 600 8px Jost, Futura, sans-serif; fill: #fff; paint-order: stroke; stroke: ${ink}; stroke-width: 1.3`)}</g></svg>`;
+  };
+
+  /* G · High fantasy. Conceit: an epic-quest keeper, rune-lit armour and a team-colour cloak against a dusk sky over far mountains. */
+  function fantasy(poseKey, t, num, opts = {}) {
+    const A = G.parts(poseKey), P = A.P, ink = "#16112a", gold = "#E2B85A";
+    const rune = mix(t.accent.toUpperCase() !== t.primary.toUpperCase() ? t.accent : t.primary, 0.45);
+    const dark = mix(t.primary, -0.55);
+    // A cloak from the shoulders, flaring behind the body toward the ice
+    const up = unit(P.pelvis, P.neck), side = [-up[1], up[0]];
+    const sb = P.shBlocker, sg = P.shGlove, foot = Math.max(P.ankleL[1], P.ankleR[1]) - 4;
+    const cloak = `<path d="M${P2(sb)}C${P2([sb[0] - 10, sb[1] + 20])} ${P2([P.pelvis[0] - 20, foot - 6])} ${P2([P.pelvis[0] - 18, foot])}L${P2([P.pelvis[0] + 18, foot])}C${P2([P.pelvis[0] + 20, foot - 6])} ${P2([sg[0] + 10, sg[1] + 20])} ${P2(sg)}Z" fill="${dark}" stroke="${ink}" stroke-width="1"/>`;
+    const body = A.parts.map((p) => {
+      if (p.role === "shadow") return `<path d="${p.d}" fill="${rune}" opacity=".4"/>`;
+      const fill = { net: gold, thigh: "#2f2846", pad: "#3b3358", skate: "#2f2846", torso: t.primary, arm: "#3b3358", glove: "#3b3358", blocker: "#3b3358",
+        mask: "#3b3358", shaft: "#4a3a2a", paddle: "#4a3a2a", blade: gold, puck: ink, donut: "#E9A4B8", streak: rune }[p.role];
+      const glowing = ["pad", "glove", "blocker", "mask", "paddle"].includes(p.role);
+      return `<path d="${p.d}" fill="${fill}" fill-rule="evenodd" stroke="${glowing ? rune : p.role === "torso" ? gold : ink}" stroke-width="${glowing ? 1.2 : 1}" stroke-linejoin="round"${glowing ? ` filter="url(#glow-${poseKey})"` : ""}/>`;
+    }).join("");
+    // Pauldrons, and horns on the helm
+    const pauldrons = [sb, sg].map((s) => `<path d="${circ(s, 5.2)}" fill="${gold}" stroke="${ink}" stroke-width="1"/>`).join("");
+    const h = P.head, hd = unit(P.neck, h), hn = [-hd[1], hd[0]];
+    const horn = (sgn) => { const b = along(along(h, hn, sgn * 4), hd, 2); return `<path d="M${P2(b)}Q${P2(along(along(b, hn, sgn * 6), hd, 1))} ${P2(along(along(b, hn, sgn * 5), hd, 8))}Q${P2(along(along(b, hn, sgn * 3), hd, 3))} ${P2(along(b, hd, -1.5))}Z" fill="#E9E1C8" stroke="${ink}" stroke-width=".8"/>`; };
+    const eyes = `<path d="M${P2(along(along(h, hd, .5), hn, -2.6))}L${P2(along(along(h, hd, .5), hn, 2.6))}" stroke="${rune}" stroke-width="1.2" filter="url(#glow-${poseKey})"/>`;
+    const gy = (7 + 0.82 * G.GROUND).toFixed(1);
+    return `${G.svgOpen(A.pose, opts)}<defs><linearGradient id="dusk-${poseKey}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1440"/><stop offset=".55" stop-color="#5b2f6e"/><stop offset=".85" stop-color="#d98a52"/></linearGradient>
+      <filter id="glow-${poseKey}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation=".9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <rect width="100" height="100" fill="url(#dusk-${poseKey})"/><circle cx="78" cy="20" r="7" fill="#F4E7C3" opacity=".9"/>
+      <path d="M0 70L14 52 24 62 38 40 52 60 64 46 78 64 90 50 100 60V${gy}H0Z" fill="#2a1d48"/><path d="M0 76L18 64 30 72 46 60 60 72 76 62 100 74V${gy}H0Z" fill="#20163a"/>
+      <path d="M0 ${gy}H100V100H0Z" fill="#140e26"/>
+      <g transform="${inset(A)}">${cloak}${body}${pauldrons}${horn(1)}${horn(-1)}${eyes}
+      ${number(A, num, `font: 600 8px Jost, Futura, sans-serif; fill: ${gold}; paint-order: stroke; stroke: ${ink}; stroke-width: 1.3`)}</g></svg>`;
+  }
+
+  return {
+    mix, lum, wcag, trim, ink2Of, xrayEdge, XRAY_BOX,
+    STYLES: {
+      glass: { name: "Stained Glass", conceit: "Each goalie is a cathedral window: lead lines and panes of team colour.", draw: glass },
+      plate: { name: "Research Plate", conceit: "A figure from the journal: each goalie drafted in white line on a plate of team colour.", draw: plate },
+      riso: { name: "Two-Ink Print", conceit: "A club-room risograph in two team inks, with halftone pads and a little misregistration.", draw: riso },
+      illuminated: { name: "Illuminated Plate", conceit: "A page from the GRJ's book of keepers: flat colour in ink outline, inside a gilded frame.", draw: illuminated },
+      skeletons: { name: "Skeletons", conceit: "The bone crew: every goalie is a skeleton suiting up, glowing in team colour after dark.", draw: skeletons("night") },
+      "skeletons-xray": { name: "Skeletons: Light Box", conceit: "An X-ray on the light box: see-through gear in team colour, the bones showing through.", draw: skeletons("xray") },
+      "skeletons-bold": { name: "Skeletons: Bold Bones", conceit: "Chunky one-piece bones on a light team-tint card, cut back to read at leaderboard size.", draw: skeletons("bold") },
+      knights: { name: "Knights", conceit: "Knights of the crease: plate armour under a team-colour tabard, with a kite shield for a blocker.", draw: knights("stone") },
+      "knights-tournament": { name: "Knights: Tournament", conceit: "Tilt-yard day: gunmetal armour against a light pavilion striped in team colour.", draw: knights("tournament") },
+      "knights-gilded": { name: "Knights: Gilded", conceit: "Gold armour on a deep team-colour field scattered with stars, like a herald's roll.", draw: knights("gilded") },
+      fantasy: { name: "High Fantasy", conceit: "An epic-quest keeper: rune-lit armour and a team-colour cloak against a dusk sky over far mountains.", draw: fantasy },
+    },
+  };
+});
+</script>
+<div class="wrap">
+  <p class="eyebrow">The Goaltending Research Journal · Picture test</p>
+  <h1>Name that goalie</h1>
+  <section id="intro">
+    <p>You'll see 12 tiny pictures, one at a time, each for five seconds. Each shows one type of goalie. Pick the type you think it shows from the list. Guess if you're not sure; there's no wrong way to do this.</p>
+    <p class="small">It takes about two minutes. Your answers are saved with your account so the GRJ can see which pictures are hard to tell apart; nobody else taking the test sees them.</p>
+    <button class="primary" id="start" type="button">Start the test</button>
+  </section>
+  <section id="trial" hidden>
+    <p class="count" id="count"></p>
+    <div class="stage" id="stage" aria-live="polite"></div>
+    <div class="bar" aria-hidden="true"><i id="timer"></i></div>
+    <p class="small">Which type is it?</p>
+    <div class="opts" id="opts"></div>
+  </section>
+  <section id="done" hidden>
+    <h2>Thanks!</h2>
+    <p id="saved"></p>
+  </section>
+  <section id="results" hidden>
+    <h2>Results</h2>
+    <p class="small" id="plan"></p>
+    <ul class="facts" id="facts"></ul>
+    <table><thead><tr><th>Type</th><th>Right</th><th>Most often taken for</th></tr></thead><tbody id="rows"></tbody></table>
+  </section>
+</div>
+<script>
+const TEAMS = {
+ "note": "Each team's published colours, in the order the source lists them. The first colour is the sweater (tabard) colour. Teams do not publish a public brand page with hex values, so the PMS-based list below is the source of record; the Wikipedia module (a screen-tuned sandbox) is kept as wikiFirst for comparison. It differs most for Dallas (#006847), Anaheim and Ottawa (it lists the old orange-less and red-first sets), Philadelphia and Edmonton (brighter orange).",
+ "sources": {
+  "designyourway": "https://www.designyourway.net/blog/nhl-team-color-codes/",
+  "wikipedia-module": "https://wiki.riteme.site/wiki/Module:Sports_color/ice_hockey/sandbox"
+ },
+ "read": "2026-10-29",
+ "teams": {
+  "ANA": {
+   "name": "Anaheim Ducks",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#89734C",
+   "palette": [
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#89734C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BOS": {
+   "name": "Boston Bruins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#111111"
+  },
+  "BUF": {
+   "name": "Buffalo Sabres",
+   "primary": "#003087",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002654"
+  },
+  "CGY": {
+   "name": "Calgary Flames",
+   "primary": "#C8102E",
+   "secondary": "#F1BE48",
+   "accent": "#F1BE48",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#F1BE48"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "CAR": {
+   "name": "Carolina Hurricanes",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CC0000"
+  },
+  "CHI": {
+   "name": "Chicago Blackhawks",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "COL": {
+   "name": "Colorado Avalanche",
+   "primary": "#6F263D",
+   "secondary": "#236192",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Burgundy",
+     "hex": "#6F263D"
+    },
+    {
+     "name": "Blue",
+     "hex": "#236192"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#6F263D"
+  },
+  "CBJ": {
+   "name": "Columbus Blue Jackets",
+   "primary": "#041E42",
+   "secondary": "#C8102E",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Union Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Goal Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Capital Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E42"
+  },
+  "DAL": {
+   "name": "Dallas Stars",
+   "primary": "#00843D",
+   "secondary": "#000000",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Victory Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006847"
+  },
+  "DET": {
+   "name": "Detroit Red Wings",
+   "primary": "#C8102E",
+   "secondary": "#FFFFFF",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "EDM": {
+   "name": "Edmonton Oilers",
+   "primary": "#00205B",
+   "secondary": "#CF4520",
+   "accent": "#CF4520",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FF4C00"
+  },
+  "FLA": {
+   "name": "Florida Panthers",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#C8102E"
+  },
+  "LAK": {
+   "name": "Los Angeles Kings",
+   "primary": "#000000",
+   "secondary": "#A2AAAD",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "MIN": {
+   "name": "Minnesota Wild",
+   "primary": "#154734",
+   "secondary": "#A6192E",
+   "accent": "#EAAA00",
+   "palette": [
+    {
+     "name": "Forest Green",
+     "hex": "#154734"
+    },
+    {
+     "name": "Iron Range Red",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Harvest Gold",
+     "hex": "#EAAA00"
+    },
+    {
+     "name": "Minnesota Wheat",
+     "hex": "#DDCBA4"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#024930"
+  },
+  "MTL": {
+   "name": "Montreal Canadiens",
+   "primary": "#A6192E",
+   "secondary": "#001E62",
+   "accent": "#001E62",
+   "palette": [
+    {
+     "name": "Rouge",
+     "hex": "#A6192E"
+    },
+    {
+     "name": "Bleu",
+     "hex": "#001E62"
+    },
+    {
+     "name": "Blanc",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#AF1E2D"
+  },
+  "NSH": {
+   "name": "Nashville Predators",
+   "primary": "#FFB81C",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#FFB81C"
+  },
+  "NJD": {
+   "name": "New Jersey Devils",
+   "primary": "#C8102E",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "NYI": {
+   "name": "New York Islanders",
+   "primary": "#003087",
+   "secondary": "#FC4C02",
+   "accent": "#FC4C02",
+   "palette": [
+    {
+     "name": "Royal Blue",
+     "hex": "#003087"
+    },
+    {
+     "name": "Orange",
+     "hex": "#FC4C02"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00539B"
+  },
+  "NYR": {
+   "name": "New York Rangers",
+   "primary": "#0033A0",
+   "secondary": "#C8102E",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0033A0"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "OTT": {
+   "name": "Ottawa Senators",
+   "primary": "#000000",
+   "secondary": "#C8102E",
+   "accent": "#B9975B",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Gold",
+     "hex": "#B9975B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CE1126"
+  },
+  "PHI": {
+   "name": "Philadelphia Flyers",
+   "primary": "#CF4520",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Burnt Orange",
+     "hex": "#CF4520"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#F74902"
+  },
+  "PIT": {
+   "name": "Pittsburgh Penguins",
+   "primary": "#000000",
+   "secondary": "#FFB81C",
+   "accent": "#FFB81C",
+   "palette": [
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Pittsburgh Gold",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#000000"
+  },
+  "SJS": {
+   "name": "San Jose Sharks",
+   "primary": "#006272",
+   "secondary": "#000000",
+   "accent": "#E57200",
+   "palette": [
+    {
+     "name": "Deep Pacific Teal",
+     "hex": "#006272"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Burnt Orange",
+     "hex": "#E57200"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#006D75"
+  },
+  "SEA": {
+   "name": "Seattle Kraken",
+   "primary": "#051C2C",
+   "secondary": "#9CDBD9",
+   "accent": "#6BA4B8",
+   "palette": [
+    {
+     "name": "Deep Sea Blue",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Ice Blue",
+     "hex": "#9CDBD9"
+    },
+    {
+     "name": "Shadow Blue",
+     "hex": "#6BA4B8"
+    },
+    {
+     "name": "Red Alert",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "STL": {
+   "name": "St. Louis Blues",
+   "primary": "#0072CE",
+   "secondary": "#FFB81C",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#0072CE"
+    },
+    {
+     "name": "Yellow",
+     "hex": "#FFB81C"
+    },
+    {
+     "name": "Navy",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002F87"
+  },
+  "TBL": {
+   "name": "Tampa Bay Lightning",
+   "primary": "#00205B",
+   "secondary": "#000000",
+   "accent": "#000000",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "TOR": {
+   "name": "Toronto Maple Leafs",
+   "primary": "#00205B",
+   "secondary": "#FFFFFF",
+   "accent": "#00205B",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#00205B"
+  },
+  "UTA": {
+   "name": "Utah Mammoth",
+   "primary": "#000000",
+   "secondary": "#6CACE4",
+   "accent": "#6CACE4",
+   "palette": [
+    {
+     "name": "Rock Black",
+     "hex": "#000000"
+    },
+    {
+     "name": "Mountain Blue",
+     "hex": "#6CACE4"
+    },
+    {
+     "name": "Salt White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway"
+  },
+  "VAN": {
+   "name": "Vancouver Canucks",
+   "primary": "#00205B",
+   "secondary": "#00843D",
+   "accent": "#051C2C",
+   "palette": [
+    {
+     "name": "Blue",
+     "hex": "#00205B"
+    },
+    {
+     "name": "Green",
+     "hex": "#00843D"
+    },
+    {
+     "name": "Navy",
+     "hex": "#051C2C"
+    },
+    {
+     "name": "Silver",
+     "hex": "#97999B"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#002D55"
+  },
+  "VGK": {
+   "name": "Vegas Golden Knights",
+   "primary": "#C69214",
+   "secondary": "#333F48",
+   "accent": "#C8102E",
+   "palette": [
+    {
+     "name": "Metallic Gold",
+     "hex": "#C69214"
+    },
+    {
+     "name": "Steel Grey",
+     "hex": "#333F48"
+    },
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#333F42"
+  },
+  "WSH": {
+   "name": "Washington Capitals",
+   "primary": "#C8102E",
+   "secondary": "#041E42",
+   "accent": "#041E42",
+   "palette": [
+    {
+     "name": "Red",
+     "hex": "#C8102E"
+    },
+    {
+     "name": "Navy Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#CF0A2C"
+  },
+  "WPG": {
+   "name": "Winnipeg Jets",
+   "primary": "#041E42",
+   "secondary": "#004C97",
+   "accent": "#A2AAAD",
+   "palette": [
+    {
+     "name": "Polar Night Blue",
+     "hex": "#041E42"
+    },
+    {
+     "name": "Aviator Blue",
+     "hex": "#004C97"
+    },
+    {
+     "name": "Silver",
+     "hex": "#A2AAAD"
+    },
+    {
+     "name": "White",
+     "hex": "#FFFFFF"
+    }
+   ],
+   "source": "designyourway",
+   "wikiFirst": "#041E41"
+  }
+ }
+}.teams;
+const G = window.GoalieSkeleton, draw = window.GoalieStyles.STYLES["skeletons-xray"].draw;
+const TYPES = G.ORDER, NAME = Object.fromEntries(TYPES.map((k) => [k, G.POSES[k].name]));
+// Set before the test (Step 6): 20 readers × 12 pictures = 240 answers; chance is 1 in 12 (8.3%); the budget is 80% right.
+const PLAN = { readers: 20, chance: 1 / 12, budget: 0.8 };
+const $ = (id) => document.getElementById(id);
+const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const codes = Object.keys(TEAMS);
+let order = [], i = 0, shown = 0, answers = [], hideTimer = null;
+
+function next() {
+  if (i >= order.length) return finish();
+  const { type, team } = order[i];
+  $("count").textContent = `Picture ${i + 1} of ${order.length}`;
+  $("stage").innerHTML = draw(type, { ...TEAMS[team], code: team }, "", { size: 32, label: "Goalie picture" });
+  const bar = $("timer"); bar.style.transition = "none"; bar.style.width = "100%"; bar.offsetWidth;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { bar.style.transition = "width 5s linear"; bar.style.width = "0%"; }
+  shown = performance.now(); clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => { $("stage").innerHTML = '<span class="gone">Time\'s up. Pick your best guess.</span>'; }, 5000);
+}
+function pick(type) {
+  const o = order[i]; answers.push({ type: o.type, team: o.team, picked: type, ms: Math.round(performance.now() - shown) });
+  i++; next();
+}
+$("opts").innerHTML = TYPES.map((k) => `<button type="button" data-k="${k}">${NAME[k]}</button>`).join("");
+$("opts").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pick(b.dataset.k); });
+$("start").onclick = () => {
+  order = shuffle(TYPES.map((type) => ({ type, team: codes[Math.floor(Math.random() * codes.length)] })));
+  i = 0; answers = []; $("intro").hidden = true; $("trial").hidden = false; next();
+};
+
+let db = null, user = null;
+async function finish() {
+  clearTimeout(hideTimer); $("trial").hidden = true; $("done").hidden = false;
+  const right = answers.filter((a) => a.type === a.picked).length;
+  let note = `You named ${right} of ${answers.length}.`;
+  try {
+    const id = user && (await user.id());
+    if (db && id) { await db.doc("responses/" + id).set({ answers, right, at: new Date().toISOString() }); note += " Your answers are saved."; }
+    else note += " Your answers could not be saved from this view, so they won't count.";
+  } catch (e) { note += " Your answers could not be saved (" + (e.code || "error") + "), so they won't count."; }
+  $("saved").textContent = note;
+}
+
+// Wilson score interval, 95%
+function wilson(k, n) { if (!n) return [0, 0]; const z = 1.96, p = k / n, d = 1 + z * z / n, c = p + z * z / (2 * n), m = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)); return [(c - m) / d, (c + m) / d]; }
+const pct = (v) => (v * 100).toFixed(0) + "%";
+function showResults(docs) {
+  const all = docs.flatMap((d) => (d.data() || {}).answers || []), n = all.length, k = all.filter((a) => a.type === a.picked).length, [lo, hi] = wilson(k, n);
+  $("plan").textContent = `Set before the test: ${PLAN.readers} readers × 12 pictures = ${PLAN.readers * 12} answers. Chance is 1 in 12 (${pct(PLAN.chance)}). The budget is ${pct(PLAN.budget)} right.`;
+  $("facts").innerHTML = [[docs.length + " of " + PLAN.readers, "readers so far"], [n ? pct(k / n) : "–", "right"], [n ? `${pct(lo)}–${pct(hi)}` : "–", "95% interval"],
+    [n ? (k / n >= PLAN.budget ? '<span class="ok">Meets 80%</span>' : '<span class="warn">Under 80%</span>') : "–", "budget"]].map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join("");
+  $("rows").innerHTML = TYPES.map((t) => {
+    const mine = all.filter((a) => a.type === t), r = mine.filter((a) => a.picked === t).length, wrong = {};
+    mine.forEach((a) => { if (a.picked !== t) wrong[a.picked] = (wrong[a.picked] || 0) + 1; });
+    const top = Object.entries(wrong).sort((a, b) => b[1] - a[1])[0];
+    return `<tr><td>${NAME[t]}</td><td>${mine.length ? `${r} of ${mine.length}` : "–"}</td><td>${top ? `${NAME[top[0]]} (${top[1]})` : "–"}</td></tr>`;
+  }).join("");
+}
+(async () => {
+  [db, user] = await Promise.all([window.claude?.use?.("db") ?? null, window.claude?.use?.("user") ?? null]);
+  if (db && user && (await user.canEdit())) {
+    $("results").hidden = false; showResults([]);
+    db.collection("responses").onSnapshot((s) => showResults(s.docs), () => {});
+  }
+})();
+</script>
