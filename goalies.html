@@ -145,6 +145,31 @@ h1 span{color:var(--fog);display:block}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
+/* goalie types: one featured Light Box card that plays its loop, beside twelve stills to pick from */
+.ty-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;margin-top:16px}
+.panel.ty-feat{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:18px;align-items:start}
+.ty-stage svg{display:block;width:100%;height:auto;border-radius:4px}
+.ty-feat h3{margin:0;font-family:var(--f-display);font-size:24px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+.ty-trait{margin:4px 0 0;color:var(--fog);font-size:15px}
+.ty-rule{margin:10px 0 0;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.ty-who{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.ty-who button{border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--chalk)}
+.ty-who button:hover{border-color:var(--crease)}
+.ty-who .t{color:var(--mute);font-size:11px;margin-left:5px;font-family:var(--f-data)}
+.ty-none{margin:12px 0 0;color:var(--mute);font-size:13px}
+.ty-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ty-tile{display:grid;justify-items:center;gap:4px;padding:8px 6px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);cursor:pointer;color:var(--chalk);min-width:0}
+.ty-tile svg{display:block;width:100%;max-width:76px;height:auto;border-radius:3px}
+.ty-tile b{font-size:12px;font-weight:600;line-height:1.2;text-align:center}
+.ty-tile span{font-size:11px;color:var(--mute);font-family:var(--f-data)}
+.ty-tile[aria-pressed="true"]{border-color:var(--crease);box-shadow:0 0 0 2px var(--crease) inset}
+.ty-tile:hover{border-color:var(--crease)}
+@keyframes ty-warm{from{filter:brightness(.45) saturate(.3)}70%{filter:brightness(.92) saturate(.9)}to{filter:none}}
+.ty-stage.warm{animation:ty-warm .8s steps(8,end) both}
+@media (prefers-reduced-motion:reduce){.ty-stage.warm{animation:none}}
+@media (max-width:1100px){ .ty-grid{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:620px){ .panel.ty-feat{grid-template-columns:minmax(0,1fr)} .ty-stage{max-width:300px} .ty-tiles{grid-template-columns:repeat(3,minmax(0,1fr))} }
+
 
 /* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).
    Five leaders get a validated categorical colour that stays with the goalie; the rest of the top 10 are drawn in a quiet grey. */
@@ -387,6 +412,14 @@ tbody tr:last-child td{border-bottom:0}
     </div>
     <div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div>
     <div class="starters" id="starters" role="region" aria-roledescription="carousel" aria-label="Projected starting goalies" hidden></div>
+  </section>
+
+  <section id="tySec" hidden>
+    <div class="sec-h"><h2>Goalie Types</h2><span class="note" id="tyNote"></span></div>
+    <div class="ty-grid">
+      <div class="panel ty-feat" id="tyFeat" aria-live="polite"></div>
+      <div class="ty-tiles" id="tyTiles" role="group" aria-label="Goalie types"></div>
+    </div>
   </section>
 
   <section id="gmSec">
@@ -1099,6 +1132,11 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 })();
 </script>
 <script src="goalies-advanced.js"></script>
+<script src="goalie-types-data.js"></script>
+<script src="illustrations/goalie-skeleton.js"></script>
+<script src="illustrations/styles.js"></script>
+<script src="illustrations/motion.js"></script>
+<script src="goalie-types-panel.js"></script>
 
 </body>
 </html>
