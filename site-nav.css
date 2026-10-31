@@ -6,31 +6,31 @@
    The journal name is set in Jost, the label face from the logo lockup; Cinzel stays for page titles. */
 :root {
   color-scheme: light;
-  --bg: #f6f6fb;           /* page ground */
-  --surface: #eeeff7;      /* panels */
-  --fg: #1b1d2e;           /* primary text */
-  --muted: #5b5e75;        /* secondary text */
-  --mute: #6a6d84;         /* tertiary text */
-  --rule: #dcddea;         /* hairlines */
-  --accent: #4450b0;       /* Deep Periwinkle */
-  --accent-soft: #e4e7f8;
-  --crease-dim: rgba(68,80,176,.14);
+  --bg: #f8f6f0;           /* page ground */
+  --surface: #f0ece1;      /* panels */
+  --fg: #1a1f2b;           /* primary text */
+  --muted: #5a5f6b;        /* secondary text */
+  --mute: #6e7280;         /* tertiary text */
+  --rule: #e2dccd;         /* hairlines */
+  --accent: #85610f;       /* Brass */
+  --accent-soft: #f1e6c8;
+  --crease-dim: rgba(133,97,15,.14);
   --on-accent: #ffffff;    /* text on an accent fill */
-  --glass: #e4e7f8;        /* raised rows, inputs */
-  --boards: #eeeff7;       /* brief-page panels */
-  --series-b: #a9adb8;     /* second chart series */
-  --field-line: #d2d4e2;
-  --shadow: rgba(18,32,46,.16);
+  --glass: #ece5d2;        /* raised rows, inputs */
+  --boards: #f0ece1;       /* brief-page panels */
+  --series-b: #b3ada0;     /* second chart series */
+  --field-line: #d8d0bd;
+  --shadow: rgba(40,30,10,.16);
   --good: #17865a;
   --bad: #c8364a;
   --warn: #a8690c;
   /* Masthead glow: edit these to change the ice-blue effect */
-  --mast-a: #f4f4fb;
-  --mast-b: #dce0f6;
-  --glow-text: 0 0 14px rgba(85, 99, 196, 0.55), 0 0 38px rgba(174, 182, 245, 0.45);
-  --glow-text-hover: 0 0 8px rgba(85, 99, 196, 0.85), 0 0 26px rgba(68, 80, 176, 0.65), 0 0 60px rgba(174, 182, 245, 0.55);
-  --glow-spot: rgba(85, 99, 196, 0.42);
-  --glow-edge: rgba(85, 99, 196, 0.35);
+  --mast-a: #f8f4ea;
+  --mast-b: #efe3c4;
+  --glow-text: 0 0 14px rgba(154, 116, 32, 0.5), 0 0 38px rgba(226, 185, 85, 0.45);
+  --glow-text-hover: 0 0 8px rgba(154, 116, 32, 0.85), 0 0 26px rgba(133, 97, 15, 0.6), 0 0 60px rgba(226, 185, 85, 0.55);
+  --glow-spot: rgba(154, 116, 32, 0.38);
+  --glow-edge: rgba(154, 116, 32, 0.35);
   --ice: var(--bg); --chalk: var(--fg); --fog: var(--muted); --line: var(--rule); --crease: var(--accent);
   --paint: var(--bad); --rink: var(--ice);
   --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
@@ -45,26 +45,26 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --mute: #80849c; --rule: #2b2e45;
-    --accent: #aeb6f5; --accent-soft: #24284a; --crease-dim: rgba(174,182,245,.14); --on-accent: #11121d;
-    --glass: #20233a; --boards: #191b2a; --series-b: #7e8296; --field-line: #343852; --shadow: rgba(0,0,0,.5);
+    --bg: #0f131c; --surface: #171c27; --fg: #f1ede3; --muted: #aaa79e; --mute: #85837c; --rule: #2a303d;
+    --accent: #e2b955; --accent-soft: #33291a; --crease-dim: rgba(226,185,85,.14); --on-accent: #0f131c;
+    --glass: #1d2330; --boards: #171c27; --series-b: #7f7c74; --field-line: #353b49; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-    --mast-a: #14152a; --mast-b: #1e2250;
-    --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
-    --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
-    --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+    --mast-a: #141925; --mast-b: #2a2416;
+    --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
+    --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
+    --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --mute: #80849c; --rule: #2b2e45;
-  --accent: #aeb6f5; --accent-soft: #24284a; --crease-dim: rgba(174,182,245,.14); --on-accent: #11121d;
-  --glass: #20233a; --boards: #191b2a; --series-b: #7e8296; --field-line: #343852; --shadow: rgba(0,0,0,.5);
+  --bg: #0f131c; --surface: #171c27; --fg: #f1ede3; --muted: #aaa79e; --mute: #85837c; --rule: #2a303d;
+  --accent: #e2b955; --accent-soft: #33291a; --crease-dim: rgba(226,185,85,.14); --on-accent: #0f131c;
+  --glass: #1d2330; --boards: #171c27; --series-b: #7f7c74; --field-line: #353b49; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-  --mast-a: #14152a; --mast-b: #1e2250;
-  --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
-  --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
-  --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+  --mast-a: #141925; --mast-b: #2a2416;
+  --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
+  --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
+  --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
 }
 
 .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); line-height: 1.6; font-family: var(--sans); }
@@ -99,7 +99,7 @@
 .theme-btn:hover { color: var(--accent, currentColor); border-color: currentColor; }
 .theme-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
 .theme-btn svg path:only-child { fill: currentColor; stroke: none; }
-/* Tip jar: a Deep Periwinkle pill in every footer that opens the journal's Ko-fi page. --h1-hover on index-style pages, --crease on goalies/brief pages. */
+/* Tip jar: a brass pill in every footer that opens the journal's Ko-fi page. --h1-hover on index-style pages, --crease on goalies/brief pages. */
 .tip-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--h1-hover, var(--crease)); border: 1px solid currentColor; border-radius: 999px; padding: 4px 12px 4px 9px; text-decoration: none; font-weight: 500; transition: background-color .15s ease, color .15s ease; }
 .tip-btn:hover, .tip-btn:focus-visible { background: var(--h1-hover, var(--crease)); color: var(--bg); text-decoration: none; }
 .tip-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
