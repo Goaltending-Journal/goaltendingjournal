@@ -1,0 +1,57 @@
+# Research study: context-weighted goalie metric (analysis/context-metric/).
+# Pulls five NHL regular seasons of play-by-play, tests shooter, opponent and back-to-back layers against plain GSAx,
+# and uploads the results as a run artifact. It changes nothing on the site and commits nothing.
+name: Context metric study
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/context-metric-analysis]
+    paths: ["analysis/context-metric/**", ".github/workflows/context-metric.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore cached play-by-play
+        uses: actions/cache/restore@v4
+        with:
+          path: pbp-cache
+          key: context-metric-pbp-v1
+          restore-keys: context-metric-pbp-v1-
+
+      - name: Install analysis libraries
+        run: python -m pip install pandas numpy scikit-learn
+
+      - name: Pull play-by-play
+        run: python analysis/context-metric/pull.py --cache pbp-cache --out out
+
+      - name: Save play-by-play cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: pbp-cache
+          key: context-metric-pbp-v1-${{ github.run_id }}
+
+      - name: Fit and test the layers
+        run: python analysis/context-metric/model.py --data out --out results
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: context-metric-results
+          path: |
+            results
+            out/games.csv
+            out/shots.csv
