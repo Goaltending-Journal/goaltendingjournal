@@ -19,7 +19,8 @@
 <script src="theme.js"></script>
 <style>
 /* Home: the Constellation. Every goalie researcher is a light in their main topic's colour on a slowly turning globe,
-   linked to their co-authors (constellation.js), under the journal's name; drag the globe to spin it; "Since 1979" sets every study by year; four doors lead into the site.
+   linked to their co-authors (constellation.js), under the journal's name; drag the globe to spin it; framed topic chips below it are the colour key; four doors lead into the site.
+   No footer here, to keep the page as clean as possible (Goldy, 2026-10-31).
    The topic colours below are shared with the legend and the dots. */
 :root {
   --h1-hover: #9a7420;   /* masthead title hover and the footer tip pill */
@@ -52,8 +53,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .sky.grabbing canvas { cursor: grabbing; }
 .sky::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(ellipse 42% 30% at 50% 47%, color-mix(in srgb, var(--bg) 72%, transparent), transparent); }
-.sky h1 { margin: 0 0 30px; font: 600 clamp(34px, 6.4vw, 84px)/1.02 var(--display); letter-spacing: 0.01em; text-wrap: balance; }
-.sky h1 span { display: block; }
+.sky h1 { margin: 0 0 28px; font: 600 clamp(30px, 5.4vw, 70px)/1.04 var(--display); letter-spacing: 0.01em; text-wrap: balance; }
+.sky h1 > span { display: block; }
 .spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
   background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
 @keyframes spectrum { to { background-position: 300% 0; } }
@@ -61,30 +62,26 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   background: var(--glass); border: 1px solid var(--glass-line); -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
   transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .go:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--accent), 0 12px 30px -12px var(--accent); }
-.legend { position: absolute; left: 0; right: 0; bottom: 22px; margin: 0; padding: 0 16px; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px;
-  font: 500 11px var(--label); letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); }
-.legend li { display: inline-flex; align-items: center; gap: 6px; cursor: default; transition: opacity 0.2s ease, color 0.2s ease; }
+/* Topic key: one framed chip per topic, tinted in its colour */
+.legend { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); width: min(100% - 32px, 980px); margin: 0; padding: 0; list-style: none;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font: 500 11px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); }
+.legend li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; cursor: default;
+  border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: color-mix(in srgb, var(--c) 13%, var(--bg));
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: opacity 0.2s ease, background-color 0.2s ease; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
-.legend.dim li { opacity: 0.35; } .legend li.hot { opacity: 1; color: var(--fg); }
+.legend.dim li { opacity: 0.35; } .legend li.hot { opacity: 1; background: color-mix(in srgb, var(--c) 30%, var(--bg)); }
 .tip { position: absolute; z-index: 2; pointer-events: none; font: 500 12px var(--sans); background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
 .tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 
-.since { padding-top: 48px; }
-.since h2 { margin: 0 0 12px; font: 600 24px/1.2 var(--display); }
-.since svg { display: block; width: 100%; height: auto; overflow: visible; }
-.since text { font: 500 11px var(--label); letter-spacing: 0.1em; fill: var(--muted); }
-.since circle { transition: opacity 0.5s ease; }
-.since svg.wait circle { opacity: 0; }
-.doors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding-block: 44px; }
+.doors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding-block: 40px 64px; }
 .door { position: relative; display: block; padding: 20px 20px 18px 24px; border: 1px solid var(--rule); border-radius: 12px; color: var(--fg); text-decoration: none; overflow: hidden;
   transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), border-color 0.35s ease; }
 .door::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
 .door:hover, .door:focus-visible { transform: translateY(-3px); border-color: var(--c); }
 .door b { display: block; font: 600 19px/1.2 var(--display); }
 .door small { display: block; margin-top: 6px; font: 500 11px var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
-footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 @media (max-width: 880px) { .doors { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sky { min-height: 78svh; } }
-@media (max-width: 620px) { .legend { display: none; } .sky { padding-bottom: 48px; } }
+@media (max-width: 620px) { .sky { padding-bottom: 28px; grid-template-rows: 1fr auto; } .legend { position: static; transform: none; width: auto; margin-top: 8px; gap: 6px; font-size: 10px; } .legend li { padding: 6px 10px; } }
 @media (prefers-reduced-motion: reduce) { .spectrum { animation: none; } .door, .go { transition: none; } }
 </style>
 </head>
@@ -108,7 +105,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   <section class="sky" id="sky" aria-labelledby="title">
     <canvas id="sky-art" aria-hidden="true"></canvas>
     <div>
-      <h1 id="title"><span>The Goaltending</span><span class="spectrum">Research Journal</span></h1>
+      <h1 id="title"><span>The <span class="spectrum">Goaltending</span></span><span>Research Journal</span></h1>
       <a class="go" href="research.html">Explore the research <span aria-hidden="true">→</span></a>
     </div>
     <ul class="legend" id="legend" aria-label="Research topics, by colour"></ul>
@@ -116,20 +113,12 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </section>
 
   <div class="wrap">
-    <section class="since" aria-labelledby="since-h">
-      <h2 id="since-h">Since 1979</h2>
-      <svg id="since" viewBox="0 0 1000 180" role="img" aria-label="Every goaltending study by year, coloured by topic"></svg>
-    </section>
     <nav class="doors" aria-label="Sections">
       <a class="door" href="research.html" style="--c: var(--t-hip)"><b>Research</b><small id="door-n">Every study</small></a>
       <a class="door" href="glove-positioning.html" style="--c: var(--t-psy)"><b>Briefs</b><small>For coaches</small></a>
       <a class="door" href="goalies.html" style="--c: var(--t-eq)"><b>NHL Goalies</b><small>12 archetypes</small></a>
       <a class="door" href="coaches.html" style="--c: var(--t-vis)"><b>Coaches</b><small>Learning path</small></a>
     </nav>
-    <footer>
-      <span>The Goaltending Research Journal. Copyright 2027.</span>
-      <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
-    </footer>
   </div>
 </main>
 

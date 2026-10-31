@@ -1,7 +1,6 @@
 /* The Constellation on the home page: every goalie researcher (researchers-data.js) is a point of light in the colour
    of their main topic, set on a slowly turning globe and linked to the people they published with; drag to spin it.
-   Hover a light for the name, or a legend entry to light that topic. Below, "Since 1979" sets every study (data.js)
-   as a dot by year in its first topic's colour. Colours come from the --t-* tokens in index.html.
+   Hover a light for the name, or a legend entry to light that topic. Colours come from the --t-* tokens in index.html.
    About 30 frames a second; reduced motion draws one still frame; drawing stops while the hero is off screen. */
 (function () {
   const TOPICS = [
@@ -100,21 +99,5 @@
     if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { e.isIntersecting && !document.hidden ? start() : stop(); }).observe(box);
     document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
     start();
-  }
-
-  // Since 1979: every study as a dot by year, stacked, in its first topic's colour
-  const svg = document.getElementById("since");
-  if (svg && typeof REC !== "undefined") {
-    const rows = REC.filter((r) => r.y).sort((a, b) => a.y - b.y), y0 = rows[0].y, y1 = Math.max(new Date().getFullYear(), rows[rows.length - 1].y);
-    const X = (y) => 20 + (y - y0) / (y1 - y0) * 960, per = {}, esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-    let s = `<line x1="20" y1="150" x2="980" y2="150" stroke="var(--rule)" stroke-width="2"/>`;
-    for (let y = Math.ceil(y0 / 5) * 5; y <= y1; y += 5) s += `<text x="${X(y)}" y="172" text-anchor="middle">${y}</text>`;
-    rows.forEach((r, i) => { per[r.y] = (per[r.y] || 0) + 1; const k = (r.tp || [])[0] || "stats";
-      s += `<circle cx="${X(r.y)}" cy="${150 - per[r.y] * 11}" r="4.4" fill="var(--t-${k})" style="transition-delay:${i * 12}ms"><title>${r.y} · ${esc(r.t)}</title></circle>`; });
-    svg.innerHTML = s;
-    if (!still && "IntersectionObserver" in window) {
-      svg.classList.add("wait");
-      new IntersectionObserver(([e], o) => { if (e.isIntersecting) { svg.classList.remove("wait"); o.disconnect(); } }, { threshold: 0.4 }).observe(svg);
-    }
   }
 })();
