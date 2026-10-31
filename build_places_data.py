@@ -1,4 +1,4 @@
-"""Rebuild places-data.js: the world map behind "Where the research happens" on index.html.
+"""Rebuild places-data.js: the world map behind "Where the research happens" on research.html.
 
 Run by hand after researchers-data.js changes (new researcher, new affiliation):
 
