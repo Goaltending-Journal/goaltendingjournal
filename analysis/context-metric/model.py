@@ -140,6 +140,9 @@ def b2b_layer(s, games):
     return s
 
 
+WP_FIT = {}
+
+
 # ---------- win probability for importance ----------
 def wp_model(s, games):
     """Defending team's win probability from score difference and time left, fit on all shot moments."""
@@ -153,6 +156,8 @@ def wp_model(s, games):
         diff = np.clip(diff, -4, 4)
         return np.column_stack([diff, diff / np.sqrt(left + 0.02), home])
     m = LogisticRegression(max_iter=1000).fit(feats(d.def_diff, d.left, d.goalie_home), d.def_win)
+    WP_FIT.update(coef=[float(c) for c in m.coef_[0]], intercept=float(m.intercept_[0]),
+                  features=["def_diff clipped to +-4", "def_diff / sqrt(left + 0.02)", "goalie_home"])
     now = m.predict_proba(feats(d.def_diff, d.left, d.goalie_home))[:, 1]
     after = m.predict_proba(feats(d.def_diff - 1, d.left, d.goalie_home))[:, 1]
     lev = now - after
@@ -319,6 +324,12 @@ def main():
     R["opp_layer_pctiles"] = {c: [float(np.nanpercentile(s[c], q)) for q in [5, 50, 95]] for c in ["opp_fin", "opp_gen", "own_def"]}
 
     json.dump(R, open(os.path.join(a.out, "results.json"), "w"), indent=1, default=float)
+
+    # 6. the model the site uses: base xG fit on every season, and the win-probability fit, for build_impact.py
+    m = LogisticRegression(max_iter=2000).fit(X0.values, s.goal.values)
+    json.dump({"xg": {"features": list(X0.columns), "coef": [float(c) for c in m.coef_[0]], "intercept": float(m.intercept_[0])},
+               "wp": WP_FIT, "lev_mean": float(s.lev[te].mean()), "seasons": SEASONS},
+              open(os.path.join(a.out, "impact-model.json"), "w"), indent=1)
     print(json.dumps({k: R[k] for k in ["n_shots", "n_goals"]}), {n: round(v["logloss_gain_vs_base_pct"], 3) for n, v in R["layers"].items()})
 
 
