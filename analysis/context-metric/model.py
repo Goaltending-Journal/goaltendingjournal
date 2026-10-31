@@ -18,8 +18,8 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss, brier_score_loss
 
-SEASONS = [2021, 2022, 2023, 2024, 2025]
-TEST = [2023, 2024, 2025]      # walk-forward: each test season is fit on the seasons before it
+SEASONS = list(range(2015, 2026))
+TEST = list(range(2018, 2026))   # walk-forward: each test season is fit on the seasons before it
 TYPES = ["wrist", "snap", "slap", "backhand", "tip-in", "deflected", "wrap-around"]
 
 

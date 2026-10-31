@@ -13,8 +13,8 @@ import argparse, csv, gzip, json, os, sys, time, urllib.error, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
 API = "https://api-web.nhle.com/v1"
-SEASONS = [2021, 2022, 2023, 2024, 2025]          # start years: 2021-22 to 2025-26
-GAMES_PER_SEASON = 1312
+SEASONS = list(range(2015, 2026))                 # start years: 2015-16 to 2025-26
+GAMES_PER_SEASON = 1353   # covers 1230 (to 2016-17), 1271 (2017-18 to 2020-21 full), 1312 (2021-22 on); missing ids are skipped
 
 
 def get(url):
