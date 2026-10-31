@@ -353,6 +353,26 @@ tbody tr:last-child td{border-bottom:0}
 .tyrow i{display:block;height:8px;border-radius:4px;background:var(--crease);opacity:.8;min-width:2px}
 .tyrow b{text-align:right;font-family:var(--f-data);font-weight:500}
 #gmGoalie,#dzGoalie{max-width:250px}
+/* Impact GSAx heatmap */
+.imp-lede{margin:14px 0 12px;color:var(--fog);font-size:14px;max-width:68ch}
+.imp-key{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:11px;color:var(--mute)}
+.imp-key i{width:90px;height:8px;border-radius:4px}
+.imp-tbl{margin-top:12px;max-height:620px;overflow:auto}
+#impTbl{min-width:760px;table-layout:fixed}
+#impTbl th{cursor:default;white-space:normal;line-height:1.25;vertical-align:bottom;text-align:center;z-index:1}
+#impTbl th.l{width:190px;text-align:left}
+#impTbl th:hover{color:var(--mute)}
+#impTbl tbody th{position:sticky;left:0;z-index:1;background:var(--boards);font:600 13px var(--f-body);letter-spacing:0;text-transform:none;color:var(--chalk);vertical-align:middle;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+#impTbl thead th.l{position:sticky;left:0;z-index:3}
+#impTbl tbody th small{display:block;color:var(--mute);font-weight:500;font-size:11px}
+.imp-who{all:unset;cursor:pointer}
+.imp-who:hover,.imp-who:focus-visible{color:var(--crease);text-decoration:underline}
+#impTbl td{text-align:center;padding:8px 6px}
+#impTbl td.cell{border:2px solid var(--boards)}
+#impTbl td.tot{color:var(--fog)}
+#impTbl td.imp{color:var(--chalk);font-weight:700}
+@media (max-width:520px){ #impTbl{min-width:640px} #impTbl th.l{width:130px} .imp-key{margin-left:0} }
+
 /* Natural Stat Trick section */
 #dzCard .dz-rink{max-width:380px;width:100%;margin-inline:auto}
 #dzCard .field{background:var(--ice)}
@@ -487,6 +507,17 @@ tbody tr:last-child td{border-bottom:0}
     </div>
   </section>
 
+
+  <section id="impSec">
+    <div class="sec-h"><div class="sec-l"><h2>Impact GSAx</h2><div class="seg" role="group" aria-label="Sort by" id="impSort"></div></div><span class="note" id="impNote"></span></div>
+    <p class="imp-lede">Impact GSAx counts each save by how much a goal there would have changed the game. Each cell is goals saved above expected in that situation. Close means a one-goal or tied game; late is the 3rd period or overtime.</p>
+    <div class="filters">
+      <div class="field"><label for="impMin">Min shots</label><input id="impMin" type="range" min="0" max="400" step="10" value="100"><span class="num" id="impMinV" style="width:30px">100</span></div>
+      <span class="note" id="impCount"></span>
+      <span class="imp-key" id="impKey" aria-hidden="true"></span>
+    </div>
+    <div class="tbl-wrap imp-tbl"><table id="impTbl"><thead></thead><tbody></tbody></table></div>
+  </section>
 
   <section id="chartSec">
     <div class="sec-h"><div class="sec-l"><h2>Visualizers</h2><label class="switch" for="gfx"><input type="checkbox" id="gfx" checked> Show graphics</label></div><span class="note">Hide any chart, or switch all graphics off here.</span></div>
@@ -984,7 +1015,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 
 /* ---------- footer ---------- */
 $("#foot").innerHTML = `
-  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Projected starters are our own call from who has started each team's recent games, with back-to-backs going to the backup; the NHL does not confirm starters before puck drop. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
+  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Projected starters are our own call from who has started each team's recent games, with back-to-backs going to the backup; the NHL does not confirm starters before puck drop. Impact GSAx: our own expected-goals and win-probability models, fitted on eleven seasons of the same play-by-play feed and applied to this season's shots. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
   <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
@@ -1132,6 +1163,8 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 <script src="illustrations/styles.js"></script>
 <script src="illustrations/motion.js"></script>
 <script src="goalie-types-panel.js"></script>
+<script src="impact-data.js"></script>
+<script src="impact-panel.js"></script>
 
 </body>
 </html>
