@@ -4,10 +4,13 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "30 October 2026";
+const CLOTHESLINE_UPDATED = "31 October 2026";
 const CLOTHESLINE = [
+{"d": "2026-10-30", "t": "Visual Search Behavior and Visual Occlusion in Open-Skill Sports: Ecological Dynamics Implications for Performance and Motor Learning", "u": "https://doi.org/10.5281/zenodo.23807571", "s": "Zenodo (CERN European Organization for Nuclear Research)", "tp": "ed", "m": false},
+{"d": "2026-10-30", "t": "From flexibility to flow: psychological selection and the maintenance of values-based therapeutic skills", "u": "https://doi.org/10.3389/fpsyg.2026.1967544", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
 {"d": "2026-10-29", "t": "From Pixels to Performance: A Survey of the Estimation-to-Biomechanics Pipeline for Vision-Based Human Pose Estimation in Sports and Movement Health", "u": "https://doi.org/10.48175/ijarsct-40375", "s": "International Journal of Advanced Research in Science Communication and Technology", "tp": "ed", "m": false},
 {"d": "2026-10-29", "t": "Exploratory associations between isometric strength, vertical jump performance, and psychomotor outcomes in elite traditional karate Kumite athletes", "u": "https://doi.org/10.3389/fspor.2026.1952574", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
+{"d": "2026-10-29", "t": "A race to space: reconceptualising coaches’ knowledge and understanding through collective interactions", "u": "https://doi.org/10.1080/21640629.2026.2751859", "s": "Sports Coaching Review", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Dynamic Movement Analysis of Horse and Rider in Showjumping", "u": "https://doi.org/10.13140/rg.2.2.33633.88165", "s": "UWE Research Repository (UWE Bristol)", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Sanitizing the stain: a critical integrative review of sportswashing discourse", "u": "https://doi.org/10.1108/qmr-10-2025-0256", "s": "Qualitative Market Research An International Journal", "tp": "ed", "m": false},
 {"d": "2026-10-28", "t": "Study on The Improvement of Musicl Performance Skills Using the Changba Appllcation Teaching Tool", "u": "https://doi.org/10.14456/augsbejr.2026.55", "s": "AU-GSB e-JOURNAL", "tp": "sa", "m": false},
@@ -39,9 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-19", "t": "The Elite Sport Relevance Index: a five-dimensional framework for understanding value creation in elite sport", "u": "https://doi.org/10.3389/fspor.2026.1944243", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
 {"d": "2026-10-19", "t": "What factors impact the social mobility of athletes retired from Liaoning Province professional sports teams? A qualitative research approach", "u": "https://doi.org/10.3389/fspor.2026.1943882", "s": "Frontiers in Sports and Active Living", "tp": "sa", "m": false},
 {"d": "2026-10-18", "t": "Bridging Skills Gaps in South African Manufacturing: Curriculum Relevance, Mentorship, and Workplace Learning in Apprenticeship Programs", "u": "https://doi.org/10.36096/ijbes.v8i5.1523", "s": "International Journal of Business Ecosystem and Strategy (2687-2293)", "tp": "sa", "m": false},
-{"d": "2026-10-17", "t": "Under pressure: an integrative review of the challenges facing young sport officials", "u": "https://doi.org/10.1080/23750472.2026.2747312", "s": "Managing Sport and Leisure", "tp": "ed", "m": false},
-{"d": "2026-10-17", "t": "From knowing to doing: Volleyball knowledge and skills performance among physical education teacher-education students", "u": "https://doi.org/10.64268/jospa.v2i2.25", "s": "Journal of Sports and Physical Activity", "tp": "sa", "m": false},
-{"d": "2026-10-16", "t": "Navigating access and participation in grappling sports among adults with visual impairments: a qualitative study", "u": "https://doi.org/10.1080/13573322.2026.2748351", "s": "Sport Education and Society", "tp": "ed", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
