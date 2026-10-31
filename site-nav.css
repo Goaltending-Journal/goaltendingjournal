@@ -1,22 +1,87 @@
-/* Site-wide top bar: journal name and the main menu, the same on every page.
-   Colours come from the page's own tokens: index.html and about.html name them --bg, --fg, --muted, --rule, --accent;
-   goalies.html and glove-positioning.html name the same colours --ice, --chalk, --fog, --line, --crease.
+/* Site-wide palette, type and top bar, loaded by every page.
+   The palette below is the one place the light and dark colours are set; theme.js sets data-theme when the reader picks one.
+   Pages that need extra colours (topic hues, heat-map steps) add them in their own style block.
+   Brief-style pages (goalies.html, glove-positioning.html, learn.css) name the main colours --ice, --chalk, --fog, --line, --crease;
+   those names are aliases of --bg, --fg, --muted, --rule, --accent so each colour is set once.
    The journal name is set in Jost, the label face from the logo lockup; Cinzel stays for page titles. */
-.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg, var(--ice)) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule, var(--line)); line-height: 1.6; font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+:root {
+  color-scheme: light;
+  --bg: #f6f6fb;           /* page ground */
+  --surface: #eeeff7;      /* panels */
+  --fg: #1b1d2e;           /* primary text */
+  --muted: #5b5e75;        /* secondary text */
+  --mute: #6a6d84;         /* tertiary text */
+  --rule: #dcddea;         /* hairlines */
+  --accent: #4450b0;       /* Deep Periwinkle */
+  --accent-soft: #e4e7f8;
+  --crease-dim: rgba(68,80,176,.14);
+  --on-accent: #ffffff;    /* text on an accent fill */
+  --glass: #e4e7f8;        /* raised rows, inputs */
+  --boards: #eeeff7;       /* brief-page panels */
+  --series-b: #a9adb8;     /* second chart series */
+  --field-line: #d2d4e2;
+  --shadow: rgba(18,32,46,.16);
+  --good: #17865a;
+  --bad: #c8364a;
+  --warn: #a8690c;
+  /* Masthead glow: edit these to change the ice-blue effect */
+  --mast-a: #f4f4fb;
+  --mast-b: #dce0f6;
+  --glow-text: 0 0 14px rgba(85, 99, 196, 0.55), 0 0 38px rgba(174, 182, 245, 0.45);
+  --glow-text-hover: 0 0 8px rgba(85, 99, 196, 0.85), 0 0 26px rgba(68, 80, 176, 0.65), 0 0 60px rgba(174, 182, 245, 0.55);
+  --glow-spot: rgba(85, 99, 196, 0.42);
+  --glow-edge: rgba(85, 99, 196, 0.35);
+  --ice: var(--bg); --chalk: var(--fg); --fog: var(--muted); --line: var(--rule); --crease: var(--accent);
+  --paint: var(--bad); --rink: var(--ice);
+  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
+  --f-display: var(--display);
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --nav-h: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --mute: #80849c; --rule: #2b2e45;
+    --accent: #aeb6f5; --accent-soft: #24284a; --crease-dim: rgba(174,182,245,.14); --on-accent: #11121d;
+    --glass: #20233a; --boards: #191b2a; --series-b: #7e8296; --field-line: #343852; --shadow: rgba(0,0,0,.5);
+    --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+    --mast-a: #14152a; --mast-b: #1e2250;
+    --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+    --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+    --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --mute: #80849c; --rule: #2b2e45;
+  --accent: #aeb6f5; --accent-soft: #24284a; --crease-dim: rgba(174,182,245,.14); --on-accent: #11121d;
+  --glass: #20233a; --boards: #191b2a; --series-b: #7e8296; --field-line: #343852; --shadow: rgba(0,0,0,.5);
+  --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
+  --mast-a: #14152a; --mast-b: #1e2250;
+  --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+  --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+  --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+}
+
+.topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); line-height: 1.6; font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
 .site-bar { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: 56px; }
-.topbar .brand { font: 500 14px/1 "Jost", "Futura", "Century Gothic", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg, var(--chalk)); white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.topbar .brand { font: 500 14px/1 "Jost", "Futura", "Century Gothic", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
 .topbar .brand-logo { width: 32px; height: 32px; flex: none; border-radius: 7px; transition: box-shadow 0.2s ease; }
 /* The top bar shows the GRJ logo alone (Goldy, 2026-10-31); the journal name stays for screen readers. */
 .topbar .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.topbar .brand:hover .brand-logo { box-shadow: 0 0 0 2px var(--accent, var(--crease)); }
-.topbar .brand:hover { text-decoration: none; color: var(--accent, var(--crease)); }
+.topbar .brand:hover .brand-logo { box-shadow: 0 0 0 2px var(--accent); }
+.topbar .brand:hover { text-decoration: none; color: var(--accent); }
 .topbar nav { display: flex; gap: 2px 22px; font-size: 14px; }
-.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted, var(--fog)); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
-.topbar nav a:hover { color: var(--fg, var(--chalk)); text-decoration: none; }
-.topbar nav a[aria-current] { color: var(--fg, var(--chalk)); }
-.topbar nav a[aria-current]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent, var(--crease)); }
-.topbar a:focus-visible { outline: 2px solid var(--accent, var(--crease)); outline-offset: 2px; }
-.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg, var(--chalk)); color: var(--bg, var(--ice)); padding: 8px 14px; border-radius: 3px; font: 500 14px "IBM Plex Sans", system-ui, sans-serif; text-decoration: none; }
+.topbar nav a { position: relative; display: block; padding-block: 18px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: color 0.15s ease; }
+.topbar nav a:hover { color: var(--fg); text-decoration: none; }
+.topbar nav a[aria-current] { color: var(--fg); }
+.topbar nav a[aria-current]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); }
+.topbar a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.skip { position: absolute; left: 16px; top: -48px; z-index: 40; background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: 3px; font: 500 14px "IBM Plex Sans", system-ui, sans-serif; text-decoration: none; }
 .skip:focus { top: 8px; }
 @media (max-width: 880px) {
   .topbar { position: static; }
@@ -36,5 +101,5 @@
 .theme-btn svg path:only-child { fill: currentColor; stroke: none; }
 /* Tip jar: a Deep Periwinkle pill in every footer that opens the journal's Ko-fi page. --h1-hover on index-style pages, --crease on goalies/brief pages. */
 .tip-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--h1-hover, var(--crease)); border: 1px solid currentColor; border-radius: 999px; padding: 4px 12px 4px 9px; text-decoration: none; font-weight: 500; transition: background-color .15s ease, color .15s ease; }
-.tip-btn:hover, .tip-btn:focus-visible { background: var(--h1-hover, var(--crease)); color: var(--bg, var(--ice)); text-decoration: none; }
+.tip-btn:hover, .tip-btn:focus-visible { background: var(--h1-hover, var(--crease)); color: var(--bg); text-decoration: none; }
 .tip-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }

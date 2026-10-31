@@ -22,30 +22,24 @@
    linked to their co-authors (constellation.js), under the journal's name; drag the globe to spin it; "Since 1979" sets every study by year; four doors lead into the site.
    The topic colours below are shared with the legend and the dots. */
 :root {
-  --bg: #f6f6fb; --surface: #eeeff7; --fg: #1b1d2e; --muted: #5b5e75; --rule: #dcddea; --accent: #4450b0; --h1-hover: #5563c4;
+  --h1-hover: #5563c4;   /* masthead title hover and the footer tip pill */
   --glass: rgba(255, 255, 255, 0.55); --glass-line: rgba(85, 99, 196, 0.24);
   --t-hip: #4450b0; --t-inj: #d43d63; --t-eq: #c77a00; --t-vis: #0f8f89; --t-phy: #2e9a3f;
   --t-bio: #7a4fd6; --t-psy: #c2398a; --t-dev: #1f7fcf; --t-stats: #9a8a00;
-  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
-  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Cinzel", "Trajan Pro", Georgia, serif;
-  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --h1-hover: #c3c9f8;
+    --h1-hover: #c3c9f8;
     --glass: rgba(24, 26, 44, 0.45); --glass-line: rgba(174, 182, 245, 0.22);
     --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
     --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
-    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0; --rule: #2b2e45; --accent: #aeb6f5; --h1-hover: #c3c9f8;
+  --h1-hover: #c3c9f8;
   --glass: rgba(24, 26, 44, 0.45); --glass-line: rgba(174, 182, 245, 0.22);
   --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
   --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
-  color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--serif); -webkit-font-smoothing: antialiased; }

@@ -1,47 +1,7 @@
 /* Coaches learning path: shared by coaches.html and the five module pages.
-   Copied from the brief page (glove-positioning.html) so modules read like briefs: same tokens, contents rail, at-a-glance box and reference list. */
+   Copied from the brief page (glove-positioning.html) so modules read like briefs: contents rail, at-a-glance box and reference list. */
 :root{
-  color-scheme: light;
-  --ice: #f6f6fb;          /* page ground (index --bg) */
-  --boards: #eeeff7;       /* panels (index --surface) */
-  --glass: #e4e7f8;        /* raised rows, inputs (index --accent-soft) */
-  --line: #dcddea;         /* hairlines (index --rule) */
-  --chalk: #1b1d2e;        /* primary text (index --fg) */
-  --fog: #5b5e75;          /* secondary text (index --muted) */
-  --mute: #6a6d84;         /* tertiary */
-  --crease: #4450b0;       /* accent (index --accent) */
-  --crease-dim: rgba(68,80,176,.14);
-  --series-b: #a9adb8;     /* second chart series (index --series-b) */
-  --mast-a: #f4f4fb; --mast-b: #dce0f6;   /* index masthead gradient */
-  --on-accent: #ffffff;
-  --shadow: rgba(18,32,46,.16);
-  --good: #17865a;
-  --bad: #c8364a;
-  --warn: #a8690c;
-  --f-display: "Cinzel", "Trajan Pro", Georgia, serif;
-  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --r: 10px;
-  --rink: var(--ice);       /* rink surface in the diagram */
-  --paint: var(--bad);      /* rink markings */
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    color-scheme: dark;
-    --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
-    --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
-    --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
-    --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
-    --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme: dark;
-  --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
-  --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
-  --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
-  --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
-  --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}

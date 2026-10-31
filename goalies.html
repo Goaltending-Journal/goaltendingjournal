@@ -23,51 +23,20 @@
 /* Layout: arena-dark broadcast board. Site top bar, 3D goal map, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
 /* Light mode sits on a pale periwinkle ground with the Deep Periwinkle accent; dark mode uses a deep night blue with the front page's text and accent colours. */
 :root{
-  color-scheme: light;
-  --ice: #f6f6fb;          /* page ground: pale periwinkle */
   --boards: #ffffff;       /* panels: white so cards lift off the ground */
-  --glass: #e4e7f8;        /* raised rows, inputs */
-  --line: #dcddea;         /* hairlines */
-  --chalk: #1b1d2e;        /* primary text (index --fg) */
-  --fog: #5b5e75;          /* secondary text (index --muted) */
-  --mute: #6a6d84;         /* tertiary */
-  --crease: #4450b0;       /* accent (index --accent) */
-  --crease-dim: rgba(68,80,176,.14);
-  --series-b: #a9adb8;     /* second chart series (index --series-b) */
-  --mast-a: #f4f4fb; --mast-b: #dce0f6;   /* spotlight card gradient, periwinkle */
-  --on-accent: #ffffff;
-  --shadow: rgba(18,32,46,.16);
-  --good: #17865a;
-  --bad: #c8364a;
-  --warn: #a8690c;
   /* heat maps (read by the script, so keep these as hex) */
   --z-lo: #e9eaf3; --z-hi: #e0603f;
   --z-bad: #e0603f; --z-mid: #e8e9f2; --z-good: #4450b0;
   --z-none: #ffffff; --z-hatch: #d2d4e2;
-  --f-display: "Cinzel", "Trajan Pro", Georgia, serif;
-  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --r: 10px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    color-scheme: dark;
-    --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
-    --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
-    --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
-    --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
-    --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
     --z-lo: #20233a; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #262a42; --z-good: #aeb6f5;
     --z-none: #191b2a; --z-hatch: #262a42;
   }
 }
 :root[data-theme="dark"]{
-  color-scheme: dark;
-  --ice: #11121d; --boards: #191b2a; --glass: #20233a; --line: #2b2e45;
-  --chalk: #e9eaf5; --fog: #a3a6c0; --mute: #80849c;
-  --crease: #aeb6f5; --crease-dim: rgba(174,182,245,.14); --series-b: #7e8296;
-  --mast-a: #14152a; --mast-b: #1e2250; --on-accent: #11121d; --shadow: rgba(0,0,0,.5);
-  --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
   --z-lo: #20233a; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #262a42; --z-good: #aeb6f5;
   --z-none: #191b2a; --z-hatch: #262a42;
 }

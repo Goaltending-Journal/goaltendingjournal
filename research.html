@@ -20,50 +20,19 @@
 <style>
 /* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
 :root {
-  --bg: #f6f6fb;
-  --surface: #eeeff7;
-  --fg: #1b1d2e;
-  --muted: #5b5e75;
-  --rule: #dcddea;
-  --accent: #4450b0;
-  --accent-soft: #e4e7f8;
-  --series-b: #a9adb8;
-  --field-line: #d2d4e2;
+  --h1-hover: #5563c4;   /* masthead title hover and the footer tip pill */
   --on-heat: #ffffff;   /* text on the two darkest heatmap steps */
-  /* Masthead glow: edit these to change the ice-blue effect */
-  --mast-a: #f4f4fb;
-  --mast-b: #dce0f6;
-  --h1-hover: #5563c4;
-  --glow-text: 0 0 14px rgba(85, 99, 196, 0.55), 0 0 38px rgba(174, 182, 245, 0.45);
-  --glow-text-hover: 0 0 8px rgba(85, 99, 196, 0.85), 0 0 26px rgba(68, 80, 176, 0.65), 0 0 60px rgba(174, 182, 245, 0.55);
-  --glow-spot: rgba(85, 99, 196, 0.42);
-  --glow-edge: rgba(85, 99, 196, 0.35);
-  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
-  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
-  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
   --r: 3px;
-  --nav-h: 56px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
-    --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852; --on-heat: #11121d;
-    --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
-    --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
-    --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
-    --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
-    color-scheme: dark;
+    --h1-hover: #c3c9f8;
+    --on-heat: #11121d;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
-  --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852; --on-heat: #11121d;
-  --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
-  --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
-  --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
-  --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
-  color-scheme: dark;
+  --h1-hover: #c3c9f8;
+  --on-heat: #11121d;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }

@@ -1,5 +1,5 @@
 /* Goalie Cards (goalie-cards.js): the card, the "File this card" sheet, the answer form on briefs and modules, and the
-   binder on the Coaches page. Uses the page's tokens (learn.css or the brief's own copy of them): --ice, --boards, --glass,
+   binder on the Coaches page. Uses the site tokens (site-nav.css): --ice, --boards, --glass,
    --line, --chalk, --fog, --mute, --crease. Cinzel for names, Jost for small labels, EB Garamond for card-back text. */
 :root{
   --gc-w: 220px;
