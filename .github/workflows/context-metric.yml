@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
   push:
     branches: [claude/context-metric-analysis]
-    paths: ["analysis/context-metric/**", ".github/workflows/context-metric.yml"]
+    paths: ["analysis/context-metric/*.py", ".github/workflows/context-metric.yml"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   study:
@@ -45,6 +45,16 @@ jobs:
 
       - name: Fit and test the layers
         run: python analysis/context-metric/model.py --data out --out results
+
+      - name: Commit the results to this branch
+        run: |
+          mkdir -p analysis/context-metric/results
+          cp results/* analysis/context-metric/results/
+          git config user.name "context-metric-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis/context-metric/results
+          git diff --cached --quiet || git commit -m "Context metric study results"
+          git push
 
       - name: Upload results
         if: always()
