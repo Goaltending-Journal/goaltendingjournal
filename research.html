@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Research · The Goaltending Research Journal</title>
+<meta name="description" content="Every published goaltending study, the researcher network map and the research heatmap.">
+<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11121d" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&display=swap">
+<link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
+<style>
+/* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
+:root {
+  --bg: #f6f6fb;
+  --surface: #eeeff7;
+  --fg: #1b1d2e;
+  --muted: #5b5e75;
+  --rule: #dcddea;
+  --accent: #4450b0;
+  --accent-soft: #e4e7f8;
+  --series-b: #a9adb8;
+  --field-line: #d2d4e2;
+  --on-heat: #ffffff;   /* text on the two darkest heatmap steps */
+  /* Masthead glow: edit these to change the ice-blue effect */
+  --mast-a: #f4f4fb;
+  --mast-b: #dce0f6;
+  --h1-hover: #5563c4;
+  --glow-text: 0 0 14px rgba(85, 99, 196, 0.55), 0 0 38px rgba(174, 182, 245, 0.45);
+  --glow-text-hover: 0 0 8px rgba(85, 99, 196, 0.85), 0 0 26px rgba(68, 80, 176, 0.65), 0 0 60px rgba(174, 182, 245, 0.55);
+  --glow-spot: rgba(85, 99, 196, 0.42);
+  --glow-edge: rgba(85, 99, 196, 0.35);
+  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
+  --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
+  --r: 3px;
+  --nav-h: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
+    --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852; --on-heat: #11121d;
+    --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
+    --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+    --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+    --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11121d; --surface: #191b2a; --fg: #e9eaf5; --muted: #a3a6c0;
+  --rule: #2b2e45; --accent: #aeb6f5; --accent-soft: #24284a; --series-b: #7e8296; --field-line: #343852; --on-heat: #11121d;
+  --mast-a: #14152a; --mast-b: #1e2250; --h1-hover: #c3c9f8;
+  --glow-text: 0 0 12px rgba(174, 182, 245, 0.55), 0 0 34px rgba(85, 99, 196, 0.5);
+  --glow-text-hover: 0 0 8px rgba(174, 182, 245, 0.95), 0 0 28px rgba(85, 99, 196, 0.8), 0 0 64px rgba(85, 99, 196, 0.6);
+  --glow-spot: rgba(85, 99, 196, 0.28); --glow-edge: rgba(174, 182, 245, 0.4);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--accent-soft); }
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+.item h3 { text-wrap: pretty; }
+button, input, select { font-family: var(--sans); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Page title */
+.pg-title { font: 600 clamp(28px, 4vw, 42px)/1.1 var(--display); letter-spacing: 0.02em; margin: 40px 0 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Sections */
+.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
+.sec:first-of-type { border-top: 0; padding-top: 56px; }
+.sec.slim { padding-block: 48px; }
+.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
+.sec-head h2 { font-family: var(--display); font-weight: 600; font-size: 28px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
+.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+.sec-body { min-width: 0; }
+
+figure { margin: 0; }
+.chart { width: 100%; height: auto; display: block; font-family: var(--sans); }
+.chart text { fill: var(--muted); font-size: 12px; }
+.chart .val { fill: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .grid.base { stroke: var(--field-line); }
+.chart .bar-a { fill: var(--accent); }
+.chart .bar-b { fill: var(--series-b); }
+.chart .col.on { cursor: pointer; outline: none; }
+.chart .hit { fill: var(--accent); fill-opacity: 0; transition: fill-opacity 0.15s ease; }
+.chart .col.on:hover .hit { fill-opacity: 0.08; }
+.chart .col.on:focus-visible .hit { fill-opacity: 0.12; stroke: var(--accent); stroke-width: 2; }
+.chart .col.sel .hit { fill-opacity: 0.14; }
+.chart .col.sel .lbl { fill: var(--fg); font-weight: 600; }
+.chart.has-sel .col.on:not(.sel):not(:hover) .bar-a, .chart.has-sel .col.on:not(.sel):not(:hover) .bar-b { opacity: 0.45; }
+.chart .col.off .lbl { opacity: 0.55; }
+.chart .zero { stroke: var(--rule); stroke-width: 2; }
+figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
+.key { display: inline-flex; gap: 7px; align-items: center; }
+.key i { width: 9px; height: 9px; display: inline-block; }
+.key .a { background: var(--accent); }
+.key .b { background: var(--series-b); }
+
+/* Research heatmap: topics by period, topics studied together, or studies by year. One periwinkle ramp in five steps; tap a cell to filter the table. */
+.hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
+.hm-head h3 { font: 600 15px var(--sans); }
+.ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.ex-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
+.ex-grp h3 { font: 500 12.5px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.ex-grp:has([aria-selected="true"]) h3 { color: var(--fg); }
+.hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
+.hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
+.hm-tabs .ts { display: none; }
+@media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
+.hm-scroll { overflow-x: auto; }
+.hm { display: grid; gap: 3px; font: 12px var(--sans); }
+.hm .rl { color: var(--fg); display: flex; align-items: center; padding-right: 8px; line-height: 1.2; }
+.hm .ch { color: var(--muted); text-align: center; align-self: end; padding-bottom: 2px; line-height: 1.2; }
+.hm .tot { color: var(--muted); display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.hm .c { height: 34px; border: 0; border-radius: 4px; font: 600 12px var(--sans); font-variant-numeric: tabular-nums; color: var(--fg); background: color-mix(in srgb, var(--accent) var(--k, 0%), var(--surface)); cursor: pointer; padding: 0; }
+.hm .c.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); color: transparent; cursor: default; }
+.hm .c.l4, .hm .c.l5 { color: var(--on-heat); }
+.hm .c.diag { background: transparent; box-shadow: inset 0 0 0 1px var(--field-line); color: var(--muted); font-weight: 500; }
+.hm .c.blank { visibility: hidden; }
+.hm .c:not(.z):hover, .hm .c:focus-visible { outline: 2px solid var(--fg); outline-offset: 1px; }
+.hm .c.sel { outline: 2px solid var(--h1-hover); outline-offset: 1px; }
+.hm-tip { position: fixed; z-index: 30; pointer-events: none; max-width: 260px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 8px 10px; font: 12.5px/1.4 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+.hm-tip b { display: block; }
+/* Researcher Network Map: tracked researchers as dots (size = goalie studies), lines between people who published a goalie study together.
+   Clusters are laid out separately and packed into rows. Select a person to see their profile and filter the table to their studies. */
+.nw { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: start; }
+.nw svg { width: 100%; height: auto; display: block; font-family: var(--sans); overflow: visible; }
+.nw .lk { stroke: var(--field-line); stroke-linecap: round; }
+.nw .lk.on { stroke: var(--accent); }
+.nw .nd { cursor: pointer; outline: none; }
+.nw .nd circle { fill: var(--accent); stroke: var(--surface); stroke-width: 2; transition: opacity .15s ease; }
+.nw .nd text { fill: var(--fg); font-size: 11.5px; pointer-events: none; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+.nw .nd:hover circle, .nw .nd:focus-visible circle { stroke: var(--fg); }
+.nw .nd.hl circle { fill: var(--h1-hover); stroke: var(--fg); stroke-width: 3; }
+.nw .nd.sel circle { fill: var(--h1-hover); }
+.nw.has-sel .nd.dim circle { opacity: .22; } .nw.has-sel .nd.dim text { opacity: 0; } .nw.has-sel .lk:not(.on) { opacity: .25; }
+.nw-side { font-family: var(--sans); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.nw-side h4 { font: 600 26px/1 var(--display); letter-spacing: 0.02em; }
+.nw-side .org { font-size: 13px; color: var(--muted); margin-top: -4px; }
+.nw-side .lab { font: 500 12px var(--sans); color: var(--muted); }
+.nw-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); }
+.nw-stats b { display: block; font: 600 21px/1.1 var(--sans); color: var(--fg); font-variant-numeric: tabular-nums; }
+.nw-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.nw-list button, .nw-list span { font: 12px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: 999px; padding: 3px 10px; }
+.nw-list button { cursor: pointer; } .nw-list button:hover { border-color: var(--accent); }
+.nw-q { font: 14px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); height: 34px; padding: 0 10px; width: 100%; }
+.nw-q:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.nw-az { max-height: 360px; overflow-y: auto; display: grid; align-content: start; border-top: 1px solid var(--rule); padding-top: 4px; }
+.nw-az button { all: unset; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px; font-size: 13.5px; }
+.nw-az button:hover, .nw-az button:focus-visible { background: var(--accent-soft); }
+.nw-az small { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nw-l { font: 600 18px/1 var(--display); color: var(--accent); padding: 8px 8px 2px; position: sticky; top: 0; background: var(--surface); }
+.nw-none { font-size: 13px; color: var(--muted); margin: 8px; }
+.nw-back { all: unset; cursor: pointer; justify-self: start; font: 500 13px var(--sans); color: var(--accent); }
+.nw-back:hover, .nw-back:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.nw-side .btn { justify-self: start; color: var(--accent); border-color: var(--accent); }
+.nw-cap { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+@media (max-width: 880px) { .nw { grid-template-columns: 1fr; } }
+/* Where the research happens: Equal Earth land from places-data.js, one dot per city. The view buttons pan and zoom the viewBox. */
+.pl svg { overflow: hidden; background: var(--bg); border: 1px solid var(--rule); }
+.pl .land { fill: var(--rule); }
+.pl .ct circle { fill: var(--accent); stroke: var(--surface); fill-opacity: .9; }
+.pl .ct { cursor: pointer; outline: none; }
+.pl .ct text { fill: var(--fg); pointer-events: none; paint-order: stroke; stroke: var(--bg); stroke-linejoin: round; }
+.pl .ct:hover circle, .pl .ct:focus-visible circle, .pl .ct.hl circle { fill: var(--h1-hover); stroke: var(--fg); }
+.pl .ct.sel circle { fill: var(--h1-hover); }
+.pl.has-sel .ct.dim circle { opacity: .35; } .pl.has-sel .ct.dim text { opacity: 0; }
+.pl-org { display: grid; gap: 5px; }
+.pl-org .lab { color: var(--fg); font-weight: 600; }
+.hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
+.hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
+.hm-ramp i.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
+.hm .ch .sm { display: none; }
+.hm { min-width: 0; }
+@media (max-width: 640px) {
+  .hm { gap: 2px; }
+  .hm .rl { font-size: 11px; padding-right: 4px; }
+  .hm .ch { font-size: 10px; }
+  .hm .ch .lg { display: none; } .hm .ch .sm { display: inline; }
+  .hm .c { height: 30px; font-size: 11px; }
+  .tr-chart { padding-inline: 12px; }
+}
+
+/* Goaltending Research: the homepage's main section. A year chart that filters the table, a filter sidebar, and a paper table
+   modelled on Elicit's results table (title, authors and journal, then year and source links on one quiet line). */
+.tracker { padding-block: 48px 64px; scroll-margin-top: var(--nav-h); }
+.btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
+.btn:hover { border-color: var(--accent); }
+.tr-chart { border: 1px solid var(--rule); border-radius: 0; padding: 16px 18px 12px; background: var(--surface); margin-bottom: 28px; }
+.tr-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+.side { position: sticky; top: calc(var(--nav-h) + 20px); display: grid; gap: 18px; font-family: var(--sans); }
+.side .extra { display: grid; gap: 18px; }
+.field { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.field > label, .lab, .group legend, .sort span { font: 500 12.5px var(--sans); color: var(--muted); }
+.field input[type="search"], .field select, .sort select {
+  font-size: 14px; color: var(--fg); background-color: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r);
+  height: 38px; padding: 0 12px; width: 100%; min-width: 0; transition: border-color 0.15s ease;
+}
+.field input[type="search"]:hover, .field select:hover, .sort select:hover { border-color: var(--muted); }
+.field select, .sort select {
+  appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237b8ba0' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+.group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.group legend { padding: 0; margin-bottom: 6px; }
+.opts { display: grid; gap: 1px; }
+.opt { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 5px 6px; margin-inline: -6px; border-radius: var(--r); font-size: 14px; color: var(--fg); cursor: pointer; }
+.opt:hover { background: var(--accent-soft); }
+.opt input { margin: 0; accent-color: var(--accent); }
+.opt .n { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.more-btn { display: none; }
+.reset { justify-self: start; font-size: 13px; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.tr-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-bottom: 12px; font-family: var(--sans); }
+.count { font: 14px var(--sans); color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; scroll-margin-top: calc(var(--nav-h) + 16px); }
+.count:focus { outline: none; }
+.active { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+.active button { font: 12.5px var(--sans); color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.active button::after { content: " ×"; }
+.sort { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.sort select { width: auto; height: 34px; font-size: 13.5px; }
+
+/* The paper table */
+.tablewrap { border: 1px solid var(--rule); border-radius: 0; overflow: hidden; background: var(--bg); }
+.papers { width: 100%; border-collapse: collapse; }
+.papers th { text-align: left; font: 500 12px var(--sans); letter-spacing: 0.04em; color: var(--muted); background: var(--surface); padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+.papers th:nth-child(2) { width: 150px; }
+.papers th:nth-child(3) { width: 200px; }
+.papers td { vertical-align: top; padding: 16px; border-bottom: 1px solid var(--rule); }
+.papers tr:last-child td { border-bottom: 0; }
+.papers tbody tr:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+.papers td + td { border-left: 1px solid var(--rule); }
+.p-title { font-size: 16.5px; font-weight: 600; line-height: 1.35; margin: 0; text-wrap: pretty; }
+.p-title a { color: var(--fg); text-decoration: none; }
+.p-title a:hover { color: var(--accent); text-decoration: underline; }
+.p-by { margin-top: 4px; font: 13.5px/1.45 var(--sans); color: var(--muted); }
+.p-line { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font: 12.5px var(--sans); color: var(--muted); }
+.p-line b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.p-line a { color: var(--muted); text-decoration: none; }
+.p-line a:hover { color: var(--accent); text-decoration: underline; }
+.scope { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--sans); color: var(--fg); }
+.dot { width: 8px; height: 8px; display: inline-block; flex: none; }
+.dot.a { background: var(--accent); }
+.dot.b { background: var(--series-b); }
+.flags { display: grid; gap: 4px; margin-top: 6px; font: 12.5px var(--sans); color: var(--muted); }
+.flags .qe { color: var(--accent); font-weight: 500; }
+.pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.pills span { white-space: nowrap; font: 12px var(--sans); color: var(--fg); background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 9px; }
+.pills .none { background: none; border: 0; padding: 0; color: var(--muted); }
+.empty { padding: 32px 16px; color: var(--muted); font-family: var(--sans); }
+.load { display: flex; justify-content: center; padding-top: 18px; }
+
+.vid-frame { position: relative; aspect-ratio: 16 / 9; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+.vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.info { margin: 0; display: grid; border-top: 1px solid var(--rule); font: 15px var(--sans); }
+.info > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 4px 20px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
+.info dt { color: var(--muted); }
+.info dd { margin: 0; }
+.tba { color: var(--muted); font-style: italic; }
+.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
+footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
+
+@media (max-width: 880px) {
+  body { font-size: 16px; }
+  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
+  .sec:first-of-type { padding-top: 40px; }
+  .sec-head { position: static; }
+  .sec-head .sub { max-width: 60ch; }
+  .tr-body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .side { position: static; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
+  .side .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 16px 20px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 0; background: var(--surface); }
+  .side .extra.open { display: grid; }
+  .side .extra > .reset { grid-column: 1 / -1; }
+  .more-btn { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
+  .more-btn[aria-expanded="true"] { border-color: var(--accent); }
+}
+@media (max-width: 640px) {
+  .side .extra { grid-template-columns: minmax(0, 1fr); }
+  /* the table becomes one card per study: title block, then focus and topics underneath */
+  .papers thead { display: none; }
+  .papers, .papers tbody, .papers tr, .papers td { display: block; }
+  .papers tr { padding: 14px 14px 12px; border-bottom: 1px solid var(--rule); }
+  .papers tr:last-child { border-bottom: 0; }
+  .papers td { padding: 0; border: 0; }
+  .papers td + td { border-left: 0; margin-top: 10px; }
+  .papers td:nth-child(2) .flags { display: inline-flex; gap: 12px; margin: 0 0 0 12px; }
+  .sort { margin-left: 0; }
+  .info > div { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="" width="32" height="32"><span class="brand-name">The Goaltending Research Journal</span></a>
+    <nav aria-label="Main" id="nav">
+      <a href="research.html" aria-current="page">Research</a>
+      <a href="glove-positioning.html">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="coaches.html">Coaches</a>
+      <a href="conference.html">Conference</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+
+<main id="main" class="wrap">
+
+  <section class="tracker" id="articles" aria-label="Goaltending research">
+    <h1 class="pg-title">Goaltending Research</h1>
+
+    <!-- One explorer: the Researcher Network Map and the Research Heatmap share this frame, each with its own row of tabs. -->
+    <figure class="tr-chart ex" aria-label="Explore the research">
+      <div class="ex-head">
+        <div class="ex-grp"><h3 id="nw-title">Researcher Network Map</h3><div class="hm-tabs" id="nw-tabs" role="tablist" aria-labelledby="nw-title"></div></div>
+        <div class="ex-grp"><h3 id="hm-title">Research Heatmap</h3><div class="hm-tabs" id="hm-tabs" role="tablist" aria-labelledby="hm-title">
+          <button type="button" role="tab" id="hm-tab-time" aria-selected="false" aria-controls="hm-panel" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
+          <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm-panel" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
+          <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
+        </div></div>
+      </div>
+      <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
+        <div class="nw" id="nw">
+          <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
+          <div class="nw-side" id="nw-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="nw-cap"></div>
+      </div>
+      <div id="nw-geo" role="tabpanel" hidden>
+        <div class="nw pl" id="pl">
+          <svg id="pl-svg" role="group" aria-label="Cities where goalie researchers work, sized by number of researchers"></svg>
+          <div class="nw-side" id="pl-side" aria-live="polite"></div>
+        </div>
+        <div class="nw-cap" id="pl-cap"></div>
+      </div>
+      <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
+        <div class="hm-scroll"><div class="hm" id="hm"></div></div>
+        <div class="cap" id="hm-cap"></div>
+      </div>
+      <div id="yr" role="tabpanel" aria-labelledby="hm-tab-year" hidden>
+        <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 190" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="cap" id="chart-cap"></div>
+      </div>
+      <div class="hm-tip" id="hm-tip" role="tooltip" hidden></div>
+    </figure>
+
+    <div class="tr-body">
+      <form class="side" id="filters" role="search" aria-label="Filter records">
+        <div class="field">
+          <label for="q">Search</label>
+          <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
+        </div>
+        <button class="more-btn" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-extra">Filters</button>
+        <div class="extra" id="filters-extra">
+          <fieldset class="group">
+            <legend>Scope</legend>
+            <div id="scope" class="opts"></div>
+          </fieldset>
+          <div class="field">
+            <label for="decade">Decade</label>
+            <select id="decade"></select>
+          </div>
+          <fieldset class="group">
+            <legend>Topic</legend>
+            <div id="topics" class="opts"></div>
+          </fieldset>
+          <button class="reset" type="button" id="reset">Clear filters</button>
+        </div>
+      </form>
+
+      <div class="tr-main">
+        <div class="tr-bar">
+          <p class="count" id="count" role="status" aria-live="polite" tabindex="-1"></p>
+          <div class="active" id="active"></div>
+          <label class="sort"><span>Sort</span>
+            <select id="sort">
+              <option value="new">Newest first</option>
+              <option value="old">Oldest first</option>
+              <option value="az">Title A–Z</option>
+            </select>
+          </label>
+        </div>
+        <div class="tablewrap">
+          <table class="papers">
+            <thead><tr><th scope="col">Study</th><th scope="col">Focus</th><th scope="col">Topics</th></tr></thead>
+            <tbody id="results"></tbody>
+          </table>
+        </div>
+        <div class="load" id="load"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <span>The Goaltending Research Journal. Copyright 2027.</span>
+    <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
+  </footer>
+</main>
+
+<script src="data.js"></script>
+<script src="researchers-data.js"></script>
+<script src="places-data.js"></script>
+<script>
+const TOPICS = [
+  ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
+  ["vis", "Vision & anticipation"], ["phy", "Physiology & training"],
+  ["bio", "Movement & biomechanics"], ["psy", "Psychology & cognition"],
+  ["dev", "Development & coaching"], ["stats", "Performance analytics"]
+];
+const TOPIC_SHORT = { hip: "Hip", inj: "Injury", eq: "Equip.", vis: "Vision", phy: "Physiol.", bio: "Movement", psy: "Psych.", dev: "Develop.", stats: "Analytics" };
+const TOPIC_TINY = { hip: "Hip", inj: "Inj", eq: "Eq", vis: "Vis", phy: "Phy", bio: "Mov", psy: "Psy", dev: "Dev", stats: "Ana" };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
+const topicName = Object.fromEntries(TOPICS);
+const PAGE_SIZE = 5;
+const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), span: null, person: null, sort: "new", shown: PAGE_SIZE, sig: "" };
+const YEARS = REC.map((r) => r.y).filter((y) => y != null);
+const DECADES = [];
+for (let d = decadeOf(Math.min(...YEARS)); d <= decadeOf(Math.max(...YEARS)); d += 10) DECADES.push(d);
+
+function primaryLink(r) {
+  if (r.doi) return "https://doi.org/" + r.doi;
+  if (r.link) return r.link;
+  if (r.pmid) return "https://pubmed.ncbi.nlm.nih.gov/" + r.pmid + "/";
+  return null;
+}
+function linksHtml(r) {
+  const out = [];
+  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener" title="DOI ${esc(r.doi)}">DOI ↗</a>`);
+  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener" title="PubMed ${esc(r.pmid)}">PubMed ↗</a>`);
+  if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source ↗</a>`);
+  for (const v of r.v || []) out.push(`<a href="${esc(v.h)}" rel="noopener" title="Another version of this study">${esc(v.l)} ↗</a>`);
+  return out.join("");
+}
+function titleHtml(r) {
+  const href = primaryLink(r);
+  return href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
+}
+
+
+/* One table row: the study (title, authors and journal, then year and links), its focus, and its topics */
+function rowHtml(r) {
+  const goal = r.sc === "goaltending";
+  const by = [r.a ? esc(r.a) : "", `<i>${esc(r.j)}</i>`].filter(Boolean).join(" · ");
+  const flags = (r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
+  const pills = r.tp.length ? r.tp.map((t) => `<span>${esc(topicName[t])}</span>`).join("") : `<span class="none">Not tagged</span>`;
+  return `<tr><td><h3 class="p-title">${titleHtml(r)}</h3><div class="p-by">${by}</div>` +
+    `<div class="p-line"><b>${esc(r.yl)}</b>${linksHtml(r)}</div></td>` +
+    `<td><span class="scope"><i class="dot ${goal ? "a" : "b"}"></i>${goal ? "Goaltending" : "Hockey-wide"}</span>${flags.length ? `<div class="flags">${flags.join("")}</div>` : ""}</td>` +
+    `<td><div class="pills">${pills}</div></td></tr>`;
+}
+
+/* Records by year: stacked counts by scope. Click, tap or press Enter on a year to filter the table to it. */
+const CHART_FROM = 2010;                       // first year shown on the chart
+const CHART_TO = Math.max(2026, ...YEARS);     // last year shown (grows if newer records are added)
+function drawChart() {
+  const svg = $("chart");
+  const data = [];
+  for (let y = CHART_FROM; y <= CHART_TO; y++) {
+    const rows = REC.filter((r) => r.y === y);
+    data.push({ y, a: rows.filter((r) => r.sc === "goaltending").length, b: rows.filter((r) => r.sc !== "goaltending").length });
+  }
+  const maxTotal = Math.max(1, ...data.map((x) => x.a + x.b));
+  const step = maxTotal <= 10 ? 2 : 5;
+  const top = Math.ceil(maxTotal / step) * step;
+  const measured = svg.getBoundingClientRect ? Math.round(svg.getBoundingClientRect().width) : 0;
+  const W = Math.max(300, measured || 1040), H = 190, L = 30, R = 6, T = 22, B = 30;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const iw = W - L - R, ih = H - T - B;
+  const y = (v) => T + ih - (v / top) * ih;
+  const slot = iw / data.length, bw = Math.min(34, Math.max(6, slot * 0.52));
+  const narrow = slot < 30;
+  let s = `<title id="chart-title">Records by year of publication, ${CHART_FROM} to ${CHART_TO}</title><desc id="chart-desc">${esc(data.map((x) => `${x.y}: ${x.a + x.b}`).join("; "))}</desc>`;
+  for (let v = 0; v <= top; v += step) {
+    s += `<line class="${v === 0 ? "grid base" : "grid"}" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`;
+    s += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  }
+  data.forEach((x, i) => {
+    const n = x.a + x.b;
+    const cx = L + slot * i + slot / 2, x0 = cx - bw / 2;
+    const showLabel = !narrow || i % 2 === 0;
+    const label = narrow ? `’${String(x.y).slice(2)}` : String(x.y);
+    const aria = n ? ` role="button" tabindex="0" aria-pressed="${state.year === x.y}" aria-label="${x.y}: ${n} ${n === 1 ? "record" : "records"}. Filter the table to this year."` : "";
+    s += `<g class="col ${n ? "on" : "off"}${state.year === x.y ? " sel" : ""}" data-y="${x.y}"${aria}>`;
+    s += `<rect class="hit" x="${L + slot * i}" y="${T - 14}" width="${slot}" height="${ih + 14 + B}" rx="3"/>`;
+    if (x.a) s += `<rect class="bar-a" x="${x0}" y="${y(x.a)}" width="${bw}" height="${(x.a / top) * ih}"/>`;
+    if (x.b) s += `<rect class="bar-b" x="${x0}" y="${y(n)}" width="${bw}" height="${(x.b / top) * ih}"/>`;
+    if (n) s += `<text class="val" x="${cx}" y="${y(n) - 6}" text-anchor="middle">${n}</text>`;
+    else s += `<line class="zero" x1="${x0}" x2="${x0 + bw}" y1="${y(0) - 1}" y2="${y(0) - 1}"/>`;
+    if (showLabel) s += `<text class="lbl" x="${cx}" y="${H - 10}" text-anchor="middle">${label}</text>`;
+    s += `</g>`;
+  });
+  svg.innerHTML = s;
+  svg.classList.toggle("has-sel", state.year != null);
+  $("chart-cap").innerHTML =
+    `<span class="key"><i class="a"></i>Goaltending-focused</span><span class="key"><i class="b"></i>Hockey-wide</span>` +
+    `<span>Select a year to filter the table.</span>`;
+}
+function pickYear(y) {
+  state.year = state.year === y ? null : y;
+  if (state.year != null) { state.decade = "all"; $("decade").value = "all"; state.span = null; }
+  drawChart();
+  render();
+}
+$("chart").addEventListener("click", (e) => {
+  const g = e.target.closest(".col.on"); if (!g) return;
+  pickYear(Number(g.dataset.y));
+  const k = $("chart").querySelector(`.col[data-y="${g.dataset.y}"]`); if (k && e.detail === 0) k.focus();
+});
+$("chart").addEventListener("keydown", (e) => {
+  const g = e.target.closest ? e.target.closest(".col.on") : null; if (!g) return;
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); g.dispatchEvent(new MouseEvent("click", { bubbles: true })); return; }
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    const cols = [...$("chart").querySelectorAll(".col.on")];
+    const next = cols[cols.indexOf(g) + (e.key === "ArrowRight" ? 1 : -1)];
+    if (next) { e.preventDefault(); next.focus(); }
+  }
+});
+drawChart();
+let chartW = Math.round($("chart").getBoundingClientRect ? $("chart").getBoundingClientRect().width : 0);
+window.addEventListener("resize", () => {
+  const w = Math.round($("chart").getBoundingClientRect().width);
+  if (w !== chartW) { chartW = w; drawChart(); }
+});
+
+
+/* Table filters. The state is declared before the chart, which reads state.year. */
+const SCOPES = [["all", "All records"], ["goaltending", "Goaltending"], ["hockey-wide", "Hockey-wide"]];
+$("scope").innerHTML = SCOPES.map(([k, n]) => {
+  const c = k === "all" ? REC.length : REC.filter((r) => r.sc === k).length;
+  return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === "all" ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
+}).join("");
+$("topics").innerHTML = TOPICS.map(([k, n]) =>
+  `<label class="opt"><input type="checkbox" value="${k}"><span>${esc(n)}</span><span class="n">${REC.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
+$("decade").innerHTML = `<option value="all">All years</option>` +
+  DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
+  (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
+
+const recKey = (r) => (r.doi || "").toLowerCase() || (r.t || "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60);
+function matches(r) {
+  if (state.scope !== "all" && r.sc !== state.scope) return false;
+  if (state.year != null && r.y !== state.year) return false;
+  if (state.span && (r.y == null || r.y < state.span.from || r.y > state.span.to)) return false;
+  if (state.person && !state.person.keys.has(recKey(r))) return false;
+  if (state.decade !== "all") {
+    if (state.decade === "nd") { if (r.y != null) return false; }
+    else if (decadeOf(r.y) !== Number(state.decade)) return false;
+  }
+  for (const t of state.topics) if (!r.tp.includes(t)) return false;
+  if (state.q) {
+    const hay = [r.t, r.a, r.j, r.doi, r.pmid, r.yl].filter(Boolean).join(" ").toLowerCase();
+    if (!state.q.toLowerCase().split(/\s+/).every((w) => hay.includes(w))) return false;
+  }
+  return true;
+}
+function filtered() {
+  return REC.filter(matches).sort((a, b) => {
+    if (state.sort === "az") return a.t.localeCompare(b.t);
+    const ay = a.y == null ? -1 : a.y, by = b.y == null ? -1 : b.y;
+    return state.sort === "new" ? by - ay || b.i - a.i : ay - by || a.i - b.i;
+  });
+}
+function render() {
+  const rows = filtered();
+  const sig = JSON.stringify([state.q, state.scope, state.decade, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
+  if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
+  const shown = rows.slice(0, state.shown);
+  filterBadge();
+  activeChips();
+  drawHeat();
+  $("count").textContent = rows.length
+    ? `${shown.length < rows.length ? `Showing ${shown.length} of ` : ""}${rows.length}${rows.length === REC.length ? "" : " matching"} ${rows.length === 1 ? "record" : "records"}`
+    : "No matching records";
+  $("results").innerHTML = rows.length ? shown.map(rowHtml).join("")
+    : `<tr><td colspan="3" class="empty">No records match these filters. Clear a filter or change the search.</td></tr>`;
+  const left = rows.length - shown.length;
+  $("load").innerHTML = left > 0 ? `<button type="button" class="btn" id="load-more">Load ${Math.min(PAGE_SIZE, left)} more</button>` : "";
+  const more = $("load-more");
+  if (more) more.addEventListener("click", () => { state.shown += PAGE_SIZE; render(); });
+}
+/* Active filters as removable chips beside the count */
+function activeChips() {
+  const out = [];
+  if (state.year != null) out.push(["year", String(state.year)]);
+  if (state.person) out.push(["person", state.person.name]);
+  if (state.span) out.push(["span", state.span.label]);
+  if (state.scope !== "all") out.push(["scope", SCOPES.find(([k]) => k === state.scope)[1]]);
+  if (state.decade !== "all") out.push(["decade", state.decade === "nd" ? "Undated" : state.decade + "s"]);
+  state.topics.forEach((t) => out.push(["topic:" + t, topicName[t]]));
+  $("active").innerHTML = out.map(([k, n]) => `<button type="button" data-k="${esc(k)}" aria-label="Remove filter ${esc(n)}">${esc(n)}</button>`).join("");
+}
+$("active").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-k]"); if (!b) return;
+  const k = b.dataset.k;
+  if (k === "year") { pickYear(state.year); return; }
+  if (k === "span") state.span = null;
+  if (k === "person") { state.person = null; drawNetwork(); drawPlaces(); }
+  if (k === "scope") { state.scope = "all"; $("scope").querySelector('input[value="all"]').checked = true; }
+  if (k === "decade") { state.decade = "all"; $("decade").value = "all"; }
+  if (k.startsWith("topic:")) { const t = k.slice(6); state.topics.delete(t); $("topics").querySelector(`input[value="${t}"]`).checked = false; }
+  render();
+});
+$("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
+$("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });
+$("decade").addEventListener("change", (e) => {
+  state.decade = e.target.value;
+  if (state.decade !== "all") state.span = null;
+  if (state.decade !== "all" && state.year != null) { state.year = null; drawChart(); }
+  render();
+});
+$("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+$("topics").addEventListener("change", (e) => {
+  const k = e.target.value;
+  if (e.target.checked) state.topics.add(k); else state.topics.delete(k);
+  render();
+});
+$("filters").addEventListener("submit", (e) => e.preventDefault());
+$("filters-toggle").addEventListener("click", () => {
+  const open = $("filters-extra").classList.toggle("open");
+  $("filters-toggle").setAttribute("aria-expanded", String(open));
+});
+function filterBadge() {
+  const n = (state.scope !== "all") + (state.decade !== "all") + (state.year != null) + (state.span != null) + (state.person != null) + state.topics.size;
+  $("filters-toggle").textContent = n ? `Filters · ${n}` : "Filters";
+}
+$("reset").addEventListener("click", () => {
+  state.q = ""; state.scope = "all"; state.decade = "all"; state.year = null; state.span = null; state.person = null; state.sort = "new"; state.topics.clear();
+  $("q").value = ""; $("decade").value = "all"; $("sort").value = "new";
+  $("scope").querySelector('input[value="all"]').checked = true;
+  $("topics").querySelectorAll("input").forEach((c) => (c.checked = false));
+  drawChart();
+  drawNetwork();
+  render();
+});
+/* Research heatmap. "Topics over time": studies per topic in each period. "Topics together": studies tagged with both topics,
+   with each topic's own total on the diagonal. Colour is one periwinkle ramp in five steps of the largest cell. Tap a cell to filter the table. */
+const SPAN_TO = Math.max(...YEARS);
+const SPANS = [{ from: Math.min(...YEARS), to: 1999, label: "Before 2000", short: "Pre-2000", tiny: "<2000" }];
+for (let y = 2000; y <= SPAN_TO; y += 5) {
+  const to = Math.min(y + 4, SPAN_TO);
+  SPANS.push({ from: y, to, label: to === y ? String(y) : `${y}–${String(to).slice(2)}`, short: to === y ? String(y) : `${y}–${String(to).slice(2)}`, tiny: `’${String(y).slice(2)}${to === y ? "" : "–" + String(to).slice(2)}` });
+}
+const heat = { view: "time" };
+const level = (n, max) => (n ? Math.max(1, Math.ceil((n / max) * 5)) : 0);
+const STEP = [0, 16, 32, 50, 80, 100];
+const plural = (n) => `${n} ${n === 1 ? "study" : "studies"}`;
+function setTopics(list) {
+  state.topics = new Set(list);
+  $("topics").querySelectorAll("input").forEach((c) => (c.checked = state.topics.has(c.value)));
+}
+function cellHtml(n, max, label, tip, data, sel) {
+  const l = level(n, max);
+  if (!n) return `<button type="button" class="c z" tabindex="-1" aria-label="${esc(label)}: no studies" data-tip="${esc(tip)}"></button>`;
+  return `<button type="button" class="c l${l}${sel ? " sel" : ""}" style="--k:${STEP[l]}%" aria-pressed="${sel}" aria-label="${esc(label)}: ${plural(n)}. Filter the table." data-tip="${esc(tip)}" ${data}>${n}</button>`;
+}
+function drawHeat() {
+  const box = $("hm"), only = state.topics.size === 1 ? [...state.topics][0] : null;
+  let html = "";
+  if (heat.view === "time") {
+    const m = TOPICS.map(([t]) => SPANS.map((s) => REC.filter((r) => r.tp.includes(t) && r.y != null && r.y >= s.from && r.y <= s.to).length));
+    const max = Math.max(1, ...m.flat());
+    box.style.gridTemplateColumns = `minmax(84px, 1.4fr) repeat(${SPANS.length}, minmax(28px, 1fr)) 28px`;
+    html += `<span></span>` + SPANS.map((s) => `<span class="ch"><span class="lg">${esc(s.short)}</span><span class="sm">${esc(s.tiny)}</span></span>`).join("") + `<span class="ch">All</span>`;
+    TOPICS.forEach(([t, name], i) => {
+      html += `<span class="rl">${esc(name)}</span>`;
+      SPANS.forEach((s, j) => {
+        const n = m[i][j], sel = only === t && state.span && state.span.label === s.label;
+        html += cellHtml(n, max, `${name}, ${s.label}`, `<b>${esc(name)}</b>${esc(s.label)}: ${plural(n)}`, `data-t="${t}" data-s="${j}"`, sel);
+      });
+      html += `<span class="tot">${REC.filter((r) => r.tp.includes(t)).length}</span>`;
+    });
+  } else {
+    const n = (a, b) => REC.filter((r) => r.tp.includes(a) && r.tp.includes(b)).length;
+    const pairs = [];
+    TOPICS.forEach(([a], i) => TOPICS.forEach(([b], j) => { if (j < i) pairs.push([a, b, n(a, b)]); }));
+    const max = Math.max(1, ...pairs.map((p) => p[2]));
+    box.style.gridTemplateColumns = `minmax(84px, 1.4fr) repeat(${TOPICS.length}, minmax(22px, 1fr))`;
+    html += `<span></span>` + TOPICS.map(([t, nm]) => `<span class="ch" title="${esc(nm)}"><span class="lg">${esc(TOPIC_SHORT[t])}</span><span class="sm">${esc(TOPIC_TINY[t])}</span></span>`).join("");
+    TOPICS.forEach(([a, an], i) => {
+      html += `<span class="rl">${esc(an)}</span>`;
+      TOPICS.forEach(([b, bn], j) => {
+        if (j > i) { html += `<span class="c blank" aria-hidden="true"></span>`; return; }
+        if (j === i) {
+          const k = REC.filter((r) => r.tp.includes(a)).length;
+          html += `<button type="button" class="c diag${only === a && !state.span ? " sel" : ""}" aria-label="${esc(an)}: ${plural(k)} in total. Filter the table." data-tip="<b>${esc(an)}</b>${plural(k)} in total" data-a="${a}">${k}</button>`;
+          return;
+        }
+        const k = n(a, b), sel = state.topics.size === 2 && state.topics.has(a) && state.topics.has(b) && !state.span;
+        html += cellHtml(k, max, `${an} with ${bn}`, `<b>${esc(an)} + ${esc(bn)}</b>${plural(k)} tagged with both`, `data-a="${a}" data-b="${b}"`, sel);
+      });
+    });
+  }
+  box.innerHTML = html;
+  $("hm-cap").innerHTML = `<span class="hm-ramp" aria-hidden="true">Fewer <i class="z"></i>${STEP.slice(1).map((k) => `<i style="--k:${k}%"></i>`).join("")} More</span>` +
+    `<span>${heat.view === "time" ? "Select a cell to filter the table. Studies can carry more than one topic." : "Grey numbers are each topic's total. Select a cell to see the studies."}</span>`;
+}
+$("hm").addEventListener("click", (e) => {
+  const c = e.target.closest("button.c:not(.z)"); if (!c) return;
+  state.year = null; state.decade = "all"; $("decade").value = "all";
+  if (c.dataset.s != null) {
+    const s = SPANS[Number(c.dataset.s)], same = c.classList.contains("sel");
+    state.span = same ? null : s; setTopics(same ? [] : [c.dataset.t]);
+  } else {
+    const list = c.dataset.b ? [c.dataset.a, c.dataset.b] : [c.dataset.a], same = c.classList.contains("sel");
+    state.span = null; setTopics(same ? [] : list);
+  }
+  drawChart();
+  render();
+  const again = $("hm").querySelector(c.dataset.s != null ? `[data-t="${c.dataset.t}"][data-s="${c.dataset.s}"]` : `[data-a="${c.dataset.a}"]${c.dataset.b ? `[data-b="${c.dataset.b}"]` : ":not([data-b])"}`);
+  if (again && e.detail === 0) again.focus();
+});
+// One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
+function exTabs(b, keep) {
+  document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  if (!keep) ["nw-net", "nw-geo", "hm-panel", "yr"].forEach((id) => ($(id).hidden = true));
+}
+$("hm-tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-v]"); if (!b) return;
+  exTabs(b);
+  // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
+  const year = b.dataset.v === "year";
+  $("yr").hidden = !year; $("hm-panel").hidden = year; $("hm-panel").setAttribute("aria-labelledby", b.id);
+  if (year) { drawChart(); chartW = Math.round($("chart").getBoundingClientRect().width); return; }
+  heat.view = b.dataset.v;
+  drawHeat();
+});
+const tip = $("hm-tip");
+function showTip(c) {
+  if (!c || !c.dataset.tip) { tip.hidden = true; return; }
+  tip.innerHTML = c.dataset.tip; tip.hidden = false;
+  const r = c.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + "px";
+  tip.style.top = (r.top - h - 8 < 8 ? r.bottom + 8 : r.top - h - 8) + "px";
+}
+$("hm").addEventListener("pointerover", (e) => showTip(e.target.closest(".c")));
+$("hm").addEventListener("pointerleave", () => (tip.hidden = true));
+$("hm").addEventListener("focusin", (e) => showTip(e.target.closest(".c")));
+$("hm").addEventListener("focusout", () => (tip.hidden = true));
+addEventListener("scroll", () => (tip.hidden = true), { passive: true });
+
+/* Researcher Network Map. Each connected group is laid out with a small force simulation, then the groups are packed into rows,
+   largest first, and people with no shared goalie study sit in the last rows. Selecting a dot opens that researcher's profile. */
+const NW = { sel: null, layoutW: 0, pos: null, q: "" };
+const NWP = NETWORK.people, NWI = Object.fromEntries(NWP.map((p, i) => [p.id, i]));
+const NWL = NETWORK.links.filter(([a, b]) => a in NWI && b in NWI);
+const NWN = NWP.map(() => new Set());
+NWL.forEach(([a, b]) => { NWN[NWI[a]].add(NWI[b]); NWN[NWI[b]].add(NWI[a]); });
+const nwR = (p) => 4 + Math.sqrt(p.n) * 3.1;
+const nwYears = (p) => (p.yrs ? (p.yrs[0] === p.yrs[1] ? String(p.yrs[0]) : `${p.yrs[0]}–${p.yrs[1]}`) : "—");
+function nwLayout(W) {
+  const seen = new Array(NWP.length).fill(false), groups = [];
+  NWP.forEach((_, i) => {
+    if (seen[i]) return;
+    const g = [], q = [i]; seen[i] = true;
+    while (q.length) { const k = q.pop(); g.push(k); NWN[k].forEach((j) => { if (!seen[j]) { seen[j] = true; q.push(j); } }); }
+    groups.push(g);
+  });
+  groups.sort((a, b) => b.length - a.length || NWP[b[0]].n - NWP[a[0]].n);
+  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pos = new Array(NWP.length), boxes = [];
+  groups.forEach((g) => {
+    const pts = g.map((k, j) => ({ k, x: Math.cos(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), y: Math.sin(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), vx: 0, vy: 0 }));
+    const at = Object.fromEntries(pts.map((p, j) => [p.k, j]));
+    for (let t = 0; t < 300 && pts.length > 1; t++) {
+      const cool = 1 - t / 300;
+      for (let a = 0; a < pts.length; a++) for (let b = a + 1; b < pts.length; b++) {
+        const A = pts[a], B = pts[b], dx = A.x - B.x, dy = A.y - B.y, d2 = Math.max(dx * dx + dy * dy, 1), f = 150 / d2;
+        A.vx += dx * f; A.vy += dy * f; B.vx -= dx * f; B.vy -= dy * f;
+      }
+      g.forEach((k) => NWN[k].forEach((j) => {
+        if (j < k) return;
+        const A = pts[at[k]], B = pts[at[j]], dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1, f = (d - 34) * 0.08;
+        A.vx += (dx / d) * f; A.vy += (dy / d) * f; B.vx -= (dx / d) * f; B.vy -= (dy / d) * f;
+      }));
+      pts.forEach((p) => { p.vx -= p.x * 0.02; p.vy -= p.y * 0.02; p.x += p.vx * cool; p.y += p.vy * cool; p.vx *= 0.5; p.vy *= 0.5; });
+    }
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    pts.forEach((p) => { const r = nwR(NWP[p.k]) + 6; x0 = Math.min(x0, p.x - r); x1 = Math.max(x1, p.x + r); y0 = Math.min(y0, p.y - r); y1 = Math.max(y1, p.y + r); });
+    const named = g.some((k) => NWP[k].n >= 3);
+    boxes.push({ pts, w: x1 - x0 + (named ? 96 : 6), h: y1 - y0 + (pts.length > 1 ? 18 : 2), x0, y0 });   // room on the right for name labels
+  });
+  let x = 0, y = 0, rowH = 0;
+  boxes.forEach((b) => {
+    if (x > 0 && x + b.w > W) { x = 0; y += rowH; rowH = 0; }
+    b.pts.forEach((p) => { pos[p.k] = { x: x + (p.x - b.x0), y: y + (p.y - b.y0) + 14 }; });
+    x += b.w; rowH = Math.max(rowH, b.h);
+  });
+  return { pos, H: y + rowH };
+}
+// Labels flip left near the right edge, and step down a line when they would overlap a label already placed.
+const nwText = (p, x, y, W, placed) => {
+  const r = nwR(p) + 4, w = p.name.length * 6.3, left = x + r + w > W;
+  for (const dy of [4, 17, -9]) {
+    const x0 = left ? x - r - w : x + r, box = [x0, y + dy - 10, x0 + w, y + dy + 3];
+    if (placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
+    placed.push(box);
+    return `<text x="${(left ? -r : r).toFixed(1)}" y="${dy}"${left ? ' text-anchor="end"' : ""}>${esc(p.name)}</text>`;
+  }
+  return "";
+};
+function drawNetwork() {
+  const svg = $("nw-svg"), box = $("nw");
+  const W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 760);
+  if (!NW.pos || NW.layoutW !== W) { const l = nwLayout(W); NW.pos = l.pos; NW.H = l.H; NW.layoutW = W; }
+  const { pos } = NW, sel = NW.sel, near = sel == null ? null : NWN[sel];
+  const label = (i) => sel == null ? NWP[i].n >= 3 : i === sel || near.has(i);
+  svg.setAttribute("viewBox", `0 0 ${W} ${Math.ceil(NW.H)}`);
+  let h = "";
+  NWL.forEach(([a, b, w]) => {
+    const i = NWI[a], j = NWI[b], on = sel != null && (i === sel || j === sel);
+    h += `<line class="lk${on ? " on" : ""}" x1="${pos[i].x.toFixed(1)}" y1="${pos[i].y.toFixed(1)}" x2="${pos[j].x.toFixed(1)}" y2="${pos[j].y.toFixed(1)}" stroke-width="${Math.min(4, 1 + w * 0.7)}"/>`;
+  });
+  const placed = [], texts = {};
+  NWP.map((p, i) => i).filter(label).sort((a, b) => (b === sel) - (a === sel) || NWP[b].n - NWP[a].n)
+    .forEach((i) => { texts[i] = nwText(NWP[i], pos[i].x, pos[i].y, W, placed); });
+  NWP.forEach((p, i) => {
+    const cls = i === sel ? " sel" : sel != null && !near.has(i) ? " dim" : "";
+    h += `<g class="nd${cls}" data-i="${i}" tabindex="0" role="button" aria-pressed="${i === sel}" aria-label="${esc(p.name)}, ${p.n} goalie ${p.n === 1 ? "study" : "studies"}, ${NWN[i].size} collaborators" transform="translate(${pos[i].x.toFixed(1)},${pos[i].y.toFixed(1)})">` +
+      `<circle r="${nwR(p).toFixed(1)}"/>${texts[i] || ""}<title>${esc(p.name)}</title></g>`;
+  });
+  svg.innerHTML = h;
+  box.classList.toggle("has-sel", sel != null);
+  const side = $("nw-side");
+  if (sel == null) {
+    side.innerHTML = `<label class="lab" for="nw-q">Researchers A–Z</label>` +
+      `<input id="nw-q" class="nw-q" type="search" placeholder="Find a name" autocomplete="off" value="${esc(NW.q)}">` +
+      `<div class="nw-az" id="nw-az"></div>`;
+    nwAZ();
+  } else {
+    const p = NWP[sel], cols = [...near].sort((a, b) => NWP[b].n - NWP[a].n);
+    const nh = REC.filter((r) => p.home.includes(recKey(r))).length;
+    side.innerHTML = `<button type="button" class="nw-back" id="nw-back">‹ All researchers</button><h4>${esc(p.name)}</h4>${p.org ? `<div class="org">${esc(p.org)}</div>` : ""}` +
+      `<div class="nw-stats"><span><b>${p.n}</b>goalie ${p.n === 1 ? "study" : "studies"}</span><span><b>${cols.length}</b>collaborators</span><span><b>${nwYears(p)}</b>active</span></div>` +
+      (p.tp.length ? `<div class="nw-list">${p.tp.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : "") +
+      (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
+      (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
+  }
+  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies`;
+}
+// Alphabetical by surname, grouped under the first letter; the box filters as you type.
+const nwSur = (n) => n.replace(/\s+(Jr\.?|Sr\.?|II|III)$/i, "").split(/\s+/).pop();
+const NWAZ = NWP.map((p, i) => i).sort((a, b) => nwSur(NWP[a].name).localeCompare(nwSur(NWP[b].name)) || NWP[a].name.localeCompare(NWP[b].name));
+function nwAZ() {
+  const q = NW.q.trim().toLowerCase(), list = NWAZ.filter((i) => !q || NWP[i].name.toLowerCase().includes(q));
+  let h = "", letter = "";
+  list.forEach((i) => {
+    const p = NWP[i], L = nwSur(p.name).charAt(0).toUpperCase();
+    if (L !== letter) { letter = L; h += `<div class="nw-l">${esc(L)}</div>`; }
+    h += `<button type="button" data-i="${i}"><span>${esc(p.name)}</span><small>${p.n} ${p.n === 1 ? "study" : "studies"}</small></button>`;
+  });
+  $("nw-az").innerHTML = h || `<p class="nw-none">No researcher matches.</p>`;
+  // beside the map, let the list run the map's full height
+  const svgH = $("nw-svg").getBoundingClientRect().height;
+  $("nw-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && svgH ? Math.max(240, Math.round(svgH) - 90) + "px" : "";
+}
+function nwPick(i) { NW.sel = NW.sel === i ? null : i; drawNetwork(); }
+$("nw-svg").addEventListener("click", (e) => { const g = e.target.closest(".nd"); if (g) nwPick(Number(g.dataset.i)); });
+$("nw-svg").addEventListener("keydown", (e) => {
+  const g = e.target.closest(".nd"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
+  e.preventDefault(); const i = Number(g.dataset.i); nwPick(i);
+  const again = $("nw-svg").querySelector(`.nd[data-i="${i}"]`); if (again) again.focus();
+});
+$("nw-side").addEventListener("click", (e) => {
+  if (e.target.closest("#nw-show")) {
+    const p = NWP[NW.sel];
+    state.person = { id: p.id, name: p.name, keys: new Set(p.home) };
+    render();
+    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    $("count").focus({ preventScroll: true });
+    return;
+  }
+  if (e.target.closest("#nw-back")) { NW.sel = null; drawNetwork(); $("nw-q").focus(); return; }
+  const b = e.target.closest("button[data-i]"); if (b) { NW.sel = Number(b.dataset.i); drawNetwork(); $("nw-back").focus(); }
+});
+// Pointing at a name in the list rings that researcher's dot on the map.
+const nwRing = (e) => {
+  const b = e.target.closest ? e.target.closest("#nw-az button[data-i]") : null;
+  $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"));
+  if (b) { const g = $("nw-svg").querySelector(`.nd[data-i="${b.dataset.i}"]`); if (g) g.classList.add("hl"); }
+};
+["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
+["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"))));
+$("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
+drawNetwork();
+let nwW = 0;
+window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
+
+// ---- Where the research happens ----
+// Each city is a dot sized by its researchers. The tabs move the viewBox between world, North America and Europe;
+// dots and labels are scaled back so they keep the same size on screen at every zoom.
+const PL = { view: 0, vb: PLACES.views[0].slice(1), sel: null, raf: 0 };
+const PLC = PLACES.places.map((c) => {
+  const ids = c.orgs.flatMap(([, ids]) => ids).filter((id) => id in NWI);
+  return { ...c, ids, n: ids.length, keys: new Set(ids.flatMap((id) => NWP[NWI[id]].home)) };
+});
+const plCount = (n) => `${n} ${n === 1 ? "researcher" : "researchers"}`;
+// Tabs on the Network Map: the network itself, then one tab per map view.
+$("nw-tabs").innerHTML = `<button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Network</span><span class="ts">Network</span></button>` +
+  PLACES.views.map(([l], i) => `<button type="button" role="tab" id="nw-tab-${i}" aria-selected="false" aria-controls="nw-geo" data-v="${i}"><span class="tl">${l}</span><span class="ts">${l === "North America" ? "N. America" : l}</span></button>`).join("");
+const plOff = (c) => !PLACES.views.some(([, vx, vy, vw, vh]) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh);
+function drawPlaces() {
+  const svg = $("pl-svg"), [vx, vy, vw, vh] = PL.vb;
+  const px = svg.getBoundingClientRect().width || 760, k = vw / px;   // SVG units per screen pixel
+  const sel = PL.sel, inView = (c) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh;
+  svg.setAttribute("viewBox", `${vx} ${vy} ${vw} ${vh}`);
+  const r = (c) => (3.5 + Math.sqrt(c.n) * 2.6) * k;
+  // label the bigger cities first; skip any label that would collide with one already placed
+  const placed = [], label = {};
+  const order = PLC.map((c, i) => i).filter((i) => inView(PLC[i])).sort((a, b) => (b === sel) - (a === sel) || PLC[b].n - PLC[a].n);
+  order.forEach((i) => { const c = PLC[i], rr = r(c); placed.push([c.x - rr, c.y - rr, c.x + rr, c.y + rr, i]); });   // labels keep off other dots
+  const minN = 1;
+  order.forEach((i) => {
+    const c = PLC[i]; if (i !== sel && c.n < minN) return;
+    const w = c.city.length * 6.6 * k, rr = r(c) + 3 * k, h = 12 * k;
+    for (const [dx, dy, a] of [[rr, 4 * k, ""], [-rr, 4 * k, "end"], [0, -rr - 3 * k, "middle"], [0, rr + 11 * k, "middle"]]) {
+      const x0 = c.x + dx - (a === "end" ? w : a === "middle" ? w / 2 : 0), y0 = c.y + dy - h + 2 * k;
+      const b = [x0, y0, x0 + w, y0 + h];
+      if (b[0] < vx || b[2] > vx + vw || placed.some((q) => q[4] !== i && b[0] < q[2] && b[2] > q[0] && b[1] < q[3] && b[3] > q[1])) continue;
+      placed.push(b);
+      label[i] = `<text x="${(dx).toFixed(2)}" y="${dy.toFixed(2)}"${a ? ` text-anchor="${a}"` : ""} font-size="${(11.5 * k).toFixed(3)}" stroke-width="${(3 * k).toFixed(3)}">${esc(c.city)}</text>`;
+      break;
+    }
+  });
+  let h = `<path class="land" d="${PLACES.land}"/>`;
+  PLC.map((c, i) => i).sort((a, b) => PLC[b].n - PLC[a].n).forEach((i) => {   // small dots on top of big ones
+    const c = PLC[i], cls = i === sel ? " sel" : sel != null ? " dim" : "";
+    h += `<g class="ct${cls}" data-i="${i}" tabindex="${inView(c) ? 0 : -1}" role="button" aria-pressed="${i === sel}" aria-label="${esc(c.city)}, ${c.country}: ${plCount(c.n)}" transform="translate(${c.x},${c.y})">` +
+      `<circle r="${r(c).toFixed(2)}" stroke-width="${(1.5 * k).toFixed(3)}"/>${label[i] || ""}<title>${esc(c.city)}, ${plCount(c.n)}</title></g>`;
+  });
+  svg.innerHTML = h;
+}
+function plSide() {
+  const side = $("pl-side");
+  $("pl").classList.toggle("has-sel", PL.sel != null);
+  if (PL.sel == null) {
+    side.innerHTML = `<div class="lab">Cities by researchers</div><div class="nw-az" id="pl-az">` +
+      PLC.map((c, i) => `<button type="button" data-c="${i}"><span>${esc(c.city)}${plOff(c) ? "*" : ""} <small>${esc(c.country)}</small></span><small>${c.n}</small></button>`).join("") + `</div>`;
+    const h = $("pl-svg").getBoundingClientRect().height;
+    $("pl-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && h ? Math.max(200, Math.round(h) - 30) + "px" : "240px";
+    return;
+  }
+  const c = PLC[PL.sel], nh = REC.filter((r) => c.keys.has(recKey(r))).length;
+  side.innerHTML = `<button type="button" class="nw-back" id="pl-back">‹ All cities</button><h4>${esc(c.city)}</h4><div class="org">${esc(c.country)}${plOff(c) ? " · not on these maps" : ""}</div>` +
+    `<div class="nw-stats"><span><b>${c.n}</b>${c.n === 1 ? "researcher" : "researchers"}</span><span><b>${c.orgs.length}</b>${c.orgs.length === 1 ? "institution" : "institutions"}</span></div>` +
+    c.orgs.map(([o, ids]) => `<div class="pl-org"><div class="lab">${esc(o)}</div><div class="nw-list">${ids.filter((id) => id in NWI).map((id) => `<button type="button" data-p="${NWI[id]}">${esc(NWP[NWI[id]].name)}</button>`).join("")}</div></div>`).join("") +
+    (nh ? `<button type="button" class="btn" id="pl-show">Show ${nh === 1 ? "its study" : `its ${nh} studies`}</button>` : "");
+}
+function plPick(i) { PL.sel = PL.sel === i ? null : i; drawPlaces(); plSide(); }
+function plView(v) {
+  PL.view = v;
+  exTabs($("nw-tab-" + v), true);
+  const from = PL.vb.slice(), to = PLACES.views[v].slice(1), t0 = performance.now(), ms = 450;
+  cancelAnimationFrame(PL.raf);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { PL.vb = to; drawPlaces(); return; }
+  const step = (t) => {
+    const u = Math.min(1, (t - t0) / ms), e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+    PL.vb = from.map((a, j) => a + (to[j] - a) * e);
+    // during the move only the viewBox changes; dots and labels are redrawn once it lands
+    if (u < 1) { $("pl-svg").setAttribute("viewBox", PL.vb.join(" ")); PL.raf = requestAnimationFrame(step); } else drawPlaces();
+  };
+  PL.raf = requestAnimationFrame(step);
+}
+$("nw-tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-v]"); if (!b) return;
+  const net = b.dataset.v === "net", wasMap = !$("nw-geo").hidden;
+  exTabs(b);
+  $("nw-net").hidden = !net; $("nw-geo").hidden = net;
+  $("nw-geo").setAttribute("aria-labelledby", net ? "nw-tab-0" : b.id);
+  if (net) { drawNetwork(); return; }
+  const v = Number(b.dataset.v);
+  if (!wasMap) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
+});
+$("pl-svg").addEventListener("click", (e) => { const g = e.target.closest(".ct"); if (g) plPick(Number(g.dataset.i)); });
+$("pl-svg").addEventListener("keydown", (e) => {
+  const g = e.target.closest(".ct"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
+  e.preventDefault(); const i = Number(g.dataset.i); plPick(i);
+  const again = $("pl-svg").querySelector(`.ct[data-i="${i}"]`); if (again) again.focus();
+});
+$("pl-side").addEventListener("click", (e) => {
+  if (e.target.closest("#pl-back")) { PL.sel = null; drawPlaces(); plSide(); return; }
+  if (e.target.closest("#pl-show")) {
+    const c = PLC[PL.sel];
+    state.person = { id: "place:" + c.city, name: c.city, keys: c.keys };
+    NW.sel = null; drawNetwork(); render();
+    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    $("count").focus({ preventScroll: true });
+    return;
+  }
+  const c = e.target.closest("button[data-c]");
+  if (c) {   // a city off the current view: move to the closest view that shows it
+    const i = Number(c.dataset.c), { x, y } = PLC[i], has = ([, vx, vy, vw, vh]) => x >= vx && x <= vx + vw && y >= vy && y <= vy + vh;
+    plPick(i); $("pl-back").focus();
+    if (!has(PLACES.views[PL.view])) { const v = PLACES.views.findIndex(has); if (v >= 0) plView(v); }
+    return;
+  }
+  const p = e.target.closest("button[data-p]");   // a researcher: open their profile on the network map
+  if (p) { NW.sel = Number(p.dataset.p); $("nw-tab-net").click(); $("nw").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); }
+});
+// Pointing at a city in the list rings its dot.
+const plRing = (e) => {
+  const b = e.target.closest ? e.target.closest("#pl-az button[data-c]") : null;
+  $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"));
+  if (b) { const g = $("pl-svg").querySelector(`.ct[data-i="${b.dataset.c}"]`); if (g) g.classList.add("hl"); }
+};
+["pointerover", "focusin"].forEach((t) => $("pl-side").addEventListener(t, plRing));
+["pointerleave", "focusout"].forEach((t) => $("pl-side").addEventListener(t, () => $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"))));
+const plPeople = PLC.reduce((a, c) => a + c.n, 0);
+const plAway = PLC.filter(plOff).map((c) => `${c.city}, ${c.country}`);
+$("pl-cap").textContent = `${plPeople} researchers in ${PLC.length} cities · Placed by current or last known institution · Dot size shows researchers` +
+  (plAway.length ? ` · *Not on these maps: ${plAway.join("; ")}` : "");
+drawPlaces(); plSide();
+let plW = 0;
+window.addEventListener("resize", () => { const w = Math.round($("pl-svg").getBoundingClientRect().width); if (w !== plW) { plW = w; drawPlaces(); plSide(); } });
+
+render();
+
+
+
+</script>
+</body>
+</html>

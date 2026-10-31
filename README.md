@@ -6,7 +6,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The home page: the GRJ splash, the Latest studies ticker and the Goaltending Research database (year chart, filters and the paper table, with CSV export). |
+| `index.html` | The home page: the Topic Aurora hero (one ribbon of light per research topic, drawn from `data.js` by `aurora.js`) and links into the site. |
+| `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
 | `coaches.html` | The Coaches page: the Ecological dynamics and skill acquisition list, for coaches looking for non-goalie-specific practice design research. |
 | `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
 | `data.js` | The research data: every article and the "last updated" date. |
@@ -69,7 +70,7 @@ The page works out the record count, the "last updated" date and the Records by 
 
 ## Updating the data
 
-**Add or fix one record by hand.** Open `data.js` in a plain text editor (not Word). Copy a line, change the values, keep the comma at the end of each line except the last. Update `UPDATED` near the top. Save and reload `index.html`. If the page shows no articles after an edit, there is a typo such as a missing comma or quote; press F12 in your browser and open Console to see the line.
+**Add or fix one record by hand.** Open `data.js` in a plain text editor (not Word). Copy a line, change the values, keep the comma at the end of each line except the last. Update `UPDATED` near the top. Save and reload `research.html`. If the page shows no articles after an edit, there is a typo such as a missing comma or quote; press F12 in your browser and open Console to see the line.
 
 **Add a batch from PubMed.**
 1. On pubmed.ncbi.nlm.nih.gov, run your search.
@@ -82,7 +83,7 @@ Records already in `data.js` are skipped by PubMed ID, so you can re-run an expo
 
 **Open-access journals.** Run `python build_journals_data.py` to refresh `journals-data.js` from doaj.org. The list appears under Sources on `about.html`.
 
-**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `index.html`). Newer years are added automatically when a record from a later year is in `data.js`. Selecting a year filters the table below it. Clicking a year lists that year's records; earlier years are found under Research Articles.
+**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `research.html`). Newer years are added automatically when a record from a later year is in `data.js`. Selecting a year filters the table below it. Clicking a year lists that year's records; earlier years are found under Research Articles.
 
 **NHL goaltending news.** Edit `news.js` by hand: one item per line, newest anywhere (the page sorts by date). Fields are listed at the top of the file. Set `"m": true` on items you add yourself. To collect headlines automatically, run `python3 fetch_news.py` to preview and `python3 fetch_news.py --write` to add them. It reads Google News search results for "NHL goalie", "NHL goaltending" and "NHL goaltender" and keeps your hand-added items. Automatic items have no summary line and link to Google News, which forwards to the publisher.
 

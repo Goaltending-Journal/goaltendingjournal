@@ -1,5 +1,5 @@
 // The Goaltending Research Journal: article data.
-// Edit this file to add, correct or remove records, then reload index.html. See README.md.
+// Edit this file to add, correct or remove records, then reload research.html. See README.md.
 // Each record is one line of JSON. Keep the commas between lines and the closing bracket.
 // One record per study: other versions of the same study (thesis, abstract, preprint) go in "v" as {"l": label, "h": link}.
 

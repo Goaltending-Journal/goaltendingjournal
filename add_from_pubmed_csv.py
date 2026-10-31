@@ -126,7 +126,7 @@ def main():
     today = datetime.date.today()
     text = re.sub(r'const UPDATED = "[^"]*";', f'const UPDATED = "{today.day} {today.strftime("%B %Y")}";', text)
     data_js.write_text(text, encoding="utf-8")
-    print(f"\nAdded {len(new)} records to {data_js} (backup: {data_js}.bak). Open index.html and review them.")
+    print(f"\nAdded {len(new)} records to {data_js} (backup: {data_js}.bak). Open research.html and review them.")
 
 
 if __name__ == "__main__":
