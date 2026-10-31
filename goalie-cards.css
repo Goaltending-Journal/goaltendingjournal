@@ -3,8 +3,8 @@
    --line, --chalk, --fog, --mute, --crease. Cinzel for names, Jost for small labels, EB Garamond for card-back text. */
 :root{
   --gc-w: 220px;
-  --gc-pewter: #8d93a8;
-  --gc-peri: #5563c4;
+  --gc-pewter: #b3ada0;
+  --gc-gold: #9a7420;
 }
 @media (max-width:620px){ :root{ --gc-w: 150px; } }
 
@@ -28,7 +28,7 @@
 .gc-in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
 .gc.flipped .gc-in{transform:rotateY(180deg)}
 .gc-front,.gc-back{position:absolute;inset:0;border-radius:calc(var(--gc-w) * .055);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;
-  border:1px solid color-mix(in srgb,var(--gc-peri) 45%,var(--line));background:var(--boards);color:var(--chalk);box-shadow:0 10px 24px -14px var(--shadow,rgba(0,0,0,.3))}
+  border:1px solid color-mix(in srgb,var(--gc-gold) 45%,var(--line));background:var(--boards);color:var(--chalk);box-shadow:0 10px 24px -14px var(--shadow,rgba(0,0,0,.3))}
 .gc-front{display:flex;flex-direction:column;align-items:stretch;gap:calc(var(--gc-w) * .025);padding:calc(var(--gc-w) * .055);font:inherit;text-align:left;cursor:pointer}
 .gc-front:hover{border-color:var(--crease)}
 .gc-top{display:flex;justify-content:space-between;font:600 max(8px,calc(var(--gc-w) * .042))/1 var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
@@ -49,10 +49,10 @@
 .gc-flip{position:absolute;top:calc(var(--gc-w) * .03);right:calc(var(--gc-w) * .03);width:24px;height:24px;border-radius:50%;border:0;background:transparent;color:var(--mute);cursor:pointer;font-size:14px;line-height:1}
 .gc-back .gc-learn{padding-right:20px}
 
-/* Foil, for a Checked card: a slow periwinkle-to-pewter sheen across both faces */
-.gc.foil .gc-front,.gc.foil .gc-back{border-color:var(--gc-peri)}
+/* Foil, for a Checked card: a slow gold-to-pewter sheen across both faces */
+.gc.foil .gc-front,.gc.foil .gc-back{border-color:var(--gc-gold)}
 .gc.foil .gc-front::after,.gc.foil .gc-back::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;mix-blend-mode:soft-light;opacity:.9;
-  background:linear-gradient(115deg,transparent 20%,color-mix(in srgb,var(--gc-peri) 70%,#fff) 38%,var(--gc-pewter) 50%,color-mix(in srgb,var(--gc-peri) 60%,#fff) 62%,transparent 80%) 0 0/250% 100%;
+  background:linear-gradient(115deg,transparent 20%,color-mix(in srgb,var(--gc-gold) 70%,#fff) 38%,var(--gc-pewter) 50%,color-mix(in srgb,var(--gc-gold) 60%,#fff) 62%,transparent 80%) 0 0/250% 100%;
   animation:gc-sheen 7s ease-in-out infinite alternate}
 @keyframes gc-sheen{from{background-position:100% 0}to{background-position:0 0}}
 
@@ -102,7 +102,7 @@
 #gc-teams{--gc-w:150px;display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(var(--gc-w) * 3 + 20px),1fr));gap:22px 28px;margin-top:16px}
 .gc-team h4{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line);font:600 13px var(--label);letter-spacing:.14em}
 .gc-team h4 span{font-weight:500;letter-spacing:.06em;color:var(--mute)}
-.gc-team.full h4{border-bottom:2px solid var(--gc-peri)}
+.gc-team.full h4{border-bottom:2px solid var(--gc-gold)}
 .gc-row-cards{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px}
 .gc-tools{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
 .gc-tools summary{cursor:pointer;font:600 12px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}

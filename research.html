@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Research · The Goaltending Research Journal</title>
 <meta name="description" content="Every published goaltending study, the researcher network map and the research heatmap.">
-<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#11121d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -20,19 +20,19 @@
 <style>
 /* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
 :root {
-  --h1-hover: #5563c4;   /* masthead title hover and the footer tip pill */
+  --h1-hover: #9a7420;   /* masthead title hover and the footer tip pill */
   --on-heat: #ffffff;   /* text on the two darkest heatmap steps */
   --r: 3px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --h1-hover: #c3c9f8;
-    --on-heat: #11121d;
+    --h1-hover: #efd28a;
+    --on-heat: #0f131c;
   }
 }
 :root[data-theme="dark"] {
-  --h1-hover: #c3c9f8;
-  --on-heat: #11121d;
+  --h1-hover: #efd28a;
+  --on-heat: #0f131c;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -83,7 +83,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Research heatmap: topics by period, topics studied together, or studies by year. One periwinkle ramp in five steps; tap a cell to filter the table. */
+/* Research heatmap: topics by period, topics studied together, or studies by year. One accent-colour ramp in five steps; tap a cell to filter the table. */
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
@@ -626,7 +626,7 @@ $("reset").addEventListener("click", () => {
   render();
 });
 /* Research heatmap. "Topics over time": studies per topic in each period. "Topics together": studies tagged with both topics,
-   with each topic's own total on the diagonal. Colour is one periwinkle ramp in five steps of the largest cell. Tap a cell to filter the table. */
+   with each topic's own total on the diagonal. Colour is one accent-colour ramp in five steps of the largest cell. Tap a cell to filter the table. */
 const SPAN_TO = Math.max(...YEARS);
 const SPANS = [{ from: Math.min(...YEARS), to: 1999, label: "Before 2000", short: "Pre-2000", tiny: "<2000" }];
 for (let y = 2000; y <= SPAN_TO; y += 5) {

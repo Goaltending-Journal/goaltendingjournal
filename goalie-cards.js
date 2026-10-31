@@ -9,7 +9,7 @@
   const D = window.GOALIE_CARDS;
   if (!D) return;
   const KEY = "grj-cards", RKEY = "grj-reflect", MIN_CHARS = 20, CHECK_DAYS = 7;
-  const GRJ = { name: "GRJ", primary: "#5563C4", secondary: "#FFFFFF", accent: "#AEB6F5", code: D.edition };
+  const GRJ = { name: "GRJ", primary: "#9A7420", secondary: "#FFFFFF", accent: "#E2B955", code: D.edition };
   const content = Object.fromEntries(D.content.map((c) => [c.src, c]));
   const slotOf = new Map(D.slots.map((s) => [s.slot, s]));
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));

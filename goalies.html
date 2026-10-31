@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NHL Goaltending Dataviz Project · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: a 3D map of where goals go in, a leaderboard, charts and a sortable table across three seasons.">
-<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#11121d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -21,24 +21,24 @@
 <style>
 [hidden]{display:none!important}
 /* Layout: arena-dark broadcast board. Site top bar, 3D goal map, chart deck (each panel hideable), full sortable goalie table, slide-in profile. */
-/* Light mode sits on a pale periwinkle ground with the Deep Periwinkle accent; dark mode uses a deep night blue with the front page's text and accent colours. */
+/* Light mode sits on warm paper with the Brass accent; dark mode uses deep ink with the front page's text and accent colours. Heat maps run from orange (worse) to ink blue (better). */
 :root{
   --boards: #ffffff;       /* panels: white so cards lift off the ground */
   /* heat maps (read by the script, so keep these as hex) */
-  --z-lo: #e9eaf3; --z-hi: #e0603f;
-  --z-bad: #e0603f; --z-mid: #e8e9f2; --z-good: #4450b0;
-  --z-none: #ffffff; --z-hatch: #d2d4e2;
+  --z-lo: #efebe1; --z-hi: #e0603f;
+  --z-bad: #e0603f; --z-mid: #ede9df; --z-good: #2c4a7a;
+  --z-none: #ffffff; --z-hatch: #d8d0bd;
   --r: 10px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --z-lo: #20233a; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #262a42; --z-good: #aeb6f5;
-    --z-none: #191b2a; --z-hatch: #262a42;
+    --z-lo: #1d2330; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #252b38; --z-good: #7fa6dc;
+    --z-none: #171c27; --z-hatch: #252b38;
   }
 }
 :root[data-theme="dark"]{
-  --z-lo: #20233a; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #262a42; --z-good: #aeb6f5;
-  --z-none: #191b2a; --z-hatch: #262a42;
+  --z-lo: #1d2330; --z-hi: #ff7a59; --z-bad: #ff7a59; --z-mid: #252b38; --z-good: #7fa6dc;
+  --z-none: #171c27; --z-hatch: #252b38;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ice);color:var(--chalk)}
