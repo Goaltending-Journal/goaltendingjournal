@@ -1,0 +1,595 @@
+{
+ "n_shots": 389364,
+ "n_goals": 38078,
+ "seasons": [
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "layers": {
+  "base": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.2828417875567527,
+     "brier": 0.08145604703843537
+    },
+    {
+     "season": 2024,
+     "logloss": 0.2902561838266018,
+     "brier": 0.08397378780581141
+    },
+    {
+     "season": 2025,
+     "logloss": 0.30228943347867726,
+     "brier": 0.08802656056007421
+    }
+   ],
+   "logloss": 0.29179580162067725,
+   "coef_last_fit": {},
+   "logloss_gain_vs_base_pct": 0.0
+  },
+  "shooter": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.28223594371318467,
+     "brier": 0.08131628014406726
+    },
+    {
+     "season": 2024,
+     "logloss": 0.28956756010239215,
+     "brier": 0.08380073496324932
+    },
+    {
+     "season": 2025,
+     "logloss": 0.3015028936021353,
+     "brier": 0.08786181655492244
+    }
+   ],
+   "logloss": 0.2911021324725707,
+   "coef_last_fit": {
+    "fin": 1.167000298810745,
+    "ppg": 0.2559283366159025
+   },
+   "logloss_gain_vs_base_pct": 0.23772417020868475
+  },
+  "shooter_fin_only": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.2822930440716543,
+     "brier": 0.08133107186804242
+    },
+    {
+     "season": 2024,
+     "logloss": 0.28966694122868286,
+     "brier": 0.08384248540312503
+    },
+    {
+     "season": 2025,
+     "logloss": 0.3015443977554711,
+     "brier": 0.08788000955830996
+    }
+   ],
+   "logloss": 0.2911681276852694,
+   "coef_last_fit": {
+    "fin": 1.6174737627634244
+   },
+   "logloss_gain_vs_base_pct": 0.21510725374445527
+  },
+  "shooter_ppg_only": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.282547050986478,
+     "brier": 0.08139470233288501
+    },
+    {
+     "season": 2024,
+     "logloss": 0.2899094599380915,
+     "brier": 0.08388867695309807
+    },
+    {
+     "season": 2025,
+     "logloss": 0.3018679421194868,
+     "brier": 0.08794591327874024
+    }
+   ],
+   "logloss": 0.2914414843480187,
+   "coef_last_fit": {
+    "ppg": 0.4033644191634988
+   },
+   "logloss_gain_vs_base_pct": 0.12142644640211561
+  },
+  "opp": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.2828008981253043,
+     "brier": 0.08145203041390967
+    },
+    {
+     "season": 2024,
+     "logloss": 0.2902875072798088,
+     "brier": 0.08398130105032948
+    },
+    {
+     "season": 2025,
+     "logloss": 0.30236307104529614,
+     "brier": 0.08804657623146281
+    }
+   ],
+   "logloss": 0.2918171588168031,
+   "coef_last_fit": {
+    "opp_fin": 0.09769167835897655,
+    "opp_gen": -0.1566276826469651,
+    "own_def": 0.3390707019535771
+   },
+   "logloss_gain_vs_base_pct": -0.007319226667147498
+  },
+  "b2b": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.2828004345213451,
+     "brier": 0.081446932292768
+    },
+    {
+     "season": 2024,
+     "logloss": 0.29026446853998145,
+     "brier": 0.08398337481235393
+    },
+    {
+     "season": 2025,
+     "logloss": 0.30232271212774037,
+     "brier": 0.08803889234158693
+    }
+   ],
+   "logloss": 0.29179587172968896,
+   "coef_last_fit": {
+    "def_b2b": 0.03960308734762351,
+    "off_b2b": -0.033679678604979675,
+    "g_b2b": -0.0169730142114964
+   },
+   "logloss_gain_vs_base_pct": -2.4026737642500436e-05
+  },
+  "all": {
+   "by_season": [
+    {
+     "season": 2023,
+     "logloss": 0.28223070681587664,
+     "brier": 0.08132254025242606
+    },
+    {
+     "season": 2024,
+     "logloss": 0.28951196743751184,
+     "brier": 0.08378574788360192
+    },
+    {
+     "season": 2025,
+     "logloss": 0.30166884905275354,
+     "brier": 0.08791520637659671
+    }
+   ],
+   "logloss": 0.2911371744353806,
+   "coef_last_fit": {
+    "fin": 1.0088948585164355,
+    "ppg": 0.3059857863127489,
+    "opp_fin": 0.06623122395582666,
+    "opp_gen": -0.4151752670346127,
+    "own_def": 0.34248584319892744,
+    "def_b2b": 0.03838883457660461,
+    "off_b2b": -0.03401197275882149,
+    "g_b2b": -0.021150140359584846
+   },
+   "logloss_gain_vs_base_pct": 0.22571509995638073
+  }
+ },
+ "importance_by_manpower": {
+  "even": 0.995,
+  "opp PP": 1.033,
+  "opp SH": 0.94
+ },
+ "importance_by_period_score": [
+  {
+   "period": 1,
+   "sd": -2,
+   "lev_w": 0.42
+  },
+  {
+   "period": 1,
+   "sd": -1,
+   "lev_w": 0.77
+  },
+  {
+   "period": 1,
+   "sd": 0,
+   "lev_w": 1.018
+  },
+  {
+   "period": 1,
+   "sd": 1,
+   "lev_w": 1.105
+  },
+  {
+   "period": 1,
+   "sd": 2,
+   "lev_w": 0.843
+  },
+  {
+   "period": 2,
+   "sd": -2,
+   "lev_w": 0.311
+  },
+  {
+   "period": 2,
+   "sd": -1,
+   "lev_w": 0.812
+  },
+  {
+   "period": 2,
+   "sd": 0,
+   "lev_w": 1.229
+  },
+  {
+   "period": 2,
+   "sd": 1,
+   "lev_w": 1.324
+  },
+  {
+   "period": 2,
+   "sd": 2,
+   "lev_w": 0.763
+  },
+  {
+   "period": 3,
+   "sd": -2,
+   "lev_w": 0.128
+  },
+  {
+   "period": 3,
+   "sd": -1,
+   "lev_w": 0.729
+  },
+  {
+   "period": 3,
+   "sd": 0,
+   "lev_w": 1.824
+  },
+  {
+   "period": 3,
+   "sd": 1,
+   "lev_w": 2.087
+  },
+  {
+   "period": 3,
+   "sd": 2,
+   "lev_w": 0.501
+  },
+  {
+   "period": 4,
+   "sd": 0,
+   "lev_w": 2.804
+  }
+ ],
+ "split_half": {
+  "gs_base": {
+   "r": 0.22684707250502378,
+   "ci": [
+    0.0753764261767195,
+    0.36888468453227025
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_shooter": {
+   "r": 0.2465547177921072,
+   "ci": [
+    0.0960804442821988,
+    0.38509855643458557
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_opp": {
+   "r": 0.2433709118153684,
+   "ci": [
+    0.09161639446516212,
+    0.38478088147760936
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_b2b": {
+   "r": 0.22452506870298197,
+   "ci": [
+    0.07500654962282483,
+    0.366414184722901
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_all": {
+   "r": 0.2577179394852233,
+   "ci": [
+    0.10582610527351625,
+    0.39867942736126666
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_impact": {
+   "r": 0.327429917996082,
+   "ci": [
+    0.1588288051431568,
+    0.4896208401247995
+   ],
+   "n_goalie_seasons": 117
+  },
+  "gs_impact_base": {
+   "r": 0.2989990896498859,
+   "ci": [
+    0.1379951403763149,
+    0.46014561955023175
+   ],
+   "n_goalie_seasons": 117
+  }
+ },
+ "year_over_year": {
+  "gs_base": {
+   "same_metric_r": 0.16608763532142973,
+   "predicts_next_base_gsax_r": 0.16608763532142973,
+   "predicts_next_sv_pct_r": 0.15941941876352847,
+   "n_pairs": 64
+  },
+  "gs_shooter": {
+   "same_metric_r": 0.16284791218513794,
+   "predicts_next_base_gsax_r": 0.16312738658340595,
+   "predicts_next_sv_pct_r": 0.14887856347342557,
+   "n_pairs": 64
+  },
+  "gs_opp": {
+   "same_metric_r": 0.1675287970999845,
+   "predicts_next_base_gsax_r": 0.20746894398378807,
+   "predicts_next_sv_pct_r": 0.18492980660700215,
+   "n_pairs": 64
+  },
+  "gs_b2b": {
+   "same_metric_r": 0.1637367091613258,
+   "predicts_next_base_gsax_r": 0.16824896199906775,
+   "predicts_next_sv_pct_r": 0.15854771836949746,
+   "n_pairs": 64
+  },
+  "gs_all": {
+   "same_metric_r": 0.16521657969143544,
+   "predicts_next_base_gsax_r": 0.2057784639436681,
+   "predicts_next_sv_pct_r": 0.17209120428679192,
+   "n_pairs": 64
+  },
+  "gs_impact": {
+   "same_metric_r": 0.23907381501978334,
+   "predicts_next_base_gsax_r": 0.3510286602522334,
+   "predicts_next_sv_pct_r": 0.32152597460732374,
+   "n_pairs": 64
+  },
+  "gs_impact_base": {
+   "same_metric_r": 0.24269816820437393,
+   "predicts_next_base_gsax_r": 0.31265670802829953,
+   "predicts_next_sv_pct_r": 0.3086888101122036,
+   "n_pairs": 64
+  }
+ },
+ "b2b_team_defence": {
+  "def_b2b=0": {
+   "games": 6685,
+   "xga_vs_team_mean": -0.00964667785052919,
+   "xg_per_shot_vs_team_mean": 9.364300666278374e-06,
+   "shots": 28.53642483171279
+  },
+  "def_b2b=1": {
+   "games": 1187,
+   "xga_vs_team_mean": 0.054328594297209355,
+   "xg_per_shot_vs_team_mean": -5.273828976753313e-05,
+   "shots": 29.080033698399326
+  }
+ },
+ "b2b_goalie": [
+  {
+   "g_state": "goalie also played last night",
+   "shots": 3931,
+   "sv": 0.8947,
+   "xsv": 0.9013,
+   "gsax_per_100": -0.6941
+  },
+  {
+   "g_state": "team on b2b, rested goalie",
+   "shots": 30587,
+   "sv": 0.8994,
+   "xsv": 0.9021,
+   "gsax_per_100": -0.3156
+  },
+  {
+   "g_state": "team rested",
+   "shots": 190766,
+   "sv": 0.8999,
+   "xsv": 0.9026,
+   "gsax_per_100": -0.3151
+  }
+ ],
+ "b2b_goalie_gap_ci_per100": {
+  "goalie_tired_minus_rested": [
+   -1.0730292326478814,
+   0.3969493706346272
+  ],
+  "team_b2b_rested_goalie_minus_team_rested": [
+   -0.3605066691906224,
+   0.3563556257749366
+  ]
+ },
+ "movers_last_season_top": [
+  {
+   "name": "Ilya Sorokin",
+   "shots": 1530,
+   "gs_base": 25.9,
+   "gs_all": 32.27,
+   "move": 6.37
+  },
+  {
+   "name": "Juuse Saros",
+   "shots": 1700,
+   "gs_base": -2.99,
+   "gs_all": 3.05,
+   "move": 6.04
+  },
+  {
+   "name": "Jeremy Swayman",
+   "shots": 1572,
+   "gs_base": 24.43,
+   "gs_all": 30.29,
+   "move": 5.85
+  },
+  {
+   "name": "Kevin Lankinen",
+   "shots": 1285,
+   "gs_base": -22.18,
+   "gs_all": -16.54,
+   "move": 5.63
+  },
+  {
+   "name": "Lukas Dostal",
+   "shots": 1513,
+   "gs_base": -0.79,
+   "gs_all": 4.69,
+   "move": 5.48
+  },
+  {
+   "name": "Dustin Wolf",
+   "shots": 1559,
+   "gs_base": -2.29,
+   "gs_all": 2.97,
+   "move": 5.26
+  },
+  {
+   "name": "Spencer Knight",
+   "shots": 1583,
+   "gs_base": 10.29,
+   "gs_all": 15.28,
+   "move": 4.99
+  },
+  {
+   "name": "Jet Greaves",
+   "shots": 1539,
+   "gs_base": 14.95,
+   "gs_all": 19.85,
+   "move": 4.9
+  },
+  {
+   "name": "Yaroslav Askarov",
+   "shots": 1342,
+   "gs_base": -22.59,
+   "gs_all": -17.73,
+   "move": 4.86
+  },
+  {
+   "name": "Joonas Korpisalo",
+   "shots": 851,
+   "gs_base": 2.0,
+   "gs_all": 5.97,
+   "move": 3.97
+  }
+ ],
+ "movers_last_season_bottom": [
+  {
+   "name": "Sergei Bobrovsky",
+   "shots": 1250,
+   "gs_base": -22.18,
+   "gs_all": -23.23,
+   "move": -1.05
+  },
+  {
+   "name": "Joel Hofer",
+   "shots": 1251,
+   "gs_base": 0.7,
+   "gs_all": -0.3,
+   "move": -0.99
+  },
+  {
+   "name": "Linus Ullmark",
+   "shots": 1198,
+   "gs_base": -11.17,
+   "gs_all": -12.14,
+   "move": -0.97
+  },
+  {
+   "name": "Brandon Bussi",
+   "shots": 913,
+   "gs_base": 0.28,
+   "gs_all": -0.49,
+   "move": -0.76
+  },
+  {
+   "name": "Dan Vladar",
+   "shots": 1283,
+   "gs_base": 6.11,
+   "gs_all": 5.69,
+   "move": -0.42
+  },
+  {
+   "name": "Scott Wedgewood",
+   "shots": 1093,
+   "gs_base": 17.35,
+   "gs_all": 17.38,
+   "move": 0.03
+  },
+  {
+   "name": "Stuart Skinner",
+   "shots": 1267,
+   "gs_base": -6.21,
+   "gs_all": -6.14,
+   "move": 0.06
+  },
+  {
+   "name": "John Gibson",
+   "shots": 1461,
+   "gs_base": 4.32,
+   "gs_all": 4.39,
+   "move": 0.07
+  },
+  {
+   "name": "Daniil Tarasov",
+   "shots": 925,
+   "gs_base": -4.78,
+   "gs_all": -4.66,
+   "move": 0.12
+  },
+  {
+   "name": "Tristan Jarry",
+   "shots": 832,
+   "gs_base": -11.5,
+   "gs_all": -11.34,
+   "move": 0.16
+  }
+ ],
+ "shooter_fin_multiplier_pctiles": {
+  "5": 0.897276472900624,
+  "25": 0.9617897693151733,
+  "50": 0.9973278778292621,
+  "75": 1.0387863611503194,
+  "95": 1.140561513327178
+ },
+ "opp_layer_pctiles": {
+  "opp_fin": [
+   -0.013098091246014928,
+   -0.001214384693803257,
+   0.013120238067178103
+  ],
+  "opp_gen": [
+   -0.1319788415162032,
+   0.006614643023633661,
+   0.12387595764735711
+  ],
+  "own_def": [
+   -0.10327132297408881,
+   0.0,
+   0.11971291052258407
+  ]
+ }
+}
