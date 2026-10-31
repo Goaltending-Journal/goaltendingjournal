@@ -14,8 +14,9 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=EB+Garamond:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<link rel="stylesheet" href="goalie-cards.css">
 <script src="theme.js"></script>
 <style>
 /* Layout: Research to Practice Brief 1. Site top bar, then the brief in one reading column, with the interactive rink (diagram left, readout right) full width after the findings. Colours match goalies.html. */
@@ -409,7 +410,7 @@ sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
     </table></div>
   </section>
 
-  <section class="brief" id="try" aria-labelledby="h-try">
+  <section class="brief" id="try" data-reflect aria-labelledby="h-try">
     <span class="num">07</span><h2 id="h-try">Try it this week</h2>
     <p>Run one six-pattern sequence that ends with a shot from the dot. Film it from behind the net. Compare the glove's depth on rep 1 with rep 6.</p>
     <p>Afterwards, ask:</p>
@@ -578,5 +579,9 @@ sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
   render();
 })();
 </script>
+<script src="illustrations/goalie-skeleton.js"></script>
+<script src="illustrations/styles.js"></script>
+<script src="goalie-cards-data.js"></script>
+<script src="goalie-cards.js"></script>
 </body>
 </html>

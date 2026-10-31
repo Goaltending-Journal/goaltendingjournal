@@ -1,0 +1,83 @@
+{
+ "note": "One row per Coach Brief or Coaching Module. A row is all a new brief or module needs: build_goalie_cards.py copies it into goalie-cards-data.js, and its card exists. Takeaways and grades are written by the Research Agent and state only what the page's studies found; the three questions match the page's Try it this week section.",
+ "items": [
+  {
+   "src": "brief:glove-positioning",
+   "kind": "brief",
+   "title": "Glove Positioning Analysis",
+   "href": "glove-positioning.html",
+   "grade": "Emerging",
+   "takeaway": "In a lab study of 14 recreational goalies, glove errors were largest on wide pucks near the face-off dots, and the glove drifted back toward the goal line from about the third rep.",
+   "questions": [
+    "On which rep did the glove first drift back?",
+    "Did your goalie notice it? Ask them before you show the video.",
+    "What will you change in the sequence next week?"
+   ]
+  },
+  {
+   "src": "module:1",
+   "kind": "module",
+   "title": "What the constraints-led approach is, and isn't",
+   "href": "coaches-cla.html",
+   "grade": "Borrowed",
+   "takeaway": "A 2025 review of 9 mostly soccer studies found constraints-led practice did not cost technique and may build better game decisions. No hockey goalie has been in a trial, and lasting learning was barely tested.",
+   "questions": [
+    "What did the goalie change without being told?",
+    "What did they say they were looking at?",
+    "What will you change in the drill next time?"
+   ]
+  },
+  {
+   "src": "module:2",
+   "kind": "module",
+   "title": "Constraints: individual, task, environment",
+   "href": "coaches-constraints.html",
+   "grade": "Borrowed",
+   "takeaway": "A 2020 meta-analysis found that changing a constraint (individual, task or environment) reliably changes what athletes do. Whether that turns into lasting learning, and which change suits which goalie problem, is untested.",
+   "questions": [
+    "Which constraint did you change, and which kind was it?",
+    "What did the goalie do differently in the first five reps? In the last five?",
+    "Did you give fewer cues than usual?"
+   ]
+  },
+  {
+   "src": "module:3",
+   "kind": "module",
+   "title": "Representative practice: reps that look like games",
+   "href": "coaches-representative.html",
+   "grade": "Borrowed",
+   "takeaway": "Expert hockey goalies place their last look before a save on the puck or stick (70.5% of trials, against 2.1% on the shooter's body), and late looks conceded more deflection goals. No study has tested whether more game-like goalie practice improves learning.",
+   "questions": [
+    "What did the goalie look at before and after the change?",
+    "Did their success rate drop at first?",
+    "Was the drill still useful at a lower score on game day?"
+   ]
+  },
+  {
+   "src": "module:4",
+   "kind": "module",
+   "title": "Designing a session with PoST",
+   "href": "coaches-post.html",
+   "grade": "Practice wisdom",
+   "takeaway": "PoST is an expert planning framework from soccer goalkeeping that labels each block of practice by stage and by how game-like and how hard it is. No study in any sport has tested it, and nobody has applied it to hockey.",
+   "questions": [
+    "Label: which stage was each block of last week's practice?",
+    "Redesign: which block did you move, and how?",
+    "Film: what did the video show?"
+   ]
+  },
+  {
+   "src": "module:5",
+   "kind": "module",
+   "title": "Is it working? Learning vs performance",
+   "href": "coaches-learning.html",
+   "grade": "Borrowed",
+   "takeaway": "Practice performance can mislead in both directions, so learning shows up when a skill is checked cold a week later, not at the end of the drill. Save % needs about 3,000 shots to be half signal, so process measures such as freeze rate are steadier for tracking a habit.",
+   "questions": [
+    "What did I change?",
+    "What did the goalie do?",
+    "What will I adjust?"
+   ]
+  }
+ ]
+}
