@@ -6,7 +6,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The home page: the Topic Aurora hero (one ribbon of light per research topic, drawn from `data.js` by `aurora.js`) and links into the site. |
+| `index.html` | The home page: the Constellation hero (every goalie researcher as a light in their main topic's colour, linked to co-authors, drawn by `constellation.js` from `researchers-data.js`), a "Since 1979" dot timeline of every study, and links into the site. |
 | `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
 | `coaches.html` | The Coaches page: the Ecological dynamics and skill acquisition list, for coaches looking for non-goalie-specific practice design research. |
 | `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
