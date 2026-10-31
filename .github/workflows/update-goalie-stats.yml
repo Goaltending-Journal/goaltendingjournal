@@ -4,7 +4,8 @@
 # (every shot on goal, with its location) from the NHL play-by-play feed for the goals heat map,
 # impact-data.js (Impact GSAx by game situation, from the same feed),
 # starters-data.js (projected starting goalies for the next game day) from the NHL schedule,
-# and goalie-types-data.js (each goalie's playing type for the illustrations), so the types are refined after every night's games.
+# goalie-types-data.js (each goalie's playing type for the illustrations), so the types are refined after every night's games,
+# and goalie-cards-data.js (the Goalie Cards binder slots and stat lines on the Coaches page).
 # Needs a repository secret named NST_KEY (the Natural Stat Trick access key) for that last part;
 # without it the NHL numbers still update.
 # Needs Settings > Actions > General > Workflow permissions set to "Read and write permissions".
@@ -57,6 +58,10 @@ jobs:
         continue-on-error: true
         run: python3 build_goalie_types.py
 
+      - name: Rebuild the Goalie Cards binder slots
+        continue-on-error: true
+        run: python3 build_goalie_cards.py
+
       - name: Project tonight's starting goalies
         continue-on-error: true
         run: python3 build_starters.py
@@ -65,7 +70,7 @@ jobs:
         run: |
           git config user.name "goalie-stats-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in goalies-data.js goalies-uncertainty-data.js data/nst goal-map-data.js data/goal-map impact-data.js data/impact starters-data.js goalie-types-data.js; do
+          for f in goalies-data.js goalies-uncertainty-data.js data/nst goal-map-data.js data/goal-map impact-data.js data/impact starters-data.js goalie-types-data.js goalie-cards-data.js; do
             if [ -e "$f" ]; then git add "$f"; fi
           done
           if git diff --cached --quiet; then

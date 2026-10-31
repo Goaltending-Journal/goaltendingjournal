@@ -14,8 +14,9 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=EB+Garamond:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
+<link rel="stylesheet" href="goalie-cards.css">
 <link rel="stylesheet" href="learn.css">
 <script src="theme.js"></script>
 <style>
@@ -151,8 +152,15 @@ a.card:hover{border-color:var(--crease);text-decoration:none}
 
   <section class="block" id="modules" aria-labelledby="h-modules">
     <div class="sec-title"><h2 id="h-modules">The modules</h2><p>Each takes about ten minutes and ends with one thing to try this week.</p></div>
+    <div class="gc-tabs" role="tablist" aria-label="Modules or your binder">
+      <button type="button" role="tab" id="tab-mods" aria-controls="panel-mods" aria-selected="true">Modules</button>
+      <button type="button" role="tab" id="tab-binder" aria-controls="binder" aria-selected="false" tabindex="-1">Binder</button>
+    </div>
+    <div id="panel-mods" role="tabpanel" aria-labelledby="tab-mods">
     <ol class="mods" id="mods"></ol>
     <p class="key"><span class="grade">Borrowed</span> solid in other sports, assumed to carry over · <span class="grade">Practice wisdom</span> expert planning or experience, untested · <span class="tag-adapt">Adaptation</span> a hockey example no study has tested</p>
+    </div>
+    <div id="binder" class="gc-binder" role="tabpanel" aria-labelledby="tab-binder" tabindex="0" hidden></div>
   </section>
 
   <section class="block" id="explore" aria-labelledby="h-explore">
@@ -337,6 +345,26 @@ function filterChips(box, options, current, onPick) {
 })();
 /* Hide the "Updated" stamp when the list has no date */
 if (!$("research-updated").textContent) $("research-updated").parentElement.hidden = true;
+</script>
+<script src="illustrations/goalie-skeleton.js"></script>
+<script src="illustrations/styles.js"></script>
+<script src="goalie-cards-data.js"></script>
+<script src="goalie-cards.js"></script>
+<script>
+// Modules / Binder tabs; coaches.html#binder opens the binder
+(function () {
+  const tabs = [...document.querySelectorAll('.gc-tabs [role="tab"]')];
+  const show = (t, focus) => {
+    tabs.forEach((x) => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute("aria-controls")).hidden = !on; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(t); history.replaceState(null, "", t.id === "tab-binder" ? "#binder" : location.pathname); });
+    t.addEventListener("keydown", (e) => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) show(tabs[(i + k + tabs.length) % tabs.length], true); });
+  });
+  const fromHash = () => { if (location.hash === "#binder") { show(tabs[1]); document.getElementById("modules").scrollIntoView(); } };
+  addEventListener("hashchange", fromHash); fromHash();
+})();
 </script>
 </body>
 </html>
