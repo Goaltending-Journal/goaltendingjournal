@@ -14,127 +14,127 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Jost:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
-/* Layout: same top bar, masthead and running-head sections as index.html. Colours and type come from site-nav.css. */
+/* About, in the landing page's style (Goldy, 2026-11-01): an open hero with the colour-shifting word, framed cards with a
+   topic-colour edge like the homepage doors, chip-framed reviewers, and no footer. Colours and type come from site-nav.css;
+   the topic hues match index.html. */
 :root {
-  --h1-hover: #9a7420;   /* masthead title hover and the footer tip pill */
+  --h1-hover: #9a7420;
+  --glass: rgba(255, 255, 255, 0.55); --glass-line: rgba(133, 97, 15, 0.26);
+  --t-hip: #4450b0; --t-inj: #d43d63; --t-eq: #c77a00; --t-vis: #0f8f89; --t-phy: #2e9a3f;
+  --t-bio: #7a4fd6; --t-psy: #c2398a; --t-dev: #1f7fcf; --t-stats: #9a8a00;
   --r: 3px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --h1-hover: #efd28a;
+    --glass: rgba(20, 25, 37, 0.45); --glass-line: rgba(226, 185, 85, 0.24);
+    --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
+    --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
   }
 }
 :root[data-theme="dark"] {
   --h1-hover: #efd28a;
+  --glass: rgba(20, 25, 37, 0.45); --glass-line: rgba(226, 185, 85, 0.24);
+  --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
+  --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--serif); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: var(--accent-soft); }
 .wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
-.item h3, .news h3 { text-wrap: pretty; }
-button, input, select { font-family: var(--sans); }
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
 
+/* Hero: open, centred, soft topic-colour glow behind it, like the homepage sky */
+.hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(64px, 11vw, 128px) 16px clamp(56px, 8vw, 96px); }
+.hero::before { content: ""; position: absolute; inset: -20% -10%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.26;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent 92%); mask-image: linear-gradient(#000 55%, transparent 92%);
+  background: radial-gradient(28% 40% at 28% 40%, var(--t-hip), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--t-psy), transparent 70%),
+              radial-gradient(26% 34% at 50% 78%, var(--t-vis), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--t-eq), transparent 70%); }
+.hero h1 { font: 600 clamp(34px, 5.4vw, 66px)/1.04 var(--display); letter-spacing: 0.01em; }
+.hero p { margin: 18px auto 30px; max-width: 30em; font-size: clamp(18px, 2vw, 21px); color: var(--muted); }
+.spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
+@keyframes spectrum { to { background-position: 300% 0; } }
+.go { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px; font: 600 15px var(--sans); color: var(--fg); text-decoration: none;
+  background: var(--glass); border: 1px solid var(--glass-line); -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.go:hover, .go:focus-visible { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--accent), 0 12px 30px -12px var(--accent); }
 
-/* Masthead: a calm ice-blue panel. The title letters glow as the pointer passes over them. */
-.masthead {
-  position: relative; display: grid; gap: 18px; margin-block: 32px 0; padding: 64px 48px 32px;
-  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; isolation: isolate;
-  background: linear-gradient(135deg, var(--mast-a), var(--mast-b));
-  transition: border-color 0.45s ease, box-shadow 0.45s ease;
-}
-.masthead > * { position: relative; z-index: 2; max-width: 760px; }
-.masthead:hover, .masthead:focus-within { border-color: var(--glow-edge); box-shadow: 0 0 36px -10px var(--glow-edge); }
-.masthead h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 4.6vw, 50px); line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase; text-shadow: var(--glow-text); cursor: default; }
-.masthead h1 .wd { display: inline-block; white-space: nowrap; }
-.masthead h1 .ch { display: inline-block; color: inherit; text-shadow: var(--glow-text); transition: color 1.1s ease, text-shadow 1.1s ease, transform 1.1s ease; }
-.masthead h1 .ch.lit { color: var(--h1-hover); text-shadow: var(--glow-text-hover); transform: translateY(-1px); transition-duration: 0.12s; }
-.masthead > .logo { position: absolute; z-index: 1; top: 50%; right: 56px; width: 168px; height: 168px; max-width: none; transform: translateY(-58%); object-fit: contain; pointer-events: none; user-select: none; }
-.masthead p { margin: 0; color: var(--muted); font-size: 19px; max-width: 34em; }
-.masthead .facts { max-width: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid color-mix(in srgb, var(--muted) 28%, transparent); list-style: none; display: flex; flex-wrap: wrap; gap: 6px 28px; font: 14px var(--sans); color: var(--muted); }
-.facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .masthead, .masthead h1 .ch { transition: none; }
-}
+/* Section heads: a small coloured label over the title, centred */
+.sec { padding-block: 56px; scroll-margin-top: var(--nav-h); }
+.sec + .sec { border-top: 1px solid var(--rule); }
+.head { text-align: center; margin-bottom: 28px; }
+.head small { display: block; font: 500 11px var(--label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--c, var(--accent)); margin-bottom: 8px; }
+.head h2 { font: 600 clamp(26px, 3.2vw, 34px)/1.1 var(--display); letter-spacing: 0.02em; }
+.head p { margin: 10px auto 0; max-width: 46em; font: 14.5px/1.55 var(--sans); color: var(--muted); }
 
-/* Sections */
-.sec { display: grid; grid-template-columns: 216px minmax(0, 1fr); column-gap: 56px; padding-block: 64px; border-top: 1px solid var(--rule); scroll-margin-top: var(--nav-h); }
-.sec:first-of-type { border-top: 0; padding-top: 56px; }
-.sec.slim { padding-block: 48px; }
-.sec-head { position: sticky; top: calc(var(--nav-h) + 28px); align-self: start; }
-.sec-head h2 { font-family: var(--display); font-weight: 600; font-size: 28px; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; }
-.sub { margin: 10px 0 0; font: 14.5px/1.55 var(--sans); color: var(--muted); }
-.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
-.sec-body { min-width: 0; }
-.tip-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 18px; font: 13.5px var(--sans); color: var(--muted); }
-.tip-cta { display: inline-flex; align-items: center; font: 600 15px var(--sans); color: var(--bg); background: var(--h1-hover); padding: 10px 20px; border-radius: 999px; text-decoration: none; transition: filter .15s ease; }
-.tip-cta:hover, .tip-cta:focus-visible { filter: brightness(1.12); text-decoration: none; }
+/* Cards: the homepage door, with a topic-colour edge */
+.cards { display: grid; gap: 14px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+.card { position: relative; display: block; padding: 22px 22px 22px 26px; border: 1px solid var(--rule); border-radius: 12px; color: var(--fg); text-decoration: none; overflow: hidden;
+  background: color-mix(in srgb, var(--c) 4%, var(--bg)); transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), border-color 0.35s ease; }
+.card.wide { grid-column: span 2; }
+.card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
+a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: var(--c); }
+.card small { display: block; font: 500 11px var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
+.card b { display: block; font: 600 19px/1.2 var(--display); }
+.card b + small { margin-top: 6px; }
+.card p { margin: 12px 0 0; font: 15px/1.55 var(--sans); color: var(--muted); }
+.card.says p { margin-top: 10px; font: 19px/1.5 var(--serif); color: var(--fg); }
 
-.prose p { margin: 0 0 18px; max-width: 62ch; }
-.prose p:last-child { margin-bottom: 0; }
-.prose .lead { font-size: 20px; line-height: 1.5; }
-.info { margin: 0; display: grid; border-top: 1px solid var(--rule); font: 15px var(--sans); }
-.info > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 4px 20px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
-.info dt { color: var(--muted); }
-.info dd { margin: 0; }
-.info dd { margin: 0; }
-.info dt a { color: var(--fg); }
-.tba { color: var(--muted); font-style: italic; }
-.reviewers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px 20px; }
-.reviewers li { display: grid; grid-template-columns: 21px minmax(0, 1fr); align-items: center; column-gap: 10px; }
+/* Peers */
+.director { text-align: center; font: 15px var(--sans); color: var(--muted); margin: 0 0 22px; }
+.director b { display: block; font: 600 22px/1.2 var(--display); color: var(--fg); margin-top: 4px; }
+.reviewers { list-style: none; margin: 0 auto; padding: 0; max-width: 900px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.reviewers li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 10px; border-radius: 999px; font: 14px var(--sans);
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: color-mix(in srgb, var(--c) 10%, var(--bg)); }
+.reviewers li:nth-child(4n+1) { --c: var(--t-hip); } .reviewers li:nth-child(4n+2) { --c: var(--t-vis); }
+.reviewers li:nth-child(4n+3) { --c: var(--t-psy); } .reviewers li:nth-child(4n) { --c: var(--t-eq); }
 .reviewers .flag { width: 21px; height: 14px; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); }
-.rv-name { color: var(--fg); }
-.rv-country { grid-column: 2; font-size: 12.5px; color: var(--muted); }
-.tablewrap { overflow-x: auto; }
+.reviewers .rv-country { color: var(--muted); font-size: 12.5px; }
+.tba { text-align: center; margin: 22px 0 0; font: 13.5px var(--sans); color: var(--muted); }
+
+
+/* Sources */
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; padding: 4px 20px; }
 table { width: 100%; border-collapse: collapse; font: 14px var(--sans); min-width: 520px; }
 th, td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-thead th { font-weight: 500; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--rule); }
-.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
-.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 24px; font: 14px var(--sans); }
-.pager button { min-width: 38px; height: 38px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; font-size: 14px; font-variant-numeric: tabular-nums; }
+tbody tr:last-child td { border-bottom: 0; }
+thead th { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+.note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; text-align: center; }
+.pager { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; padding-top: 20px; font: 14px var(--sans); }
+.pager button { min-width: 38px; height: 38px; padding: 0 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: 999px; cursor: pointer; font-size: 14px; font-variant-numeric: tabular-nums; }
 .pager button:hover:not(:disabled) { border-color: var(--accent); }
 .pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .pager button:disabled { color: var(--muted); cursor: default; opacity: 0.55; }
 .pager .gap { color: var(--muted); padding: 0 2px; }
-.count { font: 14px var(--sans); color: var(--muted); margin: 0 0 10px; font-variant-numeric: tabular-nums; scroll-margin-top: 72px; }
+.count { font: 14px var(--sans); color: var(--muted); margin: 0 0 10px; text-align: center; font-variant-numeric: tabular-nums; scroll-margin-top: 72px; }
 .count:focus { outline: none; }
-.stamp { margin: 14px 0 0; font: 12.5px var(--sans); color: var(--muted); }
 td.fee { white-space: nowrap; }
 td.fee.yes { color: var(--fg); }
 td.fee.no { color: var(--muted); }
-/* Phones: each journal becomes a small card (title, then publisher, then country and fee) so nothing scrolls sideways */
-@media (max-width: 640px) {
+.end { height: 40px; }
+
+@media (max-width: 880px) { .cards { --n: 2 !important; } .card.wide { grid-column: 1 / -1; } body { font-size: 16px; } }
+@media (max-width: 620px) {
+  .cards { --n: 1 !important; } .card.wide { grid-column: auto; }
+  .sec { padding-block: 44px; }
+  .tablewrap { padding: 0 14px; }
   #sources table { min-width: 0; }
   #sources thead { display: none; }
   #sources tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding-block: 12px; border-bottom: 1px solid var(--rule); }
+  #sources tbody tr:last-child { border-bottom: 0; }
   #sources td { border: 0; padding: 0; }
   #sources td:first-child, #sources td:nth-child(2) { grid-column: 1 / -1; }
   #sources td:nth-child(2), #sources td:nth-child(3), #sources td.fee { font-size: 13px; color: var(--muted); }
 }
-footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
-@media (max-width: 880px) {
-  body { font-size: 16px; }
-  .masthead { padding: 88px 22px 24px; margin-block-start: 20px; }
-  .masthead > .logo { top: 20px; right: 22px; width: 52px; height: 52px; transform: none; }
-  .sec { grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: 52px; }
-  .sec:first-of-type { padding-top: 40px; }
-  .sec-head { position: static; }
-  .sec-head .sub { max-width: 60ch; }
-}
-
-@media (max-width: 640px) {
-  .info > div { grid-template-columns: minmax(0, 1fr); }
-}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .spectrum { animation: none; } .card, .go { transition: none; } }
 </style>
 </head>
 <body>
@@ -153,105 +153,59 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   </div>
 </header>
 
-<main id="main" class="wrap">
-  <header class="masthead">
-    <img class="logo" src="logo.svg" alt="" width="168" height="168" decoding="async">
-    <h1>About the GRJ</h1>
+<main id="main">
+  <section class="hero" aria-labelledby="h-about">
+    <h1 id="h-about">About the <span class="spectrum">GRJ</span></h1>
     <p>An open source journal for ice hockey goaltending research.</p>
-  </header>
-
-  <section class="sec slim" id="mission" aria-labelledby="h-mission">
-    <div class="sec-head">
-      <h2 id="h-mission">The Mission</h2>
-    </div>
-    <div class="sec-body prose">
-      <p class="lead">The GRJ is dedicated to bridging the gap between evidence-based research in ice hockey goaltending and the coaching community.</p>
-    </div>
+    <a class="go" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener">Leave a tip on Ko-fi <span aria-hidden="true">→</span></a>
   </section>
 
-  <section class="sec slim" id="vision" aria-labelledby="h-vision">
-    <div class="sec-head">
-      <h2 id="h-vision">The Vision</h2>
-    </div>
-    <div class="sec-body prose">
-      <p class="lead">Building an open-sourced sports journal that is dedicated to educating the goalie coaching community and supporting the goalie-specific researchers.</p>
-    </div>
-  </section>
+  <div class="wrap">
+    <section class="sec" id="mission" aria-label="Mission, vision and promise" style="padding-top: 8px">
+      <div class="cards">
+        <div class="card says" style="--c: var(--t-hip)"><small>The Mission</small><p>The GRJ is dedicated to bridging the gap between evidence-based research in ice hockey goaltending and the coaching community.</p></div>
+        <div class="card says" style="--c: var(--t-psy)" id="vision"><small>The Vision</small><p>Building an open-sourced sports journal that is dedicated to educating the goalie coaching community and supporting the goalie-specific researchers.</p></div>
+        <div class="card says" style="--c: var(--t-vis)" id="promise"><small>The Promise</small><p>To provide a free journal that is dedicated to sharing, reviewing, and inviting conversations surrounding evidence-based research in ice hockey goaltending.</p></div>
+      </div>
+    </section>
 
-  <section class="sec slim" id="promise" aria-labelledby="h-promise">
-    <div class="sec-head">
-      <h2 id="h-promise">The Promise</h2>
-    </div>
-    <div class="sec-body prose">
-      <p class="lead">To provide a free journal that is dedicated to sharing, reviewing, and inviting conversations surrounding evidence-based research in ice hockey goaltending.</p>
-    </div>
-  </section>
+    <section class="sec" id="whats-here" aria-labelledby="h-here">
+      <div class="head" style="--c: var(--t-eq)"><small>What's here</small><h2 id="h-here">Offerings</h2></div>
+      <div class="cards" style="--n: 3">
+        <a class="card wide" href="research.html#articles" style="--c: var(--t-hip)"><b>Goaltending Research</b><small><span id="n-rec"></span> studies</small><p>A living evidence map of goalie-specific research studies, along with a network map of researchers.</p></a>
+        <a class="card" href="glove-positioning.html" style="--c: var(--t-psy)"><b>Briefs</b><small>For coaches</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a>
+        <a class="card" href="goalies.html" style="--c: var(--t-eq)"><b>NHL DataViz</b><small>Official NHL data</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance.</p></a>
+        <a class="card" href="conference.html" style="--c: var(--t-bio)"><b>Conferences</b><small>Virtual</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a>
+        <a class="card" href="peer-reviews.html" style="--c: var(--t-vis)"><b>Peer Reviews</b><small>Monthly</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a>
+      </div>
+    </section>
 
-  <section class="sec slim" id="tip-jar" aria-labelledby="h-tip">
-    <div class="sec-head">
-      <h2 id="h-tip">Tip jar</h2>
-    </div>
-    <div class="sec-body prose">
-      <p class="lead">The GRJ is free and open source. If it helps your coaching, a small tip keeps it that way.</p>
-      <p class="tip-row"><a class="tip-cta" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener">Leave a tip on Ko-fi</a><span>No account needed.</span></p>
-    </div>
-  </section>
+    <section class="sec" id="peers" aria-labelledby="h-peers">
+      <div class="head" style="--c: var(--t-vis)"><small>The people</small><h2 id="h-peers">Peers</h2></div>
+      <p class="director">Project Director<b>Justin Goldman</b></p>
+      <ul class="reviewers" aria-label="Peer reviewers">
+        <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Sera Dogramaci</span><span class="rv-country">Australia</span></li>
+        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Dr. Nate Speidel</span><span class="rv-country">United States</span></li>
+        <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Thomas Magnusson</span><span class="rv-country">Sweden</span></li>
+        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Sean Reilly</span><span class="rv-country">United States</span></li>
+        <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Jack Hartigan</span><span class="rv-country">Canada</span></li>
+        <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">Finland</span></li>
+        <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Slovakia</span></li>
+        <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">United Kingdom</span></li>
+        <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Germany</span></li>
+        <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Austria</span></li>
+        <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">Norway</span></li>
+        <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">France</span></li>
+        <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Japan</span></li>
+        <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Switzerland</span></li>
+        <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">Denmark</span></li>
+      </ul>
+      <p class="tba">Advisory Board and Review Model to be announced.</p>
+    </section>
 
-  <section class="sec" id="whats-here" aria-labelledby="h-here">
-    <div class="sec-head">
-      <h2 id="h-here">Offerings</h2>
-    </div>
-    <div class="sec-body">
-      <dl class="info">
-        <div><dt><a href="research.html#articles">Goaltending Research</a></dt><dd>A living evidence map of <b id="n-rec"></b> goalie-specific research studies, along with a network map of researchers.</dd></div>
-        <div><dt><a href="glove-positioning.html">Briefs</a></dt><dd>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</dd></div>
-        <div><dt><a href="goalies.html">NHL DataViz</a></dt><dd>Explore, play with, and dig into official NHL data specific to goaltending performance.</dd></div>
-        <div><dt><a href="conference.html">Conferences</a></dt><dd>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</dd></div>
-        <div><dt><a href="peer-reviews.html">Peer Reviews</a></dt><dd>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <section class="sec slim" id="peers" aria-labelledby="h-peers">
-    <div class="sec-head">
-      <h2 id="h-peers">Peers</h2>
-    </div>
-    <div class="sec-body">
-      <dl class="info">
-        <div><dt>Project Director</dt><dd class="tba">Justin Goldman</dd></div>
-        <div><dt>Advisory Board</dt><dd class="tba">To be announced</dd></div>
-        <div><dt>Peer Reviewers</dt><dd>
-          <ul class="reviewers">
-            <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Sera Dogramaci</span><span class="rv-country">Australia</span></li>
-            <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Dr. Nate Speidel</span><span class="rv-country">United States</span></li>
-            <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Thomas Magnusson</span><span class="rv-country">Sweden</span></li>
-            <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Sean Reilly</span><span class="rv-country">United States</span></li>
-            <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Jack Hartigan</span><span class="rv-country">Canada</span></li>
-            <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">Finland</span></li>
-            <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Slovakia</span></li>
-            <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">United Kingdom</span></li>
-            <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Germany</span></li>
-            <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Austria</span></li>
-            <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">Norway</span></li>
-            <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">France</span></li>
-            <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Japan</span></li>
-            <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Switzerland</span></li>
-            <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">Denmark</span></li>
-          </ul>
-        </dd></div>
-        <div><dt>Review Model</dt><dd class="tba">To be announced</dd></div>
-      </dl>
-    </div>
-  </section>
-
-
-  <section class="sec" id="sources" aria-labelledby="h-sources">
-    <div class="sec-head">
-      <h2 id="h-sources">Sources</h2>
-      <p class="sub">Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p>
-      <p class="stamp">Updated <span id="journals-updated"></span></p>
-    </div>
-    <div class="sec-body">
+    <section class="sec" id="sources" aria-labelledby="h-sources">
+      <div class="head" style="--c: var(--t-dev)"><small>Updated <span id="journals-updated"></span></small><h2 id="h-sources">Sources</h2>
+        <p>Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p></div>
       <p class="count" id="j-count" role="status" aria-live="polite" tabindex="-1"></p>
       <div class="tablewrap">
         <table>
@@ -260,14 +214,10 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
         </table>
       </div>
       <nav class="pager" id="j-pager" aria-label="Journal pages"></nav>
-      <p class="note">From the subject "Sports" (which includes sports medicine) at <a href="https://doaj.org" rel="noopener">doaj.org</a>. Rebuilt by build_journals_data.py.</p>
-    </div>
-  </section>
-
-  <footer>
-    <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
-  </footer>
+      <p class="note">From the subject "Sports" (which includes sports medicine) at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
+    </section>
+    <div class="end"></div>
+  </div>
 </main>
 
 <script src="data.js"></script>

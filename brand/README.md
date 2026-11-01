@@ -12,4 +12,4 @@ Logo files for The Goaltending Research Journal. GRJ is set in Jost SemiBold (60
 | grj-favicon.svg | Browser tab, a single G; also `../favicon.svg` |
 
 Colors (Brass & Ink, 2026-10-31): Brass #9A7420, Pewter #B3ADA0, links #85610F on paper #F8F6F0 (light) and #E2B955 on ink #0F131C (dark).
-Fonts: Cinzel for headings, EB Garamond for reading, IBM Plex Sans for the interface.
+Fonts (2026-11-01): Jost for the logo, headings and labels; Source Serif 4 for reading; IBM Plex Sans for the interface.
