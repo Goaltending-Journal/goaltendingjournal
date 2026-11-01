@@ -4,7 +4,7 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "31 October 2026";
+const CLOTHESLINE_UPDATED = "1 November 2026";
 const CLOTHESLINE = [
 {"d": "2026-10-30", "t": "Visual Search Behavior and Visual Occlusion in Open-Skill Sports: Ecological Dynamics Implications for Performance and Motor Learning", "u": "https://doi.org/10.5281/zenodo.23807571", "s": "Zenodo (CERN European Organization for Nuclear Research)", "tp": "ed", "m": false},
 {"d": "2026-10-30", "t": "From flexibility to flow: psychological selection and the maintenance of values-based therapeutic skills", "u": "https://doi.org/10.3389/fpsyg.2026.1967544", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
