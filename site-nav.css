@@ -70,7 +70,16 @@
 .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); line-height: 1.6; font-family: var(--sans); }
 .site-bar { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 8px 32px; min-height: 56px; }
 .topbar .brand { font: 500 14px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-.topbar .brand-logo { width: 32px; height: 32px; flex: none; border-radius: 7px; transition: box-shadow 0.2s ease; }
+.topbar .brand-logo { position: relative; overflow: hidden; display: inline-grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 7px;
+  font: 600 11.5px/1 "Jost", "Futura", system-ui, sans-serif; letter-spacing: 0.02em; text-transform: none; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  /* The GRJ badge (Goldy, 2026-11-01): its ground shifts through the topic colours like "Goaltending" on the homepage, with a light gleam passing over it */
+  background: linear-gradient(120deg, #4450b0, #7a4fd6, #c2398a, #d43d63, #c77a00, #2e9a3f, #0f8f89, #1f7fcf, #4450b0); background-size: 400% 400%;
+  animation: brand-shift 16s linear infinite; transition: box-shadow 0.2s ease; }
+.topbar .brand-logo::after { content: ""; position: absolute; inset: -50% auto -50% -60%; width: 45%; transform: rotate(20deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent); animation: brand-gleam 6s ease-in-out infinite; }
+@keyframes brand-shift { to { background-position: 400% 0; } }
+@keyframes brand-gleam { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+@media (prefers-reduced-motion: reduce) { .topbar .brand-logo, .topbar .brand-logo::after { animation: none; } .topbar .brand-logo::after { display: none; } }
 /* The top bar shows the GRJ logo alone (Goldy, 2026-10-31); the journal name stays for screen readers. */
 .topbar .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .topbar .brand:hover .brand-logo { box-shadow: 0 0 0 2px var(--accent); }
