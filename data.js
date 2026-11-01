@@ -3,7 +3,7 @@
 // Each record is one line of JSON. Keep the commas between lines and the closing bracket.
 // One record per study: other versions of the same study (thesis, abstract, preprint) go in "v" as {"l": label, "h": link}.
 
-const UPDATED = "26 October 2026";
+const UPDATED = "1 November 2026";
 
 const REC = [
 {"i": 0, "y": 1979, "yl": "1979", "t": "Characteristics of 'old timer' hockey play", "a": "Montgomery", "j": "Can J Appl Sport Sci 4(1): 39–42", "doi": null, "pmid": "498399", "link": null, "sc": "hockey-wide", "sn": "", "qe": false, "tp": ["phy"], "nt": "", "nodoi": "None listed"},
@@ -98,5 +98,6 @@ const REC = [
 {"i": 94, "y": 2018, "yl": "2018", "t": "The effectiveness of a psychological skills training intervention for midget ice hockey goaltenders", "a": "Vandervies", "j": "MSc thesis, University of Calgary", "doi": null, "pmid": null, "link": "https://prism.ucalgary.ca/handle/1880/106279", "sc": "goaltending", "sn": "", "qe": false, "tp": ["psy"], "nt": "", "nodoi": "—"},
 {"i": 95, "y": 2024, "yl": "2024", "t": "Ice hockey goalies and stress", "a": "Seppänen", "j": "Thesis, Theseus (Finland)", "doi": null, "pmid": null, "link": "https://www.theseus.fi/handle/10024/854598", "sc": "goaltending", "sn": "", "qe": false, "tp": ["psy"], "nt": "", "nodoi": "—"},
 {"i": 96, "y": 2022, "yl": "2022", "t": "Ice hockey goaltender performance: examining the role of basic psychological needs and self-determined motivation", "a": "Speidel", "j": "PhD dissertation, University of North Dakota", "doi": null, "pmid": null, "link": "https://commons.und.edu/theses/4295/", "sc": "goaltending", "sn": "", "qe": false, "tp": ["psy"], "nt": "", "nodoi": "—"},
-{"i": 97, "y": 2025, "yl": "2025", "t": "Expected by whom? A skill-adjusted expected goals model for NHL shooters and goaltenders", "a": "Noel", "j": "Preprint (arXiv:2511.07703)", "doi": null, "pmid": null, "link": "https://arxiv.org/abs/2511.07703", "sc": "goaltending", "sn": "", "qe": false, "tp": ["stats"], "nt": "preprint", "nodoi": "—"}
+{"i": 97, "y": 2025, "yl": "2025", "t": "Expected by whom? A skill-adjusted expected goals model for NHL shooters and goaltenders", "a": "Noel", "j": "Preprint (arXiv:2511.07703)", "doi": null, "pmid": null, "link": "https://arxiv.org/abs/2511.07703", "sc": "goaltending", "sn": "", "qe": false, "tp": ["stats"], "nt": "preprint", "nodoi": "—"},
+{"i": 98, "y": 2026, "yl": "2026", "t": "Oculomotor behavior in youth ice hockey skaters and goaltenders during sport-specific tasks", "a": "Guiseris-Santaflorentina et al.", "j": "Vision 10(5): 87", "doi": "10.3390/vision10050087", "pmid": null, "link": null, "sc": "goaltending", "sn": "", "qe": false, "tp": ["vis"], "nt": "", "nodoi": ""}
 ];

@@ -59,6 +59,7 @@ ORGS = {
     "JYP Jyväskylä": "Jyväskylä",
     "Charles University": "Prague",
     "La Trobe University": "Melbourne",
+    "University of Zaragoza": "Zaragoza",
 }
 # city -> (country, latitude, longitude)
 CITIES = {
@@ -92,12 +93,13 @@ CITIES = {
     "Stockholm": ("Sweden", 59.33, 18.07),
     "Jyväskylä": ("Finland", 62.24, 25.75),
     "Prague": ("Czechia", 50.09, 14.42),
+    "Zaragoza": ("Spain", 41.65, -0.89),
     "Melbourne": ("Australia", -37.72, 145.05),
 }
 # map views: (label, west, south, east, north)
 VIEWS = [
     ("North America", -126, 24, -51, 57),
-    ("Europe", -13, 47, 33, 66),
+    ("Europe", -13, 39, 33, 66),
 ]
 LAT_MIN, LAT_MAX = -56, 84  # crop Antarctica and the far Arctic
 
