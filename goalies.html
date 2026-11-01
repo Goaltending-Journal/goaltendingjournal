@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Cinzel:wght@500;600;700&family=Jost:wght@500;600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Jost:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
@@ -67,14 +67,14 @@ button,input,select{font:inherit;color:inherit}
 
 /* hero */
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;padding-top:28px}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4.2vw,50px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;margin:8px 0 12px;text-wrap:balance}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4.2vw,50px);line-height:.92;letter-spacing:.01em;margin:8px 0 12px;text-wrap:balance}
 h1 span{color:var(--fog);display:block}
 .spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
 .spot .ph{position:absolute;right:0;bottom:0;height:100%;max-height:200px;width:auto;object-fit:contain;object-position:right bottom;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
 .spot>:not(.ph){position:relative;z-index:1}
 .spot::before{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;border-radius:50%;border:1px solid var(--crease-dim)}
 .spot .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.spot .nm{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;text-transform:uppercase;margin:4px 0 10px}
+.spot .nm{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;margin:4px 0 10px}
 .spot .stats{display:flex;gap:22px;flex-wrap:wrap}
 /* projected starters carousel (replaces the spotlight card when there are games) */
 .starters{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:16px 18px 12px;position:relative;overflow:hidden;min-width:0}
@@ -89,7 +89,7 @@ h1 span{color:var(--fog);display:block}
 .st-ph{width:76px;height:76px;border-radius:50%;background:var(--ice);border:1px solid var(--line);overflow:hidden;display:grid;place-items:center}
 .st-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
 .st-ph .mono{width:100%;height:100%;border-radius:50%;font-size:22px}
-.st-g .nm{font-family:var(--f-display);font-weight:700;font-size:21px;line-height:1;text-transform:uppercase;margin-top:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st-g .nm{font-family:var(--f-display);font-weight:700;font-size:21px;line-height:1;margin-top:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .st-g:not([disabled]):hover .nm{color:var(--crease)}
 .st-g .sub{font-size:11px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 .st-g .sub b{font-family:var(--f-display);font-size:15px;letter-spacing:0;color:var(--chalk);font-weight:600;margin-left:4px}
@@ -111,7 +111,7 @@ h1 span{color:var(--fog);display:block}
 
 /* section heads */
 .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
-h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.03em;margin:0}
+h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
 /* archetypes: twelve compact cards, each a Light Box still that plays its loop on hover or focus */
@@ -180,7 +180,7 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:up
 .panel{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0;display:flex;flex-direction:column;gap:10px}
 .panel.wide{grid-column:1/-1}
 .panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.panel-h h3{margin:0;font-family:var(--f-display);font-size:19px;text-transform:uppercase;letter-spacing:.03em}
+.panel-h h3{margin:0;font-family:var(--f-display);font-size:19px;letter-spacing:.03em}
 .panel-h p{margin:0;color:var(--mute);font-size:12px}
 .hidebtn{border:1px solid var(--line);background:var(--glass);color:var(--fog);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .hidebtn:hover{color:var(--chalk);border-color:var(--mute)}

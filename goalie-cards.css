@@ -1,6 +1,6 @@
 /* Goalie Cards (goalie-cards.js): the card, the "File this card" sheet, the answer form on briefs and modules, and the
    binder on the Coaches page. Uses the site tokens (site-nav.css): --ice, --boards, --glass,
-   --line, --chalk, --fog, --mute, --crease. Cinzel for names, Jost for small labels, EB Garamond for card-back text. */
+   --line, --chalk, --fog, --mute, --crease. Jost for names and small labels, Source Serif 4 for card-back text. */
 :root{
   --gc-w: 220px;
   --gc-pewter: #b3ada0;
@@ -34,7 +34,7 @@
 .gc-top{display:flex;justify-content:space-between;font:600 max(8px,calc(var(--gc-w) * .042))/1 var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .gc-art{display:block;width:100%;aspect-ratio:1;border-radius:calc(var(--gc-w) * .03);overflow:hidden}
 .gc-art svg{display:block;width:100%;height:100%}
-.gc-name{font:700 calc(var(--gc-w) * .066)/1.08 var(--f-display);text-transform:uppercase;letter-spacing:.02em;text-wrap:balance;margin-top:auto}
+.gc-name{font:700 calc(var(--gc-w) * .066)/1.08 var(--f-display);letter-spacing:.02em;text-wrap:balance;margin-top:auto}
 .gc-meta{font:500 max(9px,calc(var(--gc-w) * .045))/1 var(--label);letter-spacing:.13em;text-transform:uppercase;color:var(--fog)}
 .gc-back{transform:rotateY(180deg);display:flex;flex-direction:column;gap:calc(var(--gc-w) * .03);padding:calc(var(--gc-w) * .06);overflow-y:auto;overscroll-behavior:contain;cursor:pointer}
 .gc-learn{display:flex;justify-content:space-between;align-items:center;gap:6px}
@@ -73,7 +73,7 @@
 .gc-sheet::backdrop{background:rgba(10,11,20,.55)}
 .gc-sheet-in{padding:18px clamp(14px,3vw,24px) 22px}
 .gc-sheet-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.gc-sheet h2{margin:0;font:700 22px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.gc-sheet h2{margin:0;font:700 22px/1.1 var(--f-display);letter-spacing:.03em}
 .gc-x{border:0;background:transparent;color:var(--fog);font-size:24px;line-height:1;cursor:pointer;padding:4px 8px}
 .gc-pick>p{margin:10px 0 12px;color:var(--fog);font-size:14px;max-width:60ch}
 .gc-field{display:inline-flex;align-items:center;gap:8px;font:600 11px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}

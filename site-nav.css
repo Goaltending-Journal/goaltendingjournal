@@ -3,7 +3,7 @@
    Pages that need extra colours (topic hues, heat-map steps) add them in their own style block.
    Brief-style pages (goalies.html, glove-positioning.html, learn.css) name the main colours --ice, --chalk, --fog, --line, --crease;
    those names are aliases of --bg, --fg, --muted, --rule, --accent so each colour is set once.
-   The journal name is set in Jost, the label face from the logo lockup; Cinzel stays for page titles. */
+   Type (Goldy, 2026-11-01): Jost, the face of the GRJ logo, for titles, headings and labels; Source Serif 4 for reading text. */
 :root {
   color-scheme: light;
   --bg: #f8f6f0;           /* page ground */
@@ -33,9 +33,9 @@
   --glow-edge: rgba(154, 116, 32, 0.35);
   --ice: var(--bg); --chalk: var(--fg); --fog: var(--muted); --line: var(--rule); --crease: var(--accent);
   --paint: var(--bad); --rink: var(--ice);
-  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Cinzel", "Trajan Pro", Georgia, serif;   /* titles and section heads, the same face on every page */
+  --display: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* titles and section heads: the logo face, on every page */
   --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
   --f-display: var(--display);
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
