@@ -18,7 +18,8 @@
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
 <style>
-/* Layout: an editorial index. Each section has a running head on the left (title and one-line note) and its content on the right. Below 880px the head stacks above the content. */
+/* Layout (Goldy, 2026-11-02): an About-style masthead, then one frame holding the explorer (researcher network in the homepage
+   sphere's topic colours, heatmaps, studies by year) and the filters and study table. No footer, as on the homepage and About. */
 :root {
   --h1-hover: #9a7420;   /* masthead title hover and the footer tip pill */
   --on-heat: #ffffff;   /* text on the two darkest heatmap steps */
@@ -47,8 +48,30 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 button, input, select { font-family: var(--sans); }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Page title */
-.pg-title { font: 600 clamp(28px, 4vw, 42px)/1.1 var(--display); letter-spacing: 0.02em; margin: 40px 0 24px; }
+/* Masthead, as on the About page: an open, centred title with the moving topic colours and a soft glow behind it */
+.hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(56px, 9vw, 104px) 16px clamp(40px, 6vw, 64px); }
+.hero::before { content: ""; position: absolute; inset: -20% -10%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.26;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent 92%); mask-image: linear-gradient(#000 55%, transparent 92%);
+  background: radial-gradient(28% 40% at 28% 40%, var(--t-hip), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--t-psy), transparent 70%),
+              radial-gradient(26% 34% at 50% 78%, var(--t-vis), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--t-eq), transparent 70%); }
+.hero h1 { font: 600 clamp(34px, 5.4vw, 66px)/1.04 var(--display); letter-spacing: 0.01em; }
+.hero p { margin: 16px auto 0; max-width: 32em; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+.hero p b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
+@keyframes spectrum { to { background-position: 300% 0; } }
+@media (prefers-reduced-motion: reduce) { .spectrum { animation: none; } }
+
+/* One frame holds everything: explorer tabs and panels on top, a rule, then the filters and the study table */
+.frame { border: 1px solid var(--rule); border-radius: 16px; background: var(--surface); padding: clamp(16px, 3vw, 28px); margin-bottom: 72px; }
+.frame .ex { margin: 0 0 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+.frame .tablewrap { border-radius: 10px; }
+/* Topic key under the network map: the homepage's framed chips */
+.legend { margin: 0 0 14px; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; font: 500 10.5px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); }
+.legend li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: color-mix(in srgb, var(--c) 13%, var(--bg)); transition: opacity 0.2s ease, background-color 0.2s ease; }
+.legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.legend.dim li { opacity: 0.35; } .legend li.hot { opacity: 1; background: color-mix(in srgb, var(--c) 30%, var(--bg)); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* Sections */
@@ -87,9 +110,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
-.ex-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
-.ex-grp h3 { font: 500 12.5px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.ex-grp:has([aria-selected="true"]) h3 { color: var(--fg); }
 .hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
 .hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
@@ -116,11 +136,12 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw .lk { stroke: var(--field-line); stroke-linecap: round; }
 .nw .lk.on { stroke: var(--accent); }
 .nw .nd { cursor: pointer; outline: none; }
-.nw .nd circle { fill: var(--accent); stroke: var(--surface); stroke-width: 2; transition: opacity .15s ease; }
+.nw .nd circle { fill: var(--c, var(--accent)); stroke: var(--surface); stroke-width: 2; transition: opacity .15s ease; }
 .nw .nd text { fill: var(--fg); font-size: 11.5px; pointer-events: none; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
 .nw .nd:hover circle, .nw .nd:focus-visible circle { stroke: var(--fg); }
-.nw .nd.hl circle { fill: var(--h1-hover); stroke: var(--fg); stroke-width: 3; }
-.nw .nd.sel circle { fill: var(--h1-hover); }
+.nw .nd.hl circle { stroke: var(--fg); stroke-width: 3; }
+.nw .nd.sel circle { stroke: var(--fg); stroke-width: 3; }
+.nw .nd.off circle { opacity: .15; } .nw .nd.off text { opacity: .25; }
 .nw.has-sel .nd.dim circle { opacity: .22; } .nw.has-sel .nd.dim text { opacity: 0; } .nw.has-sel .lk:not(.on) { opacity: .25; }
 .nw-side { font-family: var(--sans); display: grid; gap: 10px; align-content: start; min-width: 0; }
 .nw-side h4 { font: 600 26px/1 var(--display); letter-spacing: 0.02em; }
@@ -129,6 +150,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); }
 .nw-stats b { display: block; font: 600 21px/1.1 var(--sans); color: var(--fg); font-variant-numeric: tabular-nums; }
 .nw-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.nw-list .tp { display: inline-flex; align-items: center; gap: 6px; border-color: color-mix(in srgb, var(--c) 55%, transparent); background: color-mix(in srgb, var(--c) 13%, var(--bg)); }
+.nw-list .tp i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
 .nw-list button, .nw-list span { font: 12px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: 999px; padding: 3px 10px; }
 .nw-list button { cursor: pointer; } .nw-list button:hover { border-color: var(--accent); }
 .nw-q { font: 14px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); height: 34px; padding: 0 10px; width: 100%; }
@@ -144,17 +167,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw-side .btn { justify-self: start; color: var(--accent); border-color: var(--accent); }
 .nw-cap { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
 @media (max-width: 880px) { .nw { grid-template-columns: 1fr; } }
-/* Where the research happens: Equal Earth land from places-data.js, one dot per city. The view buttons pan and zoom the viewBox. */
-.pl svg { overflow: hidden; background: var(--bg); border: 1px solid var(--rule); }
-.pl .land { fill: var(--rule); }
-.pl .ct circle { fill: var(--accent); stroke: var(--surface); fill-opacity: .9; }
-.pl .ct { cursor: pointer; outline: none; }
-.pl .ct text { fill: var(--fg); pointer-events: none; paint-order: stroke; stroke: var(--bg); stroke-linejoin: round; }
-.pl .ct:hover circle, .pl .ct:focus-visible circle, .pl .ct.hl circle { fill: var(--h1-hover); stroke: var(--fg); }
-.pl .ct.sel circle { fill: var(--h1-hover); }
-.pl.has-sel .ct.dim circle { opacity: .35; } .pl.has-sel .ct.dim text { opacity: 0; }
-.pl-org { display: grid; gap: 5px; }
-.pl-org .lab { color: var(--fg); font-weight: 600; }
 .hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
 .hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
 .hm-ramp i.z { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
@@ -166,15 +178,13 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
   .hm .ch { font-size: 10px; }
   .hm .ch .lg { display: none; } .hm .ch .sm { display: inline; }
   .hm .c { height: 30px; font-size: 11px; }
-  .tr-chart { padding-inline: 12px; }
 }
 
 /* Goaltending Research: the homepage's main section. A year chart that filters the table, a filter sidebar, and a paper table
    modelled on Elicit's results table (title, authors and journal, then year and source links on one quiet line). */
-.tracker { padding-block: 48px 64px; scroll-margin-top: var(--nav-h); }
+.tracker { scroll-margin-top: var(--nav-h); }
 .btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
 .btn:hover { border-color: var(--accent); }
-.tr-chart { border: 1px solid var(--rule); border-radius: 0; padding: 16px 18px 12px; background: var(--surface); margin-bottom: 28px; }
 .tr-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
 .side { position: sticky; top: calc(var(--nav-h) + 20px); display: grid; gap: 18px; font-family: var(--sans); }
 .side .extra { display: grid; gap: 18px; }
@@ -247,7 +257,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .info dd { margin: 0; }
 .tba { color: var(--muted); font-style: italic; }
 .note { font: 13px var(--sans); color: var(--muted); margin: 16px 0 0; }
-footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px var(--sans); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 
 @media (max-width: 880px) {
   body { font-size: 16px; }
@@ -257,7 +266,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
   .sec-head .sub { max-width: 60ch; }
   .tr-body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .side { position: static; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
-  .side .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 16px 20px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 0; background: var(--surface); }
+  .side .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 16px 20px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); }
   .side .extra.open { display: grid; }
   .side .extra > .reset { grid-column: 1 / -1; }
   .more-btn { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; font-size: 14px; color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); cursor: pointer; }
@@ -295,34 +304,31 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
 </header>
 
 
-<main id="main" class="wrap">
+<main id="main">
+  <section class="hero" aria-labelledby="h-research">
+    <h1 id="h-research"><span class="spectrum">Goaltending</span> Research</h1>
+    <p>A living evidence map of <b id="n-goal"></b> goalie-specific studies and the <b id="n-people"></b> researchers behind them.</p>
+  </section>
 
-  <section class="tracker" id="articles" aria-label="Goaltending research">
-    <h1 class="pg-title">Goaltending Research</h1>
-
-    <!-- One explorer: the Researcher Network Map and the Research Heatmap share this frame, each with its own row of tabs. -->
-    <figure class="tr-chart ex" aria-label="Explore the research">
+  <div class="wrap">
+  <section class="tracker frame" id="articles" aria-label="Goaltending research">
+    <!-- One frame: the explorer tabs (network map, heatmaps, studies by year), then the filters and the study table. -->
+    <figure class="ex" aria-label="Explore the research">
       <div class="ex-head">
-        <div class="ex-grp"><h3 id="nw-title">Researcher Network Map</h3><div class="hm-tabs" id="nw-tabs" role="tablist" aria-labelledby="nw-title"></div></div>
-        <div class="ex-grp"><h3 id="hm-title">Research Heatmap</h3><div class="hm-tabs" id="hm-tabs" role="tablist" aria-labelledby="hm-title">
+        <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
+          <button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Researcher network</span><span class="ts">Network</span></button>
           <button type="button" role="tab" id="hm-tab-time" aria-selected="false" aria-controls="hm-panel" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
           <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm-panel" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
           <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
-        </div></div>
+        </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
+        <ul class="legend" id="nw-legend" aria-label="Research topics, by colour"></ul>
         <div class="nw" id="nw">
-          <svg id="nw-svg" role="group" aria-label="Goalie researchers, linked when they published a goalie study together"></svg>
+          <svg id="nw-svg" role="group" aria-label="Goalie researchers, coloured by main topic and linked when they published a goalie study together"></svg>
           <div class="nw-side" id="nw-side" aria-live="polite"></div>
         </div>
         <div class="nw-cap" id="nw-cap"></div>
-      </div>
-      <div id="nw-geo" role="tabpanel" hidden>
-        <div class="nw pl" id="pl">
-          <svg id="pl-svg" role="group" aria-label="Cities where goalie researchers work, sized by number of researchers"></svg>
-          <div class="nw-side" id="pl-side" aria-live="polite"></div>
-        </div>
-        <div class="nw-cap" id="pl-cap"></div>
       </div>
       <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
         <div class="hm-scroll"><div class="hm" id="hm"></div></div>
@@ -381,24 +387,14 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px 56px; font: 13px
       </div>
     </div>
   </section>
-
-
-  <footer>
-    <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
-  </footer>
+  </div>
 </main>
 
 <script src="data.js"></script>
 <script src="researchers-data.js"></script>
-<script src="places-data.js"></script>
+<script src="topics.js"></script>
 <script>
-const TOPICS = [
-  ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
-  ["vis", "Vision & anticipation"], ["phy", "Physiology & training"],
-  ["bio", "Movement & biomechanics"], ["psy", "Psychology & cognition"],
-  ["dev", "Development & coaching"], ["stats", "Performance analytics"]
-];
+const TOPICS = window.GRJ_TOPICS;   // topics.js, the same nine topics and colours as the homepage sphere
 const TOPIC_SHORT = { hip: "Hip", inj: "Injury", eq: "Equip.", vis: "Vision", phy: "Physiol.", bio: "Movement", psy: "Psych.", dev: "Develop.", stats: "Analytics" };
 const TOPIC_TINY = { hip: "Hip", inj: "Inj", eq: "Eq", vis: "Vis", phy: "Phy", bio: "Mov", psy: "Psy", dev: "Dev", stats: "Ana" };
 const $ = (id) => document.getElementById(id);
@@ -705,11 +701,12 @@ $("hm").addEventListener("click", (e) => {
 // One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
 function exTabs(b, keep) {
   document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-  if (!keep) ["nw-net", "nw-geo", "hm-panel", "yr"].forEach((id) => ($(id).hidden = true));
+  if (!keep) ["nw-net", "hm-panel", "yr"].forEach((id) => ($(id).hidden = true));
 }
-$("hm-tabs").addEventListener("click", (e) => {
+$("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
+  if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
   // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
   const year = b.dataset.v === "year";
   $("yr").hidden = !year; $("hm-panel").hidden = year; $("hm-panel").setAttribute("aria-labelledby", b.id);
@@ -733,12 +730,13 @@ addEventListener("scroll", () => (tip.hidden = true), { passive: true });
 
 /* Researcher Network Map. Each connected group is laid out with a small force simulation, then the groups are packed into rows,
    largest first, and people with no shared goalie study sit in the last rows. Selecting a dot opens that researcher's profile. */
-const NW = { sel: null, layoutW: 0, pos: null, q: "" };
+const NW = { sel: null, layoutW: 0, pos: null, q: "", hot: null };
 const NWP = NETWORK.people, NWI = Object.fromEntries(NWP.map((p, i) => [p.id, i]));
 const NWL = NETWORK.links.filter(([a, b]) => a in NWI && b in NWI);
 const NWN = NWP.map(() => new Set());
 NWL.forEach(([a, b]) => { NWN[NWI[a]].add(NWI[b]); NWN[NWI[b]].add(NWI[a]); });
 const nwR = (p) => 4 + Math.sqrt(p.n) * 3.1;
+const NWK = NWP.map((p) => grjPersonKey(p));   // each researcher's topic colour, exactly as on the homepage sphere
 const nwYears = (p) => (p.yrs ? (p.yrs[0] === p.yrs[1] ? String(p.yrs[0]) : `${p.yrs[0]}–${p.yrs[1]}`) : "—");
 function nwLayout(W) {
   const seen = new Array(NWP.length).fill(false), groups = [];
@@ -807,8 +805,8 @@ function drawNetwork() {
   NWP.map((p, i) => i).filter(label).sort((a, b) => (b === sel) - (a === sel) || NWP[b].n - NWP[a].n)
     .forEach((i) => { texts[i] = nwText(NWP[i], pos[i].x, pos[i].y, W, placed); });
   NWP.forEach((p, i) => {
-    const cls = i === sel ? " sel" : sel != null && !near.has(i) ? " dim" : "";
-    h += `<g class="nd${cls}" data-i="${i}" tabindex="0" role="button" aria-pressed="${i === sel}" aria-label="${esc(p.name)}, ${p.n} goalie ${p.n === 1 ? "study" : "studies"}, ${NWN[i].size} collaborators" transform="translate(${pos[i].x.toFixed(1)},${pos[i].y.toFixed(1)})">` +
+    const cls = (i === sel ? " sel" : sel != null && !near.has(i) ? " dim" : "") + (NW.hot && NWK[i] !== NW.hot ? " off" : "");
+    h += `<g class="nd${cls}" style="--c: var(--t-${NWK[i]})" data-i="${i}" tabindex="0" role="button" aria-pressed="${i === sel}" aria-label="${esc(p.name)}, ${p.n} goalie ${p.n === 1 ? "study" : "studies"}, ${NWN[i].size} collaborators" transform="translate(${pos[i].x.toFixed(1)},${pos[i].y.toFixed(1)})">` +
       `<circle r="${nwR(p).toFixed(1)}"/>${texts[i] || ""}<title>${esc(p.name)}</title></g>`;
   });
   svg.innerHTML = h;
@@ -824,11 +822,11 @@ function drawNetwork() {
     const nh = REC.filter((r) => p.home.includes(recKey(r))).length;
     side.innerHTML = `<button type="button" class="nw-back" id="nw-back">‹ All researchers</button><h4>${esc(p.name)}</h4>${p.org ? `<div class="org">${esc(p.org)}</div>` : ""}` +
       `<div class="nw-stats"><span><b>${p.n}</b>goalie ${p.n === 1 ? "study" : "studies"}</span><span><b>${cols.length}</b>collaborators</span><span><b>${nwYears(p)}</b>active</span></div>` +
-      (p.tp.length ? `<div class="nw-list">${p.tp.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : "") +
+      (p.tp.length ? `<div class="nw-list">${p.tp.map((t) => `<span class="tp" style="--c: var(--t-${grjTopicKey(t) || "hip"})"><i></i>${esc(t)}</span>`).join("")}</div>` : "") +
       (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
       (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
   }
-  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies`;
+  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies · Colour shows each researcher's main topic, as on the homepage`;
 }
 // Alphabetical by surname, grouped under the first letter; the box filters as you type.
 const nwSur = (n) => n.replace(/\s+(Jr\.?|Sr\.?|II|III)$/i, "").split(/\s+/).pop();
@@ -874,136 +872,22 @@ const nwRing = (e) => {
 ["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
 ["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"))));
 $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
+// Topic key under the map, the same chips as the homepage legend: point at one to light that topic's researchers
+$("nw-legend").innerHTML = TOPICS.map(([k, n]) => `<li data-k="${k}" style="--c: var(--t-${k})"><i></i>${n}</li>`).join("");
+const nwHot = (k) => {
+  NW.hot = k; $("nw-legend").classList.toggle("dim", !!k);
+  $("nw-legend").querySelectorAll("li").forEach((li) => li.classList.toggle("hot", li.dataset.k === k));
+  $("nw").classList.toggle("has-hot", !!k);
+  $("nw-svg").querySelectorAll(".nd").forEach((g) => g.classList.toggle("off", !!k && NWK[+g.dataset.i] !== k));
+};
+$("nw-legend").addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) nwHot(li.dataset.k); });
+$("nw-legend").addEventListener("pointerleave", () => nwHot(null));
+$("nw-legend").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) nwHot(NW.hot === li.dataset.k ? null : li.dataset.k); });
 drawNetwork();
+$("n-goal").textContent = REC.filter((r) => r.sc === "goaltending").length;
+$("n-people").textContent = NWP.length;
 let nwW = 0;
 window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
-
-// ---- Where the research happens ----
-// Each city is a dot sized by its researchers. The tabs move the viewBox between world, North America and Europe;
-// dots and labels are scaled back so they keep the same size on screen at every zoom.
-const PL = { view: 0, vb: PLACES.views[0].slice(1), sel: null, raf: 0 };
-const PLC = PLACES.places.map((c) => {
-  const ids = c.orgs.flatMap(([, ids]) => ids).filter((id) => id in NWI);
-  return { ...c, ids, n: ids.length, keys: new Set(ids.flatMap((id) => NWP[NWI[id]].home)) };
-});
-const plCount = (n) => `${n} ${n === 1 ? "researcher" : "researchers"}`;
-// Tabs on the Network Map: the network itself, then one tab per map view.
-$("nw-tabs").innerHTML = `<button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Network</span><span class="ts">Network</span></button>` +
-  PLACES.views.map(([l], i) => `<button type="button" role="tab" id="nw-tab-${i}" aria-selected="false" aria-controls="nw-geo" data-v="${i}"><span class="tl">${l}</span><span class="ts">${l === "North America" ? "N. America" : l}</span></button>`).join("");
-const plOff = (c) => !PLACES.views.some(([, vx, vy, vw, vh]) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh);
-function drawPlaces() {
-  const svg = $("pl-svg"), [vx, vy, vw, vh] = PL.vb;
-  const px = svg.getBoundingClientRect().width || 760, k = vw / px;   // SVG units per screen pixel
-  const sel = PL.sel, inView = (c) => c.x >= vx && c.x <= vx + vw && c.y >= vy && c.y <= vy + vh;
-  svg.setAttribute("viewBox", `${vx} ${vy} ${vw} ${vh}`);
-  const r = (c) => (3.5 + Math.sqrt(c.n) * 2.6) * k;
-  // label the bigger cities first; skip any label that would collide with one already placed
-  const placed = [], label = {};
-  const order = PLC.map((c, i) => i).filter((i) => inView(PLC[i])).sort((a, b) => (b === sel) - (a === sel) || PLC[b].n - PLC[a].n);
-  order.forEach((i) => { const c = PLC[i], rr = r(c); placed.push([c.x - rr, c.y - rr, c.x + rr, c.y + rr, i]); });   // labels keep off other dots
-  const minN = 1;
-  order.forEach((i) => {
-    const c = PLC[i]; if (i !== sel && c.n < minN) return;
-    const w = c.city.length * 6.6 * k, rr = r(c) + 3 * k, h = 12 * k;
-    for (const [dx, dy, a] of [[rr, 4 * k, ""], [-rr, 4 * k, "end"], [0, -rr - 3 * k, "middle"], [0, rr + 11 * k, "middle"]]) {
-      const x0 = c.x + dx - (a === "end" ? w : a === "middle" ? w / 2 : 0), y0 = c.y + dy - h + 2 * k;
-      const b = [x0, y0, x0 + w, y0 + h];
-      if (b[0] < vx || b[2] > vx + vw || placed.some((q) => q[4] !== i && b[0] < q[2] && b[2] > q[0] && b[1] < q[3] && b[3] > q[1])) continue;
-      placed.push(b);
-      label[i] = `<text x="${(dx).toFixed(2)}" y="${dy.toFixed(2)}"${a ? ` text-anchor="${a}"` : ""} font-size="${(11.5 * k).toFixed(3)}" stroke-width="${(3 * k).toFixed(3)}">${esc(c.city)}</text>`;
-      break;
-    }
-  });
-  let h = `<path class="land" d="${PLACES.land}"/>`;
-  PLC.map((c, i) => i).sort((a, b) => PLC[b].n - PLC[a].n).forEach((i) => {   // small dots on top of big ones
-    const c = PLC[i], cls = i === sel ? " sel" : sel != null ? " dim" : "";
-    h += `<g class="ct${cls}" data-i="${i}" tabindex="${inView(c) ? 0 : -1}" role="button" aria-pressed="${i === sel}" aria-label="${esc(c.city)}, ${c.country}: ${plCount(c.n)}" transform="translate(${c.x},${c.y})">` +
-      `<circle r="${r(c).toFixed(2)}" stroke-width="${(1.5 * k).toFixed(3)}"/>${label[i] || ""}<title>${esc(c.city)}, ${plCount(c.n)}</title></g>`;
-  });
-  svg.innerHTML = h;
-}
-function plSide() {
-  const side = $("pl-side");
-  $("pl").classList.toggle("has-sel", PL.sel != null);
-  if (PL.sel == null) {
-    side.innerHTML = `<div class="lab">Cities by researchers</div><div class="nw-az" id="pl-az">` +
-      PLC.map((c, i) => `<button type="button" data-c="${i}"><span>${esc(c.city)}${plOff(c) ? "*" : ""} <small>${esc(c.country)}</small></span><small>${c.n}</small></button>`).join("") + `</div>`;
-    const h = $("pl-svg").getBoundingClientRect().height;
-    $("pl-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && h ? Math.max(200, Math.round(h) - 30) + "px" : "240px";
-    return;
-  }
-  const c = PLC[PL.sel], nh = REC.filter((r) => c.keys.has(recKey(r))).length;
-  side.innerHTML = `<button type="button" class="nw-back" id="pl-back">‹ All cities</button><h4>${esc(c.city)}</h4><div class="org">${esc(c.country)}${plOff(c) ? " · not on these maps" : ""}</div>` +
-    `<div class="nw-stats"><span><b>${c.n}</b>${c.n === 1 ? "researcher" : "researchers"}</span><span><b>${c.orgs.length}</b>${c.orgs.length === 1 ? "institution" : "institutions"}</span></div>` +
-    c.orgs.map(([o, ids]) => `<div class="pl-org"><div class="lab">${esc(o)}</div><div class="nw-list">${ids.filter((id) => id in NWI).map((id) => `<button type="button" data-p="${NWI[id]}">${esc(NWP[NWI[id]].name)}</button>`).join("")}</div></div>`).join("") +
-    (nh ? `<button type="button" class="btn" id="pl-show">Show ${nh === 1 ? "its study" : `its ${nh} studies`}</button>` : "");
-}
-function plPick(i) { PL.sel = PL.sel === i ? null : i; drawPlaces(); plSide(); }
-function plView(v) {
-  PL.view = v;
-  exTabs($("nw-tab-" + v), true);
-  const from = PL.vb.slice(), to = PLACES.views[v].slice(1), t0 = performance.now(), ms = 450;
-  cancelAnimationFrame(PL.raf);
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { PL.vb = to; drawPlaces(); return; }
-  const step = (t) => {
-    const u = Math.min(1, (t - t0) / ms), e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-    PL.vb = from.map((a, j) => a + (to[j] - a) * e);
-    // during the move only the viewBox changes; dots and labels are redrawn once it lands
-    if (u < 1) { $("pl-svg").setAttribute("viewBox", PL.vb.join(" ")); PL.raf = requestAnimationFrame(step); } else drawPlaces();
-  };
-  PL.raf = requestAnimationFrame(step);
-}
-$("nw-tabs").addEventListener("click", (e) => {
-  const b = e.target.closest("button[data-v]"); if (!b) return;
-  const net = b.dataset.v === "net", wasMap = !$("nw-geo").hidden;
-  exTabs(b);
-  $("nw-net").hidden = !net; $("nw-geo").hidden = net;
-  $("nw-geo").setAttribute("aria-labelledby", net ? "nw-tab-0" : b.id);
-  if (net) { drawNetwork(); return; }
-  const v = Number(b.dataset.v);
-  if (!wasMap) { PL.view = v; PL.vb = PLACES.views[v].slice(1); plView(v); drawPlaces(); plSide(); } else plView(v);   // jump, don't pan, when the map first opens
-});
-$("pl-svg").addEventListener("click", (e) => { const g = e.target.closest(".ct"); if (g) plPick(Number(g.dataset.i)); });
-$("pl-svg").addEventListener("keydown", (e) => {
-  const g = e.target.closest(".ct"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
-  e.preventDefault(); const i = Number(g.dataset.i); plPick(i);
-  const again = $("pl-svg").querySelector(`.ct[data-i="${i}"]`); if (again) again.focus();
-});
-$("pl-side").addEventListener("click", (e) => {
-  if (e.target.closest("#pl-back")) { PL.sel = null; drawPlaces(); plSide(); return; }
-  if (e.target.closest("#pl-show")) {
-    const c = PLC[PL.sel];
-    state.person = { id: "place:" + c.city, name: c.city, keys: c.keys };
-    NW.sel = null; drawNetwork(); render();
-    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-    $("count").focus({ preventScroll: true });
-    return;
-  }
-  const c = e.target.closest("button[data-c]");
-  if (c) {   // a city off the current view: move to the closest view that shows it
-    const i = Number(c.dataset.c), { x, y } = PLC[i], has = ([, vx, vy, vw, vh]) => x >= vx && x <= vx + vw && y >= vy && y <= vy + vh;
-    plPick(i); $("pl-back").focus();
-    if (!has(PLACES.views[PL.view])) { const v = PLACES.views.findIndex(has); if (v >= 0) plView(v); }
-    return;
-  }
-  const p = e.target.closest("button[data-p]");   // a researcher: open their profile on the network map
-  if (p) { NW.sel = Number(p.dataset.p); $("nw-tab-net").click(); $("nw").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); }
-});
-// Pointing at a city in the list rings its dot.
-const plRing = (e) => {
-  const b = e.target.closest ? e.target.closest("#pl-az button[data-c]") : null;
-  $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"));
-  if (b) { const g = $("pl-svg").querySelector(`.ct[data-i="${b.dataset.c}"]`); if (g) g.classList.add("hl"); }
-};
-["pointerover", "focusin"].forEach((t) => $("pl-side").addEventListener(t, plRing));
-["pointerleave", "focusout"].forEach((t) => $("pl-side").addEventListener(t, () => $("pl-svg").querySelectorAll(".ct.hl").forEach((g) => g.classList.remove("hl"))));
-const plPeople = PLC.reduce((a, c) => a + c.n, 0);
-const plAway = PLC.filter(plOff).map((c) => `${c.city}, ${c.country}`);
-$("pl-cap").textContent = `${plPeople} researchers in ${PLC.length} cities · Placed by current or last known institution · Dot size shows researchers` +
-  (plAway.length ? ` · *Not on these maps: ${plAway.join("; ")}` : "");
-drawPlaces(); plSide();
-let plW = 0;
-window.addEventListener("resize", () => { const w = Math.round($("pl-svg").getBoundingClientRect().width); if (w !== plW) { plW = w; drawPlaces(); plSide(); } });
 
 render();
 
