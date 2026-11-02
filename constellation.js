@@ -1,15 +1,9 @@
 /* The Constellation on the home page: every goalie researcher (researchers-data.js) is a point of light in the colour
    of their main topic, set on a slowly turning globe and linked to the people they published with; drag to spin it.
-   Hover a light for the name, or a legend entry to light that topic. Colours come from the --t-* tokens in index.html.
+   Hover a light for the name, or a legend entry to light that topic. Colours come from the --t-* tokens in site-nav.css; topics and each person's colour key come from topics.js.
    About 30 frames a second; reduced motion draws one still frame; drawing stops while the hero is off screen. */
 (function () {
-  const TOPICS = [
-    ["hip", "Hip & groin"], ["inj", "Injury & safety"], ["eq", "Equipment"],
-    ["vis", "Vision & anticipation"], ["phy", "Physiology & training"],
-    ["bio", "Movement & biomechanics"], ["psy", "Psychology & cognition"],
-    ["dev", "Development & coaching"], ["stats", "Performance analytics"]
-  ];
-  const name = Object.fromEntries(TOPICS), key = Object.fromEntries(TOPICS.map(([k, n]) => [n, k]));
+  const TOPICS = window.GRJ_TOPICS;   // topics.js, shared with the Research page network map
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let colour = {}, dark = false;
   function readTheme() {
@@ -24,7 +18,7 @@
   const box = document.getElementById("sky"), cv = document.getElementById("sky-art"), tip = document.getElementById("sky-tip"), legend = document.getElementById("legend");
   if (box && cv && typeof NETWORK !== "undefined") {
     const cx = cv.getContext("2d");
-    const people = NETWORK.people.map((p, i) => ({ id: p.id, name: p.name, n: p.n, k: key[(p.tp || [])[0]] || "hip", ph: (i * 2.399) % 6.28 }));
+    const people = NETWORK.people.map((p, i) => ({ id: p.id, name: p.name, n: p.n, k: grjPersonKey(p), ph: (i * 2.399) % 6.28 }));
     const at = Object.fromEntries(people.map((p, i) => [p.id, i]));
     const links = NETWORK.links.map(([a, b]) => [at[a], at[b]]).filter(([a, b]) => a !== undefined && b !== undefined);
     legend.innerHTML = TOPICS.map(([k, n]) => `<li data-k="${k}" style="--c: var(--t-${k})"><i></i>${n}</li>`).join("");

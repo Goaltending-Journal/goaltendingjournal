@@ -41,6 +41,9 @@
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --nav-h: 56px;
+  /* The nine research topics (topics.js), shared by the homepage sphere, legend chips and the Research page network map */
+  --t-hip: #4450b0; --t-inj: #d43d63; --t-eq: #c77a00; --t-vis: #0f8f89; --t-phy: #2e9a3f;
+  --t-bio: #7a4fd6; --t-psy: #c2398a; --t-dev: #1f7fcf; --t-stats: #9a8a00;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -53,6 +56,8 @@
     --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
     --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
     --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
+    --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
+    --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
   }
 }
 :root[data-theme="dark"] {
@@ -65,6 +70,8 @@
   --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
   --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
   --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
+  --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
+  --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
 }
 
 .topbar { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); line-height: 1.6; font-family: var(--sans); }
