@@ -1,4 +1,4 @@
-// Coaches learning path: the module list, and the page chrome shared by coaches.html and the five module pages.
+// Coaches learning path: the module list, and the page chrome shared by briefs.html and the five module pages.
 // Done marks live only in this browser (localStorage), since the site has no accounts.
 const LEARN = [
   { n: 1, href: "coaches-cla.html", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 8, grade: "Borrowed",
@@ -79,7 +79,7 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
   if (pn && here) {
     const prev = LEARN[here - 2], next = LEARN[here];
     pn.innerHTML =
-      (prev ? `<a href="${prev.href}"><span>‹ Module ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="coaches.html"><span>‹ Back to</span><b>The learning path</b></a>`) +
-      (next ? `<a class="nx" href="${next.href}"><span>Module ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="coaches.html#apply"><span>Finished ›</span><b>Apply it in a brief</b></a>`);
+      (prev ? `<a href="${prev.href}"><span>‹ Module ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="briefs.html#modules"><span>‹ Back to</span><b>Learning modules</b></a>`) +
+      (next ? `<a class="nx" href="${next.href}"><span>Module ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="briefs.html#briefs"><span>Finished ›</span><b>Apply it in a brief</b></a>`);
   }
 })();

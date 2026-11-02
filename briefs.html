@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Briefs · The Goaltending Research Journal</title>
+<meta name="description" content="The GRJ learning center for goalie coaches: research briefs that turn goalie studies into practice design, and five short learning modules.">
+<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Jost:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site-nav.css">
+<link rel="stylesheet" href="goalie-cards.css">
+<link rel="stylesheet" href="learn.css">
+<script src="theme.js"></script>
+<style>
+/* Briefs (Goldy, 2026-11-02): the learning center. Same header and one-frame layout as research.html: a side rail (progress,
+   course overview, jump links) beside a carousel of research briefs, then the five learning modules moved here from the old Coaches page,
+   the constraint explorer, the change log and the latest research. Tokens come from site-nav.css and learn.css. */
+.page-hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 16px clamp(32px,5vw,56px)}
+.page-hero::before{content:"";position:absolute;inset:-20% -10%;z-index:-1;pointer-events:none;filter:blur(60px);opacity:.26;-webkit-mask-image:linear-gradient(#000 55%,transparent 92%);mask-image:linear-gradient(#000 55%,transparent 92%);
+  background:radial-gradient(28% 40% at 28% 40%,var(--t-hip),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--t-psy),transparent 70%),radial-gradient(26% 34% at 50% 78%,var(--t-vis),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--t-eq),transparent 70%)}
+.page-hero h1{font:600 clamp(34px,5.4vw,66px)/1.04 var(--display);letter-spacing:.01em;margin:0}
+.page-hero p{margin:16px auto 0;max-width:32em;font:clamp(17px,2vw,20px)/1.55 var(--serif);color:var(--fog)}
+.spectrum{background:linear-gradient(95deg,var(--t-hip),var(--t-bio),var(--t-psy),var(--t-inj),var(--t-eq),var(--t-stats),var(--t-phy),var(--t-vis),var(--t-dev),var(--t-hip));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
+@keyframes spectrum{to{background-position:300% 0}}
+@media (prefers-reduced-motion:reduce){.spectrum{animation:none}}
+main.wrap{max-width:1120px;gap:0}
+/* one frame: rail beside the content */
+.frame{display:grid;grid-template-columns:250px minmax(0,1fr);column-gap:32px;align-items:start;border:1px solid var(--line);border-radius:16px;background:var(--boards);padding:clamp(16px,3vw,28px);margin-bottom:72px}
+.rail{grid-area:auto;position:sticky;top:calc(var(--nav-h) + 20px);display:grid;gap:20px;padding:18px;background:var(--ice);border:1px solid var(--line);border-radius:12px}
+.rail strong{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.rail .btn.primary{justify-self:start}
+.content{display:grid;grid-template-columns:minmax(0,1fr);gap:48px;min-width:0}
+.jump{display:grid;gap:2px}
+.jump a{color:var(--chalk);font-size:14px;padding:5px 8px;margin-inline:-8px;border-radius:6px}
+.jump a:hover{background:var(--crease-dim);text-decoration:none}
+@media (max-width:880px){.frame{grid-template-columns:minmax(0,1fr)}.rail{position:static;order:2;margin-top:40px}.rail .jump-box{display:none}}
+/* Briefs carousel: one card per brief, scroll-snap with previous/next buttons and dots */
+.car-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px 16px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.car-head h2{margin:0;font-size:28px}
+.car-head p{margin:4px 0 0;font-size:13px;color:var(--fog)}
+.car-nav{display:flex;gap:6px}
+.car-nav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--ice);color:var(--chalk);font-size:18px;line-height:1;cursor:pointer}
+.car-nav button:hover:not(:disabled){border-color:var(--crease)}
+.car-nav button:disabled{opacity:.4;cursor:default}
+.car{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 14px) / 2);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px}
+.car::-webkit-scrollbar{display:none}
+.bcard{scroll-snap-align:start;position:relative;display:grid;align-content:start;gap:8px;min-height:300px;border:1px solid var(--line);border-radius:14px;background:var(--ice);color:var(--chalk);overflow:hidden;padding:0 0 20px}
+a.bcard{transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s ease}
+a.bcard:hover,a.bcard:focus-visible{text-decoration:none;transform:translateY(-3px);border-color:var(--c)}
+.bcard .band{height:110px;background:radial-gradient(60% 120% at 20% 0%,var(--c),transparent 70%),radial-gradient(60% 120% at 90% 100%,var(--c2),transparent 70%),var(--boards);opacity:.9}
+.bcard > :not(.band){margin-inline:20px}
+.bcard .k{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-top:8px}
+.bcard b{font:600 24px/1.15 var(--f-display)}
+.bcard p{margin:0;font-size:14px;line-height:1.5;color:var(--fog)}
+.bcard .meta{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:12.5px;color:var(--fog)}
+.bcard .go{margin-top:6px;font-weight:600;font-size:14px;color:var(--crease)}
+.bcard.soon{border-style:dashed;background:transparent}
+.bcard.soon .band{opacity:.35}
+.bcard.soon b{color:var(--fog)}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.dots button{width:8px;height:8px;padding:0;border-radius:50%;border:0;background:var(--line);cursor:pointer}
+.dots button[aria-current="true"]{background:var(--crease);width:22px;border-radius:999px}
+@media (max-width:640px){.car{grid-auto-columns:86%}}
+.mod-intro .lead{margin:6px 0 0;max-width:62ch}
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.chips-row span{font-size:12.5px;font-weight:600;color:var(--fog);background:var(--ice);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.mod-intro .btns{margin-top:18px;align-items:center}
+.prog{display:grid;gap:6px;font-size:12.5px;color:var(--fog)}
+.prog .meter i{background:var(--good)}
+.overview{display:grid;gap:6px;align-content:start}
+.overview strong{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.overview ol{list-style:none;margin:0;padding:0}
+.overview li a{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);color:var(--chalk);font-size:14px;line-height:1.35}
+.overview li:last-child a{border-bottom:0}
+.overview li a:hover{text-decoration:none;color:var(--crease)}
+.overview .n{font-family:var(--f-data);font-size:12px;color:var(--mute)}
+.overview .done .n{color:var(--good)}
+.overview .t{font-size:12px;color:var(--fog);white-space:nowrap}
+.sec-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
+.sec-title h2{margin:0;font-size:28px}
+.sec-title p{margin:0;font-size:13px;color:var(--fog);max-width:60ch}
+section.block{scroll-margin-top:84px}
+/* module list */
+.mods{list-style:none;margin:0;padding:0}
+.mods li{display:grid;grid-template-columns:64px minmax(0,1fr) 170px;gap:6px 22px;padding:20px 0;border-bottom:1px solid var(--line)}
+.mods .num-big{font-family:var(--f-display);font-size:44px;font-weight:600;line-height:.9;color:var(--crease)}
+.mods .done .num-big{color:var(--good)}
+.mods h3{margin:0 0 4px;font-family:var(--f-display);font-size:25px;font-weight:600;line-height:1.05}
+.mods h3 a{color:var(--chalk)}
+.mods h3 a:hover{color:var(--crease);text-decoration:none}
+.mods p{margin:0;font-size:14.5px;line-height:1.55;color:var(--fog);max-width:62ch}
+.mods p.out{margin-top:6px;color:var(--chalk);font-size:13.5px}
+.mods p.out b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-right:6px}
+.mods .side{display:grid;gap:6px;align-content:start;justify-items:start;font-size:13px;color:var(--fog)}
+.mods .side .grade{margin:0}
+.mods .side .ok{color:var(--good);font-weight:700}
+@media (max-width:760px){.mods li{grid-template-columns:44px minmax(0,1fr)}.mods .num-big{font-size:34px}.mods .side{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}}
+/* constraint explorer */
+.ex{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ex{grid-template-columns:1fr}}
+.ex-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.ex-tabs button{display:inline-flex;align-items:baseline;gap:8px;font:600 13.5px var(--f-body);color:var(--fog);background:var(--boards);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.ex-tabs button span{font-family:var(--f-data);font-size:11px;color:var(--mute)}
+.ex-tabs button[aria-selected="true"]{color:var(--on-accent);background:var(--crease);border-color:var(--crease)}
+.ex-tabs button[aria-selected="true"] span{color:inherit;opacity:.75}
+#ex-rink{display:block;width:100%;height:auto}
+#ex-rink [data-on]{transition:opacity .25s ease}
+#ex-rink[data-k] [data-on]{opacity:.22}
+#ex-rink[data-k="ind"] [data-on~="ind"],#ex-rink[data-k="task"] [data-on~="task"],#ex-rink[data-k="env"] [data-on~="env"]{opacity:1}
+#ex-rink .lbl{font:600 2.1px var(--f-body);fill:var(--chalk)}
+#ex-rink .lbl.s{font-weight:500;fill:var(--fog)}
+.ex-panel h3{margin:0 0 4px;font-family:var(--f-display);font-size:24px;font-weight:700;text-transform:uppercase}
+.ex-panel .def{margin:0 0 12px;font-size:14px;color:var(--fog);line-height:1.5}
+.ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ex-list li{background:var(--ice);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.45}
+.ex-list b{display:block}
+.ex-list span{display:block;color:var(--fog);font-size:13px;margin-top:2px}
+.ex-list span::before{content:"Invites: ";font-weight:700;color:var(--crease)}
+/* what changed */
+.log{list-style:none;margin:0;padding:0}
+.log li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 22px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.5}
+.log time{font-family:var(--f-data);font-size:12.5px;color:var(--fog);padding-top:2px}
+.badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:1px 8px;margin-right:8px;vertical-align:1px;color:var(--crease);background:var(--crease-dim)}
+.badge.study{color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
+.badge.brief{color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent)}
+@media (max-width:640px){.log li{grid-template-columns:1fr}}
+/* latest research feed (ported from the old Coaches page) */
+.stamp{margin:0;font-size:12.5px;color:var(--fog)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 13px var(--f-body);line-height:1;color:var(--chalk);background:var(--ice);border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer}
+.chip:hover{border-color:var(--crease)}
+.chip[aria-pressed="true"]{background:var(--crease);border-color:var(--crease);color:var(--on-accent)}
+.filter-row{margin:10px 0 14px}
+.news-list{display:grid;border-top:1px solid var(--line)}
+.news{display:grid;grid-template-columns:108px minmax(0,1fr);gap:4px 24px;padding:18px 0;border-bottom:1px solid var(--line)}
+.news .dt{font:500 12.5px var(--f-data);color:var(--fog);padding-top:4px}
+.news h3{margin:0;font-size:16.5px;line-height:1.35;font-weight:600}
+.news p{margin:6px 0 0;color:var(--fog);font-size:14.5px;line-height:1.55}
+.news .cite{font-size:12.5px;color:var(--fog);margin-top:8px}
+.news .kind{color:var(--crease);font-weight:600}
+.news-more{margin-top:16px}
+.news-more button{font:600 13px var(--f-body);color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.news-more button:hover{border-color:var(--crease)}
+.note{font-size:13px;color:var(--fog);margin:14px 0 0}
+.empty{color:var(--fog)}
+@media (max-width:640px){.news{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-module="0">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html"><span class="brand-logo" aria-hidden="true">GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
+    <nav aria-label="Main" id="nav">
+      <a href="research.html">Research</a>
+      <a href="briefs.html" aria-current="page">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="conference.html">Conference</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <section class="page-hero" aria-labelledby="h-briefs-page">
+    <h1 id="h-briefs-page"><span class="spectrum">Goaltending</span> Briefs</h1>
+    <p>The learning center for goalie coaches: research briefs that turn goalie studies into practice design, and five short learning modules.</p>
+  </section>
+
+  <div class="frame">
+  <aside class="rail" aria-label="Your progress and this page">
+    <div class="prog"><strong>Your progress</strong><span id="prog-txt">0 of 5 modules done</span><div class="meter" aria-hidden="true"><i id="prog-bar"></i></div></div>
+    <a class="btn primary" id="start" href="coaches-cla.html">Start module 1</a>
+    <nav class="overview" aria-label="Course overview">
+      <strong>Learning modules</strong>
+      <ol id="overview"></ol>
+    </nav>
+    <nav class="jump-box jump" aria-label="On this page">
+      <strong>On this page</strong>
+      <a href="#briefs">Research briefs</a>
+      <a href="#modules">Learning modules</a>
+      <a href="#explore">Constraint explorer</a>
+      <a href="#changes">What changed</a>
+      <a href="#skill-acquisition">Latest research</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+  <section class="block" id="briefs" aria-labelledby="h-briefs">
+    <div class="car-head">
+      <div><h2 id="h-briefs">Research briefs</h2><p>One study, what it found, how sure we are, and how to design practice around it.</p></div>
+      <div class="car-nav"><button type="button" id="car-prev" aria-label="Previous brief">‹</button><button type="button" id="car-next" aria-label="Next brief">›</button></div>
+    </div>
+    <div class="car" id="car" tabindex="0" aria-label="Research briefs">
+      <a class="bcard" href="glove-positioning.html" style="--c: var(--t-bio); --c2: var(--t-vis)">
+        <div class="band" aria-hidden="true"></div>
+        <span class="k">Brief 1 · October 2026</span>
+        <b>Glove Positioning Analysis</b>
+        <p>Why goalies give up more net late in a drill, with constraints to hold depth on wide pucks.</p>
+        <span class="meta"><span class="grade">Emerging</span><span>Kwan, Daley &amp; MacLean 2026</span><span>4 min read</span></span>
+        <span class="go">Read the brief →</span>
+      </a>
+      <div class="bcard soon" style="--c: var(--t-vis); --c2: var(--t-psy)">
+        <div class="band" aria-hidden="true"></div>
+        <span class="k">Brief 2 · Coming soon</span>
+        <b>Gaze Behaviors of Goaltenders</b>
+        <p>What expert goalies look at before the release, and how to keep that information in practice.</p>
+      </div>
+      <div class="bcard soon" style="--c: var(--t-hip); --c2: var(--t-eq)">
+        <div class="band" aria-hidden="true"></div>
+        <span class="k">Brief 3 · Coming soon</span>
+        <b>Next brief in the works</b>
+        <p>New briefs are added here as each one is reviewed.</p>
+      </div>
+      <div class="bcard soon" style="--c: var(--t-dev); --c2: var(--t-phy)">
+        <div class="band" aria-hidden="true"></div>
+        <span class="k">Brief 4 · Coming soon</span>
+        <b>Next brief in the works</b>
+        <p>New briefs are added here as each one is reviewed.</p>
+      </div>
+    </div>
+    <div class="dots" id="car-dots" aria-label="Choose a brief"></div>
+  </section>
+
+  <section class="block" id="modules" aria-labelledby="h-modules">
+    <div class="sec-title mod-intro"><div><h2 id="h-modules">Learning modules</h2><p class="lead">Practice design in five short modules. Learn to design goalie practice that keeps the shooter's information intact, then check a week later whether it stuck. Every claim is graded, and every hockey example is marked when no study has tested it.</p>
+      <div class="chips-row"><span>5 modules</span><span id="total-min">About 40 min</span><span>Free, no sign-up</span><span>Evidence graded</span></div></div></div>
+    <div class="gc-tabs" role="tablist" aria-label="Modules or your binder">
+      <button type="button" role="tab" id="tab-mods" aria-controls="panel-mods" aria-selected="true">Modules</button>
+      <button type="button" role="tab" id="tab-binder" aria-controls="binder" aria-selected="false" tabindex="-1">Binder</button>
+    </div>
+    <div id="panel-mods" role="tabpanel" aria-labelledby="tab-mods">
+    <ol class="mods" id="mods"></ol>
+    <p class="key"><span class="grade">Borrowed</span> solid in other sports, assumed to carry over · <span class="grade">Practice wisdom</span> expert planning or experience, untested · <span class="tag-adapt">Adaptation</span> a hockey example no study has tested</p>
+    </div>
+    <div id="binder" class="gc-binder" role="tabpanel" aria-labelledby="tab-binder" tabindex="0" hidden></div>
+  </section>
+
+  <section class="block" id="explore" aria-labelledby="h-explore">
+    <div class="sec-title"><h2 id="h-explore">Constraint explorer</h2><p>Tap a kind of constraint to see what you can change, and the behaviour each change invites. From module 2; every example is an adaptation.</p></div>
+    <div class="ex-tabs" role="tablist" aria-label="Kinds of constraint">
+      <button type="button" role="tab" id="tab-ind" aria-controls="ex-panel" aria-selected="true" data-k="ind"><span>01</span>Individual</button>
+      <button type="button" role="tab" id="tab-task" aria-controls="ex-panel" aria-selected="false" data-k="task"><span>02</span>Task</button>
+      <button type="button" role="tab" id="tab-env" aria-controls="ex-panel" aria-selected="false" data-k="env"><span>03</span>Environment</button>
+    </div>
+    <div class="ex">
+      <div class="panel">
+        <svg id="ex-rink" data-k="ind" viewBox="-43 -1 86 49" role="img" aria-labelledby="ex-rink-t">
+          <title id="ex-rink-t">Top-down view of the defensive zone with the goalie, a shooter, a far-side passer and a screen</title>
+          <rect x="-42.5" y="-1" width="85" height="49" rx="3" fill="var(--ice)" stroke="var(--line)" stroke-width=".3"/>
+          <g fill="none" stroke="var(--bad)" stroke-width=".25" opacity=".45"><circle cx="-22" cy="22" r="15"/><circle cx="22" cy="22" r="15"/></g>
+          <line x1="-42.5" y1="42" x2="42.5" y2="42" stroke="var(--bad)" stroke-width=".25" opacity=".7"/>
+          <path d="M-4 42 L-4 37.5 A6 6 0 0 1 4 37.5 L4 42 Z" fill="var(--crease-dim)" stroke="var(--crease)" stroke-width=".2"/>
+          <rect x="-3" y="42" width="6" height="3.3" rx=".6" fill="var(--glass)" stroke="var(--chalk)" stroke-width=".3"/>
+          <!-- environment: tight small-area space, landmark cones, off-ice note -->
+          <g data-on="env">
+            <rect x="-30" y="6" width="60" height="38.5" rx="2" fill="none" stroke="var(--warn)" stroke-width=".45" stroke-dasharray="1.4 .9"/>
+            <text class="lbl" x="-29" y="4.6" style="fill:var(--warn)">Tight space: small-area game</text>
+            <path d="M-6.4 35.2 l.9 -1.6 l.9 1.6z M5.5 35.2 l.9 -1.6 l.9 1.6z" fill="var(--warn)"/>
+            <text class="lbl s" x="8.2" y="35" >Cones at set depth</text>
+          </g>
+          <!-- task: passer, pass lane, screen, double-goal zone, live rebound -->
+          <g data-on="task">
+            <path d="M-13 21 Q2 15 15.5 23" fill="none" stroke="var(--crease)" stroke-width=".4" stroke-dasharray="1 .7"/>
+            <circle cx="16.5" cy="23.5" r="1.4" fill="var(--crease)"/>
+            <text class="lbl" x="18.6" y="23.6">Far-side passer</text>
+            <text class="lbl s" x="18.6" y="26.2">Pass goals count x2</text>
+            <circle cx="2.5" cy="33" r="1.4" fill="var(--fog)"/>
+            <text class="lbl s" x="-20.5" y="33.8">Screen must stay</text>
+            <path d="M-1 37 q-5 -2 -9 1" fill="none" stroke="var(--crease)" stroke-width=".35" marker-end="url(#ah)"/>
+            <text class="lbl s" x="-25" y="40">Rebound stays live</text>
+          </g>
+          <defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="var(--crease)"/></marker></defs>
+          <!-- shooter with puck -->
+          <g data-on="task env">
+            <circle cx="-14" cy="20.5" r="1.4" fill="var(--chalk)"/>
+            <circle cx="-12.2" cy="22" r=".55" fill="var(--chalk)"/>
+            <text class="lbl s" x="-23" y="17.6">Shooter</text>
+          </g>
+          <!-- goalie -->
+          <g data-on="ind">
+            <circle cx="0" cy="38.6" r="4.2" fill="var(--good)" opacity=".12"/>
+            <circle cx="0" cy="38.6" r="1.25" fill="var(--good)"/>
+            <text class="lbl" x="5.3" y="40.6" style="fill:var(--good)">Goalie: size, hips, fatigue, fear</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ex-panel" id="ex-panel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="block" id="changes" aria-labelledby="h-changes">
+    <div class="sec-title"><h2 id="h-changes">What changed</h2><p>This path is kept current. New studies, updated briefs and grade changes are logged here.</p></div>
+    <ol class="log">
+      <li><time datetime="2026-10-23">23 Oct 2026</time><div><span class="badge new">New</span><b>Coaches learning path.</b> Five short modules on goalie practice design, drawn from our reports on the constraints-led approach and Otte's PoST framework.</div></li>
+      <li><time datetime="2026-10-23">23 Oct 2026</time><div><span class="badge brief">Updated brief</span><b>Glove Positioning Analysis</b> gained Design it, Try it this week and Check it sections.</div></li>
+      <li><time datetime="2026-10-22">22 Oct 2026</time><div><span class="badge brief">Updated brief</span>Brief 1 was renamed <b>Glove Positioning Analysis</b> and now opens with the study it is based on.</div></li>
+      <li><time datetime="2026-10-10">10 Oct 2026</time><div><span class="badge study">New study</span>Kwan, Daley &amp; MacLean's glove position study was published online. It is the evidence behind Brief 1 and module 2's depth examples.</div></li>
+    </ol>
+  </section>
+
+  <section class="block" id="skill-acquisition" aria-labelledby="h-sa">
+    <div class="sec-title"><h2 id="h-sa">Latest research</h2><p>New studies on ecological dynamics, the constraints-led approach and motor learning. Most are not about goaltending. <span class="stamp">Updated <span id="research-updated"></span></span></p></div>
+    <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
+    <div class="news-list" id="research-list"></div>
+    <div class="news-more" id="research-more"></div>
+    <p class="note" id="research-links"></p>
+  </section>
+  </div>
+  </div>
+</main>
+
+
+<script src="learn.js"></script>
+<script>
+// Hub: course overview, module list, progress, and the constraint explorer
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const done = learnDone();
+  const total = LEARN.reduce((a, m) => a + m.min, 0);
+  $("total-min").textContent = "About " + total + " min";
+  $("overview").innerHTML = LEARN.map((m) => `<li${done.has(m.n) ? ' class="done"' : ""}><a href="${m.href}"><span class="n">${done.has(m.n) ? "✓" : "0" + m.n}</span><span>${m.title}</span><span class="t">${m.min} min</span></a></li>`).join("");
+  $("mods").innerHTML = LEARN.map((m) => `<li${done.has(m.n) ? ' class="done"' : ""}><div class="num-big">0${m.n}</div><div><h3><a href="${m.href}">${m.title}</a></h3><p>${m.blurb}</p><p class="out"><b>You'll be able to</b>${m.outcome}</p></div><div class="side"><span>${m.min} min read</span><span class="grade">${m.grade}</span>${done.has(m.n) ? '<span class="ok">✓ Done</span>' : ""}</div></li>`).join("");
+  $("prog-txt").textContent = done.size + " of 5 modules done";
+  $("prog-bar").style.width = done.size / 5 * 100 + "%";
+  const next = LEARN.find((m) => !done.has(m.n));
+  if (done.size && next) { $("start").href = next.href; $("start").textContent = "Continue with module " + next.n; }
+  else if (!next) { $("start").href = "#briefs"; $("start").textContent = "Apply it in a brief"; }
+
+  const EX = {
+    ind: { t: "Individual", d: "The goalie's own structure and state: size, hip mobility, strength, fatigue, confidence, attention.", items: [
+      ["Scale shot speed and distance to the goalie's size, fatigue and confidence", "success rates that keep the goalie searching, not surviving"],
+      ["Count butterfly and RVH reps in each block, and log them", "a plan that respects the hips; no study sets a safe number"],
+      ["For a goalie who fears high shots, use a slower live shooter instead of cutting the shooter out", "staying set while still reading a real release"] ] },
+    task: { t: "Task", d: "Rules, equipment, goals and space: what the drill asks for and what counts.", items: [
+      ["Add a live far-side passer", "depth matched to the play, because over-challenging gives up the backdoor"],
+      ["Goals off a far-side pass count double", "reading the pass instead of guessing the shot"],
+      ["A net-front player with a “screen must stay” rule; rebounds stay live", "finding the puck around traffic and controlling the first save"] ] },
+    env: { t: "Environment", d: "The physical and social setting: rink space, landmarks, lighting, crowd, team culture.", items: [
+      ["Run reads inside a tight small-area game instead of a line drill", "reading and recovering under fatigue and pressure"],
+      ["Place cones at the goalie's set depth, then remove them over a few sessions", "self-correction from rink landmarks without the coach"],
+      ["Move pattern work off the ice to a slide board or synthetic ice", "more ice time spent on game-like work"] ] }
+  };
+  const rink = $("ex-rink"), panel = $("ex-panel"), tabs = [...document.querySelectorAll(".ex-tabs button")];
+  function show(k) {
+    const e = EX[k];
+    rink.dataset.k = k;
+    tabs.forEach((b) => { const on = b.dataset.k === k; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
+    panel.setAttribute("aria-labelledby", "tab-" + k);
+    panel.innerHTML = `<h3>${e.t} constraints</h3><p class="def">${e.d}</p><ul class="ex-list">` + e.items.map(([c, i]) => `<li><b>${c}</b><span>${i}</span></li>`).join("") + `</ul><p class="hint">Adaptations from module 2. <a href="coaches-constraints.html#menu">See the full constraint menu</a>.</p>`;
+  }
+  tabs.forEach((b, i) => {
+    b.addEventListener("click", () => show(b.dataset.k));
+    b.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const t = tabs[(i + d + tabs.length) % tabs.length]; t.focus(); show(t.dataset.k); }
+    });
+  });
+  show("ind");
+})();
+</script>
+<script src="research.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+/* Research feed (items live in research.js) */
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmtDate = (d) => { const [y, m, dd] = String(d).split("-").map(Number); return dd ? `${dd} ${MON[m - 1]} ${y}` : ""; };
+const moreButton = (box, id, total, shown, show, onToggle) => {
+  box.innerHTML = total > show ? `<button type="button" id="${id}" aria-expanded="${shown}">${shown ? "Show fewer" : `Show all ${total} items`}</button>` : "";
+  const b = document.getElementById(id);
+  if (b) b.addEventListener("click", () => { onToggle(); document.getElementById(id).focus(); });
+};
+function filterChips(box, options, current, onPick) {
+  box.innerHTML = options.map(([k, n]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="${k === current}">${esc(n)}</button>`).join("");
+  box.onclick = (e) => { const b = e.target.closest("button[data-k]"); if (b) onPick(b.dataset.k); };
+}
+
+(function research() {
+  const list = (typeof RESEARCH !== "undefined" ? RESEARCH.slice() : []).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0));
+  const TAGS = { ed: "Ecological dynamics", sa: "Skill acquisition" };
+  $("research-updated").textContent = typeof RESEARCH_UPDATED !== "undefined" ? RESEARCH_UPDATED : "";
+  const pm = (s) => "https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=" + encodeURIComponent(s);
+  $("research-links").innerHTML = "Search for more: " + [
+    ["PubMed: ecological dynamics", pm('"ecological dynamics"')],
+    ["PubMed: constraints-led approach", pm('"constraints-led approach"')],
+    ["PubMed: skill acquisition in sport", pm('"skill acquisition" AND sport')],
+    ["Google Scholar", "https://scholar.google.com/scholar?q=%22ecological+dynamics%22+%22skill+acquisition%22&as_ylo=2026"]
+  ].map(([n, u]) => `<a href="${esc(u)}" rel="noopener">${esc(n)}</a>`).join(" · ");
+  if (!list.length) { $("research-list").innerHTML = `<p class="empty">No research items yet.</p>`; $("research-filter").innerHTML = ""; return; }
+  const SHOW = 6;
+  let tag = "all", all = false;
+  function paint() {
+    const rows = list.filter((r) => tag === "all" || (r.tg || []).includes(tag));
+    const shown = all ? rows : rows.slice(0, SHOW);
+    filterChips($("research-filter"), [["all", "All"], ["ed", TAGS.ed], ["sa", TAGS.sa]], tag, (k) => { tag = k; all = false; paint(); });
+    $("research-list").innerHTML = rows.length ? shown.map((r) => {
+      const href = r.doi ? "https://doi.org/" + r.doi : r.u;
+      const title = href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
+      const tags = (r.tg || []).map((k) => TAGS[k]).filter(Boolean);
+      return `<article class="news"><div class="dt">${esc(fmtDate(r.d))}</div><div><h3>${title}</h3>` +
+        (r.n ? `<p>${esc(r.n)}</p>` : "") +
+        `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}${tags.length ? ` · <span class="kind">${esc(tags.join(", "))}</span>` : ""}</div></div></article>`;
+    }).join("") : `<p class="empty">No items match this filter.</p>`;
+    moreButton($("research-more"), "research-toggle", rows.length, all, SHOW, () => { all = !all; paint(); });
+  }
+  paint();
+})();
+/* Hide the "Updated" stamp when the list has no date */
+if (!$("research-updated").textContent) $("research-updated").parentElement.hidden = true;
+</script>
+<script src="illustrations/goalie-skeleton.js"></script>
+<script src="illustrations/styles.js"></script>
+<script src="goalie-cards-data.js"></script>
+<script src="goalie-cards.js"></script>
+<script>
+// Modules / Binder tabs; briefs.html#binder opens the binder
+(function () {
+  const tabs = [...document.querySelectorAll('.gc-tabs [role="tab"]')];
+  const show = (t, focus) => {
+    tabs.forEach((x) => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute("aria-controls")).hidden = !on; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { show(t); history.replaceState(null, "", t.id === "tab-binder" ? "#binder" : location.pathname); });
+    t.addEventListener("keydown", (e) => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) show(tabs[(i + k + tabs.length) % tabs.length], true); });
+  });
+  const fromHash = () => { if (location.hash === "#binder") { show(tabs[1]); document.getElementById("modules").scrollIntoView(); } };
+  addEventListener("hashchange", fromHash); fromHash();
+})();
+</script>
+<script>
+// Briefs carousel: previous/next buttons and dots scroll the track one card at a time
+(function () {
+  const car = document.getElementById("car"), cards = [...car.children], dots = document.getElementById("car-dots");
+  const prev = document.getElementById("car-prev"), next = document.getElementById("car-next");
+  dots.innerHTML = cards.map((c, i) => `<button type="button" aria-label="Brief ${i + 1}"></button>`).join("");
+  const step = () => cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : car.clientWidth;
+  const at = () => Math.round(car.scrollLeft / step());
+  const go = (i) => car.scrollTo({ left: i * step(), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  const paint = () => {
+    const i = at(), end = car.scrollLeft + car.clientWidth >= car.scrollWidth - 4;
+    prev.disabled = car.scrollLeft <= 4; next.disabled = end;
+    [...dots.children].forEach((d, k) => d.setAttribute("aria-current", String(k === i)));
+  };
+  prev.addEventListener("click", () => go(at() - 1));
+  next.addEventListener("click", () => go(at() + 1));
+  dots.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) go([...dots.children].indexOf(b)); });
+  car.addEventListener("scroll", paint, { passive: true }); addEventListener("resize", paint); paint();
+})();
+</script>
+</body>
+</html>
