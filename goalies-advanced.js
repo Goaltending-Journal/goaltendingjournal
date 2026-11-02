@@ -19,6 +19,9 @@ const GM_VIEWS = [["goals","Goals"],["shots","Shots"],["sv","Save %"]];
 const GM_STR = [["all","All"],["0","5v5"],["1","Power play against"],["2","Short-handed"]];
 const GM_SIZE = {goals:3.2, shots:3.2, sv:4.6};   // hex radius in feet
 const GM_MIN = {goalie:6, league:25};             // fewest shots in a hex to colour it by save %
+// Each shot type gets a topic colour (site-nav.css --t-*), so goal orbs on the map match the bars under "How the goals went in"
+const SHOT_TOK = {wrist:"--t-vis",snap:"--t-psy",slap:"--t-bio",backhand:"--t-eq","tip-in":"--t-phy",deflected:"--t-stats","wrap-around":"--t-inj",poke:"--t-dev",bat:"--t-hip"};
+const shotTok = s => SHOT_TOK[GM.shotTypes[s[5]]] || "--fog";
 const SHOT_NAMES = {wrist:"Wrist",snap:"Snap",slap:"Slap",backhand:"Backhand","tip-in":"Tip-in",deflected:"Deflection","wrap-around":"Wrap-around",poke:"Poke",bat:"Batted","between-legs":"Between the legs",cradle:"Lacrosse"};
 const gm = {
   id: store.get("gm:goalie",""), view: store.get("gm:view","goals"), str: store.get("gm:str","all"),
@@ -108,7 +111,8 @@ function gmMap(c){
   if(gm.dots && gm.view!=="sv"){
     const goals=c.shots.filter(s=>s[3] && s[1]>=25);
     const big = goals.length<=250;
-    s += `<g class="gdots">` + goals.map(s=>`<circle class="gd" data-gi="${s.i}" cx="${gmX(s[2]).toFixed(1)}" cy="${gmY(s[1]).toFixed(1)}" r="${big?1:.6}"/>`).join("") + `</g>`;
+    s += `<defs><filter id="gmGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="${big?.9:.6}" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`
+      + `<g class="gdots" filter="url(#gmGlow)">` + goals.map(s=>`<circle class="gd" data-gi="${s.i}" cx="${gmX(s[2]).toFixed(1)}" cy="${gmY(s[1]).toFixed(1)}" r="${big?.95:.6}" style="fill:var(${shotTok(s)})"/>`).join("") + `</g>`;
   }
   const long=c.shots.filter(s=>s[1]<25), lg=long.reduce((a,s)=>a+s[3],0);
   s += `<text x="42.5" y="83" font-size="3" fill="var(--fog)">${long.length} shots from outside the zone · ${lg} goal${lg===1?"":"s"}</text>`;
@@ -122,7 +126,7 @@ function gmLegend(c){
     return;
   }
   const what = gm.view==="goals" ? "goals" : "shots";
-  $("#gmLegend").innerHTML = `<div class="ramp" style="background:linear-gradient(90deg,${mix(ZSEQ[0],ZSEQ[1],.18)},${ZSEQ[1]})"></div><div class="ends"><span>1 ${what.slice(0,-1)}</span><span>Each hexagon is about ${Math.round(GM_SIZE[gm.view]*1.73)} ft across</span><span>${c.maxN} ${what}</span></div>${gm.dots&&gm.view!=="sv"?`<span><svg width="10" height="10" style="vertical-align:-1px;margin-right:6px"><circle cx="5" cy="5" r="3.5" class="gd"/></svg>${gm.dim==="3d"?"Each puck is one goal, resting where the shot was taken. Drag to turn, scroll or pinch to zoom, hover for who scored.":"Each dot is one goal, placed where the shot was taken. Hover for who scored."}</span>`:""}`;
+  $("#gmLegend").innerHTML = `<div class="ramp" style="background:linear-gradient(90deg,${mix(ZSEQ[0],ZSEQ[1],.18)},${ZSEQ[1]})"></div><div class="ends"><span>1 ${what.slice(0,-1)}</span><span>Each hexagon is about ${Math.round(GM_SIZE[gm.view]*1.73)} ft across</span><span>${c.maxN} ${what}</span></div>${gm.dots&&gm.view!=="sv"?`<span><i class="orb" style="--c:var(--t-vis)"></i><i class="orb" style="--c:var(--t-psy)"></i><i class="orb" style="--c:var(--t-inj)"></i>${gm.dim==="3d"?"Each orb is one goal, resting where the shot was taken and coloured by shot type. Drag to turn, scroll or pinch to zoom, hover for who scored.":"Each orb is one goal, placed where the shot was taken and coloured by shot type. Hover for who scored."}</span>`:""}`;
 }
 function gmStats(c){
   const n=c.shots.length, gl=c.shots.filter(s=>s[3]), sv=n?1-gl.length/n:null;
@@ -143,8 +147,9 @@ function gmTable(c){
   $("#gmTbl thead").innerHTML=`<tr><th class="l">Area</th><th>Goals</th><th>Share of goals</th><th>Shots</th><th>SV%</th></tr>`;
   $("#gmTbl tbody").innerHTML=order.map(r=>`<tr><td class="l">${esc(r.name)}</td><td class="num">${r.g}</td><td class="num"><span class="bar"><i style="width:${Math.round(60*r.g/G)}px"></i>${pct(r.g/G)}</span></td><td class="num">${r.n}</td><td class="num">${r.n?fmtSv(1-r.g/r.n):"–"}</td></tr>`).join("");
   const types={}; c.shots.forEach(s=>{ if(s[3]){ const t=GM.shotTypes[s[5]]||"other"; types[t]=(types[t]||0)+1; } });
+  const tc=t=>`var(${SHOT_TOK[t]||"--fog"})`;
   const tl=Object.entries(types).sort((a,b)=>b[1]-a[1]), tmax=Math.max(1,...tl.map(t=>t[1]));
-  $("#gmTypes").innerHTML = tl.length ? tl.map(([t,v])=>`<div class="tyrow"><span>${esc(SHOT_NAMES[t]||"Other")}</span><i style="width:${(100*v/tmax).toFixed(0)}%"></i><b class="num">${v}</b></div>`).join("") : `<div class="note">No goals with these filters.</div>`;
+  $("#gmTypes").innerHTML = tl.length ? tl.map(([t,v])=>`<div class="tyrow" style="--c:${tc(t)}"><span><i class="orb"></i>${esc(SHOT_NAMES[t]||"Other")}</span><i class="tybar" style="width:${(100*v/tmax).toFixed(0)}%"></i><b class="num">${v}</b></div>`).join("") : `<div class="note">No goals with these filters.</div>`;
 }
 let gmLast=null;
 function renderGoalMap(){
@@ -172,7 +177,7 @@ const GM3D_VIEWS = [["point","From the point"],["over","Overhead"],["goalie","Go
 let gm3d=null, gm3dLoading=null;
 function gm3dApi(){
   return {
-    binKey: (s,r)=>hexQR(s,r).join(","), mapX: s=>gmX(s[2]), mapY: s=>gmY(s[1]), hideTip,
+    binKey: (s,r)=>hexQR(s,r).join(","), mapX: s=>gmX(s[2]), mapY: s=>gmY(s[1]), hideTip, goalTok: shotTok,
     puckTip: (e,s)=>{ const g=GM.goalies[s[0]]; showTip(e,`<b>${esc(GM.shooters[s[6]]||"Goal")}</b>${esc(GM.dates[s[7]]||"")} · ${s[8]>3?"OT":"Period "+s[8]} · ${esc(s[9])}<br>${esc(SHOT_NAMES[GM.shotTypes[s[5]]]||"Shot")} from ${gmDist(s).toFixed(0)} ft · ${esc(GM.strengths[s[4]]||"")}<br>On ${esc(g[1])}`); },
     cellTip: (e,b)=>showTip(e,`<b>${b.g} goal${b.g===1?"":"s"} on ${b.n} shot${b.n===1?"":"s"}</b>Save % ${fmtSv(b.sv)}${gm.view==="sv"&&b.lsv!=null?`<br>League here ${fmtSv(b.lsv)}`:""}`)
   };
@@ -402,7 +407,7 @@ function renderNst(){
   if(!nst.data.all) return;
   const S=nst.summary;
   $("#nstNote").innerHTML = `${esc(S?.season||"")} regular season · fetched ${esc((S?.fetched_at||"").slice(0,10))} · Data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>`;
-  $("#nstStr").innerHTML = segBtns(NST_STR, nst.str);
+  $("#nstStr").innerHTML = $("#dzStr").innerHTML = segBtns(NST_STR, nst.str);
   $("#nstMetric").innerHTML = NST_METRICS.map(m=>`<option value="${m.k}" ${m.k===nst.metric?"selected":""}>${esc(m.t)}</option>`).join("");
   const mx=Math.max(50, Math.ceil(nstMaxSa()/10)*10); $("#nstMin").max=mx; $("#nstMin").value=Math.min(nstMin(),mx); $("#nstMinV").textContent=nstMin();
   const opts=[...nstRows()].sort((a,b)=>last(a.name).localeCompare(last(b.name)));
@@ -417,20 +422,21 @@ function renderNst(){
   nstDanger(); nstTable();
 }
 function nstSelect(key){ nst.id = nst.id===key ? "" : key; store.set("nst:goalie",nst.id); renderNst(); }
-$("#nstSec").addEventListener("click",e=>{
+["#nstSec","#dzSec"].forEach(sel=>$(sel).addEventListener("click",e=>{
   const a=e.target.closest("[data-open]"); if(a){ e.preventDefault(); openGoalie(+a.dataset.open); return; }
-  const sb=e.target.closest("#nstStr button"); if(sb){ nst.str=sb.dataset.v; store.set("nst:str",nst.str); if(!nstRows().some(r=>r.key===nst.id)) nst.id=""; renderNst(); return; }
+  const sb=e.target.closest("#nstStr button, #dzStr button"); if(sb){ nst.str=sb.dataset.v; store.set("nst:str",nst.str); if(!nstRows().some(r=>r.key===nst.id)) nst.id=""; renderNst(); return; }
   const h=e.target.closest("[data-nhide]"); if(h){ nst.hidden=[...new Set([...nst.hidden,h.dataset.nhide])]; store.set("nst:hidden",nst.hidden); hideTip(); renderNst(); return; }
   const s=e.target.closest("[data-nshow]"); if(s){ nst.hidden=nst.hidden.filter(k=>k!==s.dataset.nshow); store.set("nst:hidden",nst.hidden); renderNst(); return; }
   if(e.target.closest("#dzHide")){ nst.hidden = nst.hidden.includes("dmap") ? nst.hidden.filter(k=>k!=="dmap") : [...nst.hidden,"dmap"]; store.set("nst:hidden",nst.hidden); renderNst(); return; }
   const th=e.target.closest("#nstTbl th"); if(th){ const k=th.dataset.k; nst.sort = nst.sort.k===k ? {k,dir:-nst.sort.dir} : {k,dir:(NST_COLS.find(c=>c.k===k).l?1:-1)}; nstTable(); return; }
-  const r=e.target.closest("[data-nk]"); if(r){ nstSelect(r.dataset.nk); if(!r.closest("#dzCard")) $("#dzCard").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"}); }
-});
+  // Picking a goalie in Advanced stats opens their danger zones (their own view on the rail)
+  const r=e.target.closest("[data-nk]"); if(r){ const wasOn=nst.id===r.dataset.nk; nstSelect(r.dataset.nk); if(!r.closest("#dzSec") && !wasOn && window.grjShowView) window.grjShowView("dzSec"); }
+}));
 $("#nstMetric").addEventListener("change",e=>{ nst.metric=e.target.value; store.set("nst:metric",nst.metric); renderNst(); });
 $("#nstMin").addEventListener("input",e=>{ nst.min=+e.target.value; store.set("nst:min",nst.min); renderNst(); });
 $("#nstQ").addEventListener("input",e=>{ nst.q=e.target.value; nstTable(); });
 $("#dzGoalie").addEventListener("change",e=>{ nst.id=e.target.value; store.set("nst:goalie",nst.id); renderNst(); });
-$("#nstSec").addEventListener("mousemove",e=>{
+["#nstSec","#dzSec"].forEach(sel=>$(sel).addEventListener("mousemove",e=>{
   const d=e.target.closest("svg [data-nk]"), z=e.target.closest("svg [data-dz]");
   if(d){ const r=nstRows().find(r=>r.key===d.dataset.nk); if(!r) return hideTip();
     return showTip(e,`<b>${esc(r.name)}</b>${esc(r.team)} · ${r.gp} GP · ${r.sa} shots<br>SV% ${fmtSv(r.svp)} · GSAA ${signed(r.gsaa,2)}<br>High danger ${fmtSv(r.hdsv)} on ${r.hdsa} · everything else ${fmtSv(r.restsv)}`); }
@@ -438,8 +444,8 @@ $("#nstSec").addEventListener("mousemove",e=>{
     const sa=g?g[k+"sa"]:L[k].sa, ga=g?g[k+"ga"]:L[k].ga;
     return showTip(e,`<b>${D.t}</b>${ga} goals on ${sa} shots · SV% ${sa?fmtSv(1-ga/sa):"–"}${g?`<br>League ${fmtSv(L[k].sv)} · GSAA ${signed(g[k+"gsaa"],2)}`:""}`); }
   hideTip();
-});
-$("#nstSec").addEventListener("mouseleave",hideTip);
+}));
+["#nstSec","#dzSec"].forEach(sel=>$(sel).addEventListener("mouseleave",hideTip));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",renderNst);
 let nstRz; addEventListener("resize",()=>{ clearTimeout(nstRz); nstRz=setTimeout(()=>{ if(nst.data.all){ if(state.gfx&&!nst.hidden.includes("top")) nstTop(); if(state.gfx&&!nst.hidden.includes("scatter")) nstScatter(); } },150); });
 

@@ -10,7 +10,7 @@ const CX = 42.5, CZ = 40;                       // map point that sits at the sc
 const P = (x, y, h = 0) => new THREE.Vector3(x - CX, h, y - CZ);
 const NET = P(42.5, 10);                        // centre of the goal mouth
 const MAX_H = 12;                               // tallest column, in feet
-const PUCK_R = 0.6, PUCK_H = 0.35;              // drawn bigger than a real puck so it reads from the point
+const ORB_R = 0.5;                              // each goal is a glowing orb in its shot type colour, like the homepage sphere
 export const VIEWS = [
   ["point", "From the point", P(42.5, 92, 26), P(42.5, 34, 0)],
   ["over", "Overhead", P(42.5, 38.5, 112), P(42.5, 38, 0)],
@@ -85,11 +85,12 @@ export function create(host, api) {
   }
 
   // Data layers: one InstancedMesh for the hex columns and one for the pucks.
-  let cols = null, pucks = null, cells = [], goals = [];
+  let cols = null, pucks = null, halos = null, cells = [], goals = [];
   const tmp = new THREE.Object3D(), col = new THREE.Color();
   function update(c, opts) {
     if (cols) { scene.remove(cols); cols.geometry.dispose(); cols.material.dispose(); cols = null; }
     if (pucks) { scene.remove(pucks); pucks.geometry.dispose(); pucks.material.dispose(); pucks = null; }
+    if (halos) { scene.remove(halos); halos.geometry.dispose(); halos.material.dispose(); halos = null; }
     const none = tok("--z-none") || tok("--glass");
     cells = c.list.filter((b) => b.n > 0 && onIce(b.x, b.y));
     const val = (b) => (opts.view === "goals" ? b.g : b.n);
@@ -109,18 +110,27 @@ export function create(host, api) {
     scene.add(cols);
     goals = opts.dots ? c.shots.filter((s) => s[3] && s[1] >= 25) : [];
     if (goals.length) {
-      const pg = new THREE.CylinderGeometry(PUCK_R, PUCK_R, PUCK_H, 20); pg.translate(0, PUCK_H / 2, 0);
-      pucks = new THREE.InstancedMesh(pg, new THREE.MeshStandardMaterial({ color: tok("--chalk"), emissive: tok("--chalk"), emissiveIntensity: 0.25, roughness: 0.3 }), goals.length);
+      const pg = new THREE.SphereGeometry(ORB_R, 18, 12); pg.translate(0, ORB_R, 0);
+      pucks = new THREE.InstancedMesh(pg, new THREE.MeshBasicMaterial({ color: 0xffffff }), goals.length);
+      // a soft, additive halo around each orb gives the glow
+      const hg = new THREE.SphereGeometry(ORB_R * 1.8, 14, 10); hg.translate(0, ORB_R, 0);
+      halos = new THREE.InstancedMesh(hg, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending, depthWrite: false }), goals.length);
+      halos.raycast = () => {};
+      const oc = new THREE.Color(), cache = new Map();
+      const colourOf = (s) => { const k = api.goalTok ? api.goalTok(s) : "--chalk"; if (!cache.has(k)) cache.set(k, new THREE.Color(tok(k) || tok("--chalk"))); return cache.get(k); };
       const stack = new Map();   // pucks from the same spot stack up instead of overlapping
       goals.forEach((s, i) => {
         const k = api.binKey(s, c.r), h = (top.get(k) || 0) + 0.02, x = api.mapX(s), y = api.mapY(s);
         const sk = Math.round(x) + "," + Math.round(y), n = stack.get(sk) || 0; stack.set(sk, n + 1);
-        tmp.position.copy(P(x, y, h + n * (PUCK_H + 0.04))); tmp.scale.set(1, 1, 1); tmp.updateMatrix();
-        pucks.setMatrixAt(i, tmp.matrix);
+        tmp.position.copy(P(x, y, h + n * (ORB_R * 2 + 0.06))); tmp.scale.set(1, 1, 1); tmp.updateMatrix();
+        pucks.setMatrixAt(i, tmp.matrix); halos.setMatrixAt(i, tmp.matrix);
+        oc.copy(colourOf(s)); pucks.setColorAt(i, oc); halos.setColorAt(i, oc);
       });
-      pucks.instanceMatrix.needsUpdate = true; scene.add(pucks);
+      pucks.instanceMatrix.needsUpdate = true; halos.instanceMatrix.needsUpdate = true;
+      pucks.instanceColor.needsUpdate = true; halos.instanceColor.needsUpdate = true;
+      scene.add(pucks); scene.add(halos);
     }
-    renderer.domElement.setAttribute("aria-label", `3D ${opts.view === "goals" ? "goals" : opts.view === "shots" ? "shots" : "save %"} map: ${cells.length} spots, ${goals.length} goals shown as pucks. Drag to turn, scroll to zoom.`);
+    renderer.domElement.setAttribute("aria-label", `3D ${opts.view === "goals" ? "goals" : opts.view === "shots" ? "shots" : "save %"} map: ${cells.length} spots, ${goals.length} goals shown as orbs. Drag to turn, scroll to zoom.`);
     dirty = true;
   }
 
