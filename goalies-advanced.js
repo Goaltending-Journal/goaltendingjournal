@@ -222,7 +222,6 @@ $("#gmSec").addEventListener("mousemove",e=>{
   hideTip();
 });
 $("#gmSec").addEventListener("mouseleave",hideTip);
-$("#gfx").addEventListener("change",renderGoalMap);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",renderGoalMap);
 renderGoalMap();
 
@@ -441,7 +440,6 @@ $("#nstSec").addEventListener("mousemove",e=>{
   hideTip();
 });
 $("#nstSec").addEventListener("mouseleave",hideTip);
-$("#gfx").addEventListener("change",renderNst);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",renderNst);
 let nstRz; addEventListener("resize",()=>{ clearTimeout(nstRz); nstRz=setTimeout(()=>{ if(nst.data.all){ if(state.gfx&&!nst.hidden.includes("top")) nstTop(); if(state.gfx&&!nst.hidden.includes("scatter")) nstScatter(); } },150); });
 

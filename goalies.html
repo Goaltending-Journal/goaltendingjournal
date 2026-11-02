@@ -180,6 +180,7 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.0
 
 /* charts */
 .charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.viz .panel{margin-top:14px}
 .panel{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0;display:flex;flex-direction:column;gap:10px}
 .panel.wide{grid-column:1/-1}
 .panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -198,8 +199,6 @@ circle.dot:hover{stroke:var(--chalk);stroke-width:2}
 g.dot > rect:first-child{transition:fill .12s}
 g.dot:hover > rect:first-child{fill:var(--crease-dim)}
 g.dot:hover text,g.dot:hover tspan{fill:var(--crease)!important;font-weight:700}
-.collapsed{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--mute);font-size:12px}
-.collapsed button{border:1px dashed var(--line);background:transparent;color:var(--fog);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
 .panel-btns{display:flex;gap:6px;flex:none}
 .flegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11px;color:var(--mute);align-items:center}
 .flegend svg{display:inline-block;vertical-align:-2px;margin-right:5px}
@@ -407,8 +406,11 @@ tbody tr:last-child td{border-bottom:0}
       <li><button type="button" data-v="lbSec" style="--c:var(--t-eq)"><i></i>Leaderboard</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--t-vis)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="impSec" style="--c:var(--t-stats)"><i></i>Impact GSAx</button></li>
-      <li><button type="button" data-v="chartSec" style="--c:var(--t-phy)"><i></i>Visualizers</button></li>
-      <li><button type="button" data-v="allSec" style="--c:var(--t-hip)"><i></i>All goaltenders</button></li>
+      <li><button type="button" data-v="scatterSec" style="--c:var(--t-phy)"><i></i>SV% vs. GAA</button></li>
+      <li><button type="button" data-v="workSec" style="--c:var(--t-bio)"><i></i>Workload</button></li>
+      <li><button type="button" data-v="rangeSec" style="--c:var(--t-dev)"><i></i>SV% Ranges</button></li>
+      <li><button type="button" data-v="gsaxSec" style="--c:var(--t-hip)"><i></i>GSAA vs. GSAx</button></li>
+      <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
     </ul></nav>
   </aside>
   <div class="gviews" id="gviews">
@@ -500,32 +502,31 @@ tbody tr:last-child td{border-bottom:0}
     <div class="tbl-wrap imp-tbl"><table id="impTbl"><thead></thead><tbody></tbody></table></div>
   </section>
 
-  <section id="chartSec">
-    <div class="sec-h"><div class="sec-l"><h2>Visualizers</h2><label class="switch" for="gfx"><input type="checkbox" id="gfx" checked> Show graphics</label></div><span class="note">Hide any chart, or switch all graphics off here.</span></div>
-    <div class="collapsed" id="collapsed" style="margin-top:12px" hidden></div>
-    <div class="charts" id="charts" style="margin-top:14px">
-      <div class="panel wide" data-chart="scatter">
-        <div class="panel-h"><div><h3>Save % vs goals-against</h3><p>Top right is best. Bubble size is games played. Hover for detail, click to open.</p></div><button class="hidebtn" data-hide="scatter">Hide</button></div>
-        <div class="chart" id="c-scatter"></div>
-      </div>
-      <div class="panel" data-chart="svbar">
-        <div class="panel-h"><div><h3>Save % ladder</h3><p>Top 12 qualified goalies; dashed line is the league rate.</p></div><button class="hidebtn" data-hide="svbar">Hide</button></div>
-        <div class="chart" id="c-svbar"></div>
-      </div>
-      <div class="panel" data-chart="workload">
-        <div class="panel-h"><div><h3>Workload</h3><p>Shots faced, split into saves and goals against. Top 12.</p></div><button class="hidebtn" data-hide="workload">Hide</button></div>
-        <div class="chart" id="c-workload"></div>
-      </div>
-      <div class="panel wide" data-chart="shrink">
-        <div class="panel-h"><div><h3>Save %, with how sure we are</h3><p id="shrinkSub"></p></div><div class="panel-btns"><button class="hidebtn" data-more="shrink" hidden></button><button class="hidebtn" data-hide="shrink">Hide</button></div></div>
-        <div class="flegend" id="shrinkKey"></div>
-        <div class="chart" id="c-shrink"></div>
-      </div>
-      <div class="panel wide" data-chart="gsax">
-        <div class="panel-h"><div><h3>Goals saved vs expected</h3><p id="gsaxSub"></p></div><div class="panel-btns"><button class="hidebtn" data-more="gsax" hidden></button><button class="hidebtn" data-hide="gsax">Hide</button></div></div>
-        <div class="flegend" id="gsaxKey"></div>
-        <div class="chart" id="c-gsax"></div>
-      </div>
+  <section id="scatterSec" class="viz">
+    <div class="sec-h"><h2>SV% vs. GAA</h2><span class="note">Top right is best. Bubble size is games played. Hover for detail, click to open.</span></div>
+    <div class="panel"><div class="chart" id="c-scatter"></div></div>
+  </section>
+
+  <section id="workSec" class="viz">
+    <div class="sec-h"><h2>Workload</h2><span class="note">Shots faced, split into saves and goals against. Top 12.</span></div>
+    <div class="panel"><div class="chart" id="c-workload"></div></div>
+  </section>
+
+  <section id="rangeSec" class="viz">
+    <div class="sec-h"><h2>SV% Ranges</h2><span class="note">Save %, with how sure we are</span></div>
+    <div class="panel">
+      <div class="panel-h"><p id="shrinkSub"></p><button class="hidebtn" data-more="shrink" hidden></button></div>
+      <div class="flegend" id="shrinkKey"></div>
+      <div class="chart" id="c-shrink"></div>
+    </div>
+  </section>
+
+  <section id="gsaxSec" class="viz">
+    <div class="sec-h"><h2>GSAA vs. GSAx</h2><span class="note">Goals saved above average and above expected</span></div>
+    <div class="panel">
+      <div class="panel-h"><p id="gsaxSub"></p><button class="hidebtn" data-more="gsax" hidden></button></div>
+      <div class="flegend" id="gsaxKey"></div>
+      <div class="chart" id="c-gsax"></div>
     </div>
   </section>
 
@@ -573,8 +574,7 @@ const store = { get(k,d){ try{ const v=localStorage.getItem("ga:"+k); return v==
 
 const state = {
   season: store.get("season","2026-27"),
-  gfx: store.get("gfx", true),
-  hidden: store.get("hidden", []),
+  gfx: true,   // graphics always show (the switch was removed, 2026-11-02)
   sort: {key:"gp", dir:-1}, page:0,
   q:"", team:"", catch:"", mingp:null
 };
@@ -679,12 +679,6 @@ function hbars(id, list, val, fmt, opts={}){
   if(opts.ref!=null) s+=`<line x1="${X(opts.ref)}" x2="${X(opts.ref)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--warn)" stroke-dasharray="3 3"/>`;
   s+=`</svg>`;
   el.innerHTML=s;
-}
-function svbar(){
-  const q=[...qualified()].sort((a,b)=>b.svp-a.svp).slice(0,12);
-  const lsv=leagueSv(qualified());
-  const lo=Math.floor((Math.min(...q.map(r=>r.svp), lsv??1)-.01)*100)/100;
-  hbars("c-svbar", q, r=>r.svp, r=>fmtSv(r.svp), {min:lo, max:Math.ceil(q[0]?.svp*100)/100||1, tick:fmtSv, ref:lsv});
 }
 function workload(){
   const has = rows().some(r=>r.sa!=null);
@@ -793,37 +787,22 @@ function gsax(){
   el.innerHTML=s;
 }
 
-function renderCharts(){
-  // Keep the section (and its switch) on screen when graphics are off, so they can be switched back on
-  if(!state.gfx){ $("#charts").hidden=true; $("#collapsed").hidden=true; return; }
-  document.querySelectorAll(".panel[data-chart]").forEach(p=>p.hidden=state.hidden.includes(p.dataset.chart));
-  const hid=state.hidden;
-  const names={scatter:"Save % vs goals-against",svbar:"Save % ladder",workload:"Workload",shrink:"Save %, with how sure we are",gsax:"Goals saved vs expected"};
-  $("#collapsed").hidden=!hid.length;
-  $("#collapsed").innerHTML = hid.length ? `Hidden:` + hid.map(k=>`<button type="button" data-show="${k}">Show ${names[k]}</button>`).join("") : "";
-  $("#charts").hidden = hid.length===Object.keys(names).length;
-  if(!hid.includes("scatter")) scatter();
-  if(!hid.includes("svbar")) svbar();
-  if(!hid.includes("workload")) workload();
-  if(!hid.includes("shrink")) shrink();
-  if(!hid.includes("gsax")) gsax();
-}
-$("#chartSec").addEventListener("click",e=>{
-  const h=e.target.closest("[data-hide]"), s=e.target.closest("[data-show]"), mo=e.target.closest("[data-more]");
+function renderCharts(){ scatter(); workload(); shrink(); gsax(); }
+const vizBox=$("#gviews");
+vizBox.addEventListener("click",e=>{
+  if(!e.target.closest(".viz")) return;
+  const mo=e.target.closest("[data-more]");
   if(mo){ more[mo.dataset.more]=!more[mo.dataset.more]; mo.dataset.more==="shrink"?shrink():gsax(); return; }
-  if(h){ state.hidden=[...new Set([...state.hidden,h.dataset.hide])]; }
-  else if(s){ state.hidden=state.hidden.filter(k=>k!==s.dataset.show); }
-  else { const d=e.target.closest(".dot[data-id]"); if(d) openGoalie(+d.dataset.id); return; }
-  store.set("hidden",state.hidden); renderCharts();
+  const d=e.target.closest(".dot[data-id]"); if(d) openGoalie(+d.dataset.id);
 });
-$("#chartSec").addEventListener("mousemove",e=>{
+vizBox.addEventListener("mousemove",e=>{
+  if(!e.target.closest(".viz")) return;
   const d=e.target.closest(".dot[data-id]"); if(!d){hideTip();return;}
   if(d.dataset.k) return showTip(e, d.dataset.k==="gsax" ? gsaxTip(+d.dataset.id) : shrinkTip(+d.dataset.id));
   const g=byId.get(+d.dataset.id), s=g.seasons[state.season];
   showTip(e,`<b>${esc(g.name)}</b>${esc(s.team)} · ${s.gp} GP · ${s.w}-${s.l}-${s.otl}<br>SV% ${fmtSv(s.svp)} · GAA ${fmtGaa(s.gaa)}${s.sa?` · ${s.sa} shots`:""}`);
 });
-$("#chartSec").addEventListener("mouseleave",hideTip);
-$("#gfx").addEventListener("change",e=>{ state.gfx=e.target.checked; store.set("gfx",state.gfx); renderCharts(); renderTable(); });
+document.querySelectorAll(".viz").forEach(v=>v.addEventListener("mouseleave",hideTip));
 
 /* ---------- table ---------- */
 const COLS = [
@@ -964,7 +943,6 @@ function renderAll(){
   const m=state.mingp ?? 0; $("#mingp").value=m; $("#mingpV").textContent=m;
   renderHero(); renderCharts(); renderTable();
 }
-$("#gfx").checked=state.gfx;
 fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
