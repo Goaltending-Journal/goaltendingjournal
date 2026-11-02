@@ -50,7 +50,30 @@ button,input,select{font:inherit;color:inherit}
 .num{font-variant-numeric:tabular-nums}
 .wrap{max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:40px}
 /* a clean rule between the stats and each visualizer */
-#main>section+section{border-top:1px solid var(--line);padding-top:40px}
+/* One frame: a side rail (season leader, season, views) beside one section at a time (Goldy picked layout B, 2026-11-02) */
+.gframe{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
+.grail{position:sticky;top:76px;display:grid;gap:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.grail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.grail .spot{padding:14px;grid-template-columns:1fr;gap:8px}
+.grail .spot .mono.lg{width:48px;height:48px;font-size:18px}
+.grail .spot .nm{font-size:22px;margin:2px 0 8px}
+.grail .spot .kv b{font-size:18px}
+.grail .spot .stats{gap:12px}
+.grail .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:12px}
+.grail .seg button{padding-inline:4px;font-size:12.5px;border-radius:9px}
+.views{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.views button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--chalk);font:500 14px var(--f-body);text-align:left;cursor:pointer}
+.views button i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+.views button:hover{background:color-mix(in srgb,var(--crease) 8%,transparent)}
+.views button[aria-current="true"]{background:color-mix(in srgb,var(--crease) 18%,transparent);font-weight:700}
+.gviews{min-width:0}
+.gviews>section:not(.on){display:none}
+@media (max-width:880px){
+  .gframe{grid-template-columns:minmax(0,1fr)}
+  .grail{position:static;grid-template-columns:minmax(0,1fr)}
+  .views{display:flex;flex-wrap:wrap;gap:6px}
+  .views button{width:auto;padding:7px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px}
+}
 
 /* site top bar (site-nav.css) spans the full width despite the body padding */
 .topbar{margin-inline:calc(-1*clamp(16px,3vw,40px))}
@@ -77,7 +100,6 @@ button,input,select{font:inherit;color:inherit}
   background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
 @keyframes spectrum{to{background-position:300% 0}}
 @media (prefers-reduced-motion:reduce){.spectrum{animation:none}}
-.spot-wrap{max-width:640px;margin:0 auto}
 .spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
 .spot::before{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;border-radius:50%;border:1px solid var(--crease-dim)}
 .spot .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
@@ -186,8 +208,8 @@ g.dot:hover text,g.dot:hover tspan{fill:var(--crease)!important;font-weight:700}
 
 /* filters + table */
 .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.field{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--line);border-radius:8px;padding:0 10px;height:36px}
-.field input,.field select{background:transparent;border:0;outline:0;height:34px;min-width:0}
+.field{display:flex;align-items:center;gap:8px;max-width:100%;min-width:0;background:var(--glass);border:1px solid var(--line);border-radius:8px;padding:0 10px;height:36px}
+.field input,.field select{background:transparent;border:0;outline:0;height:34px;min-width:0;max-width:100%;text-overflow:ellipsis}
 .field select option{background:var(--glass)}
 .field label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700;white-space:nowrap}
 .field input[type=range]{accent-color:var(--crease);width:110px}
@@ -363,9 +385,9 @@ tbody tr:last-child td{border-bottom:0}
     <nav aria-label="Main" id="nav">
       <a href="research.html">Oracle</a>
       <a href="briefs.html">Briefs</a>
-      <a href="goalies.html" aria-current="page">NHL DataViz</a>
       <a href="reviews.html">Reviews</a>
       <a href="conference.html">Conference</a>
+      <a href="goalies.html" aria-current="page">NHL DataViz</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -375,7 +397,21 @@ tbody tr:last-child td{border-bottom:0}
   <section class="hero" aria-labelledby="h-goalies">
     <h1 id="h-goalies"><span class="spectrum">NHL Goaltending</span> DataViz Project</h1>
   </section>
-  <div class="spot-wrap"><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
+  <div class="gframe">
+  <aside class="grail" aria-label="Season and views">
+    <div><h5>Season leader</h5><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
+    <div><h5>Season</h5><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div>
+    <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
+      <li><button type="button" data-v="tySec" style="--c:var(--t-psy)"><i></i>Archetypes</button></li>
+      <li><button type="button" data-v="gmSec" style="--c:var(--t-inj)"><i></i>Scoring Heat Map</button></li>
+      <li><button type="button" data-v="lbSec" style="--c:var(--t-eq)"><i></i>Leaderboard</button></li>
+      <li><button type="button" data-v="nstSec" style="--c:var(--t-vis)"><i></i>Advanced stats</button></li>
+      <li><button type="button" data-v="impSec" style="--c:var(--t-stats)"><i></i>Impact GSAx</button></li>
+      <li><button type="button" data-v="chartSec" style="--c:var(--t-phy)"><i></i>Visualizers</button></li>
+      <li><button type="button" data-v="allSec" style="--c:var(--t-hip)"><i></i>All goaltenders</button></li>
+    </ul></nav>
+  </aside>
+  <div class="gviews" id="gviews">
 
   <section id="tySec" hidden>
     <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
@@ -493,8 +529,8 @@ tbody tr:last-child td{border-bottom:0}
     </div>
   </section>
 
-  <section>
-    <div class="sec-h"><div class="sec-l"><h2>All goaltenders</h2><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div><span class="note" id="countNote"></span></div>
+  <section id="allSec">
+    <div class="sec-h"><div class="sec-l"><h2>All goaltenders</h2></div><span class="note" id="countNote"></span></div>
     <div class="filters" style="margin-block:14px">
       <div class="field"><label for="q">Search</label><input id="q" type="search" placeholder="Name"></div>
       <div class="field"><label for="team">Team</label><select id="team"><option value="">All teams</option></select></div>
@@ -507,6 +543,9 @@ tbody tr:last-child td{border-bottom:0}
     <nav class="pager" id="pager" aria-label="Goaltender table pages"></nav>
   </section>
 
+
+  </div>
+  </div>
 
   <section class="notes" id="foot" aria-label="About this data"></section>
 
@@ -1067,5 +1106,36 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 <script src="impact-data.js"></script>
 <script src="impact-panel.js"></script>
 
+<script>
+/* Views: the rail shows one section at a time; the choice is kept in the address (#lbSec) and in this browser */
+(function views(){
+  const box=document.getElementById("gviews"), list=document.getElementById("views");
+  const btns=[...list.querySelectorAll("button[data-v]")];
+  const sec=id=>document.getElementById(id);
+  // A section its own script keeps hidden (no Archetypes data yet) has no button
+  const usable=()=>btns.filter(b=>{ const s=sec(b.dataset.v); const off=!s||s.hidden; b.parentElement.hidden=off; return !off; });
+  let cur=null;
+  function show(id,push){
+    const ok=usable(); if(!ok.length) return;
+    if(!ok.some(b=>b.dataset.v===id)) id=(ok.find(b=>b.dataset.v==="gmSec")||ok[0]).dataset.v;
+    cur=id;
+    box.querySelectorAll(":scope>section").forEach(s=>s.classList.toggle("on",s.id===id));
+    btns.forEach(b=>b.setAttribute("aria-current",String(b.dataset.v===id)));
+    try{ localStorage.setItem("ga:view",id); }catch(e){}
+    if(push) history.replaceState(null,"","#"+id);
+    dispatchEvent(new Event("resize"));   // charts drawn while hidden size themselves again
+  }
+  list.addEventListener("click",e=>{ const b=e.target.closest("button[data-v]"); if(!b) return; show(b.dataset.v,true);
+    if(matchMedia("(max-width:880px)").matches) box.scrollIntoView({block:"start"}); });
+  // In-page links (e.g. "View all goaltenders") open the view that holds their target
+  document.addEventListener("click",e=>{ const a=e.target.closest('a[href^="#"]'); if(!a||a.getAttribute("href").length<2) return;
+    const t=document.getElementById(a.getAttribute("href").slice(1)); const s=t&&t.closest("#gviews>section");
+    if(s&&s.id!==cur){ show(s.id,false); requestAnimationFrame(()=>t.scrollIntoView()); } });
+  let saved=null; try{ saved=localStorage.getItem("ga:view"); }catch(e){}
+  show(location.hash.slice(1)||saved||"gmSec",false);
+  // Archetypes data can arrive after load; refresh which buttons show
+  new MutationObserver(()=>show(cur,false)).observe(sec("tySec"),{attributes:true,attributeFilter:["hidden"]});
+})();
+</script>
 </body>
 </html>
