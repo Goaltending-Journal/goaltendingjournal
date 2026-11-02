@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reviews · The Goaltending Research Journal</title>
+<meta name="description" content="Monthly video Peer Review sessions where goalie coaches read one study together and turn it into practice ideas.">
+<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Jost:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="site-nav.css">
+<script src="theme.js"></script>
+<style>
+/* Reviews (Goldy, 2026-11-02): replaces the Coaches page. Same header and one-frame layout as research.html: a side rail with
+   the Peers (from about.html), beside the monthly video session (next session, how it runs, upcoming). Colours and type from site-nav.css. */
+:root { --r: 3px; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--serif); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--accent-soft); }
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+
+/* Masthead, as on Research and About */
+.hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(56px, 9vw, 104px) 16px clamp(40px, 6vw, 64px); }
+.hero::before { content: ""; position: absolute; inset: -20% -10%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.26;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent 92%); mask-image: linear-gradient(#000 55%, transparent 92%);
+  background: radial-gradient(28% 40% at 28% 40%, var(--t-hip), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--t-psy), transparent 70%),
+              radial-gradient(26% 34% at 50% 78%, var(--t-vis), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--t-eq), transparent 70%); }
+.hero h1 { font: 600 clamp(34px, 5.4vw, 66px)/1.04 var(--display); letter-spacing: 0.01em; }
+.hero p { margin: 16px auto 0; max-width: 32em; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+.facts { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font: 14px var(--sans); color: var(--muted); }
+.facts li { padding: 6px 14px; border: 1px solid var(--rule); border-radius: 999px; background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.facts b { color: var(--fg); font-weight: 600; }
+.spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
+@keyframes spectrum { to { background-position: 300% 0; } }
+
+/* One frame: the Peers rail beside the session */
+.frame { display: grid; grid-template-columns: 270px minmax(0, 1fr); column-gap: 32px; align-items: start; border: 1px solid var(--rule); border-radius: 16px; background: var(--surface); padding: clamp(16px, 3vw, 28px); margin-bottom: 72px; }
+.rail { display: grid; gap: 18px; padding: 20px; background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; font-family: var(--sans); position: sticky; top: calc(var(--nav-h) + 20px); }
+.rail h2 { font: 600 24px/1.1 var(--display); }
+.rail .who { margin: -8px 0 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
+.lab { font: 500 12.5px var(--sans); color: var(--muted); }
+.director b { display: block; font: 600 19px/1.2 var(--display); margin-top: 2px; }
+.reviewers { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 2px; }
+.reviewers li { display: grid; grid-template-columns: 21px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; padding: 6px 8px; margin-inline: -8px; border-radius: 6px; font-size: 14px; }
+.reviewers li:hover { background: var(--accent-soft); }
+.reviewers .flag { width: 21px; height: 14px; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); }
+.rv-country { font-size: 12px; color: var(--muted); }
+.tba { margin: 0; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+.main { display: grid; gap: 40px; min-width: 0; }
+.main h2 { font: 600 26px/1.1 var(--display); margin-bottom: 14px; }
+.main .sub { margin: -8px 0 16px; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+section { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
+/* Next session: a month tile beside the details */
+.next { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px 28px; padding: 28px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
+.tile { display: grid; place-content: center; text-align: center; aspect-ratio: 1; border-radius: 8px; background: var(--surface); border: 1px solid var(--rule); font-family: var(--sans); }
+.tile .m { font: 600 12px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.tile .d { font: 600 34px/1.1 var(--display); color: var(--fg); }
+.tile .y { font-size: 12px; color: var(--muted); }
+.next .kicker { margin: 0; font: 500 12px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.next h3 { margin-top: 10px; font: 500 26px/1.2 var(--serif); }
+.next h3.tba { color: var(--muted); }
+.meta { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; font: 14px var(--sans); color: var(--muted); }
+.meta li { display: inline-flex; align-items: center; gap: 7px; }
+.meta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tip-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 22px 0 0; font: 13.5px var(--sans); color: var(--muted); }
+.soon { display: inline-flex; font: 600 15px var(--sans); color: var(--muted); padding: 9px 19px; border-radius: 999px; border: 1px dashed var(--field-line); }
+
+/* How a session runs: four numbered steps with their share of the hour */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 36px; counter-reset: step; }
+.steps li { counter-increment: step; display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 14px; }
+.steps li::before { content: counter(step, decimal-leading-zero); font: 600 15px/1.6 var(--label); letter-spacing: 0.06em; color: var(--accent); }
+.steps h3 { font: 600 19px/1.3 var(--serif); }
+.steps h3 small { font: 500 12.5px var(--sans); color: var(--muted); margin-left: 8px; }
+.steps p { margin: 4px 0 0; font-size: 16px; color: var(--muted); }
+
+/* Upcoming: one row per month */
+.sched { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
+.sched li { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: 4px 18px; padding: 14px 18px; border-top: 1px solid var(--rule); }
+.sched li:first-child { border-top: 0; }
+.sched .tile { width: 56px; }
+.sched .tile .d { font-size: 20px; }
+.sched .tile .m { font-size: 10.5px; }
+.sched b { display: block; font: 500 17px/1.3 var(--serif); }
+.sched span.when { font: 13.5px var(--sans); color: var(--muted); }
+
+@media (max-width: 880px) {
+  body { font-size: 16px; }
+  .frame { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: static; order: 2; margin-top: 32px; }
+}
+@media (max-width: 640px) {
+  .next { grid-template-columns: minmax(0, 1fr); padding: 20px; }
+  .next .tile { width: 88px; }
+  .sched li { padding: 12px 14px; }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .spectrum { animation: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="site-bar">
+    <a class="brand" href="index.html"><span class="brand-logo" aria-hidden="true">GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
+    <nav aria-label="Main" id="nav">
+      <a href="research.html">Research</a>
+      <a href="briefs.html">Briefs</a>
+      <a href="goalies.html">NHL Goalies</a>
+      <a href="reviews.html" aria-current="page">Reviews</a>
+      <a href="conference.html">Conference</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="h-reviews">
+    <h1 id="h-reviews"><span class="spectrum">Peer</span> Reviews</h1>
+    <p>A monthly video session where our peers and goalie coaches gather to review the latest goalie-specific research.</p>
+    <ul class="facts">
+      <li><b>Monthly</b> sessions</li>
+      <li><b>60</b> minutes on video</li>
+      <li><b>One</b> study each time</li>
+      <li><b>Free</b> to join</li>
+    </ul>
+  </section>
+
+  <div class="wrap">
+    <div class="frame">
+      <aside class="rail" id="peers" aria-labelledby="h-peers">
+        <h2 id="h-peers">The Peers</h2>
+        <p class="who">Sessions are led by our peer reviewers, goalie coaches from 15 countries. Dedicated coaches at any level, and the researchers whose work we read, are welcome.</p>
+        <div class="director"><span class="lab">Project Director</span><b>Justin Goldman</b></div>
+        <div><span class="lab">Peer Reviewers</span>
+        <ul class="reviewers" aria-label="Peer reviewers">
+        <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Sera Dogramaci</span><span class="rv-country">Australia</span></li>
+        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Dr. Nate Speidel</span><span class="rv-country">United States</span></li>
+        <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Thomas Magnusson</span><span class="rv-country">Sweden</span></li>
+        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Sean Reilly</span><span class="rv-country">United States</span></li>
+        <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Jack Hartigan</span><span class="rv-country">Canada</span></li>
+        <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">Finland</span></li>
+        <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Slovakia</span></li>
+        <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">United Kingdom</span></li>
+        <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Germany</span></li>
+        <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Austria</span></li>
+        <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">Norway</span></li>
+        <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">France</span></li>
+        <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Japan</span></li>
+        <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Switzerland</span></li>
+        <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">Denmark</span></li>
+      </ul>
+        </div>
+        <p class="tba">Advisory Board and Review Model to be announced.</p>
+      </aside>
+
+      <div class="main">
+        <section id="next" aria-labelledby="h-next">
+          <h2 id="h-next">Next session</h2>
+          <article class="next" id="next-card"></article>
+        </section>
+
+        <section id="how" aria-labelledby="h-how">
+          <h2 id="h-how">How it runs</h2>
+          <p class="sub">The study goes out a week ahead. The hour itself has three parts.</p>
+          <ol class="steps">
+            <li><div><h3>Read<small>Week before</small></h3><p>We share one study from the research database, with its brief if there is one.</p></div></li>
+            <li><div><h3>Present<small>15 min</small></h3><p>A peer reviewer walks through what the study tested, what it found, and how strong the evidence is.</p></div></li>
+            <li><div><h3>Review<small>25 min</small></h3><p>Open discussion. What holds up, what doesn't, and what the study never tested.</p></div></li>
+            <li><div><h3>Apply<small>20 min</small></h3><p>Small groups turn the finding into one practice-design idea to try on the ice.</p></div></li>
+          </ol>
+        </section>
+
+        <section id="upcoming" aria-labelledby="h-upcoming">
+          <h2 id="h-upcoming">Upcoming</h2>
+          <p class="sub">Sessions run every month. Dates and studies are added here as they are set.</p>
+          <ul class="sched" id="sched"></ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+/* Sessions: edit this list as dates and studies are set.
+   date: "YYYY-MM-DD" once a day is picked (leave "" until then); time: e.g. "8:00 PM ET"; study: its title; link: a brief or study page.
+   Months with no entry are filled in automatically for the next six months as "Date to be announced". */
+const SESSIONS = [
+  // { month: "2026-11", date: "", time: "", study: "", link: "" },
+];
+
+(function peerReviews() {
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const now = new Date();
+  const ym = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  const byMonth = Object.fromEntries(SESSIONS.map((s) => [s.month || (s.date || "").slice(0, 7), s]));
+  const months = [];
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + 1 + i, 1);   // starts next month
+    months.push({ ...(byMonth[ym(d)] || {}), first: d });
+  }
+  const mon = (d) => d.toLocaleDateString("en-US", { month: "short" });
+  const long = (d) => d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const day = (s) => s.date ? new Date(s.date + "T12:00:00") : null;
+  const when = (s) => s.date ? `${day(s).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}${s.time ? ` · ${esc(s.time)}` : ""}` : "Date to be announced";
+  const tile = (s) => `<div class="tile" aria-hidden="true"><span class="m">${mon(s.first)}</span><span class="d">${s.date ? day(s).getDate() : "—"}</span><span class="y">${s.first.getFullYear()}</span></div>`;
+  const study = (s) => s.study ? (s.link ? `<a href="${esc(s.link)}">${esc(s.study)}</a>` : esc(s.study)) : "";
+  const ic = {
+    cal: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>',
+    vid: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="9" height="8" rx="1.5"/><path d="M10.5 7l4-2.2v6.4l-4-2.2"/></svg>',
+    clk: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l2.4 1.5"/></svg>',
+  };
+
+  const n = months[0];
+  document.getElementById("next-card").innerHTML = `${tile(n)}
+    <div>
+      <p class="kicker">${long(n.first)} · Peer Review</p>
+      <h3 class="${n.study ? "" : "tba"}">${n.study ? study(n) : "Study to be announced"}</h3>
+      <ul class="meta">
+        <li>${ic.cal}${when(n)}</li>
+        <li>${ic.vid}Video meeting</li>
+        <li>${ic.clk}60 minutes</li>
+      </ul>
+      <p class="tip-row"><span class="soon">Invitations open soon</span><span>The meeting link goes to everyone who signs up.</span></p>
+    </div>`;
+
+  // The months after the next one; the next session already has its own card above
+  document.getElementById("sched").innerHTML = months.slice(1).map((s) => `<li>${tile(s)}
+    <div><b>${s.study ? study(s) : long(s.first)}</b><span class="when">${s.study || s.date ? when(s) : "Study and date to be announced"}</span></div></li>`).join("");
+})();
+</script>
+</body>
+</html>

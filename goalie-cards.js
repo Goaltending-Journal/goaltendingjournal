@@ -122,7 +122,7 @@
       pick.outerHTML = `<div class="gc-filed">${cardHTML(c)}
         <div class="gc-after"><p><b>${esc(s.name)}</b> is in your binder. Tap the card to turn it over.</p>
           <fieldset class="gc-ran"><legend>Did you run this in practice yet?</legend>${["Yes", "Planned", "Not yet"].map((t) => `<button type="button" class="gc-btn" aria-pressed="${r.ran === t}">${t}</button>`).join("")}</fieldset>
-          <p class="gc-actions"><a class="gc-btn primary" href="coaches.html#binder">Open the binder</a><button type="button" class="gc-btn gc-done">Done</button></p></div></div>`;
+          <p class="gc-actions"><a class="gc-btn primary" href="briefs.html#binder">Open the binder</a><button type="button" class="gc-btn gc-done">Done</button></p></div></div>`;
       const card = sheet.querySelector(".gc");
       if (!still) setTimeout(() => flip(card, true), 700); else flip(card, true);
       sheet.querySelector(".gc-ran").addEventListener("click", (e) => {
@@ -154,7 +154,7 @@
         ${item.questions.map((q, i) => `<label class="gc-q"><span>${esc(q)}</span><textarea rows="2" name="a${i}">${esc((r.answers || [])[i] || "")}</textarea></label>`).join("")}
         <p class="gc-row"><button type="submit" class="gc-btn primary">Save answers</button><span class="gc-msg" role="status"></span></p>
         ${c ? `<div class="gc-status">${c.slot
-          ? `<span>Your card: <b>${esc(slotOf.get(c.slot)?.name || c.name || "")}</b>${c.tier === "checked" ? ", foil" : ""}.</span> <a href="coaches.html#binder">See it in your binder</a>`
+          ? `<span>Your card: <b>${esc(slotOf.get(c.slot)?.name || c.name || "")}</b>${c.tier === "checked" ? ", foil" : ""}.</span> <a href="briefs.html#binder">See it in your binder</a>`
           : `<span>You have a card to file.</span> <button type="button" class="gc-btn gc-file">File it</button>`}</div>` : ""}
         ${canCheck ? `<label class="gc-q gc-check"><span>Check it: a week on, what did the cold check show?</span><textarea rows="2" name="check">${esc(r.check || "")}</textarea></label>
           <p class="gc-row"><button type="button" class="gc-btn gc-log">Log the check</button><span class="gc-msg2" role="status"></span></p>`
