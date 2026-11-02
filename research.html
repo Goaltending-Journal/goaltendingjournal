@@ -66,12 +66,19 @@ button, input, select { font-family: var(--sans); }
 .frame { border: 1px solid var(--rule); border-radius: 16px; background: var(--surface); padding: clamp(16px, 3vw, 28px); margin-bottom: 72px; }
 .frame .ex { margin: 0 0 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
 .frame .tablewrap { border-radius: 10px; }
-/* Topic key under the network map: the homepage's framed chips */
-.legend { margin: 0 0 14px; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; font: 500 10.5px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); }
-.legend li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; cursor: pointer;
-  border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: color-mix(in srgb, var(--c) 13%, var(--bg)); transition: opacity 0.2s ease, background-color 0.2s ease; }
-.legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
-.legend.dim li { opacity: 0.35; } .legend li.hot { opacity: 1; background: color-mix(in srgb, var(--c) 30%, var(--bg)); }
+/* Side rail (C4): a lighter card with the filters, then the researcher A–Z (or a selected researcher's profile).
+   The topic filters carry their map colour as an orb, so they are also the network map's colour key. */
+.frame { display: grid; grid-template-columns: 250px minmax(0, 1fr); grid-template-areas: "rail ex" "rail body"; column-gap: 28px; align-items: start; }
+.frame > .rail { grid-area: rail; display: grid; gap: 22px; align-content: start; min-width: 0; padding: 18px; background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; }
+.frame > .ex { grid-area: ex; min-width: 0; }
+.frame > .tr-body { grid-area: body; min-width: 0; }
+.rail .nw-side { padding-top: 18px; border-top: 1px solid var(--rule); }
+.rail .nw-l { background: var(--bg); }
+.rail .nw-az { max-height: 340px; }
+.opt .orb { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+#topics .orb::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+#topics .opt input { accent-color: var(--c); }
+#topics .opt:hover { background: color-mix(in srgb, var(--c) 14%, transparent); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* Sections */
@@ -131,7 +138,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-tip b { display: block; }
 /* Researcher Network Map: tracked researchers as dots (size = goalie studies), lines between people who published a goalie study together.
    Clusters are laid out separately and packed into rows. Select a person to see their profile and filter the table to their studies. */
-.nw { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: start; }
+.nw { display: block; }
 .nw svg { width: 100%; height: auto; display: block; font-family: var(--sans); overflow: visible; }
 .nw .lk { stroke: var(--field-line); stroke-linecap: round; }
 .nw .lk.on { stroke: var(--accent); }
@@ -185,8 +192,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .tracker { scroll-margin-top: var(--nav-h); }
 .btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
 .btn:hover { border-color: var(--accent); }
-.tr-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
-.side { position: sticky; top: calc(var(--nav-h) + 20px); display: grid; gap: 18px; font-family: var(--sans); }
+.tr-body { display: block; }
+.side { display: grid; gap: 18px; font-family: var(--sans); }
 .side .extra { display: grid; gap: 18px; }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
 .field > label, .lab, .group legend, .sort span { font: 500 12.5px var(--sans); color: var(--muted); }
@@ -264,7 +271,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
   .sec:first-of-type { padding-top: 40px; }
   .sec-head { position: static; }
   .sec-head .sub { max-width: 60ch; }
-  .tr-body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .frame { grid-template-columns: minmax(0, 1fr); grid-template-areas: "ex" "rail" "body"; }
+  .frame > .rail { margin-bottom: 24px; }
   .side { position: static; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
   .side .extra { display: none; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 16px 20px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); }
   .side .extra.open { display: grid; }
@@ -312,7 +320,32 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 
   <div class="wrap">
   <section class="tracker frame" id="articles" aria-label="Goaltending research">
-    <!-- One frame: the explorer tabs (network map, heatmaps, studies by year), then the filters and the study table. -->
+    <!-- One frame (layout C4, Goldy 2026-11-02): a side rail with the filters (topics carry their map colours) and the researcher A–Z, beside the explorer tabs and the study table. -->
+    <aside class="rail" aria-label="Filters and researchers">
+        <form class="side" id="filters" role="search" aria-label="Filter records">
+          <div class="field">
+            <label for="q">Search</label>
+            <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
+          </div>
+          <button class="more-btn" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-extra">Filters</button>
+          <div class="extra" id="filters-extra">
+            <fieldset class="group">
+              <legend>Scope</legend>
+              <div id="scope" class="opts"></div>
+            </fieldset>
+            <div class="field">
+              <label for="decade">Decade</label>
+              <select id="decade"></select>
+            </div>
+            <fieldset class="group">
+              <legend>Topic</legend>
+              <div id="topics" class="opts"></div>
+            </fieldset>
+            <button class="reset" type="button" id="reset">Clear filters</button>
+          </div>
+        </form>
+        <div class="nw-side" id="nw-side" aria-live="polite"></div>
+    </aside>
     <figure class="ex" aria-label="Explore the research">
       <div class="ex-head">
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
@@ -323,10 +356,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
-        <ul class="legend" id="nw-legend" aria-label="Research topics, by colour"></ul>
         <div class="nw" id="nw">
           <svg id="nw-svg" role="group" aria-label="Goalie researchers, coloured by main topic and linked when they published a goalie study together"></svg>
-          <div class="nw-side" id="nw-side" aria-live="polite"></div>
         </div>
         <div class="nw-cap" id="nw-cap"></div>
       </div>
@@ -342,28 +373,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
     </figure>
 
     <div class="tr-body">
-      <form class="side" id="filters" role="search" aria-label="Filter records">
-        <div class="field">
-          <label for="q">Search</label>
-          <input id="q" type="search" placeholder="Title, author, journal, DOI" autocomplete="off">
-        </div>
-        <button class="more-btn" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-extra">Filters</button>
-        <div class="extra" id="filters-extra">
-          <fieldset class="group">
-            <legend>Scope</legend>
-            <div id="scope" class="opts"></div>
-          </fieldset>
-          <div class="field">
-            <label for="decade">Decade</label>
-            <select id="decade"></select>
-          </div>
-          <fieldset class="group">
-            <legend>Topic</legend>
-            <div id="topics" class="opts"></div>
-          </fieldset>
-          <button class="reset" type="button" id="reset">Clear filters</button>
-        </div>
-      </form>
 
       <div class="tr-main">
         <div class="tr-bar">
@@ -520,7 +529,7 @@ $("scope").innerHTML = SCOPES.map(([k, n]) => {
   return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === "all" ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
 }).join("");
 $("topics").innerHTML = TOPICS.map(([k, n]) =>
-  `<label class="opt"><input type="checkbox" value="${k}"><span>${esc(n)}</span><span class="n">${REC.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
+  `<label class="opt" style="--c: var(--t-${k})"><input type="checkbox" value="${k}"><span class="orb">${esc(n)}</span><span class="n">${REC.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
 $("decade").innerHTML = `<option value="all">All years</option>` +
   DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
   (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
@@ -826,7 +835,7 @@ function drawNetwork() {
       (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
       (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
   }
-  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies · Colour shows each researcher's main topic, as on the homepage`;
+  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies · Colour shows each researcher's main topic (the orbs beside Topic), as on the homepage`;
 }
 // Alphabetical by surname, grouped under the first letter; the box filters as you type.
 const nwSur = (n) => n.replace(/\s+(Jr\.?|Sr\.?|II|III)$/i, "").split(/\s+/).pop();
@@ -840,9 +849,7 @@ function nwAZ() {
     h += `<button type="button" data-i="${i}"><span>${esc(p.name)}</span><small>${p.n} ${p.n === 1 ? "study" : "studies"}</small></button>`;
   });
   $("nw-az").innerHTML = h || `<p class="nw-none">No researcher matches.</p>`;
-  // beside the map, let the list run the map's full height
-  const svgH = $("nw-svg").getBoundingClientRect().height;
-  $("nw-az").style.maxHeight = matchMedia("(min-width: 881px)").matches && svgH ? Math.max(240, Math.round(svgH) - 90) + "px" : "";
+  // the list scrolls inside the rail
 }
 function nwPick(i) { NW.sel = NW.sel === i ? null : i; drawNetwork(); }
 $("nw-svg").addEventListener("click", (e) => { const g = e.target.closest(".nd"); if (g) nwPick(Number(g.dataset.i)); });
@@ -872,17 +879,13 @@ const nwRing = (e) => {
 ["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
 ["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"))));
 $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
-// Topic key under the map, the same chips as the homepage legend: point at one to light that topic's researchers
-$("nw-legend").innerHTML = TOPICS.map(([k, n]) => `<li data-k="${k}" style="--c: var(--t-${k})"><i></i>${n}</li>`).join("");
+// The topic filters double as the map's colour key: point at one to light that topic's researchers on the map
 const nwHot = (k) => {
-  NW.hot = k; $("nw-legend").classList.toggle("dim", !!k);
-  $("nw-legend").querySelectorAll("li").forEach((li) => li.classList.toggle("hot", li.dataset.k === k));
-  $("nw").classList.toggle("has-hot", !!k);
+  NW.hot = k;
   $("nw-svg").querySelectorAll(".nd").forEach((g) => g.classList.toggle("off", !!k && NWK[+g.dataset.i] !== k));
 };
-$("nw-legend").addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) nwHot(li.dataset.k); });
-$("nw-legend").addEventListener("pointerleave", () => nwHot(null));
-$("nw-legend").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) nwHot(NW.hot === li.dataset.k ? null : li.dataset.k); });
+$("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
+$("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
 $("n-goal").textContent = REC.filter((r) => r.sc === "goaltending").length;
 $("n-people").textContent = NWP.length;
