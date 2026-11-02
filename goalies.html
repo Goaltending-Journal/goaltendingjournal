@@ -66,42 +66,23 @@ button,input,select{font:inherit;color:inherit}
 .switch input:checked::after{transform:translateX(14px)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;padding-top:28px}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4.2vw,50px);line-height:.92;letter-spacing:.01em;margin:8px 0 12px;text-wrap:balance}
-h1 span{color:var(--fog);display:block}
+/* Masthead, as on the Oracle, Briefs and Reviews pages: an open, centred title with the moving topic colours and a soft glow */
+.hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 0 clamp(28px,4vw,44px)}
+.hero::before{content:"";position:absolute;inset:-20% -10% 0;z-index:-1;pointer-events:none;filter:blur(60px);opacity:.26;
+  -webkit-mask-image:radial-gradient(closest-side,#000 45%,transparent);mask-image:radial-gradient(closest-side,#000 45%,transparent);
+  background:radial-gradient(28% 40% at 28% 40%,var(--t-hip),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--t-psy),transparent 70%),
+             radial-gradient(26% 34% at 50% 78%,var(--t-vis),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--t-eq),transparent 70%)}
+.hero h1{font:600 clamp(34px,5.4vw,66px)/1.04 var(--display);letter-spacing:.01em;margin:0;text-wrap:balance}
+.spectrum{background:linear-gradient(95deg,var(--t-hip),var(--t-bio),var(--t-psy),var(--t-inj),var(--t-eq),var(--t-stats),var(--t-phy),var(--t-vis),var(--t-dev),var(--t-hip));
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
+@keyframes spectrum{to{background-position:300% 0}}
+@media (prefers-reduced-motion:reduce){.spectrum{animation:none}}
+.spot-wrap{max-width:640px;margin:0 auto}
 .spot{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
-.spot .ph{position:absolute;right:0;bottom:0;height:100%;max-height:200px;width:auto;object-fit:contain;object-position:right bottom;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
-.spot>:not(.ph){position:relative;z-index:1}
 .spot::before{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;border-radius:50%;border:1px solid var(--crease-dim)}
 .spot .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .spot .nm{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;margin:4px 0 10px}
 .spot .stats{display:flex;gap:22px;flex-wrap:wrap}
-/* projected starters carousel (replaces the spotlight card when there are games) */
-.starters{background:linear-gradient(135deg,var(--mast-a),var(--mast-b));border:1px solid var(--line);border-radius:var(--r);padding:16px 18px 12px;position:relative;overflow:hidden;min-width:0}
-.st-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.st-h .tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.st-h .tag b{color:var(--crease);font-weight:700}
-.st-h .when{font-size:12px;color:var(--mute);white-space:nowrap}
-.st-track{display:flex;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-.st-slide{flex:0 0 100%;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:12px 0 8px}
-.st-g{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;min-width:0;cursor:pointer;background:none;border:0;color:inherit;font:inherit;padding:0}
-.st-g[disabled]{cursor:default}
-.st-ph{width:76px;height:76px;border-radius:50%;background:var(--ice);border:1px solid var(--line);overflow:hidden;display:grid;place-items:center}
-.st-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
-.st-ph .mono{width:100%;height:100%;border-radius:50%;font-size:22px}
-.st-g .nm{font-family:var(--f-display);font-weight:700;font-size:21px;line-height:1;margin-top:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.st-g:not([disabled]):hover .nm{color:var(--crease)}
-.st-g .sub{font-size:11px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
-.st-g .sub b{font-family:var(--f-display);font-size:15px;letter-spacing:0;color:var(--chalk);font-weight:600;margin-left:4px}
-.st-at{font-family:var(--f-display);font-size:26px;font-weight:600;color:var(--fog)}
-@media (max-width:520px){ .st-h{flex-direction:column;gap:2px} .st-ph{width:64px;height:64px} .st-g .nm{font-size:18px} }
-.st-f{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.st-dots{display:flex;gap:5px;flex-wrap:wrap}
-.st-dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
-.st-dots button[aria-current="true"]{background:var(--crease);width:18px;border-radius:4px}
-.st-nav{display:flex;gap:6px}
-.st-nav button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--ice);color:var(--chalk);cursor:pointer;font-size:14px;line-height:1}
-.st-nav button:hover{border-color:var(--crease)}
 .kv b{display:block;font-family:var(--f-display);font-size:26px;line-height:1;font-weight:600}
 .kv span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:700}
 
@@ -361,7 +342,6 @@ tbody tr:last-child td{border-bottom:0}
 .site-foot{margin-top:40px;border-top:1px solid var(--line);padding-top:24px;color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between}
 
 @media (max-width:960px){
-  .hero{grid-template-columns:1fr}
   .charts{grid-template-columns:1fr}
 }
 @media (max-width:520px){
@@ -370,7 +350,6 @@ tbody tr:last-child td{border-bottom:0}
   .panel-h{flex-wrap:wrap}
   .bio{grid-template-columns:repeat(2,minmax(0,1fr))}
   .spot{grid-template-columns:1fr}
-  .spot .ph{top:0;bottom:auto;height:136px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -393,13 +372,10 @@ tbody tr:last-child td{border-bottom:0}
 </header>
 
 <main class="wrap" id="main">
-  <section class="hero">
-    <div>
-      <h1>NHL Goaltending <span>Dataviz Project</span></h1>
-    </div>
-    <div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div>
-    <div class="starters" id="starters" role="region" aria-roledescription="carousel" aria-label="Projected starting goalies" hidden></div>
+  <section class="hero" aria-labelledby="h-goalies">
+    <h1 id="h-goalies"><span class="spectrum">NHL Goaltending</span> DataViz Project</h1>
   </section>
+  <div class="spot-wrap"><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
 
   <section id="tySec" hidden>
     <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
@@ -547,7 +523,6 @@ tbody tr:last-child td{border-bottom:0}
 <script src="goalies-data.js"></script>
 <script src="goalies-uncertainty-data.js"></script>
 <script src="goal-map-data.js"></script>
-<script src="starters-data.js"></script>
 <script>
 const DATA = window.GOALIE_DATA;
 const SEASONS = ["2026-27","2025-26","2024-25"];
@@ -607,53 +582,11 @@ function renderHero(){
   const best = [...q].sort((a,b)=>b.svp-a.svp)[0];
   if(!best){ $("#spot").innerHTML=""; return; }
   $("#spot").dataset.id=best.g.id;
-  const yr=state.season.slice(0,4), team=best.g.seasons[state.season]?.team||best.g.team;
-  const shot=(y)=>`https://assets.nhle.com/mugs/nhl/${y}${+y+1}/${team}/${best.g.id}.png`;
-  $("#spot").innerHTML = `<img class="ph" src="${shot(yr)}" data-alt="${shot(yr-1)}" alt="${esc(best.g.name)}" loading="lazy" decoding="async">${mono(best.g,"lg")}<div><div class="tag">Save % leader · min ${state.mingp || defaultMin()} GP</div><div class="nm">${esc(best.g.name)}</div>
+  $("#spot").innerHTML = `${mono(best.g,"lg")}<div><div class="tag">Save % leader · min ${state.mingp || defaultMin()} GP</div><div class="nm">${esc(best.g.name)}</div>
     <div class="stats"><div class="kv"><b class="num">${fmtSv(best.svp)}</b><span>SV%</span></div><div class="kv"><b class="num">${fmtGaa(best.gaa)}</b><span>GAA</span></div><div class="kv"><b class="num">${best.w}-${best.l}-${best.otl}</b><span>Record</span></div><div class="kv"><b class="num">${best.gp}</b><span>GP</span></div></div></div>`;
 }
-$("#spot").addEventListener("error",e=>{ const im=e.target; if(im.tagName!=="IMG") return; if(im.dataset.alt){ im.src=im.dataset.alt; im.dataset.alt=""; } else im.remove(); },true);
 $("#spot").addEventListener("click",()=>openGoalie(+$("#spot").dataset.id));
 $("#spot").addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openGoalie(+$("#spot").dataset.id);} });
-
-/* ---------- projected starters carousel (starters-data.js, rebuilt each morning by build_starters.py) ---------- */
-(function starters(){
-  const S=window.STARTERS, el=$("#starters");
-  const todayET=new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York"}).format(new Date());
-  if(!S||!S.games?.length||S.date<todayET) return;   // stale or empty: keep the spotlight card
-  $("#spot").hidden=true; el.hidden=false;
-  const n=S.games.length, reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const day=S.date===todayET?"Tonight":new Date(S.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
-  const time=g=>g.start?new Date(g.start).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}):"";
-  const side=s=>{
-    if(!s.id) return `<div class="st-g" aria-disabled="true"><span class="st-ph">${mono({name:s.team,team:s.team})}</span><span class="nm">${esc(s.team)}</span><span class="sub">To be decided</span></div>`;
-    const known=byId.has(s.id), g={name:s.name,team:s.team};
-    return `<button type="button" class="st-g" data-id="${s.id}" ${known?"":"disabled"} title="${esc(s.why||"")}"><span class="st-ph"><img src="https://assets.nhle.com/mugs/nhl/${S.season}/${s.team}/${s.id}.png" alt="" loading="lazy" decoding="async" data-mono="${esc(mono(g))}"></span>
-      <span class="nm">${esc(s.name)}</span><span class="sub">${esc(s.team)}${s.sv!=null?` · SV%<b>${fmtSv(s.sv)}</b>`:""}</span></button>`;
-  };
-  el.innerHTML=`<div class="st-h"><span class="tag"><b>Projected starters</b> · ${esc(day)}</span><span class="when" id="stWhen" aria-live="polite"></span></div>
-    <div class="st-view" style="overflow:hidden"><div class="st-track" id="stTrack">${S.games.map((g,i)=>`<div class="st-slide" role="group" aria-roledescription="slide" aria-label="${i+1} of ${n}: ${esc(g.away.team)} at ${esc(g.home.team)}" ${i?'aria-hidden="true"':""}>${side(g.away)}<span class="st-at">@</span>${side(g.home)}</div>`).join("")}</div></div>
-    <div class="st-f"><div class="st-dots" id="stDots">${S.games.map((g,i)=>`<button type="button" aria-label="${esc(g.away.team)} at ${esc(g.home.team)}" data-i="${i}"></button>`).join("")}</div>
-      ${n>1?`<div class="st-nav"><button type="button" data-step="-1" aria-label="Previous game">‹</button><button type="button" data-step="1" aria-label="Next game">›</button></div>`:""}</div>`;
-  el.addEventListener("error",e=>{ const im=e.target; if(im.tagName==="IMG") im.outerHTML=im.dataset.mono; },true);
-  let at=0, timer=null;
-  function go(i){
-    at=(i+n)%n; $("#stTrack").style.transform=`translateX(${-100*at}%)`;
-    el.querySelectorAll(".st-slide").forEach((s,k)=>{ s.toggleAttribute("aria-hidden",k!==at); s.querySelectorAll("button").forEach(b=>b.tabIndex=k===at?0:-1); });
-    el.querySelectorAll("#stDots button").forEach((b,k)=>b.setAttribute("aria-current",String(k===at)));
-    const g=S.games[at]; $("#stWhen").textContent=`${g.away.team} @ ${g.home.team}${time(g)?" · "+time(g):""} · ${at+1}/${n}`;
-  }
-  const play=()=>{ if(reduce||n<2) return; clearInterval(timer); timer=setInterval(()=>go(at+1),7000); };
-  const stop=()=>clearInterval(timer);
-  el.addEventListener("click",e=>{
-    const d=e.target.closest("[data-i]"), s=e.target.closest("[data-step]"), g=e.target.closest(".st-g[data-id]");
-    if(d) go(+d.dataset.i); else if(s) go(at+ +s.dataset.step); else if(g&&!g.disabled) openGoalie(+g.dataset.id);
-  });
-  el.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") go(at+1); else if(e.key==="ArrowLeft") go(at-1); });
-  el.addEventListener("mouseenter",stop); el.addEventListener("mouseleave",play);
-  el.addEventListener("focusin",stop); el.addEventListener("focusout",play);
-  go(0); play();
-})();
 
 /* ---------- charts ---------- */
 const tip=$("#tip");
@@ -822,9 +755,8 @@ function gsax(){
 }
 
 function renderCharts(){
-  const sec=$("#chartSec");
-  sec.hidden=!state.gfx;
-  if(!state.gfx) return;
+  // Keep the section (and its switch) on screen when graphics are off, so they can be switched back on
+  if(!state.gfx){ $("#charts").hidden=true; $("#collapsed").hidden=true; return; }
   document.querySelectorAll(".panel[data-chart]").forEach(p=>p.hidden=state.hidden.includes(p.dataset.chart));
   const hid=state.hidden;
   const names={scatter:"Save % vs goals-against",svbar:"Save % ladder",workload:"Workload",shrink:"Save %, with how sure we are",gsax:"Goals saved vs expected"};
@@ -984,7 +916,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 
 /* ---------- footer ---------- */
 $("#foot").innerHTML = `
-  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Projected starters are our own call from who has started each team's recent games, with back-to-backs going to the backup; the NHL does not confirm starters before puck drop. Impact GSAx: our own expected-goals and win-probability models, fitted on eleven seasons of the same play-by-play feed and applied to this season's shots. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
+  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Impact GSAx: our own expected-goals and win-probability models, fitted on eleven seasons of the same play-by-play feed and applied to this season's shots. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
   <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
