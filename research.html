@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Research · The Goaltending Research Journal</title>
-<meta name="description" content="Every published goaltending study, the researcher network map and the research heatmap.">
+<title>Research Oracle · The Goaltending Research Journal</title>
+<meta name="description" content="A living database of evidence-based research in ice hockey goaltending.">
 <meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -172,7 +172,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw-back { all: unset; cursor: pointer; justify-self: start; font: 500 13px var(--sans); color: var(--accent); }
 .nw-back:hover, .nw-back:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .nw-side .btn { justify-self: start; color: var(--accent); border-color: var(--accent); }
-.nw-cap { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
 @media (max-width: 880px) { .nw { grid-template-columns: 1fr; } }
 .hm-ramp { display: inline-flex; gap: 3px; align-items: center; }
 .hm-ramp i { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--accent) var(--k), var(--surface)); }
@@ -301,7 +300,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
   <div class="site-bar">
     <a class="brand" href="index.html"><span class="brand-logo" aria-hidden="true">GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
     <nav aria-label="Main" id="nav">
-      <a href="research.html" aria-current="page">Research</a>
+      <a href="research.html" aria-current="page">Oracle</a>
       <a href="briefs.html">Briefs</a>
       <a href="goalies.html">NHL Goalies</a>
       <a href="reviews.html">Reviews</a>
@@ -314,8 +313,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 
 <main id="main">
   <section class="hero" aria-labelledby="h-research">
-    <h1 id="h-research"><span class="spectrum">Goaltending</span> Research</h1>
-    <p>A living evidence map of <b id="n-goal"></b> goalie-specific studies and the <b id="n-people"></b> researchers behind them.</p>
+    <h1 id="h-research">Research <span class="spectrum">Oracle</span></h1>
+    <p>A living database of evidence-based research in ice hockey goaltending.</p>
   </section>
 
   <div class="wrap">
@@ -359,7 +358,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         <div class="nw" id="nw">
           <svg id="nw-svg" role="group" aria-label="Goalie researchers, coloured by main topic and linked when they published a goalie study together"></svg>
         </div>
-        <div class="nw-cap" id="nw-cap"></div>
       </div>
       <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
         <div class="hm-scroll"><div class="hm" id="hm"></div></div>
@@ -835,7 +833,6 @@ function drawNetwork() {
       (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
       (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
   }
-  $("nw-cap").textContent = `${NWP.length} researchers · ${NWL.length} partnerships · Dot size shows goalie studies · Colour shows each researcher's main topic (the orbs beside Topic), as on the homepage`;
 }
 // Alphabetical by surname, grouped under the first letter; the box filters as you type.
 const nwSur = (n) => n.replace(/\s+(Jr\.?|Sr\.?|II|III)$/i, "").split(/\s+/).pop();
@@ -887,8 +884,6 @@ const nwHot = (k) => {
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
-$("n-goal").textContent = REC.filter((r) => r.sc === "goaltending").length;
-$("n-people").textContent = NWP.length;
 let nwW = 0;
 window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
 

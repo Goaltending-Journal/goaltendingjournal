@@ -19,7 +19,7 @@
 <script src="theme.js"></script>
 <style>
 /* About, in the landing page's style (Goldy, 2026-11-01): an open hero with the colour-shifting word, framed cards with a
-   topic-colour edge like the homepage doors, chip-framed reviewers, and no footer. Colours and type come from site-nav.css;
+   topic-colour edge like the homepage doors, and no footer. Colours and type come from site-nav.css;
    the topic hues (--t-*) come from site-nav.css. */
 :root {
   --h1-hover: #9a7420;
@@ -82,17 +82,6 @@ a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: 
 .card p { margin: 12px 0 0; font: 15px/1.55 var(--sans); color: var(--muted); }
 .card.says p { margin-top: 10px; font: 19px/1.5 var(--serif); color: var(--fg); }
 
-/* Peers */
-.director { text-align: center; font: 15px var(--sans); color: var(--muted); margin: 0 0 22px; }
-.director b { display: block; font: 600 22px/1.2 var(--display); color: var(--fg); margin-top: 4px; }
-.reviewers { list-style: none; margin: 0 auto; padding: 0; max-width: 900px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.reviewers li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 10px; border-radius: 999px; font: 14px var(--sans);
-  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: color-mix(in srgb, var(--c) 10%, var(--bg)); }
-.reviewers li:nth-child(4n+1) { --c: var(--t-hip); } .reviewers li:nth-child(4n+2) { --c: var(--t-vis); }
-.reviewers li:nth-child(4n+3) { --c: var(--t-psy); } .reviewers li:nth-child(4n) { --c: var(--t-eq); }
-.reviewers .flag { width: 21px; height: 14px; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); }
-.reviewers .rv-country { color: var(--muted); font-size: 12.5px; }
-.tba { text-align: center; margin: 22px 0 0; font: 13.5px var(--sans); color: var(--muted); }
 
 
 /* Sources */
@@ -137,7 +126,7 @@ td.fee.no { color: var(--muted); }
   <div class="site-bar">
     <a class="brand" href="index.html"><span class="brand-logo" aria-hidden="true">GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
     <nav aria-label="Main" id="nav">
-      <a href="research.html">Research</a>
+      <a href="research.html">Oracle</a>
       <a href="briefs.html">Briefs</a>
       <a href="goalies.html">NHL Goalies</a>
       <a href="reviews.html">Reviews</a>
@@ -166,35 +155,12 @@ td.fee.no { color: var(--muted); }
     <section class="sec" id="whats-here" aria-labelledby="h-here">
       <div class="head" style="--c: var(--t-eq)"><small>What's here</small><h2 id="h-here">Offerings</h2></div>
       <div class="cards" style="--n: 3">
-        <a class="card wide" href="research.html#articles" style="--c: var(--t-hip)"><b>Goaltending Research</b><small><span id="n-rec"></span> studies</small><p>A living evidence map of goalie-specific research studies, along with a network map of researchers.</p></a>
+        <a class="card wide" href="research.html#articles" style="--c: var(--t-hip)"><b>Research Oracle</b><small>Living database</small><p>A living database of evidence-based research in ice hockey goaltending, along with a network map of researchers.</p></a>
         <a class="card" href="briefs.html" style="--c: var(--t-psy)"><b>Briefs</b><small>For coaches</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a>
         <a class="card" href="goalies.html" style="--c: var(--t-eq)"><b>NHL DataViz</b><small>Official NHL data</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance.</p></a>
         <a class="card" href="conference.html" style="--c: var(--t-bio)"><b>Conferences</b><small>Virtual</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a>
         <a class="card" href="reviews.html" style="--c: var(--t-vis)"><b>Peer Reviews</b><small>Monthly</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a>
       </div>
-    </section>
-
-    <section class="sec" id="peers" aria-labelledby="h-peers">
-      <div class="head" style="--c: var(--t-vis)"><small>The people</small><h2 id="h-peers">Peers</h2></div>
-      <p class="director">Project Director<b>Justin Goldman</b></p>
-      <ul class="reviewers" aria-label="Peer reviewers">
-        <li><img class="flag" src="flags/au.svg" alt="" width="21" height="14"><span class="rv-name">Sera Dogramaci</span><span class="rv-country">Australia</span></li>
-        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Dr. Nate Speidel</span><span class="rv-country">United States</span></li>
-        <li><img class="flag" src="flags/se.svg" alt="" width="21" height="14"><span class="rv-name">Thomas Magnusson</span><span class="rv-country">Sweden</span></li>
-        <li><img class="flag" src="flags/us.svg" alt="" width="21" height="14"><span class="rv-name">Sean Reilly</span><span class="rv-country">United States</span></li>
-        <li><img class="flag" src="flags/ca.svg" alt="" width="21" height="14"><span class="rv-name">Jack Hartigan</span><span class="rv-country">Canada</span></li>
-        <li><img class="flag" src="flags/fi.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 06</span><span class="rv-country">Finland</span></li>
-        <li><img class="flag" src="flags/sk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 07</span><span class="rv-country">Slovakia</span></li>
-        <li><img class="flag" src="flags/gb.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 08</span><span class="rv-country">United Kingdom</span></li>
-        <li><img class="flag" src="flags/de.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 09</span><span class="rv-country">Germany</span></li>
-        <li><img class="flag" src="flags/at.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 10</span><span class="rv-country">Austria</span></li>
-        <li><img class="flag" src="flags/no.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 11</span><span class="rv-country">Norway</span></li>
-        <li><img class="flag" src="flags/fr.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 12</span><span class="rv-country">France</span></li>
-        <li><img class="flag" src="flags/jp.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 13</span><span class="rv-country">Japan</span></li>
-        <li><img class="flag" src="flags/ch.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 14</span><span class="rv-country">Switzerland</span></li>
-        <li><img class="flag" src="flags/dk.svg" alt="" width="21" height="14"><span class="rv-name">Reviewer 15</span><span class="rv-country">Denmark</span></li>
-      </ul>
-      <p class="tba">Advisory Board and Review Model to be announced.</p>
     </section>
 
     <section class="sec" id="sources" aria-labelledby="h-sources">
@@ -214,11 +180,8 @@ td.fee.no { color: var(--muted); }
   </div>
 </main>
 
-<script src="data.js"></script>
 <script src="journals-data.js"></script>
 <script>
-document.getElementById("n-rec").textContent = REC.filter((r) => r.sc === "goaltending").length;   // goalie-specific studies only
-
 /* Sources: the open-access journal list, a page at a time */
 (function sources() {
   const $ = (id) => document.getElementById(id);
