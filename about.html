@@ -56,10 +56,15 @@ h1, h2, h3 { font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0;
 .spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
   background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
 @keyframes spectrum { to { background-position: 300% 0; } }
-.go { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px; font: 600 15px var(--sans); color: var(--fg); text-decoration: none;
-  background: var(--glass); border: 1px solid var(--glass-line); -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
-  transition: transform 0.25s ease, box-shadow 0.25s ease; }
-.go:hover, .go:focus-visible { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--accent), 0 12px 30px -12px var(--accent); }
+.tip { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; color: var(--fg); text-decoration: none; font: 500 12px var(--label, var(--sans)); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; transition: opacity 0.25s ease; }
+.tip svg { width: 64px; height: 64px; overflow: visible; transition: transform 0.25s ease, filter 0.25s ease; }
+.tip .mug { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tip .brew { fill: url(#tipGrad); stroke: none; }
+.tip .steam { fill: none; stroke: url(#tipGrad); stroke-width: 2.2; stroke-linecap: round; animation: steam 2.8s ease-in-out infinite; }
+.tip .steam:nth-of-type(2) { animation-delay: 0.9s; } .tip .steam:nth-of-type(3) { animation-delay: 1.8s; }
+@keyframes steam { 0% { opacity: 0; transform: translateY(4px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-6px); } }
+.tip:hover, .tip:focus-visible { opacity: 1; outline: none; }
+.tip:hover svg, .tip:focus-visible svg { transform: translateY(-3px) rotate(-6deg); filter: drop-shadow(0 8px 18px var(--accent)); }
 
 /* Section heads: a small coloured label over the title, centred */
 .sec { padding-block: 56px; scroll-margin-top: var(--nav-h); }
@@ -141,7 +146,7 @@ td.fee.no { color: var(--muted); }
   #sources td:first-child, #sources td:nth-child(2) { grid-column: 1 / -1; }
   #sources td:nth-child(2), #sources td:nth-child(3), #sources td.fee { font-size: 13px; color: var(--muted); }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .spectrum { animation: none; } .card, .go { transition: none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .spectrum { animation: none; } .card, .tip, .tip svg { transition: none; } .tip .steam { animation: none; } }
 </style>
 </head>
 <body>
@@ -164,15 +169,24 @@ td.fee.no { color: var(--muted); }
   <section class="hero" aria-labelledby="h-about">
     <h1 id="h-about">About the <span class="spectrum">GRJ</span></h1>
     <p>An open source journal for ice hockey goaltending research.</p>
-    <a class="go" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener">Leave a tip on Ko-fi <span aria-hidden="true">→</span></a>
+    <a class="tip" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener" aria-label="Leave a tip on Ko-fi" title="Leave a tip on Ko-fi">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs><linearGradient id="tipGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:var(--t-hip)"/><stop offset=".5" style="stop-color:var(--t-vis)"/><stop offset="1" style="stop-color:var(--t-psy)"/></linearGradient></defs>
+        <path class="steam" d="M22 18c-3-4 3-6 0-11"/><path class="steam" d="M31 18c-3-4 3-6 0-11"/><path class="steam" d="M40 18c-3-4 3-6 0-11"/>
+        <path class="brew" d="M15.5 28h33l-2.6 20.5a6 6 0 0 1-6 5.5H24.1a6 6 0 0 1-6-5.5z" opacity=".9"/>
+        <path class="mug" d="M13 24h38l-3.2 25a7 7 0 0 1-7 6H23.2a7 7 0 0 1-7-6z"/>
+        <path class="mug" d="M50.4 29h3.6a6 6 0 0 1 0 12h-5"/>
+      </svg>
+      <span>Tip on Ko-fi</span>
+    </a>
   </section>
 
   <div class="wrap">
     <section class="sec" id="mission" aria-label="Mission, vision and promise" style="padding-top: 8px">
       <div class="cards">
-        <div class="card says" style="--c: var(--t-hip)"><small>The Mission</small><p>The GRJ is dedicated to bridging the gap between evidence-based research in ice hockey goaltending and the coaching community.</p></div>
-        <div class="card says" style="--c: var(--t-psy)" id="vision"><small>The Vision</small><p>Building an open-sourced sports journal that is dedicated to educating the goalie coaching community and supporting the goalie-specific researchers.</p></div>
-        <div class="card says" style="--c: var(--t-vis)" id="promise"><small>The Promise</small><p>To provide a free journal that is dedicated to sharing, reviewing, and inviting conversations surrounding evidence-based research in ice hockey goaltending.</p></div>
+        <div class="card says" style="--c: var(--t-hip)"><small>The Mission</small><p>The GRJ is an open-sourced sports journal dedicated to bridging the gap between ice hockey goaltending research and the general public.</p></div>
+        <div class="card says" style="--c: var(--t-psy)" id="vision"><small>The Vision</small><p>To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large.</p></div>
+        <div class="card says" style="--c: var(--t-vis)" id="promise"><small>The Promise</small><p>To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community.</p></div>
       </div>
     </section>
 
