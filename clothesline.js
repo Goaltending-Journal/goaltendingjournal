@@ -4,8 +4,11 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "1 November 2026";
+const CLOTHESLINE_UPDATED = "2 November 2026";
 const CLOTHESLINE = [
+{"d": "2026-10-31", "t": "Integrating environmental sustainability into higher education sport curricula: The influence of institutional strategies", "u": "https://doi.org/10.1016/j.jhlste.2026.100634", "s": "Journal of Hospitality Leisure Sport & Tourism Education", "tp": "ed", "m": false},
+{"d": "2026-10-31", "t": "From Signal to Biological Meaning: A Systematic Review of Construct-Validity Evidence for External Training Load Metrics in Sport", "u": "https://doi.org/10.1186/s40798-026-01133-7", "s": "Sports Medicine - Open", "tp": "ed", "m": false},
+{"d": "2026-10-31", "t": "Understanding How the Self-Regulation in Sport Practice Survey is Received by Mental Performance Consultants for Prospective Use in Applied Practice", "u": "https://doi.org/10.64898/2026.10.29.26366811", "s": "medRxiv", "tp": "sa", "m": false},
 {"d": "2026-10-30", "t": "Visual Search Behavior and Visual Occlusion in Open-Skill Sports: Ecological Dynamics Implications for Performance and Motor Learning", "u": "https://doi.org/10.5281/zenodo.23807571", "s": "Zenodo (CERN European Organization for Nuclear Research)", "tp": "ed", "m": false},
 {"d": "2026-10-30", "t": "From flexibility to flow: psychological selection and the maintenance of values-based therapeutic skills", "u": "https://doi.org/10.3389/fpsyg.2026.1967544", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
 {"d": "2026-10-29", "t": "From Pixels to Performance: A Survey of the Estimation-to-Biomechanics Pipeline for Vision-Based Human Pose Estimation in Sports and Movement Health", "u": "https://doi.org/10.48175/ijarsct-40375", "s": "International Journal of Advanced Research in Science Communication and Technology", "tp": "ed", "m": false},
@@ -39,9 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-20", "t": "Antecedents, correlates, and psychological consequences of group cohesion in youth sport: a systematic review", "u": "https://doi.org/10.47197/retos.v85.120034", "s": "Retos", "tp": "ed", "m": false},
 {"d": "2026-10-20", "t": "Context-Aware Decision Support System for Athlete Training Optimization via Multimodal Attention Fusion", "u": "https://doi.org/10.4018/ijdsst.425339", "s": "International Journal of Decision Support System Technology", "tp": "sa", "m": false},
 {"d": "2026-10-19", "t": "Beyond barriers: perceived barriers and winter sport participation intentions in a predominantly Zhejiang-based Chinese sample", "u": "https://doi.org/10.3389/fpsyg.2026.1902346", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
-{"d": "2026-10-19", "t": "The Elite Sport Relevance Index: a five-dimensional framework for understanding value creation in elite sport", "u": "https://doi.org/10.3389/fspor.2026.1944243", "s": "Frontiers in Sports and Active Living", "tp": "ed", "m": false},
-{"d": "2026-10-19", "t": "What factors impact the social mobility of athletes retired from Liaoning Province professional sports teams? A qualitative research approach", "u": "https://doi.org/10.3389/fspor.2026.1943882", "s": "Frontiers in Sports and Active Living", "tp": "sa", "m": false},
-{"d": "2026-10-18", "t": "Bridging Skills Gaps in South African Manufacturing: Curriculum Relevance, Mentorship, and Workplace Learning in Apprenticeship Programs", "u": "https://doi.org/10.36096/ijbes.v8i5.1523", "s": "International Journal of Business Ecosystem and Strategy (2687-2293)", "tp": "sa", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
