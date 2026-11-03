@@ -4,8 +4,10 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "2 November 2026";
+const CLOTHESLINE_UPDATED = "3 November 2026";
 const CLOTHESLINE = [
+{"d": "2026-11-02", "t": "Self-regulatory moderators of the intention–behavior gap in physical activity: an ecological momentary assessment study among young adults", "u": "https://doi.org/10.3389/fdgth.2026.1924099", "s": "Frontiers in Digital Health", "tp": "ed", "m": false},
+{"d": "2026-11-01", "t": "Role of Sports in Holistic Psychosocial Interventions for Substance Use Disorders", "u": "https://doi.org/10.18863/pgy.1913311", "s": "Psikiyatride Guncel Yaklasimlar - Current Approaches in Psychiatry", "tp": "ed", "m": false},
 {"d": "2026-10-31", "t": "Integrating environmental sustainability into higher education sport curricula: The influence of institutional strategies", "u": "https://doi.org/10.1016/j.jhlste.2026.100634", "s": "Journal of Hospitality Leisure Sport & Tourism Education", "tp": "ed", "m": false},
 {"d": "2026-10-31", "t": "From Signal to Biological Meaning: A Systematic Review of Construct-Validity Evidence for External Training Load Metrics in Sport", "u": "https://doi.org/10.1186/s40798-026-01133-7", "s": "Sports Medicine - Open", "tp": "ed", "m": false},
 {"d": "2026-10-31", "t": "Understanding How the Self-Regulation in Sport Practice Survey is Received by Mental Performance Consultants for Prospective Use in Applied Practice", "u": "https://doi.org/10.64898/2026.10.29.26366811", "s": "medRxiv", "tp": "sa", "m": false},
@@ -40,8 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-20", "t": "The effect of teams-games-tournament model on fundamental basketball skills among secondary school students: A quasi-experimental study", "u": "https://doi.org/10.68701/jpspa.v1i1.3", "s": "Research article", "tp": "ed", "m": false},
 {"d": "2026-10-20", "t": "Psychological Capital and Emotion Regulation Among Middle-Aged and Older Adults in Sports Clubs: A Network Analysis", "u": "https://doi.org/10.21203/rs.3.rs-11031933/v1", "s": "Research Square", "tp": "ed", "m": false},
 {"d": "2026-10-20", "t": "Antecedents, correlates, and psychological consequences of group cohesion in youth sport: a systematic review", "u": "https://doi.org/10.47197/retos.v85.120034", "s": "Retos", "tp": "ed", "m": false},
-{"d": "2026-10-20", "t": "Context-Aware Decision Support System for Athlete Training Optimization via Multimodal Attention Fusion", "u": "https://doi.org/10.4018/ijdsst.425339", "s": "International Journal of Decision Support System Technology", "tp": "sa", "m": false},
-{"d": "2026-10-19", "t": "Beyond barriers: perceived barriers and winter sport participation intentions in a predominantly Zhejiang-based Chinese sample", "u": "https://doi.org/10.3389/fpsyg.2026.1902346", "s": "Frontiers in Psychology", "tp": "ed", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
