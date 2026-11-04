@@ -1,0 +1,207 @@
+{
+ "checked": "2026-11-03",
+ "season": "2026-27",
+ "nhlAsOf": "2026-11-03",
+ "nstAsOf": "2026-11-03",
+ "goalies": 74,
+ "matched": 60,
+ "minor": [
+  {
+   "name": "Alex Nedeljkovic",
+   "team": "SJS",
+   "nhl": {
+    "gp": 6,
+    "sa": 189,
+    "ga": 19
+   },
+   "nst": {
+    "gp": 7,
+    "sa": 189,
+    "ga": 19
+   }
+  },
+  {
+   "name": "Arsenii Sergeev",
+   "team": "CGY",
+   "nhl": {
+    "gp": 1,
+    "sa": 34,
+    "ga": 5
+   },
+   "nst": {
+    "gp": 1,
+    "sa": 33,
+    "ga": 5
+   }
+  },
+  {
+   "name": "Devin Cooley",
+   "team": "CGY",
+   "nhl": {
+    "gp": 7,
+    "sa": 197,
+    "ga": 17
+   },
+   "nst": {
+    "gp": 7,
+    "sa": 196,
+    "ga": 17
+   }
+  },
+  {
+   "name": "Ilya Sorokin",
+   "team": "NYI",
+   "nhl": {
+    "gp": 10,
+    "sa": 271,
+    "ga": 24
+   },
+   "nst": {
+    "gp": 10,
+    "sa": 270,
+    "ga": 24
+   }
+  },
+  {
+   "name": "Jet Greaves",
+   "team": "CBJ",
+   "nhl": {
+    "gp": 8,
+    "sa": 180,
+    "ga": 21
+   },
+   "nst": {
+    "gp": 8,
+    "sa": 178,
+    "ga": 21
+   }
+  },
+  {
+   "name": "Joel Hofer",
+   "team": "STL",
+   "nhl": {
+    "gp": 10,
+    "sa": 286,
+    "ga": 24
+   },
+   "nst": {
+    "gp": 10,
+    "sa": 287,
+    "ga": 24
+   }
+  },
+  {
+   "name": "Jonas Johansson",
+   "team": "OTT",
+   "nhl": {
+    "gp": 4,
+    "sa": 105,
+    "ga": 16
+   },
+   "nst": {
+    "gp": 4,
+    "sa": 104,
+    "ga": 16
+   }
+  },
+  {
+   "name": "Karel Vejmelka",
+   "team": "UTA",
+   "nhl": {
+    "gp": 12,
+    "sa": 281,
+    "ga": 37
+   },
+   "nst": {
+    "gp": 12,
+    "sa": 282,
+    "ga": 37
+   }
+  },
+  {
+   "name": "Kevin Lankinen",
+   "team": "VAN",
+   "nhl": {
+    "gp": 8,
+    "sa": 197,
+    "ga": 38
+   },
+   "nst": {
+    "gp": 8,
+    "sa": 198,
+    "ga": 38
+   }
+  },
+  {
+   "name": "Michael DiPietro",
+   "team": "BOS",
+   "nhl": {
+    "gp": 4,
+    "sa": 127,
+    "ga": 9
+   },
+   "nst": {
+    "gp": 4,
+    "sa": 126,
+    "ga": 9
+   }
+  },
+  {
+   "name": "Philipp Grubauer",
+   "team": "SEA",
+   "nhl": {
+    "gp": 9,
+    "sa": 229,
+    "ga": 26
+   },
+   "nst": {
+    "gp": 9,
+    "sa": 227,
+    "ga": 26
+   }
+  },
+  {
+   "name": "Sebastian Cossa",
+   "team": "UTA",
+   "nhl": {
+    "gp": 5,
+    "sa": 83,
+    "ga": 12
+   },
+   "nst": {
+    "gp": 5,
+    "sa": 82,
+    "ga": 12
+   }
+  },
+  {
+   "name": "Sergei Bobrovsky",
+   "team": "TOR",
+   "nhl": {
+    "gp": 10,
+    "sa": 288,
+    "ga": 33
+   },
+   "nst": {
+    "gp": 11,
+    "sa": 288,
+    "ga": 33
+   }
+  },
+  {
+   "name": "Tristan Jarry",
+   "team": "EDM",
+   "nhl": {
+    "gp": 7,
+    "sa": 171,
+    "ga": 18
+   },
+   "nst": {
+    "gp": 7,
+    "sa": 172,
+    "ga": 18
+   }
+  }
+ ],
+ "flagged": []
+}
