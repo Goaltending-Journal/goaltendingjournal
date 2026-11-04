@@ -1,22 +1,9 @@
 {
   "seasons": "2021-2022 to 2026-2027",
-  "fetched_at": "2026-11-04T00:27:06-05:00",
+  "fetched_at": "2026-11-04T00:36:09-05:00",
   "source": "https://data.naturalstattrick.com",
   "credit": "Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com)",
-  "files": {
-    "goalies_20212022_all.csv": 119,
-    "goalies_20212022_5v5.csv": 119,
-    "goalies_20222023_all.csv": 107,
-    "goalies_20222023_5v5.csv": 107,
-    "goalies_20232024_all.csv": 98,
-    "goalies_20232024_5v5.csv": 98,
-    "goalies_20242025_all.csv": 103,
-    "goalies_20242025_5v5.csv": 103,
-    "goalies_20252026_all.csv": 98,
-    "goalies_20252026_5v5.csv": 98,
-    "goalies_20262027_all.csv": 74,
-    "goalies_20262027_5v5.csv": 74
-  },
+  "files": {},
   "failed": [
     "teams_20212022_5v5.csv",
     "teams_20222023_5v5.csv",

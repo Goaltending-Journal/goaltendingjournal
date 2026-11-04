@@ -1,7 +1,7 @@
 club,level,rank,player_id,name,birth_date,catches,height_in,weight_lb,draft_year,draft_club,draft_round,draft_overall,league_now,team_now,placement_season,gp_now,nhl_gp_now,nhl_gs_now,contract_status,rights_expire,moved_this_season,stops_this_season,moved_on,in_feed_list,as_of,source_url,source_class
 ANA,NHL,1,8480843,Lukas Dostal,2000-06-22,L,74,190,2018,ANA,3,85,NHL,Anaheim Ducks,20262027,9,9,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
 ANA,NHL,2,8478024,Ville Husso,1995-02-06,L,75,202,2014,STL,4,94,NHL,Anaheim Ducks,20262027,5,5,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
-ANA,NHL,3,8476316,Laurent Brossoit,1993-03-23,L,74,217,2011,CGY,6,164,AHL,San Diego Gulls,20262027,6,1,1,,,yes,NHL:Anaheim Ducks > AHL:San Diego Gulls,NHL games 2026-11-01 to 2026-11-01,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,NHL,3,8476316,Laurent Brossoit,1993-03-23,L,74,217,2011,CGY,6,164,AHL,San Diego Gulls,20262027,6,2,2,,,yes,NHL:Anaheim Ducks > AHL:San Diego Gulls,NHL games 2026-11-01 to 2026-11-03,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
 ANA,AHL,1,8484391,Damian Clara,2005-01-13,L,78,218,2023,ANA,2,60,AHL,San Diego Gulls,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
 ANA,Prospects,1,8486317,Gleb Peshkov,2007-11-05,R,75,212,2026,ANA,6,178,MHL,Taifun Primorsky Krai,20262027,17,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
 ANA,Prospects,2,8485446,Elijah Neuenschwander,2006-10-17,L,76,192,2025,ANA,4,104,SL,HC Thurgau,20262027,11,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
@@ -136,7 +136,7 @@ TOR,NHL,2,8476932,Anthony Stolarz,1994-01-20,L,78,248,2012,PHI,2,45,NHL,Toronto 
 UTA,NHL,1,8478872,Karel Vejmelka,1996-05-25,R,76,221,2015,NSH,5,145,NHL,Utah Mammoth,20262027,12,12,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/UTA,primary
 UTA,NHL,2,8482657,Sebastian Cossa,2002-11-21,L,78,221,2021,DET,1,15,NHL,Utah Mammoth,20262027,6,6,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/UTA,primary
 VAN,NHL,1,8482447,Leevi Meriläinen,2002-08-13,L,75,186,2020,OTT,3,71,NHL,Vancouver Canucks,20262027,11,11,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
-VAN,NHL,2,8480947,Kevin Lankinen,1995-04-28,L,74,190,,,undrafted,,NHL,Vancouver Canucks,20262027,8,8,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
+VAN,NHL,2,8480947,Kevin Lankinen,1995-04-28,L,74,190,,,undrafted,,NHL,Vancouver Canucks,20262027,9,9,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
 VAN,NHL,3,8477967,Thatcher Demko,1995-12-08,L,76,192,2014,VAN,2,36,NHL,Vancouver Canucks,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
 VGK,NHL,1,8479394,Carter Hart,1998-08-13,L,74,196,2016,PHI,2,48,NHL,Vegas Golden Knights,20262027,9,9,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary
 VGK,NHL,2,8478499,Adin Hill,1996-05-11,L,76,218,2015,ARI,3,76,NHL,Vegas Golden Knights,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary

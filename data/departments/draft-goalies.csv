@@ -30,7 +30,7 @@ draft_year,club,round,overall,name,player_id,amateur_league,amateur_club,first_a
 2011,WPG,6,157,Jason Kasdorf,8476309,MJHL,Portage,20162017,20152016,1,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
 2011,MIN,6,161,Steve Michalek,8476313,HIGH-CT,Loomis-Chaffee,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
 2011,CAR,6,163,Matt Mahalak,8476315,OHL,Plymouth,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
-2011,CGY,6,164,Laurent Brossoit,8476316,WHL,Edmonton,20132014,20142015,142,Anaheim Ducks; Edmonton Oilers; San Jose Sharks; Vegas Golden Knights; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,CGY,6,164,Laurent Brossoit,8476316,WHL,Edmonton,20132014,20142015,143,Anaheim Ducks; Edmonton Oilers; San Jose Sharks; Vegas Golden Knights; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
 2011,BUF,6,167,Nathan Lieuwen,8476319,WHL,Kootenay,20122013,20132014,7,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
 2011,TBL,6,178,Adam Wilcox,8476330,USHL,Green Bay,20142015,20172018,1,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
 2011,BOS,6,181,Lars Volden,8476333,Finland Jr.,Blues Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
