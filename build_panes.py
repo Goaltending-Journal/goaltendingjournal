@@ -15,7 +15,7 @@ Rules, as in the original:
 - A start is the goalie the box score marks as the starter.
 - "Most-used", "backup" and "third" rank each team's goalies by starts so far this season.
 - A back-to-back is any two games on consecutive calendar dates.
-Season totals on each goalie's card count every start this season. The panes show the last WINDOW_PAST days
+Season totals on each goalie's card (record, save %, GAA) count every appearance this season, relief included. The panes show the last WINDOW_PAST days
 and the next WINDOW_AHEAD, so they stay readable as the season grows.
 """
 
@@ -117,6 +117,19 @@ def build(games, boxes, today, names):
     last = max(date.fromisoformat(max(g["date"] for g in games.values())), today)
     days = [(d0 + timedelta(i)).isoformat() for i in range((last - d0).days + 1)]
     cells, goalies = [], {}
+
+    def goalie(pid, name):
+        return goalies.setdefault(pid, dict(pid=pid, name=name, team="", rank=None, gs=0, w=0, l=0, otl=0, sv=0, sa=0, ga=0, toi=0, games=[]))
+
+    # Season totals count every appearance, relief included, so they match the NHL's own goalie stats
+    for gid, b in boxes.items():
+        for r in b["lines"]:
+            if r["toi"] > 0:
+                G = goalie(r["pid"], names.get(r["pid"], r["name"]))
+                G["sv"] += r["sv"]; G["sa"] += r["sa"]; G["ga"] += r["ga"]; G["toi"] += r["toi"]
+                if r["dec"] == "W": G["w"] += 1
+                elif r["dec"] == "L": G["l"] += 1
+                elif r["dec"]: G["otl"] += 1
     for t in sorted(div):
         for i, day in enumerate(days):
             g = by_day.get((day, t))
@@ -135,13 +148,11 @@ def build(games, boxes, today, names):
                               g=s and dict(pid=s["pid"], n=s["name"], sv=s["sv"], sa=s["sa"], ga=s["ga"], dec=s["dec"], toi=s["toi"],
                                            partial=s["partial"], same=(prevs is not None and prevs["pid"] == s["pid"]))))
             if s:
-                G = goalies.setdefault(s["pid"], dict(pid=s["pid"], name=s["name"], team=t, rank=rk, gs=0, w=0, l=0, otl=0, sv=0, sa=0, ga=0, toi=0, games=[]))
+                G = goalie(s["pid"], s["name"])
                 G["team"], G["rank"] = t, rk  # a traded goalie shows his newest team
-                G["gs"] += 1; G["sv"] += s["sv"]; G["sa"] += s["sa"]; G["ga"] += s["ga"]; G["toi"] += s["toi"]
-                if s["dec"] == "W": G["w"] += 1
-                elif s["dec"] == "L": G["l"] += 1
-                elif s["dec"]: G["otl"] += 1
+                G["gs"] += 1
                 G["games"].append(dict(d=i, opp=opp, home=int(home), b2b=b2b or "none", sv=s["sv"], sa=s["sa"], dec=s["dec"]))
+    goalies = {p: G for p, G in goalies.items() if G["gs"]}  # the cards are for goalies who have started a game
     for G in goalies.values():
         G["svpct"] = round(G["sv"] / G["sa"], 3) if G["sa"] else None
         G["gaa"] = round(G["ga"] * 3600 / G["toi"], 2) if G["toi"] else None
