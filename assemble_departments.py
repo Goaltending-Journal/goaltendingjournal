@@ -150,13 +150,15 @@ def main():
     depth = read(DEPT / "depth-chart.csv")
     drafts = read(DEPT / "draft-goalies.csv")
     listed = {r["player_id"] for r in depth}
+    listed_names = {(norm(r["name"].split()[-1]), str(r["draft_year"])) for r in depth}  # Nikke/Niklas Kokko
     agents = {}
     for path in glob.glob(str(args.notes / "agents_*.csv")):
         for r in read(path):
             agents[r["player_id"] or norm(r["name"])] = r
     extra = []
     for d in drafts:
-        if int(d["draft_year"]) not in SIX_DRAFTS or (d["player_id"] and d["player_id"] in listed):
+        if (int(d["draft_year"]) not in SIX_DRAFTS or (d["player_id"] and d["player_id"] in listed)
+                or (norm(d["name"].split()[-1]), str(d["draft_year"])) in listed_names):
             continue
         extra.append({"club": d["club"], "level": "Prospects", "player_id": d["player_id"], "name": d["name"],
                       "draft_year": d["draft_year"], "draft_club": d["club"], "draft_round": d["round"],
@@ -207,8 +209,20 @@ def main():
 
     # contracts.csv and team-spend.csv.
     contracts = [r for p in sorted(glob.glob(str(args.notes / "contracts_*.csv"))) for r in read(p)]
+    # A later batch can confirm a contract an earlier one left as an unconfirmed lead: drop the lead
+    # when a row with a figure exists for the same goalie and an overlapping season or signing date.
+    def overlaps(a, b):
+        if a["signed_on"] and a["signed_on"][:7] == b["signed_on"][:7]:
+            return True
+        return bool(a["start_season"] and b["start_season"] and a["start_season"] <= (b["end_season"] or b["start_season"])
+                    and b["start_season"] <= (a["end_season"] or a["start_season"]))
+    contracts = [r for r in contracts if num(r["aav"]) or not any(
+        num(o["aav"]) and norm(o["name"]) == norm(r["name"]) and (overlaps(r, o) or not r["start_season"])
+        for o in contracts)]
     for r in contracts:
         r["as_of"] = as_of
+        if "nhl.com" in r["source_url"]:
+            r["reuse_allowed"] = "nhl-terms"  # NHL.com terms limit reuse to personal use
     cfields = ["player_id", "name", "club", "signed_on", "type", "term_years", "aav", "start_season",
                "end_season", "two_way", "retained", "buried", "source_url", "source_class", "reuse_allowed",
                "note", "as_of"]
@@ -218,22 +232,36 @@ def main():
     nhl_users = defaultdict(set)
     for r in club_goalies:
         nhl_users[(r["club"], r["season"])].add(norm(r["name"]))
+    played = defaultdict(set)  # (last name, season) -> clubs he played NHL games for
+    for r in club_goalies:
+        played[(norm(r["name"].split()[-1]), r["season"])].add(r["club"])
+    carried = defaultdict(list)  # (club, season) -> [(contract, share)]
+    for c in contracts:
+        if not (num(c["aav"]) and c["start_season"]):
+            continue
+        for s in seasons:
+            if not c["start_season"] <= s <= (c["end_season"] or c["start_season"]):
+                continue
+            clubs = played.get((norm(c["name"].split()[-1]), s)) or {c["club"]}
+            for club in clubs:  # a goalie traded mid-season is split evenly between his clubs (approximate)
+                carried[(club, s)].append((c, 1 / len(clubs)))
     spend = []
     for club in sorted({r["club"] for r in club_goalies}):
         for s in seasons:
-            covering = [c for c in contracts if num(c["aav"]) and c["club"] == club and c["start_season"]
-                        and c["start_season"] <= s <= (c["end_season"] or c["start_season"])]
-            total = sum(num(c["aav"]) for c in covering)
-            nhl = sum(num(c["aav"]) for c in covering if norm(c["name"]) in nhl_users[(club, s)])
+            covering = carried.get((club, s), [])
+            total = sum(num(c["aav"]) * w for c, w in covering)
+            nhl = sum(num(c["aav"]) * w for c, w in covering if norm(c["name"]) in nhl_users[(club, s)])
             used = len(nhl_users[(club, s)])
-            known = {norm(c["name"]) for c in covering} & nhl_users[(club, s)]
+            known = {norm(c["name"]) for c, _ in covering} & nhl_users[(club, s)]
             spend.append({"club": club, "season": s, "goalie_cap_total": int(total) if covering else "",
                           "nhl_tandem_cap": int(nhl) if covering else "",
                           "outside_nhl_cap": int(total - nhl) if covering else "",
                           "upper_limit": int(limits[s]) if limits.get(s) else "",
                           "share_of_cap": f"{total / limits[s]:.4f}" if covering and limits.get(s) else "",
                           "nhl_goalies_used": used, "nhl_goalies_with_contract": len(known),
-                          "complete": "yes" if used and len(known) == used else "no", "as_of": as_of})
+                          "complete": "yes" if used and len(known) == used else "no",
+                          "note": "traded goalie split evenly between clubs" if any(w < 1 for _, w in covering) else "",
+                          "as_of": as_of})
     for s in seasons:
         done = sorted((r for r in spend if r["season"] == s and r["complete"] == "yes"),
                       key=lambda r: -num(r["goalie_cap_total"]))
@@ -241,16 +269,20 @@ def main():
             r["league_rank"] = i
     write(args.out, "team-spend.csv", spend, ["club", "season", "goalie_cap_total", "nhl_tandem_cap",
           "outside_nhl_cap", "upper_limit", "share_of_cap", "league_rank", "nhl_goalies_used",
-          "nhl_goalies_with_contract", "complete", "as_of"])
+          "nhl_goalies_with_contract", "complete", "note", "as_of"])
 
     # pipeline.csv: drafted goalies who reached the NHL, and with whom.
     teams = read(DEPT / "teams.csv")
-    names = {t["club"]: t["team_name"] for t in teams}
+    names = defaultdict(set)
+    for t in teams:
+        names[t["club"]].add(t["team_name"])
+    names["ARI"] |= {"Phoenix Coyotes", "Arizona Coyotes"}
+    names["WPG"] |= {"Atlanta Thrashers"}  # the franchise moved to Winnipeg in 2011
     pipeline = []
     for d in drafts:
         if not d["first_nhl_season"]:
             continue
-        pipeline.append({**d, "with_draft_club": "yes" if names.get(d["club"]) and names[d["club"]] in d["nhl_clubs"]
+        pipeline.append({**d, "with_draft_club": "yes" if any(n in d["nhl_clubs"] for n in names.get(d["club"], ()))
                          else "no", "years_to_nhl": int(d["first_nhl_season"][:4]) - int(d["draft_year"])})
     write(args.out, "pipeline.csv", pipeline, ["draft_year", "club", "round", "overall", "name", "player_id",
           "first_ahl_season", "first_nhl_season", "years_to_nhl", "nhl_gp", "nhl_clubs", "with_draft_club",
@@ -258,7 +290,7 @@ def main():
 
     # development.csv: researched program components plus components counted from the feed.
     dev = [r for p in sorted(glob.glob(str(args.notes / "programs_*.csv"))) for r in read(p)]
-    for club in sorted(names):
+    for club in sorted(k for k in names if any(t["club"] == k and t["season"] == seasons[-1] for t in teams)):
         six = [d for d in drafts if d["club"] == club and int(d["draft_year"]) in SIX_DRAFTS]
         rounds = Counter(int(d["round"]) for d in six)
         reached = [p for p in pipeline if p["club"] == club and p["with_draft_club"] == "yes"]
