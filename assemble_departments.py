@@ -182,6 +182,24 @@ def main():
     # staff.csv: hand-researched rows, unchanged.
     staff = [r for p in sorted(glob.glob(str(args.notes / "staff_*.csv"))) for r in read(p)]
     for r in staff:
+        if "/" in r["role_group"] and "Development" in r["role_group"]:
+            r["role_group"] = "Director of Goaltending Development"
+        elif r["role_group"].startswith("Goaltending Consultant"):
+            r["role_group"] = "Goaltending Consultant / Video"
+    # Later batches fill gaps the first pass left as placeholders: drop an unconfirmed placeholder
+    # wherever a confirmed or none_listed row now covers the same club, season and role.
+    covered = {(r["club"], r["season"], r["role_group"]) for r in staff if r["status"] in ("confirmed", "none_listed")}
+    staff = [r for r in staff if r["status"] in ("confirmed", "none_listed")
+             or (r["club"], r["season"], r["role_group"]) not in covered]
+    canon = {"director of goaltending development / goaltending development coach": "Director of Goaltending Development",
+             "goaltending consultant or goalie-dedicated video/analytics staff": "Goaltending Consultant / Video",
+             "goaltending consultant": "Goaltending Consultant / Video"}
+    for r in staff:
+        r["role_group"] = canon.get(r["role_group"].strip().lower(), r["role_group"].strip())
+    seen_rows = set()
+    staff = [r for r in staff if not ((k := tuple(r.get(c, "") for c in ("club", "season", "person", "role_group",
+             "level", "status"))) in seen_rows or seen_rows.add(k))]
+    for r in staff:
         r["as_of"] = as_of
     write(args.out, "staff.csv", staff, ["club", "season", "person", "title_exact", "role_group", "level",
           "start_season", "end_season", "status", "source_url", "source_date", "source_class", "background",
