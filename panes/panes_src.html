@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Goalie Panes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: title, one row of controls, then the stage fills the screen. Cards (game, goalie) slide in over the stage's right edge; the legend floats bottom-left. */
+:root{--bg:#f4f2ee;--panel:#ffffff;--fg:#1e2730;--muted:#64717f;--line:#dcd8d0;--hi:#3b86d6;
+  --ice:#101722;--lab:#edf1f5;--g1:#f0c75e;--g2:#74b9ff;--g3:#c9a6ea;--fut:#4f5e70;--rest:#8fa3b8;--bar:#f1dcbc;
+  --display:"Barlow Condensed",Impact,sans-serif;--body:"IBM Plex Sans",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1319;--panel:#161d26;--fg:#e8edf2;--muted:#98a5b3;--line:#283340;--hi:#7cc4ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1319;--panel:#161d26;--fg:#e8edf2;--muted:#98a5b3;--line:#283340;--hi:#7cc4ff;color-scheme:dark}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 var(--body);display:flex;flex-direction:column;gap:8px;box-sizing:border-box;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 12px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px}
+h1{font:700 26px/1 var(--display);margin:0;text-transform:uppercase;letter-spacing:.02em}
+header p{margin:0;color:var(--muted);font-size:13px}
+.bar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.bar .grp{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:4px 0}
+.bar .grp>b{font:600 12px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+select{font:500 13px var(--body);color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 8px;max-width:180px}
+label.chk{display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:3px 8px;border:1px solid var(--line);border-radius:14px;background:var(--panel);cursor:pointer;user-select:none}
+label.chk input{margin:0;accent-color:var(--hi)}
+label.chk i{width:10px;height:10px;border-radius:50%;display:inline-block}
+select:focus-visible,label.chk:focus-within,button:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
+#stage{position:relative;flex:1;min-height:440px;border-radius:10px;overflow:hidden;touch-action:none;
+  background:radial-gradient(ellipse 80% 70% at 50% 30%,#223044 0%,#141c29 55%,var(--ice) 100%)}
+#stage canvas{display:block;width:100%;height:100%}
+.leg{position:absolute;left:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:4px 12px;margin:0;padding:8px 10px;list-style:none;background:rgba(16,23,34,.7);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#dfe6ee;font-size:12px;max-width:calc(100% - 24px);backdrop-filter:blur(6px)}
+.leg li{display:flex;align-items:center;gap:6px}.leg i{width:11px;height:11px;border-radius:50%;display:inline-block;box-sizing:border-box}.leg i.tm{background:#0038A8;border:2px solid #CE1126}.leg i.ha{border:3px solid;background:transparent}.leg s{text-decoration:none;display:inline-block;width:14px;height:3px;background:var(--bar);border-radius:2px}
+#hint{position:absolute;left:12px;top:12px;color:#c8d2dc;font-size:12px;background:rgba(16,23,34,.6);padding:5px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.08)}
+#hint button{margin-left:8px}
+button.sm{font:600 12px var(--body);color:#eef2f6;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:3px 10px;cursor:pointer}
+#tip{position:absolute;pointer-events:none;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:13px;line-height:1.35;max-width:250px;box-shadow:0 6px 18px rgba(0,0,0,.3);display:none}
+#tip b{font:700 17px/1.1 var(--display);display:block}#tip .m{color:var(--muted)}#tip .c{color:var(--hi);font-size:12px}
+.card{position:absolute;top:12px;right:12px;bottom:12px;width:min(340px,calc(100% - 24px));background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.35);padding:14px 16px;overflow:auto;transform:translateX(110%);transition:transform .28s ease;display:flex;flex-direction:column;gap:10px}
+.card.on{transform:none}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+.card header{display:flex;justify-content:space-between;align-items:start;gap:8px}
+.card h2{font:700 24px/1.05 var(--display);margin:0;letter-spacing:.01em}
+.card h3{font:600 12px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:6px 0 4px}
+.card .sub{color:var(--muted);font-size:13px}
+.card .x{font:600 13px var(--body);background:none;border:1px solid var(--line);border-radius:14px;padding:3px 10px;color:var(--fg);cursor:pointer}
+.side{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:baseline;padding:8px 10px;border:1px solid var(--line);border-radius:8px}
+.side .t{font:700 20px/1 var(--display)}.side .sc{font:700 24px/1 var(--display);font-variant-numeric:tabular-nums}
+.side .g{grid-column:1/-1;font-size:13px}.side .n{grid-column:1/-1;font-size:12px;color:var(--muted)}
+.lnk{background:none;border:0;padding:0;color:var(--hi);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+a.lnk{color:var(--hi)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.stats div{background:var(--bg);border-radius:6px;padding:6px 8px}.stats b{font:700 20px/1 var(--display);display:block;font-variant-numeric:tabular-nums}.stats span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+table{border-collapse:collapse;width:100%;font-size:12px;font-variant-numeric:tabular-nums}td,th{padding:3px 4px;text-align:left;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}td.r,th.r{text-align:right}
+.pill{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;background:var(--bg);color:var(--muted)}
+.pill.in{background:rgba(240,199,94,.25);color:#8a6a1a}.pill.out{background:rgba(239,138,122,.25);color:#9a3d2e}
+.embed header h1{display:none}
+@media (max-width:760px){h1{font-size:22px}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed')</script>
+<header><h1>Goalie panes</h1><p id="lead"></p></header>
+<div class="bar">
+  <div class="grp"><b>Sort</b><select id="sort"><option value="az">Team A to Z</option><option value="b2b">Most back-to-backs played</option><option value="bk2">Most second nights given to the backup</option><option value="next">Next back-to-back soonest</option></select></div>
+  <div class="grp"><b>Show</b><select id="div"><option value="">Whole league</option><option value="East">East</option><option value="West">West</option><option value="Atlantic">Atlantic</option><option value="Metropolitan">Metropolitan</option><option value="Central">Central</option><option value="Pacific">Pacific</option></select>
+    <select id="team"><option value="">Every team</option></select>
+    <select id="dates"><option value="all">__RANGE__</option><option value="played">Played so far</option><option value="last14">Last two weeks</option><option value="next14">Next two weeks</option></select></div>
+  <div class="grp"><b>Nights</b><label class="chk"><input type="checkbox" id="f-in" checked> First night</label><label class="chk"><input type="checkbox" id="f-out" checked> Second night</label><label class="chk"><input type="checkbox" id="f-rest" checked> Rested</label><label class="chk"><input type="checkbox" id="f-fut" checked> Not played yet</label></div>
+  <div class="grp"><b>Started by</b><label class="chk"><input type="checkbox" id="r1" checked><i style="border:3px solid var(--g1);box-sizing:border-box"></i> Most-used</label><label class="chk"><input type="checkbox" id="r2" checked><i style="border:3px solid var(--g2);box-sizing:border-box"></i> Backup</label><label class="chk"><input type="checkbox" id="r3" checked><i style="border:3px solid var(--g3);box-sizing:border-box"></i> Third</label></div>
+</div>
+<div id="stage">
+  <div id="hint"><span id="h-stack">Drag to turn the stack, scroll to zoom. Click a team's helm or code to pull it out; click a puck for the game.</span><span id="pulled" hidden>Pane out: drag moves it, scroll brings it closer, Shift+drag (or two fingers) turns it, click a puck for its game. Right-click to put it back. <button class="sm" id="dive">Fill the view</button> <button class="sm" id="putback">Put it back</button></span></div>
+  <ul class="leg"><li><i class="tm"></i>Puck in the team's colours</li><li><i class="ha" style="border-color:var(--g1)"></i>Halo: most-used goalie started</li><li><i class="ha" style="border-color:var(--g2)"></i>Backup started</li><li><i class="ha" style="border-color:var(--g3)"></i>Third goalie</li><li><i class="tm" style="opacity:.45"></i>Rested on both sides, or not played yet (faint)</li><li><s></s>The two nights of a back-to-back</li></ul>
+  <div id="tip" role="status"></div>
+  <section class="card" id="gcard" aria-live="polite"></section>
+  <section class="card" id="pcard" aria-live="polite"></section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Team helms for the high-fantasy knights: the whole helm is shaped after the team's name (a bear's head for Bruins, a crown for Kings),
+// facing front, with the knight looking out through the beast's eyes or a visor slit. Original drawings inspired by the names; never a team's logo or mascot.
+// hkHelm(team, c1, c2, ink) -> SVG in local coordinates: centre of the head at (0,0); the plain helm ran x -9..9, y -11..9.
+const HK_TEAM_NAME={ANA:"Anaheim Ducks",BOS:"Boston Bruins",BUF:"Buffalo Sabres",CGY:"Calgary Flames",CAR:"Carolina Hurricanes",CHI:"Chicago Blackhawks",
+  COL:"Colorado Avalanche",CBJ:"Columbus Blue Jackets",DAL:"Dallas Stars",DET:"Detroit Red Wings",EDM:"Edmonton Oilers",FLA:"Florida Panthers",
+  LAK:"Los Angeles Kings",MIN:"Minnesota Wild",MTL:"Montréal Canadiens",NSH:"Nashville Predators",NJD:"New Jersey Devils",NYI:"New York Islanders",
+  NYR:"New York Rangers",OTT:"Ottawa Senators",PHI:"Philadelphia Flyers",PIT:"Pittsburgh Penguins",SJS:"San Jose Sharks",SEA:"Seattle Kraken",
+  STL:"St. Louis Blues",TBL:"Tampa Bay Lightning",TOR:"Toronto Maple Leafs",UTA:"Utah Mammoth",VAN:"Vancouver Canucks",VGK:"Vegas Golden Knights",
+  WPG:"Winnipeg Jets",WSH:"Washington Capitals"};
+const HK_HELM_IDEA={ANA:"a drake's head, bill for a visor",BOS:"a bear's head, snarling muzzle",BUF:"crossed sabres over the face",CGY:"a helm of flames",
+  CAR:"a storm cloud with a swirling band",CHI:"a hawk's head, beak for a nasal",COL:"a snowy peak",CBJ:"a soldier's kepi and star",DAL:"a star for a faceplate",
+  DET:"a winged helm",EDM:"a helm drawn up to an oil drop",FLA:"a panther's head, gold cat's eyes",LAK:"a crowned helm",MIN:"a moose's head and antlers",
+  MTL:"a fleur-de-lis faceplate",NSH:"a sabre-tooth's head, long fangs",NJD:"a devil's head, horns and goatee",NYI:"a breaking wave",NYR:"a ranger's hat",
+  OTT:"a centurion's crested helm",PHI:"swept fins and an arrow nasal",PIT:"a penguin's face, beak for a nasal",SJS:"a shark, looking out through its jaws",
+  SEA:"kraken arms wrapped round the helm",STL:"trumpet bells for ear guards",TBL:"a thunderbolt nasal",TOR:"a maple-leaf faceplate",
+  UTA:"a mammoth's head, tusks and trunk",VAN:"an orca's head and fin",VGK:"a gilded pointed-visor helm",WPG:"a jet's nose and canopy",WSH:"a capitol dome"};
+function hkHelm(team,c1,c2,ink){
+  const K=ink||'#2b1d12',GOLD='#f2b632',SILV='#d9dee4',STEEL='#b9c2cc',IVORY='#f3ead6',
+    defs={},sh=(h,a)=>{const n=parseInt(h.slice(1),16),c=[n>>16,(n>>8)&255,n&255].map(v=>Math.max(0,Math.min(255,Math.round(a>0?v+(255-v)*a:v*(1+a)))));return '#'+c.map(v=>v.toString(16).padStart(2,'0')).join('')},
+    G=f=>{if(!/^#[0-9a-fA-F]{6}$/.test(f)||f===K)return f;const id='hg'+team+f.slice(1);if(!defs[id])defs[id]='<linearGradient id="'+id+'" x1="0" y1="0" x2=".75" y2="1"><stop offset="0" stop-color="'+sh(f,.32)+'"/><stop offset=".45" stop-color="'+f+'"/><stop offset="1" stop-color="'+sh(f,-.28)+'"/></linearGradient>';return 'url(#'+id+')'},
+    P=(d,f,sw)=>'<path d="'+d+'" fill="'+G(f)+'" stroke="'+K+'" stroke-width="'+(sw||1.3)+'" stroke-linejoin="round" stroke-linecap="round"/>',
+    L=(d,c,sw)=>'<path d="'+d+'" fill="none" stroke="'+(c||K)+'" stroke-width="'+(sw||.8)+'" stroke-linecap="round" stroke-linejoin="round"/>',
+    C=(x,y,r,f,sw)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"'+(sw===0?'':' stroke="'+K+'" stroke-width="'+(sw||.9)+'"')+'/>',
+    band=(d,f,w)=>L(d,K,w+1.6)+L(d,f,w),
+    M=s=>'<g transform="scale(-1,1)">'+s+'</g>',
+    both=s=>s+M(s),
+    dome='M-9,9 V-2 Q-9,-11 0,-11 Q9,-11 9,-2 V9 Z',
+    slit=(y,c)=>L('M-7,'+y+' H7',K,2.4)+(c?L('M-5.6,'+y+' H5.6',c,.7):L('M-5.6,'+(y+.5)+' H5.6',"rgba(255,255,255,.18)",.5))+L('M-7,'+(y+1.6)+' H7',"rgba(255,255,255,.35)",.5),
+    // a beast's eye slit on the left (mirror for the right); angry = inner end lower
+    beye=(y,glow)=>both(P('M-7.4,'+(y-1.6)+' L-2,'+(y+.2)+' L-2.4,'+(y+1.6)+' L-7.2,'+(y+.2)+' Z',K,.6)+(glow?L('M-6.4,'+(y-.6)+' L-3,'+(y+.6),glow,.6):'')),
+    star=(x,y,r,f,n,k)=>{n=n||5;k=k||.45;let p='';for(let i=0;i<2*n;i++){const a=-Math.PI/2+i*Math.PI/n,rr=i%2?r*k:r;p+=(i?'L':'M')+(x+Math.cos(a)*rr).toFixed(2)+','+(y+Math.sin(a)*rr).toFixed(2)}return P(p+'Z',f,.9)},
+    shine=L('M-6.4,-5.4 Q-4.6,-9.4 -.4,-9.8',"rgba(255,255,255,.6)",1.2)+L('M-7.4,-2 L-7.2,-3.6',"rgba(255,255,255,.45)",.9);
+  const D={
+    ANA:()=>P(dome,'#2f7a4a')+shine+P('M-9,5.6 H9 V9 H-9 Z',SILV,1)+beye(-3.4,'#9fe0b0')+
+      P('M-8.6,.4 Q0,-1.8 8.6,.4 L9.4,3.2 Q0,6.8 -9.4,3.2 Z','#f2a23a')+L('M-8.8,2.2 Q0,4.8 8.8,2.2',K,.6)+'<ellipse cx="-2" cy=".6" rx=".9" ry=".5" fill="'+K+'"/><ellipse cx="2" cy=".6" rx=".9" ry=".5" fill="'+K+'"/>',
+    BOS:()=>both(P('M-7.6,-6.6 L-11,-12.6 L-4.4,-10 Z','#7a4b26')+P('M-8.2,-8.6 L-9.6,-11 L-6.6,-9.8 Z','#c99a62',.5))+
+      P('M-9,9 L-10,6 L-9,4.6 L-10,2 L-9,-2 Q-9,-11 0,-11 Q9,-11 9,-2 L10,2 L9,4.6 L10,6 L9,9 Z','#7a4b26')+shine+
+      L('M-7.8,-5.6 L-2,-3.6 M7.8,-5.6 L2,-3.6',K,1.4)+beye(-2.4,'#f2b632')+
+      P('M-5.4,-.4 L5.4,-.4 L6.6,6 L3.4,9 L-3.4,9 L-6.6,6 Z','#c99a62')+P('M-2.4,.4 H2.4 L0,2.8 Z',K,.6)+L('M0,2.8 V4.4 M-3.4,4.8 Q0,6.6 3.4,4.8',K,.8)+
+      both(P('M-2.6,5.4 L-2.1,7.4 L-1.5,5.6 Z',IVORY,.4)),
+    BUF:()=>P(dome,STEEL)+shine+P('M-9,-5.2 H9 V-3.4 H-9 Z',GOLD,.9)+slit(1.2)+
+      both(band('M-7.4,8.6 Q-2,0 10.6,-15',SILV,1.8)+L('M-6.6,7.6 Q-2,-.6 9.8,-14.2',K,.35)+P('M-9.6,6.6 L-5.2,10.2 L-4.4,9.2 L-8.8,5.6 Z',GOLD,.8)+C(-9.4,9.4,1.2,GOLD,.7)),
+    CGY:()=>P('M-9,9 V-2 Q-10,-8 -7.4,-12.6 Q-6.4,-9.4 -4.6,-9.2 Q-5.8,-14.4 -2,-19 Q-1.2,-13.4 1,-11.8 Q1.6,-16 4.8,-17 Q3.4,-12.8 5.6,-10.6 Q7.4,-12.2 7.8,-14.4 Q10.6,-8.4 9,-2 V9 Z','#d62b1f')+
+      P('M-6,-1.6 Q-6.8,-5.8 -4.2,-8.4 Q-3.8,-6 -2.4,-5.8 Q-2.8,-10 0,-12.6 Q.6,-8.8 2,-7.8 Q2.6,-9.8 4.6,-10.4 Q3.8,-7.8 5.6,-5.6 Q6.2,-3.6 5.8,-1.6 Z','#f38b1c',.8)+
+      P('M-2.8,-1.6 Q-3,-3.8 -1.4,-5.2 Q-.4,-3.6 .6,-3.6 Q.8,-5.6 2.4,-6.6 Q2.2,-4.2 3.2,-3 Q3.4,-2 3,-1.6 Z','#ffd447',.6)+slit(1.4,'#ffd447')+
+      L('M-6.6,4.6 Q-4.6,6.6 -5.4,8.6 M6.6,4.6 Q4.6,6.6 5.4,8.6',K,.6),
+    CAR:()=>P('M-9,9 V-2 Q-11.2,-4 -9.6,-6.8 Q-10.2,-10.6 -6,-10.8 Q-4.6,-14 -1,-12.8 Q1.6,-15.4 4.8,-12.4 Q8.8,-12.8 8.8,-8.6 Q11.2,-6 9,-2 V9 Z','#5b6470')+L('M-6.6,-7.4 Q-5,-10 -2,-10.4',"rgba(255,255,255,.4)",1.1)+
+      band('M0,-6.4 C2,-6.4 2.6,-8.8 1,-9.4 C-2,-10.4 -4.6,-7.4 -3.6,-4.8 C-2.2,-1.8 3,-1.8 5.4,-4.2 C7.4,-6.2 7.6,-9.2 6.4,-10.6',c1,1.4)+slit(1.6)+
+      both(L('M-8.4,4.4 Q-5.6,3.4 -3.4,4.6 M-8.4,6.8 Q-6,6 -4.2,6.8',SILV,.6)),
+    CHI:()=>P('M-9,9 V-2 Q-9.4,-9 -4,-11 L-2.4,-14 L-.6,-11.6 L1.4,-14.6 L2.6,-11.4 L5,-13 L5,-10.4 Q9,-8 9,-2 V9 Z','#6b4a2e')+shine+
+      both(L('M-8.6,4 L-6,6.4 M-8.6,1.4 L-5.6,3.4 M-5,8.6 L-3,6.6',IVORY,.6))+both(P('M-8.4,-5.6 L-2,-3.6 L-2.4,-2.4 L-8.6,-3.8 Z','#3e2a1a',.7))+beye(-1.2,'#f2b632')+
+      P('M-2.2,-5.6 L2.2,-5.6 L2.8,.6 Q2.6,4.8 0,8 Q-.8,6.4 -1.2,5 Q-2.8,2.6 -2.8,.6 Z',GOLD,1.1)+L('M0,-5.2 V3.6',K,.45),
+    COL:()=>P('M-9,9 V-1 L-6.4,-7.6 L-3.6,-5.6 L0,-17 L3.6,-5.6 L6.4,-7.6 L9,-1 V9 Z','#7d8a99')+P('M0,-17 L-2.6,-9.4 L-1,-10.4 L0,-8.8 L1.2,-10.4 L2.6,-9.4 Z',IVORY,.8)+
+      both(P('M-6.4,-7.6 L-7.6,-4.8 L-6.4,-5.4 L-5.4,-4.6 Z',IVORY,.6))+L('M0,-17 L-1.4,-4 M0,-8.8 L1.6,-3',K,.45)+slit(1.4,'#b8e0ff')+
+      P('M-9,6.4 Q-6.6,5 -4.4,6.4 Q-2.2,5 0,6.4 Q2.2,5 4.4,6.4 Q6.6,5 9,6.4 V9 H-9 Z',IVORY,.8),
+    CBJ:()=>P('M-9,9 V0 H9 V9 Z',STEEL)+slit(3.4)+L('M0,5.4 V8.6',K,.9)+P('M-8,-.6 L-7.4,-10.2 Q0,-10.8 7.6,-8.4 L8.4,-.6 Z',c1)+P('M-8.2,-4.4 H8.6 L8.4,-2 H-8.2 Z',c2,.8)+
+      P('M-7.4,-10.2 Q0,-10.8 7.6,-8.4 Q0,-7.6 -7.4,-10.2 Z',c1,.7)+P('M-10.6,-1.2 H11.4 Q10.8,1.6 0,2 Q-9.6,1.6 -10.6,-1.2 Z','#1d1d1d',.8)+L('M-8,-.2 Q0,.8 9.6,-.2',"rgba(255,255,255,.3)",.6)+star(0,-6.8,2.4,SILV,5),
+    DAL:()=>P(dome,c1)+shine+star(0,-.4,10.4,SILV,5,.46)+L('M-4.6,-.6 H4.6',K,2.2)+C(0,-6.2,1,c1,.6),
+    DET:()=>both('<g transform="translate(-7.8,-2) scale(.78)">'+P('M-1,-2 C-3.6,-8.4 -8.6,-12.8 -15,-15.6 L-13.6,-12.4 L-15,-11.8 L-12.6,-9.2 L-13.8,-8.4 L-10.8,-6.6 L-11.6,-5.6 L-8.6,-4.6 L-9,-3.4 L-6,-3 L-6,-1.8 L-3.4,-1.8 Z',c1)+
+      P('M-1,-2 C-3.6,-8.4 -8.6,-12.8 -15,-15.6 C-9.6,-11.6 -6,-8.6 -4.4,-4.4 Z',IVORY,.6)+L('M-4.4,-4.4 L-6,-3 M-6.4,-6.4 L-8.6,-4.6 M-8.4,-8.4 L-10.8,-6.6 M-10.4,-10.2 L-12.6,-9.2',K,.55)+'</g>')+
+      P(dome,STEEL)+shine+P('M-9,-4.6 H9 V-2.8 H-9 Z',c1,.9)+slit(1.4)+L('M0,3 V8',K,.9),
+    EDM:()=>P('M-9,9 V0 Q-9,-6 -4.4,-10.6 Q-1.6,-13.6 0,-19 Q1.6,-13.6 4.4,-10.6 Q9,-6 9,0 V9 Z','#22385a')+L('M-5.4,-6.6 Q-3.4,-11 -.6,-14.6',"rgba(255,255,255,.5)",1.3)+C(-5.6,-3.6,.6,"rgba(255,255,255,.5)",0)+
+      P('M-9,-3.4 H9 V-1.4 H-9 Z',c2,.8)+[-6,-2,2,6].map(x=>C(x,-2.4,.45,K,0)).join('')+slit(2.2,c2)+L('M0,4.4 V8.4',K,.9)+
+      both(P('M-9,4.4 Q-8.2,6.4 -7.4,4.6 Q-7.4,7.6 -6.4,7.6 Q-5.6,7.4 -6,5.4 L-6.2,4.2 Z',c2,.6)),
+    FLA:()=>both(P('M-7.4,-7 L-10,-14.4 L-3.4,-10.4 Z','#3a3f4c')+P('M-7.6,-9 L-8.8,-12.2 L-5.4,-10.2 Z',c1,.5))+P(dome,'#3a3f4c')+shine+
+      both(P('M-7.8,-3 Q-5,-5.8 -2,-2.8 Q-5,-1.4 -7.8,-3 Z','#f2c230',.8)+L('M-4.8,-4.4 V-1.6',K,.8))+
+      P('M-4.2,-.4 L4.2,-.4 L5.6,6.2 L0,8.8 L-5.6,6.2 Z','#555c6c')+P('M-1.8,.4 H1.8 L0,2.2 Z',K,.5)+L('M0,2.2 V3.6 M-3,4 Q0,5.6 3,4',K,.7)+both(P('M-2.2,4.4 L-1.7,6.8 L-1.2,4.6 Z',IVORY,.4)+L('M-5.4,2.6 L-9,2 M-5.4,3.8 L-9,4.2',IVORY,.45)),
+    LAK:()=>P(dome,'#4a4f57')+shine+P('M-9.6,-2.6 L-10.6,-12 L-6,-7.8 L-3,-14.4 L0,-8.8 L3,-14.4 L6,-7.8 L10.6,-12 L9.6,-2.6 Z',SILV)+
+      [-10.6,-3,3,10.6].map((x,i)=>C(x,i%3?-15.4:-13,1.2,SILV,.7)).join('')+C(0,-5.4,1.3,'#5b4bb0',.7)+C(-5.6,-4.6,.8,'#7a1f2b',.5)+C(5.6,-4.6,.8,'#2f6b4a',.5)+slit(1.8)+L('M0,4 V8.4',K,.9),
+    MIN:()=>both(P('M-7.6,-5.4 C-11,-7 -13,-10 -13,-14 L-14.8,-15.2 L-13.2,-16 L-13,-18.2 L-11.2,-16.8 L-10.2,-18.8 L-9,-16.4 L-7.6,-17.4 L-7.4,-13.6 Q-7.8,-10.2 -6.4,-7.8 Z','#cfa868',.9))+
+      both(P('M-8,-7 L-10.6,-8.6 L-8.4,-4.6 Z','#5c3d24',.7))+P(dome,'#5c3d24')+shine+beye(-3.8,'#e7c27a')+
+      P('M-4.8,-1.4 L4.8,-1.4 Q6.8,3.6 5.4,8 Q0,10.6 -5.4,8 Q-6.8,3.6 -4.8,-1.4 Z','#47301d')+'<ellipse cx="-2.2" cy="6" rx=".9" ry="1.3" fill="'+K+'"/><ellipse cx="2.2" cy="6" rx=".9" ry="1.3" fill="'+K+'"/>'+L('M0,-.6 V3.4',"rgba(255,255,255,.25)",.8),
+    MTL:()=>P(dome,c1)+shine+'<g transform="translate(0,9) scale(.92)">'+P('M0,-19 C-2.6,-15.6 -2.8,-11 0,-6 C2.8,-11 2.6,-15.6 0,-19 Z',IVORY,1.3)+
+      both(P('M-1,-6.2 C-3,-7.2 -5,-6.6 -6,-9 C-7.4,-12.2 -10.2,-10.2 -9.2,-7.6 C-11.4,-11 -8.4,-15.4 -5.2,-12.6 C-3.6,-11.2 -2.6,-8.2 -1,-6.2 Z',IVORY,1.3))+P('M-4.6,-6.6 H4.6 V-3.6 H-4.6 Z',c2,1.1)+
+      P('M-2,-3.6 L-3.4,-.4 L-1,0 L0,-2 L1,0 L3.4,-.4 L2,-3.6 Z',IVORY,1)+'</g>'+both(P('M-6.6,-3.4 L-2.6,-2.6 L-2.8,-1.4 L-6.4,-2.2 Z',K,.5)),
+    NSH:()=>both(P('M-7.4,-7 L-9.6,-13.2 L-3.6,-10.2 Z',GOLD)+P('M-7.4,-8.6 L-8.4,-11.4 L-5.4,-9.8 Z',c2,.5))+P(dome,GOLD)+shine+both(L('M-8.6,-6 L-5,-5.2 M-9,-1 L-6.4,-.6',c2,.8))+beye(-3,'#ffe9a0')+
+      P('M-4.2,-.4 L4.2,-.4 L5.2,5.6 L0,7.6 L-5.2,5.6 Z','#d99a1a')+P('M-1.8,.4 H1.8 L0,2.2 Z',K,.5)+both(P('M-3.4,4.6 Q-3.6,9.6 -2.4,14 Q-1.6,9.4 -1.6,5 Z',IVORY,.7)),
+    NJD:()=>both(P('M-6,-8.6 C-10.4,-11.4 -11.6,-16.4 -9,-20.4 C-9,-16 -7,-13.4 -3.4,-10.6 Z','#1d1d1d',1))+
+      P('M-9,6 V-2 Q-9,-11 0,-11 Q9,-11 9,-2 V6 Q6,8.4 3,9 L0,13 L-3,9 Q-6,8.4 -9,6 Z',c1)+shine+P('M-2.6,8.6 L0,13 L2.6,8.6 Q0,9.6 -2.6,8.6 Z','#1d1d1d',.7)+
+      L('M-8,-5.6 L-1,-2.4 L0,-3.6 L1,-2.4 L8,-5.6',K,1.3)+beye(-1.4,'#ffd447')+L('M-4.6,4.6 Q0,7.4 4.6,4.6',K,.8),
+    NYI:()=>P(dome,c1)+shine+P('M-9.6,-.6 Q-10.6,-12.4 0,-14.6 Q8.6,-15.8 10.8,-9.6 Q11.6,-5.4 8.2,-5.6 Q5.4,-5.8 6.6,-8.8 Q5.2,-11.2 1.2,-9.6 Q-4.4,-7.6 -5.6,-.6 Z','#3a78c0')+
+      P('M-7.6,-2 Q-8,-9.6 -1.4,-12.2 Q3.6,-13.8 7.6,-11.8 Q4,-12.2 1,-10.8 Q-4.6,-8.4 -5.6,-2 Z','#6fa6dc',.6)+
+      L('M-1.4,-13.4 Q4.4,-14.6 8.6,-12 Q10.6,-10.4 9.8,-8',IVORY,1.1)+C(10.4,-6.4,.7,IVORY,.4)+C(8.4,-3.8,.55,IVORY,.4)+C(11.6,-4,.45,IVORY,.3)+
+      slit(1.6,c2)+L('M0,4 V8.4',K,.9)+P('M-9,6.6 Q-6.6,5.6 -4.4,6.6 Q-2.2,5.6 0,6.6 Q2.2,5.6 4.4,6.6 Q6.6,5.6 9,6.6 V9 H-9 Z','#3a78c0',.7),
+    NYR:()=>P('M-9,9 V0 H9 V9 Z',STEEL)+slit(3.2)+P('M-7,-1.6 L-5.6,-11 L-2,-13.6 L0,-11.2 L2,-13.6 L5.6,-11 L7,-1.6 Z',c1)+L('M0,-11.2 L0,-6',K,.6)+
+      P('M-7.2,-4.6 H7.2 V-2 H-7.2 Z',c2,.8)+P('M-13.4,-2.4 H13.4 Q12.4,-.2 9,.4 H-9 Q-12.4,-.2 -13.4,-2.4 Z',c1,.9),
+    OTT:()=>P('M-12.4,-7.6 Q0,-20.4 12.4,-7.6 L10.2,-6.6 Q0,-16.4 -10.2,-6.6 Z',c1,1)+L('M-10.6,-9.6 L-11.6,-11.6 M-7,-12.6 L-7.6,-15 M-2.4,-14 L-2.6,-16.6 M2.4,-14 L2.6,-16.6 M7,-12.6 L7.6,-15 M10.6,-9.6 L11.6,-11.6',K,.6)+
+      P(dome,'#c99a4c')+shine+P('M-9,-4.2 H9 V-2.8 H-9 Z','#a77a35',.7)+both(P('M-8.6,-6.4 Q-6,-8 -3.6,-6.6 Q-6,-5.6 -8.6,-6.4 Z','#5d8a3a',.5))+
+      P('M-6.8,-1.4 H6.8 V1.2 H1.5 V9 H-1.5 V1.2 H-6.8 Z',K,.6)+both(P('M-9,1.6 L-9.6,8.8 L-4.2,9.6 L-3.8,2.4 Z','#b8873e',1)+C(-6.6,3.6,.5,'#7a5420',0)+C(-6.8,7.2,.5,'#7a5420',0)),
+    PHI:()=>both(P('M-8.4,-5 L-17,-11 L-13,-4.6 L-18,-2.6 L-9,1 Z',c1))+P(dome,STEEL)+shine+slit(1.2)+P('M-1.4,-10.6 L1.4,-10.6 L1.4,2.4 L3.2,2.4 L0,6.8 L-3.2,2.4 L-1.4,2.4 Z',c1,1),
+    PIT:()=>P(dome,'#1e1e22')+L('M-6,-6 Q-4,-9.4 0,-9.6',"rgba(255,255,255,.35)",1.1)+P('M-7.6,9 V0 Q-7.6,-6.4 -2,-6.8 Q0,-5 2,-6.8 Q7.6,-6.4 7.6,0 V9 Z',IVORY,1)+
+      both(P('M-6.4,-2.6 L-2.6,-1.6 L-2.8,-.6 L-6.4,-1.4 Z',K,.5))+P('M-2.2,-.6 L2.2,-.6 L0,4.6 Z',GOLD,.9)+P('M-7.6,7.4 Q0,6 7.6,7.4 V9 H-7.6 Z',c2,.6),
+    SJS:()=>P('M-1.6,-10.4 L.4,-19.6 L2.2,-10.4 Z',c1,1)+P(dome,c1)+shine+P('M-9,9 V4 Q0,8 9,4 V9 Z',IVORY,1)+
+      P('M-7.4,-1.6 Q0,1 7.4,-1.6 Q6.2,5 0,6 Q-6.2,5 -7.4,-1.6 Z',K,1)+
+      [-6,-3.6,-1.2,1.2,3.6,6].map(x=>P('M'+(x-1)+','+(-1.6+Math.abs(x)*-.05+(Math.abs(x)<5?.6:0))+' L'+x+','+(1.4)+' L'+(x+1)+','+(-1.2+(Math.abs(x)<5?.6:0))+' Z',IVORY,.4)).join('')+
+      [-4,-1.4,1.4,4].map(x=>P('M'+(x-1)+',5 L'+x+',2.4 L'+(x+1)+',5 Z',IVORY,.4)).join('')+both(C(-6.4,-4.6,.9,K,0)+C(-6.1,-4.9,.28,'#fff',0)),
+    SEA:()=>P(dome,c1)+shine+slit(1.4,c2)+
+      both(band('M-3,9 C-11,8 -12.6,0 -9.6,-5.6 C-7.6,-9.2 -3.4,-8.4 -4.4,-5.6 C-5,-4 -6.6,-4.8 -6,-6',c2==='#99D9D9'?'#5fb3b3':c2,2.2)+C(-10.6,-1,.4,IVORY,0)+C(-10,2.6,.4,IVORY,0)+C(-8.6,5.6,.4,IVORY,0))+
+      band('M-6,-9.2 C-2,-13 3,-12.4 4.6,-9.6 C5.6,-7.6 3.4,-6.4 2.4,-7.8',c2==='#99D9D9'?'#5fb3b3':c2,2)+L('M0,4 V8.4',K,.9),
+    STL:()=>both(P('M-8.6,-3.6 L-14.6,-8.6 Q-16.4,-2 -14.6,4.6 L-8.6,1 Z',GOLD)+L('M-14.6,-8.6 Q-13.4,-2 -14.6,4.6',K,.6))+P(dome,c1)+shine+
+      [-4,0,4].map(x=>P('M'+(x-1)+',-12.6 h2 v2.4 h-2 Z',GOLD,.6)).join('')+P('M-9,-4.8 H9 V-3.2 H-9 Z',GOLD,.8)+slit(1.4)+L('M0,4 V8.4',K,.9),
+    TBL:()=>P(dome,c1)+shine+both(L('M-8,4 L-5.6,5.4 M-8.6,6.6 L-6.6,7',SILV,.6))+slit(1.2,'#9fd6ff')+P('M2.4,-14.6 L-2.6,-4 L1,-4 L-2.2,9 L4.6,-5.8 L1,-5.8 L4.6,-14.6 Z',SILV,1),
+    TOR:()=>P(dome,c1)+shine+'<g transform="translate(0,7.2) scale(.92)">'+P('M0,-19 L1.6,-15.6 Q3,-16.6 3.8,-16.2 L3,-11.8 Q5,-14.2 6.2,-13.8 L6.8,-12.4 L9.4,-13.2 L8.4,-10 L9.8,-9.2 L6.4,-6.4 L7,-5 L.8,-5.6 L.8,-1 L-.8,-1 L-.8,-5.6 L-7,-5 L-6.4,-6.4 L-9.8,-9.2 L-8.4,-10 L-9.4,-13.2 L-6.8,-12.4 L-6.2,-13.8 Q-5,-14.2 -3,-11.8 L-3.8,-16.2 Q-3,-16.6 -1.6,-15.6 Z',IVORY,1.2)+'</g>'+
+      L('M-5.4,-1.4 H5.4',K,2.2)+L('M0,-14.4 V-3 M0,3.6 V6',c1,.6),
+    UTA:()=>both(P('M-4,5.4 C-9.4,8.4 -14.4,4 -13.4,-5.4 C-12.2,-.2 -9.2,1.8 -4.4,2.4 Z',IVORY,.9))+
+      P('M-9,9 V-2 L-9.6,-5 L-8.4,-6 L-9,-9 L-6.6,-9 L-6.4,-12 L-4,-10.6 L-2.6,-13.4 L-.6,-11 L1.4,-13.6 L2.6,-10.8 L5,-12.4 L5.2,-9.6 L8,-9.6 L7.6,-6.6 L9.4,-5.4 L9,-2 V9 Z','#6b4f3a')+
+      beye(-3.6,'#e7c27a')+band('M0,-4 Q-1.4,3 1,7.4 Q2.6,10.4 4.6,8.8 Q5.6,7.6 4.2,7',('#58402f'),2.6)+L('M-.8,-1 h1.6 M-1,1.4 h1.8 M-.6,3.8 h1.8',K,.4),
+    VAN:()=>P('M-1.6,-10.6 L.8,-21 L3.4,-10.2 Z','#18181c',1)+P(dome,'#18181c')+L('M-6,-6 Q-4,-9.4 0,-9.6',"rgba(255,255,255,.3)",1.1)+
+      both('<ellipse cx="-5" cy="-2.6" rx="3.2" ry="1.8" transform="rotate(-14 -5 -2.6)" fill="'+IVORY+'" stroke="'+K+'" stroke-width=".7"/>'+P('M-6.6,-2.8 L-3.4,-2 L-3.6,-1.2 L-6.6,-2 Z',K,.4))+
+      P('M-9,9 V3.6 Q0,1 9,3.6 V9 Z',IVORY,1)+P('M-9,7.4 Q0,5.8 9,7.4 V9 H-9 Z',c2,.6),
+    VGK:()=>P(dome,'#c8a964')+L('M-6,-6 Q-4,-9.4 0,-9.6',"rgba(255,255,255,.5)",1.1)+L('M0,-11 V-3',K,.6)+C(0,-11.6,1.1,'#8a8f96',.6)+
+      P('M-8.6,-2.6 L0,-4 L8.6,-2.6 L5.6,6.2 L0,10 L-5.6,6.2 Z','#dcc27e',1.1)+L('M0,-4 V10',K,.5)+L('M-6.4,-.6 H-1 M1,-.6 H6.4',K,1.8)+both([2.6,4.2,5.8].map(y=>C(-2.6,y,.42,K,0)).join('')),
+    WPG:()=>both(P('M-8.6,-1 L-15,3.4 L-15,5.4 L-8.6,4 Z',SILV,1))+P('M-1.4,-10.6 L-1.4,-17.4 L2.8,-17.4 L4,-10.4 Z',c2,1)+P(dome,SILV)+shine+
+      P('M-7.4,-.6 Q0,-7.4 7.4,-.6 L7.4,2.4 H-7.4 Z','#7fb2e6',1)+L('M-4.6,-1.4 Q-2,-4.2 1.4,-4.6',"rgba(255,255,255,.7)",.8)+P('M-9,4.6 H9 V6 H-9 Z',c2,.6)+P('M-9,6 H9 V7.4 H-9 Z',c1,.6),
+    WSH:()=>P('M-1,-15 L-1,-17.4 L1,-17.4 L1,-15 Z',SILV,.7)+star(0,-19.4,1.8,c1,5)+P('M-9,9 V-2 Q-9,-14.6 0,-14.8 Q9,-14.6 9,-2 V9 Z',SILV)+
+      L('M-4.6,-2.4 Q-5,-10.6 0,-14.6 M4.6,-2.4 Q5,-10.6 0,-14.6 M0,-14.6 V-2.4',K,.5)+P('M-9.6,-2.4 H9.6 V.6 H-9.6 Z',IVORY,.8)+L('M-7.4,-2.2 V.4 M-5,-2.2 V.4 M-2.6,-2.2 V.4 M0,-2.2 V.4 M2.6,-2.2 V.4 M5,-2.2 V.4 M7.4,-2.2 V.4',K,.45)+
+      P('M-9,.6 H9 V2.2 H-9 Z',c1,.7)+slit(4.6)+P('M-9,7 H9 V9 H-9 Z',c2,.6),
+  };
+  const body=(D[team]||(()=>P(dome,STEEL)+slit(1)))();
+  return '<g class="hkhelm"><defs>'+Object.values(defs).join('')+'</defs>'+body+'</g>'}
+
+</script>
+<script>
+const DATA=__DATA__;
+const TEAM_COLORS = {
+  ANA:["#F47A38","#111111","#FFFFFF"], BOS:["#111111","#FFB81C","#FFB81C"], BUF:["#003087","#FFB81C","#FFFFFF"], CGY:["#C8102E","#F1BE48","#FFFFFF"],
+  CAR:["#CE1126","#111111","#FFFFFF"], CHI:["#CF0A2C","#111111","#FFFFFF"], COL:["#6F263D","#236192","#FFFFFF"], CBJ:["#002654","#CE1126","#FFFFFF"],
+  DAL:["#006847","#8F8F8C","#FFFFFF"], DET:["#CE1126","#FFFFFF","#FFFFFF"], EDM:["#041E42","#FF4C00","#FF4C00"], FLA:["#C8102E","#041E42","#FFFFFF"],
+  LAK:["#111111","#A2AAAD","#FFFFFF"], MIN:["#154734","#A6192E","#FFFFFF"], MTL:["#AF1E2D","#192168","#FFFFFF"], NSH:["#FFB81C","#041E42","#041E42"],
+  NJD:["#CE1126","#111111","#FFFFFF"], NYI:["#00539B","#F47D30","#FFFFFF"], NYR:["#0038A8","#CE1126","#FFFFFF"], OTT:["#C52032","#111111","#FFFFFF"],
+  PHI:["#F74902","#111111","#FFFFFF"], PIT:["#111111","#FCB514","#FCB514"], SJS:["#006D75","#111111","#FFFFFF"], SEA:["#001628","#99D9D9","#99D9D9"],
+  STL:["#002F87","#FCB514","#FFFFFF"], TBL:["#002868","#FFFFFF","#FFFFFF"], TOR:["#00205B","#FFFFFF","#FFFFFF"], UTA:["#090909","#71AFE5","#FFFFFF"],
+  VAN:["#00205B","#00843D","#FFFFFF"], VGK:["#333F48","#B4975A","#B4975A"], WPG:["#041E42","#AC162C","#FFFFFF"], WSH:["#C8102E","#041E42","#FFFFFF"] };const W=DATA.days.length,TODAY=DATA.days.indexOf(DATA.today),S=DATA.summary;
+const stage=document.getElementById('stage'),tip=document.getElementById('tip'),gcard=document.getElementById('gcard'),pcard=document.getElementById('pcard');
+const tok=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const CONF={East:['Atlantic','Metropolitan'],West:['Central','Pacific']};
+document.getElementById('lead').textContent='One pane per team, stacked in depth. In the '+S.second_nights+' back-to-backs played this season, the first-night goalie '+(S.same_goalie?'started the second night '+S.same_goalie+(S.same_goalie===1?' time.':' times.'):'never started the second night.');
+const sel=document.getElementById('team');DATA.teams.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o)});
+const byKey={};DATA.cells.forEach(c=>byKey[c.t+'|'+c.d]=c);
+const dayName=i=>new Date(DATA.days[i]+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const RANKW=['','most-used','backup','third'];
+// ---------- scene
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(38,1,.1,800);
+const ren=new THREE.WebGLRenderer({antialias:true,alpha:true});ren.setPixelRatio(Math.min(devicePixelRatio,2));stage.appendChild(ren.domElement);
+scene.add(new THREE.HemisphereLight(0xe3ecf7,0x1d2735,1));const key=new THREE.DirectionalLight(0xfff1dc,.55);key.position.set(-24,36,50);scene.add(key);
+const rim=new THREE.DirectionalLight(0x9cc8ff,.35);rim.position.set(30,10,-40);scene.add(rim);
+const root=new THREE.Group();scene.add(root);
+const GX=.92,ROWY=[1.35,0,-1.35],PW=W*GX+3.2,PH=5.2,CX=(W-1)*GX/2;
+const MAT=o=>new THREE.MeshStandardMaterial(Object.assign({transparent:true,roughness:.5,metalness:.08},o||{}));
+const puckGeo=new THREE.CylinderGeometry(.34,.34,.22,32).rotateX(Math.PI/2),rimGeo=new THREE.RingGeometry(.27,.34,32),haloGeo=new THREE.RingGeometry(.38,.47,32);
+function text(txt,size,align,col,w){const cv=document.createElement('canvas');cv.width=w||256;cv.height=64;const g=cv.getContext('2d');g.font='700 46px "Barlow Condensed", Impact, sans-serif';g.textAlign=align||'center';g.textBaseline='middle';g.fillStyle=col||'#edf1f5';g.fillText(txt,align==='right'?cv.width-6:align==='left'?6:cv.width/2,33);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,depthWrite:false}));sp.scale.set(size*cv.width/64,size,1);return sp}
+const panes=[],pucks=[],paneOf={};
+DATA.teams.forEach(t=>{const g=new THREE.Group();g.userData={t,cells:[],alpha:1,tz:0,z:0};
+  const glass=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH),new THREE.MeshPhysicalMaterial({color:0x8fb6dc,transparent:true,opacity:.13,roughness:.15,metalness:0,side:THREE.DoubleSide,depthWrite:false}));glass.position.x=0;glass.userData.pane=g;g.add(glass);g.userData.glass=glass;
+  const edge=new THREE.Mesh(new THREE.PlaneGeometry(PW,.06),new THREE.MeshBasicMaterial({color:0xcfe3f7,transparent:true,opacity:.55,depthWrite:false}));edge.position.set(0,PH/2,.01);edge.userData.o=.55;g.add(edge);
+  const base=edge.clone();base.position.y=-PH/2;base.material=base.material.clone();base.material.opacity=.3;base.userData.o=.3;g.add(base);
+  const lab=text(t,1.9,'right','#edf1f5',256);lab.position.set(-CX-1.9,0,.05);lab.userData.pane=g;g.add(lab);g.userData.lab=lab;
+  const helm=new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,depthWrite:false,opacity:0}));helm.scale.set(2.3*.875,2.3*.875,1);helm.position.set(-CX-7.4,.15,.08);helm.userData.pane=g;g.add(helm);g.userData.helm=helm;
+  const etch=new THREE.Mesh(new THREE.PlaneGeometry(4.7,4.7),new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,opacity:0,blending:THREE.AdditiveBlending,side:THREE.DoubleSide}));etch.position.set(0,0,.03);etch.userData.pane=g;etch.userData.etch=true;g.add(etch);g.userData.etch=etch;
+  (()=>{const tc=TEAM_COLORS[t]||['#888','#ccc'];const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="-13 -15 26 26" width="256" height="256">'+hkHelm(t,tc[0],tc[1],'#1b2430')+'</svg>';
+    const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');cv.width=cv.height=256;cv.getContext('2d').drawImage(img,0,0);helm.material.map=new THREE.CanvasTexture(cv);helm.material.needsUpdate=true;helm.userData.ready=true;
+      const ev=document.createElement('canvas');ev.width=ev.height=512;const eg=ev.getContext('2d');
+      eg.filter='grayscale(1) brightness(1.6) contrast(1.2)';eg.drawImage(img,0,0,512,512);eg.filter='none';eg.globalCompositeOperation='source-in';eg.fillStyle='#cfdceb';eg.fillRect(0,0,512,512);
+      eg.globalCompositeOperation='multiply';eg.filter='grayscale(1) brightness(1.3)';eg.drawImage(img,0,0,512,512);eg.filter='none';
+      eg.globalCompositeOperation='destination-out';eg.globalAlpha=.55;eg.drawImage(ev,3,3);eg.globalAlpha=1;
+      eg.globalCompositeOperation='lighter';eg.filter='grayscale(1) brightness(2) blur(.6px)';eg.globalAlpha=.35;eg.drawImage(img,-2,-2,512,512);eg.globalAlpha=1;eg.filter='none';
+      etch.material.map=new THREE.CanvasTexture(ev);etch.material.needsUpdate=true;etch.userData.ready=true;kick()};
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)})();
+  const sub=text(DATA.div[t],.6,'right','#9fb0c2',256);sub.position.set(-CX-1.9,-1.3,.05);g.add(sub);g.userData.sub=sub;
+  ROWY.forEach(y=>{const l=new THREE.Mesh(new THREE.PlaneGeometry(PW-3.2,.03),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.07,depthWrite:false}));l.position.set(0,y,.02);l.userData.o=.07;g.add(l)});
+  const pos={};DATA.cells.filter(c=>c.t===t).forEach(c=>{const y=c.g?ROWY[c.rank-1]:0;const m=new THREE.Mesh(puckGeo,c.g?MAT():MAT({roughness:.95}));m.position.set(c.d*GX-CX,y,.18);m.userData={c,pane:g,base:1};g.add(m);pucks.push(m);g.userData.cells.push(m);pos[c.d]=m.position;
+    const tcol=TEAM_COLORS[t]||['#888','#ccc'];const rim=new THREE.Mesh(rimGeo,new THREE.MeshBasicMaterial({color:tcol[1],transparent:true,depthWrite:false}));rim.position.z=.115;m.add(rim);m.userData.rim=rim;
+    if(c.g){const halo=new THREE.Mesh(haloGeo,new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide}));halo.position.z=-.02;m.add(halo);m.userData.halo=halo}});
+  DATA.cells.filter(c=>c.t===t&&c.b2b.includes('in')).forEach(c=>{const n=byKey[t+'|'+(c.d+1)];if(!n)return;const a=pos[c.d],b=pos[n.d];const len=a.distanceTo(b),bar=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,len,10),MAT({roughness:.8}));bar.material.color.set(n.g&&c.g?tok('--bar'):tok('--fut'));bar.position.copy(a).lerp(b,.5);bar.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),b.clone().sub(a).normalize());bar.userData={bar:true,cells:[c,n]};g.add(bar)});
+  root.add(g);panes.push(g);paneOf[t]=g});
+// date labels and row names on a fixed frame in front of the stack
+const frame=new THREE.Group();root.add(frame);
+DATA.days.forEach((d,i)=>{const dt=new Date(d+'T12:00:00');if(dt.getDay()===1||i===TODAY){const l=text((i===TODAY?'today  ':'')+dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}),.8,'center',i===TODAY?'#8fd0ff':'#aab6c3');l.position.set(i*GX,PH/2+.7,.3);frame.add(l)}});
+const todayLine=new THREE.Mesh(new THREE.PlaneGeometry(.05,PH),new THREE.MeshBasicMaterial({color:0x8fd0ff,transparent:true,opacity:.35,depthWrite:false}));todayLine.position.set(TODAY*GX,0,.3);frame.add(todayLine);
+[['most-used',0],['backup',1],['third',2]].forEach(([n,k])=>{const l=text(n,.7,'left','#aab6c3');l.position.set(W*GX+.8,ROWY[k],.3);frame.add(l)});
+// ---------- filters, sort, layout
+const F={};['sort','div','team','dates'].forEach(id=>F[id]=document.getElementById(id));
+const CK=['f-in','f-out','f-rest','f-fut','r1','r2','r3'].map(id=>document.getElementById(id));
+function passCell(c){const v=id=>document.getElementById(id).checked;
+  const dr=F.dates.value;if(dr==='played'&&!c.g)return false;if(dr==='last14'&&(c.d<TODAY-14||c.d>TODAY))return false;if(dr==='next14'&&(c.d<TODAY||c.d>TODAY+14))return false;
+  const first=c.b2b.endsWith('in'),second=c.b2b.startsWith('out');
+  if(!c.g){if(!v('f-fut'))return false}else{if(!v('r'+c.rank))return false}
+  if(c.b2b==='none'){if(!v('f-rest'))return false}else if(!((first&&v('f-in'))||(second&&v('f-out'))))return false;
+  return true}
+function passTeam(t){const d=F.div.value;if(d&&!(CONF[d]?CONF[d].includes(DATA.div[t]):DATA.div[t]===d))return false;if(F.team.value&&F.team.value!==t)return false;return true}
+function stat(t,k){const cs=DATA.cells.filter(c=>c.t===t);if(k==='b2b')return cs.filter(c=>c.g&&c.b2b.startsWith('out')).length;if(k==='bk2')return cs.filter(c=>c.g&&c.b2b.startsWith('out')&&c.rank===2).length;if(k==='next'){const n=cs.find(c=>c.d>=TODAY&&c.b2b.endsWith('in'));return n?n.d:999}return 0}
+let order=DATA.teams.slice(),pulled=null,anim=false;
+function relayout(){const k=F.sort.value;order=DATA.teams.slice().sort((a,b)=>k==='az'?a.localeCompare(b):k==='next'?stat(a,k)-stat(b,k)||a.localeCompare(b):stat(b,k)-stat(a,k)||a.localeCompare(b));
+  const vis=[];panes.forEach(g=>{let any=false;g.userData.cells.forEach(m=>{const ok=passTeam(g.userData.t)&&passCell(m.userData.c);m.userData.on=ok;any=any||ok});g.userData.on=any;if(any)vis.push(g.userData.t)});
+  const n=vis.length,gz=n>1?Math.min(9,Math.max(2.3,64/(n-1))):0;let i=0;
+  order.forEach(t=>{const g=paneOf[t];if(g.userData.on){g.userData.tz=-i*gz;i++}});
+  const L=(n-1)*gz;center.set(CX,0,-L*.38);distT=30+L*.42;if(n===1)distT=30;anim=true;if(!running)loop()}
+function paintStatic(){pucks.forEach(m=>{const c=m.userData.c,tcol=TEAM_COLORS[c.t]||['#888','#ccc'];m.material.color.set(tcol[0]);if(!c.g){m.material.opacity=.35;m.userData.rim.material.opacity=.5}if(m.userData.halo)m.userData.halo.material.color.set(c.rank===1?tok('--g1'):c.rank===2?tok('--g2'):tok('--g3'));m.userData.base=!c.g?.4:c.b2b==='none'?.5:1;m.scale.setScalar(c.g&&c.b2b==='none'?.8:1)})}
+paintStatic();
+[...Object.values(F),...CK].forEach(el=>el.addEventListener('change',()=>{if(pulled)putBack();relayout()}));
+// ---------- camera, pull-out, animation
+let center=new THREE.Vector3(CX,0,0),dist=60,distT=60,theta=.4,phi=1.3,drag=null,pinch=null,running=false;
+let pRot={x:0,y:0},pPan={x:0,y:0},pDepth=30;
+function place(){phi=Math.min(Math.max(phi,.08),Math.PI-.08);cam.position.set(center.x+dist*Math.sin(phi)*Math.sin(theta),center.y+dist*Math.cos(phi),center.z+dist*Math.sin(phi)*Math.cos(theta));cam.lookAt(center)}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function step(){let moving=false;const k=reduce?1:.14;
+  panes.forEach(g=>{const u=g.userData;const ta=u.on?1:0;u.alpha+=(ta-u.alpha)*k;if(Math.abs(ta-u.alpha)>.004)moving=true;
+    if(g!==pulled){u.z+=(u.tz-u.z)*k;if(Math.abs(u.tz-u.z)>.01)moving=true;const home=new THREE.Vector3(CX,0,u.z);if(u.pullT){u.pullT-=k;moving=true;if(u.pullT<0)u.pullT=0;g.position.copy(home).lerp(u.pullPos||home,u.pullT);g.quaternion.slerp(new THREE.Quaternion(),1-u.pullT)}else{g.position.copy(home);g.quaternion.identity()}}
+    u.dim=u.dim==null?1:u.dim;const dimT=(pulled&&g!==pulled)?.12:1;u.dim+=(dimT-u.dim)*k;if(Math.abs(dimT-u.dim)>.004)moving=true;const a=Math.max(u.alpha,0)*u.dim;g.userData.glass.material.opacity=.13*a;g.userData.lab.material.opacity=a;g.userData.helm.material.opacity=g.userData.helm.userData.ready?a:0;g.userData.etch.material.opacity=g.userData.etch.userData.ready?.55*a*(u.pullT||0):0;g.userData.sub.material.opacity=a*.9;
+    g.children.forEach(ch=>{if(ch===g.userData.glass||ch===g.userData.lab||ch===g.userData.sub||ch===g.userData.helm||ch===g.userData.etch)return;if(ch.userData.c){const on=ch.userData.on;const o=a*ch.userData.base*(on?1:.08);ch.material.opacity=o;ch.material.depthWrite=o>.5;ch.userData.rim.material.opacity=o*(ch.userData.c.g?.95:.6);if(ch.userData.halo)ch.userData.halo.material.opacity=o*.9}else if(ch.userData.bar){const on=ch.userData.cells.every(c=>{const m=g.userData.cells.find(x=>x.userData.c===c);return m&&m.userData.on});ch.material.opacity=a*(on?.95:.08)}else if(ch.userData.o!=null)ch.material.opacity=a*ch.userData.o})});
+  dist+=(distT-dist)*k;if(Math.abs(distT-dist)>.05)moving=true;frame.children.forEach(ch=>{const o=ch.userData.o==null?(ch.userData.o=ch.material.opacity):ch.userData.o;ch.material.opacity=o*(pulled?.25:1)});
+  if(pulled){const fwd=new THREE.Vector3();cam.getWorldDirection(fwd);const right=new THREE.Vector3().crossVectors(fwd,cam.up).normalize();const up=new THREE.Vector3().crossVectors(right,fwd).normalize();
+    const target=cam.position.clone().add(fwd.clone().multiplyScalar(pDepth)).add(right.clone().multiplyScalar(pPan.x)).add(up.clone().multiplyScalar(pPan.y));
+    const u=pulled.userData;u.pullT=Math.min(1,(u.pullT||0)+k);if(u.pullT<1)moving=true;
+    const wp=new THREE.Vector3(CX,0,u.z).lerp(target,u.pullT);pulled.position.copy(wp);u.pullPos=wp.clone();
+    const q=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(cam.position,wp,cam.up));
+    const e=new THREE.Euler(pRot.x,pRot.y,0,'YXZ');pulled.quaternion.copy(q).multiply(new THREE.Quaternion().setFromEuler(e))}
+  place();ren.render(scene,cam);return moving}
+function loop(){running=true;const go=()=>{const m=step();if(m||anim){anim=false;requestAnimationFrame(go)}else running=false};requestAnimationFrame(go)}
+function kick(){anim=true;if(!running)loop()}
+function pull(g){if(pulled===g)return;if(pulled){pulled.userData.pullT=0;pulled.position.set(CX,0,pulled.userData.z);pulled.quaternion.identity()}pulled=g;pRot={x:0,y:0};pPan={x:dist*.16,y:-dist*.02};pDepth=dist*.62;g.userData.pullT=0;document.getElementById('pulled').hidden=false;document.getElementById('h-stack').hidden=true;kick()}
+function putBack(){if(!pulled)return;const g=pulled;pulled=null;g.userData.pullT=1;document.getElementById('pulled').hidden=true;document.getElementById('h-stack').hidden=false;kick()}
+function dive(){if(!pulled)return;pRot={x:0,y:0};pPan={x:0,y:0};const vis=2*Math.tan(cam.fov*Math.PI/360);pDepth=Math.max(PW/(.92*vis*cam.aspect),PH/(.8*vis));kick()}
+document.getElementById('dive').addEventListener('click',dive);
+stage.addEventListener('dblclick',e=>{if(e.target.closest('.card,#hint,.leg'))return;if(pulled)dive()});
+document.getElementById('putback').addEventListener('click',putBack);
+// ---------- pointer
+let downAt=null;
+stage.addEventListener('pointerdown',e=>{if(e.target.closest('.card,#hint,.leg'))return;drag={x:e.clientX,y:e.clientY,moved:0};downAt={x:e.clientX,y:e.clientY};stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointerup',e=>{if(drag&&drag.moved<4){if(e.button===2){if(pulled)putBack()}else click(e)}drag=null});stage.addEventListener('pointercancel',()=>drag=null);
+stage.addEventListener('pointermove',e=>{if(drag&&e.buttons){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.moved+=Math.abs(dx)+Math.abs(dy);if(pulled){if(e.shiftKey){pRot.y+=dx*.008;pRot.x+=dy*.008}else{const r=stage.getBoundingClientRect(),vis=2*pDepth*Math.tan(cam.fov*Math.PI/360)/r.height;pPan.x+=dx*vis;pPan.y-=dy*vis}}else{theta-=dx*.006;phi-=dy*.006}drag.x=e.clientX;drag.y=e.clientY;tip.style.display='none';kick()}else hover(e)});
+stage.addEventListener('wheel',e=>{if(e.target.closest('.card'))return;e.preventDefault();if(pulled){pDepth*=Math.exp(e.deltaY*.0012);pDepth=Math.min(Math.max(pDepth,4),200)}else{distT*=Math.exp(e.deltaY*.0012);distT=Math.min(Math.max(distT,8),260)}kick()},{passive:false});
+stage.addEventListener('contextmenu',e=>e.preventDefault());
+stage.addEventListener('touchstart',e=>{if(e.touches.length===2)pinch={d:Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY),x:(e.touches[0].clientX+e.touches[1].clientX)/2,y:(e.touches[0].clientY+e.touches[1].clientY)/2}},{passive:true});
+stage.addEventListener('touchmove',e=>{if(e.touches.length===2&&pinch){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY),x=(e.touches[0].clientX+e.touches[1].clientX)/2,y=(e.touches[0].clientY+e.touches[1].clientY)/2;if(pulled){pDepth*=pinch.d/d;pDepth=Math.min(Math.max(pDepth,4),200);pRot.y+=(x-pinch.x)*.008;pRot.x+=(y-pinch.y)*.008}else{distT*=pinch.d/d;distT=Math.min(Math.max(distT,8),260)}pinch={d,x,y};kick()}},{passive:true});
+const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();let hot=null;
+function cast(e){const r=stage.getBoundingClientRect();ptr.x=((e.clientX-r.left)/r.width)*2-1;ptr.y=-((e.clientY-r.top)/r.height)*2+1;ray.setFromCamera(ptr,cam);
+  const hs=ray.intersectObjects(root.children.flatMap(g=>g.children||[]),false).filter(h=>h.object.material.opacity>.1&&(h.object.userData.c||h.object.userData.pane));const hp=hs.filter(h=>!h.object.userData.etch).filter(h=>!pulled||h.object.parent===pulled||h.object.isSprite);return hp.find(h=>h.object.userData.c)||hp.find(h=>h.object.isSprite)||hp[0]}
+function hover(e){const h=cast(e);const r=stage.getBoundingClientRect();
+  if(hot&&(!h||hot!==h.object)){const c=hot.userData.c;hot.scale.setScalar(c&&c.g&&c.b2b==='none'?.8:1);hot=null;stage.style.cursor='';kick()}
+  if(!h){tip.style.display='none';return}
+  if(h.object.userData.pane){stage.style.cursor='pointer';const pg=h.object.userData.pane;tip.innerHTML='<b>'+pg.userData.t+'</b><div class="m">'+DATA.div[pg.userData.t]+'</div><div class="c">'+(pulled===pg?'Right-click to put the pane back; double-click to fill the view':'Click to pull this pane out')+'</div>'}
+  else{hot=h.object;hot.scale.setScalar(1.3);stage.style.cursor='pointer';const c=hot.userData.c;
+    const b={none:'Rested on both sides',in:'First night of a back-to-back',out:'Second night of a back-to-back',outin:'Middle of three in three'}[c.b2b];
+    let body=c.g?'<div>'+c.g.n+' ('+RANKW[c.rank]+')'+(c.g.partial?', in net now':' started')+': '+c.g.sv+' of '+c.g.sa+' saves'+(c.g.dec?', '+c.g.dec:'')+'</div>':'<div class="m">Not played yet</div>';
+    tip.innerHTML='<b>'+c.t+' '+(c.home?'vs ':'at ')+c.opp+'</b><div class="m">'+dayName(c.d)+' · '+b+'</div>'+body+'<div class="c">Click for the game card</div>';kick()}
+  tip.style.display='block';tip.style.left=Math.min(e.clientX-r.left+14,r.width-260)+'px';tip.style.top=Math.max(8,Math.min(e.clientY-r.top+14,r.height-120))+'px'}
+stage.addEventListener('pointerleave',()=>{tip.style.display='none';if(hot){const c=hot.userData.c;hot.scale.setScalar(c&&c.g&&c.b2b==='none'?.8:1);hot=null;kick()}});
+function click(e){if(e.target.closest('.card,#hint,.leg'))return;const h=cast(e);if(!h)return;if(h.object.userData.c){openGame(h.object.userData.c);return}const pg=h.object.userData.pane;if(pulled===pg)return;pull(pg)}
+// ---------- cards
+function openGame(c){const other=byKey[c.opp+'|'+c.d];const sides=c.home?[other,c]:[c,other];const title=sides[0].t+' at '+sides[1].t;
+  let sc='';if(c.score)sc=(c.st==='OFF'?'Final':'In progress')+' · '+sides[0].t+' '+(sides[0].score?sides[0].score.us:'')+', '+sides[1].t+' '+(sides[1].score?sides[1].score.us:'')+(c.score.ot==='OT'?' (OT)':c.score.ot==='SO'?' (SO)':'');else if(c.g)sc=c.g.partial?'In progress':'Final (score not in the snapshot)';else sc='Not played yet';
+  const side=x=>{const b={none:'rested on both sides',in:'first night of a back-to-back',out:'second night of a back-to-back',outin:'middle of three in three'}[x.b2b];
+    return '<div class="side"><span class="t">'+x.t+'</span><span class="sc">'+(x.score?x.score.us:'')+'</span>'+(x.g?'<span class="g"><button class="lnk" data-pid="'+x.g.pid+'">'+x.g.n+'</button> ('+RANKW[x.rank]+'): '+x.g.sv+' of '+x.g.sa+' saves, '+x.g.ga+' goals against'+(x.g.dec?', '+x.g.dec:'')+'</span>':'<span class="g m">Starter not known yet</span>')+'<span class="n">'+x.t+' is '+b+(x.b2b.startsWith('out')&&x.g?(x.g.same?'; same goalie as last night':'; not last night\'s starter'):'')+'</span></div>'};
+  gcard.innerHTML='<header><div><h2>'+title+'</h2><div class="sub">'+dayName(c.d)+' · '+sc+'</div></div><button class="x" id="gx">Close</button></header><h3>Goalies</h3>'+side(sides[0])+side(sides[1])+'<h3>Panes</h3><div><button class="lnk" data-pull="'+sides[0].t+'">Pull out '+sides[0].t+'</button> · <button class="lnk" data-pull="'+sides[1].t+'">Pull out '+sides[1].t+'</button></div>';
+  gcard.classList.add('on');pcard.classList.remove('on');
+  gcard.querySelector('#gx').onclick=()=>gcard.classList.remove('on');gcard.querySelectorAll('[data-pid]').forEach(b=>b.onclick=()=>openGoalie(+b.dataset.pid));gcard.querySelectorAll('[data-pull]').forEach(b=>b.onclick=()=>{if(pulled!==paneOf[b.dataset.pull])pull(paneOf[b.dataset.pull])})}
+function openGoalie(pid){const G=DATA.goalies[pid];if(!G)return;const rec=G.w+'-'+G.l+'-'+G.otl;
+  const rows=G.games.map(x=>'<tr><td>'+dayName(x.d).replace(/^\w+, /,'')+'</td><td>'+(x.home?'vs ':'at ')+x.opp+'</td><td class="r">'+x.sv+'/'+x.sa+'</td><td class="r">'+(x.dec||'')+'</td><td>'+(x.b2b==='none'?'':x.b2b==='in'?'<span class="pill in">1st night</span>':x.b2b==='out'?'<span class="pill out">2nd night</span>':'<span class="pill in">1st</span> <span class="pill out">2nd</span>')+'</td></tr>').join('');
+  pcard.innerHTML='<header><div><h2>'+G.name+'</h2><div class="sub">'+G.team+' · '+RANKW[G.rank]+' goalie by starts · <a class="lnk" href="https://www.nhl.com/player/'+G.pid+'" target="_blank" rel="noopener">NHL.com</a></div></div><button class="x" id="px">Close</button></header>'+
+    '<div class="stats"><div><b>'+G.gs+'</b><span>Starts</span></div><div><b>'+rec+'</b><span>Record</span></div><div><b>'+(G.svpct==null?'':G.svpct.toFixed(3).replace(/^0/,''))+'</b><span>Save %</span></div><div><b>'+(G.gaa==null?'':G.gaa.toFixed(2))+'</b><span>GAA</span></div></div>'+
+    '<div class="sub">Back-to-backs: started the first night '+G.first_nights+' times, the second night '+G.second_nights+' times.</div><h3>Starts</h3><div style="overflow-x:auto"><table><tr><th>Date</th><th>Opp</th><th class="r">Saves</th><th class="r">Dec</th><th>B2B</th></tr>'+rows+'</table></div>'+
+    '<h3>Pane</h3><button class="lnk" data-pull="'+G.team+'">Pull out '+G.team+'</button>';
+  pcard.classList.add('on');pcard.querySelector('#px').onclick=()=>pcard.classList.remove('on');pcard.querySelector('[data-pull]').onclick=()=>{if(pulled!==paneOf[G.team])pull(paneOf[G.team])}}
+// ---------- size and start
+function size(){const w=stage.clientWidth,h=stage.clientHeight;ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();kick()}
+new ResizeObserver(size).observe(stage);relayout();panes.forEach(g=>{g.userData.z=g.userData.tz;g.position.set(CX,0,g.userData.z)});dist=distT;size();
+</script>
