@@ -1,0 +1,156 @@
+club,level,rank,player_id,name,birth_date,catches,height_in,weight_lb,draft_year,draft_club,draft_round,draft_overall,league_now,team_now,placement_season,gp_now,nhl_gp_now,nhl_gs_now,contract_status,rights_expire,moved_this_season,stops_this_season,moved_on,in_feed_list,as_of,source_url,source_class
+ANA,NHL,1,8480843,Lukas Dostal,2000-06-22,L,74,190,2018,ANA,3,85,NHL,Anaheim Ducks,20262027,9,9,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,NHL,2,8478024,Ville Husso,1995-02-06,L,75,202,2014,STL,4,94,NHL,Anaheim Ducks,20262027,5,5,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,NHL,3,8476316,Laurent Brossoit,1993-03-23,L,74,217,2011,CGY,6,164,AHL,San Diego Gulls,20262027,6,1,1,,,yes,NHL:Anaheim Ducks > AHL:San Diego Gulls,NHL games 2026-11-01 to 2026-11-01,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,AHL,1,8484391,Damian Clara,2005-01-13,L,78,218,2023,ANA,2,60,AHL,San Diego Gulls,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,Prospects,1,8486317,Gleb Peshkov,2007-11-05,R,75,212,2026,ANA,6,178,MHL,Taifun Primorsky Krai,20262027,17,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,Prospects,2,8485446,Elijah Neuenschwander,2006-10-17,L,76,192,2025,ANA,4,104,SL,HC Thurgau,20262027,11,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+ANA,Prospects,3,8483746,Vyacheslav Buteyets,2002-05-29,L,76,220,2022,ANA,6,178,AHL,San Diego Gulls,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/ANA,primary
+BOS,NHL,1,8480280,Jeremy Swayman,1998-11-24,L,75,196,2017,BOS,4,111,NHL,Boston Bruins,20262027,12,12,12,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/BOS,primary
+BOS,NHL,2,8480022,Michael DiPietro,1999-06-09,L,73,207,2017,VAN,3,64,NHL,Boston Bruins,20262027,4,4,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/BOS,primary
+BOS,ECHL,1,8482870,Philip Svedeback,2002-05-28,L,75,191,2021,BOS,4,117,ECHL,Wheeling Nailers,20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/BOS,primary
+BUF,NHL,1,8480045,Ukko-Pekka Luukkonen,1999-03-09,L,77,223,2017,BUF,2,54,NHL,Buffalo Sabres,20262027,10,10,9,,,,,,roster+prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/BUF,primary
+BUF,NHL,2,8481551,Colten Ellis,2000-10-05,L,73,194,2019,STL,3,93,NHL,Buffalo Sabres,20262027,5,5,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/BUF,primary
+BUF,NHL,3,8479312,Alex Lyon,1992-12-09,L,73,199,,,undrafted,,NHL,Buffalo Sabres,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/BUF,primary
+CAR,NHL,1,8481611,Pyotr Kochetkov,1999-06-25,L,75,196,2019,CAR,2,36,NHL,Carolina Hurricanes,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CAR,primary
+CAR,NHL,2,8483548,Brandon Bussi,1998-06-25,R,76,218,,,undrafted,,NHL,Carolina Hurricanes,20262027,6,6,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CAR,primary
+CAR,ECHL,1,8484493,Egor Velmakin,2003-04-08,L,74,172,2023,CAR,7,222,ECHL,Greensboro Gargoyles,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CAR,primary
+CAR,ECHL,2,8484440,Ruslan Khazheyev,2004-11-20,L,78,211,2023,CAR,5,158,ECHL,Greensboro Gargoyles,20262027,3,0,0,,,yes,AHL:Chicago Wolves > ECHL:Greensboro Gargoyles,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CAR,primary
+CBJ,NHL,1,8482982,Jet Greaves,2001-03-30,L,72,192,,,undrafted,,NHL,Columbus Blue Jackets,20262027,8,8,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CBJ,primary
+CBJ,NHL,2,8475660,Cam Talbot,1987-07-05,L,75,205,,,undrafted,,NHL,Columbus Blue Jackets,20262027,7,7,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CBJ,primary
+CBJ,Prospects,1,8483738,Sergei Ivanov,2004-04-03,L,71,165,2022,CBJ,5,138,KHL,SKA St. Petersburg,20262027,10,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CBJ,primary
+CBJ,Prospects,2,8484441,Melvin Strahl,2005-03-18,L,75,163,2023,CBJ,5,156,NCAA,Univ. of Minnesota,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CBJ,primary
+CGY,NHL,1,8481692,Dustin Wolf,2001-04-16,L,72,166,2019,CGY,7,214,NHL,Calgary Flames,20262027,8,8,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CGY,primary
+CGY,NHL,2,8482445,Devin Cooley,1997-05-25,L,77,192,,,undrafted,,NHL,Calgary Flames,20262027,7,7,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CGY,primary
+CGY,NHL,3,8482949,Arsenii Sergeev,2002-12-16,L,75,192,2021,CGY,7,205,AHL,Calgary Wranglers,20262027,6,1,1,,,yes,NHL:Calgary Flames > AHL:Calgary Wranglers,NHL games 2026-10-31 to 2026-10-31,roster+prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CGY,primary
+CGY,Prospects,1,8484459,Yegor Yegorov,2005-08-30,L,75,183,2023,CGY,6,176,NCAA,Miami Univ. (Ohio),20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CGY,primary
+CGY,Prospects,2,8482513,Daniil Chechelev,2001-02-23,R,75,187,2020,CGY,4,96,VHL,Olimpiya Kirovo-Chepetsk,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CGY,primary
+CHI,NHL,1,8481519,Spencer Knight,2001-04-19,L,75,191,2019,FLA,1,13,NHL,Chicago Blackhawks,20262027,12,12,12,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+CHI,NHL,2,8482821,Arvid Soderblom,1999-08-19,L,75,180,,,undrafted,,NHL,Chicago Blackhawks,20262027,3,3,3,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+CHI,AHL,1,8482123,Drew Commesso,2002-07-19,L,74,190,2020,CHI,2,46,AHL,Rockford IceHogs,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+CHI,AHL,2,8485729,Stanislav Berezhnoy,2003-06-07,L,76,218,,,undrafted,,AHL,Rockford IceHogs,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+CHI,ECHL,1,8484171,Adam Gajan,2004-05-06,L,75,167,2023,CHI,2,35,ECHL,Indy Fuel,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+CHI,Prospects,1,8485656,Ilya Kanarsky,2004-12-06,L,75,180,2025,CHI,7,194,VHL,AKM Tula Region,20262027,9,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/CHI,primary
+COL,NHL,1,8478406,Mackenzie Blackwood,1996-12-09,L,76,225,2015,NJD,2,42,NHL,Colorado Avalanche,20262027,12,12,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/COL,primary
+COL,NHL,2,8475809,Scott Wedgewood,1992-08-14,L,74,201,2010,NJD,3,84,NHL,Colorado Avalanche,20262027,5,5,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/COL,primary
+COL,Prospects,1,8481007,Shamil Shmakov,1999-07-27,L,78,194,2018,COL,7,202,VHL,Dynamo St. Petersburg,20232024,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/COL,primary
+DAL,NHL,1,8479979,Jake Oettinger,1998-12-18,L,78,225,2017,DAL,1,26,NHL,Dallas Stars,20262027,12,12,12,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/DAL,primary
+DAL,NHL,2,8479193,Casey DeSmith,1991-08-13,L,72,188,,,undrafted,,NHL,Dallas Stars,20262027,3,3,3,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/DAL,primary
+DAL,AHL,1,8477990,Brandon Halverson,1996-03-29,L,77,235,2014,NYR,2,59,AHL,Texas Stars,20262027,8,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/DAL,primary
+DAL,AHL,2,8484442,Arno Tiefensee,2002-05-01,L,76,217,2023,DAL,5,157,AHL,Texas Stars,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/DAL,primary
+DET,NHL,1,8476434,John Gibson,1993-07-14,L,75,209,2011,ANA,2,39,NHL,Detroit Red Wings,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/DET,primary
+DET,NHL,2,8480193,Daniil Tarasov,1999-03-27,L,77,204,2017,CBJ,3,86,NHL,Detroit Red Wings,20262027,6,6,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/DET,primary
+EDM,NHL,1,8477465,Tristan Jarry,1995-04-29,L,73,201,2013,PIT,2,44,NHL,Edmonton Oilers,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+EDM,NHL,2,8482221,Devon Levi,2001-12-27,L,72,187,2020,FLA,7,212,NHL,Edmonton Oilers,20262027,7,7,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+EDM,NHL,3,8477035,Matt Tomkins,1994-06-19,L,76,198,2012,CHI,7,199,AHL,Bakersfield Condors,20262027,3,1,1,,,yes,NHL:Edmonton Oilers > AHL:Bakersfield Condors,NHL games 2026-11-01 to 2026-11-01,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+EDM,NHL,4,8475883,Frederik Andersen,1989-10-02,L,76,229,2012,ANA,3,87,OG,Denmark Olympics,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+EDM,ECHL,1,8484455,Nathaniel Day,2005-02-04,L,75,217,2023,EDM,6,184,ECHL,Fort Wayne Komets,20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+EDM,ECHL,2,8483769,Samuel Jonsson,2003-12-15,L,77,219,2022,EDM,5,158,ECHL,Fort Wayne Komets,20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/EDM,primary
+FLA,NHL,1,8481033,Akira Schmid,2000-05-12,L,77,190,2018,NJD,5,136,NHL,Florida Panthers,20262027,8,8,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,NHL,2,8474593,Jacob Markstrom,1990-01-31,L,78,207,2008,FLA,2,31,NHL,Florida Panthers,20262027,7,7,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,AHL,1,8484900,Cooper Black,2001-06-14,L,81,245,,,undrafted,,AHL,Charlotte Checkers,20262027,3,1,1,,,yes,NHL:Florida Panthers > AHL:Charlotte Checkers,NHL games 2026-10-22 to 2026-10-22,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,AHL,2,8482914,Kirill Gerasimyuk,2003-08-22,L,74,178,2021,FLA,5,152,AHL,Charlotte Checkers,20262027,7,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,ECHL,1,8483736,Tyler Muszelik,2004-07-01,L,75,195,2022,FLA,6,189,ECHL,Savannah Ghost Pirates,20262027,1,0,0,,,yes,AHL:Charlotte Checkers > ECHL:Savannah Ghost Pirates,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,Prospects,1,8485762,Louis-Antoine Denault,2006-09-26,L,80,215,2026,FLA,7,217,QMJHL,Newfoundland Regiment,20262027,10,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,Prospects,2,8485094,Denis Gabdrakhmanov,2005-06-22,L,75,187,2024,FLA,7,201,VHL,Dynamo-Altay Barnaul,20262027,7,0,0,,,yes,KHL:Sibir Novosibirsk > VHL:Dynamo-Altay Barnaul,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,Prospects,3,8484437,Olof Glifford,2005-03-05,L,76,191,2023,FLA,5,159,Liiga,HIFK,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+FLA,Prospects,4,8485686,Yegor Midlak,2007-03-20,L,78,176,2025,FLA,7,224,MHL,MHK Spartak-MAH Moskva,20262027,2,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/FLA,primary
+LAK,NHL,1,8475311,Darcy Kuemper,1990-05-05,L,77,215,2009,MIN,6,161,NHL,Los Angeles Kings,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/LAK,primary
+LAK,NHL,2,8476341,Anton Forsberg,1992-11-27,L,75,200,2011,CBJ,7,188,NHL,Los Angeles Kings,20262027,6,6,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/LAK,primary
+MIN,NHL,1,8482661,Jesper Wallstedt,2002-11-14,L,75,214,2021,MIN,1,20,NHL,Minnesota Wild,20262027,15,15,15,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MIN,NHL,2,8475717,Calvin Pickard,1992-04-15,L,73,206,2010,COL,2,49,NHL,Minnesota Wild,20262027,2,2,2,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MIN,NHL,3,8479406,Filip Gustavsson,1998-06-07,L,74,184,2016,PIT,2,55,OG,Sweden Olympics,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MIN,AHL,1,8483918,Riley Mercer,2004-03-31,L,73,200,,,undrafted,,AHL,Iowa Wild,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MIN,ECHL,1,8485037,Chase Wutzke,2006-07-26,L,74,158,2024,MIN,5,142,ECHL,Jacksonville Icemen,20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MIN,Prospects,1,8486275,Filip Ruzicka,2008-03-24,L,79,230,2026,MIN,5,137,WHL,Brandon Wheat Kings,20262027,12,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MIN,primary
+MTL,NHL,1,8484170,Jacob Fowler,2004-11-24,L,73,223,2023,MTL,3,69,AHL,Laval Rocket,20262027,2,9,9,,,yes,NHL:Montréal Canadiens > AHL:Laval Rocket,NHL games 2026-10-08 to 2026-11-03,roster+prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,NHL,2,8482487,Jakub Dobes,2001-05-27,L,76,215,2020,MTL,5,136,NHL,Montréal Canadiens,20262027,6,6,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,NHL,3,8478470,Samuel Montembeault,1996-10-30,L,75,218,2015,FLA,3,77,AHL,Laval Rocket,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,1,8485038,Mikus Vecvanags,2006-01-17,L,75,159,2024,MTL,5,134,BCHL,Victoria Grizzlies,20262027,14,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,2,8484424,Yevgeni Volokhin,2005-04-06,L,72,159,2023,MTL,5,144,VHL,Khimik Voskresensk,20262027,11,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,3,8485570,Arseni Radkov,2007-08-05,L,76,194,2025,MTL,3,82,QMJHL,Val-d'Or Foreurs,20262027,9,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,4,8484416,Quentin Miller,2004-12-23,L,75,190,2023,MTL,4,128,NCAA,Western Michigan Univ.,20262027,7,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,5,8485615,Alexis Cournoyer,2005-12-13,L,75,195,2025,MTL,5,145,NCAA,Univ. of Wisconsin,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+MTL,Prospects,6,8483765,Emmett Croteau,2003-12-07,L,75,220,2022,MTL,6,162,NCAA,Dartmouth College,20262027,2,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/MTL,primary
+NJD,NHL,1,8474596,Jake Allen,1990-08-07,L,74,197,2008,STL,2,34,NHL,New Jersey Devils,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,NHL,2,8476945,Connor Hellebuyck,1993-05-19,L,76,207,2012,WPG,5,130,NHL,New Jersey Devils,20262027,3,3,3,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,AHL,1,8482867,Jakub Malek,2002-04-11,L,76,170,2021,NJD,4,100,AHL,Utica Comets,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,Prospects,1,8486285,Daniil Rusakovich,2008-04-17,L,76,188,2026,NJD,5,149,MHL,Dinamo-Shinnik Bobruysk,20262027,17,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,Prospects,2,8484843,Mikhail Yegorov,2006-03-07,L,77,179,2024,NJD,2,49,NCAA,Boston Univ.,20262027,8,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,Prospects,3,8485582,Trenten Bennett,2006-04-01,L,80,205,2025,NJD,4,99,OHL,Flint Firebirds,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NJD,Prospects,4,8485043,Veeti Louhivaara,2006-02-06,L,75,207,2024,NJD,5,146,NCAA,Univ. of Connecticut,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NJD,primary
+NSH,NHL,1,8477424,Juuse Saros,1995-04-19,L,71,180,2013,NSH,4,99,NHL,Nashville Predators,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NSH,primary
+NSH,NHL,2,8481020,Justus Annunen,2000-03-11,L,76,210,2018,COL,3,64,NHL,Nashville Predators,20262027,3,3,3,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NSH,primary
+NSH,Prospects,1,8485011,Jakub Milota,2006-04-14,L,74,190,2024,NSH,4,99,NCAA,Ohio State Univ.,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NSH,primary
+NSH,Prospects,2,8479549,Konstantin Volkov,1997-09-20,L,75,211,2016,NSH,6,168,VHL,Dynamo-Altay Barnaul,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NSH,primary
+NYI,NHL,1,8478009,Ilya Sorokin,1995-08-04,L,74,195,2014,NYI,3,78,NHL,New York Islanders,20262027,10,10,10,,,,,,roster+prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NYI,primary
+NYI,NHL,2,8473575,Semyon Varlamov,1988-04-27,L,73,203,2006,WSH,1,23,NHL,New York Islanders,20262027,4,4,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NYI,primary
+NYR,NHL,1,8482193,Dylan Garand,2002-06-07,L,73,182,2020,NYR,4,103,NHL,New York Rangers,20262027,12,12,10,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,NHL,2,8478048,Igor Shesterkin,1995-12-30,L,73,198,2014,NYR,4,118,NHL,New York Rangers,20262027,5,5,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,NHL,3,8473503,James Reimer,1988-03-15,L,74,200,2006,TOR,4,99,AHL,Hartford Wolf Pack,20262027,1,1,1,,,yes,NHL:New York Rangers > AHL:Hartford Wolf Pack,NHL games 2026-10-26 to 2026-10-26,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,NHL,4,8476914,Joonas Korpisalo,1994-04-28,L,75,205,2012,CBJ,3,62,NHL,Boston Bruins,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,AHL,1,8477484,Spencer Martin,1995-06-08,L,75,190,2013,COL,3,63,AHL,Hartford Wolf Pack,20262027,2,1,0,,,yes,NHL:New York Rangers > AHL:Hartford Wolf Pack,NHL games 2026-10-15 to 2026-10-15,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,AHL,2,8485489,Callum Tung,2003-11-23,L,75,213,,,undrafted,,AHL,Hartford Wolf Pack,20262027,7,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+NYR,Prospects,1,8486226,Danai Shaiikov,2007-04-13,L,74,186,2026,NYR,3,67,QMJHL,Gatineau Olympiques,20262027,13,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/NYR,primary
+OTT,NHL,1,8476999,Linus Ullmark,1993-07-31,L,76,223,2012,BUF,6,163,NHL,Ottawa Senators,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,NHL,2,8481035,Samuel Ersson,1999-10-20,L,75,194,2018,PHI,5,143,NHL,Ottawa Senators,20262027,7,7,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,NHL,3,8477992,Jonas Johansson,1995-09-19,L,77,217,2014,BUF,3,61,AHL,Belleville Senators,20262027,5,4,4,,,yes,NHL:Ottawa Senators > AHL:Belleville Senators,NHL games 2026-10-24 to 2026-11-01,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,AHL,1,8485142,Jackson Parsons,2004-11-23,L,74,214,,,undrafted,,AHL,Belleville Senators,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,AHL,2,8483762,Kevin Reidler,2004-09-02,L,78,209,2022,OTT,5,151,AHL,Belleville Senators,20262027,1,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,Prospects,1,8485580,Lucas Beckman,2007-08-23,L,76,206,2025,OTT,4,97,QMJHL,Cape Breton Eagles,20262027,10,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,Prospects,2,8486252,Elliot Lennon,2008-03-05,L,77,181,2026,OTT,4,110,USHL,Madison Capitols,20262027,7,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,Prospects,3,8485679,Andrei Trofimov,2006-07-20,L,74,187,2025,OTT,7,213,MHL,Stalnye Lisy Magnitogorsk,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+OTT,Prospects,4,8484489,Vladimir Nikitin,2005-01-07,L,76,199,2023,OTT,7,207,NAHL,New Hampshire Mountain Kings,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/OTT,primary
+PHI,NHL,1,8478435,Dan Vladar,1997-08-20,L,77,209,2015,BOS,3,75,NHL,Philadelphia Flyers,20262027,9,9,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/PHI,primary
+PHI,NHL,2,8479361,Joseph Woll,1998-07-12,L,75,212,2016,TOR,3,62,NHL,Philadelphia Flyers,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/PHI,primary
+PHI,AHL,1,8482783,Aleksei Kolosov,2002-01-04,L,73,185,2021,PHI,3,78,AHL,Lehigh Valley Phantoms,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PHI,primary
+PHI,AHL,2,8484147,Carson Bjarnason,2005-06-30,L,75,186,2023,PHI,2,51,AHL,Lehigh Valley Phantoms,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PHI,primary
+PHI,Prospects,1,8484398,Egor Zavragin,2005-08-23,L,75,183,2023,PHI,3,87,KHL,Metallurg Magnitogorsk,20262027,9,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PHI,primary
+PIT,NHL,1,8481668,Arturs Silovs,2001-03-22,L,76,219,2019,VAN,6,156,NHL,Pittsburgh Penguins,20262027,10,10,10,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+PIT,NHL,2,8483703,Sergei Murashov,2004-04-01,R,74,186,2022,PIT,4,118,NHL,Pittsburgh Penguins,20262027,5,5,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+PIT,AHL,1,8482446,Joel Blomqvist,2002-01-10,L,75,204,2020,PIT,2,52,AHL,Wilkes-Barre/Scranton Penguins,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+PIT,AHL,2,8481526,Taylor Gauthier,2001-02-15,R,74,201,,,undrafted,,AHL,Wilkes-Barre/Scranton Penguins,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+PIT,Prospects,1,8486292,Matvei Nikonovich,2008-06-28,L,74,215,2026,PIT,5,160,OHL,Barrie Colts,20262027,9,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+PIT,Prospects,2,8485569,Gabriel D'Aigle,2006-11-21,L,76,218,2025,PIT,3,84,QMJHL,Victoriaville Tigres,20252026,0,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/PIT,primary
+SEA,NHL,1,8475831,Philipp Grubauer,1991-11-25,L,73,188,2010,WSH,4,112,NHL,Seattle Kraken,20262027,9,9,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,NHL,2,8478916,Joey Daccord,1996-08-19,L,74,201,2015,OTT,7,199,NHL,Seattle Kraken,20262027,7,7,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,AHL,1,8483668,Nikke Kokko,2004-03-14,L,75,184,2022,SEA,2,58,AHL,Coachella Valley Firebirds,20262027,8,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,AHL,2,8484910,Victor Ostman,2000-10-03,L,76,205,,,undrafted,,AHL,Coachella Valley Firebirds,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,Prospects,1,8482884,Semyon Vyazovoi,2003-02-26,L,74,169,2021,SEA,6,163,KHL,Salavat Yulaev Ufa,20262027,19,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,Prospects,2,8485003,Kim Saarinen,2006-07-22,L,76,169,2024,SEA,3,88,Liiga,HPK,20262027,13,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SEA,Prospects,3,8484451,Visa Vedenpaa,2005-05-11,L,74,170,2023,SEA,6,168,Liiga,KÃ¤rpÃ¤t,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/SEA,primary
+SJS,NHL,1,8482137,Yaroslav Askarov,2002-06-16,R,75,180,2020,NSH,1,11,NHL,San Jose Sharks,20262027,10,10,10,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/SJS,primary
+SJS,NHL,2,8477968,Alex Nedeljkovic,1996-01-07,L,72,205,2014,CAR,2,37,NHL,San Jose Sharks,20262027,6,6,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/SJS,primary
+STL,NHL,1,8480981,Joel Hofer,2000-07-30,L,77,197,2018,STL,4,107,NHL,St. Louis Blues,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,NHL,2,8476412,Jordan Binnington,1993-07-11,L,74,172,2011,STL,3,88,NHL,St. Louis Blues,20262027,4,4,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,AHL,1,8484312,Georgii Romanov,1999-12-15,L,77,211,,,undrafted,,AHL,Springfield Thunderbirds,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,AHL,2,8482205,Will Cranley,2002-02-26,L,76,194,2020,STL,6,163,AHL,Springfield Thunderbirds,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,Prospects,1,8485649,Love Harenstam,2007-01-18,L,73,196,2025,STL,6,179,HockeyAllsvenskan,SÃ¶dertÃ¤lje SK,20262027,14,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,Prospects,2,8485044,Marcus Gidlof,2005-09-28,L,78,212,2024,NYI,5,147,HockeyAllsvenskan,Leksands IF,20262027,8,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+STL,Prospects,3,8486263,Vladimir Proskurin,2008-05-28,L,72,167,2026,STL,4,123,WHL,Victoria Royals,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/STL,primary
+TBL,NHL,1,8476883,Andrei Vasilevskiy,1994-07-25,L,76,220,2012,TBL,1,19,NHL,Tampa Bay Lightning,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/TBL,primary
+TBL,NHL,2,8483710,Dennis Hildeby,2001-08-19,L,78,227,2022,TOR,4,122,NHL,Tampa Bay Lightning,20262027,3,3,3,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/TBL,primary
+TBL,Prospects,1,8481597,Hugo Alnefelt,2001-06-04,L,75,189,2019,TBL,3,71,Liiga,HIFK,20262027,13,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/TBL,primary
+TOR,NHL,1,8475683,Sergei Bobrovsky,1988-09-20,L,74,187,,,undrafted,,NHL,Toronto Maple Leafs,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/TOR,primary
+TOR,NHL,2,8476932,Anthony Stolarz,1994-01-20,L,78,248,2012,PHI,2,45,NHL,Toronto Maple Leafs,20262027,6,6,6,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/TOR,primary
+UTA,NHL,1,8478872,Karel Vejmelka,1996-05-25,R,76,221,2015,NSH,5,145,NHL,Utah Mammoth,20262027,12,12,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/UTA,primary
+UTA,NHL,2,8482657,Sebastian Cossa,2002-11-21,L,78,221,2021,DET,1,15,NHL,Utah Mammoth,20262027,6,6,5,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/UTA,primary
+VAN,NHL,1,8482447,Leevi Meriläinen,2002-08-13,L,75,186,2020,OTT,3,71,NHL,Vancouver Canucks,20262027,11,11,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
+VAN,NHL,2,8480947,Kevin Lankinen,1995-04-28,L,74,190,,,undrafted,,NHL,Vancouver Canucks,20262027,8,8,7,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
+VAN,NHL,3,8477967,Thatcher Demko,1995-12-08,L,76,192,2014,VAN,2,36,NHL,Vancouver Canucks,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VAN,primary
+VGK,NHL,1,8479394,Carter Hart,1998-08-13,L,74,196,2016,PHI,2,48,NHL,Vegas Golden Knights,20262027,9,9,9,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary
+VGK,NHL,2,8478499,Adin Hill,1996-05-11,L,76,218,2015,ARI,3,76,NHL,Vegas Golden Knights,20262027,8,8,8,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary
+VGK,AHL,1,8483523,Cameron Whitehead,2003-06-13,L,75,192,2022,VGK,4,128,AHL,Henderson Silver Knights,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary
+VGK,AHL,2,8482761,Carl Lindbom,2003-05-20,L,73,186,2021,VGK,7,222,AHL,Henderson Silver Knights,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/VGK,primary
+WPG,NHL,1,8479973,Stuart Skinner,1998-11-01,L,76,215,2017,EDM,3,78,NHL,Winnipeg Jets,20262027,11,11,11,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WPG,NHL,2,8483532,Clay Stevenson,1999-03-03,L,76,195,,,undrafted,,NHL,Winnipeg Jets,20262027,5,5,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WPG,NHL,3,8482076,Nico Daws,2000-12-22,L,76,205,2020,NJD,3,84,NHL,Winnipeg Jets,20262027,2,2,1,,,yes,NHL:New Jersey Devils > NHL:Winnipeg Jets,NHL games 2026-10-03 to 2026-10-30,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WPG,AHL,1,8483711,Domenic DiVincentiis,2004-03-04,L,74,191,2022,WPG,7,207,AHL,Manitoba Moose,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WPG,AHL,2,8483114,Thomas Milic,2003-04-14,L,72,175,2023,WPG,5,151,AHL,Manitoba Moose,20262027,6,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WPG,ECHL,1,8483659,Isaac Poulter,2001-09-12,L,74,174,,,undrafted,,ECHL,Bloomington Bison,20262027,5,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WPG,primary
+WSH,NHL,1,8480313,Logan Thompson,1997-02-25,R,76,205,,,undrafted,,NHL,Washington Capitals,20262027,10,10,10,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary
+WSH,NHL,2,8479292,Charlie Lindgren,1993-12-18,R,74,190,,,undrafted,,NHL,Washington Capitals,20262027,5,5,4,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary
+WSH,NHL,3,8482465,Rémi Poirier,2001-10-06,L,75,211,2020,DAL,6,185,AHL,Texas Stars,20252026,0,0,0,,,,,,roster,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary
+WSH,AHL,1,8481064,Mitchell Gibson,1999-06-25,L,73,188,2018,WSH,4,124,AHL,Hershey Bears,20262027,3,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary
+WSH,Prospects,1,8484480,Antoine Keller,2004-10-06,L,74,176,2023,WSH,7,206,NL,HC Ajoie,20262027,13,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary
+WSH,Prospects,2,8485023,Nicholas Kempf,2006-03-01,L,74,189,2024,WSH,4,114,NCAA,Univ. of Notre Dame,20262027,4,0,0,,,,,,prospects,2026-11-04,https://api-web.nhle.com/v1/prospects/WSH,primary

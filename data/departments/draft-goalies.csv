@@ -1,0 +1,387 @@
+draft_year,club,round,overall,name,player_id,amateur_league,amateur_club,first_ahl_season,first_nhl_season,nhl_gp,nhl_clubs,as_of,source
+2010,DAL,1,11,Jack Campbell,8475789,USHL,USA U-18,20112012,20132014,176,Dallas Stars; Edmonton Oilers; Los Angeles Kings; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,PHX,1,27,Mark Visentin,8475771,OHL,Niagara,20122013,20132014,1,Phoenix Coyotes,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,COL,2,49,Calvin Pickard,8475717,WHL,Seattle,20112012,20142015,193,Arizona Coyotes; Colorado Avalanche; Detroit Red Wings; Edmonton Oilers; Minnesota Wild; Philadelphia Flyers; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,CHI,2,58,Kent Simpson,8475720,WHL,Everett,20112012,20132014,1,Chicago Blackhawks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,NJD,3,84,Scott Wedgewood,8475809,OHL,Plymouth,20122013,20152016,204,Arizona Coyotes; Colorado Avalanche; Dallas Stars; Nashville Predators; New Jersey Devils,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,FLA,4,92,Sam Brittain,8475821,AJHL,Canmore,20142015,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,CBJ,4,102,Mathieu Corbeil,8475819,QMJHL,Halifax,20132014,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,COL,4,107,Sami Aittokallio,8475824,Finland Jr.,Ilves Jr.,20122013,20122013,2,Colorado Avalanche,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,WSH,4,112,Philipp Grubauer,8475831,OHL,Windsor,20122013,20122013,411,Colorado Avalanche; Seattle Kraken; Washington Capitals,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,EDM,5,121,Tyler Bunz,8475781,WHL,Medicine Hat,20122013,20142015,1,Edmonton Oilers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,ATL,5,128,Fredrik Pettersson-Wentzel,,SWEDEN-2,Almtuna,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,PHX,5,138,Louis Domingue,8475839,QMJHL,Quebec,20122013,20142015,144,Arizona Coyotes; Calgary Flames; New Jersey Devils; New York Rangers; Pittsburgh Penguins; Tampa Bay Lightning; Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,DET,5,141,Petr Mrazek,8475852,OHL,Ottawa,20122013,20122013,438,Anaheim Ducks; Carolina Hurricanes; Chicago Blackhawks; Detroit Red Wings; Philadelphia Flyers; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,MIN,6,159,Johan Gustafsson,8475860,SWEDEN-JR. 2,Farjestad Jr.,20132014,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,BOS,6,165,Zane McIntyre,8475876,HIGH-MN,Thief River Falls,20152016,20162017,8,Boston Bruins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,NJD,6,174,Maxime Clermont,8475805,QMJHL,Gatineau,20112012,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,VAN,6,175,Jonathan Iilahti,8475909,Finland Jr.,Blues Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,CBJ,7,184,Martin Ouellette,8475910,HIGH-NH,Kimball Union Academy,20142015,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,NYI,7,185,Cody Rosen,8475880,ECAC,Clarkson U.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2010,CHI,7,191,Mac Carruth,8475879,WHL,Portland,20132014,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2010/all
+2011,NSH,2,38,Magnus Hellberg,8476433,SWEDEN-2,Almtuna,20122013,20132014,26,Detroit Red Wings; Nashville Predators; New York Rangers; Ottawa Senators; Pittsburgh Penguins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,ANA,2,39,John Gibson,8476434,USHL,USA U-18,20122013,20132014,574,Anaheim Ducks; Detroit Red Wings,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,LAK,2,49,Christopher Gibson,8476444,QMJHL,Chicoutimi,20132014,20152016,16,New York Islanders; Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,EDM,3,62,Samu Perhonen,8476387,Finland Jr.,JYP Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,VAN,3,71,David Honzik,8476395,QMJHL,Victoriaville,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,STL,3,88,Jordan Binnington,8476412,OHL,Owen Sound,20112012,20152016,381,St. Louis Blues,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,WSH,4,117,Steffen Soberg,8476359,NORWAY,Manglerud,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,STL,5,132,Niklas Lundstrom,8476373,SWEDEN-JR.,AIK Jr.,20142015,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,WPG,6,157,Jason Kasdorf,8476309,MJHL,Portage,20162017,20152016,1,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,MIN,6,161,Steve Michalek,8476313,HIGH-CT,Loomis-Chaffee,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,CAR,6,163,Matt Mahalak,8476315,OHL,Plymouth,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,CGY,6,164,Laurent Brossoit,8476316,WHL,Edmonton,20132014,20142015,142,Anaheim Ducks; Edmonton Oilers; San Jose Sharks; Vegas Golden Knights; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,BUF,6,167,Nathan Lieuwen,8476319,WHL,Kootenay,20122013,20132014,7,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,TBL,6,178,Adam Wilcox,8476330,USHL,Green Bay,20142015,20172018,1,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,BOS,6,181,Lars Volden,8476333,Finland Jr.,Blues Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,EDM,7,182,Frans Tuohimaa,8476334,Finland Jr.,Jokerit Jr.,20132014,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,CBJ,7,188,Anton Forsberg,8476341,SWEDEN-JR.,Modo Jr.,20132014,20142015,232,Carolina Hurricanes; Chicago Blackhawks; Columbus Blue Jackets; Los Angeles Kings; Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,TOR,7,190,Garret Sparks,8476343,OHL,Guelph,20122013,20152016,40,Los Angeles Kings; Toronto Maple Leafs; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2011,CHI,7,211,Johan Mattsson,8476295,SWEDEN-JR.,Sodertalje Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2011/all
+2012,TBL,1,19,Andrei Vasilevskiy,8476883,RUSSIA,Ufa 2,20142015,20142015,609,Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,BOS,1,24,Malcolm Subban,8476876,OHL,Belleville,20132014,20142015,87,Boston Bruins; Buffalo Sabres; Chicago Blackhawks; Columbus Blue Jackets; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CBJ,2,31,Oscar Dansk,8476861,SWEDEN-JR.,Brynas Jr.,20142015,20172018,6,Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,PHI,2,45,Anthony Stolarz,8476932,NAHL,Corpus Christi,20142015,20162017,174,Anaheim Ducks; Edmonton Oilers; Florida Panthers; Philadelphia Flyers; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CBJ,3,62,Joonas Korpisalo,8476914,Finland Jr.,Jokerit Jr.,20142015,20152016,334,Boston Bruins; Columbus Blue Jackets; Los Angeles Kings; Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CAR,3,69,Daniel Altshuller,,OHL,Oshawa,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CGY,3,75,Jon Gillies,8476903,USHL,Indiana,20152016,20162017,35,Calgary Flames; Columbus Blue Jackets; New Jersey Devils; St. Louis Blues,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,OTT,3,76,Chris Driedger,8476904,WHL,Calgary,20132014,20142015,67,Florida Panthers; Ottawa Senators; Seattle Kraken,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,DET,3,80,Jake Paterson,8476896,OHL,Saginaw,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,PIT,3,83,Matt Murray,8476899,OHL,Sault Ste. Marie,20132014,20152016,279,Ottawa Senators; Pittsburgh Penguins; Seattle Kraken; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,ANA,3,87,Frederik Andersen,8475883,SWEDEN,Frolunda,20122013,20132014,552,Anaheim Ducks; Carolina Hurricanes; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,PIT,4,113,Sean Maguire,8476963,BCHL,Powell River,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,WPG,5,130,Connor Hellebuyck,8476945,NAHL,Odessa,20142015,20152016,628,New Jersey Devils; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,DAL,5,144,Henri Kiviaho,8477026,Finland Jr.,Kalpa Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,STL,5,146,Francois Tremblay,8477017,QMJHL,Val d'Or,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CAR,6,159,Collin Olson,8477007,USHL,USA U-18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,BUF,6,163,Linus Ullmark,8476999,SWEDEN-JR.,Modo Jr.,20152016,20152016,348,Boston Bruins; Buffalo Sabres; Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,OTT,6,166,Francois Brassard,8477002,QMJHL,Quebec,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,NSH,6,179,Marek Mazanec,8476992,Czech Republic,Plzen,20132014,20132014,31,Nashville Predators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,PHX,7,184,Marek Langhamer,8476986,CZREP-JR.,Pardubice Jr.,20152016,20162017,2,Arizona Coyotes,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,WPG,7,190,Jamie Phillips,8477050,OJHL,Toronto JC,20162017,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CHI,7,191,Brandon Whitney,8477051,QMJHL,Victoriaville,20142015,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,CHI,7,199,Matt Tomkins,8477035,AJHL,Sherwood Park,20172018,20232024,7,Edmonton Oilers; Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2012,WSH,7,203,Sergey Kostenko,8477039,RUSSIA-JR.,Novokuznetsk 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2012/all
+2013,MTL,2,36,Zach Fucale,,QMJHL,Halifax,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,PIT,2,44,Tristan Jarry,8477465,WHL,Edmonton,20152016,20162017,334,Edmonton Oilers; Pittsburgh Penguins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,DAL,2,54,Philippe Desrosiers,8477475,QMJHL,Rimouski,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,WPG,2,59,Eric Comrie,8477480,WHL,Tri-City,20132014,20162017,102,Buffalo Sabres; Detroit Red Wings; New Jersey Devils; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,COL,3,63,Spencer Martin,8477484,OHL,Mississauga,20152016,20162017,73,Carolina Hurricanes; Colorado Avalanche; Columbus Blue Jackets; New York Rangers; Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NYI,3,70,Eamon McAdam,8477438,USHL,Waterloo,20152016,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,OTT,3,78,Marcus Hogberg,8477405,SWEDEN-JR.,Linkoping Jr.,20162017,20182019,58,New York Islanders; Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,FLA,4,92,Evan Cowley,8477418,NAHL,Wichita Falls,20172018,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NSH,4,99,Juuse Saros,8477424,Finland Jr.,HPK Jr.,20152016,20152016,478,Nashville Predators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NYI,4,106,Stephon Williams,8477431,WCHA,Minnesota State,20142015,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,SJS,4,117,Fredrik Bergvik,8477443,SWEDEN-JR.,Frolunda Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,TBL,5,124,Kristers Gudlevskis,8477356,RUSSIA-JR.,Riga 2,20132014,20132014,3,Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,BUF,5,129,Cal Petersen,8477361,USHL,Waterloo,20172018,20182019,106,Los Angeles Kings; Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,LAK,5,146,Patrik Bartosak,8477378,WHL,Red Deer,20132014,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,PHI,6,162,Merrick Madsen,8477395,HIGH-NH,Proctor Academy,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,PHX,6,163,Brendan Burke,8477396,WHL,Portland,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NYR,6,170,Mackenzie Skapski,8477084,WHL,Kootenay,20142015,20142015,2,New York Rangers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,TOR,6,172,Antoine Bibeau,8477312,QMJHL,PEI,20142015,20162017,4,Colorado Avalanche; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,MIN,7,200,Alexandre Belanger,8477339,QMJHL,Rouyn-Noranda,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NSH,7,203,Janne Juvonen,8477342,Finland Jr.,Pelicans Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2013,NJD,7,208,Anthony Brodeur,8477348,HIGH-MN,Shattuck-St. Mary's,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2013/all
+2014,CGY,2,34,Mason McDonald,8477965,QMJHL,Charlottetown,20162017,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,VAN,2,36,Thatcher Demko,8477967,H-EAST,Boston College,20162017,20172018,262,Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,CAR,2,37,Alex Nedeljkovic,8477968,OHL,Plymouth,20162017,20162017,225,Carolina Hurricanes; Detroit Red Wings; Pittsburgh Penguins; San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,WSH,2,39,Vitek Vanecek,8477970,CZREP-JR.,Liberec Jr.,20152016,20202021,210,Florida Panthers; New Jersey Devils; San Jose Sharks; Utah Mammoth; Washington Capitals,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,NYR,2,59,Brandon Halverson,8477990,OHL,Sault Ste. Marie,20162017,20172018,4,New York Rangers; Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,BUF,3,61,Jonas Johansson,8477992,SWEDEN-JR.,Brynas Jr.,20162017,20192020,109,Buffalo Sabres; Colorado Avalanche; Florida Panthers; Ottawa Senators; Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,CBJ,3,76,Elvis Merzlikins,8478007,SWISS,Lugano,20192020,20192020,274,Columbus Blue Jackets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,NYI,3,78,Ilya Sorokin,8478009,RUSSIA,Novokuznetsk,,20202021,318,New York Islanders,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,STL,4,94,Ville Husso,8478024,FINLAND,HIFK,20162017,20202021,170,Anaheim Ducks; Detroit Red Wings; St. Louis Blues,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,NYI,4,95,Linus Soderstrom,8478025,SWEDEN-JR.,Djurgarden Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,MIN,4,109,Kaapo Kahkonen,8478039,Finland Jr.,Blues Jr.,20182019,20192020,140,Colorado Avalanche; Minnesota Wild; New Jersey Devils; San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,EDM,4,111,Zachary Nagelvoort,8478041,BIG10,U. of Michigan,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,DAL,4,115,Brent Moran,8478045,OHL,Niagara,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,NYR,4,118,Igor Shesterkin,8478048,RUSSIA-JR.,Spartak 2,20192020,20192020,330,New York Rangers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,DET,5,136,Chase Perry,,NAHL,Wenatchee,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,LAK,5,150,Alec Dillon,8478079,BCHL,Victoria,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,COL,6,174,Maximilian Pajpach,8478102,SLOVAKIA-2,Slovakia U18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,MTL,6,177,Hayden Hawkey,8478105,USHL,Omaha,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,CHI,6,179,Ivan Nalimov,8478107,RUSSIA-JR.,SKA St. Petersburg 2,20202021,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,FLA,7,182,Hugo Fagerblom,8478110,SWEDEN-JR. U18,Frolunda U18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2014,EDM,7,183,Keven Bouchard,8478111,QMJHL,Val d'Or,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2014/all
+2015,WSH,1,22,Ilya Samsonov,8478492,RUSSIA-JR.,Magnitogorsk 2,20182019,20192020,200,Toronto Maple Leafs; Vegas Golden Knights; Washington Capitals,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,NJD,2,42,Mackenzie Blackwood,8478406,OHL,Barrie,20162017,20182019,303,Colorado Avalanche; New Jersey Devils; San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,PHI,3,70,Felix Sandstrom,8478433,SWEDEN-JR.,Brynas Jr.,20182019,20212022,30,Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,BOS,3,75,Dan Vladar,8478435,CZREP-2,Kladno,20162017,20202021,166,Boston Bruins; Calgary Flames; Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,ARI,3,76,Adin Hill,8478499,WHL,Portland,20152016,20172018,221,Arizona Coyotes; San Jose Sharks; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,FLA,3,77,Samuel Montembeault,8478470,QMJHL,Blainville-Boisbriand,20172018,20182019,231,Florida Panthers; Montréal Canadiens,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,SJS,3,86,Mike Robinson,8478837,HIGH-MA,Lawrence Academy,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,PHI,3,90,Matej Tomek,8478489,NAHL,Topeka,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,CAR,4,93,Callum Booth,8478473,QMJHL,Quebec,20172018,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,DET,4,110,Joren Van Pottelberghe,8478847,SWEDEN-JR. U18,Linkoping U18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,MIN,4,111,Ales Stezka,8478848,CZREP-JR.,Liberec Jr.,20232024,20242025,1,Seattle Kraken,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,NSH,5,145,Karel Vejmelka,8478872,CZREP-JR.,Pardubice Jr.,,20212022,274,Arizona Coyotes; Utah Hockey Club; Utah Mammoth,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,STL,5,146,Luke Opilka,8478461,USHL,USA U-18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,TBL,6,153,Kristian Oldham,8478878,USHL,Omaha,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,DAL,6,163,Markus Ruusu,8478886,Finland Jr.,JYP Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,ANA,6,179,Garrett Metcalf,8478899,USHL,Madison,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,ARI,7,183,Erik Kallgren,8478902,SWEDEN-JR.,Linkoping Jr.,20192020,20212022,24,Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,NYR,7,184,Adam Huska,8478903,USHL,Green Bay,20182019,20212022,1,New York Rangers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,PHI,7,188,Ivan Fedotov,8478905,RUSSIA-JR.,Nizhnekamsk 2,20252026,20232024,29,Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,SJS,7,193,Jake Kupsky,8478910,NAHL,Lone Star,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,OTT,7,199,Joey Daccord,8478916,HIGH-MA,Cushing Academy,20192020,20182019,180,Ottawa Senators; Seattle Kraken,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,NSH,7,205,Evan Smith,8478919,NAHL,Austin,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,FLA,7,206,Ryan Bednard,8478920,NAHL,Johnstown,20192020,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2015,EDM,7,208,Miroslav Svoboda,8478922,CZREP-JR.,Trinec Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2015/all
+2016,PHI,2,48,Carter Hart,8479394,WHL,Everett,20182019,20182019,254,Philadelphia Flyers; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,CGY,2,54,Tyler Parsons,8479403,OHL,London,20172018,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,PIT,2,55,Filip Gustavsson,8479406,SWEDEN-JR.,Lulea Jr.,20172018,20202021,219,Minnesota Wild; Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,STL,2,59,Evan Fitzpatrick,8479399,QMJHL,Sherbrooke,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,TOR,3,62,Joseph Woll,8479361,USHL,USA U-18,20192020,20212022,125,Philadelphia Flyers; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,CAR,3,75,Jack LaFontaine,8479581,NAHL,Janesville,20212022,20212022,2,Carolina Hurricanes,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,CHI,3,83,Wouter Peeters,8479582,RBHS U20,Ec Salzburg 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,TBL,3,88,Connor Ingram,8478971,WHL,Kamloops,20172018,20212022,134,Arizona Coyotes; Edmonton Oilers; Nashville Predators; Utah Hockey Club,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,NJD,4,105,Evan Cormier,8479331,OHL,Saginaw,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,EDM,5,123,Dylan Wells,8479380,OHL,Peterborough,20182019,20222023,1,Chicago Blackhawks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,DAL,5,128,Colton Point,8479589,CCHL,Carleton Place,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,COL,5,131,Adam Werner,8479530,SWEDEN-JR.,Farjestad Jr.,20172018,20192020,2,Colorado Avalanche,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,CAR,5,134,Jeremy Helvig,8479532,OHL,Kingston,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,CBJ,6,155,Peter Thome,8479592,NAHL,Aberdeen,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,WPG,6,157,Mikhail Berdin,8479574,RUSSIA-JR.,Team Russia U18,20182019,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,DET,6,167,Filip Larsson,8479548,SWEDEN-JR.,Djurgarden Jr.,20192020,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,NSH,6,168,Konstantin Volkov,8479549,RUSSIA-JR.,SKA St. Petersburg 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2016,NYR,6,174,Tyler Wall,8479596,GOJHL,Leamington,20202021,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2016/all
+2017,DAL,1,26,Jake Oettinger,8479979,H-EAST,Boston University,20182019,20202021,317,Dallas Stars,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,BUF,2,54,Ukko-Pekka Luukkonen,8480045,Finland Jr.,HPK Jr.,20182019,20202021,200,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,VAN,3,64,Michael DiPietro,8480022,OHL,Windsor,20192020,20182019,8,Boston Bruins; Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,LAK,3,72,Matt Villalta,,OHL,Sault Ste. Marie,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,EDM,3,78,Stuart Skinner,8479973,WHL,Lethbridge,20182019,20202021,235,Edmonton Oilers; Pittsburgh Penguins; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,PHI,3,80,Kirill Ustimenko,8480279,RUSSIA-JR.,Dynamo St. Petersburg 2,20192020,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,CBJ,3,86,Daniil Tarasov,8480193,RUSSIA-JR.,Ufa 2,20202021,20212022,104,Columbus Blue Jackets; Detroit Red Wings; Florida Panthers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,DET,3,88,Keith Petruzzelli,8479975,USHL,Muskegon,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,VGK,4,96,Maksim Zhukov,8480040,USHL,Green Bay,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,CAR,4,104,Eetu Makiniemi,8480199,Finland Jr.,Jokerit Jr.,20212022,20222023,2,San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,TOR,4,110,Ian Scott,8479993,WHL,Prince Albert,20172018,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,BOS,4,111,Jeremy Swayman,8480280,USHL,Sioux Falls,20202021,20202021,257,Boston Bruins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,COL,4,114,Petr Kvaca,,CZREP-2,C. Budejovice,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,NJD,5,129,Gilles Senn,8480213,SWISS,Davos,20192020,20192020,2,New Jersey Devils,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,ANA,5,153,Olle Eriksson Ek,8480042,SWEDEN-JR.,Farjestad Jr.,20202021,20222023,1,Anaheim Ducks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,NSH,5,154,Tomas Vomacka,8480233,NAHL,Corpus Christi,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,VGK,6,161,Jiri Patera,8480238,CZREP-JR.,C. Budejovice Jr.,20202021,20222023,9,Vancouver Canucks; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,WPG,6,167,Arvid Holm,8480244,SWEDEN-JR.,Karlskrona Jr.,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,OTT,6,183,Jordan Hollett,8480254,WHL,Regina,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,DAL,7,194,Dylan Ferguson,8480263,WHL,Kamloops,20192020,20172018,3,Ottawa Senators; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2017,MTL,7,199,Cayden Primeau,8480051,USHL,Lincoln,20192020,20192020,58,Montréal Canadiens; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2017/all
+2018,NYR,2,39,Olof Lindbom,8481015,SWEDEN-JR.,Djurgarden Jr.,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,EDM,2,62,Olivier Rodrigue,8480885,QMJHL,Drummondville,20202021,20242025,2,Edmonton Oilers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,COL,3,64,Justus Annunen,8481020,FINLAND-JR.,Karpat Jr.,20202021,20212022,83,Colorado Avalanche; Nashville Predators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,NYI,3,72,Jakub Skarek,8480819,CZREP,Jihlava,20192020,20242025,2,New York Islanders,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,DET,3,84,Jesper Eliasson,8481023,SWEDEN-JR. 2,Troja-Ljungby Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,ANA,3,85,Lukas Dostal,8480843,CZREP-2,Trebic,20202021,20212022,186,Anaheim Ducks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,STL,4,107,Joel Hofer,8480981,WHL,Swift Current,20182019,20212022,126,St. Louis Blues,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,ARI,4,114,Ivan Prosvetov,8481031,USHL,Youngstown,20192020,20202021,24,Arizona Coyotes; Colorado Avalanche,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,WSH,4,124,Mitchell Gibson,8481064,NAHL,Lone Star,20232024,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,NJD,5,136,Akira Schmid,8481033,SWISS-JR.,Langnau Jr.,20212022,20212022,90,Florida Panthers; New Jersey Devils; Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,PHI,5,143,Samuel Ersson,8481035,SWEDEN-JR.,Brynas Jr.,20212022,20222023,150,Ottawa Senators; Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,LAK,5,144,David Hrenak,8481069,NCHC,St. Cloud State,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,ANA,5,147,Roman Durny,8481036,USHL,Des Moines,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,TBL,5,152,Magnus Chrona,8480992,SWE-JR. U18,Nacka,20232024,20232024,9,San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,OTT,6,157,Kevin Mandolese,8480867,QMJHL,Cape Breton,20202021,20222023,3,Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,ARI,6,158,David Tendeck,8480996,WHL,Vancouver,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,DET,6,160,Victor Brattstrom,8480997,SWEDEN-JR.,Timra Jr.,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,CHI,6,162,Alexis Gravel,8480868,QMJHL,Halifax,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,CBJ,6,173,Veini Vehvilainen,8481001,FINLAND,Karpat,20192020,20202021,1,Columbus Blue Jackets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,LAK,6,175,Jacob Ingham,8480857,OHL,Mississauga,20202021,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,SJS,6,176,Zachary Emond,8481002,QMJHL,Rouyn-Noranda,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,WPG,6,184,Jared Moe,8481044,USHL,Waterloo,20232024,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,VAN,7,192,Matthew Thiessen,8481080,MJHL,Steinbach,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,CAR,7,197,Jacob Kucharski,8481050,USHL,Des Moines,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,COL,7,202,Shamil Shmakov,8481007,RUSSIA-JR.,Novosibirsk 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,VGK,7,208,Jordan Kooy,8481010,OHL,London,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,TOR,7,209,Zachary Bouthillier,8481011,QMJHL,Chicoutimi,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,NSH,7,213,Milan Kloucek,8481055,CZREP,Pardubice,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2018,TBL,7,214,Ty Taylor,8481083,BCHL,Vernon,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2018/all
+2019,FLA,1,13,Spencer Knight,8481519,NTDP,USA U-18,20212022,20202021,162,Chicago Blackhawks; Florida Panthers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,CAR,2,36,Pyotr Kochetkov,8481611,RUSSIA-2,Ryazan,20212022,20212022,136,Carolina Hurricanes,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,OTT,2,37,Mads Sogaard,8481544,WHL,Medicine Hat,20202021,20212022,31,Ottawa Senators,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,MIN,2,59,Hunter Jones,8481545,OHL,Peterborough,20202021,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,BUF,3,67,Erik Portillo,8481707,SWEDEN-JR.,Frolunda Jr.,20232024,20242025,1,Los Angeles Kings,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,TBL,3,71,Hugo Alnefelt,8481597,SWEDEN-JR.,HV 71 Jr.,20212022,20212022,1,Tampa Bay Lightning,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,EDM,3,85,Ilya Konovalov,8481709,RUSSIA,Yaroslavl,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,LAK,3,87,Lukas Parik,8481710,CZREP-JR.,Liberec Jr.,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,STL,3,93,Colten Ellis,8481551,QMJHL,Rimouski,20212022,20252026,21,Buffalo Sabres,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,NJD,5,127,Cole Brady,8481744,NAHL,Janesville,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,VGK,5,135,Isaiah Saville,8481520,USHL,Tri-City,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,MTL,5,138,Frederik Dichow,8481747,DENMARK-2,Vojens,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,WPG,5,144,Logan Neaton,8481748,BCHL,Prince George,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,NSH,5,148,Ethan Haider,8481749,NAHL,MN Magicians,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,VAN,6,156,Arturs Silovs,8481668,RUSSIA-JR.,Riga 2,20202021,20222023,68,Pittsburgh Penguins; Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,CHI,6,167,Dominic Basse,8481753,HIGH-CT,Selects U18 - South Kent School,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,PHI,6,169,Roddy Ross,8481671,WHL,Seattle,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,DET,7,191,Carter Gylander,8481757,AJHL,Sherwood Park,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,MIN,7,197,Filip Lindberg,8481758,H-EAST,U. Mass.,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,COL,7,202,Trent Miner,8481529,WHL,Vancouver,20202021,20242025,6,Colorado Avalanche,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,STL,7,208,Vadim Zherenko,8481689,RUSSIA-JR.,Dynamo Moscow 2,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2019,CGY,7,214,Dustin Wolf,8481692,WHL,Everett,20202021,20222023,136,Calgary Flames,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2019/all
+2020,NSH,1,11,Yaroslav Askarov,8482137,RUSSIA-2,Neva St. Petersburg,20222023,20222023,73,Nashville Predators; San Jose Sharks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,CHI,2,46,Drew Commesso,8482123,NTDP,USA U-18,20232024,20242025,5,Chicago Blackhawks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,PIT,2,52,Joel Blomqvist,8482446,FINLAND-JR.,Karpat Jr.,20212022,20242025,15,Pittsburgh Penguins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,OTT,3,71,Leevi Meriläinen,8482447,FINLAND-JR.,Karpat Jr.,20222023,20222023,45,Ottawa Senators; Vancouver Canucks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,PIT,3,77,Calle Clang,8482477,SWEDEN-JR.,Rogle Jr.,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,NJD,3,84,Nico Daws,8482076,OHL,Guelph,20212022,20212022,61,New Jersey Devils; Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,CGY,4,96,Daniil Chechelev,8482513,RUSSIA-JR.,Chekhov 2,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,NYR,4,103,Dylan Garand,8482193,WHL,Kamloops,20202021,20252026,15,New York Rangers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,TOR,4,106,Artur Akhtyamov,8482515,RUSSIA-JR.,Irbis Kazan,20242025,20252026,3,Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,DET,4,107,Jan Bednar,8482135,CZREP-2,Sokolov,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,LAK,4,112,Juho Markkanen,8482450,FINLAND-JR.,Saipa Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,VGK,5,125,Jesper Vikman,8482484,SWEDEN-JR.,AIK Jr.,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,MTL,5,136,Jakub Dobes,8482487,USHL,Omaha,20232024,20242025,65,Montréal Canadiens,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,STL,6,163,Will Cranley,8482205,OHL,Ottawa,20202021,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,WSH,6,179,Garin Bjorklund,8482188,WHL,Medicine Hat,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,DAL,6,185,Rémi Poirier,8482465,QMJHL,Gatineau,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,TBL,6,186,Amir Miftakhov,8482501,RUSSIA-2,Bars Kazan,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,NYR,7,197,Hugo Ollas,8482504,SWEDEN-JR.,Linkoping Jr.,20232024,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,FLA,7,212,Devon Levi,8482221,CCHL,Carleton Place,20232024,20222023,46,Buffalo Sabres; Edmonton Oilers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2020,NYI,7,214,Henrik Tikkanen,8482472,FINLAND-JR.,HIFK Jr.,20232024,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2020/all
+2021,DET,1,15,Sebastian Cossa,8482657,WHL,Edmonton,20222023,20242025,7,Detroit Red Wings; Utah Mammoth,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,MIN,1,20,Jesper Wallstedt,8482661,SWEDEN,Lulea,20222023,20232024,55,Minnesota Wild,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,PHI,3,78,Aleksei Kolosov,8482783,RUSSIA,Minsk,20232024,20242025,21,Philadelphia Flyers,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,SJS,3,81,Benjamin Gaudreau,8482729,OHL,Sarnia,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,CAR,3,83,Patrik Hamrla,8482921,CZREP,Karlovy Vary,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,NYI,3,93,Tristan Lennox,8482668,OHL,Saginaw,20242025,20242025,1,New York Islanders,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,NJD,4,100,Jakub Malek,8482867,CZREP-2,Vsetin,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,NYR,4,112,Talyn Boyko,8482869,WHL,Tri-City,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,BOS,4,117,Philip Svedeback,8482870,SWEDEN-JR.,Vaxjo Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,ARI,4,122,Rasmus Korhonen,8482871,FINLAND-JR.,Assat Jr.,20212022,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,VAN,5,137,Aku Koskenvuo,8482875,FINLAND-JR.,HIFK Jr.,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,ANA,5,148,Gage Alexander,8482936,WHL,Winnipeg,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,FLA,5,152,Kirill Gerasimyuk,8482914,RUSSIA-JR.,SKA-Varyagi,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,SEA,6,163,Semyon Vyazovoi,8482884,RUSSIA-JR.,Ufa 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,WSH,6,183,Chase Clark,8482939,USPHL - NCDC,Jersey Hitmen,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,TOR,6,185,Vyacheslav Peksa,8482940,RUSSIA-JR.,Irbis Kazan,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,CAR,6,187,Nikita Quapp,8482895,GERMANY,Krefeld,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,CAR,7,200,Yegor Naumov,8482899,RUSSIA-JR.,Krylja Sovetov 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,CGY,7,205,Arsenii Sergeev,8482949,NAHL,Shreveport,20252026,20252026,2,Calgary Flames,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,MTL,7,214,Joe Vrbetic,8482669,OHL,North Bay,20222023,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2021,VGK,7,222,Carl Lindbom,8482761,SWEDEN-JR.,Djurgarden Jr.,20242025,20252026,8,Vegas Golden Knights,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2021/all
+2022,BUF,2,41,Topias Leinonen,8483475,FINLAND-JR.,JYP Jr.,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,SEA,2,58,Niklas Kokko,,FINLAND-JR.,Karpat Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,NJD,4,102,Tyler Brennan,8483426,WHL,Prince George,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,SJS,4,108,Mason Beaupit,8483682,WHL,Spokane,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,PIT,4,118,Sergei Murashov,8483703,RUSSIA-JR.,LOKO-76 Yaroslavl,20242025,20252026,10,Pittsburgh Penguins,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,TOR,4,122,Dennis Hildeby,8483710,SWEDEN-JR.,Farjestad Jr.,20222023,20242025,29,Tampa Bay Lightning; Toronto Maple Leafs,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,VGK,4,128,Cameron Whitehead,8483523,USHL,Lincoln,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,CBJ,5,138,Sergei Ivanov,8483738,RUSSIA-JR.,SKA St. Petersburg 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,VAN,5,144,Ty Young,8483751,WHL,Prince George,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,DAL,5,147,Maxim Mayorov,8483758,RUSSIA-JR.,Togliatti 2,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,OTT,5,151,Kevin Reidler,8483762,SWEDEN-JR.,AIK Jr.,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,EDM,5,158,Samuel Jonsson,8483769,SWEDEN-JR.,Brynas Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,TBL,5,160,Nick Malik,8483767,FINLAND,Kookoo,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,MTL,6,162,Emmett Croteau,8483765,USHL,Waterloo,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,CAR,6,171,Jakub Vondras,8483754,CZREP-JR.,Plzen Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,ANA,6,178,Vyacheslav Buteyets,8483746,RUSSIA-2,Chelmet,20242025,20252026,1,Anaheim Ducks,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,BOS,6,183,Reid Dyck,8483742,WHL,Swift Current,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,FLA,6,189,Tyler Muszelik,8483736,NTDP,USA U-18,20262027,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,WPG,7,207,Domenic DiVincentiis,8483711,OHL,North Bay,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2022,COL,7,225,Ivan Zhigalov,8482990,QMJHL,Sherbrooke,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2022/all
+2023,CHI,2,35,Adam Gajan,8484171,NAHL,Chippewa,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,ARI,2,38,Michael Hrabal,8484181,USHL,Omaha,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,DET,2,41,Trey Augustine,8484141,NTDP,USA U-18,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,PHI,2,51,Carson Bjarnason,8484147,WHL,Brandon,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,ANA,2,60,Damian Clara,8484391,SWEDEN-JR.,Farjestad Jr.,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,MTL,3,69,Jacob Fowler,8484170,USHL,Youngstown,20242025,20252026,26,Montréal Canadiens,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,PHI,3,87,Egor Zavragin,8484398,RUSSIA-JR.,Khanty-Mansiysk Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,LAK,4,118,Hampton Slukynsky,8484417,HIGH-MN,Warroad,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,NSH,4,121,Juha Jatkola,8484407,FINLAND,Kalpa,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,MTL,4,128,Quentin Miller,8484416,QMJHL,Quebec,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,ARI,5,134,Melker Thelin,8484423,SWE-JR. U18,Bjorkloven U18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,BUF,5,141,Scott Ratzlaff,8484218,WHL,Seattle,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,MTL,5,144,Yevgeni Volokhin,8484424,RUSSIA-JR.,Khanty-Mansiysk Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,WPG,5,151,Thomas Milic,8483114,WHL,Seattle,20232024,20252026,3,Winnipeg Jets,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,CBJ,5,156,Melvin Strahl,8484441,SWEDEN-JR.,Modo Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,DAL,5,157,Arno Tiefensee,8484442,GERMANY,Mannheim,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,CAR,5,158,Ruslan Khazheyev,8484440,RUSSIA-JR.,Chelyabinsk Jr.,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,FLA,5,159,Olof Glifford,8484437,SWE-JR. U18,HV 71 U18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,ARI,6,166,Carsen Musser,8484199,NTDP,USA U-18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,SEA,6,168,Visa Vedenpaa,8484451,FINLAND-JR.,Karpat Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,DET,6,169,Rudy Guimond,8484453,HIGH-CT,Taft School,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,CGY,6,176,Yegor Yegorov,8484459,RUSSIA-JR.,Dynamo Moscow Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,EDM,6,184,Nathaniel Day,8484455,OHL,Flint,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,WSH,7,206,Antoine Keller,8484480,SWISS-JR.,Geneve Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,OTT,7,207,Vladimir Nikitin,8484489,KAZAKHSTAN U20,Barys Nur-Sultan U20,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2023,CAR,7,222,Egor Velmakin,8484493,RUSSIA-2,Voronezh,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2023/all
+2024,COL,2,38,Ilya Nabokov,8484996,RUSSIA,Magnitogorsk,20262027,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,NJD,2,49,Mikhail Yegorov,8484843,USHL,Omaha,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,LAK,2,57,Carter George,8484857,OHL,Owen Sound,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,CBJ,2,60,Evan Gardner,8484997,WHL,Saskatoon,20242025,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,EDM,2,64,Eemil Vinni,8484881,FINLAND-2,Jokipojat,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,VGK,3,83,Pavel Moysevich,8485002,RUSSIA,SKA St. Petersburg,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,CGY,3,84,Kirill Zarubin,8485012,RUSSIA-JR.,AKM Tula Jr.,20262027,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,SEA,3,88,Kim Saarinen,8485003,FINLAND-JR.,HPK Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,NSH,4,99,Jakub Milota,8485011,QMJHL,Cape Breton,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,WSH,4,114,Nicholas Kempf,8485023,NTDP - USHL,USA U-18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,NYI,4,115,Dmitry Gamzin,8485020,RUSSIA-2,Zvezda Moscow,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,SJS,4,116,Christian Kirsch,8485018,SWISS-JR.,Zug Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,DET,4,126,Landon Miller,8485024,OHL,Sault Ste. Marie,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,COL,5,132,Louka Cloutier,8485030,USHL,Chicago,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,MTL,5,134,Mikus Vecvanags,8485038,LATVIA,HS Riga,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,COL,5,137,Ivan Yunin,8485033,RUSSIA-JR.,Omsk Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,MIN,5,142,Chase Wutzke,8485037,WHL,Red Deer,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,NJD,5,146,Veeti Louhivaara,8485043,FINLAND-JR.,JYP Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,NYI,5,147,Marcus Gidlöf,,SWEDEN-JR.,Leksand Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,TOR,5,157,Timofei Obvintsev,8485046,RUSSIA-JR.,CSKA Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,SJS,7,194,Yaroslav Korostelyov,8485084,RUSSIA-JR.,SKA Saint Petersburg Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,FLA,7,201,Denis Gabdrakhmanov,8485094,RUSSIA-JR.,Tyumen Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,TBL,7,206,Harrison Meneghin,8484636,WHL,Lethbridge,20252026,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2024,BUF,7,219,Ryerson Leenders,8485101,OHL,Mississauga,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2024/all
+2025,CBJ,1,20,Pyotr Andreyanov,8485560,RUSSIA-JR.,CSKA Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,SJS,1,30,Joshua Ravensbergen,,WHL,Prince George,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,CAR,2,41,Semyon Frolov,8485561,RUSSIA-JR.,Spartak Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,VAN,2,47,Alexei Medvedev,,OHL,London,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,NSH,2,58,Jack Ivankovic,8485399,OHL,Brampton,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,DET,3,75,Michal Pradel,8485568,USHL,Tri-City,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,MTL,3,82,Arseni Radkov,8485570,RUSSIA-JR.,Tyumen Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,PIT,3,84,Gabriel D'Aigle,8485569,QMJHL,Victoriaville,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,OTT,4,97,Lucas Beckman,8485580,QMJHL,Baie Comeau,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,NJD,4,99,Trenten Bennett,8485582,CCHL,Kemptville,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,ANA,4,104,Elijah Neuenschwander,8485446,SWISS-JR.,Fribourg Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,BUF,4,116,Samuel Meloche,8485590,QMJHL,Rouyn-Noranda,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,UTA,5,142,Ivan Tkach-Tkachenko,,RUSSIA-JR.,Ufa Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,MTL,5,145,Alexis Cournoyer,8485615,QMJHL,Cape Breton,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,LAK,5,152,Petteri Rimpinen,8485627,FINLAND,K-Espoo,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,DAL,5,158,Mans Goos,8485433,SWEDEN-JR.,Farjestad Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,NYI,6,170,Burke Hood,8485644,WHL,Vancouver,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,STL,6,179,Love Harenstam,8485649,SWEDEN-JR.,Skelleftea Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,EDM,6,191,Daniel Salonen,,FINLAND-JR.,Lukko Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,TBL,7,193,Caleb Heil,8485657,USHL,Madison,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,CHI,7,194,Ilya Kanarsky,8485656,RUSSIA-JR.,AKM Tula Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,BUF,7,199,Yevgeni Prokhorov,8485673,RUSSIA-JR.,Dinamo-Shinnik Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,OTT,7,213,Andrei Trofimov,8485679,RUSSIA-JR.,Magnitogorsk Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2025,FLA,7,224,Yegor Midlak,8485686,RUSSIA-JR.,Spartak Jr.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2025/all
+2026,CGY,2,42,Tobias Trejbal,8486105,USHL,YOUNGSTOWN,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,BOS,2,56,Yuri Ivanov,8486223,RUSSIA-JR.,SPARTAK JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,PHI,2,62,Martin Psohlavec,8486227,CZECHIA-JR.,KARLOVY VARY JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,NYR,3,67,Danai Shaiikov,8486226,QMJHL,GATINEAU,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,NSH,3,70,Dmitri Borichev,8486077,RUSSIA-JR.,LOKO-76 YAROSLAVL,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,WPG,3,71,Samuel Hrenak,8486228,USHL,FARGO,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,VAN,3,78,Dmitri Ivchenko,8486230,RUSSIA-JR.,OMSK JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,DET,3,79,Michal Orsulak,8486080,WHL,PRINCE ALBERT,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,TOR,3,85,Juuso Ainasto,8486235,FINLAND-JR.,JOKERIT JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,LAK,3,89,Yegor Rybkin,8486238,RUSSIA-JR.,NIZHNY NOVGOROD JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,OTT,4,110,Elliot Lennon,8486252,HIGH-MA,DEERFIELD,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,TOR,4,114,Patriks Plumins,8486253,LATVIA,ZEMGALE,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,UTA,4,115,Carl Axelsson,,USHL,MUSKEGON,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,PHI,4,120,Marek Sklenicka,8486260,WHL,SEATTLE,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,STL,4,123,Vladimir Proskurin,8486263,RUSSIA-JR.,MYTISCHI JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,CAR,4,125,Ryder Fetterolf,8486266,OHL,OTTAWA,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,COL,4,126,Tobias Tvrznik,8486106,WHL,WENATCHEE,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,SJS,4,127,Brady Knowling,8486053,NTDP - USHL,USA U-18,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,MIN,5,137,Filip Ruzicka,8486275,WHL,BRANDON,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,CBJ,5,142,Parker Snell,8486278,WHL,EDMONTON,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,NJD,5,149,Daniil Rusakovich,8486285,RUSSIA-JR.,DINAMO-SHINNIK JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,PIT,5,160,Matvei Nikonovich,8486292,RUSSIA-JR.,TOGLIATTI JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,CAR,6,165,Zachary Jovanovski,8486298,OHL,GUELPH,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,BOS,6,170,Roberto Henriquez,8486303,USHL,GREEN BAY,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,ANA,6,178,Gleb Peshkov,8486317,RUSSIA-JR.,VLADIVOSTOK JR.,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,TBL,6,186,Stepan Shurygin,8485801,OHL,SAGINAW,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,DAL,6,187,Anton Emil Wilde Larsen,8486312,DENMARK,FREDERIKSHAVN,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,VGK,6,191,Matthew Minchak,,OHL,KINGSTON,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,EDM,7,212,Ryan Cameron,8486334,USHL,CEDAR RAPIDS,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,COL,7,215,Alexandre Raymond,8486342,QMJHL,ROUYN-NORANDA,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,FLA,7,217,Louis-Antoine Denault,8485762,QMJHL,NEWFOUNDLAND,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all
+2026,WPG,7,220,John Parsons,8486346,H-EAST,PROVIDENCE,,,0,,2026-11-04,https://api-web.nhle.com/v1/draft/picks/2026/all

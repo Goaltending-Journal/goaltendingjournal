@@ -1,0 +1,193 @@
+club,season,team_name,points,gp,as_of,source
+ANA,2021-22,Anaheim Ducks,76,82,2026-11-04,api-web.nhle.com
+ARI,2021-22,Arizona Coyotes,57,82,2026-11-04,api-web.nhle.com
+BOS,2021-22,Boston Bruins,107,82,2026-11-04,api-web.nhle.com
+BUF,2021-22,Buffalo Sabres,75,82,2026-11-04,api-web.nhle.com
+CAR,2021-22,Carolina Hurricanes,116,82,2026-11-04,api-web.nhle.com
+CBJ,2021-22,Columbus Blue Jackets,81,82,2026-11-04,api-web.nhle.com
+CGY,2021-22,Calgary Flames,111,82,2026-11-04,api-web.nhle.com
+CHI,2021-22,Chicago Blackhawks,68,82,2026-11-04,api-web.nhle.com
+COL,2021-22,Colorado Avalanche,119,82,2026-11-04,api-web.nhle.com
+DAL,2021-22,Dallas Stars,98,82,2026-11-04,api-web.nhle.com
+DET,2021-22,Detroit Red Wings,74,82,2026-11-04,api-web.nhle.com
+EDM,2021-22,Edmonton Oilers,104,82,2026-11-04,api-web.nhle.com
+FLA,2021-22,Florida Panthers,122,82,2026-11-04,api-web.nhle.com
+LAK,2021-22,Los Angeles Kings,99,82,2026-11-04,api-web.nhle.com
+MIN,2021-22,Minnesota Wild,113,82,2026-11-04,api-web.nhle.com
+MTL,2021-22,Montréal Canadiens,55,82,2026-11-04,api-web.nhle.com
+NJD,2021-22,New Jersey Devils,63,82,2026-11-04,api-web.nhle.com
+NSH,2021-22,Nashville Predators,97,82,2026-11-04,api-web.nhle.com
+NYI,2021-22,New York Islanders,84,82,2026-11-04,api-web.nhle.com
+NYR,2021-22,New York Rangers,110,82,2026-11-04,api-web.nhle.com
+OTT,2021-22,Ottawa Senators,73,82,2026-11-04,api-web.nhle.com
+PHI,2021-22,Philadelphia Flyers,61,82,2026-11-04,api-web.nhle.com
+PIT,2021-22,Pittsburgh Penguins,103,82,2026-11-04,api-web.nhle.com
+SEA,2021-22,Seattle Kraken,60,82,2026-11-04,api-web.nhle.com
+SJS,2021-22,San Jose Sharks,77,82,2026-11-04,api-web.nhle.com
+STL,2021-22,St. Louis Blues,109,82,2026-11-04,api-web.nhle.com
+TBL,2021-22,Tampa Bay Lightning,110,82,2026-11-04,api-web.nhle.com
+TOR,2021-22,Toronto Maple Leafs,115,82,2026-11-04,api-web.nhle.com
+VAN,2021-22,Vancouver Canucks,92,82,2026-11-04,api-web.nhle.com
+VGK,2021-22,Vegas Golden Knights,94,82,2026-11-04,api-web.nhle.com
+WPG,2021-22,Winnipeg Jets,89,82,2026-11-04,api-web.nhle.com
+WSH,2021-22,Washington Capitals,100,82,2026-11-04,api-web.nhle.com
+ANA,2022-23,Anaheim Ducks,58,82,2026-11-04,api-web.nhle.com
+ARI,2022-23,Arizona Coyotes,70,82,2026-11-04,api-web.nhle.com
+BOS,2022-23,Boston Bruins,135,82,2026-11-04,api-web.nhle.com
+BUF,2022-23,Buffalo Sabres,91,82,2026-11-04,api-web.nhle.com
+CAR,2022-23,Carolina Hurricanes,113,82,2026-11-04,api-web.nhle.com
+CBJ,2022-23,Columbus Blue Jackets,59,82,2026-11-04,api-web.nhle.com
+CGY,2022-23,Calgary Flames,93,82,2026-11-04,api-web.nhle.com
+CHI,2022-23,Chicago Blackhawks,59,82,2026-11-04,api-web.nhle.com
+COL,2022-23,Colorado Avalanche,109,82,2026-11-04,api-web.nhle.com
+DAL,2022-23,Dallas Stars,108,82,2026-11-04,api-web.nhle.com
+DET,2022-23,Detroit Red Wings,80,82,2026-11-04,api-web.nhle.com
+EDM,2022-23,Edmonton Oilers,109,82,2026-11-04,api-web.nhle.com
+FLA,2022-23,Florida Panthers,92,82,2026-11-04,api-web.nhle.com
+LAK,2022-23,Los Angeles Kings,104,82,2026-11-04,api-web.nhle.com
+MIN,2022-23,Minnesota Wild,103,82,2026-11-04,api-web.nhle.com
+MTL,2022-23,Montréal Canadiens,68,82,2026-11-04,api-web.nhle.com
+NJD,2022-23,New Jersey Devils,112,82,2026-11-04,api-web.nhle.com
+NSH,2022-23,Nashville Predators,92,82,2026-11-04,api-web.nhle.com
+NYI,2022-23,New York Islanders,93,82,2026-11-04,api-web.nhle.com
+NYR,2022-23,New York Rangers,107,82,2026-11-04,api-web.nhle.com
+OTT,2022-23,Ottawa Senators,86,82,2026-11-04,api-web.nhle.com
+PHI,2022-23,Philadelphia Flyers,75,82,2026-11-04,api-web.nhle.com
+PIT,2022-23,Pittsburgh Penguins,91,82,2026-11-04,api-web.nhle.com
+SEA,2022-23,Seattle Kraken,100,82,2026-11-04,api-web.nhle.com
+SJS,2022-23,San Jose Sharks,60,82,2026-11-04,api-web.nhle.com
+STL,2022-23,St. Louis Blues,81,82,2026-11-04,api-web.nhle.com
+TBL,2022-23,Tampa Bay Lightning,98,82,2026-11-04,api-web.nhle.com
+TOR,2022-23,Toronto Maple Leafs,111,82,2026-11-04,api-web.nhle.com
+VAN,2022-23,Vancouver Canucks,83,82,2026-11-04,api-web.nhle.com
+VGK,2022-23,Vegas Golden Knights,111,82,2026-11-04,api-web.nhle.com
+WPG,2022-23,Winnipeg Jets,95,82,2026-11-04,api-web.nhle.com
+WSH,2022-23,Washington Capitals,80,82,2026-11-04,api-web.nhle.com
+ANA,2023-24,Anaheim Ducks,59,82,2026-11-04,api-web.nhle.com
+ARI,2023-24,Arizona Coyotes,77,82,2026-11-04,api-web.nhle.com
+BOS,2023-24,Boston Bruins,109,82,2026-11-04,api-web.nhle.com
+BUF,2023-24,Buffalo Sabres,84,82,2026-11-04,api-web.nhle.com
+CAR,2023-24,Carolina Hurricanes,111,82,2026-11-04,api-web.nhle.com
+CBJ,2023-24,Columbus Blue Jackets,66,82,2026-11-04,api-web.nhle.com
+CGY,2023-24,Calgary Flames,81,82,2026-11-04,api-web.nhle.com
+CHI,2023-24,Chicago Blackhawks,52,82,2026-11-04,api-web.nhle.com
+COL,2023-24,Colorado Avalanche,107,82,2026-11-04,api-web.nhle.com
+DAL,2023-24,Dallas Stars,113,82,2026-11-04,api-web.nhle.com
+DET,2023-24,Detroit Red Wings,91,82,2026-11-04,api-web.nhle.com
+EDM,2023-24,Edmonton Oilers,104,82,2026-11-04,api-web.nhle.com
+FLA,2023-24,Florida Panthers,110,82,2026-11-04,api-web.nhle.com
+LAK,2023-24,Los Angeles Kings,99,82,2026-11-04,api-web.nhle.com
+MIN,2023-24,Minnesota Wild,87,82,2026-11-04,api-web.nhle.com
+MTL,2023-24,Montréal Canadiens,76,82,2026-11-04,api-web.nhle.com
+NJD,2023-24,New Jersey Devils,81,82,2026-11-04,api-web.nhle.com
+NSH,2023-24,Nashville Predators,99,82,2026-11-04,api-web.nhle.com
+NYI,2023-24,New York Islanders,94,82,2026-11-04,api-web.nhle.com
+NYR,2023-24,New York Rangers,114,82,2026-11-04,api-web.nhle.com
+OTT,2023-24,Ottawa Senators,78,82,2026-11-04,api-web.nhle.com
+PHI,2023-24,Philadelphia Flyers,87,82,2026-11-04,api-web.nhle.com
+PIT,2023-24,Pittsburgh Penguins,88,82,2026-11-04,api-web.nhle.com
+SEA,2023-24,Seattle Kraken,81,82,2026-11-04,api-web.nhle.com
+SJS,2023-24,San Jose Sharks,47,82,2026-11-04,api-web.nhle.com
+STL,2023-24,St. Louis Blues,92,82,2026-11-04,api-web.nhle.com
+TBL,2023-24,Tampa Bay Lightning,98,82,2026-11-04,api-web.nhle.com
+TOR,2023-24,Toronto Maple Leafs,102,82,2026-11-04,api-web.nhle.com
+VAN,2023-24,Vancouver Canucks,109,82,2026-11-04,api-web.nhle.com
+VGK,2023-24,Vegas Golden Knights,98,82,2026-11-04,api-web.nhle.com
+WPG,2023-24,Winnipeg Jets,110,82,2026-11-04,api-web.nhle.com
+WSH,2023-24,Washington Capitals,91,82,2026-11-04,api-web.nhle.com
+ANA,2024-25,Anaheim Ducks,80,82,2026-11-04,api-web.nhle.com
+BOS,2024-25,Boston Bruins,76,82,2026-11-04,api-web.nhle.com
+BUF,2024-25,Buffalo Sabres,79,82,2026-11-04,api-web.nhle.com
+CAR,2024-25,Carolina Hurricanes,99,82,2026-11-04,api-web.nhle.com
+CBJ,2024-25,Columbus Blue Jackets,89,82,2026-11-04,api-web.nhle.com
+CGY,2024-25,Calgary Flames,96,82,2026-11-04,api-web.nhle.com
+CHI,2024-25,Chicago Blackhawks,61,82,2026-11-04,api-web.nhle.com
+COL,2024-25,Colorado Avalanche,102,82,2026-11-04,api-web.nhle.com
+DAL,2024-25,Dallas Stars,106,82,2026-11-04,api-web.nhle.com
+DET,2024-25,Detroit Red Wings,86,82,2026-11-04,api-web.nhle.com
+EDM,2024-25,Edmonton Oilers,101,82,2026-11-04,api-web.nhle.com
+FLA,2024-25,Florida Panthers,98,82,2026-11-04,api-web.nhle.com
+LAK,2024-25,Los Angeles Kings,105,82,2026-11-04,api-web.nhle.com
+MIN,2024-25,Minnesota Wild,97,82,2026-11-04,api-web.nhle.com
+MTL,2024-25,Montréal Canadiens,91,82,2026-11-04,api-web.nhle.com
+NJD,2024-25,New Jersey Devils,91,82,2026-11-04,api-web.nhle.com
+NSH,2024-25,Nashville Predators,68,82,2026-11-04,api-web.nhle.com
+NYI,2024-25,New York Islanders,82,82,2026-11-04,api-web.nhle.com
+NYR,2024-25,New York Rangers,85,82,2026-11-04,api-web.nhle.com
+OTT,2024-25,Ottawa Senators,97,82,2026-11-04,api-web.nhle.com
+PHI,2024-25,Philadelphia Flyers,76,82,2026-11-04,api-web.nhle.com
+PIT,2024-25,Pittsburgh Penguins,80,82,2026-11-04,api-web.nhle.com
+SEA,2024-25,Seattle Kraken,76,82,2026-11-04,api-web.nhle.com
+SJS,2024-25,San Jose Sharks,52,82,2026-11-04,api-web.nhle.com
+STL,2024-25,St. Louis Blues,96,82,2026-11-04,api-web.nhle.com
+TBL,2024-25,Tampa Bay Lightning,102,82,2026-11-04,api-web.nhle.com
+TOR,2024-25,Toronto Maple Leafs,108,82,2026-11-04,api-web.nhle.com
+UTA,2024-25,Utah Hockey Club,89,82,2026-11-04,api-web.nhle.com
+VAN,2024-25,Vancouver Canucks,90,82,2026-11-04,api-web.nhle.com
+VGK,2024-25,Vegas Golden Knights,110,82,2026-11-04,api-web.nhle.com
+WPG,2024-25,Winnipeg Jets,116,82,2026-11-04,api-web.nhle.com
+WSH,2024-25,Washington Capitals,111,82,2026-11-04,api-web.nhle.com
+ANA,2025-26,Anaheim Ducks,92,82,2026-11-04,api-web.nhle.com
+BOS,2025-26,Boston Bruins,100,82,2026-11-04,api-web.nhle.com
+BUF,2025-26,Buffalo Sabres,109,82,2026-11-04,api-web.nhle.com
+CAR,2025-26,Carolina Hurricanes,113,82,2026-11-04,api-web.nhle.com
+CBJ,2025-26,Columbus Blue Jackets,92,82,2026-11-04,api-web.nhle.com
+CGY,2025-26,Calgary Flames,77,82,2026-11-04,api-web.nhle.com
+CHI,2025-26,Chicago Blackhawks,72,82,2026-11-04,api-web.nhle.com
+COL,2025-26,Colorado Avalanche,121,82,2026-11-04,api-web.nhle.com
+DAL,2025-26,Dallas Stars,112,82,2026-11-04,api-web.nhle.com
+DET,2025-26,Detroit Red Wings,92,82,2026-11-04,api-web.nhle.com
+EDM,2025-26,Edmonton Oilers,93,82,2026-11-04,api-web.nhle.com
+FLA,2025-26,Florida Panthers,84,82,2026-11-04,api-web.nhle.com
+LAK,2025-26,Los Angeles Kings,90,82,2026-11-04,api-web.nhle.com
+MIN,2025-26,Minnesota Wild,104,82,2026-11-04,api-web.nhle.com
+MTL,2025-26,Montréal Canadiens,106,82,2026-11-04,api-web.nhle.com
+NJD,2025-26,New Jersey Devils,87,82,2026-11-04,api-web.nhle.com
+NSH,2025-26,Nashville Predators,86,82,2026-11-04,api-web.nhle.com
+NYI,2025-26,New York Islanders,91,82,2026-11-04,api-web.nhle.com
+NYR,2025-26,New York Rangers,77,82,2026-11-04,api-web.nhle.com
+OTT,2025-26,Ottawa Senators,99,82,2026-11-04,api-web.nhle.com
+PHI,2025-26,Philadelphia Flyers,98,82,2026-11-04,api-web.nhle.com
+PIT,2025-26,Pittsburgh Penguins,98,82,2026-11-04,api-web.nhle.com
+SEA,2025-26,Seattle Kraken,79,82,2026-11-04,api-web.nhle.com
+SJS,2025-26,San Jose Sharks,86,82,2026-11-04,api-web.nhle.com
+STL,2025-26,St. Louis Blues,86,82,2026-11-04,api-web.nhle.com
+TBL,2025-26,Tampa Bay Lightning,106,82,2026-11-04,api-web.nhle.com
+TOR,2025-26,Toronto Maple Leafs,78,82,2026-11-04,api-web.nhle.com
+UTA,2025-26,Utah Mammoth,92,82,2026-11-04,api-web.nhle.com
+VAN,2025-26,Vancouver Canucks,58,82,2026-11-04,api-web.nhle.com
+VGK,2025-26,Vegas Golden Knights,95,82,2026-11-04,api-web.nhle.com
+WPG,2025-26,Winnipeg Jets,82,82,2026-11-04,api-web.nhle.com
+WSH,2025-26,Washington Capitals,95,82,2026-11-04,api-web.nhle.com
+ANA,2026-27,Anaheim Ducks,15,15,2026-11-04,api-web.nhle.com
+BOS,2026-27,Boston Bruins,23,16,2026-11-04,api-web.nhle.com
+BUF,2026-27,Buffalo Sabres,17,14,2026-11-04,api-web.nhle.com
+CAR,2026-27,Carolina Hurricanes,26,17,2026-11-04,api-web.nhle.com
+CBJ,2026-27,Columbus Blue Jackets,12,13,2026-11-04,api-web.nhle.com
+CGY,2026-27,Calgary Flames,14,15,2026-11-04,api-web.nhle.com
+CHI,2026-27,Chicago Blackhawks,9,15,2026-11-04,api-web.nhle.com
+COL,2026-27,Colorado Avalanche,19,16,2026-11-04,api-web.nhle.com
+DAL,2026-27,Dallas Stars,19,15,2026-11-04,api-web.nhle.com
+DET,2026-27,Detroit Red Wings,17,16,2026-11-04,api-web.nhle.com
+EDM,2026-27,Edmonton Oilers,25,16,2026-11-04,api-web.nhle.com
+FLA,2026-27,Florida Panthers,18,15,2026-11-04,api-web.nhle.com
+LAK,2026-27,Los Angeles Kings,10,13,2026-11-04,api-web.nhle.com
+MIN,2026-27,Minnesota Wild,25,17,2026-11-04,api-web.nhle.com
+MTL,2026-27,Montréal Canadiens,21,15,2026-11-04,api-web.nhle.com
+NJD,2026-27,New Jersey Devils,20,15,2026-11-04,api-web.nhle.com
+NSH,2026-27,Nashville Predators,17,15,2026-11-04,api-web.nhle.com
+NYI,2026-27,New York Islanders,16,14,2026-11-04,api-web.nhle.com
+NYR,2026-27,New York Rangers,17,16,2026-11-04,api-web.nhle.com
+OTT,2026-27,Ottawa Senators,19,16,2026-11-04,api-web.nhle.com
+PHI,2026-27,Philadelphia Flyers,12,17,2026-11-04,api-web.nhle.com
+PIT,2026-27,Pittsburgh Penguins,12,15,2026-11-04,api-web.nhle.com
+SEA,2026-27,Seattle Kraken,17,14,2026-11-04,api-web.nhle.com
+SJS,2026-27,San Jose Sharks,15,16,2026-11-04,api-web.nhle.com
+STL,2026-27,St. Louis Blues,15,15,2026-11-04,api-web.nhle.com
+TBL,2026-27,Tampa Bay Lightning,20,14,2026-11-04,api-web.nhle.com
+TOR,2026-27,Toronto Maple Leafs,18,17,2026-11-04,api-web.nhle.com
+UTA,2026-27,Utah Mammoth,20,16,2026-11-04,api-web.nhle.com
+VAN,2026-27,Vancouver Canucks,7,17,2026-11-04,api-web.nhle.com
+VGK,2026-27,Vegas Golden Knights,22,17,2026-11-04,api-web.nhle.com
+WPG,2026-27,Winnipeg Jets,13,16,2026-11-04,api-web.nhle.com
+WSH,2026-27,Washington Capitals,16,14,2026-11-04,api-web.nhle.com

@@ -1,0 +1,166 @@
+{
+ "as_of": "2026-11-04",
+ "season": "20262027",
+ "clubs": {
+  "ANA": {
+   "roster": 3,
+   "prospects": 4,
+   "listed": 7
+  },
+  "BOS": {
+   "roster": 2,
+   "prospects": 1,
+   "listed": 3
+  },
+  "BUF": {
+   "roster": 3,
+   "prospects": 1,
+   "listed": 3
+  },
+  "CAR": {
+   "roster": 2,
+   "prospects": 2,
+   "listed": 4
+  },
+  "CBJ": {
+   "roster": 2,
+   "prospects": 2,
+   "listed": 4
+  },
+  "CGY": {
+   "roster": 3,
+   "prospects": 3,
+   "listed": 5
+  },
+  "CHI": {
+   "roster": 2,
+   "prospects": 4,
+   "listed": 6
+  },
+  "COL": {
+   "roster": 2,
+   "prospects": 1,
+   "listed": 3
+  },
+  "DAL": {
+   "roster": 2,
+   "prospects": 2,
+   "listed": 4
+  },
+  "DET": {
+   "roster": 2,
+   "prospects": 0,
+   "listed": 2
+  },
+  "EDM": {
+   "roster": 4,
+   "prospects": 2,
+   "listed": 6
+  },
+  "FLA": {
+   "roster": 2,
+   "prospects": 7,
+   "listed": 9
+  },
+  "LAK": {
+   "roster": 2,
+   "prospects": 0,
+   "listed": 2
+  },
+  "MIN": {
+   "roster": 3,
+   "prospects": 3,
+   "listed": 6
+  },
+  "MTL": {
+   "roster": 3,
+   "prospects": 7,
+   "listed": 9
+  },
+  "NJD": {
+   "roster": 2,
+   "prospects": 5,
+   "listed": 7
+  },
+  "NSH": {
+   "roster": 2,
+   "prospects": 2,
+   "listed": 4
+  },
+  "NYI": {
+   "roster": 2,
+   "prospects": 1,
+   "listed": 2
+  },
+  "NYR": {
+   "roster": 4,
+   "prospects": 3,
+   "listed": 7
+  },
+  "OTT": {
+   "roster": 3,
+   "prospects": 6,
+   "listed": 9
+  },
+  "PHI": {
+   "roster": 2,
+   "prospects": 3,
+   "listed": 5
+  },
+  "PIT": {
+   "roster": 2,
+   "prospects": 4,
+   "listed": 6
+  },
+  "SEA": {
+   "roster": 2,
+   "prospects": 5,
+   "listed": 7
+  },
+  "SJS": {
+   "roster": 2,
+   "prospects": 0,
+   "listed": 2
+  },
+  "STL": {
+   "roster": 2,
+   "prospects": 5,
+   "listed": 7
+  },
+  "TBL": {
+   "roster": 2,
+   "prospects": 1,
+   "listed": 3
+  },
+  "TOR": {
+   "roster": 2,
+   "prospects": 0,
+   "listed": 2
+  },
+  "UTA": {
+   "roster": 2,
+   "prospects": 0,
+   "listed": 2
+  },
+  "VAN": {
+   "roster": 3,
+   "prospects": 0,
+   "listed": 3
+  },
+  "VGK": {
+   "roster": 2,
+   "prospects": 2,
+   "listed": 4
+  },
+  "WPG": {
+   "roster": 3,
+   "prospects": 3,
+   "listed": 6
+  },
+  "WSH": {
+   "roster": 3,
+   "prospects": 3,
+   "listed": 6
+  }
+ }
+}
