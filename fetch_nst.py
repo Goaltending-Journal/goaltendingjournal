@@ -190,7 +190,10 @@ def find_table(html: str, col: str) -> list[dict]:
     for t in all_tables(html):
         if len(t) > 1 and col in t[0]:
             header, *body = t
-            return [dict(zip(header, r)) for r in body if len(r) == len(header)]
+            lengths = Counter(len(r) for r in body)
+            if lengths and len(header) not in lengths:
+                print(f"Team table: header has {len(header)} cells, rows have {dict(lengths)}", file=sys.stderr)
+            return [dict(zip(header, r)) for r in body if len(r) >= len(header)]
     return []
 
 
@@ -235,6 +238,7 @@ def pull_range(key: str, first: str, last: str, tables: list[str], out: Path) ->
             rows = find_table(html, col)
         if not rows or col not in rows[0]:
             heads = [t[0][:6] for t in all_tables(html) if t]
+            (out / f"debug_{name}.html").write_text(html, encoding="utf-8")
             print(f"No {kind} table found for {name}; {len(html)} chars, table headers seen: {heads}",
                   file=sys.stderr)
             failed.append(name)
