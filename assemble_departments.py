@@ -135,10 +135,12 @@ def main():
 
     # team-defence.csv: the 5v5 team table, when Natural Stat Trick returned it.
     defence = []
+    full = {norm(t["team_name"]): t["club"] for t in read(DEPT / "teams.csv")}
+    full.update({norm("Arizona Coyotes"): "ARI", norm("Utah Hockey Club"): "UTA", norm("Utah Mammoth"): "UTA"})
     for path in sorted(glob.glob(str(DEPT / "nst" / "teams_*_5v5.csv"))):
         sid = Path(path).stem.split("_")[1]
         for r in read(path):
-            defence.append({"season": season_label(sid), "club": r["Team"], "xga60": r.get("xGA/60", ""),
+            defence.append({"season": season_label(sid), "club": full.get(norm(r["Team"]), r["Team"]), "xga60": r.get("xGA/60", ""),
                             "hdca60": r.get("HDCA/60", ""), "sa60": r.get("SA/60", ""),
                             "as_of": as_of, "source": NST_CREDIT})
     write(args.out, "team-defence.csv", defence, ["season", "club", "xga60", "hdca60", "sa60", "as_of", "source"])

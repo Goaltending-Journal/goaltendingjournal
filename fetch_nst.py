@@ -21,6 +21,7 @@ the defence in front of the goalie. Each table is pulled once per season.
 import argparse
 
 import csv
+from collections import Counter
 import io
 import json
 import os
@@ -154,18 +155,28 @@ class AllTablesParser(HTMLParser):
         self._row: list[str] | None = None
         self._cell: list[str] | None = None
 
+    def _flush(self):
+        # NST's team table leaves its body rows unclosed (<tr> with no </tr>), so a row also ends
+        # where the next one starts or where the table ends.
+        if self._row and self._stack:
+            self.tables[self._stack[-1]].append(self._row)
+        self._row = None
+
     def handle_starttag(self, tag, attrs):
         if tag == "table":
             self.tables.append([])
             self._stack.append(len(self.tables) - 1)
         elif tag == "tr" and self._stack:
+            self._flush()
             self._row = []
         elif tag in ("td", "th") and self._row is not None:
             self._cell = []
 
     def handle_endtag(self, tag):
-        if tag == "table" and self._stack:
-            self._stack.pop()
+        if tag in ("table", "tbody", "thead") and self._stack:
+            self._flush()
+            if tag == "table":
+                self._stack.pop()
         elif tag in ("td", "th") and self._cell is not None and self._row is not None:
             self._row.append(" ".join("".join(self._cell).split()))
             self._cell = None
@@ -238,7 +249,6 @@ def pull_range(key: str, first: str, last: str, tables: list[str], out: Path) ->
             rows = find_table(html, col)
         if not rows or col not in rows[0]:
             heads = [t[0][:6] for t in all_tables(html) if t]
-            (out / f"debug_{name}.html").write_text(html, encoding="utf-8")
             print(f"No {kind} table found for {name}; {len(html)} chars, table headers seen: {heads}",
                   file=sys.stderr)
             failed.append(name)
