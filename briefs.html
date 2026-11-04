@@ -86,6 +86,9 @@ a.bcard:hover,a.bcard:focus-visible{text-decoration:none;transform:translateY(-3
 .sec-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
 .sec-title h2{margin:0;font-size:28px}
 .sec-title p{margin:0;font-size:13px;color:var(--fog);max-width:60ch}
+.vid-frame{position:relative;aspect-ratio:16/9;margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.vid-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid-link{margin:10px 0 0;font-size:13px}
 section.block{scroll-margin-top:84px}
 /* module list */
 .mods{list-style:none;margin:0;padding:0}
@@ -169,6 +172,7 @@ section.block{scroll-margin-top:84px}
       <a href="#modules">Learning modules</a>
       <a href="#explore">Constraint explorer</a>
       <a href="#changes">What changed</a>
+      <a href="#video">Video lesson</a>
     </nav>
   </aside>
 
@@ -277,6 +281,14 @@ section.block{scroll-margin-top:84px}
       <li><time datetime="2026-10-22">22 Oct 2026</time><div><span class="badge brief">Updated brief</span>Brief 1 was renamed <b>Glove Positioning Analysis</b> and now opens with the study it is based on.</div></li>
       <li><time datetime="2026-10-10">10 Oct 2026</time><div><span class="badge study">New study</span>Kwan, Daley &amp; MacLean's glove position study was published online. It is the evidence behind Brief 1 and module 2's depth examples.</div></li>
     </ol>
+  </section>
+
+  <section class="block" id="video" aria-labelledby="h-video">
+    <div class="sec-title"><h2 id="h-video">Video lesson</h2><p>A virtual lesson for goalie coaches.</p></div>
+    <div class="vid-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/THgShNfSibk?rel=0" title="Video lesson on YouTube" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <p class="vid-link"><a href="https://www.youtube.com/watch?v=THgShNfSibk" rel="noopener">Watch on YouTube</a></p>
   </section>
 
   </div>
