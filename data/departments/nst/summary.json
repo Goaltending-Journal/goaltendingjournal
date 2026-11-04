@@ -1,15 +1,8 @@
 {
   "seasons": "2021-2022 to 2026-2027",
-  "fetched_at": "2026-11-04T00:43:17-05:00",
+  "fetched_at": "2026-11-04T00:50:31-05:00",
   "source": "https://data.naturalstattrick.com",
   "credit": "Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com)",
   "files": {},
-  "failed": [
-    "teams_20212022_5v5.csv",
-    "teams_20222023_5v5.csv",
-    "teams_20232024_5v5.csv",
-    "teams_20242025_5v5.csv",
-    "teams_20252026_5v5.csv",
-    "teams_20262027_5v5.csv"
-  ]
+  "failed": []
 }
