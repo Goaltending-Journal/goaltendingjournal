@@ -79,9 +79,6 @@ def team_params(season: str, sit: str) -> dict:
         "rate": "y",        # per-60 rates
         "team": "all",
         "loc": "B",
-        "gpf": "410",
-        "fd": "",
-        "td": "",
     }
 
 
@@ -147,6 +144,56 @@ def parse_table(html: str) -> list[dict]:
     return [dict(zip(header, r)) for r in body if len(r) == len(header)]
 
 
+class AllTablesParser(HTMLParser):
+    """Collects the rows of every table, nested or not, keyed by the table they sit in."""
+
+    def __init__(self):
+        super().__init__()
+        self.tables: list[list[list[str]]] = []
+        self._stack: list[int] = []
+        self._row: list[str] | None = None
+        self._cell: list[str] | None = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "table":
+            self.tables.append([])
+            self._stack.append(len(self.tables) - 1)
+        elif tag == "tr" and self._stack:
+            self._row = []
+        elif tag in ("td", "th") and self._row is not None:
+            self._cell = []
+
+    def handle_endtag(self, tag):
+        if tag == "table" and self._stack:
+            self._stack.pop()
+        elif tag in ("td", "th") and self._cell is not None and self._row is not None:
+            self._row.append(" ".join("".join(self._cell).split()))
+            self._cell = None
+        elif tag == "tr" and self._row is not None and self._stack:
+            if self._row:
+                self.tables[self._stack[-1]].append(self._row)
+            self._row = None
+
+    def handle_data(self, data):
+        if self._cell is not None:
+            self._cell.append(data)
+
+
+def all_tables(html: str) -> list[list[list[str]]]:
+    p = AllTablesParser()
+    p.feed(html)
+    return p.tables
+
+
+def find_table(html: str, col: str) -> list[dict]:
+    """The first table whose header row has the given column."""
+    for t in all_tables(html):
+        if len(t) > 1 and col in t[0]:
+            header, *body = t
+            return [dict(zip(header, r)) for r in body if len(r) == len(header)]
+    return []
+
+
 def to_csv(rows: list[dict]) -> str:
     buf = io.StringIO()
     writer = csv.DictWriter(buf, fieldnames=list(rows[0].keys()))
@@ -178,13 +225,18 @@ def pull_range(key: str, first: str, last: str, tables: list[str], out: Path) ->
         if i:
             time.sleep(8)  # be gentle: one table every few seconds
         try:
-            rows = parse_table(fetch(params, key, url))
+            html = fetch(params, key, url)
+            rows = parse_table(html)
         except urllib.error.HTTPError as e:
             print(f"Natural Stat Trick returned HTTP {e.code} for {name}", file=sys.stderr)
             failed.append(name)
             continue
+        if (not rows or col not in rows[0]) and kind == "teams":
+            rows = find_table(html, col)
         if not rows or col not in rows[0]:
-            print(f"No {kind} table found for {name}", file=sys.stderr)
+            heads = [t[0][:6] for t in all_tables(html) if t]
+            print(f"No {kind} table found for {name}; {len(html)} chars, table headers seen: {heads}",
+                  file=sys.stderr)
             failed.append(name)
             continue
         (out / name).write_text(to_csv(rows), encoding="utf-8")
