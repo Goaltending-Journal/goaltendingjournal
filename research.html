@@ -117,8 +117,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 12px; font-family: var(--sans); }
 .hm-head h3 { font: 600 15px var(--sans); }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
-.hm-tabs { display: inline-flex; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
-.hm-tabs button { font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.hm-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
+.hm-tabs button { white-space: nowrap; font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
 .hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
 .hm-tabs .ts { display: none; }
 @media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
@@ -138,6 +138,28 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-tip b { display: block; }
 /* Researcher Network Map: tracked researchers as dots (size = goalie studies), lines between people who published a goalie study together.
    Clusters are laid out separately and packed into rows. Select a person to see their profile and filter the table to their studies. */
+/* Latest research: new skill-learning studies (research.js) bridged to the goalie topics each could inform */
+.lr svg { width: 100%; display: block; overflow: visible; font-family: var(--sans); }
+.lr text { font: 500 11px var(--label); letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
+.lr text.lr-h { font-weight: 600; font-size: 12px; letter-spacing: 0.14em; fill: var(--fg); }
+.lr .lr-ln { fill: none; stroke: var(--fg); stroke-opacity: 0.16; stroke-width: 1; transition: stroke-opacity .2s ease, stroke-width .2s ease; }
+.lr .lr-ln.on { stroke-opacity: 0.85; stroke-width: 1.8; }
+.lr .lr-st { cursor: pointer; outline: none; }
+.lr .lr-st .core { transition: r .2s ease; }
+.lr .lr-st.on .core, .lr .lr-st:hover .core { r: 11px; }
+.lr .lr-st:focus-visible .core { stroke: var(--accent); stroke-width: 2; }
+.lr .lr-tw { animation: lr-tw 2.4s ease-in-out infinite; }
+@keyframes lr-tw { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .lr .lr-tw { animation: none; } }
+.lr-card { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); min-height: 120px; }
+.lr-card .dt { font: 500 12px var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.lr-card h3 { margin: 4px 0 6px; font: 600 17px/1.35 var(--serif); }
+.lr-card h3 a { color: var(--fg); }
+.lr-card p { margin: 0; color: var(--muted); font-size: 15px; }
+.lr-card .cite { font: 13px var(--sans); color: var(--muted); margin-top: 8px; }
+.lr-card .pills { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; }
+.lr-card .pills span { display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg); }
+.lr-card .pills i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
 .nw { display: block; }
 .nw svg { width: 100%; height: auto; display: block; font-family: var(--sans); overflow: visible; }
 .nw .lk { stroke: var(--field-line); stroke-linecap: round; }
@@ -352,6 +374,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <button type="button" role="tab" id="hm-tab-time" aria-selected="false" aria-controls="hm-panel" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
           <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm-panel" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
           <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
+          <button type="button" role="tab" id="lr-tab" aria-selected="false" aria-controls="lr" data-v="latest"><span class="tl">Latest research</span><span class="ts">Latest</span></button>
         </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
@@ -366,6 +389,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       <div id="yr" role="tabpanel" aria-labelledby="hm-tab-year" hidden>
         <svg id="chart" class="chart" role="group" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 190" preserveAspectRatio="xMidYMid meet"></svg>
         <div class="cap" id="chart-cap"></div>
+      </div>
+      <div id="lr" role="tabpanel" aria-labelledby="lr-tab" hidden>
+        <div class="lr"><svg id="lr-svg" role="group" aria-label="New studies on skill learning, linked to the goalie topics each one could inform"></svg></div>
+        <div class="lr-card" id="lr-card" aria-live="polite"></div>
       </div>
       <div class="hm-tip" id="hm-tip" role="tooltip" hidden></div>
     </figure>
@@ -400,6 +427,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 <script src="data.js"></script>
 <script src="researchers-data.js"></script>
 <script src="topics.js"></script>
+<script src="research.js"></script>
 <script>
 const TOPICS = window.GRJ_TOPICS;   // topics.js, the same nine topics and colours as the homepage sphere
 const TOPIC_SHORT = { hip: "Hip", inj: "Injury", eq: "Equip.", vis: "Vision", phy: "Physiol.", bio: "Movement", psy: "Psych.", dev: "Develop.", stats: "Analytics" };
@@ -708,12 +736,13 @@ $("hm").addEventListener("click", (e) => {
 // One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
 function exTabs(b, keep) {
   document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-  if (!keep) ["nw-net", "hm-panel", "yr"].forEach((id) => ($(id).hidden = true));
+  if (!keep) ["nw-net", "hm-panel", "yr", "lr"].forEach((id) => ($(id).hidden = true));
 }
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
   if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
+  if (b.dataset.v === "latest") { $("lr").hidden = false; drawLatest(); return; }
   // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
   const year = b.dataset.v === "year";
   $("yr").hidden = !year; $("hm-panel").hidden = year; $("hm-panel").setAttribute("aria-labelledby", b.id);
@@ -891,6 +920,70 @@ render();
 
 
 
+
+/* Latest research: new studies on skill learning (research.js) on the left, the Oracle's goalie topics on the right, linked by
+   the topics each study could inform (its "ot" field, our reading). Selecting a star shows the study below the map. */
+let drawLatest = () => {};
+(function () {
+  const list = (typeof RESEARCH !== "undefined" ? RESEARCH.slice() : []).sort((a, b) => (a.d < b.d ? 1 : -1));
+  if (!list.length) { $("lr-tab").hidden = true; return; }
+  const THEME = { ed: ["Ecological dynamics", "--t-vis"], sa: ["Skill acquisition", "--t-bio"] };
+  const SHORT = { hip: "Hip & groin", inj: "Injury", eq: "Equipment", vis: "Vision", phy: "Physiology", bio: "Movement", psy: "Psychology", dev: "Development", stats: "Analytics" };
+  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const fmt = (d) => { const [y, m, dd] = d.split("-").map(Number); return `${dd} ${MON[m - 1]} ${y}`; };
+  const used = new Set(list.flatMap((r) => r.ot || []));
+  const tops = TOPICS.map(([k]) => k).filter((k) => used.has(k))
+    .sort((a, b) => list.filter((r) => (r.ot || []).includes(b)).length - list.filter((r) => (r.ot || []).includes(a)).length);
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (p, t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  let sel = list[0], lastW = 0;
+  function card(r) {
+    const href = r.doi ? "https://doi.org/" + r.doi : r.u;
+    const pills = (r.tg || []).filter((k) => THEME[k]).map((k) => `<span style="--c:var(${THEME[k][1]})"><i></i>${THEME[k][0]}</span>`)
+      .concat((r.ot || []).map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k] || k)}</span>`)).join("");
+    $("lr-card").innerHTML = `<div class="dt">${fmt(r.d)}</div><h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(r.t)}</a>` : esc(r.t)}</h3>` +
+      (r.n ? `<p>${esc(r.n)}</p>` : "") + `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div>` + (pills ? `<div class="pills">${pills}</div>` : "");
+  }
+  drawLatest = function () {
+    const svg = $("lr-svg"), W = Math.max(320, Math.round(svg.getBoundingClientRect().width || 720)); lastW = W;
+    const narrow = W < 600, row = narrow ? 46 : 54, top = 44, H = top + Math.max(list.length, tops.length) * row;
+    const sx = Math.round(W * (narrow ? 0.34 : 0.3)), tx = Math.round(W * (narrow ? 0.64 : 0.62));
+    const sy = (i) => top + row / 2 + i * row * (Math.max(list.length, tops.length) / list.length);
+    const ty = (i) => top + row / 2 + i * row * (Math.max(list.length, tops.length) / tops.length);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H); svg.textContent = "";
+    const d = el(svg, "defs", {}), g = el(d, "linearGradient", { id: "lr-both" });
+    el(g, "stop", { offset: "0", style: "stop-color:var(--t-vis)" }); el(g, "stop", { offset: "1", style: "stop-color:var(--t-bio)" });
+    const f = el(d, "filter", { id: "lr-glow", x: "-1", y: "-1", width: "3", height: "3" }); el(f, "feGaussianBlur", { stdDeviation: "6" });
+    el(svg, "text", { x: sx, y: 16, "text-anchor": "middle", class: "lr-h" }).textContent = narrow ? "Studies" : "New studies";
+    el(svg, "text", { x: tx, y: 16, "text-anchor": "middle", class: "lr-h" }).textContent = "Could inform";
+    const lines = el(svg, "g", {});
+    tops.forEach((k, i) => {
+      el(svg, "circle", { cx: tx, cy: ty(i), r: 22, style: `fill:var(--t-${k})`, opacity: 0.25, filter: "url(#lr-glow)" });
+      el(svg, "circle", { cx: tx, cy: ty(i), r: 9, style: `fill:var(--t-${k})` });
+      el(svg, "text", { x: tx + 20, y: ty(i) + 4 }).textContent = narrow ? SHORT[k] : topicName[k];
+    });
+    const stars = list.map((r, i) => {
+      const y = sy(i), fill = (r.tg || []).length > 1 ? "url(#lr-both)" : `var(${(THEME[(r.tg || [])[0]] || ["", "--accent"])[1]})`;
+      const links = (r.ot || []).filter((k) => tops.includes(k)).map((k) => {
+        const yy = ty(tops.indexOf(k)), bend = (tx - sx) * 0.45;
+        const p = el(lines, "path", { d: `M${sx} ${y}C${sx + bend} ${y} ${tx - bend} ${yy} ${tx - 9} ${yy}`, class: "lr-ln" });
+        p.style.stroke = `var(--t-${k})`; return p;
+      });
+      const name = narrow ? r.a.replace(/ et al\.?$/, "").split(/ & |, /)[0] : r.a;
+      el(svg, "text", { x: sx - 18, y: y + 4, "text-anchor": "end" }).textContent = name;
+      const s = el(svg, "g", { class: "lr-st", tabindex: "0", role: "button", "aria-label": `${r.t} (${fmt(r.d)})` });
+      el(s, "circle", { cx: sx, cy: y, r: 18, fill, opacity: 0.35, filter: "url(#lr-glow)" });
+      if (i === 0) el(s, "circle", { cx: sx, cy: y, r: 15, fill: "none", stroke: fill, "stroke-width": 1.2, class: "lr-tw" });
+      el(s, "circle", { cx: sx, cy: y, r: 8, fill, class: "core" });
+      const pick = () => { sel = r; stars.forEach((o) => { o.s.classList.toggle("on", o.r === r); o.links.forEach((l) => l.classList.toggle("on", o.r === r)); }); card(r); };
+      s.addEventListener("click", pick); s.addEventListener("mouseenter", pick); s.addEventListener("focus", pick);
+      s.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+      return { r, s, links, pick };
+    });
+    (stars.find((o) => o.r === sel) || stars[0]).pick();
+  };
+  addEventListener("resize", () => { if (!$("lr").hidden && Math.round($("lr-svg").getBoundingClientRect().width) !== lastW) drawLatest(); });
+})();
 </script>
 </body>
 </html>

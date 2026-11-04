@@ -21,7 +21,7 @@
 <style>
 /* Briefs (Goldy, 2026-11-02): the learning center. Same header and one-frame layout as research.html: a side rail (progress,
    course overview, jump links) beside a carousel of research briefs, then the five learning modules moved here from the old Coaches page,
-   the constraint explorer, the change log and the latest research. Tokens come from site-nav.css and learn.css. */
+   the constraint explorer and the change log. Tokens come from site-nav.css and learn.css. */
 .page-hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 16px clamp(32px,5vw,56px)}
 .page-hero::before{content:"";position:absolute;inset:-20% -10%;z-index:-1;pointer-events:none;filter:blur(60px);opacity:.26;-webkit-mask-image:linear-gradient(#000 55%,transparent 92%);mask-image:linear-gradient(#000 55%,transparent 92%);
   background:radial-gradient(28% 40% at 28% 40%,var(--t-hip),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--t-psy),transparent 70%),radial-gradient(26% 34% at 50% 78%,var(--t-vis),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--t-eq),transparent 70%)}
@@ -131,26 +131,6 @@ section.block{scroll-margin-top:84px}
 .badge.study{color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
 .badge.brief{color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent)}
 @media (max-width:640px){.log li{grid-template-columns:1fr}}
-/* latest research feed (ported from the old Coaches page) */
-.stamp{margin:0;font-size:12.5px;color:var(--fog)}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font:500 13px var(--f-body);line-height:1;color:var(--chalk);background:var(--ice);border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer}
-.chip:hover{border-color:var(--crease)}
-.chip[aria-pressed="true"]{background:var(--crease);border-color:var(--crease);color:var(--on-accent)}
-.filter-row{margin:10px 0 14px}
-.news-list{display:grid;border-top:1px solid var(--line)}
-.news{display:grid;grid-template-columns:108px minmax(0,1fr);gap:4px 24px;padding:18px 0;border-bottom:1px solid var(--line)}
-.news .dt{font:500 12.5px var(--f-data);color:var(--fog);padding-top:4px}
-.news h3{margin:0;font-size:16.5px;line-height:1.35;font-weight:600}
-.news p{margin:6px 0 0;color:var(--fog);font-size:14.5px;line-height:1.55}
-.news .cite{font-size:12.5px;color:var(--fog);margin-top:8px}
-.news .kind{color:var(--crease);font-weight:600}
-.news-more{margin-top:16px}
-.news-more button{font:600 13px var(--f-body);color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
-.news-more button:hover{border-color:var(--crease)}
-.note{font-size:13px;color:var(--fog);margin:14px 0 0}
-.empty{color:var(--fog)}
-@media (max-width:640px){.news{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-module="0">
@@ -189,7 +169,6 @@ section.block{scroll-margin-top:84px}
       <a href="#modules">Learning modules</a>
       <a href="#explore">Constraint explorer</a>
       <a href="#changes">What changed</a>
-      <a href="#skill-acquisition">Latest research</a>
     </nav>
   </aside>
 
@@ -300,13 +279,6 @@ section.block{scroll-margin-top:84px}
     </ol>
   </section>
 
-  <section class="block" id="skill-acquisition" aria-labelledby="h-sa">
-    <div class="sec-title"><h2 id="h-sa">Latest research</h2><p>New studies on ecological dynamics, the constraints-led approach and motor learning. Most are not about goaltending. <span class="stamp">Updated <span id="research-updated"></span></span></p></div>
-    <div class="chips filter-row" id="research-filter" role="group" aria-label="Filter research"></div>
-    <div class="news-list" id="research-list"></div>
-    <div class="news-more" id="research-more"></div>
-    <p class="note" id="research-links"></p>
-  </section>
   </div>
   </div>
 </main>
@@ -359,56 +331,6 @@ section.block{scroll-margin-top:84px}
   });
   show("ind");
 })();
-</script>
-<script src="research.js"></script>
-<script>
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-/* Research feed (items live in research.js) */
-const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const fmtDate = (d) => { const [y, m, dd] = String(d).split("-").map(Number); return dd ? `${dd} ${MON[m - 1]} ${y}` : ""; };
-const moreButton = (box, id, total, shown, show, onToggle) => {
-  box.innerHTML = total > show ? `<button type="button" id="${id}" aria-expanded="${shown}">${shown ? "Show fewer" : `Show all ${total} items`}</button>` : "";
-  const b = document.getElementById(id);
-  if (b) b.addEventListener("click", () => { onToggle(); document.getElementById(id).focus(); });
-};
-function filterChips(box, options, current, onPick) {
-  box.innerHTML = options.map(([k, n]) => `<button type="button" class="chip" data-k="${k}" aria-pressed="${k === current}">${esc(n)}</button>`).join("");
-  box.onclick = (e) => { const b = e.target.closest("button[data-k]"); if (b) onPick(b.dataset.k); };
-}
-
-(function research() {
-  const list = (typeof RESEARCH !== "undefined" ? RESEARCH.slice() : []).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0));
-  const TAGS = { ed: "Ecological dynamics", sa: "Skill acquisition" };
-  $("research-updated").textContent = typeof RESEARCH_UPDATED !== "undefined" ? RESEARCH_UPDATED : "";
-  const pm = (s) => "https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=" + encodeURIComponent(s);
-  $("research-links").innerHTML = "Search for more: " + [
-    ["PubMed: ecological dynamics", pm('"ecological dynamics"')],
-    ["PubMed: constraints-led approach", pm('"constraints-led approach"')],
-    ["PubMed: skill acquisition in sport", pm('"skill acquisition" AND sport')],
-    ["Google Scholar", "https://scholar.google.com/scholar?q=%22ecological+dynamics%22+%22skill+acquisition%22&as_ylo=2026"]
-  ].map(([n, u]) => `<a href="${esc(u)}" rel="noopener">${esc(n)}</a>`).join(" · ");
-  if (!list.length) { $("research-list").innerHTML = `<p class="empty">No research items yet.</p>`; $("research-filter").innerHTML = ""; return; }
-  const SHOW = 6;
-  let tag = "all", all = false;
-  function paint() {
-    const rows = list.filter((r) => tag === "all" || (r.tg || []).includes(tag));
-    const shown = all ? rows : rows.slice(0, SHOW);
-    filterChips($("research-filter"), [["all", "All"], ["ed", TAGS.ed], ["sa", TAGS.sa]], tag, (k) => { tag = k; all = false; paint(); });
-    $("research-list").innerHTML = rows.length ? shown.map((r) => {
-      const href = r.doi ? "https://doi.org/" + r.doi : r.u;
-      const title = href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
-      const tags = (r.tg || []).map((k) => TAGS[k]).filter(Boolean);
-      return `<article class="news"><div class="dt">${esc(fmtDate(r.d))}</div><div><h3>${title}</h3>` +
-        (r.n ? `<p>${esc(r.n)}</p>` : "") +
-        `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}${tags.length ? ` · <span class="kind">${esc(tags.join(", "))}</span>` : ""}</div></div></article>`;
-    }).join("") : `<p class="empty">No items match this filter.</p>`;
-    moreButton($("research-more"), "research-toggle", rows.length, all, SHOW, () => { all = !all; paint(); });
-  }
-  paint();
-})();
-/* Hide the "Updated" stamp when the list has no date */
-if (!$("research-updated").textContent) $("research-updated").parentElement.hidden = true;
 </script>
 <script>
 // Briefs carousel: previous/next buttons and dots scroll the track one card at a time
