@@ -136,8 +136,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm .c.sel { outline: 2px solid var(--h1-hover); outline-offset: 1px; }
 .hm-tip { position: fixed; z-index: 30; pointer-events: none; max-width: 260px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 8px 10px; font: 12.5px/1.4 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
 .hm-tip b { display: block; }
-/* Researcher Network Map: tracked researchers as dots (size = goalie studies), lines between people who published a goalie study together.
-   Clusters are laid out separately and packed into rows. Select a person to see their profile and filter the table to their studies. */
+/* Researcher Network: tracked researchers as lights on a turning sphere (size = goalie studies), linked when they published a goalie study together.
+   Select a person to see their profile and filter the table to their studies. */
 /* Latest research: new skill-learning studies (research.js) bridged to the goalie topics each could inform */
 .lr svg { width: 100%; display: block; overflow: visible; font-family: var(--sans); }
 .lr text { font: 500 11px var(--label); letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
@@ -160,18 +160,13 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .lr-card .pills { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; }
 .lr-card .pills span { display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg); }
 .lr-card .pills i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
-.nw { display: block; }
-.nw svg { width: 100%; height: auto; display: block; font-family: var(--sans); overflow: visible; }
-.nw .lk { stroke: var(--field-line); stroke-linecap: round; }
-.nw .lk.on { stroke: var(--accent); }
-.nw .nd { cursor: pointer; outline: none; }
-.nw .nd circle { fill: var(--c, var(--accent)); stroke: var(--surface); stroke-width: 2; transition: opacity .15s ease; }
-.nw .nd text { fill: var(--fg); font-size: 11.5px; pointer-events: none; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
-.nw .nd:hover circle, .nw .nd:focus-visible circle { stroke: var(--fg); }
-.nw .nd.hl circle { stroke: var(--fg); stroke-width: 3; }
-.nw .nd.sel circle { stroke: var(--fg); stroke-width: 3; }
-.nw .nd.off circle { opacity: .15; } .nw .nd.off text { opacity: .25; }
-.nw.has-sel .nd.dim circle { opacity: .22; } .nw.has-sel .nd.dim text { opacity: 0; } .nw.has-sel .lk:not(.on) { opacity: .25; }
+.nw { position: relative; display: block; }
+.nw canvas { display: block; width: 100%; height: 420px; cursor: grab; touch-action: pan-y; }
+.nw.grabbing canvas { cursor: grabbing; }
+.nw-tip { position: absolute; z-index: 2; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 7px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 6px 10px; font: 12.5px/1.3 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+.nw-tip i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.nw-tip[hidden] { display: none; }
+.nw-hint { margin: 2px 0 0; text-align: center; font: 12.5px var(--sans); color: var(--muted); }
 .nw-side { font-family: var(--sans); display: grid; gap: 10px; align-content: start; min-width: 0; }
 .nw-side h4 { font: 600 26px/1 var(--display); letter-spacing: 0.02em; }
 .nw-side .org { font-size: 13px; color: var(--muted); margin-top: -4px; }
@@ -379,7 +374,9 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
         <div class="nw" id="nw">
-          <svg id="nw-svg" role="group" aria-label="Goalie researchers, coloured by main topic and linked when they published a goalie study together"></svg>
+          <canvas id="nw-cv" role="img" aria-label="Sphere of goalie researchers, coloured by main topic and linked when they published a goalie study together"></canvas>
+          <div class="nw-tip" id="nw-tip" hidden></div>
+          <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
         </div>
       </div>
       <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
@@ -764,89 +761,148 @@ $("hm").addEventListener("focusin", (e) => showTip(e.target.closest(".c")));
 $("hm").addEventListener("focusout", () => (tip.hidden = true));
 addEventListener("scroll", () => (tip.hidden = true), { passive: true });
 
-/* Researcher Network Map. Each connected group is laid out with a small force simulation, then the groups are packed into rows,
-   largest first, and people with no shared goalie study sit in the last rows. Selecting a dot opens that researcher's profile. */
-const NW = { sel: null, layoutW: 0, pos: null, q: "", hot: null };
+/* Researcher Network: the homepage globe, brought into the Oracle. Every researcher is a point of light in the colour of their
+   main topic (topics.js), on a slowly turning sphere (an even Fibonacci spread), linked to the people they published a goalie
+   study with. Drag to spin it; click a point, or a name in the A–Z list, to open that researcher's profile. The sphere then turns
+   to face them and lights their co-authors. Reduced motion draws still frames; drawing stops while the tab is hidden or off screen. */
+const NW = { sel: null, q: "", hot: null, hl: null };
 const NWP = NETWORK.people, NWI = Object.fromEntries(NWP.map((p, i) => [p.id, i]));
 const NWL = NETWORK.links.filter(([a, b]) => a in NWI && b in NWI);
 const NWN = NWP.map(() => new Set());
 NWL.forEach(([a, b]) => { NWN[NWI[a]].add(NWI[b]); NWN[NWI[b]].add(NWI[a]); });
-const nwR = (p) => 4 + Math.sqrt(p.n) * 3.1;
 const NWK = NWP.map((p) => grjPersonKey(p));   // each researcher's topic colour, exactly as on the homepage sphere
 const nwYears = (p) => (p.yrs ? (p.yrs[0] === p.yrs[1] ? String(p.yrs[0]) : `${p.yrs[0]}–${p.yrs[1]}`) : "—");
-function nwLayout(W) {
-  const seen = new Array(NWP.length).fill(false), groups = [];
-  NWP.forEach((_, i) => {
-    if (seen[i]) return;
-    const g = [], q = [i]; seen[i] = true;
-    while (q.length) { const k = q.pop(); g.push(k); NWN[k].forEach((j) => { if (!seen[j]) { seen[j] = true; q.push(j); } }); }
-    groups.push(g);
-  });
-  groups.sort((a, b) => b.length - a.length || NWP[b[0]].n - NWP[a[0]].n);
-  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-  const pos = new Array(NWP.length), boxes = [];
-  groups.forEach((g) => {
-    const pts = g.map((k, j) => ({ k, x: Math.cos(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), y: Math.sin(j * 2.4) * 20 * Math.sqrt(j + 1) + rnd(), vx: 0, vy: 0 }));
-    const at = Object.fromEntries(pts.map((p, j) => [p.k, j]));
-    for (let t = 0; t < 300 && pts.length > 1; t++) {
-      const cool = 1 - t / 300;
-      for (let a = 0; a < pts.length; a++) for (let b = a + 1; b < pts.length; b++) {
-        const A = pts[a], B = pts[b], dx = A.x - B.x, dy = A.y - B.y, d2 = Math.max(dx * dx + dy * dy, 1), f = 150 / d2;
-        A.vx += dx * f; A.vy += dy * f; B.vx -= dx * f; B.vy -= dy * f;
-      }
-      g.forEach((k) => NWN[k].forEach((j) => {
-        if (j < k) return;
-        const A = pts[at[k]], B = pts[at[j]], dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1, f = (d - 34) * 0.08;
-        A.vx += (dx / d) * f; A.vy += (dy / d) * f; B.vx -= (dx / d) * f; B.vy -= (dy / d) * f;
-      }));
-      pts.forEach((p) => { p.vx -= p.x * 0.02; p.vy -= p.y * 0.02; p.x += p.vx * cool; p.y += p.vy * cool; p.vx *= 0.5; p.vy *= 0.5; });
-    }
-    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-    pts.forEach((p) => { const r = nwR(NWP[p.k]) + 6; x0 = Math.min(x0, p.x - r); x1 = Math.max(x1, p.x + r); y0 = Math.min(y0, p.y - r); y1 = Math.max(y1, p.y + r); });
-    const named = g.some((k) => NWP[k].n >= 3);
-    boxes.push({ pts, w: x1 - x0 + (named ? 96 : 6), h: y1 - y0 + (pts.length > 1 ? 18 : 2), x0, y0 });   // room on the right for name labels
-  });
-  let x = 0, y = 0, rowH = 0;
-  boxes.forEach((b) => {
-    if (x > 0 && x + b.w > W) { x = 0; y += rowH; rowH = 0; }
-    b.pts.forEach((p) => { pos[p.k] = { x: x + (p.x - b.x0), y: y + (p.y - b.y0) + 14 }; });
-    x += b.w; rowH = Math.max(rowH, b.h);
-  });
-  return { pos, H: y + rowH };
-}
-// Labels flip left near the right edge, and step down a line when they would overlap a label already placed.
-const nwText = (p, x, y, W, placed) => {
-  const r = nwR(p) + 4, w = p.name.length * 6.3, left = x + r + w > W;
-  for (const dy of [4, 17, -9]) {
-    const x0 = left ? x - r - w : x + r, box = [x0, y + dy - 10, x0 + w, y + dy + 3];
-    if (placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) continue;
-    placed.push(box);
-    return `<text x="${(left ? -r : r).toFixed(1)}" y="${dy}"${left ? ' text-anchor="end"' : ""}>${esc(p.name)}</text>`;
+const NWS = (() => {
+  const cv = $("nw-cv"), box = $("nw"), tip = $("nw-tip"), cx = cv.getContext("2d");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Researchers are listed most-published first; stepping through the sphere's slots by a stride spreads them out instead of stacking them at one pole
+  const n = NWP.length, gcd = (a, b) => (b ? gcd(b, a % b) : a); let k = Math.round(n * 0.382); while (gcd(k, n) !== 1) k++;
+  const pts = NWP.map((p, i) => { const j = (i * k) % n, y = 1 - (j + 0.5) / n * 2, r = Math.sqrt(1 - y * y), a = j * 2.399963; return { s: [Math.cos(a) * r, y, Math.sin(a) * r], ph: (i * 2.399) % 6.28, x: 0, y: 0, z: 0 }; });
+  let W = 0, H = 0, R = 0, rotY = 0, rotX = -0.25, velY = 0.0022, drag = null, hover = null, aim = null, raf = 0, last = 0, now = 0, on = false;
+  let colour = {}, dark = false, fg = "#000", bg = "#fff", font = "sans-serif";
+  function theme() {
+    const cs = getComputedStyle(document.documentElement);
+    colour = Object.fromEntries(TOPICS.map(([k]) => [k, cs.getPropertyValue("--t-" + k).trim()]));
+    dark = cs.colorScheme === "dark"; fg = cs.getPropertyValue("--fg").trim(); bg = cs.getPropertyValue("--surface").trim() || cs.getPropertyValue("--bg").trim();
+    font = cs.getPropertyValue("--sans").trim() || "sans-serif";
   }
-  return "";
-};
+  function size() {
+    const w = box.getBoundingClientRect().width; if (!w) return false;
+    const d = Math.min(2, devicePixelRatio || 1);
+    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.42;
+    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    return true;
+  }
+  function place() {
+    const cy = Math.cos(rotY), sy = Math.sin(rotY), cxr = Math.cos(rotX), sxr = Math.sin(rotX);
+    for (const p of pts) {
+      let [x, y, z] = p.s; [x, z] = [x * cy - z * sy, x * sy + z * cy]; [y, z] = [y * cxr - z * sxr, y * sxr + z * cxr];
+      const f = 2.6 / (2.6 + z); p.x = W / 2 + x * R * f; p.y = H / 2 + y * R * f; p.z = z;
+    }
+  }
+  // The angles that bring researcher i to the front and centre of the sphere
+  function face(i) {
+    const [x, y, z] = pts[i].s, rho = Math.hypot(x, z);
+    return [Math.atan2(x, z) + Math.PI, Math.max(-1.2, Math.min(1.2, Math.atan2(-y, rho)))];
+  }
+  const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+  const rad = (i) => (2.2 + Math.sqrt(NWP[i].n) * 1.9) * (1.25 - pts[i].z * 0.35);
+  function label(i, a, bold) {
+    const p = pts[i]; cx.globalAlpha = a; cx.font = `${bold ? 600 : 500} ${bold ? 13 : 12}px ${font}`;
+    const t = NWP[i].name, w = cx.measureText(t).width, r = rad(i) + 6, left = p.x + r + w > W - 4;
+    const x = left ? p.x - r - w : p.x + r;
+    cx.lineWidth = 3.5; cx.lineJoin = "round"; cx.strokeStyle = bg; cx.strokeText(t, x, p.y + 4); cx.fillStyle = fg; cx.fillText(t, x, p.y + 4);
+  }
+  function draw(t) {
+    now = t; if (!W) return;
+    cx.clearRect(0, 0, W, H);
+    const sel = NW.sel, nb = sel == null ? null : NWN[sel], hot = NW.hot;
+    const lit = (i) => i === sel || i === hover || i === NW.hl || (nb && nb.has(i));
+    const dimmed = (i) => (hot && NWK[i] !== hot) || (sel != null && i !== sel && !nb.has(i));
+    cx.globalCompositeOperation = dark ? "lighter" : "source-over";
+    for (const [a0, b0] of NWL) {
+      const a = NWI[a0], b = NWI[b0], p = pts[a], q = pts[b];
+      const mine = sel != null && (a === sel || b === sel), hov = hover != null && (a === hover || b === hover);
+      const dim = sel != null ? !mine : hot && NWK[a] !== hot && NWK[b] !== hot;
+      const depth = Math.max(0.12, (1 - (p.z + q.z) / 2) / 2), mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2;
+      const g = cx.createLinearGradient(p.x, p.y, q.x, q.y); g.addColorStop(0, colour[NWK[a]]); g.addColorStop(1, colour[NWK[b]]);
+      cx.strokeStyle = g; cx.globalAlpha = (dim ? 0.06 : mine || hov ? 0.95 : 0.34) * depth; cx.lineWidth = mine || hov ? 2 : 1.1;
+      cx.beginPath(); cx.moveTo(p.x, p.y); cx.quadraticCurveTo(mx + (mx - W / 2) * 0.18, my + (my - H / 2) * 0.18, q.x, q.y); cx.stroke();
+    }
+    const order = pts.map((_, i) => i).sort((a, b) => pts[b].z - pts[a].z);
+    for (const i of order) {
+      const p = pts[i], c = colour[NWK[i]], dim = dimmed(i), hi = lit(i), depth = 0.25 + 0.75 * (1 - p.z) / 2;
+      const r = rad(i) * (still ? 1 : 1 + 0.12 * Math.sin(t / 900 + p.ph));
+      const g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 4.5); g.addColorStop(0, c); g.addColorStop(1, c + "00");
+      cx.globalAlpha = (dim ? 0.04 : hi ? 0.6 : 0.3) * depth; cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, r * 4.5, 0, 6.3); cx.fill();
+      cx.globalAlpha = (dim ? 0.2 : 1) * depth; cx.fillStyle = c; cx.beginPath(); cx.arc(p.x, p.y, r, 0, 6.3); cx.fill();
+    }
+    cx.globalCompositeOperation = "source-over";
+    // Rings for the selected researcher and for a name pointed at in the A–Z list
+    for (const [i, w] of [[sel, 2.2], [NW.hl, 1.6]]) {
+      if (i == null) continue; const p = pts[i];
+      cx.globalAlpha = p.z < 0.3 ? 1 : 0.4; cx.strokeStyle = fg; cx.lineWidth = w; cx.beginPath(); cx.arc(p.x, p.y, rad(i) + 4, 0, 6.3); cx.stroke();
+    }
+    // Names: the selected researcher and their co-authors, or the most published researchers on the near side
+    const names = sel != null ? [sel, ...nb] : NWP.map((_, i) => i).filter((i) => NWP[i].n >= 3 && (!hot || NWK[i] === hot));
+    names.forEach((i) => { const z = pts[i].z; label(i, sel != null ? (i === sel ? 1 : z > 0.3 ? 0.5 : 0.85) : Math.max(0, Math.min(0.8, -z * 1.6)), i === sel); });
+    if (NW.hl != null && NW.hl !== sel) label(NW.hl, 1, true);
+    cx.globalAlpha = 1;
+  }
+  function step() {
+    if (drag) return;
+    if (aim) {
+      const dy = wrap(aim[0] - rotY), dx = aim[1] - rotX;
+      if (still || (Math.abs(dy) < 0.002 && Math.abs(dx) < 0.002)) { rotY = aim[0]; rotX = aim[1]; aim = null; velY = 0; }
+      else { rotY += dy * 0.12; rotX += dx * 0.12; }
+    } else if (!still && NW.sel == null && hover == null) { rotY += velY; velY += (0.0022 - velY) * 0.02; }
+  }
+  function frame(t) { step(); place(); draw(t); }
+  function loop(t) { if (t - last > 30) { last = t; frame(t); } raf = requestAnimationFrame(loop); }
+  const start = () => { if (!raf && on && !still && !document.hidden) raf = requestAnimationFrame(loop); }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
+  const redraw = () => { if (still || !raf) frame(now); };
+  function pick(e) {
+    const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = null, gap = 16; pts.forEach((p, i) => { if (p.z > 0.3) return; const d = Math.hypot(p.x - x, p.y - y); if (d < gap) { gap = d; best = i; } });
+    return best;
+  }
+  cv.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, moved: false }; cv.setPointerCapture(e.pointerId); aim = null; });
+  cv.addEventListener("pointermove", (e) => {
+    if (drag) {
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+      drag.x = e.clientX; drag.y = e.clientY; rotY += dx * 0.006; velY = dx * 0.006; rotX = Math.max(-1.2, Math.min(1.2, rotX + dy * 0.006));
+      box.classList.add("grabbing"); tip.hidden = true; redraw(); return;
+    }
+    const i = pick(e); if (i !== hover) { hover = i; redraw(); }
+    cv.style.cursor = i == null ? "grab" : "pointer";
+    if (i == null) { tip.hidden = true; return; }
+    tip.innerHTML = `<i style="background:${colour[NWK[i]]}"></i>${esc(NWP[i].name)} · ${NWP[i].n} ${NWP[i].n === 1 ? "study" : "studies"}`;
+    tip.hidden = false; tip.style.left = Math.max(8, Math.min(W - tip.offsetWidth - 8, pts[i].x + 14)) + "px"; tip.style.top = pts[i].y - 40 + "px";
+  });
+  const release = (e) => {
+    const d = drag; drag = null; box.classList.remove("grabbing"); if (!d || d.moved || e.type === "pointercancel") return;
+    const i = pick(e); if (i != null) nwPick(i); else if (NW.sel != null) { NW.sel = null; drawNetwork(); }
+  };
+  cv.addEventListener("pointerup", release); cv.addEventListener("pointercancel", release);
+  cv.addEventListener("pointerleave", () => { if (drag) return; hover = null; tip.hidden = true; redraw(); });
+  theme();
+  new ResizeObserver(() => { if (size()) { place(); draw(now); } }).observe(box);
+  new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); redraw(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else on = true;
+  document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
+  return {
+    focus(i) { aim = i == null ? null : face(i); redraw(); },
+    redraw,
+  };
+})();
 function drawNetwork() {
-  const svg = $("nw-svg"), box = $("nw");
-  const W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 760);
-  if (!NW.pos || NW.layoutW !== W) { const l = nwLayout(W); NW.pos = l.pos; NW.H = l.H; NW.layoutW = W; }
-  const { pos } = NW, sel = NW.sel, near = sel == null ? null : NWN[sel];
-  const label = (i) => sel == null ? NWP[i].n >= 3 : i === sel || near.has(i);
-  svg.setAttribute("viewBox", `0 0 ${W} ${Math.ceil(NW.H)}`);
-  let h = "";
-  NWL.forEach(([a, b, w]) => {
-    const i = NWI[a], j = NWI[b], on = sel != null && (i === sel || j === sel);
-    h += `<line class="lk${on ? " on" : ""}" x1="${pos[i].x.toFixed(1)}" y1="${pos[i].y.toFixed(1)}" x2="${pos[j].x.toFixed(1)}" y2="${pos[j].y.toFixed(1)}" stroke-width="${Math.min(4, 1 + w * 0.7)}"/>`;
-  });
-  const placed = [], texts = {};
-  NWP.map((p, i) => i).filter(label).sort((a, b) => (b === sel) - (a === sel) || NWP[b].n - NWP[a].n)
-    .forEach((i) => { texts[i] = nwText(NWP[i], pos[i].x, pos[i].y, W, placed); });
-  NWP.forEach((p, i) => {
-    const cls = (i === sel ? " sel" : sel != null && !near.has(i) ? " dim" : "") + (NW.hot && NWK[i] !== NW.hot ? " off" : "");
-    h += `<g class="nd${cls}" style="--c: var(--t-${NWK[i]})" data-i="${i}" tabindex="0" role="button" aria-pressed="${i === sel}" aria-label="${esc(p.name)}, ${p.n} goalie ${p.n === 1 ? "study" : "studies"}, ${NWN[i].size} collaborators" transform="translate(${pos[i].x.toFixed(1)},${pos[i].y.toFixed(1)})">` +
-      `<circle r="${nwR(p).toFixed(1)}"/>${texts[i] || ""}<title>${esc(p.name)}</title></g>`;
-  });
-  svg.innerHTML = h;
-  box.classList.toggle("has-sel", sel != null);
+  const sel = NW.sel, near = sel == null ? null : NWN[sel];
+  $("nw").classList.toggle("has-sel", sel != null);
+  NWS.focus(sel);
+  $("nw-cv").setAttribute("aria-label", sel == null
+    ? `Sphere of ${NWP.length} goalie researchers, coloured by main topic and linked when they published a goalie study together. Use the A–Z list to open a profile.`
+    : `${NWP[sel].name} and ${near.size} ${near.size === 1 ? "collaborator" : "collaborators"}, lit on the researcher sphere.`);
   const side = $("nw-side");
   if (sel == null) {
     side.innerHTML = `<label class="lab" for="nw-q">Researchers A–Z</label>` +
@@ -875,15 +931,8 @@ function nwAZ() {
     h += `<button type="button" data-i="${i}"><span>${esc(p.name)}</span><small>${p.n} ${p.n === 1 ? "study" : "studies"}</small></button>`;
   });
   $("nw-az").innerHTML = h || `<p class="nw-none">No researcher matches.</p>`;
-  // the list scrolls inside the rail
 }
-function nwPick(i) { NW.sel = NW.sel === i ? null : i; drawNetwork(); }
-$("nw-svg").addEventListener("click", (e) => { const g = e.target.closest(".nd"); if (g) nwPick(Number(g.dataset.i)); });
-$("nw-svg").addEventListener("keydown", (e) => {
-  const g = e.target.closest(".nd"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
-  e.preventDefault(); const i = Number(g.dataset.i); nwPick(i);
-  const again = $("nw-svg").querySelector(`.nd[data-i="${i}"]`); if (again) again.focus();
-});
+function nwPick(i) { NW.sel = NW.sel === i ? null : i; NW.hl = null; drawNetwork(); }
 $("nw-side").addEventListener("click", (e) => {
   if (e.target.closest("#nw-show")) {
     const p = NWP[NW.sel];
@@ -894,27 +943,21 @@ $("nw-side").addEventListener("click", (e) => {
     return;
   }
   if (e.target.closest("#nw-back")) { NW.sel = null; drawNetwork(); $("nw-q").focus(); return; }
-  const b = e.target.closest("button[data-i]"); if (b) { NW.sel = Number(b.dataset.i); drawNetwork(); $("nw-back").focus(); }
+  const b = e.target.closest("button[data-i]"); if (b) { NW.sel = Number(b.dataset.i); NW.hl = null; drawNetwork(); $("nw-back").focus(); }
 });
-// Pointing at a name in the list rings that researcher's dot on the map.
+// Pointing at a name in the list rings that researcher on the sphere.
 const nwRing = (e) => {
-  const b = e.target.closest ? e.target.closest("#nw-az button[data-i]") : null;
-  $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"));
-  if (b) { const g = $("nw-svg").querySelector(`.nd[data-i="${b.dataset.i}"]`); if (g) g.classList.add("hl"); }
+  const b = e.target.closest ? e.target.closest("#nw-az button[data-i]") : null, i = b ? Number(b.dataset.i) : null;
+  if (i !== NW.hl) { NW.hl = i; NWS.redraw(); }
 };
 ["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
-["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => $("nw-svg").querySelectorAll(".nd.hl").forEach((g) => g.classList.remove("hl"))));
+["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => { if (NW.hl != null) { NW.hl = null; NWS.redraw(); } }));
 $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
-// The topic filters double as the map's colour key: point at one to light that topic's researchers on the map
-const nwHot = (k) => {
-  NW.hot = k;
-  $("nw-svg").querySelectorAll(".nd").forEach((g) => g.classList.toggle("off", !!k && NWK[+g.dataset.i] !== k));
-};
+// The topic filters double as the sphere's colour key: point at one to light that topic's researchers
+const nwHot = (k) => { if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
-let nwW = 0;
-window.addEventListener("resize", () => { const w = Math.round($("nw-svg").getBoundingClientRect().width); if (w !== nwW) { nwW = w; drawNetwork(); } });
 
 render();
 
