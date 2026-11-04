@@ -4,7 +4,7 @@
  "nhlAsOf": "2026-11-03",
  "nstAsOf": "2026-11-03",
  "goalies": 74,
- "matched": 60,
+ "matched": 58,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -32,6 +32,34 @@
     "gp": 1,
     "sa": 33,
     "ga": 5
+   }
+  },
+  {
+   "name": "Charlie Lindgren",
+   "team": "WSH",
+   "nhl": {
+    "gp": 5,
+    "sa": 118,
+    "ga": 14
+   },
+   "nst": {
+    "gp": 5,
+    "sa": 119,
+    "ga": 14
+   }
+  },
+  {
+   "name": "Connor Hellebuyck",
+   "team": "NJD",
+   "nhl": {
+    "gp": 3,
+    "sa": 60,
+    "ga": 6
+   },
+   "nst": {
+    "gp": 3,
+    "sa": 61,
+    "ga": 6
    }
   },
   {
@@ -80,14 +108,14 @@
    "name": "Joel Hofer",
    "team": "STL",
    "nhl": {
-    "gp": 10,
-    "sa": 286,
-    "ga": 24
+    "gp": 11,
+    "sa": 316,
+    "ga": 26
    },
    "nst": {
-    "gp": 10,
-    "sa": 287,
-    "ga": 24
+    "gp": 11,
+    "sa": 317,
+    "ga": 26
    }
   },
   {
@@ -164,42 +192,42 @@
    "name": "Sebastian Cossa",
    "team": "UTA",
    "nhl": {
-    "gp": 5,
-    "sa": 83,
-    "ga": 12
+    "gp": 6,
+    "sa": 112,
+    "ga": 14
    },
    "nst": {
-    "gp": 5,
-    "sa": 82,
-    "ga": 12
+    "gp": 6,
+    "sa": 111,
+    "ga": 14
    }
   },
   {
    "name": "Sergei Bobrovsky",
    "team": "TOR",
    "nhl": {
-    "gp": 10,
-    "sa": 288,
-    "ga": 33
+    "gp": 11,
+    "sa": 324,
+    "ga": 36
    },
    "nst": {
-    "gp": 11,
-    "sa": 288,
-    "ga": 33
+    "gp": 12,
+    "sa": 324,
+    "ga": 36
    }
   },
   {
    "name": "Tristan Jarry",
    "team": "EDM",
    "nhl": {
-    "gp": 7,
-    "sa": 171,
-    "ga": 18
+    "gp": 8,
+    "sa": 205,
+    "ga": 21
    },
    "nst": {
-    "gp": 7,
-    "sa": 172,
-    "ga": 18
+    "gp": 8,
+    "sa": 206,
+    "ga": 21
    }
   }
  ],
