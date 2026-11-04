@@ -68,6 +68,7 @@ button,input,select{font:inherit;color:inherit}
 .views button[aria-current="true"]{background:color-mix(in srgb,var(--crease) 18%,transparent);font-weight:700}
 .gviews{min-width:0}
 .gviews>section:not(.on){display:none}
+.panes{display:block;width:100%;height:min(860px,calc(100vh - 120px));min-height:560px;border:0;border-radius:12px;margin-top:12px;background:var(--panel,transparent)}
 @media (max-width:880px){
   .gframe{grid-template-columns:minmax(0,1fr)}
   .grail{position:static;grid-template-columns:minmax(0,1fr)}
@@ -412,6 +413,7 @@ tbody tr:last-child td{border-bottom:0}
       <li><button type="button" data-v="workSec" style="--c:var(--t-bio)"><i></i>Workload</button></li>
       <li><button type="button" data-v="rangeSec" style="--c:var(--t-dev)"><i></i>SV% Ranges</button></li>
       <li><button type="button" data-v="gsaxSec" style="--c:var(--t-hip)"><i></i>GSAA vs. GSAx</button></li>
+      <li><button type="button" data-v="panesSec" style="--c:var(--t-dev)"><i></i>Brad's Goalie Panes</button></li>
       <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
     </ul></nav>
   </aside>
@@ -533,6 +535,11 @@ tbody tr:last-child td{border-bottom:0}
       <div class="flegend" id="gsaxKey"></div>
       <div class="chart" id="c-gsax"></div>
     </div>
+  </section>
+
+  <section id="panesSec">
+    <div class="sec-h"><h2>Brad's Goalie Panes</h2></div>
+    <iframe class="panes" id="panesFrame" title="Brad's Goalie Panes: every goalie start this season as a 3D stack of team panes, showing back-to-backs" data-src="panes/index.html?embed"></iframe>
   </section>
 
   <section id="allSec">
@@ -939,7 +946,7 @@ const divFill = d => d>=0 ? mix(ZDIV.mid, ZDIV.good, Math.min(1, d/ZDIV_MAX)) : 
 
 /* ---------- footer ---------- */
 $("#foot").innerHTML = `
-  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Impact GSAx: our own expected-goals and win-probability models, fitted on eleven seasons of the same play-by-play feed and applied to this season's shots. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
+  <div><h4>Data, refreshed every morning</h4><p>Season totals, records and bios: the NHL's public stats feed (api.nhle.com), last captured ${DATA.asOf}. Shot and goal locations for the Scoring Heat Map: the NHL play-by-play feed (api-web.nhle.com), ${window.GOAL_MAP?.from||""} to ${window.GOAL_MAP?.to||""}; empty nets and shootouts are left out. Impact GSAx: our own expected-goals and win-probability models, fitted on eleven seasons of the same play-by-play feed and applied to this season's shots. Brad's Goalie Panes: starters and back-to-backs from the NHL schedule and box scores (api-web.nhle.com), rebuilt every morning; forked from <a href="https://github.com/Goaltending-Journal/goalie-panes" rel="noopener">goalie-panes</a>. Advanced stats and expected goals: data courtesy of <a href="https://www.naturalstattrick.com" rel="noopener">Natural Stat Trick</a>, last captured ${UN.gsax.asOf}.</p></div>
   <div><h4>How sure are we</h4><p>The save % ranges are an empirical-Bayes estimate: each goalie starts at the league rate, with the spread between goalies measured from ${UN.priorGoalies} goalies with ${UN.priorShots}+ shots in ${UN.priorSeason}, and moves toward their own record as shots pile up. Goals saved vs expected uses Natural Stat Trick's expected goals, with a rough range of ±1.645·√xGA. Method and checks are in the analysis folder.</p></div>
   <div><h4>Cross-checks</h4><p>Each profile shows QuantHockey's 2026-27 line next to the NHL figures and links to PuckPedia. Danger levels are Natural Stat Trick's; the areas on the danger map are drawn approximately.</p></div>`;
 
@@ -1091,6 +1098,15 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 
 <script>
 /* Views: the rail shows one section at a time; the choice is kept in the address (#lbSec) and in this browser */
+// Brad's Goalie Panes runs in its own frame: load it the first time its view opens, and keep its light or dark theme in step with this page
+(function panes(){
+  const sec=document.getElementById("panesSec"), f=document.getElementById("panesFrame");
+  const theme=()=>{ try{ const r=f.contentDocument&&f.contentDocument.documentElement, t=document.documentElement.dataset.theme;
+    if(r){ if(t) r.dataset.theme=t; else delete r.dataset.theme; } }catch(e){} };
+  f.addEventListener("load",theme);
+  new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  new MutationObserver(()=>{ if(sec.classList.contains("on")&&!f.getAttribute("src")) f.src=f.dataset.src; }).observe(sec,{attributes:true,attributeFilter:["class"]});
+})();
 (function views(){
   const box=document.getElementById("gviews"), list=document.getElementById("views");
   const btns=[...list.querySelectorAll("button[data-v]")];

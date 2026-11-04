@@ -4,6 +4,7 @@
 # (every shot on goal, with its location) from the NHL play-by-play feed for the goals heat map,
 # impact-data.js (Impact GSAx by game situation, from the same feed),
 # and goalie-types-data.js (each goalie's playing type for the illustrations), so the types are refined after every night's games.
+# panes/index.html (Brad's Goalie Panes: starters and back-to-backs) comes from the NHL schedule and box scores.
 # It also cross-checks the NHL totals against Natural Stat Trick (check_sources.py -> data/checks/) for the monthly dreaming pass.
 # Needs a repository secret named NST_KEY (the Natural Stat Trick access key) for that last part;
 # without it the NHL numbers still update.
@@ -57,6 +58,10 @@ jobs:
         continue-on-error: true
         run: python3 build_impact.py
 
+      - name: Rebuild Brad's Goalie Panes
+        continue-on-error: true
+        run: python3 build_panes.py
+
       - name: Sort goalies into playing types
         continue-on-error: true
         run: python3 build_goalie_types.py
@@ -65,7 +70,7 @@ jobs:
         run: |
           git config user.name "goalie-stats-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in goalies-data.js goalies-uncertainty-data.js data/nst goal-map-data.js data/goal-map impact-data.js data/impact goalie-types-data.js data/checks; do
+          for f in goalies-data.js goalies-uncertainty-data.js data/nst goal-map-data.js data/goal-map impact-data.js data/impact goalie-types-data.js data/checks panes/index.html data/panes; do
             if [ -e "$f" ]; then git add "$f"; fi
           done
           if git diff --cached --quiet; then
