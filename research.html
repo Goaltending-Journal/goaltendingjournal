@@ -118,10 +118,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-head h3 { font: 600 15px var(--sans); }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
 .hm-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
-.hm-tabs button { white-space: nowrap; font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.hm-tabs button { white-space: nowrap; font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 10px; cursor: pointer; }
 .hm-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-heat); }
 .hm-tabs .ts { display: none; }
-@media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
+@media (max-width: 1200px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 .hm-scroll { overflow-x: auto; }
 .hm { display: grid; gap: 3px; font: 12px var(--sans); }
 .hm .rl { color: var(--fg); display: flex; align-items: center; padding-right: 8px; line-height: 1.2; }
@@ -166,6 +166,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .nw-tip { position: absolute; z-index: 2; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 7px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 6px 10px; font: 12.5px/1.3 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
 .nw-tip i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 .nw-tip[hidden] { display: none; }
+.ss canvas { cursor: default; touch-action: auto; }
+.ss canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .nw-hint { margin: 2px 0 0; text-align: center; font: 12.5px var(--sans); color: var(--muted); }
 .nw-side { font-family: var(--sans); display: grid; gap: 10px; align-content: start; min-width: 0; }
 .nw-side h4 { font: 600 26px/1 var(--display); letter-spacing: 0.02em; }
@@ -366,6 +368,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       <div class="ex-head">
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
           <button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Researcher network</span><span class="ts">Network</span></button>
+          <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Study sunflower</span><span class="ts">Studies</span></button>
           <button type="button" role="tab" id="hm-tab-time" aria-selected="false" aria-controls="hm-panel" data-v="time"><span class="tl">Topics over time</span><span class="ts">Over time</span></button>
           <button type="button" role="tab" id="hm-tab-pair" aria-selected="false" aria-controls="hm-panel" data-v="pair"><span class="tl">Topics together</span><span class="ts">Together</span></button>
           <button type="button" role="tab" id="hm-tab-year" aria-selected="false" aria-controls="yr" data-v="year"><span class="tl">Studies by year</span><span class="ts">By year</span></button>
@@ -378,6 +381,13 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <div class="nw-tip" id="nw-tip" hidden></div>
           <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
         </div>
+      </div>
+      <div id="ss-panel" role="tabpanel" aria-labelledby="ss-tab" hidden>
+        <div class="nw ss" id="ss">
+          <canvas id="ss-cv" tabindex="0" role="img" aria-label="Every study in the Oracle as a seed in a sunflower, oldest at the centre and newest at the edge, coloured by topic. Use the left and right arrow keys to step through the studies by year."></canvas>
+          <div class="nw-tip" id="ss-tip" hidden></div>
+        </div>
+        <div class="lr-card" id="ss-card" aria-live="polite"></div>
       </div>
       <div id="hm-panel" role="tabpanel" aria-labelledby="hm-tab-time" hidden>
         <div class="hm-scroll"><div class="hm" id="hm"></div></div>
@@ -733,13 +743,14 @@ $("hm").addEventListener("click", (e) => {
 // One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
 function exTabs(b, keep) {
   document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-  if (!keep) ["nw-net", "hm-panel", "yr", "lr"].forEach((id) => ($(id).hidden = true));
+  if (!keep) ["nw-net", "ss-panel", "hm-panel", "yr", "lr"].forEach((id) => ($(id).hidden = true));
 }
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
   if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
   if (b.dataset.v === "latest") { $("lr").hidden = false; drawLatest(); return; }
+  if (b.dataset.v === "studies") { $("ss-panel").hidden = false; return; }
   // "Studies by year" swaps in the bar chart; the other two tabs redraw the heatmap
   const year = b.dataset.v === "year";
   $("yr").hidden = !year; $("hm-panel").hidden = year; $("hm-panel").setAttribute("aria-labelledby", b.id);
@@ -953,8 +964,104 @@ const nwRing = (e) => {
 ["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
 ["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => { if (NW.hl != null) { NW.hl = null; NWS.redraw(); } }));
 $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
-// The topic filters double as the sphere's colour key: point at one to light that topic's researchers
-const nwHot = (k) => { if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
+/* Study sunflower: every study in the Oracle (data.js) is a seed in the logo's golden-angle spiral. The oldest study sits at the
+   centre and each newer one grows outward, with faint rings at each decade. Seed colour = first topic, a thin outer ring = second
+   topic, hollow = hockey-wide, solid = goaltending. Point at a seed to read it, click to pin it; arrow keys step through the years.
+   Reduced motion draws still frames; drawing stops while the tab is hidden or off screen. */
+const SS = (() => {
+  const cv = $("ss-cv"), box = $("ss"), tip = $("ss-tip"), cx = cv.getContext("2d");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches, GA = 2.399963;
+  const order = REC.map((r, i) => i).sort((a, b) => (REC[a].y || 9999) - (REC[b].y || 9999) || a - b);
+  const rank = new Array(REC.length); order.forEach((i, j) => (rank[i] = j));
+  const tk = (r) => (r.tp && r.tp[0]) || "hip";
+  let W = 0, H = 0, R = 0, k = 0, rot = 0, pos = [], hover = null, sel = order.filter((i) => REC[i].y).pop(), hot = null, raf = 0, last = 0, now = 0, on = false;
+  let colour = {}, dark = false, fg = "#000", bg = "#fff", font = "sans-serif";
+  function theme() {
+    const cs = getComputedStyle(document.documentElement);
+    colour = Object.fromEntries(TOPICS.map(([t]) => [t, cs.getPropertyValue("--t-" + t).trim()]));
+    dark = cs.colorScheme === "dark"; fg = cs.getPropertyValue("--fg").trim(); bg = cs.getPropertyValue("--bg").trim();
+    font = cs.getPropertyValue("--sans").trim() || "sans-serif";
+  }
+  function size() {
+    const w = box.getBoundingClientRect().width; if (!w) return false;
+    const d = Math.min(2, devicePixelRatio || 1);
+    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.46; k = R / Math.sqrt(REC.length + 0.5);
+    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    return true;
+  }
+  const rad = (i) => 3.6 + (rank[i] / REC.length) * 3 * Math.min(1, W / 600);
+  function place() { pos = []; order.forEach((i, j) => { const r = k * Math.sqrt(j + 0.5), a = j * GA + rot; pos[i] = [W / 2 + Math.cos(a) * r, H / 2 + Math.sin(a) * r]; }); }
+  function draw(t) {
+    now = t; if (!W) return;
+    cx.clearRect(0, 0, W, H);
+    // Decade rings, labelled along the upper right
+    cx.font = `500 11px ${font}`; cx.textAlign = "left";
+    let lastR = Infinity;   // outer rings first; a label too close to the one outside it is left off
+    [2020, 2010, 2000, 1990].forEach((dc) => {
+      const j = order.findIndex((i) => (REC[i].y || 9999) >= dc); if (j < 1) return;
+      const r = k * Math.sqrt(j);
+      cx.globalAlpha = 0.14; cx.strokeStyle = fg; cx.lineWidth = 1; cx.setLineDash([2, 4]); cx.beginPath(); cx.arc(W / 2, H / 2, r, 0, 6.3); cx.stroke(); cx.setLineDash([]);
+      if (lastR - r < 22) return; lastR = r;
+      const lx = W / 2 + r * 0.71 + 4, ly = H / 2 - r * 0.71 - 4;
+      cx.globalAlpha = 0.9; cx.lineWidth = 3.5; cx.lineJoin = "round"; cx.strokeStyle = bg; cx.strokeText(dc + "s", lx, ly);
+      cx.globalAlpha = 0.6; cx.fillStyle = fg; cx.fillText(dc + "s", lx, ly);
+    });
+    const foc = hover ?? sel;
+    cx.globalCompositeOperation = dark ? "lighter" : "source-over";
+    REC.forEach((s, i) => {
+      const [x, y] = pos[i], c = colour[tk(s)], dim = hot && !(s.tp || []).includes(hot), f = i === foc;
+      const r = rad(i) * (still ? 1 : 1 + 0.1 * Math.sin(t / 900 + i));
+      const g = cx.createRadialGradient(x, y, 0, x, y, r * 3.6); g.addColorStop(0, c); g.addColorStop(1, c + "00");
+      cx.globalAlpha = dim ? 0.03 : f ? 0.7 : 0.26; cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r * 3.6, 0, 6.3); cx.fill();
+      cx.globalAlpha = dim ? 0.15 : 1;
+      if (s.sc === "goaltending") { cx.fillStyle = c; cx.beginPath(); cx.arc(x, y, r, 0, 6.3); cx.fill(); }
+      else { cx.strokeStyle = c; cx.lineWidth = 1.8; cx.beginPath(); cx.arc(x, y, r - 0.9, 0, 6.3); cx.stroke(); }
+      if (s.tp && s.tp[1]) { cx.strokeStyle = colour[s.tp[1]]; cx.lineWidth = 1.3; cx.beginPath(); cx.arc(x, y, r + 2.4, 0, 6.3); cx.stroke(); }
+    });
+    cx.globalCompositeOperation = "source-over";
+    if (foc != null) { const [x, y] = pos[foc]; cx.globalAlpha = 1; cx.strokeStyle = fg; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, rad(foc) + 5.5, 0, 6.3); cx.stroke(); }
+    cx.globalAlpha = 1;
+  }
+  function card(i) {
+    const s = REC[i], href = s.doi ? "https://doi.org/" + s.doi : s.link || (s.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + s.pmid + "/" : "");
+    const pills = (s.tp || []).map((t) => `<span style="--c:var(--t-${t})"><i></i>${esc(topicName[t] || t)}</span>`).join("");
+    $("ss-card").innerHTML = `<div class="dt">${esc(s.yl || s.y || "Undated")} · ${s.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</div>` +
+      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(s.t)}</a>` : esc(s.t)}</h3>` +
+      `<div class="cite">${esc([s.a, (s.j || "").split(/\s\d/)[0]].filter(Boolean).join(" · "))}</div>` + (pills ? `<div class="pills">${pills}</div>` : "");
+  }
+  function frame(t) { if (!still && hover == null) rot += 0.0012; place(); draw(t); }
+  function loop(t) { if (t - last > 30) { last = t; frame(t); } raf = requestAnimationFrame(loop); }
+  const start = () => { if (!raf && on && !still && !document.hidden) raf = requestAnimationFrame(loop); }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
+  const redraw = () => { if (!raf) { place(); draw(now); } };
+  function pick(e) {
+    const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = null, gap = 14; pos.forEach((p, i) => { const d = Math.hypot(p[0] - x, p[1] - y); if (d < gap) { gap = d; best = i; } });
+    return best;
+  }
+  cv.addEventListener("pointermove", (e) => {
+    const i = pick(e); cv.style.cursor = i == null ? "default" : "pointer";
+    if (i !== hover) { hover = i; card(i ?? sel); redraw(); }
+    if (i == null) { tip.hidden = true; return; }
+    const s = REC[i]; tip.innerHTML = `<i style="background:${colour[tk(s)]}"></i>${esc(s.yl || s.y || "Undated")} · ${esc(s.a || "")}`;
+    tip.hidden = false; tip.style.left = Math.max(8, Math.min(W - tip.offsetWidth - 8, pos[i][0] + 14)) + "px"; tip.style.top = pos[i][1] - 40 + "px";
+  });
+  cv.addEventListener("pointerleave", () => { hover = null; tip.hidden = true; card(sel); redraw(); });
+  cv.addEventListener("click", (e) => { const i = pick(e); if (i != null) { sel = i; card(sel); redraw(); } });
+  // Keyboard: left and right step to the previous or next study in time; Home and End jump to the oldest and newest
+  cv.addEventListener("keydown", (e) => {
+    const j = rank[sel], to = { ArrowLeft: j - 1, ArrowDown: j - 1, ArrowRight: j + 1, ArrowUp: j + 1, Home: 0, End: REC.length - 1 }[e.key];
+    if (to == null) return; e.preventDefault(); sel = order[Math.max(0, Math.min(REC.length - 1, to))]; card(sel); redraw();
+  });
+  theme(); card(sel);
+  new ResizeObserver(() => { if (size()) { place(); draw(now); } }).observe(box);
+  new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); redraw(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else on = true;
+  document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
+  return { hot(t) { if (t !== hot) { hot = t; redraw(); } } };
+})();
+// The topic filters double as the colour key for both maps: point at one to light that topic
+const nwHot = (k) => { SS.hot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
