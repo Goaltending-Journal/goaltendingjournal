@@ -208,7 +208,12 @@ def main():
           "note", "as_of"])
 
     # contracts.csv and team-spend.csv.
-    contracts = [r for p in sorted(glob.glob(str(args.notes / "contracts_*.csv"))) for r in read(p)]
+    contracts = []
+    for p in glob.glob(str(args.notes / "contracts_*.csv")):
+        m = re.search(r"batch(\d+)", p)
+        for r in read(p):
+            r["_batch"] = int(m.group(1)) if m else 0
+            contracts.append(r)
     # A later batch can confirm a contract an earlier one left as an unconfirmed lead: drop the lead
     # when a row with a figure exists for the same goalie and an overlapping season or signing date.
     def overlaps(a, b):
@@ -216,6 +221,18 @@ def main():
             return True
         return bool(a["start_season"] and b["start_season"] and a["start_season"] <= (b["end_season"] or b["start_season"])
                     and b["start_season"] <= (a["end_season"] or a["start_season"]))
+    # Two rows with figures for the same goalie and overlapping seasons describe one contract: keep the
+    # one from the later batch (files sort east/west, batch3, batch5...), preferring a primary source.
+    def rank(r):
+        return (r["_batch"], r["source_class"] == "primary")
+    keep = []
+    for r in sorted(contracts, key=rank, reverse=True):
+        if num(r["aav"]) and r["start_season"] and any(
+                norm(k["name"]) == norm(r["name"]) and num(k["aav"]) and k["start_season"] and overlaps(r, k)
+                for k in keep):
+            continue
+        keep.append(r)
+    contracts = keep
     contracts = [r for r in contracts if num(r["aav"]) or not any(
         num(o["aav"]) and norm(o["name"]) == norm(r["name"]) and (overlaps(r, o) or not r["start_season"])
         for o in contracts)]
