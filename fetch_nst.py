@@ -7,7 +7,18 @@ in URLs, logs or the repository.
 
 NST serves its stats as HTML tables, so the first table on the page is parsed
 with the standard library and written out as CSV.
+
+With no arguments it saves this season's goalie tables (the daily stats job).
+For research pulls over several seasons, pass a range and the tables wanted:
+
+  python fetch_nst.py --from-season 20212022 --thru-season 20262027 \
+      --tables goalies,teams --out data/departments/nst
+
+"teams" is the 5-on-5 team table as rates per 60 (xGA/60, HDCA/60, SA/60):
+the defence in front of the goalie. Each table is pulled once per season.
 """
+
+import argparse
 
 import csv
 import io
@@ -23,7 +34,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-BASE_URL = "https://data.naturalstattrick.com/playerteams.php"
+HOST = "https://data.naturalstattrick.com"
+BASE_URL = f"{HOST}/playerteams.php"
+TEAM_URL = f"{HOST}/teamtable.php"
 OUT_DIR = Path(__file__).resolve().parent / "data" / "nst"
 EASTERN = ZoneInfo("America/New_York")
 CREDIT = "Data courtesy of Natural Stat Trick (https://www.naturalstattrick.com)"
@@ -56,9 +69,25 @@ def goalie_params(season: str, sit: str) -> dict:
     }
 
 
-def fetch(params: dict, key: str) -> str:
+def team_params(season: str, sit: str) -> dict:
+    return {
+        "fromseason": season,
+        "thruseason": season,
+        "stype": "2",       # regular season
+        "sit": sit,
+        "score": "all",
+        "rate": "y",        # per-60 rates
+        "team": "all",
+        "loc": "B",
+        "gpf": "410",
+        "fd": "",
+        "td": "",
+    }
+
+
+def fetch(params: dict, key: str, url: str = BASE_URL) -> str:
     req = urllib.request.Request(
-        f"{BASE_URL}?{urllib.parse.urlencode(params)}",
+        f"{url}?{urllib.parse.urlencode(params)}",
         headers={
             "nst-key": key,
             "User-Agent": "GoaltendingJournalBot/1.0 (daily, once per day)",
@@ -126,11 +155,68 @@ def to_csv(rows: list[dict]) -> str:
     return buf.getvalue()
 
 
+def seasons_between(first: str, last: str) -> list[str]:
+    return [f"{y}{y + 1}" for y in range(int(first[:4]), int(last[:4]) + 1)]
+
+
+def pull_range(key: str, first: str, last: str, tables: list[str], out: Path) -> int:
+    """Research mode: each requested table once per season, saved under out/."""
+    out.mkdir(parents=True, exist_ok=True)
+    jobs = []
+    for season in seasons_between(first, last):
+        if "goalies" in tables:
+            jobs += [("goalies", season, sit, BASE_URL, goalie_params(season, sit), "Player")
+                     for sit in SITUATIONS]
+        if "teams" in tables:
+            jobs.append(("teams", season, "5v5", TEAM_URL, team_params(season, "5v5"), "Team"))
+    files, failed = {}, []
+    for i, (kind, season, sit, url, params, col) in enumerate(jobs):
+        name = f"{kind}_{season}_{sit}.csv"
+        if (out / name).exists():
+            print(f"Already have {name}; skipping")
+            continue
+        if i:
+            time.sleep(8)  # be gentle: one table every few seconds
+        try:
+            rows = parse_table(fetch(params, key, url))
+        except urllib.error.HTTPError as e:
+            print(f"Natural Stat Trick returned HTTP {e.code} for {name}", file=sys.stderr)
+            failed.append(name)
+            continue
+        if not rows or col not in rows[0]:
+            print(f"No {kind} table found for {name}", file=sys.stderr)
+            failed.append(name)
+            continue
+        (out / name).write_text(to_csv(rows), encoding="utf-8")
+        files[name] = len(rows)
+        print(f"Saved {len(rows)} rows to {name}")
+    summary = {
+        "seasons": f"{first[:4]}-{first[4:]} to {last[:4]}-{last[4:]}",
+        "fetched_at": datetime.now(EASTERN).isoformat(timespec="seconds"),
+        "source": HOST,
+        "credit": CREDIT,
+        "files": files,
+        "failed": failed,
+    }
+    (out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    return 1 if failed and not files else 0
+
+
 def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--from-season", help="first season, e.g. 20212022")
+    ap.add_argument("--thru-season", help="last season, e.g. 20262027")
+    ap.add_argument("--tables", default="goalies", help="comma list: goalies, teams")
+    ap.add_argument("--out", type=Path, help="output folder for a season-range pull")
+    args = ap.parse_args()
+
     key = os.environ.get("NST_KEY", "").strip()
     if not key:
         print("NST_KEY is not set; add it as a repository secret.", file=sys.stderr)
         return 1
+    if args.from_season:
+        return pull_range(key, args.from_season, args.thru_season or args.from_season,
+                          args.tables.split(","), args.out or OUT_DIR / "range")
 
     now = datetime.now(EASTERN)
     season = current_season(now)

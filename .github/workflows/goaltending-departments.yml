@@ -1,0 +1,53 @@
+# Research pull for the NHL team goaltending departments study (research branch only).
+# Rebuilds data/departments/ from the NHL feed (rosters, prospects, draft history, goalie usage)
+# and pulls Natural Stat Trick goalie and 5-on-5 team tables for 2021-22 to 2026-27
+# with the NST_KEY secret (sent in a header by fetch_nst.py; never printed).
+# Results are committed back to the branch, because artifact downloads are blocked from agent sessions.
+name: Goaltending departments research pull
+
+on:
+  push:
+    branches: [claude/nhl-goaltending-departments]
+    paths:
+      - build_departments.py
+      - fetch_nst.py
+      - .github/workflows/goaltending-departments.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: goaltending-departments
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build depth charts, usage and draft history from the NHL feed
+        continue-on-error: true
+        run: python3 build_departments.py
+
+      - name: Pull Natural Stat Trick goalie and team tables, 2021-22 to 2026-27
+        continue-on-error: true
+        env:
+          NST_KEY: ${{ secrets.NST_KEY }}
+        run: python3 fetch_nst.py --from-season 20212022 --thru-season 20262027 --tables goalies,teams --out data/departments/nst
+
+      - name: Commit results to this branch
+        run: |
+          git config user.name "goalie-stats-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/departments || true
+          if git diff --cached --quiet; then echo "Nothing new."; exit 0; fi
+          git commit -m "Research pull: goaltending departments data $(TZ=America/New_York date +%F)"
+          git pull --rebase origin claude/nhl-goaltending-departments
+          git push origin HEAD:claude/nhl-goaltending-departments
