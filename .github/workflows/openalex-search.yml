@@ -1,9 +1,10 @@
-# One-off research search (branch only, not for main): OpenAlex works mentioning goaltending, saved for comparison with the Oracle.
+# Research search for the OpenAlex Index (branch only, never merged). The monthly researcher check re-runs it by
+# writing today's date to analysis/openalex/refresh.txt and pushing.
 name: OpenAlex goaltending search
 on:
   push:
     branches: [claude/openalex-search]
-    paths: [analysis/openalex/search.py, .github/workflows/openalex-search.yml]
+    paths: [analysis/openalex/search.py, analysis/openalex/refresh.txt, .github/workflows/openalex-search.yml]
   workflow_dispatch:
 permissions:
   contents: write
