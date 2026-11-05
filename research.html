@@ -97,7 +97,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Explorer tabs: Researcher Oracle, Study Oracle and Latest research. */
+/* Explorer tabs: Researcher Oracle, Study Oracle, Scholarly Oracle and Latest research. */
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
 .hm-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { white-space: nowrap; font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 10px; cursor: pointer; }
@@ -119,6 +119,18 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .lr .lr-tw { animation: lr-tw 2.4s ease-in-out infinite; }
 @keyframes lr-tw { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .lr .lr-tw { animation: none; } }
+/* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js), one row per topic across the years.
+   Hollow marks keep them visibly apart from the evidence-based studies. */
+.so-lead { margin: 0 0 6px; font: 15px/1.5 var(--serif); color: var(--muted); }
+.so svg { width: 100%; display: block; overflow: visible; font-family: var(--sans); }
+.so text { font: 500 11px var(--label); letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
+.so .so-ax { stroke: var(--rule); stroke-width: 1; }
+.so .so-row { stroke: var(--fg); stroke-opacity: 0.08; stroke-width: 1; }
+.so .so-m { fill: var(--bg); stroke-width: 1.6; cursor: pointer; outline: none; transition: opacity .2s ease, stroke-width .2s ease; }
+.so .so-m.off { opacity: 0.12; pointer-events: none; }
+.so .so-m.on, .so .so-m:hover { stroke-width: 3; fill: var(--c); }
+.so .so-m:focus-visible { stroke: var(--accent); }
+.lr-card .tag { display: inline-block; margin-left: 10px; padding: 1px 8px; border: 1px solid var(--field-line); border-radius: 999px; font: 500 10.5px var(--label); letter-spacing: 0.1em; color: var(--muted); }
 .lr-card { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); min-height: 120px; }
 .lr-card .dt { font: 500 12px var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .lr-card h3 { margin: 4px 0 6px; font: 600 17px/1.35 var(--serif); }
@@ -327,6 +339,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
           <button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Researcher Oracle</span><span class="ts">Researchers</span></button>
           <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Study Oracle</span><span class="ts">Studies</span></button>
+          <button type="button" role="tab" id="so-tab" aria-selected="false" aria-controls="so-panel" data-v="scholarly"><span class="tl">Scholarly Oracle</span><span class="ts">Scholarly</span></button>
           <button type="button" role="tab" id="lr-tab" aria-selected="false" aria-controls="lr" data-v="latest"><span class="tl">Latest research</span><span class="ts">Latest</span></button>
         </div>
       </div>
@@ -343,6 +356,11 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <div class="nw-tip" id="ss-tip" hidden></div>
         </div>
         <div class="lr-card" id="ss-card" aria-live="polite"></div>
+      </div>
+      <div id="so-panel" role="tabpanel" aria-labelledby="so-tab" hidden>
+        <p class="so-lead">Scholarly works on ice hockey goaltending, found through OpenAlex and not yet reviewed as evidence.</p>
+        <div class="so"><svg id="so-svg" role="group" aria-label="Scholarly works by topic and year: rings are studies, diamonds are books, coaching pieces and equipment standards"></svg></div>
+        <div class="lr-card" id="so-card" aria-live="polite"></div>
       </div>
       <div id="lr" role="tabpanel" aria-labelledby="lr-tab" hidden>
         <div class="lr"><svg id="lr-svg" role="group" aria-label="New studies on skill learning, linked to the goalie topics each one could inform"></svg></div>
@@ -378,6 +396,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 </main>
 
 <script src="data.js"></script>
+<script src="scholarly-data.js"></script>
 <script src="researchers-data.js"></script>
 <script src="topics.js"></script>
 <script src="research.js"></script>
@@ -391,9 +410,9 @@ const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
 const topicName = Object.fromEntries(TOPICS);
 const PAGE_SIZE = 5;
 const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), span: null, person: null, sort: "new", shown: PAGE_SIZE, sig: "" };
-const YEARS = REC.map((r) => r.y).filter((y) => y != null);
-const DECADES = [];
-for (let d = decadeOf(Math.min(...YEARS)); d <= decadeOf(Math.max(...YEARS)); d += 10) DECADES.push(d);
+const SCH = typeof SCHOLARLY !== "undefined" ? SCHOLARLY : [];
+let DATA = REC;   // the table shows the Research Oracle, or the Scholarly Oracle while its tab is open
+const KIND = { r: "Study", s: "Goalies reported separately", b: "Book or coaching", x: "Equipment standard" };
 
 function primaryLink(r) {
   if (r.doi) return "https://doi.org/" + r.doi;
@@ -419,7 +438,8 @@ function titleHtml(r) {
 function rowHtml(r) {
   const goal = r.sc === "goaltending";
   const by = [r.a ? esc(r.a) : "", `<i>${esc(r.j)}</i>`].filter(Boolean).join(" · ");
-  const flags = (r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : []);
+  const flags = (r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : [])
+    .concat(r.k ? [`<span>Scholarly</span>`] : []).concat(r.k === "b" || r.k === "x" ? [`<span>${esc(KIND[r.k])}</span>`] : []).concat(r.lang ? [`<span>${esc(r.lang)}</span>`] : []);
   const pills = r.tp.length ? r.tp.map((t) => `<span>${esc(topicName[t])}</span>`).join("") : `<span class="none">Not tagged</span>`;
   return `<tr><td><h3 class="p-title">${titleHtml(r)}</h3><div class="p-by">${by}</div>` +
     `<div class="p-line"><b>${esc(r.yl)}</b>${linksHtml(r)}</div></td>` +
@@ -427,17 +447,29 @@ function rowHtml(r) {
     `<td><div class="pills">${pills}</div></td></tr>`;
 }
 
-/* Table filters. */
+/* Table filters, counted for whichever set the table shows. */
 const SCOPES = [["all", "All records"], ["goaltending", "Goaltending"], ["hockey-wide", "Hockey-wide"]];
-$("scope").innerHTML = SCOPES.map(([k, n]) => {
-  const c = k === "all" ? REC.length : REC.filter((r) => r.sc === k).length;
-  return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === "all" ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
-}).join("");
-$("topics").innerHTML = TOPICS.map(([k, n]) =>
-  `<label class="opt" style="--c: var(--t-${k})"><input type="checkbox" value="${k}"><span class="orb">${esc(n)}</span><span class="n">${REC.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
-$("decade").innerHTML = `<option value="all">All years</option>` +
-  DECADES.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
-  (REC.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
+function filterOptions() {
+  $("scope").innerHTML = SCOPES.map(([k, n]) => {
+    const c = k === "all" ? DATA.length : DATA.filter((r) => r.sc === k).length;
+    return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === state.scope ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
+  }).join("");
+  $("topics").innerHTML = TOPICS.map(([k, n]) =>
+    `<label class="opt" style="--c: var(--t-${k})"><input type="checkbox" value="${k}"${state.topics.has(k) ? " checked" : ""}><span class="orb">${esc(n)}</span><span class="n">${DATA.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
+  const years = DATA.map((r) => r.y).filter((y) => y != null), decades = [];
+  for (let d = decadeOf(Math.min(...years)); d <= decadeOf(Math.max(...years)); d += 10) decades.push(d);
+  if (state.decade !== "all" && state.decade !== "nd" && !decades.includes(Number(state.decade))) state.decade = "all";
+  $("decade").innerHTML = `<option value="all">All years</option>` +
+    decades.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
+    (DATA.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
+  $("decade").value = state.decade;
+}
+filterOptions();
+function useSet(set) {
+  if (DATA === set) return;
+  DATA = set; state.person = null; state.year = null; state.span = null;
+  filterOptions(); render();
+}
 
 const recKey = (r) => (r.doi || "").toLowerCase() || (r.t || "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60);
 function matches(r) {
@@ -457,7 +489,7 @@ function matches(r) {
   return true;
 }
 function filtered() {
-  return REC.filter(matches).sort((a, b) => {
+  return DATA.filter(matches).sort((a, b) => {
     if (state.sort === "az") return a.t.localeCompare(b.t);
     const ay = a.y == null ? -1 : a.y, by = b.y == null ? -1 : b.y;
     return state.sort === "new" ? by - ay || b.i - a.i : ay - by || a.i - b.i;
@@ -471,7 +503,7 @@ function render() {
   filterBadge();
   activeChips();
   $("count").textContent = rows.length
-    ? `${shown.length < rows.length ? `Showing ${shown.length} of ` : ""}${rows.length}${rows.length === REC.length ? "" : " matching"} ${rows.length === 1 ? "record" : "records"}`
+    ? `${shown.length < rows.length ? `Showing ${shown.length} of ` : ""}${rows.length}${rows.length === DATA.length ? "" : " matching"} ${rows.length === 1 ? "record" : "records"}`
     : "No matching records";
   $("results").innerHTML = rows.length ? shown.map(rowHtml).join("")
     : `<tr><td colspan="3" class="empty">No records match these filters. Clear a filter or change the search.</td></tr>`;
@@ -479,6 +511,7 @@ function render() {
   $("load").innerHTML = left > 0 ? `<button type="button" class="btn" id="load-more">Load ${Math.min(PAGE_SIZE, left)} more</button>` : "";
   const more = $("load-more");
   if (more) more.addEventListener("click", () => { state.shown += PAGE_SIZE; render(); });
+  if (DATA === SCH) markScholarly(rows);
 }
 /* Active filters as removable chips beside the count */
 function activeChips() {
@@ -536,11 +569,13 @@ $("reset").addEventListener("click", () => {
 // One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
 function exTabs(b, keep) {
   document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-  if (!keep) ["nw-net", "ss-panel", "lr"].forEach((id) => ($(id).hidden = true));
+  if (!keep) ["nw-net", "ss-panel", "so-panel", "lr"].forEach((id) => ($(id).hidden = true));
 }
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
+  useSet(b.dataset.v === "scholarly" ? SCH : REC);
+  if (b.dataset.v === "scholarly") { $("so-panel").hidden = false; drawScholarly(); return; }
   if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
   if (b.dataset.v === "latest") { $("lr").hidden = false; drawLatest(); return; }
   if (b.dataset.v === "studies") { $("ss-panel").hidden = false; }
@@ -844,6 +879,67 @@ render();
 
 
 
+
+/* Scholarly Oracle: every OpenAlex work that is not in the Research Oracle, one row per topic across the years. Studies are rings,
+   books, coaching pieces and standards are diamonds, all hollow so they read as a separate layer from the evidence. The rail filters
+   dim what they leave out; selecting a mark shows the work below. */
+let drawScholarly = () => {}, markScholarly = () => {};
+(function () {
+  if (!SCH.length) { $("so-tab").hidden = true; return; }
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (p, t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const SHORT = { hip: "Hip & groin", inj: "Injury", eq: "Equipment", vis: "Vision", phy: "Physiology", bio: "Movement", psy: "Psychology", dev: "Development", stats: "Analytics" };
+  const rowsUsed = TOPICS.map(([k]) => k).filter((k) => SCH.some((r) => r.tp[0] === k));
+  const ys = SCH.map((r) => r.y).filter(Boolean), y0 = Math.floor(Math.min(...ys) / 10) * 10, y1 = Math.max(...ys) + 1;
+  let marks = [], sel = null, lastW = 0;
+  function card(r) {
+    const href = r.doi ? "https://doi.org/" + r.doi : r.link;
+    $("so-card").innerHTML = `<div class="dt">${esc(r.yl)}<span class="tag">${esc(KIND[r.k])}</span>${r.lang ? `<span class="tag">${esc(r.lang)}</span>` : ""}</div>` +
+      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(r.t)}</a>` : esc(r.t)}</h3>` +
+      `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div>` +
+      `<div class="pills">${r.tp.map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k])}</span>`).join("")}</div>`;
+  }
+  drawScholarly = function () {
+    const svg = $("so-svg"), W = Math.max(320, Math.round(svg.getBoundingClientRect().width || 720)); lastW = W;
+    const narrow = W < 600, left = narrow ? 108 : 200, right = 12, row = narrow ? 44 : 50, top = 10, R = narrow ? 3.4 : 4.2;
+    const H = top + rowsUsed.length * row + 28, x = (y) => left + ((y - y0) / (y1 - y0)) * (W - left - right);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H); svg.textContent = "";
+    for (let d = y0; d <= y1; d += narrow ? 20 : 10) {
+      el(svg, "line", { x1: x(d), x2: x(d), y1: top, y2: H - 22, class: "so-ax" });
+      el(svg, "text", { x: x(d), y: H - 6, "text-anchor": "middle" }).textContent = d;
+    }
+    marks = [];
+    rowsUsed.forEach((k, ri) => {
+      const cy = top + row / 2 + ri * row;
+      el(svg, "line", { x1: left, x2: W - right, y1: cy, y2: cy, class: "so-row" });
+      el(svg, "text", { x: left - 12, y: cy + 4, "text-anchor": "end" }).textContent = narrow ? SHORT[k] : topicName[k];
+      const placed = [];
+      SCH.filter((r) => r.tp[0] === k && r.y).sort((a, b) => a.y - b.y).forEach((r) => {
+        // stack works from the same years above and below the line, then beside it, so each row keeps to its own band
+        const lim = row / 2 - R - 1, free = (px, py) => !placed.some((p) => Math.abs(p[0] - px) < R * 2.2 && Math.abs(p[1] - py) < R * 2.2);
+        let cx = x(r.y + 0.5), dy = 0;
+        for (let col = 0, n = 0; !free(cx, dy); n++) {
+          dy = (n % 2 ? -1 : 1) * Math.ceil(n / 2 + 0.5) * R * 2.3;
+          if (Math.abs(dy) > lim) { col++; n = -1; dy = 0; cx = x(r.y + 0.5) + (col % 2 ? 1 : -1) * Math.ceil(col / 2) * R * 2.3; }
+        }
+        placed.push([cx, dy]);
+        const a = { class: "so-m", tabindex: "0", role: "button", "aria-label": `${r.t} (${r.yl})`, style: `--c:var(--t-${k});stroke:var(--t-${k})` };
+        const m = r.k === "b" || r.k === "x"
+          ? el(svg, "rect", Object.assign(a, { x: cx - R * 0.85, y: cy + dy - R * 0.85, width: R * 1.7, height: R * 1.7, transform: `rotate(45 ${cx} ${cy + dy})` }))
+          : el(svg, "circle", Object.assign(a, { cx, cy: cy + dy, r: r.k === "s" ? R * 0.8 : R }));
+        const pick = () => { sel = r; marks.forEach((o) => o.m.classList.toggle("on", o.r === r)); card(r); };
+        m.addEventListener("click", pick); m.addEventListener("mouseenter", pick); m.addEventListener("focus", pick);
+        m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+        marks.push({ r, m, pick });
+      });
+    });
+    markScholarly(filtered());
+    const first = marks.find((o) => o.r === sel) || marks.filter((o) => !o.m.classList.contains("off")).sort((a, b) => b.r.y - a.r.y)[0];
+    if (first) first.pick();
+  };
+  markScholarly = function (rows) { const keep = new Set(rows); marks.forEach((o) => o.m.classList.toggle("off", !keep.has(o.r))); };
+  addEventListener("resize", () => { if (!$("so-panel").hidden && Math.round($("so-svg").getBoundingClientRect().width) !== lastW) drawScholarly(); });
+})();
 
 /* Latest research: new studies on skill learning (research.js) on the left, the Oracle's goalie topics on the right, linked by
    the topics each study could inform (its "ot" field, our reading). Selecting a star shows the study below the map. */
