@@ -4,11 +4,14 @@
 // "stats" (advanced stats), "bio" (biomechanics), "ed" (ecological dynamics), "sa" (skill acquisition),
 // m = true for notes added by hand (the research bot never removes these).
 // fetch_clothesline.py (the research bot) updates this file every day.
-const CLOTHESLINE_UPDATED = "4 November 2026";
+const CLOTHESLINE_UPDATED = "5 November 2026";
 const CLOTHESLINE = [
+{"d": "2026-11-04", "t": "Reliability-aware multimodal sensor fusion for human motion monitoring with safety-constrained neurorobotic feedback in sports training", "u": "https://doi.org/10.3389/fnbot.2026.1973789", "s": "Frontiers in Neurorobotics", "tp": "ed", "m": false},
 {"d": "2026-11-03", "t": "Acute changes in forearm muscle stiffness following sport-specific fatigue and sports massage in competitive judoka: a pilot randomized within-subject split-body controlled study", "u": "https://doi.org/10.3389/fresc.2026.1962300", "s": "Frontiers in Rehabilitation Sciences", "tp": "ed", "m": false},
 {"d": "2026-11-03", "t": "Understanding Game Coaching on Gig Platforms", "u": "https://doi.org/10.1145/3831353", "s": "Proceedings of the ACM on Human-Computer Interaction", "tp": "sa", "m": false},
 {"d": "2026-11-03", "t": "593– Coach Education & Development in Racquet Sports, Isaac McBroom", "u": "https://perceptionaction.com/593-2/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": false},
+{"d": "2026-11-03", "t": "Training prescriptions and perspectives in elite wheelchair racing: A survey of Brazilian athletes and coaches", "u": "https://doi.org/10.1177/17479541261503463", "s": "International Journal of Sports Science & Coaching", "tp": "ed", "m": false},
+{"d": "2026-11-03", "t": "Caffeine as a context-dependent metabolic, perceptual, and recovery modulator in exercise: implications for substrate utilization, performance, and individual responsiveness", "u": "https://doi.org/10.3389/fphys.2026.1932524", "s": "Frontiers in Physiology", "tp": "ed", "m": false},
 {"d": "2026-11-02", "t": "Self-regulatory moderators of the intention–behavior gap in physical activity: an ecological momentary assessment study among young adults", "u": "https://doi.org/10.3389/fdgth.2026.1924099", "s": "Frontiers in Digital Health", "tp": "ed", "m": false},
 {"d": "2026-11-02", "t": "Reflections, perceptions and practices of spearfishing among Ulithian communities", "u": "https://doi.org/10.1002/pan3.70460", "s": "People and Nature", "tp": "ed", "m": false},
 {"d": "2026-11-02", "t": "Juggling skill acquisition through air-toss and ground-bounce practice in college students: A study protocol for the TuJuggling cluster-randomised trial", "u": "https://doi.org/10.1371/journal.pone.0361254", "s": "PLoS ONE", "tp": "ed", "m": false},
@@ -39,9 +42,6 @@ const CLOTHESLINE = [
 {"d": "2026-10-23", "t": "Sporcularda Sportif Öz-Düzenlemenin Etkili Karar Verme Becerilerine Etkisi", "u": "https://doi.org/10.70007/yalovaspor.1939577", "s": "Yalova Üniversitesi spor bilimleri dergisi.", "tp": "ed", "m": false},
 {"d": "2026-10-22", "t": "TENNIS RACKET HANDLES, OVERGRIPS, AND MOTOR SKILL LEARNING: A NARRATIVE REVIEW", "u": "https://doi.org/10.61784/wjsr3021", "s": "World Journal of Sport Research", "tp": "ed", "m": false},
 {"d": "2026-10-21", "t": "Individual Resilience as Human Capital Stock: Neighborhood Social Capital, Environmental Perceptions, and Dynamic Pathways Across COVID-19 Phases", "u": "https://doi.org/10.1007/s11067-026-09795-2", "s": "Networks and Spatial Economics", "tp": "ed", "m": false},
-{"d": "2026-10-21", "t": "The Effect of Acute Beetroot Juice and Caffeine Supplementation on Specific Judo Performance During a Simulated Competition Day in Judo Athletes", "u": "https://doi.org/10.1002/ejsc.70278", "s": "European Journal of Sport Science", "tp": "ed", "m": false},
-{"d": "2026-10-21", "t": "Post‐Intervention Differences in Perceived Soft Skills Following a Sport Education Model‐Based Unit in Secondary Physical Education", "u": "https://doi.org/10.1111/ejed.70895", "s": "European Journal of Education", "tp": "sa", "m": false},
-{"d": "2026-10-21", "t": "TASK DESIGN AND MOTOR SKILL LEARNING IN UNIVERSITY TENNIS COURSES IN CHINA: A NARRATIVE REVIEW", "u": "https://doi.org/10.61784/wjsr3020", "s": "World Journal of Sport Research", "tp": "sa", "m": false},
 {"d": "", "t": "Rob Gray's skill acquisition and coaching books", "u": "https://perceptionaction.com/book/", "s": "Perception & Action (Rob Gray)", "tp": "sa", "m": true},
 {"d": "", "t": "The Constraints-Led Approach: Principles for Sports Coaching and Practice Design", "u": "https://eprints.glos.ac.uk/6693/", "s": "Renshaw, Davids, Newcombe & Roberts", "tp": "coaching", "m": true},
 {"d": "", "t": "The Ecological Approach to Visual Perception (Classic Edition)", "u": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782", "s": "James J. Gibson · Routledge", "tp": "ed", "m": true},
