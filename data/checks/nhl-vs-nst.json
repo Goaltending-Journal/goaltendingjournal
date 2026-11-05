@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-04",
+ "checked": "2026-11-05",
  "season": "2026-27",
- "nhlAsOf": "2026-11-04",
- "nstAsOf": "2026-11-04",
+ "nhlAsOf": "2026-11-05",
+ "nstAsOf": "2026-11-05",
  "goalies": 74,
- "matched": 60,
+ "matched": 59,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -158,6 +158,20 @@
     "gp": 9,
     "sa": 227,
     "ga": 26
+   }
+  },
+  {
+   "name": "Samuel Ersson",
+   "team": "OTT",
+   "nhl": {
+    "gp": 8,
+    "sa": 167,
+    "ga": 20
+   },
+   "nst": {
+    "gp": 8,
+    "sa": 166,
+    "ga": 20
    }
   },
   {
