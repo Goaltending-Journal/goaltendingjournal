@@ -1,0 +1,28 @@
+# One-off research search (branch only, not for main): OpenAlex works mentioning goaltending, saved for comparison with the Oracle.
+name: OpenAlex goaltending search
+on:
+  push:
+    branches: [claude/openalex-search]
+    paths: [analysis/openalex/search.py, .github/workflows/openalex-search.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Search OpenAlex
+        env:
+          OPENALEX_KEY: ${{ secrets.OPENALEX_KEY }}
+        run: python3 analysis/openalex/search.py
+      - name: Commit results
+        run: |
+          git config user.name "goalie-stats-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis/openalex/hits.jsonl
+          git commit -m "OpenAlex search results" && git push || echo "No change"
