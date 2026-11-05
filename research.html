@@ -97,7 +97,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Explorer tabs: Researcher Oracle, Study Oracle, Scholarly Oracle and Latest research. */
+/* Explorer tabs: Researcher Oracle, Evidence Oracle, Scholarly Oracle and Coaching Oracle. */
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
 .hm-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
 .hm-tabs button { white-space: nowrap; font: 500 12.5px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 10px; cursor: pointer; }
@@ -106,7 +106,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 @media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 /* Researcher Network: tracked researchers as lights on a turning sphere (size = goalie studies), linked when they published a goalie study together.
    Select a person to see their profile and filter the table to their studies. */
-/* Learning Oracle: ecological dynamics, skill acquisition and practice design (learning-data.js + research.js) as a turning globe */
+/* Coaching Oracle: ecological dynamics, skill acquisition and practice design (learning-data.js + research.js) as a turning globe */
 #lo-cv:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .lo-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; margin: 10px 0 0; padding: 0; list-style: none; }
 .lo-key li { display: inline-flex; align-items: center; gap: 7px; font: 500 11px var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg); cursor: default; transition: opacity .2s ease; }
@@ -325,9 +325,9 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       <div class="ex-head">
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
           <button type="button" role="tab" id="nw-tab-net" aria-selected="true" aria-controls="nw-net" data-v="net"><span class="tl">Researcher Oracle</span><span class="ts">Researchers</span></button>
-          <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Study Oracle</span><span class="ts">Studies</span></button>
+          <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Evidence Oracle</span><span class="ts">Evidence</span></button>
           <button type="button" role="tab" id="so-tab" aria-selected="false" aria-controls="so-panel" data-v="scholarly"><span class="tl">Scholarly Oracle</span><span class="ts">Scholarly</span></button>
-          <button type="button" role="tab" id="lr-tab" aria-selected="false" aria-controls="lr" data-v="learning"><span class="tl">Learning Oracle</span><span class="ts">Learning</span></button>
+          <button type="button" role="tab" id="lr-tab" aria-selected="false" aria-controls="lr" data-v="learning"><span class="tl">Coaching Oracle</span><span class="ts">Coaching</span></button>
         </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net">
@@ -767,7 +767,7 @@ const nwRing = (e) => {
 ["pointerover", "focusin"].forEach((t) => $("nw-side").addEventListener(t, nwRing));
 ["pointerleave", "focusout"].forEach((t) => $("nw-side").addEventListener(t, () => { if (NW.hl != null) { NW.hl = null; NWS.redraw(); } }));
 $("nw-side").addEventListener("input", (e) => { if (e.target.id === "nw-q") { NW.q = e.target.value; nwAZ(); } });
-/* Study sunflower: every study in the Oracle (data.js) is a seed in the logo's golden-angle spiral. The oldest study sits at the
+/* Evidence Oracle sunflower: every study in the Oracle (data.js) is a seed in the logo's golden-angle spiral. The oldest study sits at the
    centre and each newer one grows outward, with faint rings at each decade. Seed colour = first topic, a thin outer ring = second
    topic, hollow = hockey-wide, solid = goaltending. Point at a seed to read it, click to pin it; arrow keys step through the years.
    Reduced motion draws still frames; drawing stops while the tab is hidden or off screen. */
@@ -1019,7 +1019,7 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
   $("ex-tabs").addEventListener("click", () => { if ($("so-panel").hidden) stop(); });
 })();
 
-/* Learning Oracle: ecological dynamics, skill acquisition and practice design (learning-data.js, plus the newest studies in
+/* Coaching Oracle: ecological dynamics, skill acquisition and practice design (learning-data.js, plus the newest studies in
    research.js). Every work is a point of light on a slowly turning globe. Each theme has its own region of the globe, and a work
    that spans two or three themes sits between them. A fine thread runs through each researcher's works in date order. The newest
    studies pulse. Drag to spin it; point at a work to read it, click to pin it; arrow keys step through the years; point at a theme
