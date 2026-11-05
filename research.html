@@ -119,7 +119,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .lr .lr-tw { animation: lr-tw 2.4s ease-in-out infinite; }
 @keyframes lr-tw { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .lr .lr-tw { animation: none; } }
-/* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as a turning pinwheel, one arm per topic.
+/* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as a comet orrery, one orbit per topic.
    Hollow marks keep them visibly apart from the evidence-based studies. */
 .so-lead { margin: 0 0 6px; font: 15px/1.5 var(--serif); color: var(--muted); }
 .lr-card .tag { display: inline-block; margin-left: 10px; padding: 1px 8px; border: 1px solid var(--field-line); border-radius: 999px; font: 500 10.5px var(--label); letter-spacing: 0.1em; color: var(--muted); }
@@ -352,7 +352,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       <div id="so-panel" role="tabpanel" aria-labelledby="so-tab" hidden>
         <p class="so-lead">Scholarly works on ice hockey goaltending, found through OpenAlex and not yet reviewed as evidence.</p>
         <div class="nw ss" id="so">
-          <canvas id="so-cv" tabindex="0" role="img" aria-label="Scholarly works as a slowly turning pinwheel: one arm per topic, oldest at the centre and newest at the tip. Rings are studies, diamonds are books, coaching pieces and equipment standards. Use the left and right arrow keys to step through the works by year."></canvas>
+          <canvas id="so-cv" tabindex="0" role="img" aria-label="Scholarly works as a slowly turning orrery: one orbit per topic, works in date order with the newest leading like a comet. Rings are studies, diamonds are books, coaching pieces and equipment standards. Use the left and right arrow keys to step through the works by year."></canvas>
           <div class="nw-tip" id="so-tip" hidden></div>
         </div>
         <div class="lr-card" id="so-card" aria-live="polite"></div>
@@ -875,21 +875,23 @@ render();
 
 
 
-/* Scholarly Oracle pinwheel: every OpenAlex work that is not in the Research Oracle (scholarly-data.js). Each topic is one curved
-   arm of a slowly turning pinwheel; works sit along their arm by year, oldest at the centre and newest at the tip, with faint rings
-   at each decade. Every mark is hollow (rings for studies, smaller rings for studies that report goalies separately, diamonds for
-   books, coaching pieces and standards) so the layer reads apart from the evidence. The rail filters dim what they leave out; point
-   at a mark to read it, click to pin it; arrow keys step through the years. Reduced motion draws still frames. */
+/* Scholarly Oracle comet orrery: every OpenAlex work that is not in the Research Oracle (scholarly-data.js). Each topic is one
+   orbit around a glowing hub, and its works ride the orbit in date order; inner orbits turn faster, so the rings drift past each
+   other. The newest work on each orbit leads like a comet, trailing a glowing tail back through the older ones. Every mark is hollow
+   (rings for studies, smaller rings for studies that report goalies separately, diamonds for books, coaching pieces and standards)
+   so the layer reads apart from the evidence. The rail filters dim what they leave out; point at a mark to read it, click to pin
+   it; arrow keys step through the years. Reduced motion draws still frames; drawing stops while the tab is hidden or off screen. */
 let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
 (function () {
   if (!SCH.length) { $("so-tab").hidden = true; return; }
   const cv = $("so-cv"), box = $("so"), tip = $("so-tip"), cx = cv.getContext("2d");
-  const still = matchMedia("(prefers-reduced-motion: reduce)").matches, TAU = Math.PI * 2, CURL = 1.25, POW = 1.7;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches, TAU = Math.PI * 2;
   const arms = TOPICS.map(([k]) => k).filter((k) => SCH.some((r) => r.tp[0] === k));
-  const ys = SCH.map((r) => r.y).filter(Boolean), y0 = Math.floor(Math.min(...ys) / 10) * 10, y1 = Math.max(...ys) + 1;
   const items = SCH.filter((r) => r.y).sort((a, b) => a.y - b.y || a.i - b.i);
-  const u = (y) => Math.pow((y - y0) / (y1 - y0), POW);
-  let W = 0, H = 0, R = 0, r0 = 0, rot = 0, loc = [], pos = [], hover = null, sel = items.length - 1, hot = null, keep = null;
+  const orbit = arms.map((k, a) => ({ k, a, idx: items.map((r, i) => i).filter((i) => items[i].tp[0] === k) }));
+  const slot = new Array(items.length);   // each work's orbit and its place along it
+  orbit.forEach((o) => o.idx.forEach((i, j) => (slot[i] = [o, j])));
+  let W = 0, H = 0, R = 0, r0 = 0, t0 = 0, pos = [], hover = null, sel = items.length - 1, hot = null, keep = null;
   let raf = 0, last = 0, now = 0, on = false, colour = {}, dark = false, fg = "#000", bg = "#fff", font = "sans-serif";
   function theme() {
     const cs = getComputedStyle(document.documentElement);
@@ -897,67 +899,53 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
     dark = cs.colorScheme === "dark"; fg = cs.getPropertyValue("--fg").trim(); bg = cs.getPropertyValue("--bg").trim();
     font = cs.getPropertyValue("--sans").trim() || "sans-serif";
   }
-  const size0 = () => Math.min(1, W / 600);
+  const scale = () => 0.75 + 0.25 * Math.min(1, W / 600);
   function size() {
     const w = box.getBoundingClientRect().width; if (!w) return false;
     const d = Math.min(2, devicePixelRatio || 1);
-    W = w; H = Math.round(Math.max(360, Math.min(580, w * 0.74))); R = Math.min(W, H) * 0.47; r0 = R * 0.08;
+    W = w; H = Math.round(Math.max(360, Math.min(580, w * 0.74))); R = Math.min(W, H) * 0.47; r0 = R * 0.16;
     cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
-    layout(); return true;
+    orbit.forEach((o) => { o.rr = r0 + (o.a + 0.5) / arms.length * (R - r0); o.span = Math.min(TAU * 0.9, o.idx.length * 9.5 * scale() / o.rr); });
+    return true;
   }
-  // Each work's place on its arm (radius and angle), worked out once per size; turning the pinwheel only adds to the angle
-  const rad = (r) => (r.k === "s" ? 3.2 : 4.2) * (0.75 + 0.25 * size0());
-  function layout() {
-    const placed = [];
-    loc = items.map((r) => {
-      const a = arms.indexOf(r.tp[0]), base = (a / arms.length) * TAU, uu = u(r.y + 0.5), gap = rad(r) * 2.4;
-      const at = (rr, side) => { const ang = base + uu * CURL + side / rr; return [rr, ang, Math.cos(ang) * rr, Math.sin(ang) * rr]; };
-      let rr = r0 + uu * (R - r0), p = at(rr, 0);
-      for (let n = 1; placed.some((q) => Math.hypot(q[2] - p[2], q[3] - p[3]) < gap); n++) {
-        const side = (n % 2 ? 1 : -1) * Math.ceil(n / 2) * gap;   // stack same-year works beside the arm, then step outward
-        p = Math.abs(side) > gap * 2.2 ? at(rr += gap * 0.55, 0) : at(rr, side);
-        if (Math.abs(side) > gap * 2.2) n = 0;
-      }
-      placed.push(p); return p;
-    });
-  }
-  function place() { pos = loc.map(([rr, ang]) => [W / 2 + Math.cos(ang + rot) * rr, H / 2 + Math.sin(ang + rot) * rr]); }
-  function draw(t) {
-    now = t; if (!W) return;
+  const rad = (r) => (r.k === "s" ? 2.8 : 3.5) * scale();
+  const spin = (o) => (still ? 0 : (now - t0) * 0.00012 * (1.6 - o.a / arms.length)) + o.a * 0.7;
+  const along = (o, j) => (o.idx.length > 1 ? j / (o.idx.length - 1) : 0) * o.span;
+  function place() { pos = items.map((r, i) => { const [o, j] = slot[i], an = along(o, j) + spin(o); return [W / 2 + Math.cos(an) * o.rr, H / 2 + Math.sin(an) * o.rr]; }); }
+  function glow(x, y, r, c, a) { const g = cx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c); g.addColorStop(1, c + "00"); cx.globalAlpha = a; cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r, 0, TAU); cx.fill(); }
+  const shown = (i) => !(keep && !keep.has(items[i])) && !(hot && items[i].tp[0] !== hot);
+  function draw() {
+    if (!W) return;
     cx.clearRect(0, 0, W, H);
-    cx.font = `500 11px ${font}`; cx.textAlign = "left";
-    [2020, 2000, 1980].forEach((dc) => {
-      if (dc <= y0) return; const r = r0 + u(dc) * (R - r0);
-      cx.globalAlpha = 0.14; cx.strokeStyle = fg; cx.lineWidth = 1; cx.setLineDash([2, 4]); cx.beginPath(); cx.arc(W / 2, H / 2, r, 0, TAU); cx.stroke(); cx.setLineDash([]);
-      const lx = W / 2 + r * 0.71 + 4, ly = H / 2 - r * 0.71 - 4;
-      cx.globalAlpha = 0.9; cx.lineWidth = 3.5; cx.lineJoin = "round"; cx.strokeStyle = bg; cx.strokeText(dc + "s", lx, ly);
-      cx.globalAlpha = 0.6; cx.fillStyle = fg; cx.fillText(dc + "s", lx, ly);
-    });
-    // The arms: a glowing curve per topic from the hub to the tip
     cx.globalCompositeOperation = dark ? "lighter" : "source-over";
-    arms.forEach((k, a) => {
-      const base = (a / arms.length) * TAU + rot, dim = hot && hot !== k;
-      cx.strokeStyle = colour[k]; cx.lineCap = "round";
-      [[9, dim ? 0.02 : 0.08], [1.6, dim ? 0.12 : 0.55]].forEach(([lw, al]) => {
-        cx.globalAlpha = al; cx.lineWidth = lw * (0.7 + 0.3 * size0()); cx.beginPath();
-        for (let s = 0; s <= 40; s++) { const q = s / 40, rr = r0 + q * (R - r0), ang = base + q * CURL; cx[s ? "lineTo" : "moveTo"](W / 2 + Math.cos(ang) * rr, H / 2 + Math.sin(ang) * rr); }
-        cx.stroke();
-      });
+    orbit.forEach((o) => {
+      const c = colour[o.k], dim = hot && hot !== o.k, lead = o.span + spin(o);
+      cx.strokeStyle = c; cx.lineCap = "round";
+      cx.globalAlpha = dim ? 0.05 : 0.16; cx.lineWidth = 1; cx.beginPath(); cx.arc(W / 2, H / 2, o.rr, 0, TAU); cx.stroke();
+      // The comet's tail: brightest at the newest work, fading back through the older ones
+      for (let s = 0; s < 24; s++) {
+        const a1 = lead - (s / 24) * (o.span + 0.35), a2 = lead - ((s + 1) / 24) * (o.span + 0.35);
+        cx.globalAlpha = (dim ? 0.08 : 0.5) * Math.pow(1 - s / 24, 1.6); cx.lineWidth = (5 * (1 - s / 24) + 1) * scale();
+        cx.beginPath(); cx.arc(W / 2, H / 2, o.rr, a2, a1); cx.stroke();
+      }
+      const n = o.idx.length;
+      o.idx.forEach((i, j) => { if (!shown(i)) return; const [x, y] = pos[i]; glow(x, y, (10 + (j === n - 1 ? 10 : 0)) * scale(), c, 0.08 + 0.3 * (j / Math.max(1, n - 1))); });
     });
+    // The hub: a soft bloom in every topic colour around a plain core
+    const hr = r0 * 0.75;
+    arms.forEach((k, a) => { const an = a / arms.length * TAU + (still ? 0 : now * 0.0003); glow(W / 2 + Math.cos(an) * hr * 0.25, H / 2 + Math.sin(an) * hr * 0.25, hr * 1.6, colour[k], dark ? 0.22 : 0.16); });
+    cx.globalCompositeOperation = "source-over";
+    cx.globalAlpha = 1; cx.fillStyle = bg; cx.strokeStyle = fg; cx.lineWidth = 1.2; cx.beginPath(); cx.arc(W / 2, H / 2, hr * 0.6, 0, TAU); cx.fill(); cx.stroke();
     const foc = hover ?? sel;
     items.forEach((r, i) => {
-      const [x, y] = pos[i], c = colour[r.tp[0]], off = (keep && !keep.has(r)) || (hot && r.tp[0] !== hot);
-      const s = rad(r) * (still ? 1 : 1 + 0.08 * Math.sin(t / 900 + i));
-      cx.globalAlpha = off ? 0.1 : 1; cx.strokeStyle = c; cx.fillStyle = bg; cx.lineWidth = i === foc ? 2.6 : 1.6;
+      const [o, j] = slot[i], n = o.idx.length, [x, y] = pos[i], s = rad(r) * (j === n - 1 ? 1.3 : 1);
+      cx.globalAlpha = shown(i) ? 0.45 + 0.55 * (j / Math.max(1, n - 1)) : 0.08; cx.strokeStyle = colour[o.k]; cx.fillStyle = bg; cx.lineWidth = i === foc ? 2.6 : 1.6;
       cx.beginPath();
       if (r.k === "b" || r.k === "x") { cx.moveTo(x, y - s * 1.25); cx.lineTo(x + s * 1.25, y); cx.lineTo(x, y + s * 1.25); cx.lineTo(x - s * 1.25, y); cx.closePath(); }
       else cx.arc(x, y, s, 0, TAU);
-      cx.globalCompositeOperation = "source-over"; cx.fill(); cx.globalCompositeOperation = dark ? "lighter" : "source-over"; cx.stroke();
+      cx.fill(); cx.stroke();
     });
-    cx.globalCompositeOperation = "source-over";
-    // The hub
-    cx.globalAlpha = 0.9; cx.fillStyle = bg; cx.strokeStyle = fg; cx.lineWidth = 1.2; cx.beginPath(); cx.arc(W / 2, H / 2, r0 * 0.55, 0, TAU); cx.fill(); cx.stroke();
-    if (foc != null) { const [x, y] = pos[foc]; cx.globalAlpha = 1; cx.strokeStyle = fg; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, rad(items[foc]) + 5.5, 0, TAU); cx.stroke(); }
+    if (foc != null) { const [x, y] = pos[foc]; cx.globalAlpha = 1; cx.strokeStyle = fg; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, rad(items[foc]) + 6, 0, TAU); cx.stroke(); }
     cx.globalAlpha = 1;
   }
   function card(i) {
@@ -967,10 +955,11 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
       `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${r.tp.map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k])}</span>`).join("")}</div>`;
   }
-  function frame(t) { if (!still && hover == null) rot += 0.0010; place(); draw(t); }
+  let paused = 0;   // the orbits hold still while a work is pointed at
+  function frame(t) { if (hover != null) { paused += t - now; } now = t; t0 = paused; place(); draw(); }
   function loop(t) { if (t - last > 30) { last = t; frame(t); } raf = requestAnimationFrame(loop); }
   const start = () => { if (!raf && on && !still && !document.hidden && !$("so-panel").hidden) raf = requestAnimationFrame(loop); }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
-  const redraw = () => { if (!raf && W) { place(); draw(now); } };
+  const redraw = () => { if (!raf && W) { place(); draw(); } };
   function pick(e) {
     const b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
     let best = null, gap = 12; pos.forEach((p, i) => { if (keep && !keep.has(items[i])) return; const d = Math.hypot(p[0] - x, p[1] - y); if (d < gap) { gap = d; best = i; } });
@@ -990,14 +979,14 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
     const j = Math.max(0, vis.indexOf(sel)), to = { ArrowLeft: j - 1, ArrowDown: j - 1, ArrowRight: j + 1, ArrowUp: j + 1, Home: 0, End: vis.length - 1 }[e.key];
     if (to == null) return; e.preventDefault(); sel = vis[Math.max(0, Math.min(vis.length - 1, to))]; card(sel); redraw();
   });
-  drawScholarly = function () { theme(); if (size()) { place(); draw(now); } card(sel); start(); };
+  drawScholarly = function () { theme(); if (size()) { place(); draw(); } card(sel); start(); };
   markScholarly = function (rows) {
     keep = new Set(rows);
     if (!keep.has(items[sel])) { const v = items.map((r, i) => i).filter((i) => keep.has(items[i])); if (v.length) { sel = v[v.length - 1]; card(sel); } }
     redraw();
   };
   soHot = (k) => { if (k !== hot) { hot = k; redraw(); } };
-  new ResizeObserver(() => { if (!$("so-panel").hidden && size()) { place(); draw(now); } }).observe(box);
+  new ResizeObserver(() => { if (!$("so-panel").hidden && size()) { place(); draw(); } }).observe(box);
   new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); redraw(); });
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else on = true;
