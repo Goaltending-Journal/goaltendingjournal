@@ -17,15 +17,16 @@ FIELDS = "id,doi,title,publication_year,type,language,authorships,primary_locati
 
 def get(url):
     req = urllib.request.Request(url, headers={"User-Agent": "goaltendingjournal research search"})
-    for attempt in range(4):
+    for attempt in range(6):
         try:
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.load(r)
         except Exception as e:
-            if attempt == 3:
+            if attempt == 5:
                 raise
-            print(f"retry {attempt + 1}: {e}", file=sys.stderr)
-            time.sleep(3 * (attempt + 1))
+            wait = int(getattr(e, "headers", {}).get("Retry-After", 0) or 0) or 5 * (attempt + 1)
+            print(f"retry {attempt + 1} in {wait}s: {e}", file=sys.stderr)
+            time.sleep(wait)
 
 
 def main():
@@ -45,7 +46,7 @@ def main():
                 w["matched_query"] = q
                 out.write(json.dumps(w, ensure_ascii=False) + "\n")
             cursor = data.get("meta", {}).get("next_cursor")
-            time.sleep(0.2)
+            time.sleep(0.5)
         print(f"{q!r}: {n} results")
     print(f"{len(seen)} unique works (key {'used' if KEY else 'not set'})")
 
