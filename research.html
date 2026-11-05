@@ -119,17 +119,9 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .lr .lr-tw { animation: lr-tw 2.4s ease-in-out infinite; }
 @keyframes lr-tw { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .lr .lr-tw { animation: none; } }
-/* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js), one row per topic across the years.
+/* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as a turning pinwheel, one arm per topic.
    Hollow marks keep them visibly apart from the evidence-based studies. */
 .so-lead { margin: 0 0 6px; font: 15px/1.5 var(--serif); color: var(--muted); }
-.so svg { width: 100%; display: block; overflow: visible; font-family: var(--sans); }
-.so text { font: 500 11px var(--label); letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
-.so .so-ax { stroke: var(--rule); stroke-width: 1; }
-.so .so-row { stroke: var(--fg); stroke-opacity: 0.08; stroke-width: 1; }
-.so .so-m { fill: var(--bg); stroke-width: 1.6; cursor: pointer; outline: none; transition: opacity .2s ease, stroke-width .2s ease; }
-.so .so-m.off { opacity: 0.12; pointer-events: none; }
-.so .so-m.on, .so .so-m:hover { stroke-width: 3; fill: var(--c); }
-.so .so-m:focus-visible { stroke: var(--accent); }
 .lr-card .tag { display: inline-block; margin-left: 10px; padding: 1px 8px; border: 1px solid var(--field-line); border-radius: 999px; font: 500 10.5px var(--label); letter-spacing: 0.1em; color: var(--muted); }
 .lr-card { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); min-height: 120px; }
 .lr-card .dt { font: 500 12px var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -359,7 +351,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       </div>
       <div id="so-panel" role="tabpanel" aria-labelledby="so-tab" hidden>
         <p class="so-lead">Scholarly works on ice hockey goaltending, found through OpenAlex and not yet reviewed as evidence.</p>
-        <div class="so"><svg id="so-svg" role="group" aria-label="Scholarly works by topic and year: rings are studies, diamonds are books, coaching pieces and equipment standards"></svg></div>
+        <div class="nw ss" id="so">
+          <canvas id="so-cv" tabindex="0" role="img" aria-label="Scholarly works as a slowly turning pinwheel: one arm per topic, oldest at the centre and newest at the tip. Rings are studies, diamonds are books, coaching pieces and equipment standards. Use the left and right arrow keys to step through the works by year."></canvas>
+          <div class="nw-tip" id="so-tip" hidden></div>
+        </div>
         <div class="lr-card" id="so-card" aria-live="polite"></div>
       </div>
       <div id="lr" role="tabpanel" aria-labelledby="lr-tab" hidden>
@@ -870,7 +865,7 @@ const SS = (() => {
   return { hot(t) { if (t !== hot) { hot = t; redraw(); } } };
 })();
 // The topic filters double as the colour key for both maps: point at one to light that topic
-const nwHot = (k) => { SS.hot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
+const nwHot = (k) => { SS.hot(k); soHot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
@@ -880,65 +875,134 @@ render();
 
 
 
-/* Scholarly Oracle: every OpenAlex work that is not in the Research Oracle, one row per topic across the years. Studies are rings,
-   books, coaching pieces and standards are diamonds, all hollow so they read as a separate layer from the evidence. The rail filters
-   dim what they leave out; selecting a mark shows the work below. */
-let drawScholarly = () => {}, markScholarly = () => {};
+/* Scholarly Oracle pinwheel: every OpenAlex work that is not in the Research Oracle (scholarly-data.js). Each topic is one curved
+   arm of a slowly turning pinwheel; works sit along their arm by year, oldest at the centre and newest at the tip, with faint rings
+   at each decade. Every mark is hollow (rings for studies, smaller rings for studies that report goalies separately, diamonds for
+   books, coaching pieces and standards) so the layer reads apart from the evidence. The rail filters dim what they leave out; point
+   at a mark to read it, click to pin it; arrow keys step through the years. Reduced motion draws still frames. */
+let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
 (function () {
   if (!SCH.length) { $("so-tab").hidden = true; return; }
-  const NS = "http://www.w3.org/2000/svg";
-  const el = (p, t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
-  const SHORT = { hip: "Hip & groin", inj: "Injury", eq: "Equipment", vis: "Vision", phy: "Physiology", bio: "Movement", psy: "Psychology", dev: "Development", stats: "Analytics" };
-  const rowsUsed = TOPICS.map(([k]) => k).filter((k) => SCH.some((r) => r.tp[0] === k));
+  const cv = $("so-cv"), box = $("so"), tip = $("so-tip"), cx = cv.getContext("2d");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches, TAU = Math.PI * 2, CURL = 1.25, POW = 1.7;
+  const arms = TOPICS.map(([k]) => k).filter((k) => SCH.some((r) => r.tp[0] === k));
   const ys = SCH.map((r) => r.y).filter(Boolean), y0 = Math.floor(Math.min(...ys) / 10) * 10, y1 = Math.max(...ys) + 1;
-  let marks = [], sel = null, lastW = 0;
-  function card(r) {
-    const href = r.doi ? "https://doi.org/" + r.doi : r.link;
+  const items = SCH.filter((r) => r.y).sort((a, b) => a.y - b.y || a.i - b.i);
+  const u = (y) => Math.pow((y - y0) / (y1 - y0), POW);
+  let W = 0, H = 0, R = 0, r0 = 0, rot = 0, loc = [], pos = [], hover = null, sel = items.length - 1, hot = null, keep = null;
+  let raf = 0, last = 0, now = 0, on = false, colour = {}, dark = false, fg = "#000", bg = "#fff", font = "sans-serif";
+  function theme() {
+    const cs = getComputedStyle(document.documentElement);
+    colour = Object.fromEntries(TOPICS.map(([k]) => [k, cs.getPropertyValue("--t-" + k).trim()]));
+    dark = cs.colorScheme === "dark"; fg = cs.getPropertyValue("--fg").trim(); bg = cs.getPropertyValue("--bg").trim();
+    font = cs.getPropertyValue("--sans").trim() || "sans-serif";
+  }
+  const size0 = () => Math.min(1, W / 600);
+  function size() {
+    const w = box.getBoundingClientRect().width; if (!w) return false;
+    const d = Math.min(2, devicePixelRatio || 1);
+    W = w; H = Math.round(Math.max(360, Math.min(580, w * 0.74))); R = Math.min(W, H) * 0.47; r0 = R * 0.08;
+    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    layout(); return true;
+  }
+  // Each work's place on its arm (radius and angle), worked out once per size; turning the pinwheel only adds to the angle
+  const rad = (r) => (r.k === "s" ? 3.2 : 4.2) * (0.75 + 0.25 * size0());
+  function layout() {
+    const placed = [];
+    loc = items.map((r) => {
+      const a = arms.indexOf(r.tp[0]), base = (a / arms.length) * TAU, uu = u(r.y + 0.5), gap = rad(r) * 2.4;
+      const at = (rr, side) => { const ang = base + uu * CURL + side / rr; return [rr, ang, Math.cos(ang) * rr, Math.sin(ang) * rr]; };
+      let rr = r0 + uu * (R - r0), p = at(rr, 0);
+      for (let n = 1; placed.some((q) => Math.hypot(q[2] - p[2], q[3] - p[3]) < gap); n++) {
+        const side = (n % 2 ? 1 : -1) * Math.ceil(n / 2) * gap;   // stack same-year works beside the arm, then step outward
+        p = Math.abs(side) > gap * 2.2 ? at(rr += gap * 0.55, 0) : at(rr, side);
+        if (Math.abs(side) > gap * 2.2) n = 0;
+      }
+      placed.push(p); return p;
+    });
+  }
+  function place() { pos = loc.map(([rr, ang]) => [W / 2 + Math.cos(ang + rot) * rr, H / 2 + Math.sin(ang + rot) * rr]); }
+  function draw(t) {
+    now = t; if (!W) return;
+    cx.clearRect(0, 0, W, H);
+    cx.font = `500 11px ${font}`; cx.textAlign = "left";
+    [2020, 2000, 1980].forEach((dc) => {
+      if (dc <= y0) return; const r = r0 + u(dc) * (R - r0);
+      cx.globalAlpha = 0.14; cx.strokeStyle = fg; cx.lineWidth = 1; cx.setLineDash([2, 4]); cx.beginPath(); cx.arc(W / 2, H / 2, r, 0, TAU); cx.stroke(); cx.setLineDash([]);
+      const lx = W / 2 + r * 0.71 + 4, ly = H / 2 - r * 0.71 - 4;
+      cx.globalAlpha = 0.9; cx.lineWidth = 3.5; cx.lineJoin = "round"; cx.strokeStyle = bg; cx.strokeText(dc + "s", lx, ly);
+      cx.globalAlpha = 0.6; cx.fillStyle = fg; cx.fillText(dc + "s", lx, ly);
+    });
+    // The arms: a glowing curve per topic from the hub to the tip
+    cx.globalCompositeOperation = dark ? "lighter" : "source-over";
+    arms.forEach((k, a) => {
+      const base = (a / arms.length) * TAU + rot, dim = hot && hot !== k;
+      cx.strokeStyle = colour[k]; cx.lineCap = "round";
+      [[9, dim ? 0.02 : 0.08], [1.6, dim ? 0.12 : 0.55]].forEach(([lw, al]) => {
+        cx.globalAlpha = al; cx.lineWidth = lw * (0.7 + 0.3 * size0()); cx.beginPath();
+        for (let s = 0; s <= 40; s++) { const q = s / 40, rr = r0 + q * (R - r0), ang = base + q * CURL; cx[s ? "lineTo" : "moveTo"](W / 2 + Math.cos(ang) * rr, H / 2 + Math.sin(ang) * rr); }
+        cx.stroke();
+      });
+    });
+    const foc = hover ?? sel;
+    items.forEach((r, i) => {
+      const [x, y] = pos[i], c = colour[r.tp[0]], off = (keep && !keep.has(r)) || (hot && r.tp[0] !== hot);
+      const s = rad(r) * (still ? 1 : 1 + 0.08 * Math.sin(t / 900 + i));
+      cx.globalAlpha = off ? 0.1 : 1; cx.strokeStyle = c; cx.fillStyle = bg; cx.lineWidth = i === foc ? 2.6 : 1.6;
+      cx.beginPath();
+      if (r.k === "b" || r.k === "x") { cx.moveTo(x, y - s * 1.25); cx.lineTo(x + s * 1.25, y); cx.lineTo(x, y + s * 1.25); cx.lineTo(x - s * 1.25, y); cx.closePath(); }
+      else cx.arc(x, y, s, 0, TAU);
+      cx.globalCompositeOperation = "source-over"; cx.fill(); cx.globalCompositeOperation = dark ? "lighter" : "source-over"; cx.stroke();
+    });
+    cx.globalCompositeOperation = "source-over";
+    // The hub
+    cx.globalAlpha = 0.9; cx.fillStyle = bg; cx.strokeStyle = fg; cx.lineWidth = 1.2; cx.beginPath(); cx.arc(W / 2, H / 2, r0 * 0.55, 0, TAU); cx.fill(); cx.stroke();
+    if (foc != null) { const [x, y] = pos[foc]; cx.globalAlpha = 1; cx.strokeStyle = fg; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, rad(items[foc]) + 5.5, 0, TAU); cx.stroke(); }
+    cx.globalAlpha = 1;
+  }
+  function card(i) {
+    if (i == null) return; const r = items[i], href = r.doi ? "https://doi.org/" + r.doi : r.link;
     $("so-card").innerHTML = `<div class="dt">${esc(r.yl)}<span class="tag">${esc(KIND[r.k])}</span>${r.lang ? `<span class="tag">${esc(r.lang)}</span>` : ""}</div>` +
       `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(r.t)}</a>` : esc(r.t)}</h3>` +
       `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${r.tp.map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k])}</span>`).join("")}</div>`;
   }
-  drawScholarly = function () {
-    const svg = $("so-svg"), W = Math.max(320, Math.round(svg.getBoundingClientRect().width || 720)); lastW = W;
-    const narrow = W < 600, left = narrow ? 108 : 200, right = 12, row = narrow ? 44 : 50, top = 10, R = narrow ? 3.4 : 4.2;
-    const H = top + rowsUsed.length * row + 28, x = (y) => left + ((y - y0) / (y1 - y0)) * (W - left - right);
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H); svg.textContent = "";
-    for (let d = y0; d <= y1; d += narrow ? 20 : 10) {
-      el(svg, "line", { x1: x(d), x2: x(d), y1: top, y2: H - 22, class: "so-ax" });
-      el(svg, "text", { x: x(d), y: H - 6, "text-anchor": "middle" }).textContent = d;
-    }
-    marks = [];
-    rowsUsed.forEach((k, ri) => {
-      const cy = top + row / 2 + ri * row;
-      el(svg, "line", { x1: left, x2: W - right, y1: cy, y2: cy, class: "so-row" });
-      el(svg, "text", { x: left - 12, y: cy + 4, "text-anchor": "end" }).textContent = narrow ? SHORT[k] : topicName[k];
-      const placed = [];
-      SCH.filter((r) => r.tp[0] === k && r.y).sort((a, b) => a.y - b.y).forEach((r) => {
-        // stack works from the same years above and below the line, then beside it, so each row keeps to its own band
-        const lim = row / 2 - R - 1, free = (px, py) => !placed.some((p) => Math.abs(p[0] - px) < R * 2.2 && Math.abs(p[1] - py) < R * 2.2);
-        let cx = x(r.y + 0.5), dy = 0;
-        for (let col = 0, n = 0; !free(cx, dy); n++) {
-          dy = (n % 2 ? -1 : 1) * Math.ceil(n / 2 + 0.5) * R * 2.3;
-          if (Math.abs(dy) > lim) { col++; n = -1; dy = 0; cx = x(r.y + 0.5) + (col % 2 ? 1 : -1) * Math.ceil(col / 2) * R * 2.3; }
-        }
-        placed.push([cx, dy]);
-        const a = { class: "so-m", tabindex: "0", role: "button", "aria-label": `${r.t} (${r.yl})`, style: `--c:var(--t-${k});stroke:var(--t-${k})` };
-        const m = r.k === "b" || r.k === "x"
-          ? el(svg, "rect", Object.assign(a, { x: cx - R * 0.85, y: cy + dy - R * 0.85, width: R * 1.7, height: R * 1.7, transform: `rotate(45 ${cx} ${cy + dy})` }))
-          : el(svg, "circle", Object.assign(a, { cx, cy: cy + dy, r: r.k === "s" ? R * 0.8 : R }));
-        const pick = () => { sel = r; marks.forEach((o) => o.m.classList.toggle("on", o.r === r)); card(r); };
-        m.addEventListener("click", pick); m.addEventListener("mouseenter", pick); m.addEventListener("focus", pick);
-        m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
-        marks.push({ r, m, pick });
-      });
-    });
-    markScholarly(filtered());
-    const first = marks.find((o) => o.r === sel) || marks.filter((o) => !o.m.classList.contains("off")).sort((a, b) => b.r.y - a.r.y)[0];
-    if (first) first.pick();
+  function frame(t) { if (!still && hover == null) rot += 0.0010; place(); draw(t); }
+  function loop(t) { if (t - last > 30) { last = t; frame(t); } raf = requestAnimationFrame(loop); }
+  const start = () => { if (!raf && on && !still && !document.hidden && !$("so-panel").hidden) raf = requestAnimationFrame(loop); }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
+  const redraw = () => { if (!raf && W) { place(); draw(now); } };
+  function pick(e) {
+    const b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+    let best = null, gap = 12; pos.forEach((p, i) => { if (keep && !keep.has(items[i])) return; const d = Math.hypot(p[0] - x, p[1] - y); if (d < gap) { gap = d; best = i; } });
+    return best;
+  }
+  cv.addEventListener("pointermove", (e) => {
+    const i = pick(e); cv.style.cursor = i == null ? "default" : "pointer";
+    if (i !== hover) { hover = i; card(i ?? sel); redraw(); }
+    if (i == null) { tip.hidden = true; return; }
+    const r = items[i]; tip.innerHTML = `<i style="background:${colour[r.tp[0]]}"></i>${esc(r.yl)} · ${esc(r.a || KIND[r.k])}`;
+    tip.hidden = false; tip.style.left = Math.max(8, Math.min(W - tip.offsetWidth - 8, pos[i][0] + 14)) + "px"; tip.style.top = pos[i][1] - 40 + "px";
+  });
+  cv.addEventListener("pointerleave", () => { hover = null; tip.hidden = true; card(sel); redraw(); });
+  cv.addEventListener("click", (e) => { const i = pick(e); if (i != null) { sel = i; card(sel); redraw(); } });
+  cv.addEventListener("keydown", (e) => {
+    const vis = items.map((r, i) => i).filter((i) => !keep || keep.has(items[i])); if (!vis.length) return;
+    const j = Math.max(0, vis.indexOf(sel)), to = { ArrowLeft: j - 1, ArrowDown: j - 1, ArrowRight: j + 1, ArrowUp: j + 1, Home: 0, End: vis.length - 1 }[e.key];
+    if (to == null) return; e.preventDefault(); sel = vis[Math.max(0, Math.min(vis.length - 1, to))]; card(sel); redraw();
+  });
+  drawScholarly = function () { theme(); if (size()) { place(); draw(now); } card(sel); start(); };
+  markScholarly = function (rows) {
+    keep = new Set(rows);
+    if (!keep.has(items[sel])) { const v = items.map((r, i) => i).filter((i) => keep.has(items[i])); if (v.length) { sel = v[v.length - 1]; card(sel); } }
+    redraw();
   };
-  markScholarly = function (rows) { const keep = new Set(rows); marks.forEach((o) => o.m.classList.toggle("off", !keep.has(o.r))); };
-  addEventListener("resize", () => { if (!$("so-panel").hidden && Math.round($("so-svg").getBoundingClientRect().width) !== lastW) drawScholarly(); });
+  soHot = (k) => { if (k !== hot) { hot = k; redraw(); } };
+  new ResizeObserver(() => { if (!$("so-panel").hidden && size()) { place(); draw(now); } }).observe(box);
+  new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); redraw(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else on = true;
+  document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
+  $("ex-tabs").addEventListener("click", () => { if ($("so-panel").hidden) stop(); });
 })();
 
 /* Latest research: new studies on skill learning (research.js) on the left, the Oracle's goalie topics on the right, linked by
