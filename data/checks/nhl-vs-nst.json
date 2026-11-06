@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-05",
+ "checked": "2026-11-06",
  "season": "2026-27",
- "nhlAsOf": "2026-11-05",
- "nstAsOf": "2026-11-05",
+ "nhlAsOf": "2026-11-06",
+ "nstAsOf": "2026-11-06",
  "goalies": 74,
- "matched": 59,
+ "matched": 60,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -136,14 +136,14 @@
    "name": "Michael DiPietro",
    "team": "BOS",
    "nhl": {
-    "gp": 4,
-    "sa": 127,
-    "ga": 9
+    "gp": 5,
+    "sa": 145,
+    "ga": 11
    },
    "nst": {
-    "gp": 4,
-    "sa": 126,
-    "ga": 9
+    "gp": 5,
+    "sa": 144,
+    "ga": 11
    }
   },
   {
@@ -161,31 +161,17 @@
    }
   },
   {
-   "name": "Samuel Ersson",
-   "team": "OTT",
-   "nhl": {
-    "gp": 8,
-    "sa": 167,
-    "ga": 20
-   },
-   "nst": {
-    "gp": 8,
-    "sa": 166,
-    "ga": 20
-   }
-  },
-  {
    "name": "Sebastian Cossa",
    "team": "UTA",
    "nhl": {
-    "gp": 6,
-    "sa": 112,
-    "ga": 14
+    "gp": 7,
+    "sa": 147,
+    "ga": 19
    },
    "nst": {
-    "gp": 6,
-    "sa": 111,
-    "ga": 14
+    "gp": 7,
+    "sa": 146,
+    "ga": 19
    }
   },
   {
