@@ -416,15 +416,15 @@ function primaryLink(r) {
 }
 function linksHtml(r) {
   const out = [];
-  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" rel="noopener" title="DOI ${esc(r.doi)}">DOI ↗</a>`);
-  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" rel="noopener" title="PubMed ${esc(r.pmid)}">PubMed ↗</a>`);
-  if (r.link) out.push(`<a href="${esc(r.link)}" rel="noopener">Source ↗</a>`);
-  for (const v of r.v || []) out.push(`<a href="${esc(v.h)}" rel="noopener" title="Another version of this study">${esc(v.l)} ↗</a>`);
+  if (r.doi) out.push(`<a href="https://doi.org/${esc(r.doi)}" target="_blank" rel="noopener noreferrer" title="DOI ${esc(r.doi)}">DOI ↗</a>`);
+  if (r.pmid) out.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(r.pmid)}/" target="_blank" rel="noopener noreferrer" title="PubMed ${esc(r.pmid)}">PubMed ↗</a>`);
+  if (r.link) out.push(`<a href="${esc(r.link)}" target="_blank" rel="noopener noreferrer">Source ↗</a>`);
+  for (const v of r.v || []) out.push(`<a href="${esc(v.h)}" target="_blank" rel="noopener noreferrer" title="Another version of this study">${esc(v.l)} ↗</a>`);
   return out.join("");
 }
 function titleHtml(r) {
   const href = primaryLink(r);
-  return href ? `<a href="${esc(href)}" rel="noopener">${esc(r.t)}</a>` : esc(r.t);
+  return href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(r.t)}</a>` : esc(r.t);
 }
 
 
@@ -829,7 +829,7 @@ const SS = (() => {
     const s = REC[i], href = s.doi ? "https://doi.org/" + s.doi : s.link || (s.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + s.pmid + "/" : "");
     const pills = (s.tp || []).map((t) => `<span style="--c:var(--t-${t})"><i></i>${esc(topicName[t] || t)}</span>`).join("");
     $("ss-card").innerHTML = `<div class="dt">${esc(s.yl || s.y || "Undated")} · ${s.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</div>` +
-      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(s.t)}</a>` : esc(s.t)}</h3>` +
+      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(s.t)}</a>` : esc(s.t)}</h3>` +
       `<div class="cite">${esc([s.a, (s.j || "").split(/\s\d/)[0]].filter(Boolean).join(" · "))}</div>` + (pills ? `<div class="pills">${pills}</div>` : "");
   }
   function frame(t) { if (!still && hover == null) rot += 0.0012; place(); draw(t); }
@@ -966,7 +966,7 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
   function card(i) {
     if (i == null) return; const r = items[i], href = r.doi ? "https://doi.org/" + r.doi : r.link;
     $("so-card").innerHTML = `<div class="dt">${esc(r.yl)}<span class="tag un">Unverified</span><span class="tag">${esc(KIND[r.k])}</span>${r.lang ? `<span class="tag">${esc(r.lang)}</span>` : ""}</div>` +
-      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(r.t)}</a>` : esc(r.t)}</h3>` +
+      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(r.t)}</a>` : esc(r.t)}</h3>` +
       `<div class="cite">${esc([r.a, r.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${r.tp.map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k])}</span>`).join("")}</div>`;
   }
@@ -1138,7 +1138,7 @@ let drawLearning = () => {};
   function card(i) {
     if (i == null) return; const w = items[i], href = w.doi ? "https://doi.org/" + w.doi : w.u;
     $("lo-card").innerHTML = `<div class="dt">${esc(String(w.y))}${w.isNew ? `<span class="tag un">New</span>` : ""}${w.gk ? `<span class="tag">Goalkeeper study</span>` : ""}</div>` +
-      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
+      `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
       (w.n ? `<p>${esc(w.n)}</p>` : "") + `<div class="cite">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${w.th.map((k) => `<span style="--c:var(${THEMES.find((x) => x[0] === k)[2]})"><i></i>${esc(TNAME[k])}</span>`).join("")}</div>`;
   }
