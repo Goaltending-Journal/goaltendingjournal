@@ -567,7 +567,7 @@ function exTabs(b, keep) {
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
-  $("tr-body").hidden = b.dataset.v === "net";   // the Researcher Oracle shows its A-Z and profiles in place of the study table
+  $("tr-body").hidden = b.dataset.v !== "studies";   // the study table belongs to the Evidence Oracle; the other tabs show only their own works
   useSet(b.dataset.v === "scholarly" ? SCH : REC);
   if (b.dataset.v === "scholarly") { $("so-panel").hidden = false; drawScholarly(); return; }
   if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
