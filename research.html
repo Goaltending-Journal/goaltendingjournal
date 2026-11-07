@@ -72,9 +72,28 @@ button, input, select { font-family: var(--sans); }
 .frame > .rail { grid-area: rail; display: grid; gap: 22px; align-content: start; min-width: 0; padding: 18px; background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; }
 .frame > .ex { grid-area: ex; min-width: 0; }
 .frame > .tr-body { grid-area: body; min-width: 0; }
-.rail .nw-side { padding-top: 18px; border-top: 1px solid var(--rule); }
-.rail .nw-l { background: var(--bg); }
-.rail .nw-az { max-height: 340px; }
+.frame > .tr-body[hidden] { display: none; }
+/* Researcher Oracle: under the sphere, the researcher A-Z fills the space; picking someone shows their profile and studies there */
+.rz { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.rz-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; }
+.rz-head .lab { font: 600 12px var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); }
+.rz-head .nw-q { width: min(260px, 100%); }
+.rz .nw-az { display: block; columns: 3 190px; column-gap: 28px; max-height: none; overflow: visible; margin-top: 10px; padding-top: 6px; }
+.rz .nw-az button { display: flex; width: 100%; box-sizing: border-box; break-inside: avoid; }
+.rz .nw-l { position: static; background: none; break-after: avoid; padding-top: 12px; }
+.rz-sel { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 18px 36px; align-items: start; }
+.rz-sel > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.rz-st { list-style: none; margin: 0; padding: 0; display: grid; }
+.rz-st li { padding: 12px 0; border-top: 1px solid var(--rule); }
+.rz-st li:first-child { border-top: 0; padding-top: 2px; }
+.rz-st h5 { margin: 0 0 4px; font: 600 15.5px/1.35 var(--serif); }
+.rz-st h5 a { color: var(--fg); }
+.rz-st .p-by { font-size: 13px; color: var(--muted); }
+.rz-st .p-line { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 6px; font-size: 13px; }
+.rz-st .p-line a { color: var(--accent); }
+@media (max-width: 720px) { .rz-sel { grid-template-columns: minmax(0, 1fr); } }
+#lo-themes .orb::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+#lo-themes .opt input { accent-color: var(--c); }
 .opt .orb { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
 #topics .orb::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
 #topics .opt input { accent-color: var(--c); }
@@ -296,7 +315,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
   <div class="wrap">
   <section class="tracker frame" id="articles" aria-label="Goaltending research">
     <!-- One frame (layout C4, Goldy 2026-11-02): a side rail with the filters (topics carry their map colours) and the researcher A–Z, beside the explorer tabs and the study table. -->
-    <aside class="rail" aria-label="Filters and researchers">
+    <aside class="rail" aria-label="Filters">
         <form class="side" id="filters" role="search" aria-label="Filter records">
           <div class="field">
             <label for="q">Search</label>
@@ -308,18 +327,17 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
               <legend>Scope</legend>
               <div id="scope" class="opts"></div>
             </fieldset>
-            <div class="field">
-              <label for="decade">Decade</label>
-              <select id="decade"></select>
-            </div>
             <fieldset class="group">
               <legend>Topic</legend>
               <div id="topics" class="opts"></div>
             </fieldset>
+            <fieldset class="group">
+              <legend>Coaching Oracle</legend>
+              <div id="lo-themes" class="opts"></div>
+            </fieldset>
             <button class="reset" type="button" id="reset">Clear filters</button>
           </div>
         </form>
-        <div class="nw-side" id="nw-side" aria-live="polite"></div>
     </aside>
     <figure class="ex" aria-label="Explore the research">
       <div class="ex-head">
@@ -336,6 +354,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <div class="nw-tip" id="nw-tip" hidden></div>
           <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
         </div>
+        <div class="nw-side rz" id="nw-side" aria-live="polite"></div>
       </div>
       <div id="ss-panel" role="tabpanel" aria-labelledby="ss-tab" hidden>
         <div class="nw ss" id="ss">
@@ -361,7 +380,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       </div>
     </figure>
 
-    <div class="tr-body">
+    <div class="tr-body" id="tr-body" hidden>
 
       <div class="tr-main">
         <div class="tr-bar">
@@ -400,10 +419,9 @@ const TOPIC_SHORT = { hip: "Hip", inj: "Injury", eq: "Equip.", vis: "Vision", ph
 const TOPIC_TINY = { hip: "Hip", inj: "Inj", eq: "Eq", vis: "Vis", phy: "Phy", bio: "Mov", psy: "Psy", dev: "Dev", stats: "Ana" };
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const decadeOf = (y) => (y == null ? null : Math.floor(y / 10) * 10);
 const topicName = Object.fromEntries(TOPICS);
 const PAGE_SIZE = 5;
-const state = { q: "", scope: "all", decade: "all", year: null, topics: new Set(), span: null, person: null, sort: "new", shown: PAGE_SIZE, sig: "" };
+const state = { q: "", scope: "all", year: null, topics: new Set(), span: null, person: null, sort: "new", shown: PAGE_SIZE, sig: "" };
 const SCH = typeof SCHOLARLY !== "undefined" ? SCHOLARLY : [];
 let DATA = REC;   // the table shows the Research Oracle, or the Scholarly Oracle while its tab is open
 const KIND = { r: "Study", s: "Goalies reported separately", b: "Book or coaching", x: "Equipment standard" };
@@ -450,13 +468,6 @@ function filterOptions() {
   }).join("");
   $("topics").innerHTML = TOPICS.map(([k, n]) =>
     `<label class="opt" style="--c: var(--t-${k})"><input type="checkbox" value="${k}"${state.topics.has(k) ? " checked" : ""}><span class="orb">${esc(n)}</span><span class="n">${DATA.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
-  const years = DATA.map((r) => r.y).filter((y) => y != null), decades = [];
-  for (let d = decadeOf(Math.min(...years)); d <= decadeOf(Math.max(...years)); d += 10) decades.push(d);
-  if (state.decade !== "all" && state.decade !== "nd" && !decades.includes(Number(state.decade))) state.decade = "all";
-  $("decade").innerHTML = `<option value="all">All years</option>` +
-    decades.slice().reverse().map((d) => `<option value="${d}">${d}s</option>`).join("") +
-    (DATA.some((r) => r.y == null) ? `<option value="nd">Undated</option>` : "");
-  $("decade").value = state.decade;
 }
 filterOptions();
 function useSet(set) {
@@ -471,10 +482,6 @@ function matches(r) {
   if (state.year != null && r.y !== state.year) return false;
   if (state.span && (r.y == null || r.y < state.span.from || r.y > state.span.to)) return false;
   if (state.person && !state.person.keys.has(recKey(r))) return false;
-  if (state.decade !== "all") {
-    if (state.decade === "nd") { if (r.y != null) return false; }
-    else if (decadeOf(r.y) !== Number(state.decade)) return false;
-  }
   for (const t of state.topics) if (!r.tp.includes(t)) return false;
   if (state.q) {
     const hay = [r.t, r.a, r.j, r.doi, r.pmid, r.yl].filter(Boolean).join(" ").toLowerCase();
@@ -491,7 +498,7 @@ function filtered() {
 }
 function render() {
   const rows = filtered();
-  const sig = JSON.stringify([state.q, state.scope, state.decade, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
+  const sig = JSON.stringify([state.q, state.scope, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
   if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
   const shown = rows.slice(0, state.shown);
   filterBadge();
@@ -514,7 +521,6 @@ function activeChips() {
   if (state.person) out.push(["person", state.person.name]);
   if (state.span) out.push(["span", state.span.label]);
   if (state.scope !== "all") out.push(["scope", SCOPES.find(([k]) => k === state.scope)[1]]);
-  if (state.decade !== "all") out.push(["decade", state.decade === "nd" ? "Undated" : state.decade + "s"]);
   state.topics.forEach((t) => out.push(["topic:" + t, topicName[t]]));
   $("active").innerHTML = out.map(([k, n]) => `<button type="button" data-k="${esc(k)}" aria-label="Remove filter ${esc(n)}">${esc(n)}</button>`).join("");
 }
@@ -525,18 +531,11 @@ $("active").addEventListener("click", (e) => {
   if (k === "span") state.span = null;
   if (k === "person") { state.person = null; drawNetwork(); }
   if (k === "scope") { state.scope = "all"; $("scope").querySelector('input[value="all"]').checked = true; }
-  if (k === "decade") { state.decade = "all"; $("decade").value = "all"; }
   if (k.startsWith("topic:")) { const t = k.slice(6); state.topics.delete(t); $("topics").querySelector(`input[value="${t}"]`).checked = false; }
   render();
 });
 $("q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
 $("scope").addEventListener("change", (e) => { state.scope = e.target.value; render(); });
-$("decade").addEventListener("change", (e) => {
-  state.decade = e.target.value;
-  if (state.decade !== "all") state.span = null;
-  if (state.decade !== "all") state.year = null;
-  render();
-});
 $("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
 $("topics").addEventListener("change", (e) => {
   const k = e.target.value;
@@ -549,12 +548,12 @@ $("filters-toggle").addEventListener("click", () => {
   $("filters-toggle").setAttribute("aria-expanded", String(open));
 });
 function filterBadge() {
-  const n = (state.scope !== "all") + (state.decade !== "all") + (state.year != null) + (state.span != null) + (state.person != null) + state.topics.size;
+  const n = (state.scope !== "all") + (state.year != null) + (state.span != null) + (state.person != null) + state.topics.size;
   $("filters-toggle").textContent = n ? `Filters · ${n}` : "Filters";
 }
 $("reset").addEventListener("click", () => {
-  state.q = ""; state.scope = "all"; state.decade = "all"; state.year = null; state.span = null; state.person = null; state.sort = "new"; state.topics.clear();
-  $("q").value = ""; $("decade").value = "all"; $("sort").value = "new";
+  state.q = ""; state.scope = "all"; state.year = null; state.span = null; state.person = null; state.sort = "new"; state.topics.clear();
+  $("q").value = ""; $("sort").value = "new";
   $("scope").querySelector('input[value="all"]').checked = true;
   $("topics").querySelectorAll("input").forEach((c) => (c.checked = false));
   drawNetwork();
@@ -568,6 +567,7 @@ function exTabs(b, keep) {
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
+  $("tr-body").hidden = b.dataset.v === "net";   // the Researcher Oracle shows its A-Z and profiles in place of the study table
   useSet(b.dataset.v === "scholarly" ? SCH : REC);
   if (b.dataset.v === "scholarly") { $("so-panel").hidden = false; drawScholarly(); return; }
   if (b.dataset.v === "net") { $("nw-net").hidden = false; drawNetwork(); return; }
@@ -719,18 +719,21 @@ function drawNetwork() {
     : `${NWP[sel].name} and ${near.size} ${near.size === 1 ? "collaborator" : "collaborators"}, lit on the researcher sphere.`);
   const side = $("nw-side");
   if (sel == null) {
-    side.innerHTML = `<label class="lab" for="nw-q">Researchers A–Z</label>` +
-      `<input id="nw-q" class="nw-q" type="search" placeholder="Find a name" autocomplete="off" value="${esc(NW.q)}">` +
+    side.innerHTML = `<div class="rz-head"><label class="lab" for="nw-q">Researchers A–Z</label>` +
+      `<input id="nw-q" class="nw-q" type="search" placeholder="Find a name" autocomplete="off" value="${esc(NW.q)}"></div>` +
       `<div class="nw-az" id="nw-az"></div>`;
     nwAZ();
   } else {
     const p = NWP[sel], cols = [...near].sort((a, b) => NWP[b].n - NWP[a].n);
-    const nh = REC.filter((r) => p.home.includes(recKey(r))).length;
-    side.innerHTML = `<button type="button" class="nw-back" id="nw-back">‹ All researchers</button><h4>${esc(p.name)}</h4>${p.org ? `<div class="org">${esc(p.org)}</div>` : ""}` +
+    const mine = REC.filter((r) => p.home.includes(recKey(r))).sort((a, b) => (b.y || 0) - (a.y || 0));
+    side.innerHTML = `<div class="rz-sel"><div><button type="button" class="nw-back" id="nw-back">‹ All researchers</button><h4>${esc(p.name)}</h4>${p.org ? `<div class="org">${esc(p.org)}</div>` : ""}` +
       `<div class="nw-stats"><span><b>${p.n}</b>goalie ${p.n === 1 ? "study" : "studies"}</span><span><b>${cols.length}</b>collaborators</span><span><b>${nwYears(p)}</b>active</span></div>` +
       (p.tp.length ? `<div class="nw-list">${p.tp.map((t) => `<span class="tp" style="--c: var(--t-${grjTopicKey(t) || "hip"})"><i></i>${esc(t)}</span>`).join("")}</div>` : "") +
       (cols.length ? `<div class="lab">Published with</div><div class="nw-list">${cols.map((i) => `<button type="button" data-i="${i}">${esc(NWP[i].name)}</button>`).join("")}</div>` : "") +
-      (nh ? `<button type="button" class="btn" id="nw-show">Show ${nh === 1 ? "their study" : `their ${nh} studies`}</button>` : "");
+      `</div><div>` + (mine.length ? `<div class="lab">In the Evidence Oracle</div><ul class="rz-st">${mine.map((r) =>
+        `<li><h5>${titleHtml(r)}</h5><div class="p-by">${[r.a ? esc(r.a) : "", r.j ? `<i>${esc(r.j)}</i>` : ""].filter(Boolean).join(" · ")}</div>` +
+        `<div class="p-line"><b>${esc(r.yl || "")}</b>${linksHtml(r)}</div></li>`).join("")}</ul>`
+        : `<p class="nw-none">None of their goalie studies is in the Evidence Oracle yet.</p>`) + `</div></div>`;
   }
 }
 // Alphabetical by surname, grouped under the first letter; the box filters as you type.
@@ -748,14 +751,6 @@ function nwAZ() {
 }
 function nwPick(i) { NW.sel = NW.sel === i ? null : i; NW.hl = null; drawNetwork(); }
 $("nw-side").addEventListener("click", (e) => {
-  if (e.target.closest("#nw-show")) {
-    const p = NWP[NW.sel];
-    state.person = { id: p.id, name: p.name, keys: new Set(p.home) };
-    render();
-    $("count").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-    $("count").focus({ preventScroll: true });
-    return;
-  }
   if (e.target.closest("#nw-back")) { NW.sel = null; drawNetwork(); $("nw-q").focus(); return; }
   const b = e.target.closest("button[data-i]"); if (b) { NW.sel = Number(b.dataset.i); NW.hl = null; drawNetwork(); $("nw-back").focus(); }
 });
@@ -1049,7 +1044,7 @@ let drawLearning = () => {};
   const trails = {};
   items.forEach((w, i) => w.by.forEach((p) => (trails[p] = trails[p] || []).push(i)));
   const links = []; Object.values(trails).forEach((ids) => { for (let j = 1; j < ids.length; j++) links.push([ids[j - 1], ids[j]]); });
-  let W = 0, H = 0, R = 0, rotY = 0, rotX = -0.3, velY = 0.0018, t = 0, drag = null, hover = null, sel = items.length - 1, hot = null;
+  let W = 0, H = 0, R = 0, rotY = 0, rotX = -0.3, velY = 0.0018, t = 0, drag = null, hover = null, sel = items.length - 1, hot = null, only = new Set();
   let raf = 0, last = 0, on = false, colour = {}, dark = false, fg = "#000", bgc = "#fff", lbl = "sans-serif", sprites = {};
   function theme() {
     const cs = getComputedStyle(document.documentElement);
@@ -1090,7 +1085,7 @@ let drawLearning = () => {};
     }
     cx.stroke();
   }
-  const lit = (i) => !hot || items[i].th.includes(hot);
+  const lit = (i) => (!hot || items[i].th.includes(hot)) && (!only.size || items[i].th.some((k) => only.has(k)));
   const depth = (z) => 0.25 + 0.75 * (1 - z) / 2;
   function draw() {
     if (!W) return;
@@ -1110,7 +1105,7 @@ let drawLearning = () => {};
     cx.globalCompositeOperation = dark ? "lighter" : "source-over";
     for (const [a, b] of links) {
       const p = pts[a], q = pts[b], own = mine && items[a].by.some((n) => mine.has(n)) && items[b].by.some((n) => mine.has(n));
-      const dim = hot && !(lit(a) && lit(b)), d = Math.max(0.1, (1 - (p.z + q.z) / 2) / 2);
+      const dim = (hot || only.size) && !(lit(a) && lit(b)), d = Math.max(0.1, (1 - (p.z + q.z) / 2) / 2);
       cx.strokeStyle = colour[tc(a)]; cx.globalAlpha = (dim ? 0.02 : own ? 0.8 : 0.09) * d; cx.lineWidth = own ? 1.5 : 0.8;
       arc(p.r, q.r);
     }
@@ -1128,7 +1123,7 @@ let drawLearning = () => {};
     cx.font = "600 11px " + lbl; cx.textAlign = "center"; cx.letterSpacing = "1.5px";
     for (const [k, n] of THEMES) {
       const a = turn(norm(anchor[k])), [x, y] = proj(a.map((v) => v * 1.08)); if (a[2] > 0.15) continue;
-      cx.globalAlpha = Math.min(1, (0.15 - a[2]) * 2) * (hot && hot !== k ? 0.25 : 0.9); cx.fillStyle = colour[k];
+      cx.globalAlpha = Math.min(1, (0.15 - a[2]) * 2) * ((hot && hot !== k) || (only.size && !only.has(k)) ? 0.25 : 0.9); cx.fillStyle = colour[k];
       cx.lineWidth = 4; cx.strokeStyle = bgc; cx.strokeText(n.toUpperCase(), x, y);
       cx.fillText(n.toUpperCase(), x, y);
     }
@@ -1148,7 +1143,7 @@ let drawLearning = () => {};
   const redraw = () => { if (!raf && W) { place(); draw(); } };
   function pick(e) {
     const b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
-    let best = null, gap = 10; pts.forEach((p, i) => { if (p.z > 0.3) return; const d = Math.hypot(p.x - x, p.y - y) - (items[i].isNew ? 3 : 0); if (d < gap) { gap = d; best = i; } });
+    let best = null, gap = 10; pts.forEach((p, i) => { if (p.z > 0.3 || !lit(i)) return; const d = Math.hypot(p.x - x, p.y - y) - (items[i].isNew ? 3 : 0); if (d < gap) { gap = d; best = i; } });
     return best;
   }
   cv.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, moved: false }; cv.setPointerCapture(e.pointerId); });
@@ -1179,6 +1174,15 @@ let drawLearning = () => {};
   key.innerHTML = THEMES.map(([k, n, v]) => `<li data-k="${k}" style="--c:var(${v})"><i></i>${esc(n)}</li>`).join("") + `<li class="nw-k"><i></i>Newest studies</li>`;
   key.addEventListener("pointerover", (e) => { const li = e.target.closest("li[data-k]"); hot = li ? li.dataset.k : null; key.classList.toggle("dim", !!hot); key.querySelectorAll("li").forEach((x) => x.classList.toggle("hot", x.dataset.k === hot)); redraw(); });
   key.addEventListener("pointerleave", () => { hot = null; key.classList.remove("dim"); key.querySelectorAll("li").forEach((x) => x.classList.remove("hot")); redraw(); });
+  // The side rail's Coaching Oracle themes: ticking one shows only its works (and opens this tab)
+  const rail = $("lo-themes");
+  rail.innerHTML = THEMES.map(([k, n, v]) => `<label class="opt" style="--c: var(${v})"><input type="checkbox" value="${k}"><span class="orb">${esc(n)}</span><span class="n">${items.filter((w) => w.th.includes(k)).length}</span></label>`).join("");
+  rail.addEventListener("change", (e) => {
+    e.target.checked ? only.add(e.target.value) : only.delete(e.target.value);
+    if (!lit(sel)) { for (let i = items.length - 1; i >= 0; i--) if (lit(i)) { sel = i; break; } card(sel); }
+    if ($("lr").hidden) $("lr-tab").click(); else redraw();
+  });
+  $("reset").addEventListener("click", () => { only.clear(); rail.querySelectorAll("input").forEach((c) => (c.checked = false)); redraw(); });
   drawLearning = function () { theme(); if (size()) { place(); draw(); } card(sel); start(); };
   new ResizeObserver(() => { if (!$("lr").hidden && size()) { place(); draw(); } }).observe(box);
   new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
