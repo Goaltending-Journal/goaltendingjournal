@@ -8,7 +8,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | --- | --- |
 | `index.html` | The home page: the Constellation hero (every goalie researcher as a light in their main topic's colour, linked to co-authors, drawn by `constellation.js` from `researchers-data.js`), a "Since 1979" dot timeline of every study, and links into the site. |
 | `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
-| `coaches.html` | The Coaches page: the Ecological dynamics and skill acquisition list, for coaches looking for non-goalie-specific practice design research. |
+| `coaches.html` | The Coaches page: the Ecological Dynamics and Skill Acquisition list, for coaches looking for practice design research and tips. |
 | `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
 | `data.js` | The research data: every article and the "last updated" date. |
 | `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
