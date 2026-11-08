@@ -3,39 +3,46 @@
    Pages that need extra colours (topic hues, heat-map steps) add them in their own style block.
    Brief-style pages (goalies.html, glove-positioning.html, learn.css) name the main colours --ice, --chalk, --fog, --line, --crease;
    those names are aliases of --bg, --fg, --muted, --rule, --accent so each colour is set once.
-   Type (Goldy, 2026-11-01): Jost, the face of the GRJ logo, for titles, headings and labels; Source Serif 4 for reading text. */
+   Colour (Goldy, 2026-11-08): J8 Smoke Jade with white, a matte jade that lets the nine topic colours pop.
+   Type (Goldy, 2026-11-08): Fjalla One, the face of the GRJ logo, for titles and headings; Jost for small labels; Source Serif 4 for reading text. */
+/* Fjalla One has one weight. Declaring it for every weight stops browsers drawing a smeared fake bold where headings ask for 600 or 700.
+   Self-hosted from Google Fonts (SIL Open Font License 1.1, see fonts/README.md). */
+@font-face { font-family: "GRJ Display"; src: url(fonts/fjalla-one-latin.woff2) format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "GRJ Display"; src: url(fonts/fjalla-one-latin-ext.woff2) format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 :root {
   color-scheme: light;
-  --bg: #f8f6f0;           /* page ground */
-  --surface: #f0ece1;      /* panels */
-  --fg: #1a1f2b;           /* primary text */
-  --muted: #5a5f6b;        /* secondary text */
-  --mute: #6e7280;         /* tertiary text */
-  --rule: #e2dccd;         /* hairlines */
-  --accent: #85610f;       /* Brass */
-  --accent-soft: #f1e6c8;
-  --crease-dim: rgba(133,97,15,.14);
+  --bg: #f7f9f8;           /* page ground */
+  --surface: #eef3f1;      /* panels */
+  --fg: #172120;           /* primary text */
+  --muted: #5a6866;        /* secondary text */
+  --mute: #6f7c7a;         /* tertiary text */
+  --rule: #dde5e3;         /* hairlines */
+  --accent: #4b706a;       /* Smoke Jade */
+  --accent-soft: #d9e8e5;
+  --crease-dim: rgba(75,112,106,.14);
   --on-accent: #ffffff;    /* text on an accent fill */
-  --glass: #ece5d2;        /* raised rows, inputs */
-  --boards: #f0ece1;       /* brief-page panels */
-  --series-b: #b3ada0;     /* second chart series */
-  --field-line: #d8d0bd;
-  --shadow: rgba(40,30,10,.16);
+  --glass: #e6eeeb;        /* raised rows, inputs */
+  --boards: #eef3f1;       /* brief-page panels */
+  --series-b: #a9b5b2;     /* second chart series */
+  --field-line: #cfd9d6;
+  --shadow: rgba(15,30,28,.16);
   --good: #17865a;
   --bad: #c8364a;
   --warn: #a8690c;
-  /* Masthead glow: edit these to change the ice-blue effect */
-  --mast-a: #f8f4ea;
-  --mast-b: #efe3c4;
-  --glow-text: 0 0 14px rgba(154, 116, 32, 0.5), 0 0 38px rgba(226, 185, 85, 0.45);
-  --glow-text-hover: 0 0 8px rgba(154, 116, 32, 0.85), 0 0 26px rgba(133, 97, 15, 0.6), 0 0 60px rgba(226, 185, 85, 0.55);
-  --glow-spot: rgba(154, 116, 32, 0.38);
-  --glow-edge: rgba(154, 116, 32, 0.35);
+  /* Masthead glow: edit these to change the effect */
+  --mast-a: #f4f8f7;
+  --mast-b: #d9e8e5;
+  --glow-text: 0 0 14px rgba(75, 112, 106, 0.45), 0 0 38px rgba(164, 199, 193, 0.5);
+  --glow-text-hover: 0 0 8px rgba(75, 112, 106, 0.8), 0 0 26px rgba(59, 93, 88, 0.55), 0 0 60px rgba(164, 199, 193, 0.6);
+  --glow-spot: rgba(75, 112, 106, 0.32);
+  --glow-edge: rgba(75, 112, 106, 0.32);
   --ice: var(--bg); --chalk: var(--fg); --fog: var(--muted); --line: var(--rule); --crease: var(--accent);
   --paint: var(--bad); --rink: var(--ice);
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* titles and section heads: the logo face, on every page */
+  --display: "GRJ Display", "Fjalla One", "Oswald", "Arial Narrow", system-ui, sans-serif;   /* titles and section heads: the logo face, on every page */
   --label: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;   /* small headers in tight spots, as in the logo lockup */
   --f-display: var(--display);
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -48,28 +55,28 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #0f131c; --surface: #171c27; --fg: #f1ede3; --muted: #aaa79e; --mute: #85837c; --rule: #2a303d;
-    --accent: #e2b955; --accent-soft: #33291a; --crease-dim: rgba(226,185,85,.14); --on-accent: #0f131c;
-    --glass: #1d2330; --boards: #171c27; --series-b: #7f7c74; --field-line: #353b49; --shadow: rgba(0,0,0,.5);
+    --bg: #0d1211; --surface: #141c1b; --fg: #e9f0ee; --muted: #9fb0ad; --mute: #7f8e8b; --rule: #233130;
+    --accent: #a4c7c1; --accent-soft: #1c2a28; --crease-dim: rgba(164,199,193,.14); --on-accent: #0d1211;
+    --glass: #1a2422; --boards: #141c1b; --series-b: #6f7c7a; --field-line: #2e3d3b; --shadow: rgba(0,0,0,.5);
     --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-    --mast-a: #141925; --mast-b: #2a2416;
-    --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
-    --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
-    --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
+    --mast-a: #111716; --mast-b: #1c2a28;
+    --glow-text: 0 0 12px rgba(164, 199, 193, 0.5), 0 0 34px rgba(75, 112, 106, 0.55);
+    --glow-text-hover: 0 0 8px rgba(164, 199, 193, 0.95), 0 0 28px rgba(120, 160, 154, 0.8), 0 0 64px rgba(75, 112, 106, 0.6);
+    --glow-spot: rgba(75, 112, 106, 0.3); --glow-edge: rgba(164, 199, 193, 0.4);
     --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
     --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0f131c; --surface: #171c27; --fg: #f1ede3; --muted: #aaa79e; --mute: #85837c; --rule: #2a303d;
-  --accent: #e2b955; --accent-soft: #33291a; --crease-dim: rgba(226,185,85,.14); --on-accent: #0f131c;
-  --glass: #1d2330; --boards: #171c27; --series-b: #7f7c74; --field-line: #353b49; --shadow: rgba(0,0,0,.5);
+  --bg: #0d1211; --surface: #141c1b; --fg: #e9f0ee; --muted: #9fb0ad; --mute: #7f8e8b; --rule: #233130;
+  --accent: #a4c7c1; --accent-soft: #1c2a28; --crease-dim: rgba(164,199,193,.14); --on-accent: #0d1211;
+  --glass: #1a2422; --boards: #141c1b; --series-b: #6f7c7a; --field-line: #2e3d3b; --shadow: rgba(0,0,0,.5);
   --good: #3ddc97; --bad: #ff5d6c; --warn: #ffc65c;
-  --mast-a: #141925; --mast-b: #2a2416;
-  --glow-text: 0 0 12px rgba(226, 185, 85, 0.5), 0 0 34px rgba(154, 116, 32, 0.5);
-  --glow-text-hover: 0 0 8px rgba(226, 185, 85, 0.95), 0 0 28px rgba(154, 116, 32, 0.8), 0 0 64px rgba(154, 116, 32, 0.6);
-  --glow-spot: rgba(154, 116, 32, 0.28); --glow-edge: rgba(226, 185, 85, 0.4);
+  --mast-a: #111716; --mast-b: #1c2a28;
+  --glow-text: 0 0 12px rgba(164, 199, 193, 0.5), 0 0 34px rgba(75, 112, 106, 0.55);
+  --glow-text-hover: 0 0 8px rgba(164, 199, 193, 0.95), 0 0 28px rgba(120, 160, 154, 0.8), 0 0 64px rgba(75, 112, 106, 0.6);
+  --glow-spot: rgba(75, 112, 106, 0.3); --glow-edge: rgba(164, 199, 193, 0.4);
   --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
   --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
 }
@@ -80,7 +87,7 @@
 /* The sunflower logo (Goldy, 2026-11-04): the homepage "Explore the Oracle" seed spiral in the topic colours, turning slowly beside "The GRJ" */
 .topbar .brand-sun { width: 30px; height: 30px; flex: none; overflow: visible; transition: transform 0.35s ease; }
 .topbar .brand-sun g { transform-origin: 48px 48px; animation: brand-spin 60s linear infinite; }
-.topbar .brand-text { font: 600 19px/1 "Jost", "Futura", system-ui, sans-serif; letter-spacing: 0.02em; text-transform: none; }
+.topbar .brand-text { font: 400 21px/1 var(--display); letter-spacing: 0.02em; text-transform: none; }
 .topbar .brand:hover .brand-sun { transform: rotate(-20deg) scale(1.12); }
 .topbar .brand:hover .brand-sun g { animation-duration: 8s; }
 @keyframes brand-spin { to { transform: rotate(360deg); } }
