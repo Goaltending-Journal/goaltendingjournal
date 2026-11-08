@@ -9,7 +9,7 @@
   let TEAMS;
   try { TEAMS = (await (await fetch("illustrations/team-colours.json")).json()).teams; } catch { return; }
   const draw = ST.STYLES["skeletons-xray"].draw, FPS = 12, SIZE = 64;
-  const NEUTRAL = { name: "League", primary: "#9A7420", secondary: "#FFFFFF", accent: "#E2B955", code: "NHL" };   // a type nobody holds yet
+  const NEUTRAL = { name: "League", primary: "#4B706A", secondary: "#FFFFFF", accent: "#A4C7C1", code: "NHL" };   // a type nobody holds yet
   // The value each trait type is ranked on (the z-scores in the data); titles have one holder
   const Z = { workhorse: "toi", "hd-stopper": "hd60", wall: "ldmd60", rebound: "reb100", siege: "sa60", crease: "hdshare" };
   const types = G.ORDER.map((k) => D.types.find((t) => t.key === k)).filter(Boolean);

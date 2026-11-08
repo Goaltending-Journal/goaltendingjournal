@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Research Oracle · The Goaltending Research Journal</title>
 <meta name="description" content="A living database of evidence-based research in ice hockey goaltending.">
-<meta name="theme-color" content="#f8f6f0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0f131c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -21,19 +21,19 @@
 /* Layout (Goldy, 2026-11-02): an About-style masthead, then one frame holding the explorer (researcher network in the homepage
    sphere's topic colours, heatmaps, studies by year) and the filters and study table. No footer, as on the homepage and About. */
 :root {
-  --h1-hover: #9a7420;   /* masthead title hover and the footer tip pill */
+  --h1-hover: #3b5d58;   /* masthead title hover and the footer tip pill */
   --on-heat: #ffffff;   /* text on the two darkest heatmap steps */
   --r: 3px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --h1-hover: #efd28a;
-    --on-heat: #0f131c;
+    --on-heat: #0d1211;
   }
 }
 :root[data-theme="dark"] {
   --h1-hover: #efd28a;
-  --on-heat: #0f131c;
+  --on-heat: #0d1211;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
