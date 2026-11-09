@@ -94,8 +94,8 @@ button,input,select{font:inherit;color:inherit}
 .hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 0 clamp(28px,4vw,44px)}
 .hero::before{content:"";position:absolute;inset:-20% -10% 0;z-index:-1;pointer-events:none;filter:blur(60px);opacity:.26;
   -webkit-mask-image:radial-gradient(closest-side,#000 45%,transparent);mask-image:radial-gradient(closest-side,#000 45%,transparent);
-  background:radial-gradient(28% 40% at 28% 40%,var(--t-hip),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--t-psy),transparent 70%),
-             radial-gradient(26% 34% at 50% 78%,var(--t-vis),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--t-eq),transparent 70%)}
+  background:radial-gradient(28% 40% at 28% 40%,var(--jade-a),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--jade-b),transparent 70%),
+             radial-gradient(26% 34% at 50% 78%,var(--jade-a),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--jade-b),transparent 70%)}
 .hero h1{font:600 clamp(34px,5.4vw,66px)/1.04 var(--display);letter-spacing:.01em;margin:0;text-wrap:balance}
 .spectrum{background:var(--word-grad);
   background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
@@ -403,17 +403,17 @@ tbody tr:last-child td{border-bottom:0}
     <div><h5>Season leader</h5><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
     <div><h5>Season</h5><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div>
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
-      <li><button type="button" data-v="tySec" style="--c:var(--t-psy)"><i></i>Archetypes</button></li>
-      <li><button type="button" data-v="gmSec" style="--c:var(--t-inj)"><i></i>Scoring Heat Map</button></li>
-      <li><button type="button" data-v="lbSec" style="--c:var(--t-eq)"><i></i>Leaderboard</button></li>
-      <li><button type="button" data-v="nstSec" style="--c:var(--t-vis)"><i></i>Advanced stats</button></li>
+      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>Archetypes</button></li>
+      <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
+      <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
+      <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
-      <li><button type="button" data-v="impSec" style="--c:var(--t-stats)"><i></i>Impact GSAx</button></li>
-      <li><button type="button" data-v="scatterSec" style="--c:var(--t-phy)"><i></i>SV% vs. GAA</button></li>
-      <li><button type="button" data-v="workSec" style="--c:var(--t-bio)"><i></i>Workload</button></li>
-      <li><button type="button" data-v="rangeSec" style="--c:var(--t-dev)"><i></i>SV% Ranges</button></li>
-      <li><button type="button" data-v="gsaxSec" style="--c:var(--t-hip)"><i></i>GSAA vs. GSAx</button></li>
-      <li><button type="button" data-v="panesSec" style="--c:var(--t-dev)"><i></i>Brad's Goalie Panes</button></li>
+      <li><button type="button" data-v="impSec" style="--c:var(--jade-a)"><i></i>Impact GSAx</button></li>
+      <li><button type="button" data-v="scatterSec" style="--c:var(--jade-a)"><i></i>SV% vs. GAA</button></li>
+      <li><button type="button" data-v="workSec" style="--c:var(--jade-a)"><i></i>Workload</button></li>
+      <li><button type="button" data-v="rangeSec" style="--c:var(--jade-a)"><i></i>SV% Ranges</button></li>
+      <li><button type="button" data-v="gsaxSec" style="--c:var(--jade-a)"><i></i>GSAA vs. GSAx</button></li>
+      <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Brad's Goalie Panes</button></li>
       <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
     </ul></nav>
   </aside>
