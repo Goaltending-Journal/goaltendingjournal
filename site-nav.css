@@ -38,6 +38,10 @@
   --glow-text-hover: 0 0 8px rgba(75, 112, 106, 0.8), 0 0 26px rgba(59, 93, 88, 0.55), 0 0 60px rgba(164, 199, 193, 0.6);
   --glow-spot: rgba(75, 112, 106, 0.32);
   --glow-edge: rgba(75, 112, 106, 0.32);
+  /* The moving colour word in each page title: a Smoke Jade shimmer (Goldy, 2026-11-09). First and last stops match so the loop is seamless. */
+  /* Three jade shades for glows, cards and markers outside the Oracles (Goldy, 2026-11-09: topic colours stay on Oracle categories only) */
+  --jade-a: #4b706a; --jade-b: #3b5d58; --jade-c: #6f9a93;
+  --word-grad: linear-gradient(95deg, #2f4c48, #4b706a, #6f9a93, #4b706a, #2f4c48);
   --ice: var(--bg); --chalk: var(--fg); --fog: var(--muted); --line: var(--rule); --crease: var(--accent);
   --paint: var(--bad); --rink: var(--ice);
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
@@ -62,7 +66,9 @@
     --mast-a: #111716; --mast-b: #1c2a28;
     --glow-text: 0 0 12px rgba(164, 199, 193, 0.5), 0 0 34px rgba(75, 112, 106, 0.55);
     --glow-text-hover: 0 0 8px rgba(164, 199, 193, 0.95), 0 0 28px rgba(120, 160, 154, 0.8), 0 0 64px rgba(75, 112, 106, 0.6);
-    --glow-spot: rgba(75, 112, 106, 0.3); --glow-edge: rgba(164, 199, 193, 0.4);
+    --jade-a: #a4c7c1; --jade-b: #78a09a; --jade-c: #c0d4d0;
+    --word-grad: linear-gradient(95deg, #78a09a, #a4c7c1, #e9f0ee, #a4c7c1, #78a09a);
+  --glow-spot: rgba(75, 112, 106, 0.3); --glow-edge: rgba(164, 199, 193, 0.4);
     --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
     --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;
   }
@@ -76,6 +82,8 @@
   --mast-a: #111716; --mast-b: #1c2a28;
   --glow-text: 0 0 12px rgba(164, 199, 193, 0.5), 0 0 34px rgba(75, 112, 106, 0.55);
   --glow-text-hover: 0 0 8px rgba(164, 199, 193, 0.95), 0 0 28px rgba(120, 160, 154, 0.8), 0 0 64px rgba(75, 112, 106, 0.6);
+  --jade-a: #a4c7c1; --jade-b: #78a09a; --jade-c: #c0d4d0;
+  --word-grad: linear-gradient(95deg, #78a09a, #a4c7c1, #e9f0ee, #a4c7c1, #78a09a);
   --glow-spot: rgba(75, 112, 106, 0.3); --glow-edge: rgba(164, 199, 193, 0.4);
   --t-hip: #8c9aff; --t-inj: #ff6b8b; --t-eq: #ffb547; --t-vis: #3fd8cf; --t-phy: #6ee07a;
   --t-bio: #b896ff; --t-psy: #ff8fd1; --t-dev: #5ab8ff; --t-stats: #f2e05a;

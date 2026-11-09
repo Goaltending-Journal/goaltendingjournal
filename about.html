@@ -49,11 +49,11 @@ h1, h2, h3 { font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0;
 .hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(64px, 11vw, 128px) 16px clamp(56px, 8vw, 96px); }
 .hero::before { content: ""; position: absolute; inset: -20% -10%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.26;
   -webkit-mask-image: linear-gradient(#000 55%, transparent 92%); mask-image: linear-gradient(#000 55%, transparent 92%);
-  background: radial-gradient(28% 40% at 28% 40%, var(--t-hip), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--t-psy), transparent 70%),
-              radial-gradient(26% 34% at 50% 78%, var(--t-vis), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--t-eq), transparent 70%); }
+  background: radial-gradient(28% 40% at 28% 40%, var(--jade-a), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--jade-b), transparent 70%),
+              radial-gradient(26% 34% at 50% 78%, var(--jade-a), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--jade-b), transparent 70%); }
 .hero h1 { font: 600 clamp(34px, 5.4vw, 66px)/1.04 var(--display); letter-spacing: 0.01em; }
 .hero p { margin: 18px auto 30px; max-width: 30em; font-size: clamp(18px, 2vw, 21px); color: var(--muted); }
-.spectrum { background: linear-gradient(95deg, var(--t-hip), var(--t-bio), var(--t-psy), var(--t-inj), var(--t-eq), var(--t-stats), var(--t-phy), var(--t-vis), var(--t-dev), var(--t-hip));
+.spectrum { background: var(--word-grad);
   background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
 @keyframes spectrum { to { background-position: 300% 0; } }
 .tip { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; color: var(--fg); text-decoration: none; font: 500 12px var(--label, var(--sans)); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; transition: opacity 0.25s ease; }
@@ -155,7 +155,7 @@ td.fee.no { color: var(--muted); }
   <div class="site-bar">
     <a class="brand" href="index.html"><svg class="brand-sun" viewBox="0 0 96 96" aria-hidden="true"><g><circle cx="54.1" cy="48.0" r="3.20" style="fill:var(--t-hip)"/><circle cx="40.2" cy="55.1" r="3.37" style="fill:var(--t-inj)"/><circle cx="49.2" cy="34.5" r="3.54" style="fill:var(--t-eq)"/><circle cx="57.8" cy="60.8" r="3.71" style="fill:var(--t-vis)"/><circle cx="30.0" cy="44.8" r="3.89" style="fill:var(--t-phy)"/><circle cx="65.0" cy="37.2" r="4.06" style="fill:var(--t-bio)"/><circle cx="42.3" cy="69.2" r="4.23" style="fill:var(--t-psy)"/><circle cx="37.1" cy="27.1" r="4.40" style="fill:var(--t-dev)"/><circle cx="71.6" cy="56.6" r="4.57" style="fill:var(--t-stats)"/><circle cx="23.5" cy="58.1" r="4.74" style="fill:var(--t-hip)"/><circle cx="59.8" cy="22.8" r="4.91" style="fill:var(--t-inj)"/><circle cx="56.7" cy="75.8" r="5.09" style="fill:var(--t-eq)"/><circle cx="21.7" cy="32.8" r="5.26" style="fill:var(--t-vis)"/><circle cx="78.9" cy="41.2" r="5.43" style="fill:var(--t-phy)"/><circle cx="29.2" cy="74.8" r="5.60" style="fill:var(--t-bio)"/><circle cx="43.6" cy="14.4" r="5.77" style="fill:var(--t-psy)"/><circle cx="74.7" cy="70.5" r="5.94" style="fill:var(--t-dev)"/><circle cx="12.1" cy="49.5" r="6.11" style="fill:var(--t-stats)"/><circle cx="74.2" cy="21.9" r="6.29" style="fill:var(--t-hip)"/><circle cx="46.2" cy="85.9" r="6.46" style="fill:var(--t-inj)"/><circle cx="23.1" cy="18.1" r="6.63" style="fill:var(--t-eq)"/></g></svg><span class="brand-text" aria-hidden="true">The GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
     <nav aria-label="Main" id="nav">
-      <a href="research.html">Oracle</a>
+      <a href="research.html">Oracles</a>
       <a href="briefs.html">Briefs</a>
       <a href="reviews.html">Reviews</a>
       <a href="conference.html">Conference</a>
@@ -171,7 +171,7 @@ td.fee.no { color: var(--muted); }
     <p>An open source journal for ice hockey goaltending research.</p>
     <a class="tip" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener" aria-label="Leave a tip on Ko-fi" title="Leave a tip on Ko-fi">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <defs><linearGradient id="tipGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:var(--t-hip)"/><stop offset=".5" style="stop-color:var(--t-vis)"/><stop offset="1" style="stop-color:var(--t-psy)"/></linearGradient></defs>
+        <defs><linearGradient id="tipGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:var(--jade-a)"/><stop offset=".5" style="stop-color:var(--jade-b)"/><stop offset="1" style="stop-color:var(--jade-c)"/></linearGradient></defs>
         <path class="steam" d="M22 18c-3-4 3-6 0-11"/><path class="steam" d="M31 18c-3-4 3-6 0-11"/><path class="steam" d="M40 18c-3-4 3-6 0-11"/>
         <path class="brew" d="M15.5 28h33l-2.6 20.5a6 6 0 0 1-6 5.5H24.1a6 6 0 0 1-6-5.5z" opacity=".9"/>
         <path class="mug" d="M13 24h38l-3.2 25a7 7 0 0 1-7 6H23.2a7 7 0 0 1-7-6z"/>
@@ -184,14 +184,14 @@ td.fee.no { color: var(--muted); }
   <div class="wrap">
     <section class="sec" id="mission" aria-label="Mission, vision and promise" style="padding-top: 8px">
       <div class="cards">
-        <div class="card says" style="--c: var(--t-hip)"><small>The Mission</small><p>The GRJ is an open-sourced sports journal dedicated to bridging the gap between ice hockey goaltending research and the general public.</p></div>
-        <div class="card says" style="--c: var(--t-psy)" id="vision"><small>The Vision</small><p>To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large.</p></div>
-        <div class="card says" style="--c: var(--t-vis)" id="promise"><small>The Promise</small><p>To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community.</p></div>
+        <div class="card says" style="--c: var(--jade-a)"><small>The Mission</small><p>The GRJ is an open-sourced sports journal dedicated to bridging the gap between ice hockey goaltending research and the general public.</p></div>
+        <div class="card says" style="--c: var(--jade-a)" id="vision"><small>The Vision</small><p>To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large.</p></div>
+        <div class="card says" style="--c: var(--jade-a)" id="promise"><small>The Promise</small><p>To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community.</p></div>
       </div>
     </section>
 
     <section class="sec" id="how-it-works" aria-labelledby="h-how">
-      <div class="head" style="--c: var(--t-vis)"><small>Our learning design model</small><h2 id="h-how">How the GRJ works</h2></div>
+      <div class="head" style="--c: var(--jade-a)"><small>Our learning design model</small><h2 id="h-how">How the GRJ works</h2></div>
       <svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
         <symbol id="ghMark" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
         <filter id="loopBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
@@ -206,33 +206,33 @@ td.fee.no { color: var(--muted); }
           <path class="arc" d="M60.5 212.2 A140 140 0 0 1 136.4 75.3" marker-end="url(#loopArrow)"/>
           <text class="lbl" x="352" y="112">digest</text><text class="lbl" x="200" y="378">discuss</text><text class="lbl" x="48" y="112">refine</text>
           <circle r="5" class="travel"><animateMotion dur="9s" repeatCount="indefinite" path="M200 60 A140 140 0 1 1 199.9 60"/></circle>
-          <a class="nd" href="research.html" style="--c: var(--t-hip)"><circle class="g" cx="200" cy="60" r="44"/><circle class="b" cx="200" cy="60" r="40"/><text x="200" y="58">Oracle</text><text class="s" x="200" y="73">Research</text></a>
-          <a class="nd" href="briefs.html" style="--c: var(--t-psy)"><circle class="g" cx="321.2" cy="270" r="44"/><circle class="b" cx="321.2" cy="270" r="40"/><text x="321.2" y="268">Briefs</text><text class="s" x="321.2" y="283">Learning</text></a>
-          <a class="nd" href="reviews.html" style="--c: var(--t-vis)"><circle class="g" cx="78.8" cy="270" r="44"/><circle class="b" cx="78.8" cy="270" r="40"/><text x="78.8" y="268">Reviews</text><text class="s" x="78.8" y="283">Community</text></a>
+          <a class="nd" href="research.html" style="--c: var(--jade-a)"><circle class="g" cx="200" cy="60" r="44"/><circle class="b" cx="200" cy="60" r="40"/><text x="200" y="58">Oracle</text><text class="s" x="200" y="73">Research</text></a>
+          <a class="nd" href="briefs.html" style="--c: var(--jade-a)"><circle class="g" cx="321.2" cy="270" r="44"/><circle class="b" cx="321.2" cy="270" r="40"/><text x="321.2" y="268">Briefs</text><text class="s" x="321.2" y="283">Learning</text></a>
+          <a class="nd" href="reviews.html" style="--c: var(--jade-a)"><circle class="g" cx="78.8" cy="270" r="44"/><circle class="b" cx="78.8" cy="270" r="40"/><text x="78.8" y="268">Reviews</text><text class="s" x="78.8" y="283">Community</text></a>
           <a class="hub" href="https://github.com/Goaltending-Journal/goaltendingjournal" target="_blank" rel="noopener"><circle cx="200" cy="200" r="38"/><use href="#ghMark" x="184" y="176" width="32" height="32" style="fill: var(--fg)"/><text x="200" y="224" style="font: 600 9.5px var(--sans); fill: var(--muted); text-anchor: middle; letter-spacing: 0.08em">OPEN SOURCE</text></a>
         </svg>
         <ol class="steps">
           <li><span class="ic"><svg class="gh" aria-hidden="true"><use href="#ghMark"/></svg></span><div><b>Open source on GitHub</b><p>Everything lives in a public <a href="https://github.com/Goaltending-Journal/goaltendingjournal" target="_blank" rel="noopener">GitHub repository</a>, so anyone can read it, check it and help improve it.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--t-hip)"></span></span><div><b>The Oracle</b><p>The main database of evidence-based goaltending research, kept current by research agents and machine learning that find, verify and tag every study.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--t-psy)"></span></span><div><b>Briefs</b><p>Raw research becomes short learning modules. Briefs bridge the gap between the hard data and the everyday goalie coach.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--t-vis)"></span></span><div><b>Peer Reviews</b><p>Monthly sessions invite coaches and researchers to discuss the work. What we learn flows back into the Oracle.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>The Oracle</b><p>The main database of evidence-based goaltending research, kept current by research agents and machine learning that find, verify and tag every study.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>Briefs</b><p>Raw research becomes short learning modules. Briefs bridge the gap between the hard data and the everyday goalie coach.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>Peer Reviews</b><p>Monthly sessions invite coaches and researchers to discuss the work. What we learn flows back into the Oracle.</p></div></li>
         </ol>
       </div>
     </section>
 
     <section class="sec" id="whats-here" aria-labelledby="h-here">
-      <div class="head" style="--c: var(--t-eq)"><small>What's here</small><h2 id="h-here">Offerings</h2></div>
+      <div class="head" style="--c: var(--jade-a)"><small>What's here</small><h2 id="h-here">Offerings</h2></div>
       <div class="cards" style="--n: 3">
-        <a class="card wide" href="research.html#articles" style="--c: var(--t-hip)"><b>Research Oracle</b><small>Living database</small><p>A living database of evidence-based research in ice hockey goaltending, along with a network map of researchers.</p></a>
-        <a class="card" href="briefs.html" style="--c: var(--t-psy)"><b>Briefs</b><small>For coaches</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a>
-        <a class="card" href="goalies.html" style="--c: var(--t-eq)"><b>NHL DataViz</b><small>Official NHL data</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance.</p></a>
-        <a class="card" href="conference.html" style="--c: var(--t-bio)"><b>Conferences</b><small>Virtual</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a>
-        <a class="card" href="reviews.html" style="--c: var(--t-vis)"><b>Peer Reviews</b><small>Monthly</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a>
+        <a class="card wide" href="research.html#articles" style="--c: var(--jade-a)"><b>Research Oracle</b><small>Living database</small><p>A living database of evidence-based research in ice hockey goaltending, along with a network map of researchers.</p></a>
+        <a class="card" href="briefs.html" style="--c: var(--jade-a)"><b>Briefs</b><small>For coaches</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a>
+        <a class="card" href="goalies.html" style="--c: var(--jade-a)"><b>NHL DataViz</b><small>Official NHL data</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance.</p></a>
+        <a class="card" href="conference.html" style="--c: var(--jade-a)"><b>Conferences</b><small>Virtual</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a>
+        <a class="card" href="reviews.html" style="--c: var(--jade-a)"><b>Peer Reviews</b><small>Monthly</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a>
       </div>
     </section>
 
     <section class="sec" id="sources" aria-labelledby="h-sources">
-      <div class="head" style="--c: var(--t-dev)"><small>Updated <span id="journals-updated"></span></small><h2 id="h-sources">Sources</h2>
+      <div class="head" style="--c: var(--jade-a)"><small>Updated <span id="journals-updated"></span></small><h2 id="h-sources">Sources</h2>
         <p>Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p></div>
       <p class="count" id="j-count" role="status" aria-live="polite" tabindex="-1"></p>
       <div class="tablewrap">
