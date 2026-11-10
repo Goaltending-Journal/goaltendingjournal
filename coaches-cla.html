@@ -52,7 +52,7 @@
       <nav aria-label="On this page">
         <ol>
           <li><a href="#idea"><span>01</span>The idea</a></li>
-          <li><a href="#see"><span>02</span>See it</a></li>
+          <li><a href="#see-it"><span>02</span>See it</a></li>
           <li><a href="#redesign"><span>03</span>Redesign a drill</a></li>
           <li><a href="#check"><span>04</span>Check it</a></li>
           <li><a href="#src"><span>05</span>Sources</a></li>
@@ -160,7 +160,7 @@
     </details>
   </section>
 
-  <section class="step" id="see" aria-labelledby="h-see">
+  <section class="step" id="see-it" aria-labelledby="h-see">
     <div class="brief"><span class="num">Step 2</span><h2 id="h-see">See it</h2>
     <p>One correction, two drills. In the first the coach repeats a cue. In the second the drill does the talking. <span class="tag-adapt">Adaptation</span></p></div>
     <div class="tool ba" id="ba" data-v="before">
@@ -195,13 +195,13 @@
   <section class="step" id="redesign" aria-labelledby="h-redesign">
     <div class="brief"><span class="num">Step 3</span><h2 id="h-redesign">Redesign a drill</h2>
     <p>Take the correction you repeat most and a drill you already run. Change one thing in the drill so the mistake gets punished, or the better choice gets rewarded, without you saying a word.</p></div>
-    <div class="tool" id="plan">
+    <div class="tool plan-tool" id="plan" data-key="grj-lab1-plan">
       <div class="mins plan-in">
-        <label>The cue I keep repeating<input type="text" id="pl-cue" maxlength="120" placeholder="Don't over-challenge" autocomplete="off"></label>
-        <label>The one thing I will change in the drill<input type="text" id="pl-change" maxlength="200" placeholder="Add a live far-side passer" autocomplete="off"></label>
+        <label>The cue I keep repeating<input type="text" class="pl-cue" maxlength="120" placeholder="Don't over-challenge" autocomplete="off"></label>
+        <label>The one thing I will change in the drill<input type="text" class="pl-change" maxlength="200" placeholder="Add a live far-side passer" autocomplete="off"></label>
       </div>
-      <div class="starts"><span>Need a start?</span><ul id="pl-starts"></ul></div>
-      <p class="plan-out" id="pl-out" aria-live="polite"></p>
+      <div class="starts"><span>Need a start?</span><ul class="pl-starts"></ul></div>
+      <p class="plan-out" aria-live="polite" hidden></p>
       <p class="hint">Every starter is an adaptation no study has tested on hockey goalies. Your plan saves in this browser only.</p>
     </div>
   </section>
@@ -209,7 +209,7 @@
   <section class="step" id="check" aria-labelledby="h-check">
     <div class="brief"><span class="num">Step 4</span><h2 id="h-check">Check it</h2>
     <p>Run the changed drill and film a few reps. Afterwards, answer three questions.</p></div>
-    <div class="tool notes" id="notes">
+    <div class="tool notes" id="notes" data-key="grj-lab1-notes">
       <label>What did the goalie change without being told?<textarea rows="2" data-k="a"></textarea></label>
       <label>What did they say they were looking at?<textarea rows="2" data-k="b"></textarea></label>
       <label>What will you change in the drill next time?<textarea rows="2" data-k="c"></textarea></label>
@@ -243,14 +243,21 @@
   <span>The Goaltending Research Journal. Copyright 2027.</span>
   <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
 </footer>
+<script>
+// Starters for the one-change plan, from the lab 2 table "Instead of saying… change this"; all are adaptations.
+window.LAB_STARTS = [
+  ["Don't over-challenge", "Add a live far-side passer, so over-challenging gives up the backdoor goal"],
+  ["Read the pass", "Goals off a far-side pass count double"],
+  ["Find the puck through traffic", "A net-front player with a \"screen must stay\" rule"],
+  ["Hold your depth late in the drill", "Six movement patterns before the final shot, ending on a wide puck"],
+  ["Find your spot", "Cones at the goalie's set depth, removed over the following sessions"]
+];
+</script>
 <script src="learn.js"></script>
 <script>
-// Lab 1 tools: the before/after drill, the one-change plan and the check-it notes (saved in this browser only)
+// Lab 1: the before/after drill switch
 (function () {
   const $ = (id) => document.getElementById(id);
-  const get = (k) => { try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch (e) { return {}; } };
-  const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
-  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   // Before / After
   const ba = $("ba");
   ba.querySelector(".seg").addEventListener("click", (e) => {
@@ -258,34 +265,5 @@
     ba.dataset.v = b.dataset.v;
     ba.querySelectorAll(".seg button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
   });
-  // One-change plan. Starters come from the lab 2 table "Instead of saying… change this"; all are adaptations.
-  const STARTS = [
-    ["Don't over-challenge", "Add a live far-side passer, so over-challenging gives up the backdoor goal"],
-    ["Read the pass", "Goals off a far-side pass count double"],
-    ["Find the puck through traffic", "A net-front player with a \"screen must stay\" rule"],
-    ["Hold your depth late in the drill", "Six movement patterns before the final shot, ending on a wide puck"],
-    ["Find your spot", "Cones at the goalie's set depth, removed over the following sessions"]
-  ];
-  const cue = $("pl-cue"), chg = $("pl-change"), out = $("pl-out"), saved = get("grj-lab1-plan");
-  cue.value = saved.cue || ""; chg.value = saved.change || "";
-  const paint = () => {
-    const c = cue.value.trim(), g = chg.value.trim();
-    put("grj-lab1-plan", { cue: c, change: g });
-    out.innerHTML = c && g ? `Instead of saying <b>“${esc(c.replace(/^["“]|["”]$/g, ""))}”</b>, I will change the drill: <b>${esc(g)}</b>.` : "";
-    out.hidden = !(c && g);
-  };
-  $("pl-starts").innerHTML = STARTS.map(([c], i) => `<li><button type="button" data-i="${i}">“${esc(c)}”</button></li>`).join("");
-  $("pl-starts").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; [cue.value, chg.value] = STARTS[b.dataset.i]; paint(); });
-  cue.addEventListener("input", paint); chg.addEventListener("input", paint); paint();
-  // Check-it notes
-  const notes = get("grj-lab1-notes");
-  document.querySelectorAll("#notes textarea").forEach((t) => {
-    t.value = notes[t.dataset.k] || "";
-    t.addEventListener("input", () => { notes[t.dataset.k] = t.value; put("grj-lab1-notes", notes); });
-  });
-  // A link to a section inside "Read the full case" opens it first
-  const deeper = $("deeper");
-  const openFor = () => { const t = location.hash && document.querySelector(location.hash); if (t && deeper.contains(t)) { deeper.open = true; t.scrollIntoView(); } };
-  addEventListener("hashchange", openFor); openFor();
 })();
 </script>
