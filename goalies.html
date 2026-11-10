@@ -68,6 +68,34 @@ button,input,select{font:inherit;color:inherit}
 .views button[aria-current="true"]{background:color-mix(in srgb,var(--crease) 18%,transparent);font-weight:700}
 .gviews{min-width:0}
 .gviews>section:not(.on){display:none}
+/* NHL Goaltending Oracle (nhl-oracle.js): the Scholarly Oracle's armillary globe, rings by GSAA level */
+#orSec{--or5:#2f7a6b;--or4:#6f9a93;--or3:#94a3a0;--or2:#c98a6c;--or1:#b5573c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #orSec{--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}}
+:root[data-theme="dark"] #orSec{--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}
+.or-body{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;align-items:start;margin-top:14px}
+.or-main{min-width:0}
+.or-globe{position:relative}
+.or-globe canvas{display:block;width:100%;height:420px;cursor:grab;touch-action:pan-y}
+.or-globe.grabbing canvas{cursor:grabbing}
+.or-globe canvas:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.or-tip{position:absolute;z-index:2;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:7px;background:var(--bg);color:var(--fg);border:1px solid var(--field-line);border-radius:6px;padding:6px 10px;font:12.5px/1.3 var(--sans);box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.or-tip i{width:8px;height:8px;border-radius:50%;flex:none}
+.or-tip[hidden]{display:none}
+.or-card{margin-top:14px;padding:16px 18px;border:1px solid var(--rule);border-radius:12px;background:var(--surface);min-height:110px}
+.or-card .dt{font:500 12px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.or-card .tag{display:inline-block;margin-left:10px;padding:1px 8px;border:1px solid var(--c);color:var(--c);border-radius:999px;font:500 10.5px var(--label);letter-spacing:.1em}
+.or-card h3{margin:4px 0 6px;font:600 19px/1.3 var(--serif)}
+.or-card .stats{display:flex;flex-wrap:wrap;gap:6px 22px;font:14px var(--sans);color:var(--muted)}
+.or-card .stats b{color:var(--fg);font-weight:500}
+.or-key{display:grid;gap:16px;font:13px var(--sans);padding-top:6px}
+.or-key h5{margin:0 0 8px;font:500 11px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.or-key ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.or-key li{display:flex;align-items:center;gap:9px}
+.or-key small{color:var(--muted)}
+.or-key i{width:10px;height:10px;border-radius:50%;flex:none;border:2px solid var(--c)}
+.or-key i.sm{--c:var(--muted);width:7px;height:7px;border-width:1.5px}
+.or-key i.lg{--c:var(--muted);width:14px;height:14px}
+@media (max-width:760px){.or-body{grid-template-columns:minmax(0,1fr)}}
 .panes{display:block;width:100%;height:min(860px,calc(100vh - 120px));min-height:560px;border:0;border-radius:12px;margin-top:12px;background:var(--panel,transparent)}
 @media (max-width:880px){
   .gframe{grid-template-columns:minmax(0,1fr)}
@@ -404,6 +432,7 @@ tbody tr:last-child td{border-bottom:0}
     <div><h5>Season leader</h5><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
     <div><h5>Season</h5><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div>
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
+      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Goaltending Oracle</button></li>
       <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>Archetypes</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
       <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
@@ -419,6 +448,20 @@ tbody tr:last-child td{border-bottom:0}
     </ul></nav>
   </aside>
   <div class="gviews" id="gviews">
+
+  <section id="orSec">
+    <div class="sec-h"><h2>NHL Goaltending Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
+    <div class="or-body">
+      <div class="or-main">
+        <div class="or-globe" id="or"><canvas id="or-cv" tabindex="0" role="img" aria-label="Every NHL goalie this season as a turning globe of five tilted rings, one per level of goals saved above average, from well above average to well below. Mark size is shots faced. Use the arrow keys to step through the goalies from best to lowest GSAA."></canvas><div class="or-tip" id="or-tip" hidden></div></div>
+        <div class="or-card" id="or-card" aria-live="polite"></div>
+      </div>
+      <div class="or-key">
+        <div><h5>Rings · goals saved above average</h5><ul id="or-key"></ul></div>
+        <div><h5>Mark size</h5><ul><li><i class="sm"></i>Few shots faced</li><li><i class="lg"></i>Most shots faced</li></ul></div>
+      </div>
+    </div>
+  </section>
 
   <section id="tySec" hidden>
     <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
@@ -1096,6 +1139,7 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 <script src="goalie-types-panel.js"></script>
 <script src="impact-data.js"></script>
 <script src="impact-panel.js"></script>
+<script src="nhl-oracle.js"></script>
 
 <script>
 /* Views: the rail shows one section at a time; the choice is kept in the address (#lbSec) and in this browser */
