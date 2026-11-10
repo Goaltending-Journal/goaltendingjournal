@@ -233,6 +233,10 @@ sup.cite a{font-family:var(--f-data);font-size:11px;padding:0 2px}
 .deeper summary span{font-size:13px;color:var(--fog)}
 .deeper summary:focus-visible{outline:2px solid var(--crease);outline-offset:2px}
 .deeper-body{display:grid;gap:36px;padding:8px 0 28px}
+.step h3.sub{font:700 22px var(--f-display);letter-spacing:.03em;margin:0 0 8px}
+.brief h4{font-size:15px;font-weight:700;margin:18px 0 6px}
+.step > section.brief + section.brief,.step > .tool + section.brief{margin-top:8px}
+.notes label > span{font-weight:600}
 /* before / after drill */
 .ba svg{display:block;width:100%;max-width:640px;height:auto;margin-inline:auto}
 .ba .seg{justify-self:start}

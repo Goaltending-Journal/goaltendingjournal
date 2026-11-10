@@ -83,3 +83,41 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
       (next ? `<a class="nx" href="${next.href}"><span>Lab ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="coaching.html#labs"><span>Finished ›</span><b>Back to Practice Labs</b></a>`);
   }
 })();
+
+// Practice Lab tools shared by the lab pages; everything saves in this browser only.
+(function () {
+  const get = (k) => { try { return JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch (e) { return {}; } };
+  const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // One-change plan: a cue and a change become one sentence. Optional starters come from window.LAB_STARTS ([cue, change] pairs).
+  document.querySelectorAll(".plan-tool[data-key]").forEach((box) => {
+    const key = box.dataset.key, cue = box.querySelector(".pl-cue"), chg = box.querySelector(".pl-change"), out = box.querySelector(".plan-out"), list = box.querySelector(".pl-starts");
+    const saved = get(key); cue.value = saved.cue || ""; chg.value = saved.change || "";
+    const paint = () => {
+      const c = cue.value.trim(), g = chg.value.trim();
+      put(key, { cue: c, change: g });
+      out.innerHTML = c && g ? `Instead of saying <b>“${esc(c.replace(/^["“]|["”]$/g, ""))}”</b>, I will change the drill: <b>${esc(g)}</b>.` : "";
+      out.hidden = !(c && g);
+    };
+    const starts = window.LAB_STARTS || [];
+    if (list && starts.length) {
+      list.innerHTML = starts.map(([c], i) => `<li><button type="button" data-i="${i}">“${esc(c)}”</button></li>`).join("");
+      list.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; [cue.value, chg.value] = starts[b.dataset.i]; paint(); });
+    }
+    cue.addEventListener("input", paint); chg.addEventListener("input", paint); paint();
+  });
+  // Check-it notes
+  document.querySelectorAll(".notes[data-key]").forEach((box) => {
+    const key = box.dataset.key, notes = get(key);
+    box.querySelectorAll("textarea").forEach((t) => {
+      t.value = notes[t.dataset.k] || "";
+      t.addEventListener("input", () => { notes[t.dataset.k] = t.value; put(key, notes); });
+    });
+  });
+  // A link to a section inside "Read the full case" opens the fold first
+  const deeper = document.getElementById("deeper");
+  if (deeper) {
+    const openFor = () => { let t = null; try { t = location.hash && document.querySelector(location.hash); } catch (e) {} if (t && deeper.contains(t)) { deeper.open = true; t.scrollIntoView(); } };
+    addEventListener("hashchange", openFor); openFor();
+  }
+})();
