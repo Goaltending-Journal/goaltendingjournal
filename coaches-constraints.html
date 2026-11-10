@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Constraints: individual, task, environment · Coaches · The Goaltending Research Journal</title>
-<meta name="description" content="Coaches learning path, module 2: Newell&#x27;s three kinds of constraint and a goalie constraint menu for tracking, lateral plays, depth, rebounds and hip load.">
+<title>Constraints: individual, task, environment · Practice Labs · The Goaltending Research Journal</title>
+<meta name="description" content="Practice Labs, lab 2: Newell&#x27;s three kinds of constraint and a goalie constraint menu for tracking, lateral plays, depth, rebounds and hip load.">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -18,6 +18,29 @@
 <link rel="stylesheet" href="site-nav.css">
 <link rel="stylesheet" href="learn.css">
 <script src="theme.js"></script>
+<style>
+/* Constraint explorer (moved here from the old Briefs page, 2026-11-10): tap a kind of constraint to light it on the rink and list example changes. */
+.ex{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ex{grid-template-columns:1fr}}
+.ex-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.ex-tabs button{display:inline-flex;align-items:baseline;gap:8px;font:600 13.5px var(--f-body);color:var(--fog);background:var(--boards);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.ex-tabs button span{font-family:var(--f-data);font-size:11px;color:var(--mute)}
+.ex-tabs button[aria-selected="true"]{color:var(--on-accent);background:var(--crease);border-color:var(--crease)}
+.ex-tabs button[aria-selected="true"] span{color:inherit;opacity:.75}
+#ex-rink{display:block;width:100%;height:auto}
+#ex-rink [data-on]{transition:opacity .25s ease}
+#ex-rink[data-k] [data-on]{opacity:.22}
+#ex-rink[data-k="ind"] [data-on~="ind"],#ex-rink[data-k="task"] [data-on~="task"],#ex-rink[data-k="env"] [data-on~="env"]{opacity:1}
+#ex-rink .lbl{font:600 2.1px var(--f-body);fill:var(--chalk)}
+#ex-rink .lbl.s{font-weight:500;fill:var(--fog)}
+.ex-panel h3{margin:0 0 4px;font-family:var(--f-display);font-size:24px;font-weight:700;text-transform:uppercase}
+.ex-panel .def{margin:0 0 12px;font-size:14px;color:var(--fog);line-height:1.5}
+.ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ex-list li{background:var(--ice);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.45}
+.ex-list b{display:block}
+.ex-list span{display:block;color:var(--fog);font-size:13px;margin-top:2px}
+.ex-list span::before{content:"Invites: ";font-weight:700;color:var(--crease)}
+</style>
 </head>
 <body data-module="2">
 <a class="skip" href="#main">Skip to content</a>
@@ -27,7 +50,8 @@
     <a class="brand" href="index.html"><svg class="brand-sun" viewBox="0 0 96 96" aria-hidden="true"><g><circle cx="54.1" cy="48.0" r="3.20" style="fill:var(--t-hip)"/><circle cx="40.2" cy="55.1" r="3.37" style="fill:var(--t-inj)"/><circle cx="49.2" cy="34.5" r="3.54" style="fill:var(--t-eq)"/><circle cx="57.8" cy="60.8" r="3.71" style="fill:var(--t-vis)"/><circle cx="30.0" cy="44.8" r="3.89" style="fill:var(--t-phy)"/><circle cx="65.0" cy="37.2" r="4.06" style="fill:var(--t-bio)"/><circle cx="42.3" cy="69.2" r="4.23" style="fill:var(--t-psy)"/><circle cx="37.1" cy="27.1" r="4.40" style="fill:var(--t-dev)"/><circle cx="71.6" cy="56.6" r="4.57" style="fill:var(--t-stats)"/><circle cx="23.5" cy="58.1" r="4.74" style="fill:var(--t-hip)"/><circle cx="59.8" cy="22.8" r="4.91" style="fill:var(--t-inj)"/><circle cx="56.7" cy="75.8" r="5.09" style="fill:var(--t-eq)"/><circle cx="21.7" cy="32.8" r="5.26" style="fill:var(--t-vis)"/><circle cx="78.9" cy="41.2" r="5.43" style="fill:var(--t-phy)"/><circle cx="29.2" cy="74.8" r="5.60" style="fill:var(--t-bio)"/><circle cx="43.6" cy="14.4" r="5.77" style="fill:var(--t-psy)"/><circle cx="74.7" cy="70.5" r="5.94" style="fill:var(--t-dev)"/><circle cx="12.1" cy="49.5" r="6.11" style="fill:var(--t-stats)"/><circle cx="74.2" cy="21.9" r="6.29" style="fill:var(--t-hip)"/><circle cx="46.2" cy="85.9" r="6.46" style="fill:var(--t-inj)"/><circle cx="23.1" cy="18.1" r="6.63" style="fill:var(--t-eq)"/></g></svg><span class="brand-text" aria-hidden="true">The GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
     <nav aria-label="Main" id="nav">
       <a href="research.html">Oracles</a>
-      <a href="briefs.html" aria-current="page">Briefs</a>
+      <a href="briefs.html">Briefs</a>
+      <a href="coaching.html" aria-current="page">Coaching</a>
       <a href="reviews.html">Reviews</a>
       <a href="conference.html">Conference</a>
       <a href="goalies.html">NHL DataViz</a>
@@ -38,7 +62,7 @@
 
 <main class="wrap" id="main">
   <header class="intro">
-    <div class="eyebrow"><a href="reviews.html">Reviews</a> · Practice design · Module 2 of 5</div>
+    <div class="eyebrow"><a href="coaching.html#labs">Practice Labs</a> · Lab 2 of 5</div>
     <h1>Constraints: individual, task, environment</h1>
     <p class="idea"><span>The key idea</span>When a goalie keeps making the same mistake, change the drill instead of adding a cue. The individual, the task and the environment are the three levers.</p>
     <div class="meta"><span>Evidence <span class="grade">Borrowed</span></span><span>General sport; goalie examples adapted</span><span>7 min read</span></div>
@@ -60,7 +84,7 @@
         </ol>
       </nav>
     </details>
-    <nav class="path-rail" id="path-rail" aria-label="Learning path"></nav>
+    <nav class="path-rail" id="path-rail" aria-label="Practice Labs"></nav>
     <div class="rail-key"><strong>Evidence grade</strong><span class="grade">Borrowed</span><br>Solid in other sports or general motor learning, assumed to carry over to hockey goalies. No hockey goalie trial yet.</div>
   </aside>
   <article>
@@ -104,12 +128,62 @@
         <tr><td>Environment</td><td>The physical and social setting</td><td>Rink size, lighting, crowd, team culture</td></tr>
       </tbody>
     </table></div>
-    <p>A 2020 meta-analysis found that changing constraints reliably changes behaviour; for example, larger playing areas raise movement variability. It did not test whether that adds up to better learning than technique-first coaching.<sup class="cite"><a href="#ref-4" aria-label="Source 4">[4]</a></sup> <a href="briefs.html#explore">Try the constraint explorer</a> on the Coaches page to see each kind on a rink.</p>
+    <p>A 2020 meta-analysis found that changing constraints reliably changes behaviour; for example, larger playing areas raise movement variability. It did not test whether that adds up to better learning than technique-first coaching.<sup class="cite"><a href="#ref-4" aria-label="Source 4">[4]</a></sup></p>
+    <p>Tap a kind of constraint to see what you can change, and the behaviour each change invites.</p>
+    <div class="ex-tabs" role="tablist" aria-label="Kinds of constraint">
+      <button type="button" role="tab" id="tab-ind" aria-controls="ex-panel" aria-selected="true" data-k="ind"><span>01</span>Individual</button>
+      <button type="button" role="tab" id="tab-task" aria-controls="ex-panel" aria-selected="false" data-k="task"><span>02</span>Task</button>
+      <button type="button" role="tab" id="tab-env" aria-controls="ex-panel" aria-selected="false" data-k="env"><span>03</span>Environment</button>
+    </div>
+    <div class="ex">
+      <div class="panel">
+        <svg id="ex-rink" data-k="ind" viewBox="-43 -1 86 49" role="img" aria-labelledby="ex-rink-t">
+          <title id="ex-rink-t">Top-down view of the defensive zone with the goalie, a shooter, a far-side passer and a screen</title>
+          <rect x="-42.5" y="-1" width="85" height="49" rx="3" fill="var(--ice)" stroke="var(--line)" stroke-width=".3"/>
+          <g fill="none" stroke="var(--bad)" stroke-width=".25" opacity=".45"><circle cx="-22" cy="22" r="15"/><circle cx="22" cy="22" r="15"/></g>
+          <line x1="-42.5" y1="42" x2="42.5" y2="42" stroke="var(--bad)" stroke-width=".25" opacity=".7"/>
+          <path d="M-4 42 L-4 37.5 A6 6 0 0 1 4 37.5 L4 42 Z" fill="var(--crease-dim)" stroke="var(--crease)" stroke-width=".2"/>
+          <rect x="-3" y="42" width="6" height="3.3" rx=".6" fill="var(--glass)" stroke="var(--chalk)" stroke-width=".3"/>
+          <!-- environment: tight small-area space, landmark cones, off-ice note -->
+          <g data-on="env">
+            <rect x="-30" y="6" width="60" height="38.5" rx="2" fill="none" stroke="var(--warn)" stroke-width=".45" stroke-dasharray="1.4 .9"/>
+            <text class="lbl" x="-29" y="4.6" style="fill:var(--warn)">Tight space: small-area game</text>
+            <path d="M-6.4 35.2 l.9 -1.6 l.9 1.6z M5.5 35.2 l.9 -1.6 l.9 1.6z" fill="var(--warn)"/>
+            <text class="lbl s" x="8.2" y="35" >Cones at set depth</text>
+          </g>
+          <!-- task: passer, pass lane, screen, double-goal zone, live rebound -->
+          <g data-on="task">
+            <path d="M-13 21 Q2 15 15.5 23" fill="none" stroke="var(--crease)" stroke-width=".4" stroke-dasharray="1 .7"/>
+            <circle cx="16.5" cy="23.5" r="1.4" fill="var(--crease)"/>
+            <text class="lbl" x="18.6" y="23.6">Far-side passer</text>
+            <text class="lbl s" x="18.6" y="26.2">Pass goals count x2</text>
+            <circle cx="2.5" cy="33" r="1.4" fill="var(--fog)"/>
+            <text class="lbl s" x="-20.5" y="33.8">Screen must stay</text>
+            <path d="M-1 37 q-5 -2 -9 1" fill="none" stroke="var(--crease)" stroke-width=".35" marker-end="url(#ah)"/>
+            <text class="lbl s" x="-25" y="40">Rebound stays live</text>
+          </g>
+          <defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="var(--crease)"/></marker></defs>
+          <!-- shooter with puck -->
+          <g data-on="task env">
+            <circle cx="-14" cy="20.5" r="1.4" fill="var(--chalk)"/>
+            <circle cx="-12.2" cy="22" r=".55" fill="var(--chalk)"/>
+            <text class="lbl s" x="-23" y="17.6">Shooter</text>
+          </g>
+          <!-- goalie -->
+          <g data-on="ind">
+            <circle cx="0" cy="38.6" r="4.2" fill="var(--good)" opacity=".12"/>
+            <circle cx="0" cy="38.6" r="1.25" fill="var(--good)"/>
+            <text class="lbl" x="5.3" y="40.6" style="fill:var(--good)">Goalie: size, hips, fatigue, fear</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ex-panel" id="ex-panel" role="tabpanel" aria-live="polite"></div>
+    </div>
   </section>
 
   <section class="brief" id="change" aria-labelledby="h-change">
     <span class="num">02</span><h2 id="h-change">Change the problem, not the cue</h2>
-    <p>The habit this module asks you to change is small. When a goalie keeps making the same mistake, the usual move is another verbal cue. The constraints-led move is to change the drill so the mistake gets punished, or the better choice gets rewarded, without a word from you.</p>
+    <p>The habit this lab asks you to change is small. When a goalie keeps making the same mistake, the usual move is another verbal cue. The constraints-led move is to change the drill so the mistake gets punished, or the better choice gets rewarded, without a word from you.</p>
     <div class="cmenu-wrap"><table class="cmenu">
       <thead><tr><th scope="col">Instead of saying…</th><th scope="col">Change this</th><th scope="col">Kind</th></tr></thead>
       <tbody>
@@ -152,7 +226,7 @@
 
   <section class="brief" id="words" aria-labelledby="h-words">
     <span class="num">05</span><h2 id="h-words">Instructions are constraints too</h2>
-    <p>Otte and colleagues treat instructions and feedback as "instructional constraints": something the coach designs in advance, like the size of the area or the number of shooters.<sup class="cite"><a href="#ref-5" aria-label="Source 5">[5]</a></sup> Talking after every rep works against a block meant to let the goalie find a solution. Module 4 turns this into a feedback plan for each stage of a session.</p>
+    <p>Otte and colleagues treat instructions and feedback as "instructional constraints": something the coach designs in advance, like the size of the area or the number of shooters.<sup class="cite"><a href="#ref-5" aria-label="Source 5">[5]</a></sup> Talking after every rep works against a block meant to let the goalie find a solution. Lab 4 turns this into a feedback plan for each stage of a session.</p>
     <p>Keep cues pointed at the effect of the movement, such as "arrive set before the blade moves", rather than at body parts.</p>
   </section>
 
@@ -179,8 +253,8 @@
     </ol>
     <p class="src">Drawn from the journal's research reports "Learning design and CLA for goalies" and "Otte's PoST gives goalie coaches a planning language" (October 2026).</p>
   </section>
-  <div class="done-row"><p>Finished this module? Your mark is saved in this browser only.</p><button type="button" class="btn done-btn" id="done-btn" aria-pressed="false">Mark module as done</button></div>
-  <nav class="pn" id="pn" aria-label="Previous and next module"></nav>
+  <div class="done-row"><p>Finished this lab? Your mark is saved in this browser only.</p><button type="button" class="btn done-btn" id="done-btn" aria-pressed="false">Mark lab as done</button></div>
+  <nav class="pn" id="pn" aria-label="Previous and next lab"></nav>
   </article>
   </div>
 </main>
@@ -190,3 +264,39 @@
   <span class="foot-end"><a class="tip-btn" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5h6M5.5 2.5v1.6c-1.6.6-2.5 1.9-2.5 3.6v4.1c0 1.3.9 2.2 2.2 2.2h5.6c1.3 0 2.2-.9 2.2-2.2V7.7c0-1.7-.9-3-2.5-3.6V2.5"/><path d="M6.4 9.6h3.2M8 8v3.2"/></svg><span>Tip jar</span></a> Built by GoldyDev <button type="button" class="theme-btn" data-theme-toggle>Theme</button></span>
 </footer>
 <script src="learn.js"></script>
+<script>
+// Constraint explorer: three tabs light their part of the rink and list example changes
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const EX = {
+    ind: { t: "Individual", d: "The goalie's own structure and state: size, hip mobility, strength, fatigue, confidence, attention.", items: [
+      ["Scale shot speed and distance to the goalie's size, fatigue and confidence", "success rates that keep the goalie searching, not surviving"],
+      ["Count butterfly and RVH reps in each block, and log them", "a plan that respects the hips; no study sets a safe number"],
+      ["For a goalie who fears high shots, use a slower live shooter instead of cutting the shooter out", "staying set while still reading a real release"] ] },
+    task: { t: "Task", d: "Rules, equipment, goals and space: what the drill asks for and what counts.", items: [
+      ["Add a live far-side passer", "depth matched to the play, because over-challenging gives up the backdoor"],
+      ["Goals off a far-side pass count double", "reading the pass instead of guessing the shot"],
+      ["A net-front player with a “screen must stay” rule; rebounds stay live", "finding the puck around traffic and controlling the first save"] ] },
+    env: { t: "Environment", d: "The physical and social setting: rink space, landmarks, lighting, crowd, team culture.", items: [
+      ["Run reads inside a tight small-area game instead of a line drill", "reading and recovering under fatigue and pressure"],
+      ["Place cones at the goalie's set depth, then remove them over a few sessions", "self-correction from rink landmarks without the coach"],
+      ["Move pattern work off the ice to a slide board or synthetic ice", "more ice time spent on game-like work"] ] }
+  };
+  const rink = $("ex-rink"), panel = $("ex-panel"), tabs = [...document.querySelectorAll(".ex-tabs button")];
+  function show(k) {
+    const e = EX[k];
+    rink.dataset.k = k;
+    tabs.forEach((b) => { const on = b.dataset.k === k; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
+    panel.setAttribute("aria-labelledby", "tab-" + k);
+    panel.innerHTML = `<h3>${e.t} constraints</h3><p class="def">${e.d}</p><ul class="ex-list">` + e.items.map(([c, i]) => `<li><b>${c}</b><span>${i}</span></li>`).join("") + `</ul><p class="hint">Every example is an adaptation. <a href="#menu">See the full constraint menu</a>.</p>`;
+  }
+  tabs.forEach((b, i) => {
+    b.addEventListener("click", () => show(b.dataset.k));
+    b.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const t = tabs[(i + d + tabs.length) % tabs.length]; t.focus(); show(t.dataset.k); }
+    });
+  });
+  show("ind");
+})();
+</script>
