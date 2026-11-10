@@ -1,19 +1,19 @@
-// Coaches learning path: the module list, and the page chrome shared by briefs.html and the five module pages.
+// Practice Labs: the lab list, and the page chrome shared by coaching.html and the five lab pages.
 // Done marks live only in this browser (localStorage), since the site has no accounts.
 const LEARN = [
-  { n: 1, href: "coaches-cla.html", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 8, grade: "Borrowed",
+  { n: 1, href: "coaches-cla.html", theme: "Ecological dynamics", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 8, grade: "Borrowed",
     blurb: "Coach the problem, not the movement. Where the idea comes from, what the trials show and what the critics get right.",
     outcome: "Explain the approach to a skeptical coach in two minutes." },
-  { n: 2, href: "coaches-constraints.html", title: "Constraints: individual, task, environment", short: "Three kinds of constraint", min: 7, grade: "Borrowed",
+  { n: 2, href: "coaches-constraints.html", theme: "Ecological dynamics", title: "Constraints: individual, task, environment", short: "Three kinds of constraint", min: 7, grade: "Borrowed",
     blurb: "Newell's three levers, and a menu of goalie changes for tracking, lateral plays, depth and rebounds.",
     outcome: "Change one constraint in a drill instead of giving one more cue." },
-  { n: 3, href: "coaches-representative.html", title: "Representative practice: reps that look like games", short: "Representative practice", min: 8, grade: "Borrowed",
+  { n: 3, href: "coaches-representative.html", theme: "Practice design", title: "Representative practice: reps that look like games", short: "Representative practice", min: 8, grade: "Borrowed",
     blurb: "Why shot volume is not the same as game information, and how to audit a drill against real game shots.",
     outcome: "Score a drill for how game-like it is, and move it one step." },
-  { n: 4, href: "coaches-post.html", title: "Designing a session with PoST", short: "Designing a session (PoST)", min: 10, grade: "Practice wisdom",
+  { n: 4, href: "coaches-post.html", theme: "Practice design", title: "Designing a session with PoST", short: "Designing a session (PoST)", min: 10, grade: "Practice wisdom",
     blurb: "Otte's stages, two dials and a session sheet, translated for hockey: hip load, starter and backup weeks, and planned feedback.",
     outcome: "Label last week's practice and plan one session on the sheet." },
-  { n: 5, href: "coaches-learning.html", title: "Is it working? Learning vs performance", short: "Is it working?", min: 7, grade: "Borrowed",
+  { n: 5, href: "coaches-learning.html", theme: "Skill acquisition", title: "Is it working? Learning vs performance", short: "Is it working?", min: 7, grade: "Borrowed",
     blurb: "Why a sharp end-of-drill look proves little, and how to run a cold retention check and keep a simple goalie log.",
     outcome: "Run a retention block next week and log process, not save %." }
 ];
@@ -55,7 +55,7 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
     const box = $("path-rail");
     if (!box) return;
     const done = learnDone();
-    box.innerHTML = `<strong>The path</strong><ol>` + LEARN.map((m) =>
+    box.innerHTML = `<strong>Practice Labs</strong><ol>` + LEARN.map((m) =>
       `<li><a href="${m.href}"${m.n === here ? ' aria-current="page"' : ""}${done.has(m.n) ? ' class="done"' : ""}><span>${done.has(m.n) ? "✓" : "0" + m.n}</span>${m.short}</a></li>`).join("") + `</ol>`;
   }
   paintRail();
@@ -66,7 +66,7 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
     const paint = () => {
       const on = learnDone().has(here);
       btn.setAttribute("aria-pressed", on);
-      btn.textContent = on ? "✓ Done" : "Mark module as done";
+      btn.textContent = on ? "✓ Done" : "Mark lab as done";
     };
     btn.addEventListener("click", () => {
       const d = learnDone();
@@ -79,7 +79,7 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
   if (pn && here) {
     const prev = LEARN[here - 2], next = LEARN[here];
     pn.innerHTML =
-      (prev ? `<a href="${prev.href}"><span>‹ Module ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="briefs.html#modules"><span>‹ Back to</span><b>Learning modules</b></a>`) +
-      (next ? `<a class="nx" href="${next.href}"><span>Module ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="briefs.html#briefs"><span>Finished ›</span><b>Apply it in a brief</b></a>`);
+      (prev ? `<a href="${prev.href}"><span>‹ Lab ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="coaching.html#labs"><span>‹ Back to</span><b>Practice Labs</b></a>`) +
+      (next ? `<a class="nx" href="${next.href}"><span>Lab ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="coaching.html#labs"><span>Finished ›</span><b>Back to Practice Labs</b></a>`);
   }
 })();

@@ -8,7 +8,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | --- | --- |
 | `index.html` | The home page: the Constellation hero (every goalie researcher as a light in their main topic's colour, linked to co-authors, drawn by `constellation.js` from `researchers-data.js`), a "Since 1979" dot timeline of every study, and links into the site. |
 | `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
-| `coaches.html` | The Coaches page: the Ecological Dynamics and Skill Acquisition list, for coaches that want to improve their practice design skills. |
+| `briefs.html` | The Briefs page: coaching breakdowns of recent studies from the Oracles. The latest brief leads, with every brief listed below. |
+| `coaching.html` | The Goalie Coaching Design page (nav: Coaching): the Coaching Oracle globe (`coaching-oracle.js`, reading `learning-data.js` and `research.js`) and the five Practice Labs (`coaches-*.html`, listed in `learn.js`). `coaches.html` forwards here. |
 | `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
 | `data.js` | The research data: every article and the "last updated" date. |
 | `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
@@ -29,7 +30,7 @@ A static website. There is nothing to install and no server: it is plain HTML an
 | `clothesline.js` | The articles shown in the Latest research ticker under the masthead on the home page. |
 | `fetch_clothesline.py` | The research bot that updates `clothesline.js` (OpenAlex research and researcher feeds, plus Claude web research when an API key is set). |
 | `.github/workflows/update-clothesline.yml` | Optional: lets GitHub run the research bot every day. |
-| `research.js` | The list for the Ecological dynamics and skill acquisition section on the Coaches page. |
+| `research.js` | The newest ecological dynamics and skill acquisition studies, shown on the Coaching Oracle globe on `coaching.html`. |
 | `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
 | `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
 | `fetch_research.py` | Optional helper that adds recent articles to `research.js` using OpenAlex (no key needed). |
