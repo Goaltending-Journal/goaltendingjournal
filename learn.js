@@ -1,7 +1,7 @@
 // Practice Labs: the lab list, and the page chrome shared by coaching.html and the five lab pages.
 // Done marks live only in this browser (localStorage), since the site has no accounts.
 const LEARN = [
-  { n: 1, href: "coaches-cla.html", theme: "Ecological dynamics", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 8, grade: "Borrowed",
+  { n: 1, href: "coaches-cla.html", theme: "Ecological dynamics", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 10, grade: "Borrowed",
     blurb: "Coach the problem, not the movement. Where the idea comes from, what the trials show and what the critics get right.",
     outcome: "Explain the approach to a skeptical coach in two minutes." },
   { n: 2, href: "coaches-constraints.html", theme: "Ecological dynamics", title: "Constraints: individual, task, environment", short: "Three kinds of constraint", min: 7, grade: "Borrowed",
