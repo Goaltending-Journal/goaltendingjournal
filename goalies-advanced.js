@@ -463,4 +463,5 @@ let nstRz; addEventListener("resize",()=>{ clearTimeout(nstRz); nstRz=setTimeout
     if(!nstRows().some(r=>r.key===nst.id)) nst.id="";
   }catch(err){ nst.failed=true; }
   renderNst();
+  dispatchEvent(new Event("grj-nst"));   // nhl-oracle.js draws its globe from the same rows
 })();
