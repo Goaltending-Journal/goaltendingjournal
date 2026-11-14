@@ -62,6 +62,35 @@ main.wrap{max-width:1120px;gap:64px;padding-bottom:88px}
 .lr-card .pills{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px}
 .lr-card .pills span{display:inline-flex;align-items:center;gap:6px;font:500 11px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--chalk)}
 .lr-card .pills i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* Extreme Learning: our own redraw of the seven-factor model in Goldman & Stephens (2018). Honeycomb beside the three phases;
+   a glow walks the factors in order, and pointing at a factor or a phase lights the ones that belong together. */
+.xl{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px 40px;align-items:center;scroll-margin-top:84px}
+@media (max-width:860px){.xl{grid-template-columns:minmax(0,1fr)}}
+.xl h2{margin:0 0 6px;font:600 34px/1 var(--display)}
+.xl .lead{margin:0 0 16px;font-size:15px;line-height:1.55;color:var(--fog)}
+.xl svg{display:block;width:100%;height:auto;max-height:420px}
+.xl-hex{cursor:pointer;outline:none}
+.xl-hex polygon{fill:var(--boards);stroke:var(--jade-c);stroke-width:1.5;transition:fill .25s ease,stroke .25s ease;animation:xl-lit 8.4s infinite;animation-delay:calc(var(--i)*1.2s)}
+@keyframes xl-lit{0%,3%{fill:var(--boards)}7%,13%{fill:color-mix(in srgb,var(--accent) 38%,var(--boards))}20%,100%{fill:var(--boards)}}
+.xl-hex text{font:500 10.5px var(--label);fill:var(--chalk);text-anchor:middle;pointer-events:none}
+.xl.held .xl-hex polygon{animation:none}
+.xl.held .xl-hex.hot polygon{fill:color-mix(in srgb,var(--accent) 38%,var(--boards));stroke:var(--accent)}
+.xl.held .xl-hex:not(.hot){opacity:.45}
+.xl-hex:focus-visible polygon{stroke:var(--chalk);stroke-width:2.5}
+.xl-loop{fill:none;stroke:var(--jade-c);stroke-width:1.3;stroke-dasharray:4 5;animation:xl-flow 2.4s linear infinite}
+@keyframes xl-flow{to{stroke-dashoffset:-18}}
+.xl-axis{stroke:var(--line);stroke-width:2}
+.xl-ph{font:600 15px var(--display);fill:var(--crease);text-anchor:middle}
+.xl-phases{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.xl-phases li{border-top:1px solid var(--line);transition:opacity .2s ease}
+.xl-phases button{all:unset;box-sizing:border-box;display:grid;gap:2px;width:100%;min-height:48px;padding:10px 0;cursor:pointer}
+.xl-phases b{font:600 21px/1.1 var(--display);color:var(--chalk);transition:color .2s ease}
+.xl-phases span{font-size:14px;color:var(--fog)}
+.xl-phases button:hover b,.xl-phases li.hot b{color:var(--crease)}
+.xl-phases button:focus-visible{outline:2px solid var(--crease);outline-offset:2px}
+.xl.held .xl-phases li:not(.hot){opacity:.45}
+.xl .cite{margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--fog)}
+@media (prefers-reduced-motion:reduce){.xl-hex polygon,.xl-loop{animation:none}}
 /* Practice Labs */
 .labs{scroll-margin-top:84px}
 .labs h2{margin:0;font:600 34px/1 var(--display)}
@@ -113,6 +142,22 @@ main.wrap{max-width:1120px;gap:64px;padding-bottom:88px}
     </div>
   </section>
 
+  <section class="xl" id="extreme-learning" aria-labelledby="h-xl">
+    <svg id="xl-svg" viewBox="0 0 380 282" role="group" aria-label="Seven hexagons, one for each factor of an innovation culture, lighting in turn from the factors that catalyze to those that enable and sustain, with a dashed line feeding back to the start">
+      <path class="xl-loop" aria-hidden="true" d="M332 140 H356 V10 H80 V44 M218 10 V44"/>
+      <path aria-hidden="true" d="M75 40 L80 48 L85 40 M213 40 L218 48 L223 40" fill="none" stroke="var(--jade-c)" stroke-width="1.3"/>
+      <g id="xl-hexes"></g>
+      <line class="xl-axis" x1="24" y1="246" x2="356" y2="246"/>
+      <text class="xl-ph" x="80" y="270">Catalyze</text><text class="xl-ph" x="184" y="270">Enable</text><text class="xl-ph" x="287" y="270">Sustain</text>
+    </svg>
+    <div>
+      <h2 id="h-xl">Extreme Learning</h2>
+      <p class="lead">Seven factors work together to catalyze, enable and sustain a culture of innovation in goalie coaching education.</p>
+      <ul class="xl-phases" id="xl-phases" aria-label="Phases"></ul>
+      <p class="cite">Goldman J, Stephens J. Extreme Learning: Designing a 21st Century Coaching Education Program through a Culture of Innovation. Unpublished proposal, 2018. Diagram redrawn by the GRJ.</p>
+    </div>
+  </section>
+
   <section class="labs" id="labs" aria-labelledby="h-labs">
     <h2 id="h-labs">Practice Labs</h2>
     <p class="lead">Each lab takes one idea from the Coaching Oracle and ends with something to try in your next practice.</p>
@@ -120,6 +165,32 @@ main.wrap{max-width:1120px;gap:64px;padding-bottom:88px}
   </section>
 </main>
 
+<script>
+// Extreme Learning honeycomb: factor names, layout and phases follow the figure in Goldman & Stephens (2018).
+(function(){
+  var NS='http://www.w3.org/2000/svg', R=43, root=document.getElementById('extreme-learning');
+  var F=[['Leadership',80,100,0],['Communication',80,180,0],['Resource allocation',149,140,1],['Structure & process',218,100,1],['Capacity',218,180,1],['Policy environment',287,60,2],['Learning agenda',287,140,2]];
+  var P=['Catalyze','Enable','Sustain'], G=document.getElementById('xl-hexes'), L=document.getElementById('xl-phases'), hexes=[], rows=[];
+  function mk(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+  function hold(ph){root.classList.toggle('held',ph>=0);hexes.forEach(function(h,i){h.classList.toggle('hot',F[i][3]===ph)});rows.forEach(function(r,i){r.classList.toggle('hot',i===ph)})}
+  function wire(el,ph){el.addEventListener('pointerenter',function(){hold(ph)});el.addEventListener('pointerleave',function(){hold(-1)});el.addEventListener('focus',function(){hold(ph)});el.addEventListener('blur',function(){hold(-1)});el.addEventListener('click',function(){hold(ph)})}
+  F.forEach(function(f,i){
+    var g=mk('g',{'class':'xl-hex',tabindex:'0',role:'img','aria-label':f[0]+', a factor that helps '+P[f[3]].toLowerCase()+' the culture'},G);g.style.setProperty('--i',i);
+    var pts=[];for(var k=0;k<6;k++){var a=Math.PI/3*k;pts.push((f[1]+R*Math.cos(a)).toFixed(1)+','+(f[2]+R*Math.sin(a)).toFixed(1))}
+    mk('polygon',{points:pts.join(' ')},g);
+    var w=f[0].split(' ');
+    if(w.length>1){mk('text',{x:f[1],y:f[2]-3},g).textContent=w.slice(0,-1).join(' ');mk('text',{x:f[1],y:f[2]+12},g).textContent=w[w.length-1]}
+    else mk('text',{x:f[1],y:f[2]+4},g).textContent=f[0];
+    hexes.push(g);wire(g,f[3]);
+  });
+  P.forEach(function(name,ph){
+    var li=document.createElement('li'),b=document.createElement('button');b.type='button';
+    var t=document.createElement('b');t.textContent=name;
+    var d=document.createElement('span');d.textContent=F.filter(function(f){return f[3]===ph}).map(function(f){return f[0]}).join(', ');
+    b.appendChild(t);b.appendChild(d);li.appendChild(b);L.appendChild(li);rows.push(li);wire(b,ph);
+  });
+})();
+</script>
 <script src="research.js"></script>
 <script src="learning-data.js"></script>
 <script src="coaching-oracle.js"></script>
