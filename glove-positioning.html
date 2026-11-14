@@ -94,36 +94,8 @@ article{display:grid;gap:56px;min-width:0}
 section[id],details[id]{scroll-margin-top:84px}
 .eyebrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--fog)}
 .tdot{width:10px;height:10px;border-radius:50%;background:var(--t-bio)}
-.lede{margin:14px 0 0;max-width:40ch;font-family:var(--serif);font-size:clamp(19px,2.2vw,23px);line-height:1.45}
-.byline{margin:12px 0 0;max-width:68ch;font-size:14px;color:var(--fog)}
-/* the four steps, the same shape as a Practice Lab */
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:28px;max-width:720px}
-.steps a{display:grid;gap:2px;padding:12px 14px;background:var(--glass);border-radius:var(--r);font-family:var(--f-display);font-size:18px;line-height:1.15;color:var(--chalk);transition:background .2s,transform .2s}
-.steps a:hover{background:var(--crease-dim);text-decoration:none;transform:translateY(-2px)}
-.steps b{font-weight:400;color:var(--crease);font-size:15px}
-@media (max-width:560px){.steps{grid-template-columns:1fr 1fr}}
-@media (prefers-reduced-motion:reduce){.steps a{transition:none}.steps a:hover{transform:none}}
 .brief h2{font-size:clamp(28px,3.4vw,34px);font-weight:400;letter-spacing:0;display:flex;align-items:baseline;gap:12px}
-.num{font-family:var(--f-display);color:var(--crease)}
-.found{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:18px}
-.found>div{background:var(--boards);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
-.found>.not{background:var(--glass);border-color:transparent}
-.found h3,.try h3{margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:20px}
-.found ul,.try ul{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px;line-height:1.55}
-@media (max-width:640px){.found{grid-template-columns:1fr}}
-.use{margin:16px 0 0;border-bottom:1px solid var(--line)}
-.use>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:4px 24px;padding:16px 0;border-top:1px solid var(--line)}
-.use dt{font-family:var(--f-display);font-size:19px;line-height:1.2}
-.use dd{margin:0;font-size:15px;line-height:1.55}
-@media (max-width:640px){.use>div{grid-template-columns:1fr}}
-.try{margin-top:24px;background:#3b5d58;color:#fff;border-radius:var(--r);padding:20px 22px;font-size:15px;line-height:1.6}
-.try p{margin:0 0 8px}
-.folds{display:block;border-bottom:1px solid var(--line)}
-.folds details{border-top:1px solid var(--line);padding:16px 0}
-.folds summary{font-family:var(--f-display);font-size:20px;cursor:pointer}
-.folds summary:hover{color:var(--crease)}
-.folds details>*:not(summary){font-size:15px}
-.folds details>p:first-of-type,.folds details>ul{margin-top:12px}
+.ev{font-size:14px;color:var(--fog)}
 /* Site footer: the same line on every page */
 .site-foot{max-width:1040px;margin:40px auto 0;border-top:1px solid var(--line);padding-top:24px;color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between}
 </style>
@@ -150,45 +122,28 @@ section[id],details[id]{scroll-margin-top:84px}
   <header class="intro">
     <div class="eyebrow"><i class="tdot"></i>Movement &amp; biomechanics · Evidence Oracle · 4 min read</div>
     <h1>Glove Positioning Analysis</h1>
-    <p class="lede">The study found that goalies drift back toward the goal line as reps pile up, and lose the most on wide pucks near the face-off dots.</p>
-    <p class="byline">Kwan, Daley &amp; MacLean, <i>International Journal of Sports Science &amp; Coaching</i>, 2026. Evidence grade: Emerging, one small lab study.</p>
-    <nav class="steps" aria-label="Steps in this brief">
-      <a href="#study"><b>1</b>The study</a>
-      <a href="#see"><b>2</b>See it</a>
-      <a href="#use"><b>3</b>Use it</a>
-      <a href="#check"><b>4</b>Check it</a>
-    </nav>
   </header>
 
   <article>
   <section class="brief" id="study" aria-labelledby="h-study">
-    <h2 id="h-study"><span class="num">1</span>The study</h2>
+    <h2 id="h-study">The Study</h2>
+    <p>Kwan J, Daley WS, MacLean KFE. "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. Published online 10 October 2026. <a href="https://doi.org/10.1177/17479541261492184" rel="noopener">doi:10.1177/17479541261492184</a></p>
+  </section>
+
+  <section class="brief" id="breakdown" aria-labelledby="h-breakdown">
+    <h2 id="h-breakdown">Breakdown</h2>
     <p>A 2026 motion-capture study tracked the glove of 14 experienced goalies as they moved between four puck locations on synthetic ice. Each goalie's glove position was compared with their own set stance.</p>
-    <div class="found">
-      <div>
-        <h3>It found</h3>
-        <ul>
-          <li><b>Wide pucks cost the most.</b> Glove errors were largest for pucks near the face-off dots. Goalies lost depth and drifted off angle.</li>
-          <li><b>Squareness slips first.</b> Of the three rotation errors, the glove most often turned in or out instead of facing the puck.</li>
-          <li><b>Goalies retreat as reps pile up.</b> Across six repeated movement patterns, the glove sank back toward the goal line. By the third rep it was measurably deeper than on the first.</li>
-          <li><b>Tired goalies are less precise.</b> Higher self-rated exertion went with more position error (r = 0.55, a moderate link).</li>
-        </ul>
-      </div>
-      <div class="not">
-        <h3>It didn't test</h3>
-        <ul>
-          <li>Live shots, passes or game speed.</li>
-          <li>Elite or youth goalies, or the blocker side.</li>
-          <li>Whether any drill reduces drift.</li>
-        </ul>
-      </div>
-    </div>
+    <ul class="findings">
+      <li><b>Wide pucks cost the most.</b> Glove errors were largest for pucks near the face-off dots. Goalies lost depth and drifted off angle. <i class="ev">Emerging</i></li>
+      <li><b>Squareness slips first.</b> Of the three rotation errors, the glove most often turned in or out instead of facing the puck. <i class="ev">Emerging</i></li>
+      <li><b>Goalies retreat as reps pile up.</b> Across six repeated movement patterns, the glove sank back toward the goal line. By the third rep it was measurably deeper than on the first. <i class="ev">Emerging</i></li>
+      <li><b>Tired goalies are less precise.</b> Higher self-rated exertion went with more position error (r = 0.55, a moderate link). <i class="ev">Emerging</i></li>
+    </ul>
   </section>
 
   <section class="viz" id="see" aria-labelledby="h-see">
     <div class="brief">
-      <h2 id="h-see"><span class="num">2</span>See it</h2>
-      <p>The "box" is how big the net looks from the puck. The closer a goalie plays to the shooter, the less net they need to cover. Every centimetre a goalie drifts back hands the shooter more net, and from a wide angle the margin is already small. The study suggests drift is gradual and the goalie doesn't notice it, which fits what coaches see late in penalty kills and long defensive-zone shifts.</p>
+      <h2 id="h-see">See it on the ice</h2>
       <p>Drag the puck to see how big the net looks from the shooter, the box the goalie has to fill, and what a few centimetres of drift costs. The geometry is our own illustration, not the study's data.</p>
     </div>
     <div class="grid">
@@ -270,58 +225,60 @@ section[id],details[id]{scroll-margin-top:84px}
     </div>
   </section>
 
-  <section class="brief" id="use" aria-labelledby="h-use">
-    <h2 id="h-use"><span class="num">3</span>Use it</h2>
-    <p>Coaching adaptations of the findings, using constraints-led practice design. The study did not test them.</p>
-    <dl class="use">
-      <div><dt>Depth held late in a sequence</dt><dd>Run six movement patterns in a row before the final shot, and judge depth and squareness on the last rep, not the first. Six patterns was enough to produce drift, so match drill length to a long defensive-zone shift instead of single-shot reps.</dd></div>
-      <div><dt>A full box on wide pucks</dt><dd>Finish each sequence with a shot from the left or right dot, chosen at random, so the hardest angle arrives when the goalie is most tired.</dd></div>
-      <div><dt>A square glove</dt><dd>Have the shooter walk the puck along the half-wall before releasing. Squareness carried the most rotation error.</dd></div>
-      <div><dt>Self-correction without the coach</dt><dd>Place cones at the goalie's set depth, then remove them over the following sessions. Have goalies find a reference such as the dots, the hash marks or the crease edge on recovery. Lab goalies had none, and drift may be smaller when they do. That's a question worth testing.</dd></div>
-      <div><dt>Precision under fatigue</dt><dd>Ask for a 0-10 effort rating after each set. When ratings climb, cut the set or watch depth closely, since exertion tracked with error. Shorten the rest between patterns as conditioning improves.</dd></div>
-    </dl>
-    <div class="try">
-      <h3>Try it this week</h3>
-      <p>Run one six-pattern sequence that ends with a shot from the dot. Film it from behind the net. Compare the glove's depth on rep 1 with rep 6.</p>
-      <p>Afterwards, ask:</p>
-      <ul>
-        <li>On which rep did the glove first drift back?</li>
-        <li>Did your goalie notice it? Ask them before you show the video.</li>
-        <li>What will you change in the sequence next week?</li>
-      </ul>
-    </div>
+  <section class="brief" id="takeaways" aria-labelledby="h-take">
+    <h2 id="h-take">Takeaways</h2>
+    <p>This is early data: one small lab study of 14 recreational goalies (9 men's league, 5 women's league), on synthetic ice, with no live shots or passes and no rink markings to orient by.</p>
+    <p>It assumes each goalie's set stance is their ideal. It is the first study to measure glove box control at all, so treat it as a strong hint, not a rule. A larger on-ice study with shooters and elite goalies would tell us whether the same drift happens at higher levels.</p>
+    <p>The study does not test game speed, elite or youth goalies, the blocker side, or whether any drill reduces drift.</p>
   </section>
 
-  <section class="brief" id="check" aria-labelledby="h-check">
-    <h2 id="h-check"><span class="num">4</span>Check it</h2>
+  <section class="brief" id="coaches" aria-labelledby="h-coaches">
+    <h2 id="h-coaches">For Coaches</h2>
+    <p>The "box" is how big the net looks from the puck. The closer a goalie plays to the shooter, the less net they need to cover. Every centimetre a goalie drifts back hands the shooter more net, and from a wide angle the margin is already small.</p>
+    <p>The study suggests drift is gradual and the goalie doesn't notice it, which fits what coaches see late in penalty kills and long defensive-zone shifts.</p>
+  </section>
+
+  <section class="brief" id="pointers" aria-labelledby="h-pointers">
+    <h2 id="h-pointers">Practice Pointers</h2>
+    <p class="caveat">These are suggested coaching applications from the GRJ. These are not associated with the study in any way.</p>
+    <ol class="plan">
+      <li><b>Score the last rep, not the first.</b> In any multi-puck sequence, judge depth and squareness on the final rep. That's where the study found the errors.</li>
+      <li><b>Make wide pucks the finish, not the start.</b> End sequences with a shot from the dot or the top of the circle, so the hardest angle arrives when the goalie is most tired.</li>
+      <li><b>Build sequences that mirror real shift lengths.</b> Six movement patterns in a row was enough to produce drift. Match drill length to a long defensive-zone shift instead of single-shot reps.</li>
+      <li><b>Add a quick effort check.</b> Ask for a 0-10 effort rating after each set. When ratings climb, cut the set or watch depth closely, since exertion tracked with error.</li>
+      <li><b>Use landmarks for self-correction.</b> Have goalies find a reference such as the dots, the hash marks or the crease edge on recovery. Lab goalies had none, and drift may be smaller when they do. That's a question worth testing.</li>
+    </ol>
+  </section>
+
+  <section class="brief" id="matrix" aria-labelledby="h-matrix">
+    <h2 id="h-matrix">Practice Design Matrix</h2>
+    <p class="caveat">These are suggested coaching applications from the GRJ. These are not associated with the study in any way.</p>
+    <div class="cmenu-wrap"><table class="cmenu">
+      <thead><tr><th scope="col">Desired Outcomes</th><th scope="col">What Changes</th><th scope="col">The Constraint</th><th scope="col">The Research</th></tr></thead>
+      <tbody>
+        <tr><td>Depth held late in a sequence</td><td>Run six movement patterns in a row before the final shot</td><td>Task</td><td>The study found drift from rep 3 onward</td></tr>
+        <tr><td>A full box on wide pucks</td><td>Finish each sequence with a shot from the left or right dot, chosen at random</td><td>Task</td><td>Wide pucks produced the largest errors</td></tr>
+        <tr><td>A square glove</td><td>Have the shooter walk the puck along the half-wall before releasing</td><td>Task</td><td>Squareness carried the most rotation error</td></tr>
+        <tr><td>Self-correction without the coach</td><td>Place cones at the goalie's set depth, then remove them over the following sessions</td><td>Environment</td><td>Lab goalies had no on-ice landmarks</td></tr>
+        <tr><td>Precision under fatigue</td><td>Shorten the rest between patterns as conditioning improves</td><td>Task / individual</td><td>Error rose with perceived exertion</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="brief" id="questions" aria-labelledby="h-questions">
+    <h2 id="h-questions">Major Questions</h2>
     <ul class="gaps">
-      <li><b>Learning, not just performance.</b> A week later, run the same sequence at the start of the session, cold, with no feedback. Note whether the glove is still set at release on the last rep.</li>
-      <li><b>Transfer.</b> Watch wide-angle shots in a scrimmage or game video. Is the box still there late in long defensive-zone shifts?</li>
-      <li><b>Keep the log simple.</b> Per rep, record yes or no for "set at release" and whether the glove was ahead of, level with or behind the cone line. Rate the same clips twice to check your own consistency.</li>
-      <li><b>Skip practice save %.</b> At practice shot volumes it is mostly noise.</li>
+      <li>Do elite goalies drift the same way?</li>
+      <li>How much does drift actually change goals against?</li>
+      <li>Does the blocker side behave differently?</li>
+      <li>Does any training method reduce drift?</li>
+      <li>Glove and positioning biomechanics is one of the thinnest areas in goalie research.</li>
     </ul>
   </section>
 
-  <section class="brief folds" aria-label="More on this study">
-    <details id="sure">
-      <summary>How sure we are</summary>
-      <p>This is one small lab study: 14 recreational goalies (9 men's league, 5 women's league), synthetic ice, no live shots or passes, and no rink markings to orient by. It assumes each goalie's set stance is their ideal. It is the first study to measure glove box control at all, so treat it as a strong hint, not a rule. A larger on-ice study with shooters and elite goalies would tell us whether the same drift happens at higher levels.</p>
-      <p>Emerging means one or two small goalie-specific studies. Stronger grades need replication or a large, well-designed goalie study.</p>
-    </details>
-    <details id="gap">
-      <summary>What we still don't know</summary>
-      <ul class="gaps">
-        <li>Whether elite goalies drift the same way.</li>
-        <li>How much drift actually changes goals against.</li>
-        <li>Whether blocker side behaves differently.</li>
-        <li>Whether any training method reduces drift.</li>
-      </ul>
-      <p>Glove and positioning biomechanics is one of the thinnest areas in goalie research.</p>
-    </details>
-    <details id="src">
-      <summary>Source</summary>
-      <p>Kwan J, Daley WS, MacLean KFE. "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. Published online 10 October 2026. <a href="https://doi.org/10.1177/17479541261492184" rel="noopener">doi:10.1177/17479541261492184</a></p>
-    </details>
+  <section class="brief" id="src" aria-labelledby="h-src">
+    <h2 id="h-src">GRJ Sources</h2>
+    <p class="src">Kwan J, Daley WS, MacLean KFE. "Thinking Inside the Box": Ice Hockey Goaltender Glove Position Analysis. <i>International Journal of Sports Science &amp; Coaching</i>. 2026. <a href="https://doi.org/10.1177/17479541261492184" rel="noopener">doi:10.1177/17479541261492184</a></p>
   </section>
   </article>
 </main>
@@ -332,7 +289,7 @@ section[id],details[id]{scroll-margin-top:84px}
 </footer>
 
 <script>
-// Reading progress bar; a fold opens when a link points at it.
+// Reading progress bar.
 (function(){
   const bar = document.getElementById('progress');
   const onScroll = () => {
@@ -340,8 +297,6 @@ section[id],details[id]{scroll-margin-top:84px}
     bar.style.width = (max > 0 ? Math.min(1, scrollY / max) * 100 : 0) + '%';
   };
   addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  const open = () => { const t = location.hash && document.querySelector(location.hash); if (t && t.tagName === 'DETAILS') t.open = true; };
-  addEventListener('hashchange', open); open();
 })();
 </script>
 <script>
