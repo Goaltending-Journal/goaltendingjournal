@@ -1,23 +1,37 @@
 {
- "checked": "2026-11-06",
+ "checked": "2026-11-17",
  "season": "2026-27",
- "nhlAsOf": "2026-11-06",
- "nstAsOf": "2026-11-06",
- "goalies": 74,
- "matched": 60,
+ "nhlAsOf": "2026-11-17",
+ "nstAsOf": "2026-11-17",
+ "goalies": 77,
+ "matched": 54,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
    "team": "SJS",
    "nhl": {
-    "gp": 6,
-    "sa": 189,
-    "ga": 19
+    "gp": 8,
+    "sa": 255,
+    "ga": 25
    },
    "nst": {
-    "gp": 7,
-    "sa": 189,
-    "ga": 19
+    "gp": 9,
+    "sa": 254,
+    "ga": 25
+   }
+  },
+  {
+   "name": "Andrei Vasilevskiy",
+   "team": "TBL",
+   "nhl": {
+    "gp": 15,
+    "sa": 368,
+    "ga": 41
+   },
+   "nst": {
+    "gp": 15,
+    "sa": 369,
+    "ga": 41
    }
   },
   {
@@ -35,59 +49,101 @@
    }
   },
   {
-   "name": "Devin Cooley",
-   "team": "CGY",
+   "name": "Connor Hellebuyck",
+   "team": "NJD",
    "nhl": {
     "gp": 7,
-    "sa": 197,
-    "ga": 17
+    "sa": 189,
+    "ga": 16
    },
    "nst": {
     "gp": 7,
-    "sa": 196,
-    "ga": 17
+    "sa": 190,
+    "ga": 16
+   }
+  },
+  {
+   "name": "Daniil Tarasov",
+   "team": "DET",
+   "nhl": {
+    "gp": 9,
+    "sa": 217,
+    "ga": 15
+   },
+   "nst": {
+    "gp": 9,
+    "sa": 216,
+    "ga": 15
+   }
+  },
+  {
+   "name": "Dan Vladar",
+   "team": "PHI",
+   "nhl": {
+    "gp": 12,
+    "sa": 317,
+    "ga": 40
+   },
+   "nst": {
+    "gp": 12,
+    "sa": 318,
+    "ga": 40
+   }
+  },
+  {
+   "name": "Devin Cooley",
+   "team": "CGY",
+   "nhl": {
+    "gp": 10,
+    "sa": 288,
+    "ga": 27
+   },
+   "nst": {
+    "gp": 10,
+    "sa": 287,
+    "ga": 27
+   }
+  },
+  {
+   "name": "Devon Levi",
+   "team": "EDM",
+   "nhl": {
+    "gp": 10,
+    "sa": 267,
+    "ga": 25
+   },
+   "nst": {
+    "gp": 11,
+    "sa": 266,
+    "ga": 25
    }
   },
   {
    "name": "Ilya Sorokin",
    "team": "NYI",
    "nhl": {
-    "gp": 10,
-    "sa": 271,
-    "ga": 24
+    "gp": 13,
+    "sa": 390,
+    "ga": 33
    },
    "nst": {
-    "gp": 10,
-    "sa": 270,
-    "ga": 24
+    "gp": 13,
+    "sa": 389,
+    "ga": 33
    }
   },
   {
    "name": "Jet Greaves",
    "team": "CBJ",
    "nhl": {
-    "gp": 8,
-    "sa": 180,
-    "ga": 21
-   },
-   "nst": {
-    "gp": 8,
-    "sa": 178,
-    "ga": 21
-   }
-  },
-  {
-   "name": "Joel Hofer",
-   "team": "STL",
-   "nhl": {
     "gp": 11,
-    "sa": 316,
-    "ga": 26
+    "sa": 265,
+    "ga": 33
    },
    "nst": {
     "gp": 11,
-    "sa": 317,
-    "ga": 26
+    "sa": 263,
+    "ga": 33
    }
   },
   {
@@ -105,17 +161,31 @@
    }
   },
   {
+   "name": "Juuse Saros",
+   "team": "NSH",
+   "nhl": {
+    "gp": 15,
+    "sa": 459,
+    "ga": 38
+   },
+   "nst": {
+    "gp": 15,
+    "sa": 460,
+    "ga": 38
+   }
+  },
+  {
    "name": "Karel Vejmelka",
    "team": "UTA",
    "nhl": {
-    "gp": 12,
-    "sa": 281,
-    "ga": 37
+    "gp": 16,
+    "sa": 368,
+    "ga": 48
    },
    "nst": {
-    "gp": 12,
-    "sa": 282,
-    "ga": 37
+    "gp": 16,
+    "sa": 369,
+    "ga": 48
    }
   },
   {
@@ -133,73 +203,129 @@
    }
   },
   {
+   "name": "Logan Thompson",
+   "team": "WSH",
+   "nhl": {
+    "gp": 13,
+    "sa": 349,
+    "ga": 39
+   },
+   "nst": {
+    "gp": 13,
+    "sa": 350,
+    "ga": 39
+   }
+  },
+  {
    "name": "Michael DiPietro",
    "team": "BOS",
    "nhl": {
-    "gp": 5,
-    "sa": 145,
-    "ga": 11
+    "gp": 6,
+    "sa": 160,
+    "ga": 12
    },
    "nst": {
-    "gp": 5,
-    "sa": 144,
-    "ga": 11
+    "gp": 6,
+    "sa": 159,
+    "ga": 12
+   }
+  },
+  {
+   "name": "Nikita Tolopilo",
+   "team": "VAN",
+   "nhl": {
+    "gp": 1,
+    "sa": 37,
+    "ga": 2
+   },
+   "nst": {
+    "gp": 1,
+    "sa": 36,
+    "ga": 2
    }
   },
   {
    "name": "Philipp Grubauer",
    "team": "SEA",
    "nhl": {
-    "gp": 9,
-    "sa": 229,
-    "ga": 26
+    "gp": 12,
+    "sa": 298,
+    "ga": 32
    },
    "nst": {
-    "gp": 9,
-    "sa": 227,
-    "ga": 26
+    "gp": 12,
+    "sa": 296,
+    "ga": 32
+   }
+  },
+  {
+   "name": "Samuel Ersson",
+   "team": "OTT",
+   "nhl": {
+    "gp": 10,
+    "sa": 217,
+    "ga": 25
+   },
+   "nst": {
+    "gp": 10,
+    "sa": 216,
+    "ga": 25
    }
   },
   {
    "name": "Sebastian Cossa",
    "team": "UTA",
    "nhl": {
-    "gp": 7,
-    "sa": 147,
-    "ga": 19
+    "gp": 8,
+    "sa": 175,
+    "ga": 24
    },
    "nst": {
-    "gp": 7,
-    "sa": 146,
-    "ga": 19
+    "gp": 8,
+    "sa": 174,
+    "ga": 24
    }
   },
   {
    "name": "Sergei Bobrovsky",
    "team": "TOR",
    "nhl": {
-    "gp": 11,
-    "sa": 324,
-    "ga": 36
+    "gp": 13,
+    "sa": 379,
+    "ga": 45
    },
    "nst": {
-    "gp": 12,
-    "sa": 324,
-    "ga": 36
+    "gp": 14,
+    "sa": 379,
+    "ga": 45
+   }
+  },
+  {
+   "name": "Sergei Murashov",
+   "team": "PIT",
+   "nhl": {
+    "gp": 8,
+    "sa": 245,
+    "ga": 26
+   },
+   "nst": {
+    "gp": 8,
+    "sa": 244,
+    "ga": 26
    }
   },
   {
    "name": "Tristan Jarry",
    "team": "EDM",
    "nhl": {
-    "gp": 8,
-    "sa": 205,
-    "ga": 21
+    "gp": 10,
+    "sa": 274,
+    "ga": 25
    },
    "nst": {
-    "gp": 8,
-    "sa": 206,
-    "ga": 21
+    "gp": 10,
+    "sa": 275,
+    "ga": 25
    }
   }
  ],
