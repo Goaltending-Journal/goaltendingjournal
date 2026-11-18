@@ -1,10 +1,10 @@
-/* The Oracle on the home page: a turning glass globe on which every study in the Evidence Oracle (data.js) is one ribbon of light,
+/* The Master Oracle (research.html, first tab; the homepage globe until 2026-11-18): a turning glass globe on which every study in the Evidence Oracle (data.js) is one ribbon of light,
    with the study itself as the bead at its head. A study filed under one topic circles in its own faint lane inside that topic's
    region; a study filed under two topics loops out to the second region and back. Researchers (researchers-data.js) are quiet
    lights in the region of their main topic. Topics and colours come from topics.js and the --t-* tokens in site-nav.css, the
    same sources the Oracle page uses.
    Drag to spin it; hover a bead for its study or a light for its researcher; hover a topic chip to light that topic and turn
-   the globe to face it. The canvas fills the whole hero, and the globe is centred on the empty #sky-orb box, which the page keeps
+   the globe to face it. The canvas fills the whole panel, and the globe is centred on the empty #sky-orb box, which the page keeps
    clear of text. Reduced motion draws one still frame; drawing stops while the hero is off screen. */
 (function () {
   const TOPICS = window.GRJ_TOPICS, KEYS = TOPICS.map((t) => t[0]), KI = Object.fromEntries(KEYS.map((k, i) => [k, i]));

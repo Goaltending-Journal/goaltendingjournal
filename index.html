@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Goaltending Research Journal</title>
-<meta name="description" content="An open-sourced journal for ice hockey goaltending.">
-<meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Bridging the gap between ice hockey goaltending research and the people who coach and play the position.">
+<meta name="theme-color" content="#0b100f">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -14,123 +13,24 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Jost:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="site-nav.css">
-<script src="theme.js"></script>
-<style>
-/* Home: the Oracle. Under the journal's name a glass globe turns on its own, with every study in the Evidence Oracle as one ribbon of light
-   and every researcher as a quiet light in their topic's region (constellation.js); drag the globe to spin it. A framed topic key at the side
-   is the colour key; the sunflower link below the globe leads into the Oracles; four doors lead into the site.
-   No footer here, to keep the page as clean as possible (Goldy, 2026-10-31).
-   The topic colours (--t-*) live in site-nav.css. */
-:root {
-  --h1-hover: #3b5d58;   /* masthead title hover and the footer tip pill */
-  --glass: rgba(255, 255, 255, 0.55); --glass-line: rgba(75, 112, 106, 0.26);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --h1-hover: #efd28a;
-    --glass: rgba(17, 23, 22, 0.45); --glass-line: rgba(164, 199, 193, 0.24);
-  }
-}
-:root[data-theme="dark"] {
-  --h1-hover: #efd28a;
-  --glass: rgba(17, 23, 22, 0.45); --glass-line: rgba(164, 199, 193, 0.24);
-}
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--serif); -webkit-font-smoothing: antialiased; }
-a { color: var(--accent); }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
-
-/* The hero: title on top, then the Oracle on its own with nothing over it, then the link into the Oracles.
-   The canvas fills the whole hero so the globe's glow is never cut off; constellation.js centres the globe on the empty .orb box. */
-.sky { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 4px; padding: 26px 16px 34px; text-align: center; }
-.sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; cursor: grab; touch-action: pan-y; }
-.sky.grabbing canvas { cursor: grabbing; }
-.sky h1 { margin: 0; font: 600 clamp(27px, 4.5vw, 56px)/1.06 var(--display); letter-spacing: 0.01em; text-wrap: balance; pointer-events: none; }
-.orb { width: 100%; height: clamp(400px, calc(100svh - 56px - 190px), 860px); pointer-events: none; }
-.spectrum { background: var(--word-grad);
-  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
-@keyframes spectrum { to { background-position: 300% 0; } }
-/* Oracle sunflower: golden-angle seeds in the topic colours, the link into the research database */
-.oracle { display: inline-flex; align-items: center; gap: 12px; color: var(--fg); text-decoration: none; font: 500 12px var(--label); letter-spacing: 0.14em; text-transform: uppercase; }
-.oracle svg { width: 46px; height: 46px; overflow: visible; transition: transform 0.35s ease, filter 0.35s ease; }
-.oracle .sun { transform-origin: 48px 48px; animation: sunspin 60s linear infinite; }
-.oracle .seed { transform-box: fill-box; transform-origin: center; }
-.oracle > span { display: inline-flex; align-items: center; gap: 8px; opacity: 0.85; transition: opacity 0.25s ease, gap 0.25s ease; }
-.oracle:hover svg, .oracle:focus-visible svg { transform: translateY(-4px) scale(1.06); filter: drop-shadow(0 10px 22px var(--accent)); }
-.oracle:hover .seed, .oracle:focus-visible .seed { animation: seedpop 1.2s ease-in-out infinite; }
-.oracle:hover > span, .oracle:focus-visible > span { opacity: 1; gap: 12px; }
-.oracle:focus-visible { outline: none; }
-@keyframes sunspin { to { transform: rotate(360deg); } }
-@keyframes seedpop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
-/* Topic key: a framed card at the side of the globe on wide screens, one line per topic in its colour; a wrapped row under the link on narrower ones */
-.legend { position: absolute; right: clamp(16px, 3vw, 48px); top: 50%; transform: translateY(-50%); margin: 0; padding: 14px 18px 14px 16px; list-style: none;
-  display: grid; gap: 2px; text-align: left; font: 500 11px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg);
-  border: 1px solid var(--glass-line); border-radius: 12px; background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.legend li { display: flex; align-items: center; gap: 10px; padding: 7px 4px; cursor: default; transition: opacity 0.2s ease; }
-.legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); transition: transform 0.2s ease; }
-.legend.dim li { opacity: 0.35; } .legend li.hot { opacity: 1; } .legend li.hot i { transform: scale(1.5); }
-.tip { position: absolute; z-index: 2; pointer-events: none; font: 500 12px var(--sans); background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
-.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-
-.doors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding-block: 40px 64px; }
-.door { position: relative; display: block; padding: 20px 20px 18px 24px; border: 1px solid var(--rule); border-radius: 12px; color: var(--fg); text-decoration: none; overflow: hidden;
-  transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), border-color 0.35s ease; }
-.door::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
-.door:hover, .door:focus-visible { transform: translateY(-3px); border-color: var(--c); }
-.door b { display: block; font: 600 19px/1.2 var(--display); }
-.door small { display: block; margin-top: 6px; font: 500 11px var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
-@media (max-width: 1180px) { .legend { position: static; transform: none; grid-template-columns: repeat(3, auto); gap: 0 18px; margin-top: 18px; } }
-@media (max-width: 880px) { .doors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 620px) { .orb { height: clamp(320px, 52svh, 460px); } .legend { grid-template-columns: repeat(2, auto); gap: 0 14px; font-size: 10px; padding: 10px 12px; } }
-@media (prefers-reduced-motion: reduce) { .spectrum { animation: none; } .door, .oracle svg { transition: none; } .oracle .sun, .oracle .seed { animation: none !important; } }
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Jost:wght@500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400&display=swap">
+<link rel="stylesheet" href="journey.css">
+<!-- Home (Goldy, 2026-11-18): a scroll journey through the journal, adapted from a copied artifact Goldy has permission to use.
+     The former homepage globe is now the Master Oracle, the first tab on research.html. -->
 </head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="topbar">
-  <div class="site-bar">
-    <a class="brand" href="index.html" aria-current="page"><svg class="brand-sun" viewBox="0 0 96 96" aria-hidden="true"><g><circle cx="54.1" cy="48.0" r="3.20" style="fill:var(--t-hip)"/><circle cx="40.2" cy="55.1" r="3.37" style="fill:var(--t-inj)"/><circle cx="49.2" cy="34.5" r="3.54" style="fill:var(--t-eq)"/><circle cx="57.8" cy="60.8" r="3.71" style="fill:var(--t-vis)"/><circle cx="30.0" cy="44.8" r="3.89" style="fill:var(--t-phy)"/><circle cx="65.0" cy="37.2" r="4.06" style="fill:var(--t-bio)"/><circle cx="42.3" cy="69.2" r="4.23" style="fill:var(--t-psy)"/><circle cx="37.1" cy="27.1" r="4.40" style="fill:var(--t-dev)"/><circle cx="71.6" cy="56.6" r="4.57" style="fill:var(--t-stats)"/><circle cx="23.5" cy="58.1" r="4.74" style="fill:var(--t-hip)"/><circle cx="59.8" cy="22.8" r="4.91" style="fill:var(--t-inj)"/><circle cx="56.7" cy="75.8" r="5.09" style="fill:var(--t-eq)"/><circle cx="21.7" cy="32.8" r="5.26" style="fill:var(--t-vis)"/><circle cx="78.9" cy="41.2" r="5.43" style="fill:var(--t-phy)"/><circle cx="29.2" cy="74.8" r="5.60" style="fill:var(--t-bio)"/><circle cx="43.6" cy="14.4" r="5.77" style="fill:var(--t-psy)"/><circle cx="74.7" cy="70.5" r="5.94" style="fill:var(--t-dev)"/><circle cx="12.1" cy="49.5" r="6.11" style="fill:var(--t-stats)"/><circle cx="74.2" cy="21.9" r="6.29" style="fill:var(--t-hip)"/><circle cx="46.2" cy="85.9" r="6.46" style="fill:var(--t-inj)"/><circle cx="23.1" cy="18.1" r="6.63" style="fill:var(--t-eq)"/></g></svg><span class="brand-text" aria-hidden="true">The GRJ</span><span class="brand-name">The Goaltending Research Journal</span></a>
-    <nav aria-label="Main" id="nav">
-      <a href="research.html">Oracles</a>
-      <a href="briefs.html">Briefs</a>
-      <a href="coaching.html">Coaching</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="conference.html">Conference</a>
-      <a href="goalies.html">NHL DataViz</a>
-      <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-  <section class="sky" id="sky" aria-labelledby="title">
-    <canvas id="sky-art" aria-hidden="true"></canvas>
-    <h1 id="title">The <span class="spectrum">Goaltending</span> Research Journal</h1>
-    <div class="orb" id="sky-orb"></div>
-    <a class="oracle" href="research.html">
-      <svg viewBox="0 0 96 96" aria-hidden="true"><g class="sun"><circle class="seed" cx="51.3" cy="48.0" r="1.10" style="fill:var(--t-hip);animation-delay:0.00s"/><circle class="seed" cx="44.1" cy="51.6" r="1.13" style="fill:var(--t-inj);animation-delay:0.04s"/><circle class="seed" cx="48.6" cy="41.3" r="1.17" style="fill:var(--t-eq);animation-delay:0.09s"/><circle class="seed" cx="52.8" cy="54.3" r="1.20" style="fill:var(--t-vis);animation-delay:0.14s"/><circle class="seed" cx="39.1" cy="46.4" r="1.24" style="fill:var(--t-phy);animation-delay:0.18s"/><circle class="seed" cx="56.4" cy="42.7" r="1.27" style="fill:var(--t-bio);animation-delay:0.22s"/><circle class="seed" cx="45.2" cy="58.4" r="1.31" style="fill:var(--t-psy);animation-delay:0.27s"/><circle class="seed" cx="42.7" cy="37.7" r="1.34" style="fill:var(--t-dev);animation-delay:0.32s"/><circle class="seed" cx="59.6" cy="52.2" r="1.38" style="fill:var(--t-stats);animation-delay:0.36s"/><circle class="seed" cx="36.0" cy="53.0" r="1.41" style="fill:var(--t-hip);animation-delay:0.40s"/><circle class="seed" cx="53.8" cy="35.6" r="1.45" style="fill:var(--t-inj);animation-delay:0.45s"/><circle class="seed" cx="52.3" cy="61.6" r="1.48" style="fill:var(--t-eq);animation-delay:0.49s"/><circle class="seed" cx="35.1" cy="40.5" r="1.51" style="fill:var(--t-vis);animation-delay:0.54s"/><circle class="seed" cx="63.1" cy="44.7" r="1.55" style="fill:var(--t-phy);animation-delay:0.58s"/><circle class="seed" cx="38.8" cy="61.1" r="1.58" style="fill:var(--t-bio);animation-delay:0.63s"/><circle class="seed" cx="45.9" cy="31.5" r="1.62" style="fill:var(--t-psy);animation-delay:0.67s"/><circle class="seed" cx="61.1" cy="59.0" r="1.65" style="fill:var(--t-dev);animation-delay:0.72s"/><circle class="seed" cx="30.4" cy="48.7" r="1.69" style="fill:var(--t-stats);animation-delay:0.77s"/><circle class="seed" cx="60.8" cy="35.2" r="1.72" style="fill:var(--t-hip);animation-delay:0.81s"/><circle class="seed" cx="47.1" cy="66.6" r="1.76" style="fill:var(--t-inj);animation-delay:0.85s"/><circle class="seed" cx="35.8" cy="33.4" r="1.79" style="fill:var(--t-eq);animation-delay:0.90s"/><circle class="seed" cx="67.3" cy="50.6" r="1.83" style="fill:var(--t-vis);animation-delay:0.94s"/><circle class="seed" cx="31.6" cy="59.4" r="1.86" style="fill:var(--t-phy);animation-delay:0.99s"/><circle class="seed" cx="52.5" cy="28.1" r="1.89" style="fill:var(--t-bio);animation-delay:1.03s"/><circle class="seed" cx="58.4" cy="66.1" r="1.93" style="fill:var(--t-psy);animation-delay:1.08s"/><circle class="seed" cx="27.8" cy="41.5" r="1.96" style="fill:var(--t-dev);animation-delay:1.12s"/><circle class="seed" cx="67.7" cy="38.9" r="2.00" style="fill:var(--t-stats);animation-delay:1.17s"/><circle class="seed" cx="39.5" cy="68.4" r="2.03" style="fill:var(--t-hip);animation-delay:1.21s"/><circle class="seed" cx="40.4" cy="26.9" r="2.07" style="fill:var(--t-inj);animation-delay:1.26s"/><circle class="seed" cx="68.2" cy="58.6" r="2.10" style="fill:var(--t-eq);animation-delay:1.30s"/><circle class="seed" cx="25.5" cy="53.9" r="2.14" style="fill:var(--t-vis);animation-delay:1.35s"/><circle class="seed" cx="60.8" cy="28.1" r="2.17" style="fill:var(--t-phy);animation-delay:1.40s"/><circle class="seed" cx="52.1" cy="71.6" r="2.21" style="fill:var(--t-bio);animation-delay:1.44s"/><circle class="seed" cx="28.8" cy="33.1" r="2.24" style="fill:var(--t-psy);animation-delay:1.48s"/><circle class="seed" cx="72.6" cy="46.0" r="2.27" style="fill:var(--t-dev);animation-delay:1.53s"/><circle class="seed" cx="31.0" cy="66.4" r="2.31" style="fill:var(--t-stats);animation-delay:1.57s"/><circle class="seed" cx="48.1" cy="22.6" r="2.34" style="fill:var(--t-hip);animation-delay:1.62s"/><circle class="seed" cx="65.3" cy="67.1" r="2.38" style="fill:var(--t-inj);animation-delay:1.67s"/><circle class="seed" cx="22.0" cy="45.6" r="2.41" style="fill:var(--t-eq);animation-delay:1.71s"/><circle class="seed" cx="69.1" cy="32.0" r="2.45" style="fill:var(--t-vis);animation-delay:1.75s"/><circle class="seed" cx="43.2" cy="74.3" r="2.48" style="fill:var(--t-phy);animation-delay:1.80s"/><circle class="seed" cx="33.6" cy="25.1" r="2.52" style="fill:var(--t-bio);animation-delay:1.84s"/><circle class="seed" cx="74.4" cy="55.2" r="2.55" style="fill:var(--t-psy);animation-delay:1.89s"/><circle class="seed" cx="23.3" cy="60.7" r="2.59" style="fill:var(--t-dev);animation-delay:1.93s"/><circle class="seed" cx="57.7" cy="21.7" r="2.62" style="fill:var(--t-stats);animation-delay:1.98s"/><circle class="seed" cx="58.7" cy="74.3" r="2.65" style="fill:var(--t-hip);animation-delay:2.02s"/><circle class="seed" cx="22.1" cy="35.7" r="2.69" style="fill:var(--t-inj);animation-delay:2.07s"/><circle class="seed" cx="75.7" cy="39.5" r="2.72" style="fill:var(--t-eq);animation-delay:2.11s"/><circle class="seed" cx="33.2" cy="73.3" r="2.76" style="fill:var(--t-vis);animation-delay:2.16s"/><circle class="seed" cx="41.8" cy="19.1" r="2.79" style="fill:var(--t-phy);animation-delay:2.21s"/><circle class="seed" cx="72.4" cy="65.3" r="2.83" style="fill:var(--t-bio);animation-delay:2.25s"/><circle class="seed" cx="18.1" cy="51.7" r="2.86" style="fill:var(--t-psy);animation-delay:2.29s"/><circle class="seed" cx="67.7" cy="24.8" r="2.90" style="fill:var(--t-dev);animation-delay:2.34s"/><circle class="seed" cx="49.1" cy="78.7" r="2.93" style="fill:var(--t-stats);animation-delay:2.38s"/><circle class="seed" cx="26.2" cy="25.9" r="2.97" style="fill:var(--t-hip);animation-delay:2.43s"/></g></svg>
-      <span>Explore the Oracles <span aria-hidden="true">→</span></span>
-    </a>
-    <ul class="legend" id="legend" aria-label="Research topics, by colour"></ul>
-    <div class="tip" id="sky-tip" aria-hidden="true"></div>
-  </section>
-
-  <div class="wrap">
-    <nav class="doors" aria-label="Sections">
-      <a class="door" href="research.html" style="--c: var(--jade-a)"><b>Oracles</b><small id="door-n">Every study</small></a>
-      <a class="door" href="briefs.html" style="--c: var(--jade-a)"><b>Briefs</b><small>Learning center</small></a>
-      <a class="door" href="goalies.html" style="--c: var(--jade-a)"><b>NHL DataViz</b><small>12 archetypes</small></a>
-      <a class="door" href="reviews.html" style="--c: var(--jade-a)"><b>Reviews</b><small>Monthly sessions</small></a>
-    </nav>
-  </div>
-</main>
-
+<body class="journey">
+<canvas id="skyfield" aria-hidden="true"></canvas>
+<div id="jglow" aria-hidden="true"></div>
+<main id="stage" aria-label="The Goaltending Research Journal, as a journey"><div id="tilt"><div id="world"></div></div></main>
+<div id="jvig" aria-hidden="true"></div>
+<div id="brand" class="hud"><a class="logo" href="index.html">GRJ</a><button id="play" class="hb" type="button" aria-pressed="false">▶ Play</button><button id="spd" class="hb" type="button" aria-label="Playback speed" hidden>1×</button></div>
+<div id="skip" class="hud"><a href="research.html">View the Oracles →</a></div>
+<div id="now" class="hud"><span id="nowKick">—</span><b id="nowName">—</b></div>
+<nav id="rail" class="hud" aria-label="Journey stops"><div id="prog"><i></i></div><ol></ol></nav>
+<div id="spacer"></div>
+<noscript><nav class="nojs" aria-label="Sections"><a href="research.html">Oracles</a><a href="briefs.html">Briefs</a><a href="coaching.html">Coaching</a><a href="reviews.html">Reviews</a><a href="conference.html">Conference</a><a href="goalies.html">NHL DataViz</a><a href="about.html">About</a></nav></noscript>
 <script src="data.js"></script>
-<script src="researchers-data.js"></script>
 <script src="topics.js"></script>
-<script src="constellation.js"></script>
+<script src="journey.js"></script>
 </body>
 </html>

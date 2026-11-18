@@ -6,7 +6,8 @@ A static website. There is nothing to install and no server: it is plain HTML an
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The home page: the Constellation hero (every goalie researcher as a light in their main topic's colour, linked to co-authors, drawn by `constellation.js` from `researchers-data.js`), a "Since 1979" dot timeline of every study, and links into the site. |
+| `index.html` | The home page: a scroll journey (`journey.js`, `journey.css`) through the Oracles, the nine topics, the Mission, Briefs, Peer Reviews and the Conference, with each node's glowing Oracle orb and the newest goalie studies from `data.js`. The opening frame offers Skip to end and View the Oracles. |
+| `constellation.js` | The Master Oracle, the first tab on `research.html`: every study as a ribbon of light and every researcher as a light in their topic's region. |
 | `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
 | `briefs.html` | The Briefs page: coaching breakdowns of recent studies from the Oracles. The latest brief leads, with every brief listed below. |
 | `coaching.html` | The Goalie Coaching Design page (nav: Coaching): the Coaching Oracle globe (`coaching-oracle.js`, reading `learning-data.js` and `research.js`) and the five Practice Labs (`coaches-*.html`, listed in `learn.js`). `coaches.html` forwards here. |
