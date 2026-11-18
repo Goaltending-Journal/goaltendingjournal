@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-17",
+ "checked": "2026-11-18",
  "season": "2026-27",
- "nhlAsOf": "2026-11-17",
- "nstAsOf": "2026-11-17",
+ "nhlAsOf": "2026-11-18",
+ "nstAsOf": "2026-11-18",
  "goalies": 77,
- "matched": 54,
+ "matched": 55,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -24,14 +24,14 @@
    "name": "Andrei Vasilevskiy",
    "team": "TBL",
    "nhl": {
-    "gp": 15,
-    "sa": 368,
-    "ga": 41
+    "gp": 16,
+    "sa": 395,
+    "ga": 43
    },
    "nst": {
-    "gp": 15,
-    "sa": 369,
-    "ga": 41
+    "gp": 16,
+    "sa": 396,
+    "ga": 43
    }
   },
   {
@@ -108,28 +108,28 @@
    "name": "Devon Levi",
    "team": "EDM",
    "nhl": {
-    "gp": 10,
-    "sa": 267,
-    "ga": 25
+    "gp": 11,
+    "sa": 289,
+    "ga": 27
    },
    "nst": {
-    "gp": 11,
-    "sa": 266,
-    "ga": 25
+    "gp": 12,
+    "sa": 288,
+    "ga": 27
    }
   },
   {
    "name": "Ilya Sorokin",
    "team": "NYI",
    "nhl": {
-    "gp": 13,
-    "sa": 390,
-    "ga": 33
+    "gp": 14,
+    "sa": 419,
+    "ga": 34
    },
    "nst": {
-    "gp": 13,
-    "sa": 389,
-    "ga": 33
+    "gp": 14,
+    "sa": 418,
+    "ga": 34
    }
   },
   {
@@ -164,14 +164,14 @@
    "name": "Juuse Saros",
    "team": "NSH",
    "nhl": {
-    "gp": 15,
-    "sa": 459,
-    "ga": 38
+    "gp": 16,
+    "sa": 477,
+    "ga": 39
    },
    "nst": {
-    "gp": 15,
-    "sa": 460,
-    "ga": 38
+    "gp": 16,
+    "sa": 478,
+    "ga": 39
    }
   },
   {
@@ -206,42 +206,28 @@
    "name": "Logan Thompson",
    "team": "WSH",
    "nhl": {
-    "gp": 13,
-    "sa": 349,
-    "ga": 39
+    "gp": 14,
+    "sa": 373,
+    "ga": 43
    },
    "nst": {
-    "gp": 13,
-    "sa": 350,
-    "ga": 39
+    "gp": 14,
+    "sa": 374,
+    "ga": 43
    }
   },
   {
    "name": "Michael DiPietro",
    "team": "BOS",
    "nhl": {
-    "gp": 6,
-    "sa": 160,
-    "ga": 12
+    "gp": 7,
+    "sa": 181,
+    "ga": 14
    },
    "nst": {
-    "gp": 6,
-    "sa": 159,
-    "ga": 12
-   }
-  },
-  {
-   "name": "Nikita Tolopilo",
-   "team": "VAN",
-   "nhl": {
-    "gp": 1,
-    "sa": 37,
-    "ga": 2
-   },
-   "nst": {
-    "gp": 1,
-    "sa": 36,
-    "ga": 2
+    "gp": 7,
+    "sa": 180,
+    "ga": 14
    }
   },
   {
@@ -290,14 +276,14 @@
    "name": "Sergei Bobrovsky",
    "team": "TOR",
    "nhl": {
-    "gp": 13,
-    "sa": 379,
-    "ga": 45
+    "gp": 14,
+    "sa": 404,
+    "ga": 51
    },
    "nst": {
-    "gp": 14,
-    "sa": 379,
-    "ga": 45
+    "gp": 15,
+    "sa": 404,
+    "ga": 51
    }
   },
   {
