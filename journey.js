@@ -1,6 +1,6 @@
 /* GRJ homepage journey (Goldy, 2026-11-18): scroll (or press Play) to fly through the journal. Each node is a stop on the way:
    the Oracles, the nine research topics they track, then the Mission, Briefs, Peer Reviews and the Conference, ending at the doors.
-   Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to the end and Go to the Oracles. Study cards
+   Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to end and View the Oracles. Study cards
    come from data.js (REC) and topic names from topics.js, so the journey always shows the newest goalie studies.
    The camera moves along one axis; cards sit at depths along it and fade in and out as it passes. Arrow keys and the rail
    jump between nodes; Space plays and pauses. Reduced motion turns off the easing and the starfield drift. */
@@ -14,7 +14,7 @@
   const JADE = "var(--j-accent)";
 
   const ABOUT = {
-    hip: "The butterfly asks more of the hip than almost any move in sport. This research looks at hip shape, range of motion and the wear that comes with the position.",
+    hip: "The butterfly is one of the most demanding movements in sports, and longevity is crucial to the position. This topic is one of the most important research areas in ice hockey goaltending.",
     inj: "Which injuries goalies get, how often, and what keeps them on the ice, from youth hockey to the NHL.",
     eq: "Pads, skates, nets and sizing: how equipment shapes the way goalies move and how well it protects them.",
     vis: "Where goalies look, when they pick up the puck, and how they read a shooter before the release.",
@@ -31,19 +31,19 @@
   const href = (r) => r.doi ? "https://doi.org/" + r.doi : r.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + r.pmid + "/" : r.link || "research.html";
 
   const NODES = [
-    { id: "start", nav: "GRJ", hero: 1, kick: "An open journal", name: "The Goaltending Research Journal", c: JADE, orb: "all",
-      summary: "Bridging the gap between ice hockey goaltending research and the people who coach and play the position." },
+    { id: "start", nav: "GRJ", hero: 1, kick: "Welcome to", name: "The Goaltending Research Journal", c: JADE, orb: "all",
+      summary: "A living open-sourced sports research journal dedicated to ice hockey goaltending." },
     { id: "oracles", nav: "Oracles", kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
-      summary: "Every study we track lives in the Oracles: turning globes of research you can explore by topic, by researcher and by year.",
+      summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
       cards: [
         ["Master Oracle", "Every study and researcher in one globe, one ribbon of light per study.", "research.html#master"],
         ["Researcher Oracle", "The people behind the research and who they work with.", "research.html#researchers"],
         ["Evidence Oracle", "Verified, evidence-based goaltending studies, oldest at the centre.", "research.html#evidence"],
         ["Scholarly Oracle", "Wider scholarly work still waiting to be verified.", "research.html#scholarly"]
       ] },
-    { id: "topics", nav: "9 topics", kick: "What the Oracles track", name: "Nine research topics", c: JADE,
-      summary: "Every study carries one or more of nine topics, each with its own colour across the journal. Fly through them one by one." }
-  ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n, c: `var(--t-${k})`, orb: "topic",
+    { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Main Research Topics", c: JADE,
+      summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
+  ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
       summary: ABOUT[k] || "", studies: studies(k) })))
   .concat([
     { id: "mission", nav: "Mission", kick: "Why we exist", name: "Our Mission", c: JADE, orb: "jade",
@@ -55,7 +55,7 @@
     { id: "briefs", nav: "Briefs", kick: "Research, translated", name: "Briefs", c: JADE, orb: "jade",
       summary: "Coaching breakdowns of goalie studies from the Oracles: what the study did, what it found, and what to try on the ice.",
       go: ["Read the Briefs", "briefs.html"] },
-    { id: "reviews", nav: "Peer Reviews", kick: "Read it together", name: "Peer Reviews", c: JADE, orb: "jade",
+    { id: "reviews", nav: "Reviews", kick: "Read it together", name: "Peer Reviews", c: JADE, orb: "jade",
       summary: "Monthly video sessions where goalie coaches read one study together and turn it into practice ideas, led by peer reviewers from 15 countries.",
       go: ["See the sessions", "reviews.html"] },
     { id: "conference", nav: "Conference", kick: "Open to everyone", name: "Virtual Conference", c: JADE, orb: "jade",
@@ -81,7 +81,7 @@
     let k = 0; const side = () => (++k % 2 ? -1 : 1);
     e.d = depth;
     add(`<div class="kick">${esc(e.kick)}</div><h2>${esc(e.name)}</h2><p>${esc(e.summary)}</p><div class="bar"></div>` +
-      (e.hero ? `<div class="skipper"><span>Been here before?</span><button type="button" data-skip="end">Skip to the end</button><a href="research.html">Go to the Oracles</a></div><div class="hint">Or scroll to explore<i></i></div>` : "") +
+      (e.hero ? `<div class="skipper"><span>Been here before?</span><button type="button" data-skip="end">Skip to end</button><a href="research.html">View the Oracles</a></div><div class="hint">Or scroll to explore<i></i></div>` : "") +
       (e.doors ? `<nav class="doors" aria-label="Sections">${e.doors.map(([l, u]) => `<a href="${u}">${esc(l)}</a>`).join("")}</nav>` : ""),
       "title" + (e.hero ? " hero" : "") + (e.end ? " end" : ""), { c: e.c, fo: e.end ? 9e9 : -40, out: e.end ? 9e9 : 250, far: e.hero ? 9e9 : 1900 });
     if (e.orb) {
@@ -89,19 +89,19 @@
       it.orb = { kind: e.orb, seed: n * 1.7, cv: it.el.firstChild };
     }
     depth += e.hero ? 900 : 760;
-    const beats = [];
+    const beats = [], gate = e.d + 200;   // cards wait for this node's title to fade (Goldy, 2026-11-18)
     (e.studies || []).forEach((r) => beats.push(["study", r]));
     (e.cards || []).forEach((c) => beats.push(["card", c]));
     if (e.go) beats.push(["go", e.go]);
     beats.forEach(([t, v], n) => {
       const s = side(), sy = SIDE_Y[n % 6];
       if (t === "study") {
-        add(`<a class="card ev" href="${esc(href(v))}" target="_blank" rel="noopener noreferrer"><div class="tag">${esc(e.name)}<span class="n">${esc(v.yl)}</span></div><h3>${esc(v.t)}</h3><p>${esc(v.a)}${v.j ? " · " + esc(v.j.split(/[0-9(]/)[0].trim()) : ""}</p><span class="more">Read the study ↗</span></a>`, "", { c: e.c, sx: s * 0.25, sy, ry: -s * 14 });
+        add(`<a class="card ev" href="${esc(href(v))}" target="_blank" rel="noopener noreferrer"><div class="tag">${esc(e.name)}<span class="n">${esc(v.yl)}</span></div><h3>${esc(v.t)}</h3><p>${esc(v.a)}${v.j ? " · " + esc(v.j.split(/[0-9(]/)[0].trim()) : ""}</p><span class="more">Read the study ↗</span></a>`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
       } else if (t === "card") {
         const [h, p, u] = v;
-        add(`${u ? `<a class="card ev" href="${u}">` : `<article class="card ev">`}<div class="tag">${esc(e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span></a>` : `</article>`}`, "", { c: e.c, sx: s * 0.25, sy, ry: -s * 14 });
+        add(`${u ? `<a class="card ev" href="${u}">` : `<article class="card ev">`}<div class="tag">${esc(e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span></a>` : `</article>`}`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
       } else {
-        add(`<a class="card go" href="${v[1]}"><span>${esc(v[0])}</span><b>→</b></a>`, "", { c: e.c, sx: s * 0.2, sy: sy * 0.6, ry: -s * 10 });
+        add(`<a class="card go" href="${v[1]}"><span>${esc(v[0])}</span><b>→</b></a>`, "", { c: e.c, sx: s * 0.2, sy: sy * 0.6, ry: -s * 10, gate });
       }
       depth += 430;
     });
@@ -160,6 +160,7 @@
       if (!on) continue;
       let o = Math.min(sm((rel + it.far) / 900), 1 - sm((rel - it.fo) / (it.out - it.fo)));
       o *= 0.22 + 0.78 * sm((rel + 2500) / 1700); o *= it.max;
+      if (it.gate != null) o *= sm((cam - it.gate) / 200);
       if (Math.abs(o - it.op) > 0.012) { it.op = o; it.el.style.opacity = o.toFixed(3); }
       const live = rel > -900 && rel < it.out - 100 && o > 0.5;
       if (live !== it.live) { it.live = live; it.el.classList.toggle("live", live); }
