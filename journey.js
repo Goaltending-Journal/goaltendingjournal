@@ -1,5 +1,6 @@
 /* GRJ homepage journey (Goldy, 2026-11-18): scroll (or press Play) to fly through the journal. Each node is a stop on the way:
-   the Mission and Briefs, the Oracles (each with a live mini preview), the nine research topics, then NHL DataViz, ending at the doors.
+   the Mission, the Features (Briefs, Peer Reviews, Conferences), the Oracles, the nine research topics, then NHL DataViz, ending at
+   the doors. Oracle, Feature and NHL cards each carry a live mini visual.
    Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to end and View the Oracles. Study cards
    come from data.js (REC) and topic names from topics.js, so the journey always shows the newest goalie studies.
    The camera moves along one axis; cards sit at depths along it and fade in and out as it passes. Arrow keys and the rail
@@ -39,9 +40,13 @@
         ["The Vision", "To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large."],
         ["The Promise", "To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community."]
       ] },
-    { id: "briefs", nav: "Briefs", kick: "Research, translated", name: "Briefs", c: JADE, orb: "jade",
-      summary: "Coaching breakdowns of goalie studies from the Oracles: what the study did, what it found, and what to try on the ice.",
-      go: ["Read the Briefs", "briefs.html"] },
+    { id: "features", nav: "Features", step: 640, kick: "For coaches and programs", name: "Features", c: JADE, orb: "jade",
+      summary: "The GRJ includes a few features that focus on supporting goalie coaches and programs. These include Briefs, Peer Reviews, and Conferences.",
+      cards: [
+        ["Briefs", "Coaching breakdowns of goalie studies from the Oracles: what the study did, what it found, and how to use it.", "briefs.html", "briefs"],
+        ["Peer Reviews", "Monthly video sessions where peers read a new study together and turn it into practice ideas.", "reviews.html", "reviews"],
+        ["Conferences", "An online conference on goaltending research, open to the public, with speakers and breakout groups.", "conference.html", "conference"]
+      ] },
     { id: "oracles", nav: "Oracles", step: 640, kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
       summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
       cards: [
@@ -57,7 +62,9 @@
   .concat([
     { id: "nhl", nav: "NHL", kick: "The data, daily", name: "NHL DataViz", c: JADE, orb: "armillary",
       summary: "Every NHL goalie, updated every day with data from the NHL and Natural Stat Trick: the NHL Goaltending Oracle, goalie archetypes and more.",
-      go: ["Explore NHL DataViz", "goalies.html"] },
+      cards: [
+        ["NHL Goaltending Oracle", "Every NHL goalie this season on five rings, from the top band of goals saved above average to the bottom.", "goalies.html", "nhl"]
+      ] },
     { id: "enter", nav: "Enter", kick: "Your turn", name: "Step into the journal", c: JADE, end: 1,
       summary: "Pick a door.",
       doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Coaching", "coaching.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
@@ -96,7 +103,7 @@
         add(`<a class="card ev" href="${esc(href(v))}" target="_blank" rel="noopener noreferrer"><div class="tag">${esc(e.name)}<span class="n">${esc(v.yl)}</span></div><h3>${esc(v.t)}</h3><p>${esc(v.a)}${v.j ? " · " + esc(v.j.split(/[0-9(]/)[0].trim()) : ""}</p><span class="more">Read the study ↗</span></a>`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
       } else if (t === "card") {
         const [h, p, u, mini] = v;
-        const it = add(`${u ? `<a class="card ev${mini ? " oracle" : ""}" href="${u}">` : `<article class="card ev">`}${mini ? `<canvas class="mini" aria-hidden="true"></canvas>` : ""}<div class="tx"><div class="tag">${esc(e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span>` : ""}</div>${u ? `</a>` : `</article>`}`, "", { c: e.c, sx: s * (mini ? 0.34 : 0.28), sy, ry: -s * 14, gate });
+        const it = add(`${u ? `<a class="card ev${mini ? " oracle" : ""}" href="${u}">` : `<article class="card ev">`}${mini ? `<canvas class="mini" aria-hidden="true"></canvas>` : ""}<div class="tx"><div class="tag">${esc(mini && e.id !== "oracles" ? h === "NHL Goaltending Oracle" ? "Visualizer" : "Feature" : e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span>` : ""}</div>${u ? `</a>` : `</article>`}`, "", { c: e.c, sx: s * (mini ? 0.34 : 0.28), sy, ry: -s * 14, gate });
         if (mini) it.mini = { kind: mini, cv: it.el.querySelector(".mini"), seed: n };
       } else {
         add(`<a class="card go" href="${v[1]}"><span>${esc(v[0])}</span><b>→</b></a>`, "", { c: e.c, sx: s * 0.2, sy: sy * 0.6, ry: -s * 10, gate });
@@ -280,6 +287,46 @@
       for (let i = 0; i < n; i++) { const a = i * 2.39996 + spin, rr = Math.sqrt(i / n) * R * 1.02, x = C + Math.cos(a) * rr, y = C + Math.sin(a) * rr;
         const pulse = reduce ? 1 : 0.7 + 0.3 * Math.sin(t * 0.003 - i * 0.12), col = all[(i * 5) % 9];
         g.fillStyle = rgba(col, (0.35 + 0.55 * i / n) * pulse); g.beginPath(); g.arc(x, y, 1.3 + 2.6 * (i / n), 0, 6.283); g.fill(); }
+    } else if (m.kind === "briefs") {   // a study turned into a brief: pages fanning out from the source
+      for (let k = 4; k >= 0; k--) {
+        const a = (k - 2) * 0.16 + (reduce ? 0 : Math.sin(t * 0.0012 + k) * 0.04), w = R * 1.0, h = R * 1.3;
+        g.save(); g.translate(C, C + R * 0.05); g.rotate(a); g.globalAlpha = 0.35 + 0.15 * (4 - k);
+        g.fillStyle = rgba(m.base, 0.05); g.strokeStyle = rgba(m.base, 0.55); g.lineWidth = 1.2;
+        g.beginPath(); g.roundRect(-w / 2, -h / 2, w, h, 6); g.fill(); g.stroke();
+        if (k === 0) { for (let l = 0; l < 7; l++) { const lw = w * (l === 0 ? 0.55 : 0.7 - (l % 3) * 0.12), y = -h / 2 + 18 + l * 13; g.strokeStyle = rgba(l === 0 ? [233, 240, 238] : m.base, l === 0 ? 0.9 : 0.5); g.lineWidth = l === 0 ? 3 : 1.6; g.beginPath(); g.moveTo(-w / 2 + 14, y); g.lineTo(-w / 2 + 14 + lw, y); g.stroke(); }
+          const ky = h / 2 - 22, glow = reduce ? 1 : 0.6 + 0.4 * Math.sin(t * 0.003); g.fillStyle = rgba(all[(Math.floor(t / 1600) % 9 + 9) % 9], glow); g.beginPath(); g.arc(-w / 2 + 18, ky, 4, 0, 6.283); g.fill(); }
+        g.restore();
+      }
+      g.globalAlpha = 1;
+    } else if (m.kind === "reviews") {   // peers around one study, talking it through
+      const n = 7, spin = t * 0.00025;
+      g.fillStyle = rgba([233, 240, 238], 0.9); g.beginPath(); g.arc(C, C, 6, 0, 6.283); g.fill();
+      for (let i = 0; i < n; i++) {
+        const a = spin + i / n * 6.283, x = C + Math.cos(a) * R * 0.92, y = C + Math.sin(a) * R * 0.62, col = all[(i * 4) % 9];
+        const talk = reduce ? 0.5 : 0.5 + 0.5 * Math.sin(t * 0.002 + i * 1.7);
+        g.strokeStyle = rgba(col, 0.12 + 0.45 * talk); g.lineWidth = 1.2; g.beginPath(); g.moveTo(C, C); g.lineTo(x, y); g.stroke();
+        const j = (i + 2) % n, b = spin + j / n * 6.283; g.strokeStyle = rgba(m.base, 0.08 + 0.2 * talk); g.beginPath(); g.moveTo(x, y); g.lineTo(C + Math.cos(b) * R * 0.92, C + Math.sin(b) * R * 0.62); g.stroke();
+        g.fillStyle = rgba(col, 0.8); g.beginPath(); g.arc(x, y, 5 + 2 * talk, 0, 6.283); g.fill();
+        g.fillStyle = rgba(col, 0.15 * talk); g.beginPath(); g.arc(x, y, 16, 0, 6.283); g.fill();
+      }
+    } else if (m.kind === "conference") {   // a stage broadcasting outward in rings
+      for (let k = 0; k < 5; k++) {
+        const ph = reduce ? k / 5 : ((t * 0.00025 + k / 5) % 1), r = R * 0.2 + ph * R * 1.0;
+        g.strokeStyle = rgba(all[(k * 2) % 9], 0.55 * (1 - ph)); g.lineWidth = 1.6; g.beginPath(); g.ellipse(C, C + R * 0.15, r, r * 0.42, 0, 0, 6.283); g.stroke();
+      }
+      for (let i = 0; i < 24; i++) { const a = i * 2.39996, rr = R * (0.55 + (i % 4) * 0.12), x = C + Math.cos(a) * rr, y = C + R * 0.15 + Math.sin(a) * rr * 0.42; g.fillStyle = rgba(m.base, 0.35 + 0.3 * ((i % 3) / 2)); g.beginPath(); g.arc(x, y, 2, 0, 6.283); g.fill(); }
+      gr = g.createRadialGradient(C, C - R * 0.05, 0, C, C - R * 0.05, R * 0.4); gr.addColorStop(0, rgba([233, 240, 238], 0.85)); gr.addColorStop(0.4, rgba(m.base, 0.35)); gr.addColorStop(1, rgba(m.base, 0));
+      g.fillStyle = gr; g.beginPath(); g.arc(C, C - R * 0.05, R * 0.4, 0, 6.283); g.fill();
+    } else if (m.kind === "nhl") {   // the NHL Goaltending Oracle: five tilted rings, one per band of goals saved above average
+      const OR = [[127, 211, 192], [164, 199, 193], [138, 154, 151], [227, 169, 138], [240, 122, 90]];
+      OR.forEach((col, k) => {
+        const tilt = 0.35 + ((k * 0.618) % 1) * 0.9, head = k / 5 * Math.PI, ct = Math.cos(tilt), st = Math.sin(tilt), ch = Math.cos(head), sh = Math.sin(head), rr = 0.95;
+        const pt = (u) => { let x = Math.cos(u) * rr, z = Math.sin(u) * rr, y = 0; [y, z] = [-z * st, z * ct]; [x, z] = [x * ch - z * sh, x * sh + z * ch]; return P(x, y, z); };
+        let p = pt(0); for (let q = 1; q <= 72; q++) { const r2 = pt(q / 72 * 6.283), d = 0.5 - (p[2] + r2[2]) / 4; g.strokeStyle = rgba(col, 0.1 + 0.45 * d); g.lineWidth = 1.2; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(r2[0], r2[1]); g.stroke(); p = r2; }
+        const n = 6 + (k % 3) * 2; for (let b = 0; b < n; b++) { const q = pt(b / n * 6.283 + t * 0.0004 * (k % 2 ? 1 : -1)), d = 0.5 - q[2] / 2; g.fillStyle = rgba(col, 0.25 + 0.75 * d); g.beginPath(); g.arc(q[0], q[1], (b === 0 ? 4.2 : 2.4) * q[3], 0, 6.283); g.fill(); }
+      });
+      gr = g.createRadialGradient(C, C, 0, C, C, R * 0.28); gr.addColorStop(0, rgba([233, 240, 238], 0.7)); gr.addColorStop(1, rgba(m.base, 0));
+      g.fillStyle = gr; g.beginPath(); g.arc(C, C, R * 0.28, 0, 6.283); g.fill();
     } else {   // armillary: one tilted ring per topic, hollow marks for unverified works
       for (let k = 0; k < 9; k++) {
         const tilt = 0.3 + k * 0.33, head = k * 0.7, ct = Math.cos(tilt), st = Math.sin(tilt), ch = Math.cos(head), sh = Math.sin(head), rr = 0.92 + (k % 3) * 0.05;
