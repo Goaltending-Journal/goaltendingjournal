@@ -1,5 +1,5 @@
 /* GRJ homepage journey (Goldy, 2026-11-18): scroll (or press Play) to fly through the journal. Each node is a stop on the way:
-   the Oracles, the nine research topics they track, then the Mission, Briefs, Peer Reviews and the Conference, ending at the doors.
+   the Mission and Briefs, the Oracles (each with a live mini preview), the nine research topics, then NHL DataViz, ending at the doors.
    Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to end and View the Oracles. Study cards
    come from data.js (REC) and topic names from topics.js, so the journey always shows the newest goalie studies.
    The camera moves along one axis; cards sit at depths along it and fade in and out as it passes. Arrow keys and the rail
@@ -32,22 +32,9 @@
 
   const NODES = [
     { id: "start", nav: "GRJ", hero: 1, kick: "Welcome to", name: "The Goaltending Research Journal", c: JADE, orb: "all",
-      summary: "A living open-sourced sports research journal dedicated to ice hockey goaltending." },
-    { id: "oracles", nav: "Oracles", kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
-      summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
-      cards: [
-        ["Master Oracle", "Every study and researcher in one globe, one ribbon of light per study.", "research.html#master"],
-        ["Researcher Oracle", "The people behind the research and who they work with.", "research.html#researchers"],
-        ["Evidence Oracle", "Verified, evidence-based goaltending studies, oldest at the centre.", "research.html#evidence"],
-        ["Scholarly Oracle", "Wider scholarly work still waiting to be verified.", "research.html#scholarly"]
-      ] },
-    { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Main Research Topics", c: JADE,
-      summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
-  ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
-      summary: ABOUT[k] || "", studies: studies(k) })))
-  .concat([
+      summary: "An open-source research journal dedicated to ice hockey goaltending." },
     { id: "mission", nav: "Mission", kick: "Why we exist", name: "Our Mission", c: JADE, orb: "jade",
-      summary: "The GRJ is an open-sourced sports journal dedicated to bridging the gap between ice hockey goaltending research and the general public.",
+      summary: "The GRJ is dedicated to making evidence-based goaltending research more accessible to the wider hockey community. Through our platform, we aim to bridge the gap between the research and the rink through coaching conversation and peer reviews.",
       cards: [
         ["The Vision", "To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large."],
         ["The Promise", "To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community."]
@@ -55,12 +42,22 @@
     { id: "briefs", nav: "Briefs", kick: "Research, translated", name: "Briefs", c: JADE, orb: "jade",
       summary: "Coaching breakdowns of goalie studies from the Oracles: what the study did, what it found, and what to try on the ice.",
       go: ["Read the Briefs", "briefs.html"] },
-    { id: "reviews", nav: "Reviews", kick: "Read it together", name: "Peer Reviews", c: JADE, orb: "jade",
-      summary: "Monthly video sessions where goalie coaches read one study together and turn it into practice ideas, led by peer reviewers from 15 countries.",
-      go: ["See the sessions", "reviews.html"] },
-    { id: "conference", nav: "Conference", kick: "Open to everyone", name: "Virtual Conference", c: JADE, orb: "jade",
-      summary: "An online conference on goaltending research, open to the public, with a full lineup of speakers and breakout groups.",
-      go: ["Visit the Conference", "conference.html"] },
+    { id: "oracles", nav: "Oracles", step: 640, kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
+      summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
+      cards: [
+        ["Master Oracle", "Every study and researcher in one globe, one ribbon of light per study.", "research.html#master", "master"],
+        ["Researcher Oracle", "The people behind the research and who they work with.", "research.html#researchers", "people"],
+        ["Evidence Oracle", "Verified, evidence-based goaltending studies in a sunflower, oldest at the centre.", "research.html#evidence", "sunflower"],
+        ["Scholarly Oracle", "Wider scholarly work still waiting to be verified, one ring per topic.", "research.html#scholarly", "rings"]
+      ] },
+    { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Main Research Topics", c: JADE,
+      summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
+  ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
+      summary: ABOUT[k] || "", studies: studies(k) })))
+  .concat([
+    { id: "nhl", nav: "NHL", kick: "The data, daily", name: "NHL DataViz", c: JADE, orb: "armillary",
+      summary: "Every NHL goalie, updated every day with data from the NHL and Natural Stat Trick: the NHL Goaltending Oracle, goalie archetypes and more.",
+      go: ["Explore NHL DataViz", "goalies.html"] },
     { id: "enter", nav: "Enter", kick: "Your turn", name: "Step into the journal", c: JADE, end: 1,
       summary: "Pick a door.",
       doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Coaching", "coaching.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
@@ -98,12 +95,13 @@
       if (t === "study") {
         add(`<a class="card ev" href="${esc(href(v))}" target="_blank" rel="noopener noreferrer"><div class="tag">${esc(e.name)}<span class="n">${esc(v.yl)}</span></div><h3>${esc(v.t)}</h3><p>${esc(v.a)}${v.j ? " · " + esc(v.j.split(/[0-9(]/)[0].trim()) : ""}</p><span class="more">Read the study ↗</span></a>`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
       } else if (t === "card") {
-        const [h, p, u] = v;
-        add(`${u ? `<a class="card ev" href="${u}">` : `<article class="card ev">`}<div class="tag">${esc(e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span></a>` : `</article>`}`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
+        const [h, p, u, mini] = v;
+        const it = add(`${u ? `<a class="card ev${mini ? " oracle" : ""}" href="${u}">` : `<article class="card ev">`}${mini ? `<canvas class="mini" aria-hidden="true"></canvas>` : ""}<div class="tx"><div class="tag">${esc(e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span>` : ""}</div>${u ? `</a>` : `</article>`}`, "", { c: e.c, sx: s * (mini ? 0.34 : 0.28), sy, ry: -s * 14, gate });
+        if (mini) it.mini = { kind: mini, cv: it.el.querySelector(".mini"), seed: n };
       } else {
         add(`<a class="card go" href="${v[1]}"><span>${esc(v[0])}</span><b>→</b></a>`, "", { c: e.c, sx: s * 0.2, sy: sy * 0.6, ry: -s * 10, gate });
       }
-      depth += 430;
+      depth += e.step || 430;
     });
     depth += e.end ? 0 : 1050;
   });
@@ -166,6 +164,7 @@
       if (live !== it.live) { it.live = live; it.el.classList.toggle("live", live); }
     }
     for (const it of items) if (it.orb && it.vis && it.op > 0.02) drawOrb(it, now);
+    for (const it of items) if (it.mini && it.vis && it.op > 0.02) drawMini(it.mini, now);
     let c = 0; for (let i = 0; i < NODES.length; i++) if (cam >= NODES[i].d - 700) c = i;
     if (c !== cur) {
       cur = c; const e = NODES[c];
@@ -236,6 +235,62 @@
     // rim light
     g.globalCompositeOperation = "source-over";
     g.strokeStyle = rgba(base, 0.22); g.lineWidth = 1.2; g.beginPath(); g.arc(C, C, R * 1.0, 0, 6.283); g.stroke();
+  }
+
+  /* ---------- mini Oracles: a small live preview of each Oracle on its card ---------- */
+  const MINI_PX = 360;
+  const FIB9 = Array.from({ length: 9 }, (_, i) => { const y = 1 - (2 * (i + 0.5)) / 9, r = Math.sqrt(1 - y * y), th = i * 2.39996; return [Math.cos(th) * r, y, Math.sin(th) * r]; });
+  const BASIS9 = FIB9.map((c) => { const up = Math.abs(c[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0]; let a = [up[1] * c[2] - up[2] * c[1], up[2] * c[0] - up[0] * c[2], up[0] * c[1] - up[1] * c[0]]; const l = Math.hypot(...a); a = a.map((v) => v / l);
+    return [a, [c[1] * a[2] - c[2] * a[1], c[2] * a[0] - c[0] * a[2], c[0] * a[1] - c[1] * a[0]]]; });
+  const PEOPLE = (() => { const n = 64, pts = []; for (let i = 0; i < n; i++) { const y = 1 - (2 * (i + 0.5)) / n, r = Math.sqrt(1 - y * y), th = i * 2.39996; pts.push([Math.cos(th) * r, y, Math.sin(th) * r, i % 9]); }
+    const links = []; pts.forEach((a, i) => { pts.map((b, j) => [j, (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2]).filter(([j]) => j > i).sort((x, y) => x[1] - y[1]).slice(0, (i * 7) % 3).forEach(([j]) => links.push([i, j])); });
+    return { pts, links }; })();
+  const RIBBONS = Array.from({ length: 90 }, (_, i) => ({ k: i % 9, r: 0.12 + ((i * 37) % 23) / 23 * 0.22, ph: (i * 2.39996) % 6.283, sp: 0.7 + ((i * 13) % 7) / 10 }));
+  function drawMini(m, now) {
+    const cv = m.cv;
+    if (!m.ctx) { cv.width = cv.height = MINI_PX; m.ctx = cv.getContext("2d"); m.all = TOPIC_RGB(); m.base = hex(getComputedStyle(document.body).getPropertyValue("--j-accent") || "#a4c7c1"); }
+    const g = m.ctx, S = MINI_PX, C = S / 2, R = S * 0.36, t = reduce ? m.seed * 1000 : now + m.seed * 1000, all = m.all;
+    const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${Math.max(0, a).toFixed(3)})`;
+    const rot = t * 0.00022, tX = 0.38, cX = Math.cos(tX), sX = Math.sin(tX);
+    const P = (x, y, z) => { const c = Math.cos(rot), s = Math.sin(rot); [x, z] = [x * c + z * s, -x * s + z * c]; [y, z] = [y * cX - z * sX, y * sX + z * cX]; const f = 2.6 / (2.6 + z); return [C + x * R * f, C - y * R * f, z, f]; };
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, S, S);
+    let gr = g.createRadialGradient(C, C, 0, C, C, R * 1.5); gr.addColorStop(0, rgba(m.base, 0.22)); gr.addColorStop(1, rgba(m.base, 0));
+    g.fillStyle = gr; g.fillRect(0, 0, S, S);
+    g.globalCompositeOperation = "lighter";
+    if (m.kind === "master" || m.kind === "people") { g.strokeStyle = rgba(m.base, 0.2); g.lineWidth = 1; g.beginPath(); g.arc(C, C, R, 0, 6.283); g.stroke(); }
+    if (m.kind === "master") {   // one ribbon of light per study, circling inside its topic's region
+      for (const rb of RIBBONS) {
+        const c0 = FIB9[rb.k], [t1, t2] = BASIS9[rb.k], head = rb.ph + t * 0.0009 * rb.sp; let prev = null;
+        for (let q = 0; q <= 14; q++) {
+          const u = head - q * 0.12, x = Math.cos(u) * rb.r, y = Math.sin(u) * rb.r;
+          const v = [c0[0] + t1[0] * x + t2[0] * y, c0[1] + t1[1] * x + t2[1] * y, c0[2] + t1[2] * x + t2[2] * y], l = Math.hypot(...v), p = P(v[0] / l, v[1] / l, v[2] / l);
+          if (prev) { const d = 0.5 - p[2] / 2; g.strokeStyle = rgba(all[rb.k], (1 - q / 14) * (0.2 + 0.8 * d)); g.lineWidth = 2.4 * p[3]; g.beginPath(); g.moveTo(prev[0], prev[1]); g.lineTo(p[0], p[1]); g.stroke(); }
+          else if (p[2] < 0.2) { g.fillStyle = rgba(all[rb.k], 0.9); g.beginPath(); g.arc(p[0], p[1], 2.2 * p[3], 0, 6.283); g.fill(); }
+          prev = p;
+        }
+      }
+    } else if (m.kind === "people") {   // researchers as lights, linked to who they published with
+      const pr = PEOPLE.pts.map(([x, y, z]) => P(x, y, z));
+      for (const [a, b] of PEOPLE.links) { const d = 0.5 - (pr[a][2] + pr[b][2]) / 4; g.strokeStyle = rgba(all[PEOPLE.pts[a][3]], 0.05 + 0.3 * d); g.lineWidth = 0.9; g.beginPath(); g.moveTo(pr[a][0], pr[a][1]); g.lineTo(pr[b][0], pr[b][1]); g.stroke(); }
+      pr.forEach((p, i) => { const d = 0.5 - p[2] / 2, col = all[PEOPLE.pts[i][3]], r = (1.4 + (i % 5) * 0.5) * p[3];
+        g.fillStyle = rgba(col, 0.15 + 0.85 * d); g.beginPath(); g.arc(p[0], p[1], r, 0, 6.283); g.fill();
+        if (i % 7 === 0 && d > 0.5) { g.fillStyle = rgba(col, 0.16); g.beginPath(); g.arc(p[0], p[1], r * 4, 0, 6.283); g.fill(); } });
+    } else if (m.kind === "sunflower") {   // golden-angle seeds, oldest at the centre, newest at the edge
+      const n = 150, spin = t * 0.00008;
+      for (let i = 0; i < n; i++) { const a = i * 2.39996 + spin, rr = Math.sqrt(i / n) * R * 1.02, x = C + Math.cos(a) * rr, y = C + Math.sin(a) * rr;
+        const pulse = reduce ? 1 : 0.7 + 0.3 * Math.sin(t * 0.003 - i * 0.12), col = all[(i * 5) % 9];
+        g.fillStyle = rgba(col, (0.35 + 0.55 * i / n) * pulse); g.beginPath(); g.arc(x, y, 1.3 + 2.6 * (i / n), 0, 6.283); g.fill(); }
+    } else {   // armillary: one tilted ring per topic, hollow marks for unverified works
+      for (let k = 0; k < 9; k++) {
+        const tilt = 0.3 + k * 0.33, head = k * 0.7, ct = Math.cos(tilt), st = Math.sin(tilt), ch = Math.cos(head), sh = Math.sin(head), rr = 0.92 + (k % 3) * 0.05;
+        const pt = (u) => { let x = Math.cos(u) * rr, z = Math.sin(u) * rr, y = 0; [y, z] = [-z * st, z * ct]; [x, z] = [x * ch - z * sh, x * sh + z * ch]; return P(x, y, z); };
+        let p = pt(0); for (let q = 1; q <= 60; q++) { const r2 = pt(q / 60 * 6.283), d = 0.5 - (p[2] + r2[2]) / 4; g.strokeStyle = rgba(all[k], 0.08 + 0.4 * d); g.lineWidth = 1; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(r2[0], r2[1]); g.stroke(); p = r2; }
+        for (let b = 0; b < 3; b++) { const q = pt(t * 0.0005 * (k % 2 ? 1 : -1) + b * 2.1 + k), d = 0.5 - q[2] / 2; g.strokeStyle = rgba(all[k], 0.3 + 0.7 * d); g.lineWidth = 1.3; g.beginPath(); g.arc(q[0], q[1], 3 * q[3], 0, 6.283); g.stroke(); }
+      }
+      gr = g.createRadialGradient(C, C, 0, C, C, R * 0.3); gr.addColorStop(0, rgba([233, 240, 238], 0.7)); gr.addColorStop(1, rgba(m.base, 0));
+      g.fillStyle = gr; g.beginPath(); g.arc(C, C, R * 0.3, 0, 6.283); g.fill();
+    }
+    g.globalCompositeOperation = "source-over";
   }
 
   /* ---------- ice-crystal starfield ---------- */
