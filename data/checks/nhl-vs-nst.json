@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-18",
+ "checked": "2026-11-19",
  "season": "2026-27",
- "nhlAsOf": "2026-11-18",
- "nstAsOf": "2026-11-18",
+ "nhlAsOf": "2026-11-19",
+ "nstAsOf": "2026-11-19",
  "goalies": 77,
- "matched": 55,
+ "matched": 53,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -52,28 +52,28 @@
    "name": "Connor Hellebuyck",
    "team": "NJD",
    "nhl": {
-    "gp": 7,
-    "sa": 189,
-    "ga": 16
+    "gp": 8,
+    "sa": 217,
+    "ga": 19
    },
    "nst": {
-    "gp": 7,
-    "sa": 190,
-    "ga": 16
+    "gp": 8,
+    "sa": 218,
+    "ga": 19
    }
   },
   {
    "name": "Daniil Tarasov",
    "team": "DET",
    "nhl": {
-    "gp": 9,
-    "sa": 217,
-    "ga": 15
+    "gp": 10,
+    "sa": 247,
+    "ga": 18
    },
    "nst": {
-    "gp": 9,
-    "sa": 216,
-    "ga": 15
+    "gp": 10,
+    "sa": 246,
+    "ga": 18
    }
   },
   {
@@ -130,6 +130,34 @@
     "gp": 14,
     "sa": 418,
     "ga": 34
+   }
+  },
+  {
+   "name": "Jacob Fowler",
+   "team": "MTL",
+   "nhl": {
+    "gp": 14,
+    "sa": 405,
+    "ga": 31
+   },
+   "nst": {
+    "gp": 14,
+    "sa": 407,
+    "ga": 31
+   }
+  },
+  {
+   "name": "Jeremy Swayman",
+   "team": "BOS",
+   "nhl": {
+    "gp": 16,
+    "sa": 425,
+    "ga": 39
+   },
+   "nst": {
+    "gp": 16,
+    "sa": 424,
+    "ga": 39
    }
   },
   {
@@ -262,14 +290,14 @@
    "name": "Sebastian Cossa",
    "team": "UTA",
    "nhl": {
-    "gp": 8,
-    "sa": 175,
-    "ga": 24
+    "gp": 9,
+    "sa": 206,
+    "ga": 25
    },
    "nst": {
-    "gp": 8,
-    "sa": 174,
-    "ga": 24
+    "gp": 9,
+    "sa": 205,
+    "ga": 25
    }
   },
   {
