@@ -14,6 +14,8 @@
   if (!items.length || !$("lo-cv")) return;
   const THEMES = [["ed", "Ecological dynamics", "--t-vis"], ["sa", "Skill acquisition", "--t-bio"], ["pd", "Practice design", "--t-eq"]];
   const TNAME = Object.fromEntries(THEMES.map(([k, n]) => [k, n]));
+  // A few DOIs in learning-data.js carry a pasted Markdown tail ("10.x/y](https://doi.org/10.x/y"); keep the part before it
+  const link = (w) => (w.doi ? "https://doi.org/" + String(w.doi).split("](")[0] : w.u);
   const cv = $("lo-cv"), box = $("lo"), tip = $("lo-tip"), cx = cv.getContext("2d");
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches, TAU = Math.PI * 2;
   // Theme anchors sit 120 degrees apart, a little above and below the equator; each work is scattered around the mean of its themes
@@ -29,7 +31,7 @@
   const trails = {};
   items.forEach((w, i) => w.by.forEach((p) => (trails[p] = trails[p] || []).push(i)));
   const links = []; Object.values(trails).forEach((ids) => { for (let j = 1; j < ids.length; j++) links.push([ids[j - 1], ids[j]]); });
-  let W = 0, H = 0, R = 0, rotY = 0, rotX = -0.3, velY = 0.0018, t = 0, drag = null, hover = null, sel = items.length - 1, hot = null, only = new Set();
+  let W = 0, H = 0, R = 0, rotY = 0, rotX = -0.3, velY = 0.00107, t = 0, drag = null, hover = null, sel = items.length - 1, hot = null, only = new Set();
   let raf = 0, last = 0, on = false, colour = {}, dark = false, fg = "#000", bgc = "#fff", lbl = "sans-serif", sprites = {};
   function theme() {
     const cs = getComputedStyle(document.documentElement);
@@ -45,8 +47,8 @@
   function size() {
     const w = box.getBoundingClientRect().width; if (!w) return false;
     const d = Math.min(2, devicePixelRatio || 1);
-    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.42;
-    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    W = w; H = Math.round(cv.getBoundingClientRect().height) || 480; R = Math.min(W * 0.9, H - 30) * 0.46;   // the same height and globe size as the Master Oracle (--oracle-h)
+    cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
     return true;
   }
   function place() {
@@ -70,7 +72,11 @@
     }
     cx.stroke();
   }
-  const lit = (i) => (!hot || items[i].th.includes(hot)) && (!only.size || items[i].th.some((k) => only.has(k)));
+  // Search words from the rail (title, authors, journal, year); a work is lit when it matches the search and the picked themes
+  let q = [];
+  const hay = items.map((w) => [w.t, w.a, w.j, w.y, (w.by || []).join(" ")].filter(Boolean).join(" ").toLowerCase());
+  const keepIt = (i) => (!only.size || items[i].th.some((k) => only.has(k))) && q.every((x) => hay[i].includes(x));
+  const lit = (i) => (!hot || items[i].th.includes(hot)) && keepIt(i);
   const depth = (z) => 0.25 + 0.75 * (1 - z) / 2;
   function draw() {
     if (!W) return;
@@ -116,13 +122,13 @@
     cx.globalAlpha = 1;
   }
   function card(i) {
-    if (i == null) return; const w = items[i], href = w.doi ? "https://doi.org/" + w.doi : w.u;
+    if (i == null) return; const w = items[i], href = link(w);
     $("lo-card").innerHTML = `<div class="dt">${esc(String(w.y))}${w.isNew ? `<span class="tag un">New</span>` : ""}${w.gk ? `<span class="tag">Goalkeeper study</span>` : ""}</div>` +
       `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
       (w.n ? `<p>${esc(w.n)}</p>` : "") + `<div class="cite">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${w.th.map((k) => `<span style="--c:var(${THEMES.find((x) => x[0] === k)[2]})"><i></i>${esc(TNAME[k])}</span>`).join("")}</div>`;
   }
-  function step(dt) { if (still || hover != null || drag) return; t += dt; rotY += velY * dt / 16; velY += (0.0018 - velY) * 0.02; }
+  function step(dt) { if (still || hover != null || drag) return; t += dt; rotY += velY * dt / 16; velY += (0.00107 - velY) * 0.02; }
   function loop(now) { const dt = Math.min(50, now - (last || now)); if (now - last > 30 || !last) { last = now; step(dt); place(); draw(); } raf = requestAnimationFrame(loop); }
   const start = () => { if (!raf && on && !still && !document.hidden) { last = 0; raf = requestAnimationFrame(loop); } }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
   const redraw = () => { if (!raf && W) { place(); draw(); } };
@@ -154,21 +160,46 @@
     const j = sel ?? items.length - 1, to = { ArrowLeft: j - 1, ArrowDown: j - 1, ArrowRight: j + 1, ArrowUp: j + 1, Home: 0, End: items.length - 1 }[e.key];
     if (to == null) return; e.preventDefault(); sel = Math.max(0, Math.min(items.length - 1, to)); card(sel); redraw();
   });
-  // The theme key under the globe: point at a theme to light its works
-  const key = $("lo-key");
-  key.innerHTML = THEMES.map(([k, n, v]) => `<li data-k="${k}" style="--c:var(${v})"><button type="button" aria-pressed="false"><i></i>${esc(n)}</button></li>`).join("");
+  // The rail's themes as light bars (Goldy, 2026-11-21, like the Oracles page): orb, name, count and a bar for its share of the works.
+  // Point at a theme to light it on the globe; press it to show only its works on the globe and in the list below.
+  const key = $("lo-key"), counts = THEMES.map(([k]) => items.filter((w) => w.th.includes(k)).length), most = Math.max(...counts);
+  key.innerHTML = THEMES.map(([k, n, v], j) => `<li data-k="${k}" style="--c:var(${v}); --w:${(counts[j] / most * 100).toFixed(1)}%"><button type="button" aria-pressed="false"><span class="orb">${esc(n)}</span><span class="n">${counts[j]}</span><span class="tbar"><i></i></span></button></li>`).join("");
+  function filtersChanged() {
+    key.classList.toggle("picked", only.size > 0);
+    if (!lit(sel)) { for (let i = items.length - 1; i >= 0; i--) if (lit(i)) { sel = i; break; } card(sel); }
+    shown = PAGE; list(); redraw();
+  }
   key.addEventListener("click", (e) => {
     const b = e.target.closest("button"); if (!b) return;
     const k = b.parentNode.dataset.k; only.has(k) ? only.delete(k) : only.add(k); b.setAttribute("aria-pressed", String(only.has(k)));
-    if (!lit(sel)) { for (let i = items.length - 1; i >= 0; i--) if (lit(i)) { sel = i; break; } card(sel); }
-    redraw();
+    filtersChanged();
   });
-  key.addEventListener("pointerover", (e) => { const li = e.target.closest("li[data-k]"); hot = li ? li.dataset.k : null; key.classList.toggle("dim", !!hot); key.querySelectorAll("li").forEach((x) => x.classList.toggle("hot", x.dataset.k === hot)); redraw(); });
-  key.addEventListener("pointerleave", () => { hot = null; key.classList.remove("dim"); key.querySelectorAll("li").forEach((x) => x.classList.remove("hot")); redraw(); });
+  key.addEventListener("pointerover", (e) => { const li = e.target.closest("li[data-k]"); hot = li ? li.dataset.k : null; key.querySelectorAll("li").forEach((x) => x.classList.toggle("hot", x.dataset.k === hot)); redraw(); });
+  key.addEventListener("pointerleave", () => { hot = null; key.querySelectorAll("li").forEach((x) => x.classList.remove("hot")); redraw(); });
+  if ($("lo-q")) $("lo-q").addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase().split(/\s+/).filter(Boolean); filtersChanged(); });
+  if ($("lo-reset")) $("lo-reset").addEventListener("click", () => { only.clear(); q = []; $("lo-q").value = ""; key.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", "false")); filtersChanged(); });
+
+  // The works list under the globe, in its own panel like the Oracles page's study table
+  const PAGE = 5; let shown = PAGE, order = "new";
+  function list() {
+    const out = $("lo-results"); if (!out) return;
+    const rows = items.map((w, i) => i).filter(keepIt).sort((a, b) => order === "az" ? items[a].t.localeCompare(items[b].t) : order === "old" ? a - b : b - a);
+    $("lo-count").textContent = rows.length ? `${Math.min(shown, rows.length) < rows.length ? `Showing ${Math.min(shown, rows.length)} of ` : ""}${rows.length}${rows.length === items.length ? "" : " matching"} ${rows.length === 1 ? "work" : "works"}` : "No matching works";
+    out.innerHTML = rows.length ? rows.slice(0, shown).map((i) => {
+      const w = items[i], href = link(w);
+      return `<tr><td><h3 class="p-title">${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
+        `<div class="p-by">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div><div class="p-line"><b>${esc(String(w.y))}</b>${w.isNew ? "<span>New</span>" : ""}${w.gk ? "<span>Goalkeeper study</span>" : ""}</div></td>` +
+        `<td><div class="pills">${w.th.map((k) => `<span style="--c:var(${THEMES.find((x) => x[0] === k)[2]})"><i></i>${esc(TNAME[k])}</span>`).join("")}</div></td></tr>`;
+    }).join("") : `<tr><td colspan="2" class="empty">No works match. Clear a theme or change the search.</td></tr>`;
+    const left = rows.length - shown;
+    $("lo-load").innerHTML = left > 0 ? `<button type="button" class="btn" id="lo-more">Load ${Math.min(PAGE, left)} more</button>` : "";
+  }
+  if ($("lo-load")) $("lo-load").addEventListener("click", (e) => { if (e.target.closest("#lo-more")) { shown += PAGE; list(); } });
+  if ($("lo-sort")) $("lo-sort").addEventListener("change", (e) => { order = e.target.value; shown = PAGE; list(); });
   new ResizeObserver(() => { if (size()) { place(); draw(); } }).observe(box);
   new MutationObserver(() => { theme(); redraw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); redraw(); });
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else { on = true; start(); }
   document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
-  theme(); if (size()) { place(); draw(); } card(sel);
+  theme(); if (size()) { place(); draw(); } card(sel); list();
 })();

@@ -79,8 +79,8 @@ function learnSave(set) { try { localStorage.setItem(LEARN_KEY, JSON.stringify([
   if (pn && here) {
     const prev = LEARN[here - 2], next = LEARN[here];
     pn.innerHTML =
-      (prev ? `<a href="${prev.href}"><span>‹ Lab ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="coaching.html#labs"><span>‹ Back to</span><b>Practice Labs</b></a>`) +
-      (next ? `<a class="nx" href="${next.href}"><span>Lab ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="coaching.html#labs"><span>Finished ›</span><b>Back to Practice Labs</b></a>`);
+      (prev ? `<a href="${prev.href}"><span>‹ Lab ${prev.n}</span><b>${prev.short}</b></a>` : `<a href="briefs.html#labs"><span>‹ Back to</span><b>Practice Labs</b></a>`) +
+      (next ? `<a class="nx" href="${next.href}"><span>Lab ${next.n} ›</span><b>${next.short}</b></a>` : `<a class="nx" href="briefs.html#labs"><span>Finished ›</span><b>Back to Practice Labs</b></a>`);
   }
 })();
 

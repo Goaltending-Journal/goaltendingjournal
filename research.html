@@ -86,8 +86,23 @@ button, input, select { font-family: var(--sans); }
 @media (max-width: 720px) { .rz-sel { grid-template-columns: minmax(0, 1fr); } }
 .opt .orb { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
 #topics .orb::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
-#topics .opt input { accent-color: var(--c); }
-#topics .opt:hover { background: color-mix(in srgb, var(--c) 14%, transparent); }
+#topics .opt { grid-template-columns: minmax(0, 1fr) auto; row-gap: 5px; padding: 6px 8px; margin-inline: -8px; border-radius: 8px; transition: opacity .2s ease, background-color .2s ease; }
+#topics .orb::before { box-shadow: 0 0 8px color-mix(in srgb, var(--c) 70%, transparent); transition: box-shadow .2s ease; }
+#topics .opt:hover { background: color-mix(in srgb, var(--c) 10%, transparent); }
+#topics .tbar { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--c) 14%, transparent); overflow: hidden; }
+#topics .tbar i { display: block; height: 100%; width: var(--w); border-radius: 2px; background: var(--c); opacity: .75; transition: opacity .2s ease, box-shadow .2s ease; }
+#topics .opt:has(input:checked) { background: color-mix(in srgb, var(--c) 16%, transparent); box-shadow: inset 2px 0 0 var(--c); }
+#topics .opt:has(input:checked) .orb::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 30%, transparent), 0 0 12px var(--c); }
+#topics .opt:has(input:checked) .tbar i { opacity: 1; box-shadow: 0 0 8px var(--c); }
+#topics:has(input:checked) .opt:not(:has(input:checked)) { opacity: .55; }
+#topics .opt:has(input:focus-visible), #scope label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* Scope as a three-way switch */
+#scope { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; gap: 0; }
+#scope label { position: relative; text-align: center; font: 12px var(--sans); padding: 5px 2px; border-radius: 999px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+#scope label:hover { color: var(--fg); }
+#scope label b { font-weight: 500; opacity: .7; margin-left: 4px; font-variant-numeric: tabular-nums; }
+#scope input { position: absolute; opacity: 0; pointer-events: none; }
+#scope label:has(input:checked) { background: var(--accent); color: var(--on-accent); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* Sections */
@@ -106,7 +121,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .key .a { background: var(--accent); }
 .key .b { background: var(--series-b); }
 
-/* Explorer tabs: Researcher Oracle, Evidence Oracle and Scholarly Oracle. The Coaching Oracle lives on coaching.html; a text link beside the tabs leads there. */
+/* Explorer tabs, in Goldy's order (2026-11-21): Master, Evidence, Scholarly, Researcher. The Coaching Oracle lives on coaching.html; a text link beside the tabs leads there. */
 .ex-out { align-self: center; font: 500 13px var(--sans); color: var(--accent); white-space: nowrap; }
 .ex-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
 .hm-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--field-line); border-radius: 999px; padding: 2px; }
@@ -116,14 +131,13 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 @media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 /* Master Oracle (Goldy, 2026-11-18): the former homepage globe (constellation.js), the main source going forward. Every study is one
    ribbon of light, every researcher a quiet light in their topic's region; the rail's topic filters are its key: point at one to turn the globe to it, tick one to dim the rest (2026-11-21). */
-.mo { position: relative; isolation: isolate; overflow: hidden; height: clamp(440px, 64svh, 680px); border-radius: 12px; }
+.mo { position: relative; isolation: isolate; overflow: hidden; height: var(--oracle-h); border-radius: 12px; }
 .mo canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; cursor: grab; touch-action: pan-y; }
 .mo.grabbing canvas { cursor: grabbing; }
 .mo-orb { position: absolute; inset: 0 0 30px; pointer-events: none; }
 .mo-tip { position: absolute; z-index: 2; pointer-events: none; font: 500 12px var(--sans); background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
 .mo-tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 .mo .nw-hint { position: absolute; left: 0; right: 0; bottom: 4px; margin: 0; text-align: center; }
-@media (max-width: 760px) { .mo { height: clamp(360px, 62svh, 480px); } }
 /* Researcher Network: tracked researchers as lights on a turning sphere (size = goalie studies), linked when they published a goalie study together.
    Select a person to see their profile and filter the table to their studies. */
 /* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as an armillary globe, one tilted ring per topic.
@@ -141,7 +155,7 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .lr-card .pills span { display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg); }
 .lr-card .pills i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
 .nw { position: relative; display: block; }
-.nw canvas { display: block; width: 100%; height: 420px; cursor: grab; touch-action: pan-y; }
+.nw canvas { display: block; width: 100%; height: var(--oracle-h); cursor: grab; touch-action: pan-y; }
 .nw.grabbing canvas { cursor: grabbing; }
 .nw-tip { position: absolute; z-index: 2; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 7px; background: var(--bg); color: var(--fg); border: 1px solid var(--field-line); border-radius: 6px; padding: 6px 10px; font: 12.5px/1.3 var(--sans); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
 .nw-tip i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
@@ -180,7 +194,9 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .tracker { scroll-margin-top: var(--nav-h); }
 .btn { font: 500 13.5px var(--sans); color: var(--fg); background: var(--bg); border: 1px solid var(--field-line); border-radius: var(--r); height: 38px; padding: 0 14px; cursor: pointer; transition: border-color 0.15s ease; }
 .btn:hover { border-color: var(--accent); }
-.tr-body { display: block; }
+/* The study table rests in its own panel under every Oracle tab (Goldy, 2026-11-21), so search results are always in view. */
+.tr-body { display: block; margin-top: 22px; padding: 18px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
+@media (max-width: 640px) { .tr-body { padding: 12px; } }
 .side { display: grid; gap: 18px; font-family: var(--sans); }
 .side .extra { display: grid; gap: 18px; }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
@@ -330,9 +346,9 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
       <div class="ex-head">
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
           <button type="button" role="tab" id="mo-tab" aria-selected="true" aria-controls="mo-panel" data-v="master"><span class="tl">Master Oracle</span><span class="ts">Master</span></button>
-          <button type="button" role="tab" id="nw-tab-net" aria-selected="false" aria-controls="nw-net" data-v="net"><span class="tl">Researcher Oracle</span><span class="ts">Researchers</span></button>
           <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Evidence Oracle</span><span class="ts">Evidence</span></button>
           <button type="button" role="tab" id="so-tab" aria-selected="false" aria-controls="so-panel" data-v="scholarly"><span class="tl">Scholarly Oracle</span><span class="ts">Scholarly</span></button>
+          <button type="button" role="tab" id="nw-tab-net" aria-selected="false" aria-controls="nw-net" data-v="net"><span class="tl">Researcher Oracle</span><span class="ts">Researchers</span></button>
         </div>
         <a class="ex-out" href="coaching.html">Coaching Oracle →</a>
       </div>
@@ -343,14 +359,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <div class="mo-tip" id="sky-tip" aria-hidden="true"></div>
           <p class="nw-hint">Drag to spin. Point at a topic on the left to turn the globe to it.</p>
         </div>
-      </div>
-      <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net" hidden>
-        <div class="nw" id="nw">
-          <canvas id="nw-cv" role="img" aria-label="Sphere of goalie researchers, coloured by main topic and linked when they published a goalie study together"></canvas>
-          <div class="nw-tip" id="nw-tip" hidden></div>
-          <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
-        </div>
-        <div class="nw-side rz" id="nw-side" aria-live="polite"></div>
       </div>
       <div id="ss-panel" role="tabpanel" aria-labelledby="ss-tab" hidden>
         <div class="nw ss" id="ss">
@@ -366,9 +374,17 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         </div>
         <div class="lr-card" id="so-card" aria-live="polite"></div>
       </div>
+      <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net" hidden>
+        <div class="nw" id="nw">
+          <canvas id="nw-cv" role="img" aria-label="Sphere of goalie researchers, coloured by main topic and linked when they published a goalie study together"></canvas>
+          <div class="nw-tip" id="nw-tip" hidden></div>
+          <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
+        </div>
+        <div class="nw-side rz" id="nw-side" aria-live="polite"></div>
+      </div>
     </figure>
 
-    <div class="tr-body" id="tr-body" hidden>
+    <div class="tr-body" id="tr-body">
 
       <div class="tr-main">
         <div class="tr-bar">
@@ -447,14 +463,17 @@ function rowHtml(r) {
 }
 
 /* Table filters, counted for whichever set the table shows. */
-const SCOPES = [["all", "All records"], ["goaltending", "Goaltending"], ["hockey-wide", "Hockey-wide"]];
+const SCOPES = [["all", "All records", "All"], ["goaltending", "Goaltending", "Goalies"], ["hockey-wide", "Hockey-wide", "Hockey"]];
 function filterOptions() {
-  $("scope").innerHTML = SCOPES.map(([k, n]) => {
+  $("scope").innerHTML = SCOPES.map(([k, n, short]) => {
     const c = k === "all" ? DATA.length : DATA.filter((r) => r.sc === k).length;
-    return `<label class="opt"><input type="radio" name="scope" value="${k}"${k === state.scope ? " checked" : ""}><span>${esc(n)}</span><span class="n">${c}</span></label>`;
+    return `<label title="${esc(n)}"><input type="radio" name="scope" value="${k}"${k === state.scope ? " checked" : ""}><span>${esc(short)}<b>${c}</b></span></label>`;
   }).join("");
-  $("topics").innerHTML = TOPICS.map(([k, n]) =>
-    `<label class="opt" style="--c: var(--t-${k})"><input type="checkbox" value="${k}"${state.topics.has(k) ? " checked" : ""}><span class="orb">${esc(n)}</span><span class="n">${DATA.filter((r) => r.tp.includes(k)).length}</span></label>`).join("");
+  // Topics as light bars (Goldy, 2026-11-21: no checkboxes): orb, name, count and a bar in the topic colour for its share of the studies.
+  // The checkbox stays for keyboards and screen readers but is hidden; the row lights when it is on.
+  const counts = TOPICS.map(([k]) => DATA.filter((r) => r.tp.includes(k)).length), most = Math.max(1, ...counts);
+  $("topics").innerHTML = TOPICS.map(([k, n], i) =>
+    `<label class="opt" style="--c: var(--t-${k}); --w: ${(counts[i] / most * 100).toFixed(1)}%"><input class="vh" type="checkbox" value="${k}"${state.topics.has(k) ? " checked" : ""}><span class="orb">${esc(n)}</span><span class="n">${counts[i]}</span><span class="tbar"><i></i></span></label>`).join("");
 }
 filterOptions();
 function useSet(set) {
@@ -555,7 +574,6 @@ function exTabs(b, keep) {
 $("ex-tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-v]"); if (!b) return;
   exTabs(b);
-  $("tr-body").hidden = b.dataset.v !== "studies";   // the study table belongs to the Evidence Oracle; the other tabs show only their own works
   useSet(b.dataset.v === "scholarly" ? SCH : REC);
   if (b.dataset.v === "scholarly") { $("so-panel").hidden = false; drawScholarly(); return; }
   if (b.dataset.v === "master") { $("mo-panel").hidden = false; return; }
@@ -591,8 +609,8 @@ const NWS = (() => {
   function size() {
     const w = box.getBoundingClientRect().width; if (!w) return false;
     const d = Math.min(2, devicePixelRatio || 1);
-    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.42;
-    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    W = w; H = Math.round(cv.getBoundingClientRect().height) || 480; R = Math.min(W * 0.9, H - 30) * 0.46;   // the same height and globe size as the Master Oracle (--oracle-h)
+    cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
     return true;
   }
   function place() {
@@ -771,8 +789,8 @@ const SS = (() => {
   function size() {
     const w = box.getBoundingClientRect().width; if (!w) return false;
     const d = Math.min(2, devicePixelRatio || 1);
-    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.46; k = R / Math.sqrt(REC.length + 0.5);
-    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    W = w; H = Math.round(cv.getBoundingClientRect().height) || 480; R = Math.min(W * 0.9, H - 30) * 0.46; k = R / Math.sqrt(REC.length + 0.5);
+    cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
     return true;
   }
   const rad = (i) => 3.6 + (rank[i] / REC.length) * 3 * Math.min(1, W / 600);
@@ -815,7 +833,7 @@ const SS = (() => {
       `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(s.t)}</a>` : esc(s.t)}</h3>` +
       `<div class="cite">${esc([s.a, (s.j || "").split(/\s\d/)[0]].filter(Boolean).join(" · "))}</div>` + (pills ? `<div class="pills">${pills}</div>` : "");
   }
-  function frame(t) { if (!still && hover == null) rot += 0.0012; place(); draw(t); }
+  function frame(t) { if (!still && hover == null) rot += 0.0022; place(); draw(t); }
   function loop(t) { if (t - last > 30) { last = t; frame(t); } raf = requestAnimationFrame(loop); }
   const start = () => { if (!raf && on && !still && !document.hidden) raf = requestAnimationFrame(loop); }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
   const redraw = () => { if (!raf) { place(); draw(now); } };
@@ -889,8 +907,8 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
   function size() {
     const w = box.getBoundingClientRect().width; if (!w) return false;
     const d = Math.min(2, devicePixelRatio || 1);
-    W = w; H = Math.round(Math.max(340, Math.min(560, w * 0.72))); R = Math.min(W, H) * 0.42;
-    cv.style.height = H + "px"; cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
+    W = w; H = Math.round(cv.getBoundingClientRect().height) || 480; R = Math.min(W * 0.9, H - 30) * 0.46;   // the same height and globe size as the Master Oracle (--oracle-h)
+    cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0);
     return true;
   }
   // A point on ring g at u (0 = oldest work, 1 = newest): a horizontal circle, tipped by the ring's tilt around its heading
@@ -958,7 +976,7 @@ let drawScholarly = () => {}, markScholarly = () => {}, soHot = () => {};
       `<div class="pills">${r.tp.map((k) => `<span style="--c:var(--t-${k})"><i></i>${esc(topicName[k])}</span>`).join("")}</div>`;
   }
   // The globe turns and the rings drift; both hold still while a work is pointed at or the globe is dragged
-  function step(dt) { if (still || hover != null || drag) return; t += dt; rot += 0.0022 * dt / 16; }
+  function step(dt) { if (still || hover != null || drag) return; t += dt; rot += 0.0000667 * dt; }
   function loop(now) { const dt = Math.min(50, now - (last || now)); if (now - last > 30 || !last) { last = now; step(dt); place(); draw(); } raf = requestAnimationFrame(loop); }
   const start = () => { if (!raf && on && !still && !document.hidden && !$("so-panel").hidden) { last = 0; raf = requestAnimationFrame(loop); } }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
   const redraw = () => { if (!raf && W) { place(); draw(); } };

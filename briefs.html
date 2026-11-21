@@ -20,8 +20,8 @@
 <script src="theme.js"></script>
 <script src="page-lid.js" defer></script>
 <style>
-/* Briefs (Goldy, 2026-11-10): coaching breakdowns of recent studies from the Evidence or Scholarly Oracle, and nothing else.
-   The latest brief leads; every brief is listed below it. The practice design labs live on coaching.html. Tokens come from site-nav.css. */
+/* Briefs (Goldy, 2026-11-10): coaching breakdowns of recent studies from the Evidence or Scholarly Oracle. The latest brief leads;
+   every brief is listed below it. The Practice Labs moved here from coaching.html (2026-11-21) until both become one set of learning modules. Tokens come from site-nav.css. */
 .spectrum{background:var(--word-grad);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
 @keyframes spectrum{to{background-position:300% 0}}
 @media (prefers-reduced-motion:reduce){.spectrum{animation:none}}
@@ -53,6 +53,19 @@ main.wrap > .lid{margin-bottom:-24px}
 .all li a:hover{text-decoration:none}.all li a:hover b{color:var(--crease)}
 .all li .wait b{color:var(--fog)}
 .all li small{font:13px var(--f-body);color:var(--fog)}
+/* Practice Labs */
+.labs{scroll-margin-top:84px}
+.labs h2{margin:0;font:600 34px/1 var(--display)}
+.labs .lead{margin:8px 0 18px;max-width:60ch;font-size:15px;line-height:1.55;color:var(--fog)}
+.mods{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.mods a{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:6px 22px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line);color:var(--chalk)}
+.mods a:hover{text-decoration:none}.mods a:hover h3{color:var(--crease)}
+.mods .num-big{font:600 42px/.9 var(--display);color:var(--crease)}
+.mods h3{margin:0 0 6px;font:600 25px/1.1 var(--display);transition:color .2s ease}
+.mods p{margin:0;font-size:15px;line-height:1.5;color:var(--fog);max-width:62ch}
+.mods .side{display:grid;gap:4px;justify-items:end;font-size:13px;color:var(--fog);white-space:nowrap}
+.mods .ok{color:var(--good);font-weight:700}
+@media (max-width:760px){.mods a{grid-template-columns:44px minmax(0,1fr)}.mods .num-big{font-size:34px}.mods .side{grid-column:2;display:flex;gap:6px 14px;justify-items:start}}
 </style>
 </head>
 <body>
@@ -103,6 +116,20 @@ main.wrap > .lid{margin-bottom:-24px}
       <li><div class="wait"><i class="tdot hollow" style="--c: var(--t-vis)"></i><b>Gaze Behaviors of Goaltenders</b><small>Next brief</small></div></li>
     </ol>
   </section>
+
+  <section class="labs" id="labs" aria-labelledby="h-labs">
+    <h2 id="h-labs">Practice Labs</h2>
+    <p class="lead">Each lab takes one idea from the Coaching Oracle and ends with something to try in your next practice.</p>
+    <ol class="mods" id="mods"></ol>
+  </section>
 </main>
+<script src="learn.js"></script>
+<script>
+// Practice Labs list, with this browser's done marks
+(function () {
+  const done = learnDone();
+  document.getElementById("mods").innerHTML = LEARN.map((m) => `<li><a href="${m.href}"><span class="num-big">0${m.n}</span><div><h3>${m.title}</h3><p>${m.outcome}</p></div><span class="side"><span>${m.theme}</span><span>${m.min} min</span>${done.has(m.n) ? '<span class="ok">✓ Done</span>' : ""}</span></a></li>`).join("");
+})();
+</script>
 </body>
 </html>

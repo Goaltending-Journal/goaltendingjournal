@@ -159,3 +159,8 @@ html.has-sky body { background: transparent; }
   .lid { padding: 14px 18px; min-height: 92px; }
   .lid canvas.lid-vis { right: -70px; opacity: 0.35; }
 }
+
+/* Oracle globes (Goldy, 2026-11-21): every Oracle is the Master Oracle's size and turns at the Researcher Oracle's slow, smooth pace.
+   Pages size their globe boxes with --oracle-h; the scripts turn at about 0.0000667 radians per millisecond (one turn in about 94 seconds). */
+:root { --oracle-h: clamp(440px, 64svh, 680px); }
+@media (max-width: 760px) { :root { --oracle-h: clamp(360px, 62svh, 480px); } }
