@@ -18,18 +18,15 @@
 <link rel="stylesheet" href="site-nav.css">
 <link rel="stylesheet" href="learn.css">
 <script src="theme.js"></script>
+<script src="page-lid.js" defer></script>
 <style>
 /* Briefs (Goldy, 2026-11-10): coaching breakdowns of recent studies from the Evidence or Scholarly Oracle, and nothing else.
    The latest brief leads; every brief is listed below it. The practice design labs live on coaching.html. Tokens come from site-nav.css. */
-.page-hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 16px clamp(32px,5vw,56px)}
-.page-hero::before{content:"";position:absolute;inset:-20% -10%;z-index:-1;pointer-events:none;filter:blur(60px);opacity:.26;-webkit-mask-image:linear-gradient(#000 55%,transparent 92%);mask-image:linear-gradient(#000 55%,transparent 92%);
-  background:radial-gradient(28% 40% at 28% 40%,var(--jade-a),transparent 70%),radial-gradient(24% 36% at 72% 38%,var(--jade-b),transparent 70%),radial-gradient(26% 34% at 50% 78%,var(--jade-c),transparent 70%),radial-gradient(18% 26% at 86% 74%,var(--jade-a),transparent 70%)}
-.page-hero h1{font:600 clamp(34px,5.4vw,66px)/1.04 var(--display);letter-spacing:.01em;margin:0}
-.page-hero p{margin:16px auto 0;max-width:32em;font:clamp(17px,2vw,20px)/1.55 var(--serif);color:var(--fog)}
 .spectrum{background:var(--word-grad);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spectrum 16s linear infinite}
 @keyframes spectrum{to{background-position:300% 0}}
 @media (prefers-reduced-motion:reduce){.spectrum{animation:none}}
 main.wrap{max-width:1080px;gap:56px;padding-bottom:88px}
+main.wrap > .lid{margin-bottom:-24px}
 .feat{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--boards);color:var(--chalk);transition:border-color .3s ease}
 .feat:hover,.feat:focus-visible{text-decoration:none;border-color:var(--crease)}
 .feat-txt{flex:1 1 380px;min-width:0;box-sizing:border-box;padding:clamp(24px,4vw,44px);display:grid;gap:14px;align-content:center}
@@ -76,10 +73,7 @@ main.wrap{max-width:1080px;gap:56px;padding-bottom:88px}
 </header>
 
 <main class="wrap" id="main">
-  <section class="page-hero" aria-labelledby="h-briefs-page">
-    <h1 id="h-briefs-page"><span class="spectrum">Goaltending</span> Briefs</h1>
-    <p>Coaching breakdowns of recent studies from the Oracles.</p>
-  </section>
+  <header class="lid" data-vis="briefs" aria-labelledby="h-briefs-page"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">Research, translated</div><h1 id="h-briefs-page">Goaltending <span class="spectrum">Briefs</span></h1></div></header>
 
   <a class="feat" href="glove-positioning.html" aria-label="Latest brief: Glove Positioning Analysis">
     <div class="feat-txt">
