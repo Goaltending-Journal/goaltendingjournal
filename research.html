@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Jost:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="site-nav.css">
 <script src="theme.js"></script>
+<script src="page-lid.js" defer></script>
 <style>
 /* Layout (Goldy, 2026-11-02): an About-style masthead, then one frame holding the explorer (researcher network in the homepage
    sphere's topic colours, heatmaps, studies by year) and the filters and study table. No footer, as on the homepage and About. */
@@ -48,15 +49,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; 
 button, input, select { font-family: var(--sans); }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Masthead, as on the About page: an open, centred title with the moving topic colours and a soft glow behind it */
-.hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(56px, 9vw, 104px) 16px clamp(40px, 6vw, 64px); }
-.hero::before { content: ""; position: absolute; inset: -20% -10%; z-index: -1; pointer-events: none; filter: blur(60px); opacity: 0.26;
-  -webkit-mask-image: linear-gradient(#000 55%, transparent 92%); mask-image: linear-gradient(#000 55%, transparent 92%);
-  background: radial-gradient(28% 40% at 28% 40%, var(--jade-a), transparent 70%), radial-gradient(24% 36% at 72% 38%, var(--jade-b), transparent 70%),
-              radial-gradient(26% 34% at 50% 78%, var(--jade-a), transparent 70%), radial-gradient(18% 26% at 86% 74%, var(--jade-b), transparent 70%); }
-.hero h1 { font: 600 clamp(34px, 5.4vw, 66px)/1.04 var(--display); letter-spacing: 0.01em; }
-.hero p { margin: 16px auto 0; max-width: 32em; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
-.hero p b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .spectrum { background: var(--word-grad);
   background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: spectrum 16s linear infinite; }
 @keyframes spectrum { to { background-position: 300% 0; } }
@@ -123,26 +115,15 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-tabs .ts { display: none; }
 @media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 /* Master Oracle (Goldy, 2026-11-18): the former homepage globe (constellation.js), the main source going forward. Every study is one
-   ribbon of light, every researcher a quiet light in their topic's region; the topic key sits at the side and turns the globe to a topic. */
-.mo { position: relative; isolation: isolate; overflow: hidden; height: clamp(440px, 70svh, 760px); border-radius: 12px; }
+   ribbon of light, every researcher a quiet light in their topic's region; the rail's topic filters are its key: point at one to turn the globe to it, tick one to dim the rest (2026-11-21). */
+.mo { position: relative; isolation: isolate; overflow: hidden; height: clamp(440px, 64svh, 680px); border-radius: 12px; }
 .mo canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; cursor: grab; touch-action: pan-y; }
 .mo.grabbing canvas { cursor: grabbing; }
-.mo-orb { position: absolute; left: 0; top: 0; bottom: 34px; right: 210px; pointer-events: none; }
-.mo-key { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); margin: 0; padding: 12px 16px 12px 14px; list-style: none; display: grid; gap: 2px;
-  font: 500 11px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg);
-  border: 1px solid var(--rule); border-radius: 12px; background: color-mix(in srgb, var(--surface) 70%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.mo-key li { display: flex; align-items: center; gap: 10px; padding: 6px 4px; cursor: default; transition: opacity 0.2s ease; }
-.mo-key i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); transition: transform 0.2s ease; }
-.mo-key.dim li { opacity: 0.35; } .mo-key li.hot { opacity: 1; } .mo-key li.hot i { transform: scale(1.5); }
+.mo-orb { position: absolute; inset: 0 0 30px; pointer-events: none; }
 .mo-tip { position: absolute; z-index: 2; pointer-events: none; font: 500 12px var(--sans); background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
 .mo-tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.mo .nw-hint { position: absolute; left: 0; right: 210px; bottom: 6px; margin: 0; text-align: center; }
-@media (max-width: 760px) {
-  .mo { height: auto; display: flex; flex-direction: column; }
-  .mo-orb { position: relative; inset: auto; height: clamp(320px, 56svh, 480px); }
-  .mo-key { position: relative; inset: auto; transform: none; grid-template-columns: repeat(2, auto); gap: 0 14px; font-size: 10px; margin: 8px auto 0; }
-  .mo .nw-hint { position: static; margin-top: 8px; }
-}
+.mo .nw-hint { position: absolute; left: 0; right: 0; bottom: 4px; margin: 0; text-align: center; }
+@media (max-width: 760px) { .mo { height: clamp(360px, 62svh, 480px); } }
 /* Researcher Network: tracked researchers as lights on a turning sphere (size = goalie studies), linked when they published a goalie study together.
    Select a person to see their profile and filter the table to their studies. */
 /* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as an armillary globe, one tilted ring per topic.
@@ -321,12 +302,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 
 
 <main id="main">
-  <section class="hero" aria-labelledby="h-research">
-    <h1 id="h-research">Research <span class="spectrum">Oracle</span></h1>
-    <p>A living database of evidence-based research in ice hockey goaltending.</p>
-  </section>
-
   <div class="wrap">
+  <header class="lid" data-vis="globe" aria-labelledby="h-research"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The Oracles</div><h1 id="h-research">Research <span class="spectrum">Oracle</span></h1></div></header>
   <section class="tracker frame" id="articles" aria-label="Goaltending research">
     <!-- One frame (layout C4, Goldy 2026-11-02): a side rail with the filters (topics carry their map colours) and the researcher A–Z, beside the explorer tabs and the study table. -->
     <aside class="rail" aria-label="Filters">
@@ -363,9 +340,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         <div class="mo" id="sky">
           <canvas id="sky-art" role="img" aria-label="The Master Oracle: a turning glass globe with every study as one ribbon of light in its topic's colour, and every researcher as a quiet light in their main topic's region"></canvas>
           <div class="mo-orb" id="sky-orb"></div>
-          <ul class="mo-key" id="legend" aria-label="Research topics, by colour"></ul>
           <div class="mo-tip" id="sky-tip" aria-hidden="true"></div>
-          <p class="nw-hint">Drag to spin. Point at a topic to turn the globe to it.</p>
+          <p class="nw-hint">Drag to spin. Point at a topic on the left to turn the globe to it.</p>
         </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net" hidden>
@@ -509,6 +485,7 @@ function filtered() {
 }
 function render() {
   const rows = filtered();
+  if (window.GRJ_MASTER && DATA === REC) GRJ_MASTER.keep(rows.length === REC.length ? null : new Set(rows.map((r) => r.i)));   // the Master Oracle follows the rail filters
   const sig = JSON.stringify([state.q, state.scope, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
   if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
   const shown = rows.slice(0, state.shown);
@@ -870,7 +847,7 @@ const SS = (() => {
   return { hot(t) { if (t !== hot) { hot = t; redraw(); } } };
 })();
 // The topic filters double as the colour key for both maps: point at one to light that topic
-const nwHot = (k) => { SS.hot(k); soHot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
+const nwHot = (k) => { SS.hot(k); soHot(k); if (window.GRJ_MASTER) GRJ_MASTER.hot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();
