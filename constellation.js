@@ -67,7 +67,7 @@
   let rotY = 0.6, rotX = -0.28, velY = 0.0009, drag = null, target = null, cy = 1, sy = 0, cxr = 1, sxr = 0;
   let keep = null;   // the Oracles rail filter: the study ids that match it, or null for every study
   let pointer = null, hot = null, hover = null, raf = 0, last = 0, now = 0, born = 0, intro = still ? 1 : 0;
-  const BASE = 0.00013;   // radians per millisecond at rest: one turn in about 48 seconds
+  const BASE = 0.0000667;   // radians per millisecond at rest: one turn in about 94 seconds, the Researcher Oracle's pace (Goldy, 2026-11-21)
   function P(v) {
     const x1 = v[0] * cy - v[2] * sy, z1 = v[0] * sy + v[2] * cy, y2 = v[1] * cxr - z1 * sxr, z2 = v[1] * sxr + z1 * cxr, f = 2.6 / (2.6 + z2);
     return { x: X0 + x1 * R * f, y: Y0 + y2 * R * f, z: z2, f, nx: x1, ny: y2 };
