@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-20",
+ "checked": "2026-11-21",
  "season": "2026-27",
- "nhlAsOf": "2026-11-20",
- "nstAsOf": "2026-11-20",
+ "nhlAsOf": "2026-11-21",
+ "nstAsOf": "2026-11-21",
  "goalies": 77,
- "matched": 54,
+ "matched": 55,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -30,22 +30,8 @@
    },
    "nst": {
     "gp": 17,
-    "sa": 420,
+    "sa": 419,
     "ga": 44
-   }
-  },
-  {
-   "name": "Anthony Stolarz",
-   "team": "TOR",
-   "nhl": {
-    "gp": 10,
-    "sa": 281,
-    "ga": 27
-   },
-   "nst": {
-    "gp": 10,
-    "sa": 282,
-    "ga": 27
    }
   },
   {
@@ -123,12 +109,12 @@
    "team": "EDM",
    "nhl": {
     "gp": 12,
-    "sa": 308,
+    "sa": 309,
     "ga": 30
    },
    "nst": {
     "gp": 13,
-    "sa": 308,
+    "sa": 309,
     "ga": 30
    }
   },
