@@ -123,26 +123,15 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .hm-tabs .ts { display: none; }
 @media (max-width: 480px) { .hm-tabs .tl { display: none; } .hm-tabs .ts { display: inline; } }
 /* Master Oracle (Goldy, 2026-11-18): the former homepage globe (constellation.js), the main source going forward. Every study is one
-   ribbon of light, every researcher a quiet light in their topic's region; the topic key sits at the side and turns the globe to a topic. */
-.mo { position: relative; isolation: isolate; overflow: hidden; height: clamp(440px, 70svh, 760px); border-radius: 12px; }
+   ribbon of light, every researcher a quiet light in their topic's region; the rail's topic filters are its key: point at one to turn the globe to it, tick one to dim the rest (2026-11-21). */
+.mo { position: relative; isolation: isolate; overflow: hidden; height: clamp(440px, 64svh, 680px); border-radius: 12px; }
 .mo canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; cursor: grab; touch-action: pan-y; }
 .mo.grabbing canvas { cursor: grabbing; }
-.mo-orb { position: absolute; left: 0; top: 0; bottom: 34px; right: 210px; pointer-events: none; }
-.mo-key { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); margin: 0; padding: 12px 16px 12px 14px; list-style: none; display: grid; gap: 2px;
-  font: 500 11px/1 var(--label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg);
-  border: 1px solid var(--rule); border-radius: 12px; background: color-mix(in srgb, var(--surface) 70%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.mo-key li { display: flex; align-items: center; gap: 10px; padding: 6px 4px; cursor: default; transition: opacity 0.2s ease; }
-.mo-key i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); transition: transform 0.2s ease; }
-.mo-key.dim li { opacity: 0.35; } .mo-key li.hot { opacity: 1; } .mo-key li.hot i { transform: scale(1.5); }
+.mo-orb { position: absolute; inset: 0 0 30px; pointer-events: none; }
 .mo-tip { position: absolute; z-index: 2; pointer-events: none; font: 500 12px var(--sans); background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
 .mo-tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.mo .nw-hint { position: absolute; left: 0; right: 210px; bottom: 6px; margin: 0; text-align: center; }
-@media (max-width: 760px) {
-  .mo { height: auto; display: flex; flex-direction: column; }
-  .mo-orb { position: relative; inset: auto; height: clamp(320px, 56svh, 480px); }
-  .mo-key { position: relative; inset: auto; transform: none; grid-template-columns: repeat(2, auto); gap: 0 14px; font-size: 10px; margin: 8px auto 0; }
-  .mo .nw-hint { position: static; margin-top: 8px; }
-}
+.mo .nw-hint { position: absolute; left: 0; right: 0; bottom: 4px; margin: 0; text-align: center; }
+@media (max-width: 760px) { .mo { height: clamp(360px, 62svh, 480px); } }
 /* Researcher Network: tracked researchers as lights on a turning sphere (size = goalie studies), linked when they published a goalie study together.
    Select a person to see their profile and filter the table to their studies. */
 /* Scholarly Oracle: OpenAlex works not in the Research Oracle (scholarly-data.js) as an armillary globe, one tilted ring per topic.
@@ -363,9 +352,8 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         <div class="mo" id="sky">
           <canvas id="sky-art" role="img" aria-label="The Master Oracle: a turning glass globe with every study as one ribbon of light in its topic's colour, and every researcher as a quiet light in their main topic's region"></canvas>
           <div class="mo-orb" id="sky-orb"></div>
-          <ul class="mo-key" id="legend" aria-label="Research topics, by colour"></ul>
           <div class="mo-tip" id="sky-tip" aria-hidden="true"></div>
-          <p class="nw-hint">Drag to spin. Point at a topic to turn the globe to it.</p>
+          <p class="nw-hint">Drag to spin. Point at a topic on the left to turn the globe to it.</p>
         </div>
       </div>
       <div id="nw-net" role="tabpanel" aria-labelledby="nw-tab-net" hidden>
@@ -509,6 +497,7 @@ function filtered() {
 }
 function render() {
   const rows = filtered();
+  if (window.GRJ_MASTER && DATA === REC) GRJ_MASTER.keep(rows.length === REC.length ? null : new Set(rows.map((r) => r.i)));   // the Master Oracle follows the rail filters
   const sig = JSON.stringify([state.q, state.scope, state.year, state.span && state.span.label, state.person && state.person.id, [...state.topics], state.sort]);
   if (sig !== state.sig) { state.sig = sig; state.shown = PAGE_SIZE; }
   const shown = rows.slice(0, state.shown);
@@ -870,7 +859,7 @@ const SS = (() => {
   return { hot(t) { if (t !== hot) { hot = t; redraw(); } } };
 })();
 // The topic filters double as the colour key for both maps: point at one to light that topic
-const nwHot = (k) => { SS.hot(k); soHot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
+const nwHot = (k) => { SS.hot(k); soHot(k); if (window.GRJ_MASTER) GRJ_MASTER.hot(k); if (k !== NW.hot) { NW.hot = k; NWS.redraw(); } };
 $("topics").addEventListener("pointerover", (e) => { const o = e.target.closest(".opt"); nwHot(o ? o.querySelector("input").value : null); });
 $("topics").addEventListener("pointerleave", () => nwHot(null));
 drawNetwork();

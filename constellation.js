@@ -3,8 +3,8 @@
    region; a study filed under two topics loops out to the second region and back. Researchers (researchers-data.js) are quiet
    lights in the region of their main topic. Topics and colours come from topics.js and the --t-* tokens in site-nav.css, the
    same sources the Oracle page uses.
-   Drag to spin it; hover a bead for its study or a light for its researcher; hover a topic chip to light that topic and turn
-   the globe to face it. The canvas fills the whole panel, and the globe is centred on the empty #sky-orb box, which the page keeps
+   Drag to spin it; hover a bead for its study or a light for its researcher; point at a topic in the page's rail (or the key, where a page has one) to light that
+   topic and turn the globe to face it; the rail's filters dim every study that doesn't match. The canvas fills the whole panel, and the globe is centred on the empty #sky-orb box, which the page keeps
    clear of text. Reduced motion draws one still frame; drawing stops while the hero is off screen. */
 (function () {
   const TOPICS = window.GRJ_TOPICS, KEYS = TOPICS.map((t) => t[0]), KI = Object.fromEntries(KEYS.map((k, i) => [k, i]));
@@ -34,7 +34,7 @@
   const people = NETWORK.people.map((p, i) => ({ id: p.id, name: p.name, n: p.n, k: grjPersonKey(p), home: p.home || [], ph: (i * 2.399) % 6.28 }));
   const at = Object.fromEntries(people.map((p, i) => [p.id, i]));
   const links = NETWORK.links.map(([a, b]) => [at[a], at[b]]).filter(([a, b]) => a !== undefined && b !== undefined);
-  const studies = REC.slice().sort((a, b) => a.y - b.y || a.i - b.i).map((r, i) => ({ i, y: r.yl || r.y, t: r.t, a: r.a, tp: r.tp.filter((k) => k in KI), ph: i * 0.09 }));
+  const studies = REC.slice().sort((a, b) => a.y - b.y || a.i - b.i).map((r, i) => ({ i, id: r.i, y: r.yl || r.y, t: r.t, a: r.a, tp: r.tp.filter((k) => k in KI), ph: i * 0.09 }));
   const tkey = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60), sIdx = {};
   REC.forEach((r) => { const s = studies.find((q) => q.t === r.t && q.a === r.a); if (r.doi) sIdx[r.doi.toLowerCase()] = s; sIdx[tkey(r.t)] = s; });
   people.forEach((p) => { p.st = p.home.map((h) => sIdx[h]).filter(Boolean); });
@@ -65,6 +65,7 @@
   // ---------- view ----------
   let W = 0, H = 0, R = 0, X0 = 0, Y0 = 0, scale = 0.46;
   let rotY = 0.6, rotX = -0.28, velY = 0.0009, drag = null, target = null, cy = 1, sy = 0, cxr = 1, sxr = 0;
+  let keep = null;   // the Oracles rail filter: the study ids that match it, or null for every study
   let pointer = null, hot = null, hover = null, raf = 0, last = 0, now = 0, born = 0, intro = still ? 1 : 0;
   const BASE = 0.00013;   // radians per millisecond at rest: one turn in about 48 seconds
   function P(v) {
@@ -141,11 +142,11 @@
       step(dt) { for (const s of studies) s.u = (s.u + s.du * dt) % 1; },
       update() {
         placePeople(); buckets.forEach((b) => { b.length = 0; }); lanes.forEach((b) => { b.length = 0; });
-        studies.forEach((s, n) => { const off = hot !== null && s.ra !== hot && s.rb !== hot; let prev = P(paths[n][0]); for (let i = 1; i < 73; i++) { const q = P(paths[n][i]); lanes[((prev.z + q.z) > 0 ? 0 : 36) + side(s, i / 72) * 4 + (off ? 3 : 1)].push(prev.x, prev.y, q.x, q.y); prev = q; } });
+        studies.forEach((s, n) => { const off = (hot !== null && s.ra !== hot && s.rb !== hot) || (keep && !keep.has(s.id)); let prev = P(paths[n][0]); for (let i = 1; i < 73; i++) { const q = P(paths[n][i]); lanes[((prev.z + q.z) > 0 ? 0 : 36) + side(s, i / 72) * 4 + (off ? 3 : 1)].push(prev.x, prev.y, q.x, q.y); prev = q; } });
         const grow = ease(intro * 1.3), len = Math.round(TAIL * (0.25 + 0.75 * grow));
         for (const s of studies) {
           s.lit = hover === s || (hover && hover.st && hover.st.includes(s));
-          const off = (hot !== null && s.ra !== hot && s.rb !== hot) || (hover && hover.st && !s.lit);
+          const off = (hot !== null && s.ra !== hot && s.rb !== hot) || (keep && !keep.has(s.id)) || (hover && hover.st && !s.lit);
           let prev = s.s = P(pos(s, s.u)); s.ki = side(s, s.u); s.off = off;
           for (let j = 1; j <= len; j++) {
             const u = s.u - j * s.gap, q = P(pos(s, u)), t = j / len, lvl = off ? 3 : s.lit ? 0 : t < 0.3 ? 0 : t < 0.65 ? 1 : 2;
@@ -193,8 +194,8 @@
   const start = () => { if (!raf && !still) { last = 0; raf = requestAnimationFrame(loop); } }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
   const redraw = () => { if (still || !raf) draw(now); };
   function setHot(k) {
-    hot = k === null ? null : KI[k]; legend.classList.toggle("dim", k !== null);
-    legend.querySelectorAll("li").forEach((li) => li.classList.toggle("hot", li.dataset.k === k));
+    hot = k === null || !(k in KI) ? null : KI[k];
+    if (legend) { legend.classList.toggle("dim", k !== null); legend.querySelectorAll("li").forEach((li) => li.classList.toggle("hot", li.dataset.k === k)); }
     const c = hot === null ? null : scene.focus(hot);
     if (c) { const ry = Math.atan2(c[0], c[2]) + Math.PI, flat = Math.hypot(c[0], c[2]); target = [ry, clamp(Math.asin(-0.5) - Math.atan2(c[1], flat), -1.2, 1.2)]; } else target = null;
     redraw();
@@ -220,9 +221,13 @@
   cv.addEventListener("pointerup", release); cv.addEventListener("pointercancel", release);
   box.addEventListener("pointermove", point);
   box.addEventListener("pointerleave", () => { pointer = null; hover = null; showTip(null); redraw(); });
-  legend.innerHTML = TOPICS.map(([k, n]) => `<li data-k="${k}" style="--c: var(--t-${k})"><i></i>${n}</li>`).join("");
-  legend.addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) setHot(li.dataset.k); });
-  legend.addEventListener("pointerleave", () => setHot(null));
+  if (legend) {
+    legend.innerHTML = TOPICS.map(([k, n]) => `<li data-k="${k}" style="--c: var(--t-${k})"><i></i>${n}</li>`).join("");
+    legend.addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) setHot(li.dataset.k); });
+    legend.addEventListener("pointerleave", () => setHot(null));
+  }
+  // research.html drives the globe from its rail: pointing at a topic lights it and turns the globe to it; the filters dim every other study
+  window.GRJ_MASTER = { hot: (k) => { if ((k === null ? null : KI[k]) !== hot) setHot(k); }, keep: (ids) => { keep = ids; redraw(); } };
   new ResizeObserver(() => { size(); draw(now); }).observe(cv);
   new MutationObserver(() => { readTheme(); draw(now); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readTheme(); draw(now); });
