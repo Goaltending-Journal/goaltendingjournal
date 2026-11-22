@@ -35,11 +35,7 @@
     { id: "start", nav: "GRJ", hero: 1, kick: "Welcome to", name: "The Goaltending Research Journal", c: JADE, orb: "all",
       summary: "An open-source research journal dedicated to ice hockey goaltending." },
     { id: "mission", nav: "Mission", kick: "Why we exist", name: "Our Mission", c: JADE, orb: "jade",
-      summary: "The GRJ is dedicated to making evidence-based goaltending research more accessible to the wider hockey community. Through our platform, we aim to bridge the gap between the research and the rink through coaching conversation and peer reviews.",
-      cards: [
-        ["The Vision", "To build a professional sports journal that is dedicated to supporting the researchers and the goalie coaching community at large."],
-        ["The Promise", "To provide a free and accurate resource that continually refines its knowledge base in order to support learning, sharing, and creativity in the goaltending community."]
-      ] },
+      summary: "The GRJ is dedicated to making evidence-based goaltending research more accessible to the wider hockey community. Through our platform, we aim to bridge the gap between the research and the rink through coaching conversation and peer reviews." },
     { id: "features", nav: "Features", step: 640, kick: "For coaches and programs", name: "Features", c: JADE, orb: "jade",
       summary: "The GRJ includes a few features that focus on supporting goalie coaches and programs. These include Briefs, Peer Reviews, and Conferences.",
       cards: [
@@ -47,26 +43,31 @@
         ["Peer Reviews", "Monthly video sessions where peers read a new study together and turn it into practice ideas.", "reviews.html", "reviews"],
         ["Conferences", "An online conference on goaltending research, open to the public, with speakers and breakout groups.", "conference.html", "conference"]
       ] },
+    { id: "research", nav: "Research", kick: "What we study", name: "Research", c: JADE, orb: "all",
+      summary: "Our living research Oracles follow nine essential categories in ice hockey goaltending." },
     { id: "oracles", nav: "Oracles", step: 640, kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
       summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
       cards: [
         ["Master Oracle", "Every study and researcher in one globe, one ribbon of light per study.", "research.html#master", "master"],
         ["Researcher Oracle", "The people behind the research and who they work with.", "research.html#researchers", "people"],
         ["Evidence Oracle", "Verified, evidence-based goaltending studies in a sunflower, oldest at the centre.", "research.html#evidence", "sunflower"],
-        ["Scholarly Oracle", "Wider scholarly work still waiting to be verified, one ring per topic.", "research.html#scholarly", "rings"]
+        ["Scholarly Oracle", "Wider scholarly work still waiting to be verified, one ring per topic.", "research.html#scholarly", "rings"],
+        ["Coaching Oracle", "Research on ecological dynamics, skill acquisition and practice design, one region per theme.", "coaching.html", "coach"]
       ] },
-    { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Main Research Topics", c: JADE,
+    { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Research Topics", c: JADE,
       summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
   ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
       summary: ABOUT[k] || "", studies: studies(k) })))
   .concat([
+    { id: "coaching", nav: "Coaching", kick: "How we coach", name: "Coaching", c: JADE, orb: "jade",
+      summary: "Our unique Coaching Oracle offers a trove of research on skill acquisition and practice design." },
     { id: "nhl", nav: "NHL", kick: "The data, daily", name: "NHL DataViz", c: JADE, orb: "armillary",
       summary: "Every NHL goalie, updated every day with data from the NHL and Natural Stat Trick: the NHL Goaltending Oracle, goalie archetypes and more.",
       cards: [
         ["NHL Goaltending Oracle", "Every NHL goalie this season on five rings, from the top band of goals saved above average to the bottom.", "goalies.html", "nhl"]
       ] },
-    { id: "enter", nav: "Enter", kick: "Your turn", name: "Step into the journal", c: JADE, end: 1,
-      summary: "Pick a door.",
+    { id: "enter", nav: "Enter", kick: "Your turn", name: "Step Inside the GRJ", c: JADE, end: 1,
+      summary: "Pick a section.",
       doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Coaching", "coaching.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
   ]);
 
@@ -253,6 +254,9 @@
     const links = []; pts.forEach((a, i) => { pts.map((b, j) => [j, (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2]).filter(([j]) => j > i).sort((x, y) => x[1] - y[1]).slice(0, (i * 7) % 3).forEach(([j]) => links.push([i, j])); });
     return { pts, links }; })();
   const RIBBONS = Array.from({ length: 90 }, (_, i) => ({ k: i % 9, r: 0.12 + ((i * 37) % 23) / 23 * 0.22, ph: (i * 2.39996) % 6.283, sp: 0.7 + ((i * 13) % 7) / 10 }));
+  // Coaching Oracle mini: 180 works scattered around three theme anchors, like coaching-oracle.js
+  const COACH = (() => { let sd = 11; const rn = () => (sd = (sd * 16807) % 2147483647) / 2147483647, A = [[1, 0.25, 0], [-0.5, -0.3, 0.866], [-0.5, 0.2, -0.866]];
+    return Array.from({ length: 180 }, (_, i) => { const k = i % 3, g2 = () => (rn() + rn() + rn() - 1.5) * 0.7, v = [A[k][0] + g2(), A[k][1] + g2(), A[k][2] + g2()], l = Math.hypot(...v); return [v[0] / l, v[1] / l, v[2] / l, k]; }); })();
   function drawMini(m, now) {
     const cv = m.cv;
     if (!m.ctx) { cv.width = cv.height = MINI_PX; m.ctx = cv.getContext("2d"); m.all = TOPIC_RGB(); m.base = hex(getComputedStyle(document.body).getPropertyValue("--j-accent") || "#a4c7c1"); }
@@ -282,6 +286,11 @@
       pr.forEach((p, i) => { const d = 0.5 - p[2] / 2, col = all[PEOPLE.pts[i][3]], r = (1.4 + (i % 5) * 0.5) * p[3];
         g.fillStyle = rgba(col, 0.15 + 0.85 * d); g.beginPath(); g.arc(p[0], p[1], r, 0, 6.283); g.fill();
         if (i % 7 === 0 && d > 0.5) { g.fillStyle = rgba(col, 0.16); g.beginPath(); g.arc(p[0], p[1], r * 4, 0, 6.283); g.fill(); } });
+    } else if (m.kind === "coach") {   // the Coaching Oracle: works gathered in three theme regions (ecological dynamics, skill acquisition, practice design)
+      g.strokeStyle = rgba(m.base, 0.2); g.lineWidth = 1; g.beginPath(); g.arc(C, C, R, 0, 6.283); g.stroke();
+      COACH.forEach(([x, y, z, k], i) => { const p = P(x, y, z), d = 0.5 - p[2] / 2, col = all[[3, 5, 2][k]], r = (1.1 + (i % 4) * 0.45) * p[3];
+        g.fillStyle = rgba(col, 0.12 + 0.85 * d); g.beginPath(); g.arc(p[0], p[1], r, 0, 6.283); g.fill(); });
+      gr = g.createRadialGradient(C, C, 0, C, C, R * 0.3); gr.addColorStop(0, rgba([233, 240, 238], 0.5)); gr.addColorStop(1, rgba(m.base, 0)); g.fillStyle = gr; g.beginPath(); g.arc(C, C, R * 0.3, 0, 6.283); g.fill();
     } else if (m.kind === "sunflower") {   // golden-angle seeds, oldest at the centre, newest at the edge
       const n = 150, spin = t * 0.00008;
       for (let i = 0; i < n; i++) { const a = i * 2.39996 + spin, rr = Math.sqrt(i / n) * R * 1.02, x = C + Math.cos(a) * rr, y = C + Math.sin(a) * rr;
