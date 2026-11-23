@@ -11,8 +11,9 @@
   const fresh = (typeof RESEARCH !== "undefined" ? RESEARCH : []).filter((r) => !(r.doi && seen.has(r.doi.toLowerCase())))
     .map((r) => ({ y: Number(r.d.slice(0, 4)), d: r.d, t: r.t, a: r.a, j: r.j, doi: r.doi, u: r.u, by: [], th: (r.tg || []).filter((k) => k === "ed" || k === "sa"), n: r.n, isNew: 1 }));
   // Evidence-only (Goldy, 2026-11-23): coaching-evidence.js lists the works the Research Agent cleared (DOI, or title when there is none).
-  // Until that list exists (COACHING_EVIDENCE is null) every work shows.
-  const cleared = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? new Set(COACHING_EVIDENCE.map((x) => String(x).toLowerCase().trim())) : null;
+  // COACHING_EXCEPTIONS adds the gray-area works Goldy approves by hand. With no list loaded every work shows.
+  const cleared = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE
+    ? new Set(COACHING_EVIDENCE.concat(typeof COACHING_EXCEPTIONS !== "undefined" ? COACHING_EXCEPTIONS : []).map((x) => String(x).toLowerCase().trim())) : null;
   const evKey = (w) => [w.doi ? String(w.doi).split("](")[0].toLowerCase().trim() : null, String(w.t || "").toLowerCase().trim()];
   const items = base.concat(fresh).filter((w) => w.th && w.th.length && (!cleared || evKey(w).some((k) => k && cleared.has(k)))).sort((a, b) => a.y - b.y || (a.d || "").localeCompare(b.d || ""));
   if (!items.length || !$("lo-cv")) return;
