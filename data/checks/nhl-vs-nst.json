@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-22",
+ "checked": "2026-11-23",
  "season": "2026-27",
- "nhlAsOf": "2026-11-22",
- "nstAsOf": "2026-11-22",
- "goalies": 77,
- "matched": 54,
+ "nhlAsOf": "2026-11-23",
+ "nstAsOf": "2026-11-23",
+ "goalies": 78,
+ "matched": 53,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -123,27 +123,13 @@
    "team": "NYI",
    "nhl": {
     "gp": 15,
-    "sa": 439,
+    "sa": 440,
     "ga": 36
    },
    "nst": {
     "gp": 15,
     "sa": 438,
     "ga": 36
-   }
-  },
-  {
-   "name": "Jeremy Swayman",
-   "team": "BOS",
-   "nhl": {
-    "gp": 17,
-    "sa": 461,
-    "ga": 44
-   },
-   "nst": {
-    "gp": 17,
-    "sa": 460,
-    "ga": 44
    }
   },
   {
@@ -158,6 +144,34 @@
     "gp": 11,
     "sa": 263,
     "ga": 33
+   }
+  },
+  {
+   "name": "Joel Hofer",
+   "team": "STL",
+   "nhl": {
+    "gp": 17,
+    "sa": 496,
+    "ga": 40
+   },
+   "nst": {
+    "gp": 17,
+    "sa": 495,
+    "ga": 40
+   }
+  },
+  {
+   "name": "John Gibson",
+   "team": "DET",
+   "nhl": {
+    "gp": 14,
+    "sa": 319,
+    "ga": 44
+   },
+   "nst": {
+    "gp": 14,
+    "sa": 318,
+    "ga": 44
    }
   },
   {
@@ -179,12 +193,12 @@
    "team": "NSH",
    "nhl": {
     "gp": 17,
-    "sa": 501,
+    "sa": 502,
     "ga": 42
    },
    "nst": {
     "gp": 17,
-    "sa": 502,
+    "sa": 503,
     "ga": 42
    }
   },
@@ -206,14 +220,14 @@
    "name": "Kevin Lankinen",
    "team": "VAN",
    "nhl": {
-    "gp": 9,
-    "sa": 219,
-    "ga": 43
+    "gp": 10,
+    "sa": 238,
+    "ga": 45
    },
    "nst": {
-    "gp": 9,
-    "sa": 220,
-    "ga": 43
+    "gp": 10,
+    "sa": 239,
+    "ga": 45
    }
   },
   {
@@ -249,12 +263,12 @@
    "team": "SEA",
    "nhl": {
     "gp": 14,
-    "sa": 350,
+    "sa": 349,
     "ga": 37
    },
    "nst": {
     "gp": 14,
-    "sa": 348,
+    "sa": 347,
     "ga": 37
    }
   },
@@ -318,16 +332,31 @@
    "name": "Tristan Jarry",
    "team": "EDM",
    "nhl": {
-    "gp": 10,
-    "sa": 274,
-    "ga": 25
+    "gp": 11,
+    "sa": 301,
+    "ga": 29
    },
    "nst": {
-    "gp": 10,
-    "sa": 275,
-    "ga": 25
+    "gp": 11,
+    "sa": 302,
+    "ga": 29
    }
   }
  ],
- "flagged": []
+ "flagged": [
+  {
+   "name": "Jesper Wallstedt",
+   "team": "MIN",
+   "nhl": {
+    "gp": 22,
+    "sa": 578,
+    "ga": 44
+   },
+   "nst": {
+    "gp": 22,
+    "sa": 575,
+    "ga": 44
+   }
+  }
+ ]
 }
