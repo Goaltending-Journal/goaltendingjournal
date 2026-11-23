@@ -46,21 +46,18 @@
     { id: "research", nav: "Research", kick: "What we study", name: "Research", c: JADE, orb: "all",
       summary: "Our living research Oracles follow nine essential categories in ice hockey goaltending." },
     { id: "oracles", nav: "Oracles", step: 640, kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
-      summary: "Every evidence-based research study and scholarly article on goaltending, easily accessible via our interactive learning visualizers.",
+      summary: "Every evidence-based research study on goaltending, easily accessible via our interactive learning visualizers.",
       cards: [
         ["Master Oracle", "Every study and researcher in one globe, one ribbon of light per study.", "research.html#master", "master"],
         ["Researcher Oracle", "The people behind the research and who they work with.", "research.html#researchers", "people"],
         ["Evidence Oracle", "Verified, evidence-based goaltending studies in a sunflower, oldest at the centre.", "research.html#evidence", "sunflower"],
-        ["Scholarly Oracle", "Wider scholarly work still waiting to be verified, one ring per topic.", "research.html#scholarly", "rings"],
-        ["Coaching Oracle", "Research on ecological dynamics, skill acquisition and practice design, one region per theme.", "coaching.html", "coach"]
+        ["Coaching Oracle", "Evidence-based research on ecological dynamics, skill acquisition and practice design, one region per theme.", "research.html#coaching", "coach"]
       ] },
     { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Research Topics", c: JADE,
       summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
   ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
       summary: ABOUT[k] || "", studies: studies(k) })))
   .concat([
-    { id: "coaching", nav: "Coaching", kick: "How we coach", name: "Coaching", c: JADE, orb: "jade",
-      summary: "Our unique Coaching Oracle offers a trove of research on skill acquisition and practice design." },
     { id: "nhl", nav: "NHL", kick: "The data, daily", name: "NHL DataViz", c: JADE, orb: "armillary",
       summary: "Every NHL goalie, updated every day with data from the NHL and Natural Stat Trick: the NHL Goaltending Oracle, goalie archetypes and more.",
       cards: [
@@ -68,7 +65,7 @@
       ] },
     { id: "enter", nav: "Enter", kick: "Your turn", name: "Step Inside the GRJ", c: JADE, end: 1,
       summary: "Pick a section.",
-      doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Coaching", "coaching.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
+      doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
   ]);
 
   /* ---------- build ---------- */
