@@ -1,5 +1,5 @@
 /* Coaching Oracle: ecological dynamics, skill acquisition and practice design (learning-data.js, plus the newest studies in
-   research.js), shown on coaching.html. Every work is a point of light on a slowly turning globe. Each theme has its own region of the globe, and a work
+   research.js), shown as the Coaching Oracle tab on research.html. Every work is a point of light on a slowly turning globe. Each theme has its own region of the globe, and a work
    that spans two or three themes sits between them. A fine thread runs through each researcher's works in date order. The newest
    studies pulse. Drag to spin it; point at a work to read it, click to pin it; arrow keys step through the years; point at a theme
    in the key to light it, press it to show only its works. Reduced motion draws still frames; drawing stops while the tab is hidden or off screen. */
@@ -10,7 +10,11 @@
   const seen = new Set(base.map((w) => w.doi).filter(Boolean));
   const fresh = (typeof RESEARCH !== "undefined" ? RESEARCH : []).filter((r) => !(r.doi && seen.has(r.doi.toLowerCase())))
     .map((r) => ({ y: Number(r.d.slice(0, 4)), d: r.d, t: r.t, a: r.a, j: r.j, doi: r.doi, u: r.u, by: [], th: (r.tg || []).filter((k) => k === "ed" || k === "sa"), n: r.n, isNew: 1 }));
-  const items = base.concat(fresh).filter((w) => w.th && w.th.length).sort((a, b) => a.y - b.y || (a.d || "").localeCompare(b.d || ""));
+  // Evidence-only (Goldy, 2026-11-23): coaching-evidence.js lists the works the Research Agent cleared (DOI, or title when there is none).
+  // Until that list exists (COACHING_EVIDENCE is null) every work shows.
+  const cleared = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? new Set(COACHING_EVIDENCE.map((x) => String(x).toLowerCase().trim())) : null;
+  const evKey = (w) => [w.doi ? String(w.doi).split("](")[0].toLowerCase().trim() : null, String(w.t || "").toLowerCase().trim()];
+  const items = base.concat(fresh).filter((w) => w.th && w.th.length && (!cleared || evKey(w).some((k) => k && cleared.has(k)))).sort((a, b) => a.y - b.y || (a.d || "").localeCompare(b.d || ""));
   if (!items.length || !$("lo-cv")) return;
   const THEMES = [["ed", "Ecological dynamics", "--t-vis"], ["sa", "Skill acquisition", "--t-bio"], ["pd", "Practice design", "--t-eq"]];
   const TNAME = Object.fromEntries(THEMES.map(([k, n]) => [k, n]));
@@ -176,8 +180,10 @@
   });
   key.addEventListener("pointerover", (e) => { const li = e.target.closest("li[data-k]"); hot = li ? li.dataset.k : null; key.querySelectorAll("li").forEach((x) => x.classList.toggle("hot", x.dataset.k === hot)); redraw(); });
   key.addEventListener("pointerleave", () => { hot = null; key.querySelectorAll("li").forEach((x) => x.classList.remove("hot")); redraw(); });
-  if ($("lo-q")) $("lo-q").addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase().split(/\s+/).filter(Boolean); filtersChanged(); });
-  if ($("lo-reset")) $("lo-reset").addEventListener("click", () => { only.clear(); q = []; $("lo-q").value = ""; key.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", "false")); filtersChanged(); });
+  // The search box and Clear filters are the page rail's own (#q, #reset on research.html; #lo-q, #lo-reset where the page has them)
+  const qEl = $("lo-q") || $("q"), resetEl = $("lo-reset") || $("reset");
+  if (qEl) qEl.addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase().split(/\s+/).filter(Boolean); filtersChanged(); });
+  if (resetEl) resetEl.addEventListener("click", () => { only.clear(); q = []; if (qEl) qEl.value = ""; key.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", "false")); filtersChanged(); });
 
   // The works list under the globe, in its own panel like the Oracles page's study table
   const PAGE = 5; let shown = PAGE, order = "new";

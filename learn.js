@@ -1,4 +1,4 @@
-// Practice Labs: the lab list, and the page chrome shared by coaching.html and the five lab pages.
+// Practice Labs: the lab list (shown on briefs.html), and the page chrome shared by the five lab pages.
 // Done marks live only in this browser (localStorage), since the site has no accounts.
 const LEARN = [
   { n: 1, href: "coaches-cla.html", theme: "Ecological dynamics", title: "What the constraints-led approach is, and isn't", short: "The constraints-led approach", min: 10, grade: "Borrowed",
