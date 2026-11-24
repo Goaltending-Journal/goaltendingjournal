@@ -148,3 +148,63 @@
   if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(box); else on = true;
   document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
 })();
+
+/* Mini NHL Oracle in the rail (Goldy, 2026-11-24, in place of the Season leader card): the same five GSAA rings and goalies,
+   small and slowly turning; clicking it opens the NHL Oracle view. Holds still with reduced motion and pauses when off screen. */
+(function () {
+  const btn = document.getElementById("miniOr"), cv = document.getElementById("miniOrCv"); if (!btn || !cv) return;
+  const cx = cv.getContext("2d"), TAU = Math.PI * 2, still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const band = (g) => g >= 5 ? 5 : g >= 1.5 ? 4 : g > -1.5 ? 3 : g > -5 ? 2 : 1;
+  let items = [], rings = [], col = {}, W = 0, H = 0, R = 0, rot = 0, t = 0, raf = 0, last = 0, on = true, dark = true;
+  btn.addEventListener("click", () => { if (window.grjShowView) window.grjShowView("orSec"); });
+  function load() {
+    const rows = (typeof nst !== "undefined" && nst.data && nst.data.all) || [];
+    items = rows.filter((r) => r.name && r.gsaa != null && r.sa > 0).sort((a, b) => b.gsaa - a.gsaa);
+    const bands = [5, 4, 3, 2, 1].filter((b) => items.some((r) => band(r.gsaa) === b)), maxSA = Math.max(1, ...items.map((r) => r.sa));
+    rings = bands.map((b, a) => ({ b, ax: a / bands.length * Math.PI, tl: 0.35 + ((a * 0.618) % 1) * 0.9, a,
+      g: items.filter((r) => band(r.gsaa) === b).map((r) => 1.2 + 2.6 * Math.sqrt(r.sa / maxSA)) }));
+    return items.length > 0;
+  }
+  function theme() {
+    const cs = getComputedStyle(btn); [5, 4, 3, 2, 1].forEach((b) => (col[b] = cs.getPropertyValue("--or" + b).trim() || "#8a9a97"));
+    dark = getComputedStyle(document.documentElement).colorScheme === "dark";
+  }
+  function size() {
+    const w = cv.getBoundingClientRect().width; if (!w) return false;
+    const d = Math.min(2, devicePixelRatio || 1); W = w; H = 180; R = Math.min(W, H) * 0.4;
+    cv.width = Math.round(W * d); cv.height = Math.round(H * d); cx.setTransform(d, 0, 0, d, 0, 0); return true;
+  }
+  function P(g, u) {
+    const lon = u * TAU * 0.9 + g.a * 1.1 + t * 0.00012 * (g.a % 2 ? 1 : -1);
+    let x = Math.cos(lon), z = Math.sin(lon);
+    const c = Math.cos(g.ax), s = Math.sin(g.ax), ct = Math.cos(g.tl), st = Math.sin(g.tl);
+    let X = x * c + z * s, Z = -x * s + z * c; const y = -Z * st; Z = Z * ct;
+    x = X * c - Z * s; z = X * s + Z * c;
+    const cy = Math.cos(rot), sy = Math.sin(rot), c2 = Math.cos(-0.35), s2 = Math.sin(-0.35);
+    [x, z] = [x * cy - z * sy, x * sy + z * cy]; const y2 = y * c2 - z * s2; z = y * s2 + z * c2;
+    const f = 2.6 / (2.6 + z); return [W / 2 + x * R * f, H / 2 - 6 + y2 * R * f, z];
+  }
+  function draw() {
+    if (!W || !items.length) return;
+    cx.clearRect(0, 0, W, H); cx.globalCompositeOperation = dark ? "lighter" : "source-over";
+    const core = cx.createRadialGradient(W / 2, H / 2 - 6, 0, W / 2, H / 2 - 6, R * 0.35);
+    core.addColorStop(0, col[5] + "66"); core.addColorStop(1, col[5] + "00"); cx.fillStyle = core; cx.beginPath(); cx.arc(W / 2, H / 2 - 6, R * 0.35, 0, TAU); cx.fill();
+    rings.forEach((g) => {
+      cx.strokeStyle = col[g.b]; cx.lineWidth = 1; let p = P(g, 0);
+      for (let s = 1; s <= 60; s++) { const q = P(g, s / 60 * 1.111); cx.globalAlpha = 0.08 + 0.3 * (1 - (p[2] + q[2] + 2) / 4); cx.beginPath(); cx.moveTo(p[0], p[1]); cx.lineTo(q[0], q[1]); cx.stroke(); p = q; }
+      g.g.forEach((r, j) => { const [x, y, z] = P(g, g.g.length > 1 ? j / (g.g.length - 1) : 0), d = 0.25 + 0.75 * (1 - z) / 2;
+        cx.globalAlpha = d * (j === 0 ? 1 : 0.8); cx.lineWidth = j === 0 ? 1.8 : 1.1; cx.beginPath(); cx.arc(x, y, r * (j === 0 ? 1.3 : 1), 0, TAU); cx.stroke(); });
+    });
+    cx.globalAlpha = 1; cx.globalCompositeOperation = "source-over";
+  }
+  function loop(now) { const dt = Math.min(50, now - (last || now)); if (now - last > 40 || !last) { last = now; t += dt; rot += 0.0016 * dt / 16; draw(); } raf = requestAnimationFrame(loop); }
+  const start = () => { if (!raf && on && !still && !document.hidden && items.length && W) { last = 0; raf = requestAnimationFrame(loop); } }, stop = () => { cancelAnimationFrame(raf); raf = 0; };
+  function ready() { if (load()) { theme(); if (size()) draw(); start(); } }
+  addEventListener("grj-nst", ready);
+  if (typeof nst !== "undefined" && nst.data && nst.data.all) ready();
+  new ResizeObserver(() => { if (size()) { draw(); start(); } else stop(); }).observe(cv);
+  new MutationObserver(() => { theme(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { theme(); draw(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; on ? start() : stop(); }).observe(cv);
+  document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
+})();
