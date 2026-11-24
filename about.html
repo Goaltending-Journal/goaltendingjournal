@@ -155,6 +155,19 @@ td.fee { white-space: nowrap; }
 td.fee.yes { color: var(--fg); }
 td.fee.no { color: var(--muted); }
 .end { height: 40px; }
+/* Patch Notes (patch-notes.md): a timeline of versions, newest first */
+.pn { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--rule); display: grid; gap: 22px; }
+.pn > li { position: relative; }
+.pn > li::before { content: ""; position: absolute; left: -28px; top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--jade-c); box-shadow: 0 0 8px var(--jade-c); }
+.pn > li:first-child::before { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.pn .ver { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.pn .ver b { font: 600 20px/1.2 var(--display); letter-spacing: 0.02em; }
+.pn .ver time { font: 500 11px var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.pn .sum { margin: 4px 0 0; font: 16px/1.5 var(--serif); color: var(--fg); }
+.pn ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; font: 14.5px/1.55 var(--sans); color: var(--muted); }
+.pn ul b { color: var(--fg); font-weight: 600; }
+.pn .pn-empty { color: var(--muted); }
+.pn .pn-empty::before { display: none; }
 /* Side rail like NHL DataViz (Goldy, 2026-11-24): one section at a time beside a list of views with glowing orbs */
 .aframe { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; margin-top: 8px; border: 1px solid var(--rule); border-radius: 16px; background: color-mix(in srgb, var(--surface) 55%, transparent); padding: clamp(14px, 2.4vw, 24px); }
 .arail { position: sticky; top: calc(var(--nav-h) + 16px); padding: 16px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
@@ -238,6 +251,7 @@ td.fee.no { color: var(--muted); }
       <li><button type="button" data-v="nhl-dataviz"><i></i>NHL DataViz</button></li>
       <li><button type="button" data-v="coaching-design"><i></i>Coaching Design</button></li>
       <li><button type="button" data-v="ethics"><i></i>Ethics &amp; Standards</button></li>
+      <li><button type="button" data-v="patch-notes"><i></i>Patch Notes</button></li>
       <li><button type="button" data-v="sources"><i></i>Sources</button></li>
     </ul></nav></aside>
     <div class="aviews" id="aviews">
@@ -343,6 +357,12 @@ td.fee.no { color: var(--muted); }
       </ol>
     </section>
 
+    <section class="sec" id="patch-notes" aria-labelledby="h-patch">
+      <div class="head" style="--c: var(--jade-a)"><small>Version <span id="pn-ver">history</span></small><h2 id="h-patch">Patch Notes</h2>
+        <p>Every update to the GRJ, newest first. The notes live in <a href="https://github.com/Goaltending-Journal/goaltendingjournal/blob/main/patch-notes.md" target="_blank" rel="noopener">patch-notes.md</a> on GitHub.</p></div>
+      <ol class="pn" id="pn-list"><li class="pn-empty">Loading the patch notes…</li></ol>
+    </section>
+
     <section class="sec" id="sources" aria-labelledby="h-sources">
       <div class="head" style="--c: var(--jade-a)"><small>Updated <span id="journals-updated"></span></small><h2 id="h-sources">Sources</h2>
         <p>Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p></div>
@@ -382,6 +402,31 @@ td.fee.no { color: var(--muted); }
   addEventListener("hashchange", () => show(location.hash.slice(1), false));
   let saved = null; try { saved = localStorage.getItem("grj:about"); } catch (e) {}
   show(location.hash.slice(1) || saved || "mission", false);
+})();
+</script>
+<script>
+/* Patch Notes: read patch-notes.md (Goldy edits it on GitHub) and draw it as a timeline.
+   "## v1.2.3 · date" starts a version, a plain line under it is the summary, "- " lines are the changes. */
+(function patchNotes() {
+  const list = document.getElementById("pn-list"); if (!list) return;
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|[\w./#-]+)\)/g, (m, a, u) => `<a href="${u}"${/^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ""}>${a}</a>`);
+  fetch("patch-notes.md", { cache: "no-cache" }).then((r) => { if (!r.ok) throw 0; return r.text(); }).then((md) => {
+    md = md.replace(/<!--[\s\S]*?-->/g, "");
+    const vers = [];
+    md.split("\n").forEach((line) => {
+      const h = line.match(/^##\s+(.+?)\s*(?:·\s*(.+))?$/), b = line.match(/^\s*[-*]\s+(.+)/);
+      if (h) vers.push({ v: h[1].trim(), d: (h[2] || "").trim(), sum: "", items: [] });
+      else if (!vers.length) return;
+      else if (b) vers[vers.length - 1].items.push(b[1]);
+      else if (line.trim() && !vers[vers.length - 1].items.length) vers[vers.length - 1].sum += (vers[vers.length - 1].sum ? " " : "") + line.trim();
+    });
+    if (!vers.length) throw 0;
+    document.getElementById("pn-ver").textContent = vers[0].v;
+    list.innerHTML = vers.map((x) => `<li><div class="ver"><b>${esc(x.v)}</b>${x.d ? `<time>${esc(x.d)}</time>` : ""}</div>` +
+      (x.sum ? `<p class="sum">${inline(x.sum)}</p>` : "") + (x.items.length ? `<ul>${x.items.map((i) => `<li>${inline(i)}</li>`).join("")}</ul>` : "") + `</li>`).join("");
+  }).catch(() => { list.innerHTML = `<li class="pn-empty">The patch notes could not load. Read them on <a href="https://github.com/Goaltending-Journal/goaltendingjournal/blob/main/patch-notes.md" target="_blank" rel="noopener">GitHub</a>.</li>`; });
 })();
 </script>
 <script src="journals-data.js"></script>
