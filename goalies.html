@@ -393,6 +393,7 @@ tbody tr:last-child td{border-bottom:0}
 .bdc-facts dt{font:700 10.5px/1.6 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
 .bdc-facts dd{margin:0;font-size:14.5px;line-height:1.55}
 .sub-viz{margin-top:30px}
+.sub-viz.first{margin-top:14px}
 .sub-viz h3{margin:0;font:600 20px/1.2 var(--display)}
 .bdc-go{display:flex;flex-wrap:wrap;gap:10px 22px;margin:4px 0 0;font-weight:600}
 @media (max-width:620px){.bdc-facts div{grid-template-columns:minmax(0,1fr)}}
@@ -446,9 +447,7 @@ tbody tr:last-child td{border-bottom:0}
       <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
-      <li><button type="button" data-v="impSec" style="--c:var(--jade-a)"><i></i>Impact GSAx</button></li>
-      <li><button type="button" data-v="scatterSec" style="--c:var(--jade-a)"><i></i>SV% vs. GAA</button></li>
-      <li><button type="button" data-v="gsaxSec" style="--c:var(--jade-a)"><i></i>GSAA vs. GSAx</button></li>
+      <li><button type="button" data-v="gaxSec" style="--c:var(--jade-a)"><i></i>GSAx Analysis</button></li>
       <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Brad's Goalie Panes</button></li>
       <li><button type="button" data-v="bdcSec" style="--c:var(--jade-a)"><i></i>Big Data Cup</button></li>
       <li><button type="button" data-v="subSec" style="--c:var(--crease)"><i></i>Submit a View</button></li>
@@ -563,8 +562,19 @@ tbody tr:last-child td{border-bottom:0}
       </div>
   </section>
 
-  <section id="impSec">
-    <div class="sec-h"><div class="sec-l"><h2>Impact GSAx</h2><div class="seg" role="group" aria-label="Sort by" id="impSort"></div></div><span class="note" id="impNote"></span></div>
+  <!-- GSAx Analysis (Goldy, 2026-11-24): GSAA vs. GSAx, Impact GSAx and SV% vs. GAA, once three views; old #gsaxSec, #impSec and #scatterSec links still land here -->
+  <section id="gaxSec">
+    <div class="sec-h"><h2>GSAx Analysis</h2><span class="note">Goals saved above expected, three ways</span></div>
+    <div class="viz sub-viz first" id="gsaxSec">
+      <div class="sec-h"><h3>GSAA vs. GSAx</h3><span class="note">Goals saved above average and above expected</span></div>
+      <div class="panel">
+        <div class="panel-h"><p id="gsaxSub"></p><button class="hidebtn" data-more="gsax" hidden></button></div>
+        <div class="flegend" id="gsaxKey"></div>
+        <div class="chart" id="c-gsax"></div>
+      </div>
+    </div>
+    <div class="sub-viz" id="impSec">
+    <div class="sec-h"><div class="sec-l"><h3>Impact GSAx</h3><div class="seg" role="group" aria-label="Sort by" id="impSort"></div></div><span class="note" id="impNote"></span></div>
     <p class="imp-lede">Impact GSAx counts each save by how much a goal there would have changed the game. Each cell is goals saved above expected in that situation. Close means a one-goal or tied game; late is the 3rd period or overtime.</p>
     <div class="filters">
       <div class="field"><label for="impMin">Min shots</label><input id="impMin" type="range" min="0" max="400" step="10" value="100"><span class="num" id="impMinV" style="width:30px">100</span></div>
@@ -572,19 +582,10 @@ tbody tr:last-child td{border-bottom:0}
       <span class="imp-key" id="impKey" aria-hidden="true"></span>
     </div>
     <div class="tbl-wrap imp-tbl"><table id="impTbl"><thead></thead><tbody></tbody></table></div>
-  </section>
-
-  <section id="scatterSec" class="viz">
-    <div class="sec-h"><h2>SV% vs. GAA</h2><span class="note">Top right is best. Bubble size is games played. Hover for detail, click to open.</span></div>
-    <div class="panel"><div class="chart" id="c-scatter"></div></div>
-  </section>
-
-  <section id="gsaxSec" class="viz">
-    <div class="sec-h"><h2>GSAA vs. GSAx</h2><span class="note">Goals saved above average and above expected</span></div>
-    <div class="panel">
-      <div class="panel-h"><p id="gsaxSub"></p><button class="hidebtn" data-more="gsax" hidden></button></div>
-      <div class="flegend" id="gsaxKey"></div>
-      <div class="chart" id="c-gsax"></div>
+    </div>
+    <div class="viz sub-viz" id="scatterSec">
+      <div class="sec-h"><h3>SV% vs. GAA</h3><span class="note">Top right is best. Bubble size is games played. Hover for detail, click to open.</span></div>
+      <div class="panel"><div class="chart" id="c-scatter"></div></div>
     </div>
   </section>
 
@@ -763,7 +764,7 @@ function hbars(id, list, val, fmt, opts={}){
 }
 function workload(){
   const has = rows().some(r=>r.sa!=null);
-  if(!has){ $("#c-workload").innerHTML=`<div class="empty">Shot totals are not in the ${state.season} snapshot. Switch to 2025-26 or 2026-27.</div>`; return; }
+  if(!has){ $("#c-workload").innerHTML=`<div class="empty">Shot totals are not in the ${state.season} snapshot.</div>`; return; }
   const q=[...rows()].sort((a,b)=>b.sa-a.sa).slice(0,12);
   hbars("c-workload", q, r=>r.sa, r=>r.sa.toLocaleString(), {
     stack:(r,X,y,h)=>`<rect x="${X(0)}" y="${y}" width="${X(r.sv)-X(0)}" height="${h}" fill="var(--series-b)"/><rect x="${X(r.sv)}" y="${y}" width="${Math.max(1,X(r.sa)-X(r.sv))}" height="${h}" fill="var(--bad)"/>`,
@@ -803,7 +804,7 @@ function shrink(){
     `${keySvg(`<line x1="1" y1="5" x2="21" y2="5" stroke="var(--mute)" stroke-width="1"/>`)}Range from this season's shots alone`,
     `${keySvg(`<circle cx="11" cy="5" r="3.5" fill="none" stroke="var(--chalk)" stroke-width="1.5"/>`)}Actual save %`,
     `${keySvg(`<line x1="11" y1="0" x2="11" y2="10" stroke="var(--warn)" stroke-dasharray="2 2"/>`)}League ${fmtSv(S.league)}`].map(x=>`<span>${x}</span>`).join("") : "";
-  if(!S){ el.innerHTML=`<div class="empty">The ${state.season} snapshot has no shot counts, so the range can't be worked out. Switch to 2025-26 or 2026-27.</div>`; moreBtn("shrink",0); return; }
+  if(!S){ el.innerHTML=`<div class="empty">The ${state.season} snapshot has no shot counts, so the range can't be worked out.</div>`; moreBtn("shrink",0); return; }
   const all=qualified().filter(r=>r.sa && S.goalies[r.g.id]).map(r=>({...r,u:S.goalies[r.g.id]})).sort((a,b)=>b.u.m-a.u.m);
   moreBtn("shrink", all.length);
   if(!all.length){ el.innerHTML=`<div class="empty">No qualified goalies yet. Lower Min GP.</div>`; return; }
@@ -838,7 +839,7 @@ function gsaxTip(id){
 }
 function gsax(){
   const el=$("#c-gsax");
-  $("#gsaxSub").textContent = `${GX.season} season to date (Natural Stat Trick, ${GX.asOf}), whatever season is picked above. Across the league NST's shot-quality model expected ${GX.xga.toFixed(0)} goals and ${GX.ga} went in. Goalies with ${GX_MIN}+ shots. About 1 goalie in 10 lands outside the range by luck alone, so a coloured bar is a lead to check, not a verdict.`;
+  $("#gsaxSub").textContent = `${GX.season} season to date (Natural Stat Trick, ${GX.asOf}). Across the league NST's shot-quality model expected ${GX.xga.toFixed(0)} goals and ${GX.ga} went in. Goalies with ${GX_MIN}+ shots. About 1 goalie in 10 lands outside the range by luck alone, so a coloured bar is a lead to check, not a verdict.`;
   $("#gsaxKey").innerHTML = [
     `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--good)"/>`)}Saved more than expected, beyond chance`,
     `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--series-b)"/>`)}Within luck`,
@@ -1120,6 +1121,7 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
   window.grjShowView=(id)=>show(id,true);
   function show(id,push){
     const ok=usable(); if(!ok.length) return;
+    const inner=id&&document.getElementById(id), host=inner&&inner.closest("#gviews>section"); if(host) id=host.id;
     if(!ok.some(b=>b.dataset.v===id)) id=(ok.find(b=>b.dataset.v==="gmSec")||ok[0]).dataset.v;
     cur=id;
     box.querySelectorAll(":scope>section").forEach(s=>s.classList.toggle("on",s.id===id));
