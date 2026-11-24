@@ -1,7 +1,7 @@
 /* GRJ homepage journey (Goldy, 2026-11-18): scroll (or press Play) to fly through the journal. Each node is a stop on the way:
    the Mission, the Features (the Oracles, Coaching Briefs, Peer Reviews, Conferences, NHL DataViz), the Oracles, the nine research
    topics, ending at the doors (Goldy, 2026-11-24: no Research or NHL stops). Oracle and Feature cards each carry a live mini visual.
-   Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to end and View the Oracles. Study cards
+   Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to doors (Goldy, 2026-11-24). Study cards
    come from data.js (REC) and topic names from topics.js, so the journey always shows the newest goalie studies.
    The camera moves along one axis; cards sit at depths along it and fade in and out as it passes. Arrow keys and the rail
    jump between nodes; Space plays and pauses. Reduced motion turns off the easing and the starfield drift. */
@@ -78,7 +78,7 @@
     let k = 0; const side = () => (++k % 2 ? -1 : 1);
     e.d = depth;
     add(`<div class="kick">${esc(e.kick)}</div><h2>${esc(e.name)}</h2><p>${esc(e.summary)}</p><div class="bar"></div>` +
-      (e.hero ? `<div class="skipper"><span>Been here before?</span><button type="button" data-skip="end">Skip to end</button><a href="research.html">View the Oracles</a></div><div class="hint">Or scroll to explore<i></i></div>` : "") +
+      (e.hero ? `<div class="skipper"><span>Veteran user?</span><button type="button" data-skip="end">Skip to doors</button></div><div class="hint">Scroll to explore<i></i></div>` : "") +
       (e.doors ? `<nav class="doors" aria-label="Sections">${e.doors.map(([l, u]) => `<a href="${u}">${esc(l)}</a>`).join("")}</nav>` : ""),
       "title" + (e.hero ? " hero" : "") + (e.end ? " end" : ""), { c: e.c, fo: e.end ? 9e9 : -40, out: e.end ? 9e9 : 250, far: e.hero ? 9e9 : 1900 });
     if (e.orb) {

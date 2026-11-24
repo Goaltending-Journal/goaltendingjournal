@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NHL Goaltending Dataviz Project · The Goaltending Research Journal</title>
+<title>NHL Goalie DataViz · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: a 3D map of where goals go in, a leaderboard, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
@@ -381,6 +381,16 @@ tbody tr:last-child td{border-bottom:0}
 .nst-tbl tbody tr:hover td:first-child,.nst-tbl tbody tr.on td:first-child{background:var(--glass)}
 @media (max-width:520px){ .gm-side .bar i{display:none} .gm-side .mini th,.gm-side .mini td{padding:8px 6px} .tyrow{grid-template-columns:90px minmax(0,1fr) 30px} #gmGoalie,#dzGoalie{max-width:180px} .zone-top .seg button{padding:6px 10px} }
 
+/* Big Data Cup (Goldy, 2026-11-24): our own synopsis of Stathletes' competition page, no logos */
+.bdc{display:grid;gap:14px;margin-top:16px;max-width:860px}
+.bdc-lead{margin:0;font:17px/1.6 var(--serif);color:var(--chalk)}
+.bdc h3{margin:8px 0 0;font:600 22px/1.2 var(--display)}
+.bdc-facts{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.bdc-facts div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 18px;padding:12px 0;border-bottom:1px solid var(--line)}
+.bdc-facts dt{font:700 10.5px/1.6 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.bdc-facts dd{margin:0;font-size:14.5px;line-height:1.55}
+.bdc-go{display:flex;flex-wrap:wrap;gap:10px 22px;margin:4px 0 0;font-weight:600}
+@media (max-width:620px){.bdc-facts div{grid-template-columns:minmax(0,1fr)}}
 .notes{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .notes h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 .notes p{margin:0 0 6px;max-width:60ch}
@@ -418,14 +428,15 @@ tbody tr:last-child td{border-bottom:0}
 </header>
 
 <main class="wrap" id="main">
-  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The data, daily</div><h1 id="h-goalies"><span class="spectrum">NHL Goaltending</span> DataViz</h1></div></header>
+  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The data, daily</div><h1 id="h-goalies"><span class="spectrum">NHL Goalie</span> DataViz</h1></div></header>
   <div class="gframe">
-  <aside class="grail" aria-label="Season and views">
+  <aside class="grail" aria-label="Season leader and views">
     <div><h5>Season leader</h5><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
-    <div><h5>Season</h5><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div>
+    <div id="seasonSeg" hidden></div><!-- Season switch removed (Goldy, 2026-11-24): the page shows 2026-27 only -->
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
-      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Goaltending Oracle</button></li>
-      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>Archetypes</button></li>
+      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Oracle</button></li>
+      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>NHL Archetypes</button></li>
+      <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
       <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
@@ -436,13 +447,13 @@ tbody tr:last-child td{border-bottom:0}
       <li><button type="button" data-v="rangeSec" style="--c:var(--jade-a)"><i></i>SV% Ranges</button></li>
       <li><button type="button" data-v="gsaxSec" style="--c:var(--jade-a)"><i></i>GSAA vs. GSAx</button></li>
       <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Brad's Goalie Panes</button></li>
-      <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
+      <li><button type="button" data-v="bdcSec" style="--c:var(--jade-a)"><i></i>Big Data Cup</button></li>
     </ul></nav>
   </aside>
   <div class="gviews" id="gviews">
 
   <section id="orSec">
-    <div class="sec-h"><h2>NHL Goaltending Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
+    <div class="sec-h"><h2>NHL Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
     <div class="or-body">
       <div class="or-main">
         <div class="or-globe" id="or"><canvas id="or-cv" tabindex="0" role="img" aria-label="Every NHL goalie this season as a turning globe of five tilted rings, one per level of goals saved above average, from well above average to well below. Mark size is shots faced. Use the arrow keys to step through the goalies from best to lowest GSAA."></canvas><div class="or-tip" id="or-tip" hidden></div></div>
@@ -456,7 +467,7 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section id="tySec" hidden>
-    <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
+    <div class="sec-h"><h2>NHL Archetypes</h2><span class="note" id="tyNote"></span></div>
     <ul class="ty-grid" id="tyGrid" aria-label="Goalie archetypes"></ul>
   </section>
 
@@ -578,6 +589,22 @@ tbody tr:last-child td{border-bottom:0}
     <iframe class="panes" id="panesFrame" title="Brad's Goalie Panes: every goalie start this season as a 3D stack of team panes, showing back-to-backs" data-src="panes/index.html?embed"></iframe>
   </section>
 
+  <section id="bdcSec" aria-labelledby="h-bdc">
+    <div class="sec-h"><h2 id="h-bdc">Big Data Cup</h2><span class="note">Synopsis by the GRJ from <a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Stathletes</a></span></div>
+    <div class="bdc">
+      <p class="bdc-lead">An open hockey analytics competition that gives up-and-coming analysts real data to work with and pushes hockey research forward. It is run by Stathletes with the Rotman School of Management, the Sport Performance Lab and the University of Toronto Sports Analytics Student Group.</p>
+      <h3>Big Data Cup 2027: a goalie dataset</h3>
+      <dl class="bdc-facts">
+        <div><dt>Data released</dt><dd>4 November 2026</dd></div>
+        <div><dt>The data</dt><dd>81 shot sequences from one goalie, recorded in a shooting session on 6 August 2026. Each runs from the start of the pass until the goalie stands up after the shot.</dd></div>
+        <div><dt>Tracking</dt><dd>19 goalie joints and the puck, both at 60 Hz, lined up on one time axis. One JSON file per shot.</dd></div>
+        <div><dt>Research areas</dt><dd>Shot difficulty · Goalie fatigue and movement consistency · New hockey metrics, such as goalie readiness or movement efficiency</dd></div>
+        <div><dt>Deadlines and prizes</dt><dd>To be announced by Stathletes, along with entry rules and data-use terms.</dd></div>
+      </dl>
+      <p class="bdc-go"><a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Big Data Cup page ↗</a><a href="https://github.com/Sport-Performance-Lab/SPL-Open-Data/tree/main/hockey/goalie" target="_blank" rel="noopener noreferrer">The goalie data on GitHub ↗</a></p>
+    </div>
+  </section>
+
   <section id="allSec">
     <div class="sec-h"><div class="sec-l"><h2>All goaltenders</h2></div><span class="note" id="countNote"></span></div>
     <div class="filters" style="margin-block:14px">
@@ -621,7 +648,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const store = { get(k,d){ try{ const v=localStorage.getItem("ga:"+k); return v==null?d:JSON.parse(v);}catch(e){return d} }, set(k,v){ try{localStorage.setItem("ga:"+k,JSON.stringify(v))}catch(e){} } };
 
 const state = {
-  season: store.get("season","2026-27"),
+  season: "2026-27",   // one season only (Goldy, 2026-11-24); SEASONS still feeds each goalie's career table
   gfx: true,   // graphics always show (the switch was removed, 2026-11-02)
   sort: {key:"gp", dir:-1}, page:0,
   q:"", team:"", catch:"", mingp:null
