@@ -1,6 +1,6 @@
 /* GRJ homepage journey (Goldy, 2026-11-18): scroll (or press Play) to fly through the journal. Each node is a stop on the way:
-   the Mission, the Features (Briefs, Peer Reviews, Conferences), the Oracles, the nine research topics, then NHL DataViz, ending at
-   the doors. Oracle, Feature and NHL cards each carry a live mini visual.
+   the Mission, the Features (the Oracles, Coaching Briefs, Peer Reviews, Conferences, NHL DataViz), the Oracles, the nine research
+   topics, ending at the doors (Goldy, 2026-11-24: no Research or NHL stops). Oracle and Feature cards each carry a live mini visual.
    Each node has a glowing Oracle orb in its topic colour. The opening frame offers Skip to end and View the Oracles. Study cards
    come from data.js (REC) and topic names from topics.js, so the journey always shows the newest goalie studies.
    The camera moves along one axis; cards sit at depths along it and fade in and out as it passes. Arrow keys and the rail
@@ -37,14 +37,14 @@
     { id: "mission", nav: "Mission", kick: "Why we exist", name: "Our Mission", c: JADE, orb: "jade",
       summary: "The GRJ is dedicated to making evidence-based goaltending research more accessible to the wider hockey community. Through our platform, we aim to bridge the gap between the research and the rink through coaching conversation and peer reviews." },
     { id: "features", nav: "Features", step: 640, kick: "For coaches and programs", name: "Features", c: JADE, orb: "jade",
-      summary: "The GRJ includes a few features that focus on supporting goalie coaches and programs. These include Briefs, Peer Reviews, and Conferences.",
+      summary: "The GRJ includes a few features that focus on supporting goalie coaches and programs. These include the Oracles, Coaching Briefs, Peer Reviews, Conferences and NHL DataViz.",
       cards: [
-        ["Briefs", "Coaching breakdowns of goalie studies from the Oracles: what the study did, what it found, and how to use it.", "briefs.html", "briefs"],
+        ["The Oracles", "Living, interactive maps of evidence-based research in ice hockey goaltending.", "research.html", "master"],
+        ["Coaching Briefs", "Unique learning modules from the Oracles. Simple breakdowns of research studies for goalie coaches and directors.", "briefs.html", "briefs"],
         ["Peer Reviews", "Monthly video sessions where peers read a new study together and turn it into practice ideas.", "reviews.html", "reviews"],
-        ["Conferences", "An online conference on goaltending research, open to the public, with speakers and breakout groups.", "conference.html", "conference"]
+        ["Conferences", "An online conference on goaltending research, open to the public, with speakers and breakout groups.", "conference.html", "conference"],
+        ["NHL DataViz", "An open-source and community-based visual library of NHL advanced goalie stats and data.", "goalies.html", "nhl"]
       ] },
-    { id: "research", nav: "Research", kick: "What we study", name: "Research", c: JADE, orb: "all",
-      summary: "Our living research Oracles follow nine essential categories in ice hockey goaltending." },
     { id: "oracles", nav: "Oracles", step: 640, kick: "Where the research lives", name: "The Oracles", c: JADE, orb: "armillary",
       summary: "Every evidence-based research study on goaltending, easily accessible via our interactive learning visualizers.",
       cards: [
@@ -58,11 +58,6 @@
   ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
       summary: ABOUT[k] || "", studies: studies(k) })))
   .concat([
-    { id: "nhl", nav: "NHL", kick: "The data, daily", name: "NHL DataViz", c: JADE, orb: "armillary",
-      summary: "Every NHL goalie, updated every day with data from the NHL and Natural Stat Trick: the NHL Goaltending Oracle, goalie archetypes and more.",
-      cards: [
-        ["NHL Goaltending Oracle", "Every NHL goalie this season on five rings, from the top band of goals saved above average to the bottom.", "goalies.html", "nhl"]
-      ] },
     { id: "enter", nav: "Enter", kick: "Your turn", name: "Step Inside the GRJ", c: JADE, end: 1,
       summary: "Pick a section.",
       doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
@@ -101,7 +96,7 @@
         add(`<a class="card ev" href="${esc(href(v))}" target="_blank" rel="noopener noreferrer"><div class="tag">${esc(e.name)}<span class="n">${esc(v.yl)}</span></div><h3>${esc(v.t)}</h3><p>${esc(v.a)}${v.j ? " · " + esc(v.j.split(/[0-9(]/)[0].trim()) : ""}</p><span class="more">Read the study ↗</span></a>`, "", { c: e.c, sx: s * 0.28, sy, ry: -s * 14, gate });
       } else if (t === "card") {
         const [h, p, u, mini] = v;
-        const it = add(`${u ? `<a class="card ev${mini ? " oracle" : ""}" href="${u}">` : `<article class="card ev">`}${mini ? `<canvas class="mini" aria-hidden="true"></canvas>` : ""}<div class="tx"><div class="tag">${esc(mini && e.id !== "oracles" ? h === "NHL Goaltending Oracle" ? "Visualizer" : "Feature" : e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span>` : ""}</div>${u ? `</a>` : `</article>`}`, "", { c: e.c, sx: s * (mini ? 0.34 : 0.28), sy, ry: -s * 14, gate });
+        const it = add(`${u ? `<a class="card ev${mini ? " oracle" : ""}" href="${u}">` : `<article class="card ev">`}${mini ? `<canvas class="mini" aria-hidden="true"></canvas>` : ""}<div class="tx"><div class="tag">${esc(mini && e.id !== "oracles" ? "Feature" : e.name)}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${u ? `<span class="more">Open →</span>` : ""}</div>${u ? `</a>` : `</article>`}`, "", { c: e.c, sx: s * (mini ? 0.34 : 0.28), sy, ry: -s * 14, gate });
         if (mini) it.mini = { kind: mini, cv: it.el.querySelector(".mini"), seed: n };
       } else {
         add(`<a class="card go" href="${v[1]}"><span>${esc(v[0])}</span><b>→</b></a>`, "", { c: e.c, sx: s * 0.2, sy: sy * 0.6, ry: -s * 10, gate });
