@@ -277,6 +277,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .dot.b { background: var(--series-b); }
 .flags { display: grid; gap: 4px; margin-top: 6px; font: 12.5px var(--sans); color: var(--muted); }
 .flags .qe { color: var(--accent); font-weight: 500; }
+/* Gray area (Standard 2.4): hand-picked works that aren't evidence under line B, labelled and never graded */
+.flags .ga { justify-self: start; padding: 0 8px; border: 1px dashed var(--field-line); border-radius: 999px; font: 500 10.5px/18px var(--label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); cursor: help; }
+.lr-card .tag.ga { border-style: dashed; }
+.lr-card .ga-why { margin: 4px 0 0; font: 12.5px/1.45 var(--sans); color: var(--muted); }
 .pills { display: flex; flex-wrap: wrap; gap: 4px; }
 .pills span { white-space: nowrap; font: 12px var(--sans); color: var(--fg); background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 9px; }
 .pills .none { background: none; border: 0; padding: 0; color: var(--muted); }
@@ -490,7 +494,7 @@ function titleHtml(r) {
 function rowHtml(r) {
   const goal = r.sc === "goaltending";
   const by = [r.a ? esc(r.a) : "", `<i>${esc(r.j)}</i>`].filter(Boolean).join(" · ");
-  const flags = (r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : [])
+  const flags = (r.ga ? [`<span class="ga" title="${esc(r.ga)}">Gray area</span>`] : []).concat(r.qe ? [`<span class="qe">Quiet Eye</span>`] : []).concat(r.nt ? [`<span>${esc(r.nt)}</span>`] : [])
     .concat(r.k ? [`<span>Scholarly</span>`] : []).concat(r.k === "b" || r.k === "x" ? [`<span>${esc(KIND[r.k])}</span>`] : []).concat(r.lang ? [`<span>${esc(r.lang)}</span>`] : []);
   const pills = r.tp.length ? r.tp.map((t) => `<span>${esc(topicName[t])}</span>`).join("") : `<span class="none">Not tagged</span>`;
   return `<tr><td><h3 class="p-title">${titleHtml(r)}</h3><div class="p-by">${by}</div>` +
@@ -868,7 +872,8 @@ const SS = (() => {
   function card(i) {
     const s = REC[i], href = s.doi ? "https://doi.org/" + s.doi : s.link || (s.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + s.pmid + "/" : "");
     const pills = (s.tp || []).map((t) => `<span style="--c:var(--t-${t})"><i></i>${esc(topicName[t] || t)}</span>`).join("");
-    $("ss-card").innerHTML = `<div class="dt">${esc(s.yl || s.y || "Undated")} · ${s.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}</div>` +
+    $("ss-card").innerHTML = `<div class="dt">${esc(s.yl || s.y || "Undated")} · ${s.sc === "goaltending" ? "Goaltending" : "Hockey-wide"}${s.ga ? `<span class="tag ga" title="${esc(s.ga)}">Gray area</span>` : ""}</div>` +
+      (s.ga ? `<p class="ga-why">Gray area: ${esc(s.ga)}. Shown by the editor's choice, not graded as evidence.</p>` : "") +
       `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(s.t)}</a>` : esc(s.t)}</h3>` +
       `<div class="cite">${esc([s.a, (s.j || "").split(/\s\d/)[0]].filter(Boolean).join(" · "))}</div>` + (pills ? `<div class="pills">${pills}</div>` : "");
   }

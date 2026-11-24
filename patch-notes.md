@@ -14,6 +14,7 @@
 ## v0.10.0 · 24 November 2026
 Evidence-only cleanup, a simpler intro and these Patch Notes.
 - **Evidence Oracle:** all-position studies stay only when they report goalies separately; abstracts, posters, preprints, a trade article and bachelor's theses left the public site.
+- **Gray area:** four hand-picked chapters and conference papers stay on the Evidence Oracle with a Gray area label; they are never graded as evidence.
 - **Coaching Oracle:** works from sport in general are labelled **General Sports**.
 - **Intro:** the Features stop now shows the Oracles, Coaching Briefs, Peer Reviews, Conferences and NHL DataViz; the Research and NHL stops are gone.
 - **About:** a new Patch Notes tab with the site's version history.
