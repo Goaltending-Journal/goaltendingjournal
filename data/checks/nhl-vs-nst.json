@@ -1,9 +1,9 @@
 {
- "checked": "2026-11-23",
+ "checked": "2026-11-24",
  "season": "2026-27",
- "nhlAsOf": "2026-11-23",
- "nstAsOf": "2026-11-23",
- "goalies": 78,
+ "nhlAsOf": "2026-11-24",
+ "nstAsOf": "2026-11-24",
+ "goalies": 79,
  "matched": 53,
  "minor": [
   {
@@ -52,14 +52,14 @@
    "name": "Connor Hellebuyck",
    "team": "NJD",
    "nhl": {
-    "gp": 9,
-    "sa": 223,
-    "ga": 23
+    "gp": 10,
+    "sa": 244,
+    "ga": 25
    },
    "nst": {
-    "gp": 9,
-    "sa": 224,
-    "ga": 23
+    "gp": 10,
+    "sa": 245,
+    "ga": 25
    }
   },
   {
@@ -94,14 +94,14 @@
    "name": "Devin Cooley",
    "team": "CGY",
    "nhl": {
-    "gp": 10,
-    "sa": 288,
-    "ga": 27
+    "gp": 11,
+    "sa": 319,
+    "ga": 29
    },
    "nst": {
-    "gp": 10,
-    "sa": 287,
-    "ga": 27
+    "gp": 11,
+    "sa": 318,
+    "ga": 29
    }
   },
   {
@@ -122,14 +122,14 @@
    "name": "Ilya Sorokin",
    "team": "NYI",
    "nhl": {
-    "gp": 15,
-    "sa": 440,
-    "ga": 36
+    "gp": 16,
+    "sa": 471,
+    "ga": 39
    },
    "nst": {
-    "gp": 15,
-    "sa": 438,
-    "ga": 36
+    "gp": 16,
+    "sa": 469,
+    "ga": 39
    }
   },
   {
@@ -144,20 +144,6 @@
     "gp": 11,
     "sa": 263,
     "ga": 33
-   }
-  },
-  {
-   "name": "Joel Hofer",
-   "team": "STL",
-   "nhl": {
-    "gp": 17,
-    "sa": 496,
-    "ga": 40
-   },
-   "nst": {
-    "gp": 17,
-    "sa": 495,
-    "ga": 40
    }
   },
   {
@@ -231,6 +217,20 @@
    }
   },
   {
+   "name": "Linus Ullmark",
+   "team": "OTT",
+   "nhl": {
+    "gp": 13,
+    "sa": 305,
+    "ga": 18
+   },
+   "nst": {
+    "gp": 13,
+    "sa": 306,
+    "ga": 18
+   }
+  },
+  {
    "name": "Logan Thompson",
    "team": "WSH",
    "nhl": {
@@ -290,14 +290,14 @@
    "name": "Sebastian Cossa",
    "team": "UTA",
    "nhl": {
-    "gp": 10,
-    "sa": 237,
-    "ga": 27
+    "gp": 11,
+    "sa": 251,
+    "ga": 30
    },
    "nst": {
-    "gp": 10,
-    "sa": 236,
-    "ga": 27
+    "gp": 11,
+    "sa": 250,
+    "ga": 30
    }
   },
   {
@@ -326,6 +326,20 @@
     "gp": 9,
     "sa": 273,
     "ga": 30
+   }
+  },
+  {
+   "name": "Stuart Skinner",
+   "team": "WPG",
+   "nhl": {
+    "gp": 18,
+    "sa": 479,
+    "ga": 54
+   },
+   "nst": {
+    "gp": 18,
+    "sa": 480,
+    "ga": 54
    }
   },
   {
