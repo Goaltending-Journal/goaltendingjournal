@@ -12,9 +12,9 @@
     .map((r) => ({ y: Number(r.d.slice(0, 4)), d: r.d, t: r.t, a: r.a, j: r.j, doi: r.doi, u: r.u, by: [], th: (r.tg || []).filter((k) => k === "ed" || k === "sa"), n: r.n, isNew: 1 }));
   // Evidence-only (Goldy, 2026-11-23): coaching-evidence.js lists the works the Research Agent cleared (DOI, or title when there is none).
   // COACHING_EXCEPTIONS (theory papers and narrative reviews) and COACHING_BOOKS are gray-area works Goldy keeps by hand;
-  // each work carries a visible label: Evidence, Theory or Book. With no list loaded every work shows, unlabelled.
+  // each work carries a visible label: Borrowed evidence, Theory or Book. With no list loaded every work shows, unlabelled.
   const lc = (xs) => new Set((xs || []).map((x) => String(x).toLowerCase().trim()));
-  const LISTS = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? [["Evidence", lc(COACHING_EVIDENCE)],
+  const LISTS = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? [["Borrowed evidence", lc(COACHING_EVIDENCE)],
     ["Theory", lc(typeof COACHING_EXCEPTIONS !== "undefined" ? COACHING_EXCEPTIONS : [])], ["Book", lc(typeof COACHING_BOOKS !== "undefined" ? COACHING_BOOKS : [])]] : null;
   const evKey = (w) => [w.doi ? String(w.doi).split("](")[0].toLowerCase().trim() : null, String(w.t || "").toLowerCase().trim()];
   const kindOf = (w) => { const ks = evKey(w).filter(Boolean); const hit = LISTS.find(([, set]) => ks.some((k) => set.has(k))); return hit ? hit[0] : null; };
@@ -131,7 +131,7 @@
   }
   function card(i) {
     if (i == null) return; const w = items[i], href = link(w);
-    $("lo-card").innerHTML = `<div class="dt">${esc(String(w.y))}${w.ev ? `<span class="tag ev-${w.ev.toLowerCase()}">${w.ev}</span>` : ""}${w.isNew ? `<span class="tag un">New</span>` : ""}${w.gk ? `<span class="tag">Goalkeeper study</span>` : ""}</div>` +
+    $("lo-card").innerHTML = `<div class="dt">${esc(String(w.y))}${w.ev ? `<span class="tag ev-${w.ev.split(" ")[0].toLowerCase()}">${w.ev}</span>` : ""}${w.isNew ? `<span class="tag un">New</span>` : ""}${w.gk ? `<span class="tag">Goalkeeper study</span>` : ""}</div>` +
       `<h3>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
       (w.n ? `<p>${esc(w.n)}</p>` : "") + `<div class="cite">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div>` +
       `<div class="pills">${w.th.map((k) => `<span style="--c:var(${THEMES.find((x) => x[0] === k)[2]})"><i></i>${esc(TNAME[k])}</span>`).join("")}</div>`;
@@ -198,7 +198,7 @@
     out.innerHTML = rows.length ? rows.slice(0, shown).map((i) => {
       const w = items[i], href = link(w);
       return `<tr><td><h3 class="p-title">${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(w.t)}</a>` : esc(w.t)}</h3>` +
-        `<div class="p-by">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div><div class="p-line"><b>${esc(String(w.y))}</b>${w.ev ? `<span class="ev ev-${w.ev.toLowerCase()}">${w.ev}</span>` : ""}${w.isNew ? "<span>New</span>" : ""}${w.gk ? "<span>Goalkeeper study</span>" : ""}</div></td>` +
+        `<div class="p-by">${esc([w.a, w.j].filter(Boolean).join(" · "))}</div><div class="p-line"><b>${esc(String(w.y))}</b>${w.ev ? `<span class="ev ev-${w.ev.split(" ")[0].toLowerCase()}">${w.ev}</span>` : ""}${w.isNew ? "<span>New</span>" : ""}${w.gk ? "<span>Goalkeeper study</span>" : ""}</div></td>` +
         `<td><div class="pills">${w.th.map((k) => `<span style="--c:var(${THEMES.find((x) => x[0] === k)[2]})"><i></i>${esc(TNAME[k])}</span>`).join("")}</div></td></tr>`;
     }).join("") : `<tr><td colspan="2" class="empty">No works match. Clear a theme or change the search.</td></tr>`;
     const left = rows.length - shown;

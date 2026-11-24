@@ -1,6 +1,6 @@
 // Coaching Oracle, evidence-only (Goldy, 2026-11-23). Built from research/learning-oracle/coaching-evidence.txt in the project files.
 // One entry per work: its DOI (without https://doi.org/), or its exact title when it has no DOI. Case does not matter.
-// COACHING_EVIDENCE: works the Research Agent cleared as evidence (peer reviewed, reports data or a systematic review). Labelled Evidence.
+// COACHING_EVIDENCE: works the Research Agent cleared as evidence (peer reviewed, reports data or a systematic review). Labelled Borrowed evidence (Goldy, 2026-11-24).
 const COACHING_EVIDENCE = [
   "10.1080/00140138808966815",
   "10.1080/00222895.1992.9941628",
