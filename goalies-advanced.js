@@ -253,8 +253,12 @@ const DANGER_SHAPE = {
   hd: `M33 11 H52 V37 H33 Z`,
   md: `M20.5 11 H64.5 V46 H53 V58 H32 V46 H20.5 Z`,
 };
+// Record and shutouts come from the NHL feed (all situations) so this table also covers what the old All goaltenders view showed
+const NHL_REC = r => (r.nhl!=null && byId.get(r.nhl)?.seasons[state.season]) || null;
 const NST_COLS = [
-  {k:"name",t:"Goaltender",l:true},{k:"team",t:"Team",l:true},{k:"gp",t:"GP"},{k:"toi",t:"TOI",f:v=>Math.round(v)},
+  {k:"name",t:"Goaltender",l:true},{k:"team",t:"Team",l:true},{k:"gp",t:"GP"},
+  {k:"w",t:"W",rec:true},{k:"l",t:"L",rec:true},{k:"otl",t:"OTL",rec:true},{k:"so",t:"SO",rec:true},
+  {k:"toi",t:"TOI",f:v=>Math.round(v)},
   {k:"sa",t:"SA"},{k:"ga",t:"GA"},{k:"svp",t:"SV%",f:fmtSv},{k:"gaa",t:"GAA",f:v=>v.toFixed(2)},
   {k:"gsaa",t:"GSAA",f:v=>signed(v,2),c:true},{k:"xga",t:"xGA",f:v=>v.toFixed(2)},{k:"gsax",t:"GSAx",f:v=>signed(v,2),c:true},
   {k:"hdsa",t:"HD SA"},{k:"hdga",t:"HD GA"},{k:"hdsv",t:"HDSV%",f:fmtSv},{k:"hdgsaa",t:"HD GSAA",f:v=>signed(v,2),c:true},
@@ -390,17 +394,22 @@ function nstScatter(){
   el.innerHTML=s+`</svg>`;
 }
 function nstTable(){
-  const t=nst.q.trim().toLowerCase(), c=NST_COLS.find(c=>c.k===nst.sort.k)||NST_COLS[8];
+  const rec = nst.str==="all", COLS = NST_COLS.filter(c=>rec||!c.rec);
+  if(!COLS.some(c=>c.k===nst.sort.k)) nst.sort={k:"gsaa",dir:-1};
+  const t=nst.q.trim().toLowerCase(), c=COLS.find(c=>c.k===nst.sort.k);
+  const val=(r,k)=>{ const c=COLS.find(c=>c.k===k); return c&&c.rec ? NHL_REC(r)?.[k] : r[k]; };
   const list=nstRows().filter(r=>!t||r.name.toLowerCase().includes(t)||r.team.toLowerCase().includes(t))
-    .sort((a,b)=>{ const A=a[c.k],B=b[c.k]; if(A==null) return 1; if(B==null) return -1; return (typeof A==="string"?A.localeCompare(B):A-B)*nst.sort.dir; });
-  $("#nstTbl thead tr").innerHTML = NST_COLS.map(c=>`<th data-k="${c.k}" class="${c.l?"l":""}" ${c.k===nst.sort.k?`aria-sort="${nst.sort.dir<0?"descending":"ascending"}"`:""}>${c.t}</th>`).join("");
-  $("#nstTbl tbody").innerHTML = list.length ? list.map(r=>`<tr data-nk="${esc(r.key)}" class="${r.key===nst.id?"on":""}">`+NST_COLS.map(c=>{
-    const v=r[c.k]; if(c.k==="name") return `<td class="l"><b>${esc(v)}</b></td>`;
+    .sort((a,b)=>{ const A=val(a,c.k),B=val(b,c.k); if(A==null) return 1; if(B==null) return -1; return (typeof A==="string"?A.localeCompare(B):A-B)*nst.sort.dir; });
+  $("#nstRecNote").hidden = !rec;
+  $("#nstTbl thead tr").innerHTML = COLS.map(c=>`<th data-k="${c.k}" class="${c.l?"l":""}" ${c.k===nst.sort.k?`aria-sort="${nst.sort.dir<0?"descending":"ascending"}"`:""}>${c.t}</th>`).join("");
+  $("#nstTbl tbody").innerHTML = list.length ? list.map(r=>`<tr data-nk="${esc(r.key)}" class="${r.key===nst.id?"on":""}">`+COLS.map(c=>{
+    const v=val(r,c.k);
+    if(c.k==="name"){ const g=r.nhl!=null&&byId.get(r.nhl); return `<td class="l"><b>${esc(v)}</b>${g?`<small class="nst-who">${g.catches==="R"?"Catches right":"Catches left"}${g.born?` · ${age(g.born)} yrs`:""} · <a href="#" data-open="${g.id}">Profile</a></small>`:""}</td>`; }
     if(c.l) return `<td class="l">${esc(v)}</td>`;
     const txt = v==null ? "–" : c.f ? c.f(v) : v;
     return `<td class="num ${c.c&&v!=null?(v>0?"good":v<0?"bad":""):""}">${txt}</td>`;
-  }).join("")+`</tr>`).join("") : `<tr><td class="empty" colspan="${NST_COLS.length}">No goalies match.</td></tr>`;
-  $("#nstCount").textContent = `${list.length} goalies · click a column to sort, a row to see danger zones`;
+  }).join("")+`</tr>`).join("") : `<tr><td class="empty" colspan="${COLS.length}">No goalies match.</td></tr>`;
+  $("#nstCount").textContent = `${list.length} goalies · click a column to sort, a row to see danger zones, Profile for the full profile`;
 }
 function renderNst(){
   if(nst.failed){ $("#nstBody").innerHTML=`<div class="empty">The Natural Stat Trick tables could not be loaded. They appear once the morning stats run has saved them.</div>`; return; }

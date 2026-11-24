@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Briefs · The Goaltending Research Journal</title>
-<meta name="description" content="Goaltending Briefs: coaching breakdowns of recent goalie studies from the GRJ Oracles.">
+<title>Coaching Briefs · The Goaltending Research Journal</title>
+<meta name="description" content="Coaching Briefs: learning modules for goalie coaches, from study breakdowns to Practice Labs.">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -65,6 +65,18 @@ main.wrap > .lid{margin-bottom:-24px}
 .mods p{margin:0;font-size:15px;line-height:1.5;color:var(--fog);max-width:62ch}
 .mods .side{display:grid;gap:4px;justify-items:end;font-size:13px;color:var(--fog);white-space:nowrap}
 .mods .ok{color:var(--good);font-weight:700}
+/* Side rail like NHL DataViz and About (Goldy, 2026-11-24): one module set at a time */
+.bframe{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
+.brail{position:sticky;top:76px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.brail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.views{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.views button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--chalk);font:500 14px var(--f-body);text-align:left;cursor:pointer}
+.views button i{--c:var(--jade-c);width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+.views button:hover{background:color-mix(in srgb,var(--crease) 8%,transparent)}
+.views button[aria-current="true"]{background:color-mix(in srgb,var(--crease) 18%,transparent);font-weight:700}
+.bviews{min-width:0}
+.bviews.js>.bv:not(.on){display:none}
+@media (max-width:880px){.bframe{grid-template-columns:minmax(0,1fr)}.brail{position:static}.views{display:flex;flex-wrap:wrap;gap:6px}.views button{width:auto;padding:7px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px}}
 @media (max-width:760px){.mods a{grid-template-columns:44px minmax(0,1fr)}.mods .num-big{font-size:34px}.mods .side{grid-column:2;display:flex;gap:6px 14px;justify-items:start}}
 </style>
 </head>
@@ -85,8 +97,16 @@ main.wrap > .lid{margin-bottom:-24px}
 </header>
 
 <main class="wrap" id="main">
-  <header class="lid" data-vis="briefs" aria-labelledby="h-briefs-page"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">Research, translated</div><h1 id="h-briefs-page">Goaltending <span class="spectrum">Briefs</span></h1></div></header>
+  <header class="lid" data-vis="briefs" aria-labelledby="h-briefs-page"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">Learning modules</div><h1 id="h-briefs-page">Coaching <span class="spectrum">Briefs</span></h1></div></header>
 
+  <div class="bframe">
+  <aside class="brail" aria-label="Learning modules"><nav aria-label="Modules"><h5>Modules</h5><ul class="views" id="views">
+      <li><button type="button" data-v="latest"><i></i>Latest Brief</button></li>
+      <li><button type="button" data-v="briefs"><i></i>All Briefs</button></li>
+      <li><button type="button" data-v="labs"><i></i>Practice Labs</button></li>
+    </ul></nav></aside>
+  <div class="bviews" id="bviews">
+  <section class="bv" id="latest" aria-label="Latest brief">
   <a class="feat" href="glove-positioning.html" aria-label="Latest brief: Glove Positioning Analysis">
     <div class="feat-txt">
       <span class="feat-k">Latest brief</span>
@@ -107,8 +127,9 @@ main.wrap > .lid{margin-bottom:-24px}
       </svg>
     </div>
   </a>
+  </section>
 
-  <section class="all" aria-labelledby="h-all">
+  <section class="all bv" id="briefs" aria-labelledby="h-all">
     <h2 id="h-all">All briefs</h2>
     <ol>
       <li><a href="glove-positioning.html"><i class="tdot" style="--c: var(--t-bio)"></i><b>Glove Positioning Analysis</b><small>Kwan, Daley &amp; MacLean 2026 · Evidence Oracle</small></a></li>
@@ -116,11 +137,13 @@ main.wrap > .lid{margin-bottom:-24px}
     </ol>
   </section>
 
-  <section class="labs" id="labs" aria-labelledby="h-labs">
+  <section class="labs bv" id="labs" aria-labelledby="h-labs">
     <h2 id="h-labs">Practice Labs</h2>
     <p class="lead">Each lab takes one idea from the Coaching Oracle and ends with something to try in your next practice.</p>
     <ol class="mods" id="mods"></ol>
   </section>
+  </div>
+  </div>
 </main>
 <script src="learn.js"></script>
 <script>
@@ -128,6 +151,23 @@ main.wrap > .lid{margin-bottom:-24px}
 (function () {
   const done = learnDone();
   document.getElementById("mods").innerHTML = LEARN.map((m) => `<li><a href="${m.href}"><span class="num-big">0${m.n}</span><div><h3>${m.title}</h3><p>${m.outcome}</p></div><span class="side"><span>${m.theme}</span><span>${m.min} min</span>${done.has(m.n) ? '<span class="ok">✓ Done</span>' : ""}</span></a></li>`).join("");
+})();
+</script>
+<script>
+/* Rail: one view at a time; #labs (from the lab pages) and other hashes open their view */
+(function () {
+  const box = document.getElementById("bviews"), list = document.getElementById("views");
+  const btns = [...list.querySelectorAll("button[data-v]")], ids = btns.map((b) => b.dataset.v);
+  box.classList.add("js");
+  function show(id, push) {
+    if (!ids.includes(id)) id = "latest";
+    box.querySelectorAll(":scope > .bv").forEach((s) => s.classList.toggle("on", s.id === id));
+    btns.forEach((b) => b.setAttribute("aria-current", String(b.dataset.v === id)));
+    if (push) history.replaceState(null, "", "#" + id);
+  }
+  list.addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (b) show(b.dataset.v, true); });
+  addEventListener("hashchange", () => show(location.hash.slice(1), false));
+  show(location.hash.slice(1), false);
 })();
 </script>
 </body>

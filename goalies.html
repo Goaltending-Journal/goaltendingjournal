@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NHL Goaltending Dataviz Project · The Goaltending Research Journal</title>
+<title>NHL Goalie DataViz · The Goaltending Research Journal</title>
 <meta name="description" content="Every NHL goaltender's statistics: a 3D map of where goals go in, a leaderboard, charts and a sortable table across three seasons.">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
@@ -56,11 +56,13 @@ button,input,select{font:inherit;color:inherit}
 .gframe{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
 .grail{position:sticky;top:76px;display:grid;gap:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
 .grail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.grail .spot{padding:14px;grid-template-columns:1fr;gap:8px}
-.grail .spot .mono.lg{width:48px;height:48px;font-size:18px}
-.grail .spot .nm{font-size:22px;margin:2px 0 8px}
-.grail .spot .kv b{font-size:18px}
-.grail .spot .stats{gap:12px}
+.mini-or{position:relative;display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--crease) 10%,transparent),transparent 70%);cursor:pointer;overflow:hidden;color:var(--chalk)}
+.mini-or canvas{display:block;width:100%;height:180px}
+.mini-or span{position:absolute;left:12px;bottom:10px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.mini-or span b{color:var(--crease);font-weight:700}
+.mini-or:hover{border-color:var(--crease)}
+.mini-or:hover span{color:var(--chalk)}
+@media (max-width:880px){.mini-or{display:none}}
 .grail .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:12px}
 .grail .seg button{padding-inline:4px;font-size:12.5px;border-radius:9px}
 .views{list-style:none;margin:0;padding:0;display:grid;gap:2px}
@@ -71,9 +73,9 @@ button,input,select{font:inherit;color:inherit}
 .gviews{min-width:0}
 .gviews>section:not(.on){display:none}
 /* NHL Goaltending Oracle (nhl-oracle.js): the Scholarly Oracle's armillary globe, rings by GSAA level */
-#orSec{--or5:#2f7a6b;--or4:#6f9a93;--or3:#94a3a0;--or2:#c98a6c;--or1:#b5573c}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #orSec{--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}}
-:root[data-theme="dark"] #orSec{--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}
+#orSec,#miniOr{--or5:#2f7a6b;--or4:#6f9a93;--or3:#94a3a0;--or2:#c98a6c;--or1:#b5573c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) :is(#orSec,#miniOr){--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}}
+:root[data-theme="dark"] :is(#orSec,#miniOr){--or5:#7fd3c0;--or4:#a4c7c1;--or3:#8a9a97;--or2:#e3a98a;--or1:#f07a5a}
 .or-body{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;align-items:start;margin-top:14px}
 .or-main{min-width:0}
 .or-globe{position:relative}
@@ -374,6 +376,7 @@ tbody tr:last-child td{border-bottom:0}
 #dzCard .field{background:var(--ice)}
 .chart circle.sel{stroke-width:2}
 .nst-tbl{max-height:560px;overflow:auto}
+.nst-who{display:block;margin-top:2px;color:var(--mute);font-size:11.5px;font-weight:400;white-space:nowrap}
 .nst-tbl table{min-width:1500px}
 .nst-tbl tbody tr.on{background:var(--crease-dim)}
 .nst-tbl th:first-child,.nst-tbl td:first-child{position:sticky;left:0;background:var(--boards);z-index:1}
@@ -381,6 +384,19 @@ tbody tr:last-child td{border-bottom:0}
 .nst-tbl tbody tr:hover td:first-child,.nst-tbl tbody tr.on td:first-child{background:var(--glass)}
 @media (max-width:520px){ .gm-side .bar i{display:none} .gm-side .mini th,.gm-side .mini td{padding:8px 6px} .tyrow{grid-template-columns:90px minmax(0,1fr) 30px} #gmGoalie,#dzGoalie{max-width:180px} .zone-top .seg button{padding:6px 10px} }
 
+/* Big Data Cup (Goldy, 2026-11-24): our own synopsis of Stathletes' competition page, no logos */
+.bdc{display:grid;gap:14px;margin-top:16px;max-width:860px}
+.bdc-lead{margin:0;font:17px/1.6 var(--serif);color:var(--chalk)}
+.bdc h3{margin:8px 0 0;font:600 22px/1.2 var(--display)}
+.bdc-facts{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.bdc-facts div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 18px;padding:12px 0;border-bottom:1px solid var(--line)}
+.bdc-facts dt{font:700 10.5px/1.6 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.bdc-facts dd{margin:0;font-size:14.5px;line-height:1.55}
+.sub-viz{margin-top:30px}
+.sub-viz.first{margin-top:14px}
+.sub-viz h3{margin:0;font:600 20px/1.2 var(--display)}
+.bdc-go{display:flex;flex-wrap:wrap;gap:10px 22px;margin:4px 0 0;font-weight:600}
+@media (max-width:620px){.bdc-facts div{grid-template-columns:minmax(0,1fr)}}
 .notes{border-top:1px solid var(--line);padding-top:18px;color:var(--mute);font-size:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .notes h4{margin:0 0 6px;color:var(--fog);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 .notes p{margin:0 0 6px;max-width:60ch}
@@ -418,31 +434,29 @@ tbody tr:last-child td{border-bottom:0}
 </header>
 
 <main class="wrap" id="main">
-  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The data, daily</div><h1 id="h-goalies"><span class="spectrum">NHL Goaltending</span> DataViz</h1></div></header>
+  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The data, daily</div><h1 id="h-goalies"><span class="spectrum">NHL Goalie</span> DataViz</h1></div></header>
   <div class="gframe">
-  <aside class="grail" aria-label="Season and views">
-    <div><h5>Season leader</h5><div class="spot" id="spot" tabindex="0" role="button" aria-label="Open spotlight goalie"></div></div>
-    <div><h5>Season</h5><div class="seg" role="group" aria-label="Season" id="seasonSeg"></div></div>
+  <aside class="grail" aria-label="NHL Oracle and views">
+    <!-- Mini NHL Oracle in place of the Season leader card (Goldy, 2026-11-24); drawn by nhl-oracle.js -->
+    <button type="button" class="mini-or" id="miniOr" aria-label="Open the NHL Oracle view"><canvas id="miniOrCv" aria-hidden="true"></canvas><span>NHL Oracle <b>→</b></span></button>
+    <div id="seasonSeg" hidden></div><!-- Season switch removed (Goldy, 2026-11-24): the page shows 2026-27 only -->
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
-      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Goaltending Oracle</button></li>
-      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>Archetypes</button></li>
+      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Oracle</button></li>
+      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>NHL Archetypes</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
       <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
-      <li><button type="button" data-v="impSec" style="--c:var(--jade-a)"><i></i>Impact GSAx</button></li>
-      <li><button type="button" data-v="scatterSec" style="--c:var(--jade-a)"><i></i>SV% vs. GAA</button></li>
-      <li><button type="button" data-v="workSec" style="--c:var(--jade-a)"><i></i>Workload</button></li>
-      <li><button type="button" data-v="rangeSec" style="--c:var(--jade-a)"><i></i>SV% Ranges</button></li>
-      <li><button type="button" data-v="gsaxSec" style="--c:var(--jade-a)"><i></i>GSAA vs. GSAx</button></li>
+      <li><button type="button" data-v="gaxSec" style="--c:var(--jade-a)"><i></i>GSAx Analysis</button></li>
       <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Brad's Goalie Panes</button></li>
-      <li><button type="button" data-v="allSec" style="--c:var(--fog)"><i></i>All goaltenders</button></li>
+      <li><button type="button" data-v="bdcSec" style="--c:var(--jade-a)"><i></i>Big Data Cup</button></li>
+      <li><button type="button" data-v="subSec" style="--c:var(--crease)"><i></i>Submit a View</button></li>
     </ul></nav>
   </aside>
   <div class="gviews" id="gviews">
 
   <section id="orSec">
-    <div class="sec-h"><h2>NHL Goaltending Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
+    <div class="sec-h"><h2>NHL Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
     <div class="or-body">
       <div class="or-main">
         <div class="or-globe" id="or"><canvas id="or-cv" tabindex="0" role="img" aria-label="Every NHL goalie this season as a turning globe of five tilted rings, one per level of goals saved above average, from well above average to well below. Mark size is shots faced. Use the arrow keys to step through the goalies from best to lowest GSAA."></canvas><div class="or-tip" id="or-tip" hidden></div></div>
@@ -456,7 +470,7 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section id="tySec" hidden>
-    <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
+    <div class="sec-h"><h2>NHL Archetypes</h2><span class="note" id="tyNote"></span></div>
     <ul class="ty-grid" id="tyGrid" aria-label="Goalie archetypes"></ul>
   </section>
 
@@ -493,7 +507,12 @@ tbody tr:last-child td{border-bottom:0}
       </div>
       <div class="lb-plot" id="lbPlot"></div>
       <ol class="lb-list" id="lbList"></ol>
-      <div class="lb-foot"><span id="lbFoot"></span><a href="#tbl">View all goaltenders ›</a></div>
+      <div class="lb-foot"><span id="lbFoot"></span><a href="#nstTbl">All goaltenders in Advanced stats ›</a></div>
+    </div>
+    <!-- Workload moved here from its own view (Goldy, 2026-11-24): it shows the top workloads -->
+    <div class="viz sub-viz" id="workBox">
+      <div class="sec-h"><h3>Workload</h3><span class="note">Shots faced, split into saves and goals against. Top 12.</span></div>
+      <div class="panel"><div class="chart" id="c-workload"></div></div>
     </div>
   </section>
 
@@ -515,9 +534,18 @@ tbody tr:last-child td{border-bottom:0}
         <div class="chart" id="c-nstscatter"></div>
       </div>
     </div>
+    <!-- SV% Ranges moved here from its own view (Goldy, 2026-11-24) -->
+    <div class="viz sub-viz" id="rangeBox">
+      <div class="sec-h"><h3>SV% Ranges</h3><span class="note">Save %, with how sure we are</span></div>
+      <div class="panel">
+        <div class="panel-h"><p id="shrinkSub"></p><button class="hidebtn" data-more="shrink" hidden></button></div>
+        <div class="flegend" id="shrinkKey"></div>
+        <div class="chart" id="c-shrink"></div>
+      </div>
+    </div>
     <div class="filters" style="margin-block:18px 12px">
       <div class="field"><label for="nstQ">Search</label><input id="nstQ" type="search" placeholder="Name or team"></div>
-      <span class="note" id="nstCount"></span>
+      <span class="note" id="nstCount"></span><span class="note" id="nstRecNote" hidden>Record and shutouts are all situations, from the NHL feed.</span>
     </div>
     <div class="tbl-wrap nst-tbl"><table id="nstTbl"><thead><tr></tr></thead><tbody></tbody></table></div>
     </div>
@@ -534,8 +562,19 @@ tbody tr:last-child td{border-bottom:0}
       </div>
   </section>
 
-  <section id="impSec">
-    <div class="sec-h"><div class="sec-l"><h2>Impact GSAx</h2><div class="seg" role="group" aria-label="Sort by" id="impSort"></div></div><span class="note" id="impNote"></span></div>
+  <!-- GSAx Analysis (Goldy, 2026-11-24): GSAA vs. GSAx, Impact GSAx and SV% vs. GAA, once three views; old #gsaxSec, #impSec and #scatterSec links still land here -->
+  <section id="gaxSec">
+    <div class="sec-h"><h2>GSAx Analysis</h2><span class="note">Goals saved above expected, three ways</span></div>
+    <div class="viz sub-viz first" id="gsaxSec">
+      <div class="sec-h"><h3>GSAA vs. GSAx</h3><span class="note">Goals saved above average and above expected</span></div>
+      <div class="panel">
+        <div class="panel-h"><p id="gsaxSub"></p><button class="hidebtn" data-more="gsax" hidden></button></div>
+        <div class="flegend" id="gsaxKey"></div>
+        <div class="chart" id="c-gsax"></div>
+      </div>
+    </div>
+    <div class="sub-viz" id="impSec">
+    <div class="sec-h"><div class="sec-l"><h3>Impact GSAx</h3><div class="seg" role="group" aria-label="Sort by" id="impSort"></div></div><span class="note" id="impNote"></span></div>
     <p class="imp-lede">Impact GSAx counts each save by how much a goal there would have changed the game. Each cell is goals saved above expected in that situation. Close means a one-goal or tied game; late is the 3rd period or overtime.</p>
     <div class="filters">
       <div class="field"><label for="impMin">Min shots</label><input id="impMin" type="range" min="0" max="400" step="10" value="100"><span class="num" id="impMinV" style="width:30px">100</span></div>
@@ -543,33 +582,10 @@ tbody tr:last-child td{border-bottom:0}
       <span class="imp-key" id="impKey" aria-hidden="true"></span>
     </div>
     <div class="tbl-wrap imp-tbl"><table id="impTbl"><thead></thead><tbody></tbody></table></div>
-  </section>
-
-  <section id="scatterSec" class="viz">
-    <div class="sec-h"><h2>SV% vs. GAA</h2><span class="note">Top right is best. Bubble size is games played. Hover for detail, click to open.</span></div>
-    <div class="panel"><div class="chart" id="c-scatter"></div></div>
-  </section>
-
-  <section id="workSec" class="viz">
-    <div class="sec-h"><h2>Workload</h2><span class="note">Shots faced, split into saves and goals against. Top 12.</span></div>
-    <div class="panel"><div class="chart" id="c-workload"></div></div>
-  </section>
-
-  <section id="rangeSec" class="viz">
-    <div class="sec-h"><h2>SV% Ranges</h2><span class="note">Save %, with how sure we are</span></div>
-    <div class="panel">
-      <div class="panel-h"><p id="shrinkSub"></p><button class="hidebtn" data-more="shrink" hidden></button></div>
-      <div class="flegend" id="shrinkKey"></div>
-      <div class="chart" id="c-shrink"></div>
     </div>
-  </section>
-
-  <section id="gsaxSec" class="viz">
-    <div class="sec-h"><h2>GSAA vs. GSAx</h2><span class="note">Goals saved above average and above expected</span></div>
-    <div class="panel">
-      <div class="panel-h"><p id="gsaxSub"></p><button class="hidebtn" data-more="gsax" hidden></button></div>
-      <div class="flegend" id="gsaxKey"></div>
-      <div class="chart" id="c-gsax"></div>
+    <div class="viz sub-viz" id="scatterSec">
+      <div class="sec-h"><h3>SV% vs. GAA</h3><span class="note">Top right is best. Bubble size is games played. Hover for detail, click to open.</span></div>
+      <div class="panel"><div class="chart" id="c-scatter"></div></div>
     </div>
   </section>
 
@@ -578,19 +594,48 @@ tbody tr:last-child td{border-bottom:0}
     <iframe class="panes" id="panesFrame" title="Brad's Goalie Panes: every goalie start this season as a 3D stack of team panes, showing back-to-backs" data-src="panes/index.html?embed"></iframe>
   </section>
 
-  <section id="allSec">
-    <div class="sec-h"><div class="sec-l"><h2>All goaltenders</h2></div><span class="note" id="countNote"></span></div>
-    <div class="filters" style="margin-block:14px">
-      <div class="field"><label for="q">Search</label><input id="q" type="search" placeholder="Name"></div>
-      <div class="field"><label for="team">Team</label><select id="team"><option value="">All teams</option></select></div>
-      <div class="field"><label for="catch">Catches</label><select id="catch"><option value="">Both</option><option value="L">Left</option><option value="R">Right</option></select></div>
-      <div class="field"><label for="mingp">Min GP</label><input id="mingp" type="range" min="0" max="40" step="1" value="0"><span class="num" id="mingpV" style="width:22px">0</span></div>
+  <section id="bdcSec" aria-labelledby="h-bdc">
+    <div class="sec-h"><h2 id="h-bdc">Big Data Cup</h2><span class="note">Synopsis by the GRJ from <a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Stathletes</a></span></div>
+    <div class="bdc">
+      <p class="bdc-lead">An open hockey analytics competition that gives up-and-coming analysts real data to work with and pushes hockey research forward. It is run by Stathletes with the Rotman School of Management, the Sport Performance Lab and the University of Toronto Sports Analytics Student Group.</p>
+      <h3>Big Data Cup 2027: a goalie dataset</h3>
+      <dl class="bdc-facts">
+        <div><dt>Data released</dt><dd>4 November 2026</dd></div>
+        <div><dt>The data</dt><dd>81 shot sequences from one goalie, recorded in a shooting session on 6 August 2026. Each runs from the start of the pass until the goalie stands up after the shot.</dd></div>
+        <div><dt>Tracking</dt><dd>19 goalie joints and the puck, both at 60 Hz, lined up on one time axis. One JSON file per shot.</dd></div>
+        <div><dt>Research areas</dt><dd>Shot difficulty · Goalie fatigue and movement consistency · New hockey metrics, such as goalie readiness or movement efficiency</dd></div>
+        <div><dt>Deadlines and prizes</dt><dd>To be announced by Stathletes, along with entry rules and data-use terms.</dd></div>
+      </dl>
+      <p class="bdc-go"><a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Big Data Cup page ↗</a><a href="https://github.com/Sport-Performance-Lab/SPL-Open-Data/tree/main/hockey/goalie" target="_blank" rel="noopener noreferrer">The goalie data on GitHub ↗</a></p>
     </div>
-    <div class="tbl-wrap">
-      <table id="tbl"><thead><tr></tr></thead><tbody></tbody></table>
-    </div>
-    <nav class="pager" id="pager" aria-label="Goaltender table pages"></nav>
   </section>
+
+  <section id="subSec" aria-labelledby="h-sub">
+    <div class="sec-h"><h2 id="h-sub">Submit a View</h2><span class="note">Open to anyone</span></div>
+    <div class="bdc">
+      <p class="bdc-lead">NHL Goalie DataViz is an open, community-built library. Anyone can submit a view: a repository or a visual file that shows evidence-based research or NHL play-by-play data, with goalies at the centre of it.</p>
+      <h3>What fits</h3>
+      <dl class="bdc-facts">
+        <div><dt>Research</dt><dd>A visual built from a peer-reviewed study, systematic review or examined thesis on ice hockey goaltending, with the full citation.</dd></div>
+        <div><dt>Play-by-play</dt><dd>A visual built from public NHL play-by-play or stats data, such as shot locations, rebounds, workload or save percentage by situation, where the goalie is the subject.</dd></div>
+        <div><dt>Formats</dt><dd>A public GitHub repository (an HTML page, notebook or script we can run), or a single file: HTML, SVG, PNG or PDF.</dd></div>
+      </dl>
+      <h3>What to send</h3>
+      <dl class="bdc-facts">
+        <div><dt>The view</dt><dd>A link to the repository, or the file itself, with a title and two or three lines on what it shows.</dd></div>
+        <div><dt>Sources</dt><dd>Every data source, with its date range. Public data only: no paywalled or subscription data, and Natural Stat Trick credited wherever its numbers are used.</dd></div>
+        <div><dt>Method</dt><dd>How the numbers were made, so someone else could rebuild the view from the same data.</dd></div>
+        <div><dt>Credit</dt><dd>The name you want shown on the view, and a link if you like.</dd></div>
+      </dl>
+      <h3>Before you send</h3>
+      <dl class="bdc-facts">
+        <div><dt>Visuals</dt><dd>Your own drawing only: no player photos, team logos or NHL marks.</dd></div>
+        <div><dt>Review</dt><dd>The editor checks every view against the data and the GRJ standards, may ask for changes, and replies personally. Accepted views are credited to you on this page.</dd></div>
+      </dl>
+      <p class="bdc-go"><a href="mailto:info@goaltendingresearch.com?subject=Submit%20a%20View">Email info@goaltendingresearch.com</a><a href="https://github.com/Goaltending-Journal/goaltendingjournal/issues/new?title=Submit%20a%20View%3A%20" target="_blank" rel="noopener noreferrer">Open a GitHub issue ↗</a></p>
+    </div>
+  </section>
+
 
 
   </div>
@@ -621,7 +666,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const store = { get(k,d){ try{ const v=localStorage.getItem("ga:"+k); return v==null?d:JSON.parse(v);}catch(e){return d} }, set(k,v){ try{localStorage.setItem("ga:"+k,JSON.stringify(v))}catch(e){} } };
 
 const state = {
-  season: store.get("season","2026-27"),
+  season: "2026-27",   // one season only (Goldy, 2026-11-24); SEASONS still feeds each goalie's career table
   gfx: true,   // graphics always show (the switch was removed, 2026-11-02)
   sort: {key:"gp", dir:-1}, page:0,
   q:"", team:"", catch:"", mingp:null
@@ -663,17 +708,6 @@ $("#seasonSeg").addEventListener("click", e=>{
   renderAll();
 });
 
-/* ---------- hero ---------- */
-function renderHero(){
-  const q=qualified();
-  const best = [...q].sort((a,b)=>b.svp-a.svp)[0];
-  if(!best){ $("#spot").innerHTML=""; return; }
-  $("#spot").dataset.id=best.g.id;
-  $("#spot").innerHTML = `${mono(best.g,"lg")}<div><div class="tag">Save % leader · min ${state.mingp || defaultMin()} GP</div><div class="nm">${esc(best.g.name)}</div>
-    <div class="stats"><div class="kv"><b class="num">${fmtSv(best.svp)}</b><span>SV%</span></div><div class="kv"><b class="num">${fmtGaa(best.gaa)}</b><span>GAA</span></div><div class="kv"><b class="num">${best.w}-${best.l}-${best.otl}</b><span>Record</span></div><div class="kv"><b class="num">${best.gp}</b><span>GP</span></div></div></div>`;
-}
-$("#spot").addEventListener("click",()=>openGoalie(+$("#spot").dataset.id));
-$("#spot").addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();openGoalie(+$("#spot").dataset.id);} });
 
 /* ---------- charts ---------- */
 const tip=$("#tip");
@@ -730,7 +764,7 @@ function hbars(id, list, val, fmt, opts={}){
 }
 function workload(){
   const has = rows().some(r=>r.sa!=null);
-  if(!has){ $("#c-workload").innerHTML=`<div class="empty">Shot totals are not in the ${state.season} snapshot. Switch to 2025-26 or 2026-27.</div>`; return; }
+  if(!has){ $("#c-workload").innerHTML=`<div class="empty">Shot totals are not in the ${state.season} snapshot.</div>`; return; }
   const q=[...rows()].sort((a,b)=>b.sa-a.sa).slice(0,12);
   hbars("c-workload", q, r=>r.sa, r=>r.sa.toLocaleString(), {
     stack:(r,X,y,h)=>`<rect x="${X(0)}" y="${y}" width="${X(r.sv)-X(0)}" height="${h}" fill="var(--series-b)"/><rect x="${X(r.sv)}" y="${y}" width="${Math.max(1,X(r.sa)-X(r.sv))}" height="${h}" fill="var(--bad)"/>`,
@@ -770,7 +804,7 @@ function shrink(){
     `${keySvg(`<line x1="1" y1="5" x2="21" y2="5" stroke="var(--mute)" stroke-width="1"/>`)}Range from this season's shots alone`,
     `${keySvg(`<circle cx="11" cy="5" r="3.5" fill="none" stroke="var(--chalk)" stroke-width="1.5"/>`)}Actual save %`,
     `${keySvg(`<line x1="11" y1="0" x2="11" y2="10" stroke="var(--warn)" stroke-dasharray="2 2"/>`)}League ${fmtSv(S.league)}`].map(x=>`<span>${x}</span>`).join("") : "";
-  if(!S){ el.innerHTML=`<div class="empty">The ${state.season} snapshot has no shot counts, so the range can't be worked out. Switch to 2025-26 or 2026-27.</div>`; moreBtn("shrink",0); return; }
+  if(!S){ el.innerHTML=`<div class="empty">The ${state.season} snapshot has no shot counts, so the range can't be worked out.</div>`; moreBtn("shrink",0); return; }
   const all=qualified().filter(r=>r.sa && S.goalies[r.g.id]).map(r=>({...r,u:S.goalies[r.g.id]})).sort((a,b)=>b.u.m-a.u.m);
   moreBtn("shrink", all.length);
   if(!all.length){ el.innerHTML=`<div class="empty">No qualified goalies yet. Lower Min GP.</div>`; return; }
@@ -805,7 +839,7 @@ function gsaxTip(id){
 }
 function gsax(){
   const el=$("#c-gsax");
-  $("#gsaxSub").textContent = `${GX.season} season to date (Natural Stat Trick, ${GX.asOf}), whatever season is picked above. Across the league NST's shot-quality model expected ${GX.xga.toFixed(0)} goals and ${GX.ga} went in. Goalies with ${GX_MIN}+ shots. About 1 goalie in 10 lands outside the range by luck alone, so a coloured bar is a lead to check, not a verdict.`;
+  $("#gsaxSub").textContent = `${GX.season} season to date (Natural Stat Trick, ${GX.asOf}). Across the league NST's shot-quality model expected ${GX.xga.toFixed(0)} goals and ${GX.ga} went in. Goalies with ${GX_MIN}+ shots. About 1 goalie in 10 lands outside the range by luck alone, so a coloured bar is a lead to check, not a verdict.`;
   $("#gsaxKey").innerHTML = [
     `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--good)"/>`)}Saved more than expected, beyond chance`,
     `${keySvg(`<rect x="1" y="2" width="20" height="6" rx="1" fill="var(--series-b)"/>`)}Within luck`,
@@ -852,71 +886,6 @@ vizBox.addEventListener("mousemove",e=>{
 });
 document.querySelectorAll(".viz").forEach(v=>v.addEventListener("mouseleave",hideTip));
 
-/* ---------- table ---------- */
-const COLS = [
-  {k:"name",t:"Goaltender",l:true,v:r=>r.g.name.split(" ").slice(-1)[0]},
-  {k:"team",t:"Team",l:true},
-  {k:"gp",t:"GP"},{k:"gs",t:"GS",full:true},
-  {k:"w",t:"W"},{k:"l",t:"L"},{k:"otl",t:"OTL"},
-  {k:"svp",t:"SV%"},{k:"gaa",t:"GAA"},
-  {k:"sa",t:"SA",full:true},{k:"sv",t:"Saves",full:true},{k:"ga",t:"GA",full:true},
-  {k:"so",t:"SO"},{k:"toi",t:"TOI",full:true},
-];
-function cols(){ const full=rows().some(r=>r.sa!=null); return COLS.filter(c=>!c.full||full); }
-function renderHead(){
-  $("#tbl thead tr").innerHTML = cols().map(c=>`<th class="${c.l?'l':''}" data-k="${c.k}" ${state.sort.key===c.k?`aria-sort="${state.sort.dir>0?'ascending':'descending'}"`:""} scope="col">${c.t}</th>`).join("");
-}
-$("#tbl thead").addEventListener("click",e=>{
-  const th=e.target.closest("th"); if(!th) return; const k=th.dataset.k;
-  state.page=0;
-  state.sort = state.sort.key===k ? {key:k,dir:-state.sort.dir} : {key:k,dir:(["name","team","gaa","l","otl","ga"].includes(k)?1:-1)};
-  renderTable();
-});
-const PAGE = 10;
-function renderTable(){
-  renderHead();
-  const m=state.mingp ?? 0;
-  let list=rows().filter(r=>r.gp>=m);
-  if(state.q){ const q=state.q.toLowerCase(); list=list.filter(r=>r.g.name.toLowerCase().includes(q)); }
-  if(state.team) list=list.filter(r=>r.team.split(",").includes(state.team));
-  if(state.catch) list=list.filter(r=>r.g.catches===state.catch);
-  const c=COLS.find(c=>c.k===state.sort.key)||COLS[2], get=c.v||(r=>r[c.k]);
-  list.sort((a,b)=>{ const x=get(a),y=get(b); return (typeof x==="string"? x.localeCompare(y): x-y)*state.sort.dir || b.gp-a.gp; });
-  const maxGp=Math.max(1,...rows().map(r=>r.gp));
-  const lsv=leagueSv(qualified());
-  $("#countNote").textContent=`${list.length} of ${rows().length} goalies · click a row for the full profile`;
-  const pages=Math.max(1,Math.ceil(list.length/PAGE));
-  state.page=Math.min(state.page,pages-1);
-  const from=state.page*PAGE;
-  renderPager(list.length,pages,from);
-  const cs=cols();
-  $("#tbl tbody").innerHTML = list.length ? list.slice(from,from+PAGE).map(r=>`<tr data-id="${r.g.id}">${cs.map(col=>{
-    switch(col.k){
-      case "name": return `<td class="l"><div class="who">${mono(r.g,"sm")}<div><b>${esc(r.g.name)}</b><small>${r.g.catches==="R"?"Catches right":"Catches left"}${r.g.born?` · ${age(r.g.born)} yrs`:""}</small></div></div></td>`;
-      case "team": return `<td class="l"><span class="pill">${esc(r.team)}</span></td>`;
-      case "gp": return `<td class="num">${state.gfx?`<span class="bar"><i style="width:${Math.round(40*r.gp/maxGp)}px"></i>${r.gp}</span>`:r.gp}</td>`;
-      case "svp": return `<td class="num ${lsv&&r.gp>=defaultMin()? (r.svp>=lsv+.01?"good":r.svp<=lsv-.015?"bad":""):""}">${fmtSv(r.svp)}</td>`;
-      case "gaa": return `<td class="num">${fmtGaa(r.gaa)}</td>`;
-      case "toi": return `<td class="num">${Math.floor(r.toi/60).toLocaleString()}</td>`;
-      default: return `<td class="num">${r[col.k]??"–"}</td>`;
-    }}).join("")}</tr>`).join("") : `<tr><td colspan="${cs.length}" class="empty">No goalies match these filters.</td></tr>`;
-}
-// The table shows PAGE goalies at a time; sorting or filtering goes back to the first page.
-function renderPager(n,pages,from){
-  const pg=$("#pager"); pg.hidden = n<=PAGE; if(pg.hidden){ pg.innerHTML=""; return; }
-  const p=state.page, nums=[...Array(pages).keys()].filter(i=>pages<=7||i===0||i===pages-1||Math.abs(i-p)<=1);
-  const btns=nums.map((i,j)=>(j&&i-nums[j-1]>1?`<span aria-hidden="true">…</span>`:"")+`<button type="button" data-pg="${i}" ${i===p?'aria-current="page"':""}>${i+1}</button>`).join("");
-  pg.innerHTML=`<span class="num">Showing ${from+1}–${Math.min(n,from+PAGE)} of ${n}</span><div class="pg"><button type="button" data-pg="${p-1}" ${p===0?"disabled":""} aria-label="Previous page">‹ Prev</button>${btns}<button type="button" data-pg="${p+1}" ${p===pages-1?"disabled":""} aria-label="Next page">Next ›</button></div>`;
-}
-$("#pager").addEventListener("click",e=>{ const b=e.target.closest("button[data-pg]"); if(!b||b.disabled) return; state.page=+b.dataset.pg; renderTable(); });
-$("#tbl tbody").addEventListener("click",e=>{ const tr=e.target.closest("tr[data-id]"); if(tr) openGoalie(+tr.dataset.id); });
-$("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); state.page=0; renderTable();});
-$("#team").addEventListener("change",e=>{state.team=e.target.value; state.page=0; renderTable();});
-$("#catch").addEventListener("change",e=>{state.catch=e.target.value; state.page=0; renderTable();});
-$("#mingp").addEventListener("input",e=>{state.mingp=+e.target.value; state.page=0; $("#mingpV").textContent=e.target.value; renderHero(); renderCharts(); renderTable();});
-function fillTeams(){
-  $("#team").innerHTML = `<option value="">All teams</option>` + Object.keys(TEAMS).sort().map(t=>`<option value="${t}">${t} · ${TEAMS[t][0]}</option>`).join("");
-}
 
 /* ---------- profile drawer ---------- */
 let lastFocus=null;
@@ -988,10 +957,8 @@ $("#foot").innerHTML = `
 
 function renderAll(){
   renderSeg();
-  const m=state.mingp ?? 0; $("#mingp").value=m; $("#mingpV").textContent=m;
-  renderHero(); renderCharts(); renderTable();
+  renderCharts();
 }
-fillTeams();
 renderAll();
 let rz; addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(renderCharts,150);});
 /* Redraw with the new colours when the footer switch changes light/dark */
@@ -1154,6 +1121,7 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
   window.grjShowView=(id)=>show(id,true);
   function show(id,push){
     const ok=usable(); if(!ok.length) return;
+    const inner=id&&document.getElementById(id), host=inner&&inner.closest("#gviews>section"); if(host) id=host.id;
     if(!ok.some(b=>b.dataset.v===id)) id=(ok.find(b=>b.dataset.v==="gmSec")||ok[0]).dataset.v;
     cur=id;
     box.querySelectorAll(":scope>section").forEach(s=>s.classList.toggle("on",s.id===id));
