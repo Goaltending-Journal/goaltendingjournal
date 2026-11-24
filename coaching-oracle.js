@@ -12,9 +12,9 @@
     .map((r) => ({ y: Number(r.d.slice(0, 4)), d: r.d, t: r.t, a: r.a, j: r.j, doi: r.doi, u: r.u, by: [], th: (r.tg || []).filter((k) => k === "ed" || k === "sa"), n: r.n, isNew: 1 }));
   // Evidence-only (Goldy, 2026-11-23): coaching-evidence.js lists the works the Research Agent cleared (DOI, or title when there is none).
   // COACHING_EXCEPTIONS (theory papers and narrative reviews) and COACHING_BOOKS are gray-area works Goldy keeps by hand;
-  // each work carries a visible label: Borrowed evidence, Theory or Book. With no list loaded every work shows, unlabelled.
+  // each work carries a visible label: General Sports, Theory or Book. With no list loaded every work shows, unlabelled.
   const lc = (xs) => new Set((xs || []).map((x) => String(x).toLowerCase().trim()));
-  const LISTS = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? [["Borrowed evidence", lc(COACHING_EVIDENCE)],
+  const LISTS = typeof COACHING_EVIDENCE !== "undefined" && COACHING_EVIDENCE ? [["General Sports", lc(COACHING_EVIDENCE)],
     ["Theory", lc(typeof COACHING_EXCEPTIONS !== "undefined" ? COACHING_EXCEPTIONS : [])], ["Book", lc(typeof COACHING_BOOKS !== "undefined" ? COACHING_BOOKS : [])]] : null;
   const evKey = (w) => [w.doi ? String(w.doi).split("](")[0].toLowerCase().trim() : null, String(w.t || "").toLowerCase().trim()];
   const kindOf = (w) => { const ks = evKey(w).filter(Boolean); const hit = LISTS.find(([, set]) => ks.some((k) => set.has(k))); return hit ? hit[0] : null; };
