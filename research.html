@@ -265,6 +265,10 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 .p-line { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font: 12.5px var(--sans); color: var(--muted); }
 .p-line b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .p-line a { color: var(--muted); text-decoration: none; }
+/* Coaching Oracle labels: Evidence (cleared studies) vs Theory and Book (gray-area works kept by Goldy, not evidence) */
+.p-line .ev { padding: 0 8px; border: 1px solid var(--field-line); border-radius: 999px; font: 500 10.5px var(--label); letter-spacing: 0.1em; text-transform: uppercase; line-height: 18px; }
+.p-line .ev-evidence, .lr-card .tag.ev-evidence { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.p-line .ev-theory, .p-line .ev-book, .lr-card .tag.ev-theory, .lr-card .tag.ev-book { color: var(--muted); border-style: dashed; }
 .p-line a:hover { color: var(--accent); text-decoration: underline; }
 .scope { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--sans); color: var(--fg); }
 .dot { width: 8px; height: 8px; display: inline-block; flex: none; }
