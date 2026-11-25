@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Research Oracle · The Goaltending Research Journal</title>
+<title>Research Oracles · The Goaltending Research Journal</title>
 <meta name="description" content="A living database of evidence-based research in ice hockey goaltending.">
 <meta name="theme-color" content="#f7f9f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1211" media="(prefers-color-scheme: dark)">
@@ -61,7 +61,12 @@ button, input, select { font-family: var(--sans); }
 /* Side rail (C4): a lighter card with the filters, then the researcher A–Z (or a selected researcher's profile).
    The topic filters carry their map colour as an orb, so they are also the network map's colour key. */
 .frame { display: grid; grid-template-columns: 250px minmax(0, 1fr); grid-template-areas: "rail ex" "rail body"; column-gap: 28px; align-items: start; }
-.frame > .rail { grid-area: rail; display: grid; gap: 22px; align-content: start; min-width: 0; padding: 18px; background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; }
+.frame > .rail { grid-area: rail; display: grid; gap: 18px; align-content: start; min-width: 0; }
+.rail-card { display: grid; gap: 22px; align-content: start; min-width: 0; padding: 18px; background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; }
+.rail-tip { gap: 8px; }
+.rail-tip h2 { margin: 0; font: 500 11px var(--label, var(--sans)); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.rail-tip p { margin: 0; font: 14px/1.55 var(--sans); color: var(--fg); }
+.rail-tip p[hidden] { display: none; }
 .frame > .ex { grid-area: ex; min-width: 0; }
 .frame > .tr-body { grid-area: body; min-width: 0; }
 .frame > .tr-body[hidden] { display: none; }
@@ -346,10 +351,11 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
 
 <main id="main">
   <div class="wrap">
-  <header class="lid" data-vis="globe" aria-labelledby="h-research"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The Oracles</div><h1 id="h-research">Research <span class="spectrum">Oracle</span></h1></div></header>
+  <header class="lid" data-vis="globe" aria-labelledby="h-research"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The Evidence</div><h1 id="h-research">Research <span class="spectrum">Oracles</span></h1></div></header>
   <section class="tracker frame" id="articles" aria-label="Goaltending research">
     <!-- One frame (layout C4, Goldy 2026-11-02): a side rail with the filters (topics carry their map colours) and the researcher A–Z, beside the explorer tabs and the study table. -->
-    <aside class="rail" aria-label="Filters">
+    <aside class="rail" aria-label="Filters and help">
+      <div class="rail-card">
         <form class="side" id="filters" role="search" aria-label="Filter records">
           <div class="field">
             <label for="q">Search</label>
@@ -372,14 +378,23 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
             <button class="reset" type="button" id="reset">Clear filters</button>
           </div>
         </form>
+      </div>
+      <!-- How to use the open Oracle, moved from under each globe into the rail (Goldy, 2026-11-25) -->
+      <div class="rail-card rail-tip" aria-live="polite">
+        <h2>Using this Oracle</h2>
+        <p data-for="master">Drag the globe to spin it. Point at a topic above to turn the globe to it, or tick one to dim the rest.</p>
+        <p data-for="studies" hidden>Each seed is a study, oldest at the centre. Point at one to read it, or use the arrow keys to step through by year.</p>
+        <p data-for="net" hidden>Drag to spin. Click a researcher, or a name in the A–Z, to open their profile and light their co-authors.</p>
+        <p data-for="coaching" hidden>Drag to spin. Point at a work to read it, or at a theme above to light it.</p>
+      </div>
     </aside>
     <figure class="ex" aria-label="Explore the research">
       <div class="ex-head">
         <div class="hm-tabs" id="ex-tabs" role="tablist" aria-label="Explore the research">
           <button type="button" role="tab" id="mo-tab" aria-selected="true" aria-controls="mo-panel" data-v="master"><span class="tl">Master Oracle</span><span class="ts">Master</span></button>
           <button type="button" role="tab" id="ss-tab" aria-selected="false" aria-controls="ss-panel" data-v="studies"><span class="tl">Evidence Oracle</span><span class="ts">Evidence</span></button>
-          <button type="button" role="tab" id="co-tab" aria-selected="false" aria-controls="co-panel" data-v="coaching"><span class="tl">Coaching Oracle</span><span class="ts">Coaching</span></button>
           <button type="button" role="tab" id="nw-tab-net" aria-selected="false" aria-controls="nw-net" data-v="net"><span class="tl">Researcher Oracle</span><span class="ts">Researchers</span></button>
+          <button type="button" role="tab" id="co-tab" aria-selected="false" aria-controls="co-panel" data-v="coaching"><span class="tl">Coaching Oracle</span><span class="ts">Coaching</span></button>
         </div>
       </div>
       <div id="mo-panel" role="tabpanel" aria-labelledby="mo-tab">
@@ -387,7 +402,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <canvas id="sky-art" role="img" aria-label="The Master Oracle: a turning glass globe with every study as one ribbon of light in its topic's colour, and every researcher as a quiet light in their main topic's region"></canvas>
           <div class="mo-orb" id="sky-orb"></div>
           <div class="mo-tip" id="sky-tip" aria-hidden="true"></div>
-          <p class="nw-hint">Drag to spin. Point at a topic on the left to turn the globe to it.</p>
         </div>
       </div>
       <div id="ss-panel" role="tabpanel" aria-labelledby="ss-tab" hidden>
@@ -402,7 +416,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
           <span class="gs-badge" title="Research from sport in general, not goalie-specific">General Sports</span>
           <canvas id="lo-cv" tabindex="0" role="img" aria-label="Evidence-based works on ecological dynamics, skill acquisition and practice design as a turning globe: each theme has its own region, and works that span themes sit between them. Use the arrow keys to step through the works by year."></canvas>
           <div class="nw-tip" id="lo-tip" hidden></div>
-          <p class="nw-hint">Drag to spin. Point at a work to read it, or at a theme on the left to light it.</p>
         </div>
         <div class="lr-card" id="lo-card" aria-live="polite"></div>
       </div>
@@ -410,7 +423,6 @@ figcaption, .cap { font: 13px var(--sans); color: var(--muted); margin-top: 10px
         <div class="nw" id="nw">
           <canvas id="nw-cv" role="img" aria-label="Sphere of goalie researchers, coloured by main topic and linked when they published a goalie study together"></canvas>
           <div class="nw-tip" id="nw-tip" hidden></div>
-          <p class="nw-hint">Drag to spin. Click a researcher to open their profile.</p>
         </div>
         <div class="nw-side rz" id="nw-side" aria-live="polite"></div>
       </div>
@@ -609,6 +621,7 @@ $("reset").addEventListener("click", () => {
 // One explorer: a tab in either row selects itself, clears every other tab and hides every other panel.
 function exTabs(b, keep) {
   document.querySelectorAll(".ex-head [role=tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  document.querySelectorAll(".rail-tip [data-for]").forEach((p) => (p.hidden = p.dataset.for !== b.dataset.v));
   if (!keep) ["mo-panel", "nw-net", "ss-panel", "co-panel"].forEach((id) => ($(id).hidden = true));
 }
 $("ex-tabs").addEventListener("click", (e) => {
