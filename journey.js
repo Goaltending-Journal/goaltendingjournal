@@ -14,17 +14,6 @@
   const RECS = typeof REC !== "undefined" ? REC : [];
   const JADE = "var(--j-accent)";
 
-  const ABOUT = {
-    hip: "The butterfly is one of the most demanding movements in sports, and longevity is crucial to the position. This topic is one of the most important research areas in ice hockey goaltending.",
-    inj: "Which injuries goalies get, how often, and what keeps them on the ice, from youth hockey to the NHL.",
-    eq: "Pads, skates, nets and sizing: how equipment shapes the way goalies move and how well it protects them.",
-    vis: "Where goalies look, when they pick up the puck, and how they read a shooter before the release.",
-    phy: "The fitness behind the position: power, agility, recovery and how goalies train for them.",
-    bio: "Stances, pushes and the butterfly, measured: how goalies move and what makes that movement efficient.",
-    psy: "Confidence, stress, focus and motivation: the mental side of the most pressured position on the ice.",
-    dev: "How goalies learn and how coaches teach them: pathways, practice design and coaching education.",
-    stats: "Measuring goaltending: save percentage, expected goals and the models that try to separate the goalie from the team."
-  };
   // Newest goalie studies per topic, each study shown once across the whole journey
   const used = new Set();
   const studies = (k) => RECS.filter((r) => (r.tp || []).includes(k) && r.sc === "goaltending" && !used.has(r.i))
@@ -32,7 +21,9 @@
   const href = (r) => r.doi ? "https://doi.org/" + r.doi : r.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + r.pmid + "/" : r.link || "research.html";
 
   const NODES = [
-    { id: "start", nav: "GRJ", hero: 1, kick: "Welcome to", name: "The Goaltending Research Journal", c: JADE, orb: "all",
+    { id: "start", nav: "GRJ", hero: 1, kick: "Welcome to", name: "The Goaltending Research Journal", c: JADE, orb: "all", summary: "" },
+    // Its own stop with no rail button (Goldy, 2026-11-25): the hero keeps only the title
+    { id: "what", nav: "", norail: 1, kick: "Start here", name: "What is the GRJ?", c: JADE,
       summary: "An open-source research journal dedicated to ice hockey goaltending." },
     { id: "mission", nav: "Mission", kick: "Why we exist", name: "Our Mission", c: JADE, orb: "jade",
       summary: "The GRJ is dedicated to making evidence-based goaltending research more accessible to the wider hockey community. Through our platform, we aim to bridge the gap between the research and the rink through coaching conversation and peer reviews." },
@@ -56,9 +47,9 @@
     { id: "topics", nav: "Topics", kick: "What the Oracles track", name: "Research Topics", c: JADE,
       summary: "Every study falls within one of our main research topics, each with its own color across the GRJ. Fly through them to learn more." }
   ].concat(TOPICS.map(([k, n]) => ({ id: k, nav: n.split(" ")[0].replace(/&$/, ""), kick: "Research topic", name: n.replace(/\b[a-z]/g, (m) => m.toUpperCase()), c: `var(--t-${k})`, orb: "topic",
-      summary: ABOUT[k] || "", studies: studies(k) })))
+      summary: "", studies: studies(k) })))   // no subtext on topic stops (Goldy, 2026-11-25); the topic texts live on Briefs > Research Topics
   .concat([
-    { id: "enter", nav: "Enter", kick: "Your turn", name: "Step Inside the GRJ", c: JADE, end: 1,
+    { id: "enter", nav: "Enter", kick: "Your turn", name: "Enter the GRJ", c: JADE, end: 1,
       summary: "Pick a section.",
       doors: [["Oracles", "research.html"], ["Briefs", "briefs.html"], ["Reviews", "reviews.html"], ["Conference", "conference.html"], ["NHL DataViz", "goalies.html"], ["About", "about.html"]] }
   ]);
@@ -77,12 +68,12 @@
   NODES.forEach((e) => {
     let k = 0; const side = () => (++k % 2 ? -1 : 1);
     e.d = depth;
-    add(`<div class="kick">${esc(e.kick)}</div><h2>${esc(e.name)}</h2><p>${esc(e.summary)}</p><div class="bar"></div>` +
+    add(`<div class="kick">${esc(e.kick)}</div><h2>${esc(e.name)}</h2>${e.summary ? `<p>${esc(e.summary)}</p>` : ""}<div class="bar"></div>` +
       (e.hero ? `<div class="skipper"><span>Veteran user?</span><button type="button" data-skip="end">Skip to end</button></div><div class="hint">Scroll to explore<i></i></div>` : "") +
       (e.doors ? `<nav class="doors" aria-label="Sections">${e.doors.map(([l, u]) => `<a href="${u}">${esc(l)}</a>`).join("")}</nav>` : ""),
       "title" + (e.hero ? " hero" : "") + (e.end ? " end" : ""), { c: e.c, fo: e.end ? 9e9 : -40, out: e.end ? 9e9 : 250, far: e.hero ? 9e9 : 1900 });
     if (e.orb) {
-      const n = NODES.indexOf(e), it = add(`<canvas class="oc" aria-hidden="true"></canvas>`, "orb", { c: e.c, d: depth + (e.hero ? 1100 : 1500), sx: e.hero ? 0.62 : n % 2 ? 0.78 : -0.78, sy: e.hero ? -0.02 : -0.2, size: 1, fo: 500, out: 1200, far: 3600, max: 1 });
+      const n = NODES.filter((x) => !x.norail).indexOf(e), it = add(`<canvas class="oc" aria-hidden="true"></canvas>`, "orb", { c: e.c, d: depth + (e.hero ? 1100 : 1500), sx: e.hero ? 0.62 : n % 2 ? 0.78 : -0.78, sy: e.hero ? -0.02 : -0.2, size: 1, fo: 500, out: 1200, far: 3600, max: 1 });
       it.orb = { kind: e.orb, seed: n * 1.7, cv: it.el.firstChild };
     }
     depth += e.hero ? 900 : 760;
@@ -110,6 +101,7 @@
   /* ---------- rail ---------- */
   const railOl = $("#rail ol");
   NODES.forEach((e, i) => {
+    if (e.norail) return;
     const li = document.createElement("li");
     li.innerHTML = `<button type="button" style="--c:${e.c}">${esc(e.nav)}</button>`;
     li.firstChild.onclick = () => go(i); railOl.appendChild(li); e.btn = li.firstChild;
@@ -170,8 +162,9 @@
       cur = c; const e = NODES[c];
       document.documentElement.style.setProperty("--accent", e.c);
       $("#nowKick").textContent = e.kick; $("#nowName").textContent = e.name;
-      NODES.forEach((x, i) => x.btn.setAttribute("aria-current", i === c));
-      e.btn.scrollIntoView({ block: "nearest", inline: "center", behavior: "auto" });
+      let r = c; while (r > 0 && !NODES[r].btn) r--;   // a stop with no rail button lights the one before it
+      NODES.forEach((x, i) => x.btn && x.btn.setAttribute("aria-current", i === r));
+      NODES[r].btn.scrollIntoView({ block: "nearest", inline: "center", behavior: "auto" });
       try { history.replaceState(null, "", c ? "#" + e.id : location.pathname); } catch (_) {}
     }
     $("#prog i").style.width = (Math.min(1, cam / TOTAL) * 100).toFixed(2) + "%";
