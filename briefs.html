@@ -76,6 +76,15 @@ main.wrap > .lid{margin-bottom:-24px}
 .views button[aria-current="true"]{background:color-mix(in srgb,var(--crease) 18%,transparent);font-weight:700}
 .bviews{min-width:0}
 .bviews.js>.bv:not(.on){display:none}
+/* Research Topics view (Goldy, 2026-11-25): the nine topic texts that used to sit on the homepage stops */
+.tps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.tps li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:18px;border:1px solid var(--line);border-top:3px solid var(--c);border-radius:12px;background:var(--bg)}
+.tps .tdot{align-self:start;margin-top:7px}
+.topics-v .lead{margin:8px 0 18px;max-width:60ch;font-size:15px;line-height:1.55;color:var(--fog)}
+.topics-v h2{margin:0;font:600 34px/1 var(--display)}
+.tps h3{margin:0 0 6px;font:600 21px/1.15 var(--display);color:var(--chalk)}
+.tps p{margin:0 0 10px;font-size:15px;line-height:1.5;color:var(--fog)}
+.tps a{font-size:13px;font-weight:600;color:var(--c)}
 @media (max-width:880px){.bframe{grid-template-columns:minmax(0,1fr)}.brail{position:static}.views{display:flex;flex-wrap:wrap;gap:6px}.views button{width:auto;padding:7px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px}}
 @media (max-width:760px){.mods a{grid-template-columns:44px minmax(0,1fr)}.mods .num-big{font-size:34px}.mods .side{grid-column:2;display:flex;gap:6px 14px;justify-items:start}}
 </style>
@@ -104,6 +113,7 @@ main.wrap > .lid{margin-bottom:-24px}
       <li><button type="button" data-v="latest"><i></i>Latest Brief</button></li>
       <li><button type="button" data-v="briefs"><i></i>All Briefs</button></li>
       <li><button type="button" data-v="labs"><i></i>Practice Labs</button></li>
+      <li><button type="button" data-v="topics"><i></i>Research Topics</button></li>
     </ul></nav></aside>
   <div class="bviews" id="bviews">
   <section class="bv" id="latest" aria-label="Latest brief">
@@ -141,6 +151,22 @@ main.wrap > .lid{margin-bottom:-24px}
     <h2 id="h-labs">Practice Labs</h2>
     <p class="lead">Each lab takes one idea from the Coaching Oracle and ends with something to try in your next practice.</p>
     <ol class="mods" id="mods"></ol>
+  </section>
+
+  <section class="topics-v bv" id="topics" aria-labelledby="h-topics">
+    <h2 id="h-topics">Research Topics</h2>
+    <p class="lead">Every study in the Oracles falls within one of nine research topics, each with its own colour across the GRJ.</p>
+    <ol class="tps">
+      <li style="--c: var(--t-hip)"><i class="tdot" style="--c: var(--t-hip)"></i><div><h3>Hip &amp; Groin</h3><p>The butterfly is one of the most demanding movements in sports, and longevity is crucial to the position. This topic is one of the most important research areas in ice hockey goaltending.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-inj)"><i class="tdot" style="--c: var(--t-inj)"></i><div><h3>Injury &amp; Safety</h3><p>Which injuries goalies get, how often, and what keeps them on the ice, from youth hockey to the NHL.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-eq)"><i class="tdot" style="--c: var(--t-eq)"></i><div><h3>Equipment</h3><p>Pads, skates, nets and sizing: how equipment shapes the way goalies move and how well it protects them.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-vis)"><i class="tdot" style="--c: var(--t-vis)"></i><div><h3>Vision &amp; Anticipation</h3><p>Where goalies look, when they pick up the puck, and how they read a shooter before the release.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-phy)"><i class="tdot" style="--c: var(--t-phy)"></i><div><h3>Physiology &amp; Training</h3><p>The fitness behind the position: power, agility, recovery and how goalies train for them.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-bio)"><i class="tdot" style="--c: var(--t-bio)"></i><div><h3>Movement &amp; Biomechanics</h3><p>Stances, pushes and the butterfly, measured: how goalies move and what makes that movement efficient.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-psy)"><i class="tdot" style="--c: var(--t-psy)"></i><div><h3>Psychology &amp; Cognition</h3><p>Confidence, stress, focus and motivation: the mental side of the most pressured position on the ice.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-dev)"><i class="tdot" style="--c: var(--t-dev)"></i><div><h3>Development &amp; Coaching</h3><p>How goalies learn and how coaches teach them: pathways, practice design and coaching education.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+      <li style="--c: var(--t-stats)"><i class="tdot" style="--c: var(--t-stats)"></i><div><h3>Performance Analytics</h3><p>Measuring goaltending: save percentage, expected goals and the models that try to separate the goalie from the team.</p><a href="research.html">Find it in the Oracles →</a></div></li>
+    </ol>
   </section>
   </div>
   </div>
