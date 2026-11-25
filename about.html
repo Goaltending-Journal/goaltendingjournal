@@ -80,6 +80,14 @@ a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: 
 .card b + small { margin-top: 6px; }
 .card p { margin: 12px 0 0; font: 15px/1.55 var(--sans); color: var(--muted); }
 .card.says p { margin-top: 10px; font: 19px/1.5 var(--serif); color: var(--fg); }
+.gh-note { margin: 0 0 22px; } .gh-note p { margin: 8px 0 0; font: 15.5px/1.6 var(--serif); }
+.donate { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 28px; align-items: center; margin-top: 18px; }
+.donate-cards { display: grid; gap: 14px; min-width: 0; }
+.donate-go { display: grid; justify-items: center; gap: 14px; text-align: center; padding: 26px 18px; border: 1px solid var(--rule); border-radius: 14px; background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%); }
+.donate-go .tip svg { width: 92px; height: 92px; }
+.donate-go .tip span { font-size: 12.5px; }
+.donate-go p { margin: 0; font: 14px/1.55 var(--sans); color: var(--muted); }
+@media (max-width: 760px) { .donate { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* How the GRJ works: the learning design model loop (Goldy picked option A, 2026-11-02) */
@@ -87,7 +95,7 @@ a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: 
 .model svg.loop { width: 100%; max-width: 440px; margin: auto; display: block; overflow: visible; }
 .loop .ring { fill: none; stroke: var(--rule); stroke-width: 1; }
 .loop .arc { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
-.loop .spoke { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 5; opacity: 0.6; }
+.loop .spoke { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 5; opacity: 0.55; }
 .loop .nd circle.b { fill: var(--surface, var(--bg)); stroke: var(--c); stroke-width: 2; transition: stroke-width 0.2s; }
 .loop .nd circle.g { fill: var(--c); opacity: 0.28; filter: url(#loopBlur); }
 .loop .nd text { font: 600 15px var(--display); fill: var(--fg); text-anchor: middle; }
@@ -96,7 +104,9 @@ a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: 
 .loop .lbl { font: italic 400 11.5px var(--serif); fill: var(--muted); text-anchor: middle; }
 .loop .hub circle { fill: var(--surface, var(--bg)); stroke: var(--rule); transition: stroke 0.2s; }
 .loop a.hub:hover circle, .loop a.hub:focus-visible circle { stroke: var(--accent); }
-.loop .travel { fill: var(--accent); filter: drop-shadow(0 0 6px var(--accent)); }
+.loop .travel { fill: var(--t-dev); color: var(--t-dev); filter: drop-shadow(0 0 6px currentColor); animation: loop-hue 9s linear infinite; }
+@keyframes loop-hue { 0%, 100% { fill: var(--t-dev); color: var(--t-dev); } 33% { fill: var(--t-psy); color: var(--t-psy); } 66% { fill: var(--t-vis); color: var(--t-vis); } }
+.loop .ring { stroke: color-mix(in srgb, var(--t-dev) 25%, var(--rule)); }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 .steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; }
 .steps .ic { margin-top: 5px; display: grid; place-items: center; }
@@ -231,16 +241,7 @@ td.fee.no { color: var(--muted); }
 
 <main id="main">
   <div class="wrap">
-  <header class="lid" data-vis="sun" aria-labelledby="h-about"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">Who we are</div><h1 id="h-about">About the <span class="spectrum">GRJ</span></h1></div><div class="lid-act"><a class="tip" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener" aria-label="Leave a tip on Ko-fi" title="Leave a tip on Ko-fi">
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <defs><linearGradient id="tipGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:var(--jade-a)"/><stop offset=".5" style="stop-color:var(--jade-b)"/><stop offset="1" style="stop-color:var(--jade-c)"/></linearGradient></defs>
-        <path class="steam" d="M22 18c-3-4 3-6 0-11"/><path class="steam" d="M31 18c-3-4 3-6 0-11"/><path class="steam" d="M40 18c-3-4 3-6 0-11"/>
-        <path class="brew" d="M15.5 28h33l-2.6 20.5a6 6 0 0 1-6 5.5H24.1a6 6 0 0 1-6-5.5z" opacity=".9"/>
-        <path class="mug" d="M13 24h38l-3.2 25a7 7 0 0 1-7 6H23.2a7 7 0 0 1-7-6z"/>
-        <path class="mug" d="M50.4 29h3.6a6 6 0 0 1 0 12h-5"/>
-      </svg>
-      <span>Tip on Ko-fi</span>
-    </a></div></header>
+  <header class="lid" data-vis="sun" aria-labelledby="h-about"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">Who we are</div><h1 id="h-about">About the <span class="spectrum">GRJ</span></h1></div></header>
     <div class="aframe">
     <aside class="arail" aria-label="About sections"><nav aria-label="About"><h5>About</h5><ul class="views" id="views">
       <li><button type="button" data-v="mission"><i></i>Mission</button></li>
@@ -254,6 +255,7 @@ td.fee.no { color: var(--muted); }
       <li><button type="button" data-v="ethics"><i></i>Ethics &amp; Standards</button></li>
       <li><button type="button" data-v="patch-notes"><i></i>Patch Notes</button></li>
       <li><button type="button" data-v="sources"><i></i>Sources</button></li>
+      <li><button type="button" data-v="donate"><i></i>Donate</button></li>
     </ul></nav></aside>
     <div class="aviews" id="aviews">
     <section class="sec" id="mission" aria-labelledby="h-mission">
@@ -270,27 +272,30 @@ td.fee.no { color: var(--muted); }
       <svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
         <symbol id="ghMark" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
         <filter id="loopBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
-        <marker id="loopArrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        <linearGradient id="arcOB" gradientUnits="userSpaceOnUse" x1="259" y1="73" x2="340" y2="207"><stop offset="0" style="stop-color:var(--t-dev)"/><stop offset="1" style="stop-color:var(--t-psy)"/></linearGradient>
+        <linearGradient id="arcBR" gradientUnits="userSpaceOnUse" x1="280" y1="315" x2="124" y2="317"><stop offset="0" style="stop-color:var(--t-psy)"/><stop offset="1" style="stop-color:var(--t-vis)"/></linearGradient>
+        <linearGradient id="arcRO" gradientUnits="userSpaceOnUse" x1="60" y1="212" x2="136" y2="75"><stop offset="0" style="stop-color:var(--t-vis)"/><stop offset="1" style="stop-color:var(--t-dev)"/></linearGradient>
+        <marker id="loopArrowpsy" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" style="stroke:var(--t-psy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="loopArrowvis" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" style="stroke:var(--t-vis)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="loopArrowdev" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" style="stroke:var(--t-dev)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
       </defs></svg>
       <div class="model">
         <svg class="loop" viewBox="20 20 360 380" role="img" aria-label="Open source on GitHub at the centre. The Oracle feeds Briefs, Briefs lead to Peer Reviews, and Peer Reviews refine the Oracle.">
           <circle class="ring" cx="200" cy="200" r="140"/>
-          <line class="spoke" x1="200" y1="200" x2="200" y2="108"/><line class="spoke" x1="200" y1="200" x2="281" y2="247"/><line class="spoke" x1="200" y1="200" x2="119" y2="247"/>
-          <path class="arc" d="M259.2 73.1 A140 140 0 0 1 339.8 207.3" marker-end="url(#loopArrow)"/>
-          <path class="arc" d="M280.3 314.7 A140 140 0 0 1 123.8 317.4" marker-end="url(#loopArrow)"/>
-          <path class="arc" d="M60.5 212.2 A140 140 0 0 1 136.4 75.3" marker-end="url(#loopArrow)"/>
+          <line class="spoke" style="stroke:var(--t-dev)" x1="200" y1="200" x2="200" y2="108"/><line class="spoke" style="stroke:var(--t-psy)" x1="200" y1="200" x2="281" y2="247"/><line class="spoke" style="stroke:var(--t-vis)" x1="200" y1="200" x2="119" y2="247"/>
+          <path class="arc" style="stroke:url(#arcOB)" d="M259.2 73.1 A140 140 0 0 1 339.8 207.3" marker-end="url(#loopArrowpsy)"/>
+          <path class="arc" style="stroke:url(#arcBR)" d="M280.3 314.7 A140 140 0 0 1 123.8 317.4" marker-end="url(#loopArrowvis)"/>
+          <path class="arc" style="stroke:url(#arcRO)" d="M60.5 212.2 A140 140 0 0 1 136.4 75.3" marker-end="url(#loopArrowdev)"/>
           <text class="lbl" x="352" y="112">digest</text><text class="lbl" x="200" y="378">discuss</text><text class="lbl" x="48" y="112">refine</text>
           <circle r="5" class="travel"><animateMotion dur="9s" repeatCount="indefinite" path="M200 60 A140 140 0 1 1 199.9 60"/></circle>
-          <a class="nd" href="research.html" style="--c: var(--jade-a)"><circle class="g" cx="200" cy="60" r="44"/><circle class="b" cx="200" cy="60" r="40"/><text x="200" y="58">Oracle</text><text class="s" x="200" y="73">Research</text></a>
-          <a class="nd" href="briefs.html" style="--c: var(--jade-a)"><circle class="g" cx="321.2" cy="270" r="44"/><circle class="b" cx="321.2" cy="270" r="40"/><text x="321.2" y="268">Briefs</text><text class="s" x="321.2" y="283">Learning</text></a>
-          <a class="nd" href="reviews.html" style="--c: var(--jade-a)"><circle class="g" cx="78.8" cy="270" r="44"/><circle class="b" cx="78.8" cy="270" r="40"/><text x="78.8" y="268">Reviews</text><text class="s" x="78.8" y="283">Community</text></a>
+          <a class="nd" href="research.html" style="--c: var(--t-dev)"><circle class="g" cx="200" cy="60" r="44"/><circle class="b" cx="200" cy="60" r="40"/><text x="200" y="58">Oracle</text><text class="s" x="200" y="73">Research</text></a>
+          <a class="nd" href="briefs.html" style="--c: var(--t-psy)"><circle class="g" cx="321.2" cy="270" r="44"/><circle class="b" cx="321.2" cy="270" r="40"/><text x="321.2" y="268">Briefs</text><text class="s" x="321.2" y="283">Learning</text></a>
+          <a class="nd" href="reviews.html" style="--c: var(--t-vis)"><circle class="g" cx="78.8" cy="270" r="44"/><circle class="b" cx="78.8" cy="270" r="40"/><text x="78.8" y="268">Reviews</text><text class="s" x="78.8" y="283">Community</text></a>
           <a class="hub" href="https://github.com/Goaltending-Journal/goaltendingjournal" target="_blank" rel="noopener"><circle cx="200" cy="200" r="38"/><use href="#ghMark" x="184" y="176" width="32" height="32" style="fill: var(--fg)"/><text x="200" y="224" style="font: 600 9.5px var(--sans); fill: var(--muted); text-anchor: middle; letter-spacing: 0.08em">OPEN SOURCE</text></a>
         </svg>
         <ol class="steps">
           <li><span class="ic"><svg class="gh" aria-hidden="true"><use href="#ghMark"/></svg></span><div><b>Open source on GitHub</b><p>Everything lives in a public <a href="https://github.com/Goaltending-Journal/goaltendingjournal" target="_blank" rel="noopener">GitHub repository</a>, so anyone can read it, check it and help improve it.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>The Oracle</b><p>The main database of evidence-based goaltending research.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>Briefs</b><p>Raw research becomes short learning modules. Briefs bridge the gap between the hard data and the everyday goalie coach.</p></div></li>
-          <li><span class="ic"><span class="orb" style="--c: var(--jade-a)"></span></span><div><b>Peer Reviews</b><p>Monthly sessions invite coaches and researchers to discuss the work. What we learn flows back into the Oracle.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--t-dev)"></span></span><div><b>The Oracle</b><p>The main database of evidence-based goaltending research.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--t-psy)"></span></span><div><b>Briefs</b><p>Raw research becomes short learning modules. Briefs bridge the gap between the hard data and the everyday goalie coach.</p></div></li>
+          <li><span class="ic"><span class="orb" style="--c: var(--t-vis)"></span></span><div><b>Peer Reviews</b><p>Monthly sessions invite coaches and researchers to discuss the work. What we learn flows back into the Oracle.</p></div></li>
         </ol>
       </div>
     </section>
@@ -368,6 +373,7 @@ td.fee.no { color: var(--muted); }
     <section class="sec" id="sources" aria-labelledby="h-sources">
       <div class="head" style="--c: var(--jade-a)"><small>Updated <span id="journals-updated"></span></small><h2 id="h-sources">Sources</h2>
         <p>Every open-access sports journal in the Directory of Open Access Journals. A fee means authors pay an article processing charge; readers never pay.</p></div>
+      <div class="card gh-note" style="--c: var(--jade-a)"><small>The code</small><p>The whole site lives in a public <a href="https://github.com/Goaltending-Journal/goaltendingjournal" target="_blank" rel="noopener">GitHub repository</a>, so anyone can read the code and the data behind it. Developers who would like to contribute can request access to the repository: email <a href="mailto:info@goaltendingresearch.com?subject=GitHub%20access">info@goaltendingresearch.com</a> with your GitHub username and what you would like to work on.</p></div>
       <p class="count" id="j-count" role="status" aria-live="polite" tabindex="-1"></p>
       <div class="tablewrap">
         <table>
@@ -377,6 +383,30 @@ td.fee.no { color: var(--muted); }
       </div>
       <nav class="pager" id="j-pager" aria-label="Journal pages"></nav>
       <p class="note">From the subject "Sports" (which includes sports medicine) at <a href="https://doaj.org" rel="noopener">doaj.org</a>.</p>
+    </section>
+
+    <!-- Donate (Goldy, 2026-11-25): the Ko-fi tip jar moved here from the page header -->
+    <section class="sec" id="donate" aria-labelledby="h-donate">
+      <div class="head" style="--c: var(--jade-a)"><small>Free and open source</small><h2 id="h-donate">Donate</h2>
+        <p>The GRJ is free to use, for everyone. There is no paywall, no ads and no sign-up. Every study, brief and stat is open to read, and the code behind the site is open source on GitHub.</p></div>
+      <div class="donate">
+        <div class="donate-cards">
+          <div class="card says" style="--c: var(--jade-a)"><small>What tips do</small><p>Tips help keep the journal running: the domains and email, the tools behind the Oracles, and the hours that go into checking every study.</p></div>
+          <div class="card says" style="--c: var(--jade-a)"><small>No strings</small><p>A tip never buys a place on the site. What goes into the Oracles is decided by the evidence and the GRJ standards alone.</p></div>
+        </div>
+        <div class="donate-go"><a class="tip" data-kofi href="https://ko-fi.com/goldydev30" target="_blank" rel="noopener" aria-label="Leave a tip on Ko-fi" title="Leave a tip on Ko-fi">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs><linearGradient id="tipGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:var(--jade-a)"/><stop offset=".5" style="stop-color:var(--jade-b)"/><stop offset="1" style="stop-color:var(--jade-c)"/></linearGradient></defs>
+        <path class="steam" d="M22 18c-3-4 3-6 0-11"/><path class="steam" d="M31 18c-3-4 3-6 0-11"/><path class="steam" d="M40 18c-3-4 3-6 0-11"/>
+        <path class="brew" d="M15.5 28h33l-2.6 20.5a6 6 0 0 1-6 5.5H24.1a6 6 0 0 1-6-5.5z" opacity=".9"/>
+        <path class="mug" d="M13 24h38l-3.2 25a7 7 0 0 1-7 6H23.2a7 7 0 0 1-7-6z"/>
+        <path class="mug" d="M50.4 29h3.6a6 6 0 0 1 0 12h-5"/>
+      </svg>
+      <span>Leave a tip on Ko-fi</span>
+    </a>
+          <p>Any amount is greatly appreciated. Thank you for supporting open goaltending research.</p>
+        </div>
+      </div>
     </section>
     </div>
     </div>
