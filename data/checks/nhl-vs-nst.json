@@ -1,10 +1,10 @@
 {
- "checked": "2026-11-24",
+ "checked": "2026-11-25",
  "season": "2026-27",
- "nhlAsOf": "2026-11-24",
- "nstAsOf": "2026-11-24",
+ "nhlAsOf": "2026-11-25",
+ "nstAsOf": "2026-11-25",
  "goalies": 79,
- "matched": 53,
+ "matched": 55,
  "minor": [
   {
    "name": "Alex Nedeljkovic",
@@ -108,14 +108,14 @@
    "name": "Devon Levi",
    "team": "EDM",
    "nhl": {
-    "gp": 13,
-    "sa": 345,
-    "ga": 37
+    "gp": 14,
+    "sa": 371,
+    "ga": 41
    },
    "nst": {
-    "gp": 14,
-    "sa": 345,
-    "ga": 37
+    "gp": 15,
+    "sa": 371,
+    "ga": 41
    }
   },
   {
@@ -217,20 +217,6 @@
    }
   },
   {
-   "name": "Linus Ullmark",
-   "team": "OTT",
-   "nhl": {
-    "gp": 13,
-    "sa": 305,
-    "ga": 18
-   },
-   "nst": {
-    "gp": 13,
-    "sa": 306,
-    "ga": 18
-   }
-  },
-  {
    "name": "Logan Thompson",
    "team": "WSH",
    "nhl": {
@@ -326,20 +312,6 @@
     "gp": 9,
     "sa": 273,
     "ga": 30
-   }
-  },
-  {
-   "name": "Stuart Skinner",
-   "team": "WPG",
-   "nhl": {
-    "gp": 18,
-    "sa": 479,
-    "ga": 54
-   },
-   "nst": {
-    "gp": 18,
-    "sa": 480,
-    "ga": 54
    }
   },
   {
