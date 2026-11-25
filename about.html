@@ -80,6 +80,16 @@ a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: 
 .card b + small { margin-top: 6px; }
 .card p { margin: 12px 0 0; font: 15px/1.55 var(--sans); color: var(--muted); }
 .card.says p { margin-top: 10px; font: 19px/1.5 var(--serif); color: var(--fg); }
+.feat .ors { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; font: 14px/1.5 var(--sans); color: var(--muted); }
+.feat .ors b { display: block; color: var(--fg); font: 500 12px var(--label); letter-spacing: .14em; text-transform: uppercase; }
+.head.sub { margin-top: 34px; } .h-sub { margin: 0; font: 400 26px/1.1 var(--display); }
+.set-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; margin-top: 18px; padding: 20px 22px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg); }
+.set-row b { font: 400 20px var(--display); } .set-row p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; }
+.seg-mode { display: inline-flex; padding: 3px; border: 1px solid var(--rule); border-radius: 999px; }
+.seg-mode button { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 500 13px var(--sans); cursor: pointer; }
+.seg-mode button svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+.seg-mode button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+@media (max-width: 560px) { .feat .ors { grid-template-columns: minmax(0, 1fr); } }
 .gh-note { margin: 0 0 22px; } .gh-note p { margin: 8px 0 0; font: 15.5px/1.6 var(--serif); }
 .donate { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 28px; align-items: center; margin-top: 18px; }
 .donate-cards { display: grid; gap: 14px; min-width: 0; }
@@ -246,16 +256,12 @@ td.fee.no { color: var(--muted); }
     <aside class="arail" aria-label="About sections"><nav aria-label="About"><h5>About</h5><ul class="views" id="views">
       <li><button type="button" data-v="mission"><i></i>Mission</button></li>
       <li><button type="button" data-v="how-it-works"><i></i>How We Work</button></li>
-      <li><button type="button" data-v="oracles"><i></i>The Oracles</button></li>
-      <li><button type="button" data-v="briefs"><i></i>Briefs</button></li>
-      <li><button type="button" data-v="peer-reviews"><i></i>Peer Reviews</button></li>
-      <li><button type="button" data-v="conferences"><i></i>Conferences</button></li>
-      <li><button type="button" data-v="nhl-dataviz"><i></i>NHL DataViz</button></li>
-      <li><button type="button" data-v="coaching-design"><i></i>Coaching Design</button></li>
+      <li><button type="button" data-v="features"><i></i>Features</button></li>
       <li><button type="button" data-v="ethics"><i></i>Ethics &amp; Standards</button></li>
       <li><button type="button" data-v="patch-notes"><i></i>Patch Notes</button></li>
       <li><button type="button" data-v="sources"><i></i>Sources</button></li>
       <li><button type="button" data-v="donate"><i></i>Donate</button></li>
+      <li><button type="button" data-v="settings"><i></i>Settings</button></li>
     </ul></nav></aside>
     <div class="aviews" id="aviews">
     <section class="sec" id="mission" aria-labelledby="h-mission">
@@ -300,39 +306,19 @@ td.fee.no { color: var(--muted); }
       </div>
     </section>
 
-    <section class="sec" id="oracles" aria-labelledby="h-oracles">
-      <div class="head" style="--c: var(--jade-a)"><small>Living databases</small><h2 id="h-oracles">The Oracles</h2>
-        <p>Four connected views of ice hockey goaltending research, each a tab on the Oracles page.</p></div>
-      <div class="cards" style="--n: 2">
-        <a class="card" href="research.html#master" style="--c: var(--jade-a)"><b>Master Oracle</b><small>Every study</small><p>Every study in one globe, coloured by the nine research topics.</p></a>
-        <a class="card" href="research.html#evidence" style="--c: var(--jade-a)"><b>Evidence Oracle</b><small>Verified studies</small><p>Evidence-based studies on goaltending: peer-reviewed journal articles and examined graduate theses.</p></a>
-        <a class="card" href="research.html#coaching" style="--c: var(--jade-a)"><b>Coaching Oracle</b><small>General Sports</small><p>Research on skill acquisition, ecological dynamics and practice design from across sport, each work labelled by type.</p></a>
-        <a class="card" href="research.html#researchers" style="--c: var(--jade-a)"><b>Researcher Oracle</b><small>Network map</small><p>The researchers behind the studies, and how their work connects.</p></a>
+    <!-- Features (Goldy, 2026-11-25): The Oracles, Briefs, Peer Reviews, Conferences, NHL DataViz and Coaching Design, once six views, in one -->
+    <section class="sec" id="features" aria-labelledby="h-features">
+      <div class="head" style="--c: var(--jade-a)"><small>What's inside</small><h2 id="h-features">Features</h2>
+        <p>Everything the GRJ offers, from the research itself to the tools built on it.</p></div>
+      <div class="cards feat" style="--n: 2">
+        <a class="card wide" href="research.html" style="--c: var(--jade-a)"><b>Research Oracles</b><small>Living databases</small><p>Four connected views of ice hockey goaltending research, each a card on the Oracles page.</p>
+          <ul class="ors"><li><b>Master</b> Every study in one globe, coloured by the nine research topics.</li><li><b>Evidence</b> Peer-reviewed journal articles and examined graduate theses on goaltending.</li><li><b>Researchers</b> The researchers behind the studies, and how their work connects.</li><li><b>Coaching</b> Skill acquisition, ecological dynamics and practice design from across sport, labelled by type.</li></ul></a>
+        <a class="card" href="briefs.html" style="--c: var(--jade-a)"><b>Coaching Briefs</b><small>For coaches</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a>
+        <a class="card" href="reviews.html" style="--c: var(--jade-a)"><b>Peer Reviews</b><small>Monthly</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a>
+        <a class="card" href="conference.html" style="--c: var(--jade-a)"><b>Conferences</b><small>Virtual</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a>
+        <a class="card" href="goalies.html" style="--c: var(--jade-a)"><b>NHL Goalie DataViz</b><small>Official NHL data</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance. Data from the NHL and Natural Stat Trick.</p></a>
       </div>
-    </section>
-
-    <section class="sec" id="briefs" aria-labelledby="h-briefs">
-      <div class="head" style="--c: var(--jade-a)"><small>For coaches</small><h2 id="h-briefs">Briefs</h2></div>
-      <div class="cards" style="--n: 1"><a class="card" href="briefs.html" style="--c: var(--jade-a)"><b>Read the Briefs</b><small>Study breakdowns</small><p>Easy-to-digest research breakdowns that turn theory, academia, and statistics into practice design ideas for coaches.</p></a></div>
-    </section>
-
-    <section class="sec" id="peer-reviews" aria-labelledby="h-peer">
-      <div class="head" style="--c: var(--jade-a)"><small>Monthly</small><h2 id="h-peer">Peer Reviews</h2></div>
-      <div class="cards" style="--n: 1"><a class="card" href="reviews.html" style="--c: var(--jade-a)"><b>Join a session</b><small>Coaches and researchers</small><p>We invite dedicated goalie coaches to join our monthly Peer Review sessions, which help build our network of evidence-based coaches and designers.</p></a></div>
-    </section>
-
-    <section class="sec" id="conferences" aria-labelledby="h-conf">
-      <div class="head" style="--c: var(--jade-a)"><small>Virtual</small><h2 id="h-conf">Conferences</h2></div>
-      <div class="cards" style="--n: 1"><a class="card" href="conference.html" style="--c: var(--jade-a)"><b>Visit the Conference</b><small>Researchers in their own words</small><p>Our virtual conferences not only offer deep insight into goaltending research, but support the researchers themselves.</p></a></div>
-    </section>
-
-    <section class="sec" id="nhl-dataviz" aria-labelledby="h-nhl">
-      <div class="head" style="--c: var(--jade-a)"><small>Official NHL data</small><h2 id="h-nhl">NHL DataViz</h2></div>
-      <div class="cards" style="--n: 1"><a class="card" href="goalies.html" style="--c: var(--jade-a)"><b>Explore NHL DataViz</b><small>GRJ analysis</small><p>Explore, play with, and dig into official NHL data specific to goaltending performance. Data from the NHL and Natural Stat Trick.</p></a></div>
-    </section>
-
-    <section class="sec" id="coaching-design" aria-labelledby="h-ldm">
-      <div class="head" style="--c: var(--jade-a)"><small>Learning design methods</small><h2 id="h-ldm">Coaching Design</h2></div>
+      <div class="head sub" id="coaching-design" style="--c: var(--jade-a)"><small>Learning design methods</small><h3 class="h-sub">Coaching Design</h3></div>
     <section class="xl" id="extreme-learning" aria-labelledby="h-xl">
       <svg id="xl-svg" viewBox="0 0 380 282" role="group" aria-label="Seven hexagons, one for each factor of an innovation culture, lighting in turn from the factors that catalyze to those that enable and sustain, with a dashed line feeding back to the start">
         <path class="xl-loop" aria-hidden="true" d="M332 140 H356 V10 H80 V44 M218 10 V44"/>
@@ -408,6 +394,19 @@ td.fee.no { color: var(--muted); }
         </div>
       </div>
     </section>
+
+    <!-- Settings (Goldy, 2026-11-25): dark is the default; light mode is a choice saved in this browser -->
+    <section class="sec" id="settings" aria-labelledby="h-settings">
+      <div class="head" style="--c: var(--jade-a)"><small>Your preferences</small><h2 id="h-settings">Settings</h2>
+        <p>Choices here are saved in this browser and apply to every page of the GRJ.</p></div>
+      <div class="set-row">
+        <div><b>Appearance</b><p>Dark is the default. Light mode suits bright rooms and printing.</p></div>
+        <div class="seg-mode" role="group" aria-label="Appearance">
+          <button type="button" data-theme-set="dark" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z"/></svg>Dark mode</button>
+          <button type="button" data-theme-set="light" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>Light mode</button>
+        </div>
+      </div>
+    </section>
     </div>
     </div>
     <div class="end"></div>
@@ -420,7 +419,7 @@ td.fee.no { color: var(--muted); }
   const box = document.getElementById("aviews"), list = document.getElementById("views");
   const btns = [...list.querySelectorAll("button[data-v]")], ids = btns.map((b) => b.dataset.v);
   // Old links: #vision and #promise live in Mission, #learning-design and #extreme-learning in Coaching Design, #whats-here in The Oracles
-  const OLD = { vision: "mission", promise: "mission", "learning-design": "coaching-design", "extreme-learning": "coaching-design", "whats-here": "oracles" };
+  const OLD = { vision: "mission", promise: "mission", "whats-here": "features", oracles: "features", briefs: "features", "peer-reviews": "features", conferences: "features", "nhl-dataviz": "features", "coaching-design": "features", "learning-design": "features", "extreme-learning": "features" };
   box.classList.add("js");
   function show(id, push) {
     id = OLD[id] || id; if (!ids.includes(id)) id = "mission";
