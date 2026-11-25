@@ -182,7 +182,7 @@
 
   /* ---------- Oracle orbs ----------
      Each stop's orb is a small Oracle: a turning sphere of points of light in the stop's colour, threaded by three tilted
-     orbits with beads riding them and a soft bloom at the core. The opening orb carries all nine topic colours; the Oracles
+     orbits with beads riding them and a soft bloom at the core. The opening orb is Lanes, one ribbon per study in its topic colour; the Oracles
      stop is an armillary of four rings, one per Oracle. Drawn on a canvas inside the orb, only while the orb is on screen. */
   const hex = (c) => { c = c.trim(); if (c.startsWith("#")) { c = c.slice(1); if (c.length === 3) c = [...c].map((x) => x + x).join(""); return [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16)); } const m = c.match(/\d+/g); return m ? m.slice(0, 3).map(Number) : [164, 199, 193]; };
   const TOPIC_RGB = () => TOPICS.map(([k]) => hex(getComputedStyle(document.body).getPropertyValue("--t-" + k)));
@@ -206,6 +206,23 @@
     gr = g.createRadialGradient(C - R * 0.35, C - R * 0.4, R * 0.05, C, C, R * 1.02);
     gr.addColorStop(0, rgba([255, 255, 255], 0.10)); gr.addColorStop(0.5, rgba(base, 0.06)); gr.addColorStop(1, rgba(base, 0.02));
     g.fillStyle = gr; g.beginPath(); g.arc(C, C, R, 0, 6.283); g.fill();
+    // The opening orb is Lanes (Goldy picked it, 2026-11-25): one ribbon of light per goalie study on its own lane, in its topic's colour
+    if (o.kind === "all") {
+      if (!o.lanes) { const keys = TOPICS.map(([k]) => k), recs = RECS.length ? RECS : Array.from({ length: 79 }, (_, i) => ({ tp: [keys[i % 9]] }));
+        o.lanes = recs.map((r, i) => ({ c: o.all[Math.max(0, keys.indexOf((r.tp || [])[0]))] || base, lat: Math.asin(1 - 2 * ((i * 0.618034 + 0.31) % 1)) * 0.92, lon: i * 2.39996, len: 0.5 + ((i * 37) % 11) / 14, dir: i % 2 ? 1 : -1 })); }
+      o.lanes.forEach((l) => {
+        const head = l.lon + t * 0.0004 * l.dir * (0.6 + l.len * 0.4), cl = Math.cos(l.lat), sl = Math.sin(l.lat); let p = null;
+        for (let k = 0; k <= 18; k++) {
+          const u = head - k * 0.045 * l.len * l.dir, q = P(Math.cos(u) * cl, sl, Math.sin(u) * cl, rot * 0.75);
+          if (p) { const d = 0.5 - (p[2] + q[2]) / 4; g.strokeStyle = rgba(l.c, (1 - k / 18) * (0.15 + 0.75 * d)); g.lineWidth = 1.7 * q[3]; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(q[0], q[1]); g.stroke(); }
+          else { const d = 0.5 - q[2] / 2; g.fillStyle = rgba(l.c, 0.3 + 0.7 * d); g.beginPath(); g.arc(q[0], q[1], 2.6 * q[3], 0, 6.283); g.fill(); }
+          p = q;
+        }
+      });
+      g.globalCompositeOperation = "source-over";
+      g.strokeStyle = rgba(base, 0.26); g.lineWidth = 1.2; g.beginPath(); g.arc(C, C, R * 1.02, 0, 6.283); g.stroke();
+      return;
+    }
     // orbits (armillary: four rings, one per Oracle; otherwise three)
     const rings = o.kind === "armillary" ? [[0.2, 0], [1.1, 0.8], [1.9, 1.6], [0.75, 2.4]] : [[0.35, 0.3], [1.25, 1.4], [2.2, 2.5]];
     rings.forEach(([tilt, head], ri) => {
