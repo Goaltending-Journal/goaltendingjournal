@@ -1,46 +1,47 @@
 # The Goaltending Research Journal: site files
 
-A static website. There is nothing to install and no server: it is plain HTML and JavaScript that any web host can serve.
+A static website: plain HTML and JavaScript that any web host can serve, with nothing to install and no server. It is published by GitHub Pages from the `main` branch.
 
-## What is in this folder
+## Pages
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The home page: a scroll journey (`journey.js`, `journey.css`) through the Mission, the Features (Briefs, Peer Reviews, Conferences), the Oracles, the nine topics and NHL DataViz, with a live mini visual on each Oracle, Feature and NHL card, with each node's glowing Oracle orb and the newest goalie studies from `data.js`. The opening frame offers Skip to end and View the Oracles. |
-| `constellation.js` | The Master Oracle, the first tab on `research.html`: every study as a ribbon of light and every researcher as a light in their topic's region. |
-| `research.html` | The Goaltending Research page: the Researcher Network Map, the Research Heatmap and the study table with filters. |
-| `briefs.html` | The Briefs page: coaching breakdowns of recent studies from the Oracles. The latest brief leads, with every brief listed below. |
-| `coaching.html` | The Goalie Coaching Design page (nav: Coaching): the Coaching Oracle globe (`coaching-oracle.js`, reading `learning-data.js` and `research.js`) and the five Practice Labs (`coaches-*.html`, listed in `learn.js`). `coaches.html` forwards here. |
-| `conference.html` | The Virtual Conference page: conference details and the featured video. Linked from the top bar as Conference. |
-| `data.js` | The research data: every article and the "last updated" date. |
-| `journals-data.js` | Every open-access sports journal in the Directory of Open Access Journals, for the Sources list on the About page. |
-| `build_journals_data.py` | Rebuilds `journals-data.js` from the DOAJ search API: `python build_journals_data.py`. |
-| `news.js` | The NHL goaltending news list. |
-| `goalies.html` | The Goalie Stats page: NHL goaltender leaders, charts and a sortable table. Linked from the top bar as NHL Stats. |
-| `goalies-data.js` | The goalie stats snapshot that `goalies.html` reads. Refreshed every morning by `.github/workflows/update-goalie-stats.yml`. |
-| `build_goalies_data.py` | The stats bot: pulls this season's goalie totals from the NHL stats feed (api.nhle.com) into `goalies-data.js`, adding bios for new goalies: `python build_goalies_data.py`. |
-| `fetch_nst.py`, `data/nst/` | Natural Stat Trick goalie tables for this season (all situations and 5v5), saved as CSV each morning by the same stats workflow. Needs the `NST_KEY` repository secret. Credit "Data courtesy of Natural Stat Trick" wherever it is shown. |
-| `goal-map-data.js`, `build_goal_map.py` | Every shot on goal this season with its location, from the NHL play-by-play feed (api-web.nhle.com), for the goals heat map and the Leaderboard on `goalies.html` (a `daily` list gives each goalie's shots and goals per date). Rebuilt each morning by the stats workflow; games already read are cached in `data/goal-map/`. |
-| `goalies-advanced.js` | The goals heat map and the Natural Stat Trick visualizers (top goaltenders, danger zones, high danger vs everything else, full NST table) on `goalies.html`. Reads `data/nst/*.csv` in the browser. |
-| `glove-positioning.html` | Brief 1 (Research to Practice): Glove Positioning Analysis, with the interactive explainer on goalie depth, angle and glove position, from Kwan, Daley & MacLean (2026). Self-contained, with no data file. Linked from the top bar as Briefs. |
-| `site-nav.css` | The top bar and main menu shared by every page. Each page repeats the same menu links in its HTML, so a menu change means editing the `<nav>` block in each `.html` file. |
-| `theme.js` | The light/dark switch in every page footer. It remembers the visitor's choice; with none saved, pages follow the device setting. |
-| `about.html` | The About page: the journal's mission, a short tour of the site, Peers, and the Sources list of open-access sports journals. Linked from the home page top bar. |
-| `goalies-uncertainty-data.js` | Shrunk save % with 90% ranges, and goals saved vs expected, for the "Save %, with how sure we are" and "Goals saved vs expected" visualizers on `goalies.html`. |
-| `build_uncertainty_data.py` | Rebuilds `goalies-uncertainty-data.js` from `goalies-data.js` and the Natural Stat Trick table in `data/nst/`: `python build_uncertainty_data.py`. The morning stats workflow runs it after both are refreshed. Checks: `python analysis/validate_uncertainty.py`. |
-| `research.js` | The newest ecological dynamics and skill acquisition studies, shown on the Coaching Oracle globe on `coaching.html`. |
-| `add_from_pubmed_csv.py` | Optional helper that turns a PubMed CSV export into new rows for `data.js`. |
-| `fetch_news.py` | Optional helper that adds recent NHL goalie headlines to `news.js`. |
-| `fetch_research.py` | Optional helper that adds recent articles to `research.js` using OpenAlex (no key needed). |
-| `.github/workflows/update-feeds.yml` | Optional: lets GitHub run the research helper every day. |
-| `.github/workflows/update-news.yml` | Optional: lets GitHub run `fetch_news.py` every day. This is a hidden folder; on a Mac press Cmd+Shift+. in Finder to see it. |
-| `README.md` | This file. |
+| `index.html` | The home page: a scroll journey (`journey.js`, `journey.css`) through the Mission, the Features, the Oracles, the nine topics and NHL DataViz. |
+| `research.html` | The Oracles page: the Master Oracle (`constellation.js`), the Evidence Oracle table, the Researcher Network Map and Heatmap, and the Coaching Oracle tab (`coaching-oracle.js`). |
+| `briefs.html` | Briefs: coaching breakdowns of studies, with the Practice Labs listed below (`learn.js`, `learn.css`). |
+| `glove-positioning.html` | Brief 1, Glove Positioning Analysis, with its interactive explainer. |
+| `coaches-*.html` | The five Practice Labs, listed in `learn.js`. |
+| `reviews.html` | Peer Reviews. |
+| `conference.html` | The Virtual Conference. |
+| `goalies.html` | NHL DataViz: leaders, heat map, visualizers, Impact GSAx, Archetypes and Brad's Goalie Panes (`panes/`). |
+| `about.html` | About: mission, how it works, sources, ethics and the Patch Notes tab (`patch-notes.md`). |
 
-`index.html`, `data.js`, `news.js`, `research.js` and the `flags` folder must stay in the same folder.
+Shared by every page: `site-nav.css` (top bar and every colour), `theme.js` (light/dark switch), `page-lid.js` (page title plates and night sky), `topics.js` (the nine topics and their colours), and the favicon files.
 
-## Preview on your computer
+## Data files
 
-Double-click `index.html`. It opens in your browser. Fonts load from Google Fonts when you are online; offline, the page falls back to your system fonts.
+| File | What it holds |
+| --- | --- |
+| `data.js` | The Evidence Oracle: every study and the "last updated" date. Fields below. |
+| `researchers-data.js` | The researcher profiles for the network map and Master Oracle. |
+| `learning-data.js`, `coaching-evidence.js`, `research.js` | The Coaching Oracle works and the evidence list that screens them. |
+| `journals-data.js` | Open-access sports journals for the Sources list on About. Refresh with `python build_journals_data.py`. |
+| `papers/` | PDFs linked from the site. |
+
+## The morning stats run
+
+`.github/workflows/update-goalie-stats.yml` runs every day at 09:00 UTC and commits whatever changed. In order:
+
+1. `build_goalies_data.py`: this season's goalie totals from the NHL stats feed into `goalies-data.js`.
+2. `fetch_nst.py`: Natural Stat Trick tables into `data/nst/` (needs the `NST_KEY` secret; credit "Data courtesy of Natural Stat Trick").
+3. `build_uncertainty_data.py`: save % ranges into `goalies-uncertainty-data.js` (checks: `python analysis/validate_uncertainty.py`).
+4. `check_sources.py`: NHL feed vs Natural Stat Trick, into `data/checks/`.
+5. `build_goal_map.py`: every shot on goal into `goal-map-data.js` (cache in `data/goal-map/`).
+6. `build_impact.py`: Impact GSAx into `impact-data.js` (`data/impact/`).
+7. `build_panes.py`: Brad's Goalie Panes into `panes/index.html` (`data/panes/`).
+8. `build_goalie_types.py`: goalie playing types into `goalie-types-data.js`.
+
+The DataViz page reads these with `goalies-advanced.js`, `goal-map-3d.js`, `impact-panel.js`, `nhl-oracle.js` and `goalie-types-panel.js`. The Light Box goalie art and its checks live in `illustrations/` (see its README).
 
 ## How the data is stored
 
@@ -67,56 +68,8 @@ A title links to its DOI if there is one, then to `link`, then to PubMed.
 
 The page works out the record count, the "last updated" date and the Records by year chart from this file, so you only edit `data.js`.
 
-## Updating the data
+To add or fix a record, open `data.js` in a plain text editor, copy a line, change the values, keep the comma at the end, and update `UPDATED` near the top. If the page shows no studies after an edit, there is a typo; press F12 and open Console to find the line.
 
-**Add or fix one record by hand.** Open `data.js` in a plain text editor (not Word). Copy a line, change the values, keep the comma at the end of each line except the last. Update `UPDATED` near the top. Save and reload `research.html`. If the page shows no articles after an edit, there is a typo such as a missing comma or quote; press F12 in your browser and open Console to see the line.
+## Preview on your computer
 
-**Add a batch from PubMed.**
-1. On pubmed.ncbi.nlm.nih.gov, run your search.
-2. Click Save, set the format to CSV, and create the file.
-3. In a terminal, in this folder, run `python3 add_from_pubmed_csv.py your-export.csv`. It lists what is new and changes nothing.
-4. Run it again with `--write` to add the new records. It saves a backup as `data.js.bak` and updates the date.
-5. Review the new rows. Scope and topic tags are guesses from the title. Delete rows that are not about ice hockey goaltending and fix the tags.
-
-Records already in `data.js` are skipped by PubMed ID, so you can re-run an export safely.
-
-**Open-access journals.** Run `python build_journals_data.py` to refresh `journals-data.js` from doaj.org. The list appears under Sources on `about.html`.
-
-**Records by year chart.** It shows 2010 to 2026 (`CHART_FROM` and `CHART_TO` near the top of the script in `research.html`). Newer years are added automatically when a record from a later year is in `data.js`. Selecting a year filters the table below it. Clicking a year lists that year's records; earlier years are found under Research Articles.
-
-**NHL goaltending news.** Edit `news.js` by hand: one item per line, newest anywhere (the page sorts by date). Fields are listed at the top of the file. Set `"m": true` on items you add yourself. To collect headlines automatically, run `python3 fetch_news.py` to preview and `python3 fetch_news.py --write` to add them. It reads Google News search results for "NHL goalie", "NHL goaltending" and "NHL goaltender" and keeps your hand-added items. Automatic items have no summary line and link to Google News, which forwards to the publisher.
-
-**Daily automatic news (optional).** Copy `.github/workflows/update-news.yml` into your repository. On GitHub go to Settings, Actions, General, Workflow permissions, choose Read and write permissions, and save. The job then runs every day and commits an updated `news.js`; you can also run it from the Actions tab. After it commits, pull the change in GitHub Desktop before editing locally. Not tested against live feeds, so check the first run in the Actions tab.
-
-**Colours, fonts and the masthead glow.** Every colour is set once in `site-nav.css`: the light palette in `:root`, with dark-mode values in the two dark blocks below it. The brand is Smoke Jade with white (`--accent`, the jade shades `--jade-a/b/c`, and `--word-grad` for the moving word in each page title). The nine topic colours (`--t-*`) are kept for the Oracle categories only. The glow is controlled by `--glow-text`, `--glow-text-hover`, `--glow-spot` and `--glow-edge`. Titles use Fjalla One, served from `fonts/` as "GRJ Display" (`--display`); small labels use Jost, and reading text Source Serif 4.
-
-**Featured video.** One YouTube video is embedded in the Featured video section of `index.html`. To change it, replace the 11-character id (`THgShNfSibk`) in both the `iframe` and the "Watch on YouTube" link.
-
-**Peer reviewers.** The reviewer list is plain HTML in the Peers section of `index.html`, one `<li>` per person. Replace each placeholder name (`Reviewer 01` and so on). Flags are small SVG files in `flags/`, named by two-letter country code (`us.svg`, `fr.svg`).
-
-**Research (ecological dynamics and skill acquisition).** Edit `research.js` by hand: one article per line (fields are listed at the top of the file). To add articles automatically, run `python3 fetch_research.py` to preview and `python3 fetch_research.py --write` to add. It searches OpenAlex for "ecological dynamics", "constraints-led approach" and "skill acquisition" in sport. To follow particular researchers, put their names in `WATCH_AUTHORS` at the top of that file. Automatic items have no summary line.
-
-**Daily automatic updates (optional).** Create `.github/workflows/update-feeds.yml` in your repository (on GitHub: Add file, Create new file, and type the whole path as the name). It runs the research helper daily without any key. Not tested against the live services, so check the first run in the Actions tab.
-
-**Other wording.** The notes under the Goaltending Research, the menu and the masthead text are plain HTML in `index.html`; the Virtual Conference details are in `conference.html`. Search the file for the heading you want, for example `Peers`, and replace the "To be announced" lines.
-
-## Publishing the site
-
-**GitHub Pages (free, and a good fit for an open-source journal).**
-1. Create a free account at github.com and choose New repository. Make it Public and give it a name such as `goaltending-journal`.
-2. Choose Add file, then Upload files, drag in all four files, and commit.
-3. Go to Settings, then Pages. Under Build and deployment, set Source to Deploy from a branch, choose the `main` branch and the `/ (root)` folder, and save.
-4. After a minute or two the address appears at the top of that page, in the form `https://YOUR-USERNAME.github.io/goaltending-journal/`.
-
-To update later, open `data.js` in the repository, click the pencil icon, edit, and commit. The live site refreshes within a couple of minutes. You can also use Settings, then Pages, to attach a custom domain you own.
-
-**Netlify Drop (fastest).** Go to app.netlify.com/drop and drag this folder onto the page. You get a working address immediately.
-
-**Licence.** For an open-source journal, add a licence file to the repository. That choice is yours, and none is included here.
-
-## Before you publish
-
-- Fill in or remove the Peers and Virtual Conference placeholders. They currently say "To be announced".
-- Add a contact address so readers and authors can reach the journal.
-- Check the "About these records" note under the Goaltending Research.
-
+In this folder run `python -m http.server` and open http://localhost:8000.
