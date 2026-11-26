@@ -110,30 +110,31 @@ main.wrap > .lid{margin-bottom:-24px}
 
   <div class="bframe">
   <aside class="brail" aria-label="Learning modules"><nav aria-label="Modules"><h5>Modules</h5><ul class="views" id="views">
-      <li><button type="button" data-v="latest"><i></i>Latest Brief</button></li>
+      <li><button type="button" data-v="latest"><i></i>Featured Brief</button></li>
       <li><button type="button" data-v="briefs"><i></i>All Briefs</button></li>
       <li><button type="button" data-v="labs"><i></i>Practice Labs</button></li>
       <li><button type="button" data-v="topics"><i></i>Research Topics</button></li>
     </ul></nav></aside>
   <div class="bviews" id="bviews">
-  <section class="bv" id="latest" aria-label="Latest brief">
-  <a class="feat" href="glove-positioning.html" aria-label="Latest brief: Glove Positioning Analysis">
+  <section class="bv" id="latest" aria-label="Featured brief">
+  <a class="feat" href="gaze-behaviors.html" aria-label="Foundational Study: Gaze Behaviors of Goaltenders">
     <div class="feat-txt">
-      <span class="feat-k">Latest brief</span>
-      <b>Glove Positioning Analysis</b>
-      <p>Why goalies give up more net late in a drill, with constraints to hold depth on wide pucks.</p>
-      <div class="src"><span class="tp"><i class="tdot" style="--c: var(--t-bio)"></i>Movement &amp; biomechanics</span><span>Kwan, Daley &amp; MacLean 2026</span><span>Evidence Oracle</span><span>4 min read</span></div>
+      <span class="feat-k">Foundational Study</span>
+      <b>Gaze Behaviors of Goaltenders</b>
+      <p>Where elite goalies look before the shot, and how to coach an early, steady read on the blade.</p>
+      <div class="src"><span class="tp"><i class="tdot" style="--c: var(--t-vis)"></i>Vision &amp; anticipation</span><span>Panchuk &amp; Vickers 2006</span><span>Evidence Oracle</span><span>5 min read</span></div>
       <span class="feat-go">Read the brief <i>→</i></span>
     </div>
     <div class="feat-art" aria-hidden="true">
-      <!-- Our own drawing: a net with three glove outlines fading back, one per rep. Not a figure from the study. -->
+      <!-- Our own drawing: a stick blade and puck with a gaze line settling on it, fading earlier fixations behind. Not a figure from the study. -->
       <svg viewBox="0 0 360 240">
-        <path d="M80 34V210M120 34V210M160 34V210M200 34V210M240 34V210M280 34V210M40 78H320M40 122H320M40 166H320" stroke="#6f9a93" stroke-width="1" opacity=".5"/>
-        <path d="M40 210V50Q40 34 56 34H304Q320 34 320 50V210" fill="none" stroke="#e9f0ee" stroke-width="5" stroke-linecap="round"/>
-        <path d="M20 210H340" stroke="#a4c7c1" stroke-width="3" stroke-linecap="round"/>
-        <circle class="rep" cx="258" cy="92" r="20" fill="none" stroke="#e9f0ee" stroke-width="3"/>
-        <circle class="rep" cx="266" cy="122" r="20" fill="none" stroke="#e9f0ee" stroke-width="3" opacity=".6"/>
-        <circle class="rep" cx="274" cy="152" r="20" fill="none" stroke="#e9f0ee" stroke-width="3" opacity=".3"/>
+        <path d="M20 200H340" stroke="#a4c7c1" stroke-width="3" stroke-linecap="round"/>
+        <path d="M300 30L232 178Q228 188 216 188H168" fill="none" stroke="#e9f0ee" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <ellipse cx="190" cy="196" rx="15" ry="5" fill="#e9f0ee"/>
+        <circle class="rep" cx="70" cy="70" r="7" fill="none" stroke="#e9f0ee" stroke-width="2" opacity=".3"/>
+        <circle class="rep" cx="120" cy="120" r="9" fill="none" stroke="#e9f0ee" stroke-width="2" opacity=".55"/>
+        <path d="M70 70L190 190" stroke="#6f9a93" stroke-width="1.5" stroke-dasharray="4 6"/>
+        <circle class="rep" cx="190" cy="190" r="22" fill="none" stroke="#e9f0ee" stroke-width="3"/>
       </svg>
     </div>
   </a>
@@ -142,8 +143,8 @@ main.wrap > .lid{margin-bottom:-24px}
   <section class="all bv" id="briefs" aria-labelledby="h-all">
     <h2 id="h-all">All briefs</h2>
     <ol>
+      <li><a href="gaze-behaviors.html"><i class="tdot" style="--c: var(--t-vis)"></i><b>Gaze Behaviors of Goaltenders</b><small>Foundational Study · Panchuk &amp; Vickers 2006 · Evidence Oracle</small></a></li>
       <li><a href="glove-positioning.html"><i class="tdot" style="--c: var(--t-bio)"></i><b>Glove Positioning Analysis</b><small>Kwan, Daley &amp; MacLean 2026 · Evidence Oracle</small></a></li>
-      <li><div class="wait"><i class="tdot hollow" style="--c: var(--t-vis)"></i><b>Gaze Behaviors of Goaltenders</b><small>Next brief</small></div></li>
     </ol>
   </section>
 
