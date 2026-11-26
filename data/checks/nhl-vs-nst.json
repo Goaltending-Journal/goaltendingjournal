@@ -1,8 +1,8 @@
 {
- "checked": "2026-11-25",
+ "checked": "2026-11-26",
  "season": "2026-27",
- "nhlAsOf": "2026-11-25",
- "nstAsOf": "2026-11-25",
+ "nhlAsOf": "2026-11-26",
+ "nstAsOf": "2026-11-26",
  "goalies": 79,
  "matched": 55,
  "minor": [
@@ -10,28 +10,28 @@
    "name": "Alex Nedeljkovic",
    "team": "SJS",
    "nhl": {
-    "gp": 9,
-    "sa": 285,
-    "ga": 28
+    "gp": 10,
+    "sa": 315,
+    "ga": 35
    },
    "nst": {
-    "gp": 10,
-    "sa": 284,
-    "ga": 28
+    "gp": 11,
+    "sa": 314,
+    "ga": 35
    }
   },
   {
    "name": "Andrei Vasilevskiy",
    "team": "TBL",
    "nhl": {
-    "gp": 17,
-    "sa": 418,
-    "ga": 44
+    "gp": 18,
+    "sa": 447,
+    "ga": 46
    },
    "nst": {
-    "gp": 17,
-    "sa": 419,
-    "ga": 44
+    "gp": 18,
+    "sa": 448,
+    "ga": 46
    }
   },
   {
@@ -52,28 +52,28 @@
    "name": "Connor Hellebuyck",
    "team": "NJD",
    "nhl": {
-    "gp": 10,
-    "sa": 244,
-    "ga": 25
+    "gp": 11,
+    "sa": 268,
+    "ga": 27
    },
    "nst": {
-    "gp": 10,
-    "sa": 245,
-    "ga": 25
+    "gp": 11,
+    "sa": 269,
+    "ga": 27
    }
   },
   {
    "name": "Daniil Tarasov",
    "team": "DET",
    "nhl": {
-    "gp": 10,
-    "sa": 247,
-    "ga": 18
+    "gp": 11,
+    "sa": 273,
+    "ga": 19
    },
    "nst": {
-    "gp": 10,
-    "sa": 246,
-    "ga": 18
+    "gp": 11,
+    "sa": 272,
+    "ga": 19
    }
   },
   {
@@ -122,14 +122,14 @@
    "name": "Ilya Sorokin",
    "team": "NYI",
    "nhl": {
-    "gp": 16,
-    "sa": 471,
-    "ga": 39
+    "gp": 17,
+    "sa": 494,
+    "ga": 41
    },
    "nst": {
-    "gp": 16,
-    "sa": 469,
-    "ga": 39
+    "gp": 17,
+    "sa": 492,
+    "ga": 41
    }
   },
   {
@@ -178,28 +178,28 @@
    "name": "Juuse Saros",
    "team": "NSH",
    "nhl": {
-    "gp": 17,
-    "sa": 502,
-    "ga": 42
+    "gp": 18,
+    "sa": 523,
+    "ga": 43
    },
    "nst": {
-    "gp": 17,
-    "sa": 503,
-    "ga": 42
+    "gp": 18,
+    "sa": 524,
+    "ga": 43
    }
   },
   {
    "name": "Karel Vejmelka",
    "team": "UTA",
    "nhl": {
-    "gp": 16,
-    "sa": 368,
-    "ga": 48
+    "gp": 17,
+    "sa": 393,
+    "ga": 51
    },
    "nst": {
-    "gp": 16,
-    "sa": 369,
-    "ga": 48
+    "gp": 17,
+    "sa": 394,
+    "ga": 51
    }
   },
   {
@@ -220,14 +220,14 @@
    "name": "Logan Thompson",
    "team": "WSH",
    "nhl": {
-    "gp": 15,
-    "sa": 378,
-    "ga": 46
+    "gp": 16,
+    "sa": 399,
+    "ga": 49
    },
    "nst": {
-    "gp": 15,
-    "sa": 379,
-    "ga": 46
+    "gp": 16,
+    "sa": 400,
+    "ga": 49
    }
   },
   {
@@ -334,14 +334,14 @@
    "name": "Jesper Wallstedt",
    "team": "MIN",
    "nhl": {
-    "gp": 22,
-    "sa": 578,
-    "ga": 44
+    "gp": 23,
+    "sa": 599,
+    "ga": 48
    },
    "nst": {
-    "gp": 22,
-    "sa": 575,
-    "ga": 44
+    "gp": 23,
+    "sa": 595,
+    "ga": 48
    }
   }
  ]
