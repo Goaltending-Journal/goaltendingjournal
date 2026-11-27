@@ -56,13 +56,6 @@ button,input,select{font:inherit;color:inherit}
 .gframe{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
 .grail{position:sticky;top:76px;display:grid;gap:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
 .grail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.mini-or{position:relative;display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--crease) 10%,transparent),transparent 70%);cursor:pointer;overflow:hidden;color:var(--chalk)}
-.mini-or canvas{display:block;width:100%;height:180px}
-.mini-or span{position:absolute;left:12px;bottom:10px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.mini-or span b{color:var(--crease);font-weight:700}
-.mini-or:hover{border-color:var(--crease)}
-.mini-or:hover span{color:var(--chalk)}
-@media (max-width:880px){.mini-or{display:none}}
 .grail .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:12px}
 .grail .seg button{padding-inline:4px;font-size:12.5px;border-radius:9px}
 .views{list-style:none;margin:0;padding:0;display:grid;gap:2px}
@@ -143,27 +136,25 @@ button,input,select{font:inherit;color:inherit}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
-/* archetypes: twelve compact cards, each a Light Box still that plays its loop on hover or focus */
-.ty-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px;padding:0;list-style:none}
-.ty-card{display:flex;flex-direction:column;gap:12px;padding:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);min-width:0}
-.ty-card:hover,.ty-card:focus-within{border-color:var(--crease)}
-.ty-art{border-radius:8px;overflow:hidden}
-.ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:200px;border-radius:8px}
-.ty-txt{min-width:0}
-.ty-txt h3{margin:0;font-size:17px;font-weight:700;line-height:1.2}
-.ty-txt p{margin:3px 0 0;font-size:13px;color:var(--mute);line-height:1.35}
-.ty-row{margin-top:8px;line-height:1.35}
-.ty-lead{display:inline;padding:0;border:0;background:none;color:var(--crease);font-size:14px;font-weight:600;cursor:pointer;text-align:left}
-.ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
-.ty-more{margin-left:4px;padding:0 6px;vertical-align:1px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--fog);font:600 10px var(--f-data);cursor:pointer}
-.ty-pop{margin:0;padding:10px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);color:var(--chalk);box-shadow:0 8px 24px var(--shadow);max-width:min(320px,90vw)}
-.ty-pop h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
-.ty-pop ul{margin:0;padding:0;list-style:none;display:grid;gap:2px}
-.ty-pop button{border:0;background:none;padding:4px 2px;color:var(--chalk);font-size:13px;cursor:pointer;text-align:left;width:100%}
-.ty-pop button:hover{color:var(--crease)}
-.ty-pop .t{color:var(--mute);font:11px var(--f-data);margin-left:6px}
-@media (max-width:1100px){ .ty-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media (max-width:620px){ .ty-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px} .ty-card{padding:8px;gap:8px} .ty-txt h3{font-size:15px} }
+/* archetypes: the twelve types take turns in the rail card (Goldy, 2026-11-26); each Light Box X-ray plays its loop */
+.ty-rot{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--crease) 10%,transparent),transparent 70%)}
+.ty-rot .ty-k{font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.ty-rot .ty-art{display:grid;place-items:center;border-radius:8px;overflow:hidden}
+.ty-rot .ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:170px;border-radius:8px}
+.ty-rot .ty-txt{min-height:92px}
+.ty-rot h4{margin:0;font:600 18px/1.2 var(--f-display);color:var(--chalk)}
+.ty-rot p{margin:3px 0 0;font-size:12.5px;line-height:1.4;color:var(--mute)}
+.ty-rot .ty-lead{margin-top:6px;padding:0;border:0;background:none;color:var(--crease);font-size:13px;font-weight:600;cursor:pointer;text-align:left}
+.ty-rot .ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
+.ty-rot .ty-lead .t{margin-left:6px;color:var(--mute);font:11px var(--f-data)}
+.ty-rot .ty-n{margin-left:6px;color:var(--mute);font-size:11px}
+.ty-dots{display:flex;flex-wrap:wrap;gap:4px}
+.ty-dots button{width:10px;height:10px;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer}
+.ty-dots button:hover{border-color:var(--crease)}
+.ty-dots button[aria-current="true"]{background:var(--crease);border-color:var(--crease)}
+.ty-rot .ty-src{font-size:10.5px;color:var(--mute)}
+.ty-rot .ty-src a{color:inherit}
+@media (max-width:880px){ .ty-rot{grid-template-columns:110px minmax(0,1fr);align-items:center} .ty-rot .ty-k,.ty-rot .ty-dots,.ty-rot .ty-src{grid-column:1/-1} .ty-rot .ty-txt{min-height:0} }
 
 
 /* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).
@@ -434,17 +425,15 @@ tbody tr:last-child td{border-bottom:0}
 </header>
 
 <main class="wrap" id="main">
-  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">The data, daily</div><h1 id="h-goalies"><span class="spectrum">NHL Goalie</span> DataViz</h1></div></header>
+  <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">An open-source project</div><h1 id="h-goalies"><span class="spectrum">NHL Goalie</span> DataViz</h1></div></header>
   <div class="gframe">
   <aside class="grail" aria-label="NHL Oracle and views">
-    <!-- Mini NHL Oracle in place of the Season leader card (Goldy, 2026-11-24); drawn by nhl-oracle.js -->
-    <button type="button" class="mini-or" id="miniOr" aria-label="Open the NHL Oracle view"><canvas id="miniOrCv" aria-hidden="true"></canvas><span>NHL Oracle <b>→</b></span></button>
+    <!-- Archetypes rotation in place of the mini NHL Oracle (Goldy, 2026-11-26); filled by goalie-types-panel.js -->
+    <div class="ty-rot" id="tyRot" hidden aria-roledescription="carousel" aria-label="NHL Archetypes"></div>
     <div id="seasonSeg" hidden></div><!-- Season switch removed (Goldy, 2026-11-24): the page shows 2026-27 only -->
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
       <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Oracle</button></li>
-      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>NHL Archetypes</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
-      <li><button type="button" data-v="lbSec" style="--c:var(--jade-a)"><i></i>Leaderboard</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
       <li><button type="button" data-v="gaxSec" style="--c:var(--jade-a)"><i></i>GSAx Analysis</button></li>
@@ -467,11 +456,6 @@ tbody tr:last-child td{border-bottom:0}
         <div><h5>Mark size</h5><ul><li><i class="sm"></i>Few shots faced</li><li><i class="lg"></i>Most shots faced</li></ul></div>
       </div>
     </div>
-  </section>
-
-  <section id="tySec" hidden>
-    <div class="sec-h"><h2>NHL Archetypes</h2><span class="note" id="tyNote"></span></div>
-    <ul class="ty-grid" id="tyGrid" aria-label="Goalie archetypes"></ul>
   </section>
 
   <section id="gmSec">
@@ -498,24 +482,6 @@ tbody tr:last-child td{border-bottom:0}
     </div>
   </section>
 
-  <section id="lbSec">
-    <div class="sec-h"><div class="sec-l"><h2>Leaderboard</h2><div class="seg" role="group" aria-label="Leaderboard measure" id="lbMetric"></div></div><span class="note" id="lbNote"></span></div>
-    <div class="lb-card" style="margin-top:14px">
-      <div class="lb-top">
-        <div><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
-        <div class="lb-range" role="group" aria-label="Date range"><button type="button" id="lbPrev" aria-label="Shorter range">‹</button><b id="lbRange" aria-live="polite"></b><button type="button" id="lbNext" aria-label="Longer range">›</button></div>
-      </div>
-      <div class="lb-plot" id="lbPlot"></div>
-      <ol class="lb-list" id="lbList"></ol>
-      <div class="lb-foot"><span id="lbFoot"></span><a href="#nstTbl">All goaltenders in Advanced stats ›</a></div>
-    </div>
-    <!-- Workload moved here from its own view (Goldy, 2026-11-24): it shows the top workloads -->
-    <div class="viz sub-viz" id="workBox">
-      <div class="sec-h"><h3>Workload</h3><span class="note">Shots faced, split into saves and goals against. Top 12.</span></div>
-      <div class="panel"><div class="chart" id="c-workload"></div></div>
-    </div>
-  </section>
-
   <section id="nstSec">
     <div class="sec-h"><div class="sec-l"><h2>Advanced stats</h2><div class="seg" role="group" aria-label="Situation" id="nstStr"></div></div><span class="note" id="nstNote"></span></div>
     <div id="nstBody">
@@ -533,6 +499,24 @@ tbody tr:last-child td{border-bottom:0}
         <div class="panel-h"><div><h3>High danger vs everything else</h3><p>Top right stops both the hard chances and the routine ones. Bubble size is shots faced. Dashed lines are the league rates. Click a goalie for their danger zones.</p></div><button class="hidebtn" data-nhide="scatter">Hide</button></div>
         <div class="chart" id="c-nstscatter"></div>
       </div>
+    </div>
+    <!-- Leaderboard and Workload merged into Advanced stats (Goldy, 2026-11-26); #lbSec links still land here -->
+    <div class="viz sub-viz" id="lbSec">
+    <div class="sec-h"><div class="sec-l"><h3>Leaderboard</h3><div class="seg" role="group" aria-label="Leaderboard measure" id="lbMetric"></div></div><span class="note" id="lbNote"></span></div>
+    <div class="lb-card" style="margin-top:14px">
+      <div class="lb-top">
+        <div><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
+        <div class="lb-range" role="group" aria-label="Date range"><button type="button" id="lbPrev" aria-label="Shorter range">‹</button><b id="lbRange" aria-live="polite"></b><button type="button" id="lbNext" aria-label="Longer range">›</button></div>
+      </div>
+      <div class="lb-plot" id="lbPlot"></div>
+      <ol class="lb-list" id="lbList"></ol>
+      <div class="lb-foot"><span id="lbFoot"></span><a href="#nstTbl">All goaltenders ›</a></div>
+    </div>
+    </div>
+    <!-- Workload moved here from its own view (Goldy, 2026-11-24): it shows the top workloads -->
+    <div class="viz sub-viz" id="workBox">
+      <div class="sec-h"><h3>Workload</h3><span class="note">Shots faced, split into saves and goals against. Top 12.</span></div>
+      <div class="panel"><div class="chart" id="c-workload"></div></div>
     </div>
     <!-- SV% Ranges moved here from its own view (Goldy, 2026-11-24) -->
     <div class="viz sub-viz" id="rangeBox">
@@ -645,7 +629,7 @@ tbody tr:last-child td{border-bottom:0}
 
   <footer class="site-foot">
     <span>The Goaltending Research Journal. Copyright 2027.</span>
-    <span class="foot-end"><a class="foot-link" href="https://github.com/goldydev30" target="_blank" rel="noopener noreferrer">Built by GoldyDev30 <span aria-hidden="true">↗</span></a><a class="foot-link" href="about.html#settings"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.4"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></svg><span>Settings</span></a></span>
+    <span class="foot-end"><a class="foot-link" href="https://github.com/goldydev30" target="_blank" rel="noopener noreferrer">Built by GoldyDev <span aria-hidden="true">↗</span></a><a class="foot-link" href="about.html#settings"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.4"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></svg><span>Settings</span></a></span>
   </footer>
 </main>
 
@@ -1101,7 +1085,7 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 <script src="nhl-oracle.js"></script>
 
 <script>
-/* Views: the rail shows one section at a time; the choice is kept in the address (#lbSec) and in this browser */
+/* Views: the rail shows one section at a time; the choice is kept in the address (#gmSec) and in this browser */
 // Brad's Goalie Panes runs in its own frame: load it the first time its view opens, and keep its light or dark theme in step with this page
 (function panes(){
   const sec=document.getElementById("panesSec"), f=document.getElementById("panesFrame");
@@ -1139,7 +1123,6 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
   let saved=null; try{ saved=localStorage.getItem("ga:view"); }catch(e){}
   show(location.hash.slice(1)||saved||"gmSec",false);
   // Archetypes data can arrive after load; refresh which buttons show
-  new MutationObserver(()=>show(cur,false)).observe(sec("tySec"),{attributes:true,attributeFilter:["hidden"]});
 })();
 </script>
 </body>
