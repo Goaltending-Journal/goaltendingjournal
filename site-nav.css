@@ -121,7 +121,11 @@
   .topbar nav a { padding-block: 12px; }
 }
 
-/* Footer: "Built by GoldyDev" and the light/dark switch (theme.js) */
+/* Footer on every page but the homepage (Goldy, 2026-11-27): name left; Copyright, Built by GoldyDev30 and Settings as pills right.
+   Pages with their own .site-foot rule keep their width and spacing. */
+.site-foot { margin: 48px 0 0; padding: 24px 0 32px; border-top: 1px solid var(--rule); color: var(--muted); font: 13px/1.4 var(--sans); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.foot-pill { cursor: default; }
+.foot-pill:hover { color: inherit; border-color: color-mix(in srgb, currentColor 40%, transparent); }
 .foot-end { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .theme-btn { text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font: inherit; color: inherit; background: transparent; border: 1px solid currentColor; border-color: color-mix(in srgb, currentColor 40%, transparent); border-radius: 999px; padding: 4px 11px 4px 9px; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
 .theme-btn:hover { color: var(--accent, currentColor); border-color: currentColor; }
