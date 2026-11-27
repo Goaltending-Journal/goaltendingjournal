@@ -10,7 +10,8 @@
   if (!T || !grid || !stage || !G || !ST || !MO) return;
   let TEAMS;
   try { TEAMS = (await (await fetch("illustrations/team-colours.json")).json()).teams; } catch { return; }
-  const SEASON = "2026-27", POSE = "workhorse";
+  const SEASON = "2026-27", POSE = "workhorse", FPS = 12;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const draw = ST.STYLES["skeletons-xray"].draw;
   const topY = Math.min(...[0, 1, 2].map((i) => G.parts(MO.keyPose(POSE, i)).top));
   const divOf = {}; T.divisions.forEach((d) => d.teams.forEach((c) => (divOf[c] = d)));
@@ -39,16 +40,37 @@
     cur = c; open = false;
     const k = TEAMS[c], d = divOf[c], t = team(c), st = t.list[0];
     tiles.forEach((b) => b.classList.toggle("on", b.dataset.c === c));
+    build(c);
     stage.style.cssText = `--p:${k.primary};--s:${k.secondary};--a:${k.accent}`;
     stage.classList.remove("deep");
-    stage.innerHTML = `<div class="tm-art" aria-hidden="true">${draw(POSE, { ...k, code: c }, "", { size: 64, topY, label: "" })}</div>
-      <div class="tm-name"><b>${esc(k.name)}</b><span>${esc(d.name)} Division</span></div>
+    stage.innerHTML = `<div class="tm-mark" aria-hidden="true">${c}</div><div class="tm-floor" aria-hidden="true"></div>
+      <div class="tm-art" aria-hidden="true">${fig(POSE, c)}</div>
+      <div class="tm-name"><i aria-hidden="true"></i><b>${esc(k.name)}</b><span>${esc(d.name)} Division</span></div>
       <div class="tm-low">
         <p class="tm-line">${st ? `${esc(st.g.name)} has made the most starts this season: ${st.s.gs ?? st.s.gp} of the team's games, with a ${sv(st.s.svp)} save %.` : "No goalie has played for the club yet this season."}</p>
         <button type="button" class="tm-go" data-depth="${c}">Depth chart</button>
         <dl class="tm-stats"><div><dt>NHL goalies</dt><dd>${t.list.length}</dd></div><div><dt>Team SV%</dt><dd>${sv(t.svp)}</dd></div><div><dt>Team GAA</dt><dd>${t.gaa == null ? "–" : t.gaa.toFixed(2)}</dd></div></dl>
       </div>`;
   }
+  // The goalie stands on the stage itself (plain mode: no light-box square), in the team's colours, playing its loop
+  const fig = (pose, c) => draw(pose, { ...TEAMS[c], code: c }, "", { size: 240, topY, label: "", plain: true });
+  const frames = {}, idle = window.requestIdleCallback || ((f) => setTimeout(() => f(null), 16));
+  let t0 = performance.now(), last = 0;
+  function build(c) {
+    if (reduce || frames[c]) return;
+    const out = (frames[c] = []), n = Math.round(MO.loopMs(POSE) * FPS / 1000);
+    const step = (dl) => { while (out.length < n && (!dl || dl.timeRemaining() > 2)) { out.push(fig(MO.poseAt(POSE, out.length * 1000 / FPS), c)); if (!dl) break; } if (out.length < n) idle(step); else out.ready = true; };
+    idle(step);
+  }
+  function tick(now) {
+    if (cur && now - last >= 1000 / FPS && !document.hidden) {
+      last = now; const f = frames[cur], art = stage.querySelector(".tm-art");
+      if (f && f.ready && art && !open) art.innerHTML = f[Math.floor((now - t0) * FPS / 1000) % f.length];
+    }
+    requestAnimationFrame(tick);
+  }
+  if (!reduce) requestAnimationFrame(tick);
+
   function depth(c) {
     preview(c); open = true; stage.classList.add("deep");
     const k = TEAMS[c], t = team(c), rest = (T.depth[c] || []).filter((r) => !t.list.some((x) => x.g.id === r.id));
