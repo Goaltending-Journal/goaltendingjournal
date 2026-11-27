@@ -54,7 +54,7 @@ button,input,select{font:inherit;color:inherit}
 /* a clean rule between the stats and each visualizer */
 /* One frame: a side rail (season leader, season, views) beside one section at a time (Goldy picked layout B, 2026-11-02) */
 .gframe{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
-.grail{position:sticky;top:76px;display:grid;gap:22px;padding:4px 0}   /* no inner frame (Goldy, 2026-11-26: "a box within a box within a box") */
+.grail{position:sticky;top:76px;display:grid;gap:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}   /* framed rail again, like the other pages (Goldy, 2026-11-27) */
 .grail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .grail .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:12px}
 .grail .seg button{padding-inline:4px;font-size:12.5px;border-radius:9px}
@@ -136,9 +136,30 @@ button,input,select{font:inherit;color:inherit}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
-/* NHL Teams (after the Parallel character select): slanted team-colour tiles by division, a big preview stage beside them */
+/* Archetypes view (its own view again, Goldy 2026-11-27) */
+.ty-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px;padding:0;list-style:none}
+.ty-card{display:flex;flex-direction:column;gap:12px;padding:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);min-width:0}
+.ty-card:hover,.ty-card:focus-within{border-color:var(--crease)}
+.ty-art{border-radius:8px;overflow:hidden}
+.ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:200px;border-radius:8px}
+.ty-txt{min-width:0}
+.ty-txt h3{margin:0;font-size:17px;font-weight:700;line-height:1.2}
+.ty-txt p{margin:3px 0 0;font-size:13px;color:var(--mute);line-height:1.35}
+.ty-row{margin-top:8px;line-height:1.35}
+.ty-lead{display:inline;padding:0;border:0;background:none;color:var(--crease);font-size:14px;font-weight:600;cursor:pointer;text-align:left}
+.ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
+.ty-more{margin-left:4px;padding:0 6px;vertical-align:1px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--fog);font:600 10px var(--f-data);cursor:pointer}
+.ty-pop{margin:0;padding:10px;border:1px solid var(--line);border-radius:var(--r);background:var(--boards);color:var(--chalk);box-shadow:0 8px 24px var(--shadow);max-width:min(320px,90vw)}
+.ty-pop h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.ty-pop ul{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.ty-pop button{border:0;background:none;padding:4px 2px;color:var(--chalk);font-size:13px;cursor:pointer;text-align:left;width:100%}
+.ty-pop button:hover{color:var(--crease)}
+.ty-pop .t{color:var(--mute);font:11px var(--f-data);margin-left:6px}
+@media (max-width:1100px){ .ty-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:620px){ .ty-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px} .ty-card{padding:8px;gap:8px} .ty-txt h3{font-size:15px} }
+/* Depth Charts (after the Parallel character select): slanted team-colour tiles by division, a big preview stage beside them */
 .tm-wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;margin-top:16px;align-items:stretch}
-.tm-grid{display:grid;gap:10px;padding:6px 10px 6px 6px}
+.tm-grid{display:grid;gap:10px;padding:6px 10px 6px 6px;align-content:start}
 .tm-row{display:grid;grid-template-columns:18px repeat(8,minmax(0,1fr));gap:6px;align-items:center}
 .tm-div{writing-mode:vertical-rl;transform:rotate(180deg);font:700 9px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog);text-align:center}
 .tm-t{position:relative;aspect-ratio:3/4;padding:0;border:0;border-radius:4px;cursor:pointer;transform:skewX(-10deg);overflow:hidden;isolation:isolate;
@@ -177,7 +198,7 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.0
 .tm-stats>div:first-child{border-left:0}
 .tm-stats dt{font:700 9.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .tm-stats dd{margin:6px 0 0;font:400 28px/1 var(--f-display);color:var(--chalk);font-variant-numeric:tabular-nums;text-shadow:0 0 18px color-mix(in srgb,var(--p) 60%,transparent)}
-.tm-stage.deep .tm-low{top:0;overflow:auto;background:color-mix(in srgb,var(--bg) 84%,transparent)}
+.tm-stage.deep .tm-low{position:relative;top:0;min-height:480px;background:color-mix(in srgb,var(--bg) 84%,transparent)}   /* the stage grows to fit goalies and staff */
 .tm-stage.deep .tm-art{opacity:.22}
 .tm-stage.deep .tm-name{display:none}
 .tm-dh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
@@ -192,24 +213,49 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.0
 .tm-col li span{font-size:11.5px;line-height:1.35;color:var(--mute)}
 .tm-none{margin:0;font-size:12px;color:var(--mute)}
 .tm-src{margin:12px 0 0;font-size:11px;color:var(--mute)}
-@media (max-width:1100px){.tm-wrap{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:620px){.tm-row{gap:4px}.tm-t span{font-size:12px}.tm-stage{min-height:520px}.tm-art{right:4%;height:56%}.tm-mark{font-size:130px}.tm-stats{justify-content:flex-start;gap:16px}.tm-cols{grid-template-columns:minmax(0,1fr)}}
+.tm-src a{color:var(--fog)}
+.tm-staff{margin-top:16px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--chalk) 12%,transparent)}
+.tm-staff h4{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--crease)}
+.tm-staff ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px}
+.tm-staff li{display:grid;gap:1px}
+.tm-staff b{font:600 13.5px/1.25 var(--f-body);color:var(--chalk)}
+.tm-staff span{font-size:11.5px;line-height:1.35;color:var(--mute)}
+.tm-staff em{font-style:normal;margin-left:6px;padding:1px 5px;border:1px solid var(--line);border-radius:3px;font:600 9px/1.4 var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--fog)}
+/* team defence under the stage: rank strips and a support scatter, in the club's colours */
+.tm-adv{margin-top:26px}
+.tm-adv .sec-h h3{margin:0;font:400 20px/1.1 var(--f-display);letter-spacing:.03em}
+.tm-adv-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;margin-top:14px}
+.tm-strips{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
+.tm-strips li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:end}
+.tm-sh b{display:block;font-size:13px;font-weight:600;color:var(--chalk)}
+.tm-sh span{font-size:11px;color:var(--mute)}
+.tm-sv{text-align:right}
+.tm-sv strong{display:block;font:400 22px/1 var(--f-display);color:var(--chalk);font-variant-numeric:tabular-nums}
+.tm-sv span{font-size:11px;color:var(--fog)}
+.tm-strips svg{grid-column:1/-1;display:block;width:100%;height:auto}
+.tm-adv .tl{stroke:var(--line);stroke-width:1}
+.tm-adv .md{stroke:var(--fog);stroke-width:1;stroke-dasharray:3 3}
+.tm-adv circle.o,.tm-adv g.o circle{fill:var(--mute);fill-opacity:.55}
+.tm-adv circle.me,.tm-adv g.me circle{fill:var(--p);stroke:var(--s);stroke-width:2.5;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--crease) 70%,transparent))}
+.tm-sc svg{display:block;width:100%;height:auto;margin-top:8px}
+.tm-sc .fr{fill:none;stroke:var(--line)}
+.tm-sc .q{font:700 9.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;fill:var(--fog);opacity:.75}
+.tm-sc .ax{font-size:11px;fill:var(--mute);font-family:var(--f-body)}
+.tm-sc g.o{cursor:pointer}
+.tm-sc g.o text{font:10px var(--f-data);fill:var(--mute);opacity:.7}
+.tm-sc g.o:hover circle{fill:var(--crease);fill-opacity:1}
+.tm-sc g.o:hover text{fill:var(--chalk);opacity:1}
+.tm-sc g.me text{font:700 13px var(--f-data);fill:var(--chalk)}
+.tm-kind{margin:10px 0 0;font-size:13.5px;line-height:1.45;color:var(--chalk)}
+.tm-kind b{color:var(--crease)}
+@media (max-width:1100px){.tm-wrap,.tm-adv-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:620px){.tm-row{gap:4px}.tm-t span{font-size:12px}.tm-stage{min-height:520px}.tm-art{right:4%;height:56%}.tm-mark{font-size:130px}.tm-stats{justify-content:flex-start;gap:16px}.tm-cols,.tm-staff ul{grid-template-columns:minmax(0,1fr)}}
 
 /* archetypes: the twelve types take turns in the rail card (Goldy, 2026-11-26); each Light Box X-ray plays its loop */
-.ty-rot{display:grid;gap:10px}
-.ty-rot .ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:200px;border-radius:10px}
-.ty-rot .ty-txt{min-height:78px}
-.ty-rot h4{margin:0;font:600 19px/1.2 var(--f-display);color:var(--chalk)}
-.ty-rot p{margin:2px 0 0;font-size:12.5px;line-height:1.4;color:var(--mute)}
-.ty-rot .ty-lead{margin-top:6px;padding:0;border:0;background:none;color:var(--crease);font-size:13px;font-weight:600;cursor:pointer;text-align:left}
-.ty-rot .ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
-.ty-rot .ty-lead .t{margin-left:6px;color:var(--mute);font:11px var(--f-data)}
-.ty-rot .ty-n{margin-left:6px;color:var(--mute);font-size:11px}
 .ty-dots{display:flex;flex-wrap:wrap;gap:5px}
 .ty-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--fog) 35%,transparent);cursor:pointer}
 .ty-dots button:hover{background:var(--fog)}
 .ty-dots button[aria-current="true"]{background:var(--crease)}
-@media (max-width:880px){ .ty-rot{grid-template-columns:110px minmax(0,1fr);align-items:center;column-gap:14px} .ty-rot .ty-dots{grid-column:1/-1} .ty-rot .ty-txt{min-height:0} }
 
 
 /* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).
@@ -482,26 +528,25 @@ tbody tr:last-child td{border-bottom:0}
 <main class="wrap" id="main">
   <header class="lid" data-vis="nhl" aria-labelledby="h-goalies"><canvas class="lid-vis" aria-hidden="true"></canvas><div class="tt"><div class="bar"></div><div class="eb">An open-source project</div><h1 id="h-goalies"><span class="spectrum">NHL Goalie</span> DataViz</h1></div></header>
   <div class="gframe">
-  <aside class="grail" aria-label="NHL Oracle and views">
-    <!-- Archetypes rotation in place of the mini NHL Oracle (Goldy, 2026-11-26); filled by goalie-types-panel.js -->
-    <div class="ty-rot" id="tyRot" hidden aria-roledescription="carousel" aria-label="NHL Archetypes"></div>
+  <aside class="grail" aria-label="Views">
     <div id="seasonSeg" hidden></div><!-- Season switch removed (Goldy, 2026-11-24): the page shows 2026-27 only -->
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
-      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Oracle</button></li>
-      <li><button type="button" data-v="tmSec" style="--c:var(--jade-a)"><i></i>NHL Teams</button></li>
+      <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>Goalie Oracle</button></li>
+      <li><button type="button" data-v="tmSec" style="--c:var(--jade-a)"><i></i>Depth Charts</button></li>
+      <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced Stats</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
-      <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
-      <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
+      <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger Zones</button></li>
       <li><button type="button" data-v="gaxSec" style="--c:var(--jade-a)"><i></i>GSAx Analysis</button></li>
-      <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Brad's Goalie Panes</button></li>
-      <li><button type="button" data-v="bdcSec" style="--c:var(--jade-a)"><i></i>Big Data Cup</button></li>
-      <li><button type="button" data-v="subSec" style="--c:var(--crease)"><i></i>Submit a View</button></li>
+      <li><button type="button" data-v="tySec" style="--c:var(--jade-a)"><i></i>Archetypes</button></li>
+      <li><button type="button" data-v="panesSec" style="--c:var(--jade-a)"><i></i>Back-to-Back Panes</button></li>
+      <li><button type="button" data-v="bdcSec" style="--c:var(--jade-a)"><i></i>Stathletes Big Data Cup</button></li>
+      <li><button type="button" data-v="subSec" style="--c:var(--crease)"><i></i>Submit A View</button></li>
     </ul></nav>
   </aside>
   <div class="gviews" id="gviews">
 
   <section id="orSec">
-    <div class="sec-h"><h2>NHL Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
+    <div class="sec-h"><h2>Goalie Oracle</h2><span class="note">Data courtesy of <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></span></div>
     <div class="or-body">
       <div class="or-main">
         <div class="or-globe" id="or"><canvas id="or-cv" tabindex="0" role="img" aria-label="Every NHL goalie this season as a turning globe of five tilted rings, one per level of goals saved above average, from well above average to well below. Mark size is shots faced. Use the arrow keys to step through the goalies from best to lowest GSAA."></canvas><div class="or-tip" id="or-tip" hidden></div></div>
@@ -514,13 +559,14 @@ tbody tr:last-child td{border-bottom:0}
     </div>
   </section>
 
-  <!-- NHL Teams (Goldy, 2026-11-26): pick a club by division, preview it, click for its goalie depth chart; nhl-teams-panel.js -->
+  <!-- Depth Charts (Goldy, 2026-11-26; renamed 2026-11-27): pick a club by division, preview it with its 5v5 team defence, click for its goalies and goaltending staff; nhl-teams-panel.js -->
   <section id="tmSec">
-    <div class="sec-h"><h2>NHL Teams</h2><span class="note">Point at a club to preview it. Click for its goalie depth chart.</span></div>
+    <div class="sec-h"><h2>Depth Charts</h2><span class="note">Point at a club to preview it. Click for its goalies and goaltending staff.</span></div>
     <div class="tm-wrap">
       <div class="tm-grid" id="tmGrid"></div>
       <div class="tm-stage" id="tmStage" aria-live="polite"></div>
     </div>
+    <div class="viz sub-viz tm-adv" id="tmAdv" hidden></div>
   </section>
 
   <section id="gmSec">
@@ -548,7 +594,7 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section id="nstSec">
-    <div class="sec-h"><div class="sec-l"><h2>Advanced stats</h2><div class="seg" role="group" aria-label="Situation" id="nstStr"></div></div><span class="note" id="nstNote"></span></div>
+    <div class="sec-h"><div class="sec-l"><h2>Advanced Stats</h2><div class="seg" role="group" aria-label="Situation" id="nstStr"></div></div><span class="note" id="nstNote"></span></div>
     <div id="nstBody">
     <div class="filters" style="margin-top:14px">
       <div class="field"><label for="nstMetric">Rank by</label><select id="nstMetric"></select></div>
@@ -602,7 +648,7 @@ tbody tr:last-child td{border-bottom:0}
 
 
   <section id="dzSec">
-    <div class="sec-h"><div class="sec-l"><h2>Danger zones</h2><div class="seg" role="group" aria-label="Situation" id="dzStr"></div></div><span class="note">Save % on high-, medium- and low-danger shots, as Natural Stat Trick grades them.</span></div>
+    <div class="sec-h"><div class="sec-l"><h2>Danger Zones</h2><div class="seg" role="group" aria-label="Situation" id="dzStr"></div></div><span class="note">Save % on high-, medium- and low-danger shots, as Natural Stat Trick grades them.</span></div>
     <div class="panel" id="dzCard" style="margin-top:14px">
         <div class="panel-h"><div class="filters"><div class="field"><label for="dzGoalie">Goalie</label><select id="dzGoalie"></select></div></div><button class="hidebtn" id="dzHide" type="button">Hide map</button></div>
         <div id="dzWho"></div>
@@ -638,13 +684,18 @@ tbody tr:last-child td{border-bottom:0}
     </div>
   </section>
 
+  <section id="tySec" hidden>
+    <div class="sec-h"><h2>Archetypes</h2><span class="note" id="tyNote"></span></div>
+    <ul class="ty-grid" id="tyGrid" aria-label="Goalie archetypes"></ul>
+  </section>
+
   <section id="panesSec">
-    <div class="sec-h"><h2>Brad's Goalie Panes</h2></div>
+    <div class="sec-h"><h2>Back-to-Back Panes</h2></div>
     <iframe class="panes" id="panesFrame" title="Brad's Goalie Panes: every goalie start this season as a 3D stack of team panes, showing back-to-backs" data-src="panes/index.html?embed"></iframe>
   </section>
 
   <section id="bdcSec" aria-labelledby="h-bdc">
-    <div class="sec-h"><h2 id="h-bdc">Big Data Cup</h2><span class="note">Synopsis by the GRJ from <a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Stathletes</a></span></div>
+    <div class="sec-h"><h2 id="h-bdc">Stathletes Big Data Cup</h2><span class="note">Synopsis by the GRJ from <a href="https://stathletes.com/big-data-cup" target="_blank" rel="noopener noreferrer">Stathletes</a></span></div>
     <div class="bdc">
       <p class="bdc-lead">An open hockey analytics competition that gives up-and-coming analysts real data to work with and pushes hockey research forward. It is run by Stathletes with the Rotman School of Management, the Sport Performance Lab and the University of Toronto Sports Analytics Student Group.</p>
       <h3>Big Data Cup 2027: a goalie dataset</h3>
@@ -660,7 +711,7 @@ tbody tr:last-child td{border-bottom:0}
   </section>
 
   <section id="subSec" aria-labelledby="h-sub">
-    <div class="sec-h"><h2 id="h-sub">Submit a View</h2><span class="note">Open to anyone</span></div>
+    <div class="sec-h"><h2 id="h-sub">Submit A View</h2><span class="note">Open to anyone</span></div>
     <div class="bdc">
       <p class="bdc-lead">NHL Goalie DataViz is an open, community-built library. Anyone can submit a view: a repository or a visual file that shows evidence-based research or NHL play-by-play data, with goalies at the centre of it.</p>
       <h3>What fits</h3>
@@ -1189,6 +1240,8 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
     if(s&&s.id!==cur){ show(s.id,false); requestAnimationFrame(()=>t.scrollIntoView()); } });
   let saved=null; try{ saved=localStorage.getItem("ga:view"); }catch(e){}
   show(location.hash.slice(1)||saved||"gmSec",false);
+  // Archetypes data can arrive after load; refresh which buttons show
+  new MutationObserver(()=>show(cur,false)).observe(sec("tySec"),{attributes:true,attributeFilter:["hidden"]});
   // Archetypes data can arrive after load; refresh which buttons show
 })();
 </script>

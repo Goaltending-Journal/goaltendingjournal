@@ -1,55 +1,58 @@
-/* Archetypes on goalies.html (Goldy, 2026-11-26): the twelve goalie types from goalie-types-data.js (build_goalie_types.py,
-   nightly) take turns in the rail card at the top left, in place of the mini NHL Oracle; the Archetypes view is gone.
-   Each type shows its Light Box X-ray (illustrations/styles.js "skeletons-xray") in the team colours of the goalie who
-   leads it, playing its loop (illustrations/motion.js, 12 fps, prebuilt frames). The card moves on every few seconds,
-   pauses while pointed at or focused, and the dots pick a type. Reduced motion: stills only, no auto-advance.
-   Reuses the page's $, esc, byId and openGoalie. Data courtesy of Natural Stat Trick. */
+/* Archetypes on goalies.html: the twelve goalie types from goalie-types-data.js (build_goalie_types.py, nightly), each a
+   compact card with a Light Box X-ray (illustrations/styles.js "skeletons-xray") in the team colours of the goalie who
+   leads it. Cards are stills; a card plays its loop (illustrations/motion.js, 12 fps, prebuilt frames) only while it is
+   hovered or focused, and never under reduced motion. Reuses the page's $, esc, byId and openGoalie.
+   Data courtesy of Natural Stat Trick. */
 (async () => {
   const D = window.GOALIE_TYPES, G = window.GoalieSkeleton, ST = window.GoalieStyles, MO = window.GoalieMotion;
-  const box = $("#tyRot");
-  if (!box || !D || !G || !ST || !MO) return;
+  if (!D || !G || !ST || !MO) return;
   let TEAMS;
   try { TEAMS = (await (await fetch("illustrations/team-colours.json")).json()).teams; } catch { return; }
-  const draw = ST.STYLES["skeletons-xray"].draw, FPS = 12, SIZE = 64, HOLD = 6000;
+  const draw = ST.STYLES["skeletons-xray"].draw, FPS = 12, SIZE = 64;
   const NEUTRAL = { name: "League", primary: "#4B706A", secondary: "#FFFFFF", accent: "#A4C7C1", code: "NHL" };   // a type nobody holds yet
   // The value each trait type is ranked on (the z-scores in the data); titles have one holder
   const Z = { workhorse: "toi", "hd-stopper": "hd60", wall: "ldmd60", rebound: "reb100", siege: "sa60", crease: "hdshare" };
   const types = G.ORDER.map((k) => D.types.find((t) => t.key === k)).filter(Boolean);
-  if (!types.length) return;
   const members = (t) => D.goalies.filter((g) => g.type === t.key)
     .sort((a, b) => ((b.z || {})[Z[t.key]] ?? 0) - ((a.z || {})[Z[t.key]] ?? 0) || a.name.localeCompare(b.name));
   const colours = (g) => (g && TEAMS[g.team] ? { ...TEAMS[g.team], code: g.team } : NEUTRAL);
   const top = (k) => Math.min(...[0, 1, 2].map((i) => G.parts(MO.keyPose(k, i)).top));   // one scale per loop
+  const who = (g) => `<button type="button" data-id="${g.id ?? ""}"${byId.has(g.id) ? "" : " disabled"}>${esc(g.name)}<span class="t">${esc(g.team)}</span></button>`;
 
-  box.innerHTML = `<div class="ty-art" aria-hidden="true"></div>
-    <div class="ty-txt" aria-live="polite"></div>
-    <div class="ty-dots" role="group" aria-label="Pick an archetype">${types.map((t, i) => `<button type="button" data-i="${i}" aria-label="${esc(t.name)}"></button>`).join("")}</div>`;   // no label or source line here (Goldy, 2026-11-26); NST is credited in the page notes
-  box.hidden = false;
-  const art = box.querySelector(".ty-art"), txt = box.querySelector(".ty-txt"), dots = [...box.querySelectorAll(".ty-dots button")];
+  $("#tySec").hidden = false;
+  $("#tyNote").innerHTML = `As of ${esc(D.asOf)} · Data: <a href="https://www.naturalstattrick.com">Natural Stat Trick</a>`;
+  $("#tyGrid").innerHTML = types.map((t) => {
+    const gs = members(t), g = gs[0];
+    return `<li class="ty-card" data-k="${t.key}" tabindex="-1"><div class="ty-art">${draw(t.key, colours(g), "", { size: SIZE, topY: top(t.key), label: `${t.name}, drawn as an X-ray skeleton` })}</div>
+      <div class="ty-txt"><h3>${esc(t.name)}</h3><p>${esc(t.trait)}</p>
+      ${g ? `<div class="ty-row"><button type="button" class="ty-lead" data-id="${g.id ?? ""}"${byId.has(g.id) ? "" : " disabled"} title="${esc(g.name)}">${esc(g.name)}</button>${gs.length > 1 ? `<button type="button" class="ty-more" data-k="${t.key}" aria-label="All ${gs.length} ${esc(t.name)} goalies">+${gs.length - 1}</button>` : ""}</div>`
+        : `<p>None yet</p>`}</div></li>`;
+  }).join("");
 
-  let cur = 0;
-  function showType(i) {
-    cur = (i + types.length) % types.length;
-    const t = types[cur], gs = members(t), g = gs[0];
-    art.innerHTML = draw(t.key, colours(g), "", { size: SIZE, topY: top(t.key), label: "" });
-    txt.innerHTML = `<h4>${esc(t.name)}</h4><p>${esc(t.trait)}</p>` + (g
-      ? `<button type="button" class="ty-lead" data-id="${g.id ?? ""}"${byId.has(g.id) ? "" : " disabled"}>${esc(g.name)}<span class="t">${esc(g.team)}</span></button>${gs.length > 1 ? `<span class="ty-n">+${gs.length - 1} more</span>` : ""}`
-      : `<p class="ty-none">None yet</p>`);
-    dots.forEach((d, n) => d.setAttribute("aria-current", String(n === cur)));
-    t0 = performance.now(); shown = Date.now();
-    build(t.key);
-  }
-  box.addEventListener("click", (e) => {
-    const d = e.target.closest(".ty-dots button"); if (d) { showType(+d.dataset.i); return; }
-    const b = e.target.closest("button[data-id]"); if (b && b.dataset.id) openGoalie(+b.dataset.id);
+  // The full list of a type, in a popover under its "+N" button
+  const pop = document.createElement("div");
+  pop.className = "ty-pop"; pop.setAttribute("popover", "auto"); document.body.append(pop);
+  const canPop = typeof pop.showPopover === "function";
+  $("#tyGrid").addEventListener("click", (e) => {
+    const more = e.target.closest(".ty-more");
+    if (more && canPop) {
+      const t = types.find((x) => x.key === more.dataset.k), r = more.getBoundingClientRect();
+      pop.innerHTML = `<h4>${esc(t.name)} · ${esc(t.rule)}</h4><ul>${members(t).map((g) => `<li>${who(g)}</li>`).join("")}</ul>`;
+      Object.assign(pop.style, { position: "fixed", inset: "auto", top: `${Math.min(r.bottom + 6, innerHeight - 40)}px`, left: `${Math.max(8, Math.min(r.left - 120, innerWidth - 330))}px` });
+      pop.showPopover();
+      return;
+    }
+    const b = e.target.closest("button[data-id]");
+    if (b && b.dataset.id) openGoalie(+b.dataset.id);
   });
+  pop.addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (b && b.dataset.id) { pop.hidePopover(); openGoalie(+b.dataset.id); } });
 
-  // Motion: the shown type plays its loop; frames are built in idle time, one type at a time
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Motion: the hovered or focused card plays its loop; leaving it shows the still again
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const frames = {}, tpl = document.createElement("template"), idle = window.requestIdleCallback || ((f) => setTimeout(() => f(null), 16));
-  let t0 = 0, last = 0, shown = 0, paused = false;
+  let live = null, t0 = 0, last = 0, still = null;
   function build(k) {
-    if (reduce || frames[k]) return;
+    if (frames[k]) return;
     const out = (frames[k] = []), n = Math.round(MO.loopMs(k) * FPS / 1000), tk = colours(members(types.find((t) => t.key === k))[0]), y = top(k);
     const step = (dl) => {
       while (out.length < n && (!dl || dl.timeRemaining() > 2)) {
@@ -61,20 +64,20 @@
     };
     idle(step);
   }
-  showType(0);
-  if (reduce) return;
-  box.addEventListener("pointerenter", () => { paused = true; });
-  box.addEventListener("pointerleave", () => { paused = false; shown = Date.now(); });
-  box.addEventListener("focusin", () => { paused = true; });
-  box.addEventListener("focusout", () => { paused = false; shown = Date.now(); });
+  const start = (card) => { if (!card || card === live) return; stop(); live = card; still = card.querySelector(".ty-art svg"); t0 = performance.now(); build(card.dataset.k); requestAnimationFrame(tick); };
+  const stop = () => { if (live && still) live.querySelector(".ty-art").replaceChildren(still); live = null; };
   function tick(now) {
-    if (!paused && !document.hidden && Date.now() - shown > HOLD) showType(cur + 1);
+    if (!live) return;
     if (now - last >= 1000 / FPS) {
       last = now;
-      const f = frames[types[cur].key];
-      if (f && f.ready) { const node = f[Math.floor((now - t0) * FPS / 1000) % f.length]; if (art.firstElementChild !== node) art.replaceChildren(node); }
+      const f = frames[live.dataset.k];
+      if (f && f.ready) { const art = live.querySelector(".ty-art"), node = f[Math.floor((now - t0) * FPS / 1000) % f.length]; if (art.firstElementChild !== node) art.replaceChildren(node); }
     }
     requestAnimationFrame(tick);
   }
-  requestAnimationFrame(tick);
+  const grid = $("#tyGrid");
+  grid.addEventListener("pointerover", (e) => { if (e.pointerType === "mouse") start(e.target.closest(".ty-card")); });
+  grid.addEventListener("pointerleave", stop);
+  grid.addEventListener("focusin", (e) => start(e.target.closest(".ty-card")));
+  grid.addEventListener("focusout", (e) => { if (!grid.contains(e.relatedTarget)) stop(); });
 })();
