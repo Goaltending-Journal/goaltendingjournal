@@ -54,7 +54,7 @@ button,input,select{font:inherit;color:inherit}
 /* a clean rule between the stats and each visualizer */
 /* One frame: a side rail (season leader, season, views) beside one section at a time (Goldy picked layout B, 2026-11-02) */
 .gframe{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--ice) 60%,transparent);padding:clamp(14px,2.4vw,24px)}
-.grail{position:sticky;top:76px;display:grid;gap:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.grail{position:sticky;top:76px;display:grid;gap:22px;padding:4px 0}   /* no inner frame (Goldy, 2026-11-26: "a box within a box within a box") */
 .grail h5{margin:0 0 8px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
 .grail .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:12px}
 .grail .seg button{padding-inline:4px;font-size:12.5px;border-radius:9px}
@@ -137,24 +137,20 @@ h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.0
 .note{color:var(--mute);font-size:12px}
 
 /* archetypes: the twelve types take turns in the rail card (Goldy, 2026-11-26); each Light Box X-ray plays its loop */
-.ty-rot{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--crease) 10%,transparent),transparent 70%)}
-.ty-rot .ty-k{font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
-.ty-rot .ty-art{display:grid;place-items:center;border-radius:8px;overflow:hidden}
-.ty-rot .ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:170px;border-radius:8px}
-.ty-rot .ty-txt{min-height:92px}
-.ty-rot h4{margin:0;font:600 18px/1.2 var(--f-display);color:var(--chalk)}
-.ty-rot p{margin:3px 0 0;font-size:12.5px;line-height:1.4;color:var(--mute)}
+.ty-rot{display:grid;gap:10px}
+.ty-rot .ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:200px;border-radius:10px}
+.ty-rot .ty-txt{min-height:78px}
+.ty-rot h4{margin:0;font:600 19px/1.2 var(--f-display);color:var(--chalk)}
+.ty-rot p{margin:2px 0 0;font-size:12.5px;line-height:1.4;color:var(--mute)}
 .ty-rot .ty-lead{margin-top:6px;padding:0;border:0;background:none;color:var(--crease);font-size:13px;font-weight:600;cursor:pointer;text-align:left}
 .ty-rot .ty-lead:disabled{color:var(--mute);cursor:default;font-weight:500}
 .ty-rot .ty-lead .t{margin-left:6px;color:var(--mute);font:11px var(--f-data)}
 .ty-rot .ty-n{margin-left:6px;color:var(--mute);font-size:11px}
-.ty-dots{display:flex;flex-wrap:wrap;gap:4px}
-.ty-dots button{width:10px;height:10px;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer}
-.ty-dots button:hover{border-color:var(--crease)}
-.ty-dots button[aria-current="true"]{background:var(--crease);border-color:var(--crease)}
-.ty-rot .ty-src{font-size:10.5px;color:var(--mute)}
-.ty-rot .ty-src a{color:inherit}
-@media (max-width:880px){ .ty-rot{grid-template-columns:110px minmax(0,1fr);align-items:center} .ty-rot .ty-k,.ty-rot .ty-dots,.ty-rot .ty-src{grid-column:1/-1} .ty-rot .ty-txt{min-height:0} }
+.ty-dots{display:flex;flex-wrap:wrap;gap:5px}
+.ty-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--fog) 35%,transparent);cursor:pointer}
+.ty-dots button:hover{background:var(--fog)}
+.ty-dots button[aria-current="true"]{background:var(--crease)}
+@media (max-width:880px){ .ty-rot{grid-template-columns:110px minmax(0,1fr);align-items:center;column-gap:14px} .ty-rot .ty-dots{grid-column:1/-1} .ty-rot .ty-txt{min-height:0} }
 
 
 /* leaderboard: one big cumulative chart with a ranked legend beside it, and a range stepper (Vercel AI Gateway leaderboard pattern).

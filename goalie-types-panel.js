@@ -21,10 +21,9 @@
   const colours = (g) => (g && TEAMS[g.team] ? { ...TEAMS[g.team], code: g.team } : NEUTRAL);
   const top = (k) => Math.min(...[0, 1, 2].map((i) => G.parts(MO.keyPose(k, i)).top));   // one scale per loop
 
-  box.innerHTML = `<div class="ty-k">NHL Archetypes</div><div class="ty-art" aria-hidden="true"></div>
+  box.innerHTML = `<div class="ty-art" aria-hidden="true"></div>
     <div class="ty-txt" aria-live="polite"></div>
-    <div class="ty-dots" role="group" aria-label="Pick an archetype">${types.map((t, i) => `<button type="button" data-i="${i}" aria-label="${esc(t.name)}"></button>`).join("")}</div>
-    <div class="ty-src">As of ${esc(D.asOf)} · <a href="https://www.naturalstattrick.com" target="_blank" rel="noopener noreferrer">Natural Stat Trick</a></div>`;
+    <div class="ty-dots" role="group" aria-label="Pick an archetype">${types.map((t, i) => `<button type="button" data-i="${i}" aria-label="${esc(t.name)}"></button>`).join("")}</div>`;   // no label or source line here (Goldy, 2026-11-26); NST is credited in the page notes
   box.hidden = false;
   const art = box.querySelector(".ty-art"), txt = box.querySelector(".ty-txt"), dots = [...box.querySelectorAll(".ty-dots button")];
 
