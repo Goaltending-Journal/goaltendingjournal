@@ -136,6 +136,65 @@ button,input,select{font:inherit;color:inherit}
 h2{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.03em;margin:0}
 .note{color:var(--mute);font-size:12px}
 
+/* NHL Teams (after the Parallel character select): slanted team-colour tiles by division, a big preview stage beside them */
+.tm-wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;margin-top:16px;align-items:stretch}
+.tm-grid{display:grid;gap:10px;padding:6px 10px 6px 6px}
+.tm-row{display:grid;grid-template-columns:18px repeat(8,minmax(0,1fr));gap:6px;align-items:center}
+.tm-div{writing-mode:vertical-rl;transform:rotate(180deg);font:700 9px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog);text-align:center}
+.tm-t{position:relative;aspect-ratio:3/4;padding:0;border:0;border-radius:4px;cursor:pointer;transform:skewX(-10deg);overflow:hidden;isolation:isolate;
+  background:radial-gradient(120% 90% at 30% 15%,color-mix(in srgb,var(--p) 100%,#fff 12%),var(--p) 45%,color-mix(in srgb,var(--p) 45%,#000) 100%);
+  box-shadow:0 10px 18px -8px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(255,255,255,.06);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease}
+/* a dark veil that lifts on hover, a diagonal sheen, and a stripe in the second team colour at the foot */
+.tm-t::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(6,10,10,.35),rgba(6,10,10,.62));transition:opacity .22s ease;pointer-events:none}
+.tm-t::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.16) 48%,transparent 58%),linear-gradient(transparent 86%,var(--s) 86%,var(--s) 92%,transparent 92%);background-size:250% 100%,100% 100%;background-position:120% 0,0 0;transition:background-position .6s ease}
+.tm-t span{position:absolute;inset:0;z-index:1;display:grid;place-items:center;transform:skewX(10deg);font:400 clamp(13px,1.5vw,20px)/1 var(--f-display);letter-spacing:.05em;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.55),0 0 1px rgba(0,0,0,.8)}
+.tm-t:hover::before,.tm-t:focus-visible::before,.tm-t.on::before{opacity:0}
+.tm-t:hover::after,.tm-t.on::after{background-position:-20% 0,0 0}
+.tm-t:hover,.tm-t:focus-visible{transform:skewX(-10deg) translateY(-2px);outline:none;box-shadow:0 14px 24px -10px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.2)}
+.tm-t.on{z-index:3;transform:skewX(-10deg) translateY(-3px) scale(1.07);box-shadow:0 0 0 2px var(--crease),0 0 22px 2px color-mix(in srgb,var(--crease) 50%,transparent),0 18px 30px -12px rgba(0,0,0,.9)}
+.tm-stage{position:relative;min-height:480px;border-radius:14px;overflow:hidden;border:1px solid color-mix(in srgb,var(--p) 30%,var(--line));isolation:isolate;
+  background:radial-gradient(55% 50% at 64% 40%,color-mix(in srgb,color-mix(in srgb,var(--p),#fff 32%) 50%,transparent),transparent 100%),radial-gradient(90% 70% at 62% 42%,color-mix(in srgb,var(--p) 42%,transparent),transparent 72%),linear-gradient(180deg,color-mix(in srgb,var(--p) 14%,var(--bg)),var(--bg) 85%);
+  box-shadow:inset 0 0 80px rgba(0,0,0,.55),0 24px 40px -24px rgba(0,0,0,.8);transition:background .35s ease,border-color .35s ease}
+.tm-stage::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--s) 60%,transparent),transparent)}
+/* the team's abbreviation as a big faint emblem behind the goalie, and a lit floor under the skates */
+.tm-mark{position:absolute;right:-2%;top:2%;z-index:-1;font:400 clamp(140px,17vw,230px)/.85 var(--f-display);letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px color-mix(in srgb,var(--s) 22%,transparent);opacity:.9;pointer-events:none}
+.tm-floor{position:absolute;left:30%;right:6%;top:66%;height:14%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--s) 26%,transparent),color-mix(in srgb,var(--p) 18%,transparent) 55%,transparent);filter:blur(4px)}
+.tm-art{position:absolute;right:10%;top:3%;height:76%;aspect-ratio:1;filter:drop-shadow(0 18px 22px rgba(0,0,0,.55)) drop-shadow(0 0 30px color-mix(in srgb,var(--p) 45%,transparent));animation:tm-in .45s cubic-bezier(.2,.8,.2,1)}
+.tm-art svg{width:100%;height:100%;display:block}
+@keyframes tm-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.tm-art{animation:none}.tm-t,.tm-t::after{transition:none}}
+.tm-name{position:absolute;right:14px;top:18px;writing-mode:vertical-rl;display:flex;gap:8px;align-items:center}
+.tm-name i{width:12px;height:12px;transform:rotate(45deg);background:var(--s);box-shadow:0 0 12px color-mix(in srgb,var(--s) 70%,transparent),inset 0 0 0 2px color-mix(in srgb,var(--p) 60%,transparent);margin-bottom:6px}
+.tm-name b{font:400 26px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--chalk);text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.tm-name span{font:600 10px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--fog)}
+.tm-low{position:absolute;left:0;right:0;bottom:0;padding:22px 20px 18px;background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 88%,transparent) 36%)}
+.tm-line{margin:0 0 12px;max-width:44ch;font:italic 15px/1.45 var(--f-body);color:var(--chalk)}
+.tm-go,.tm-back{white-space:nowrap;padding:10px 18px;border:0;border-radius:2px;background:color-mix(in srgb,var(--chalk) 14%,transparent);color:var(--chalk);font:700 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.tm-go:hover,.tm-back:hover{background:var(--crease);color:var(--bg)}
+.tm-stats{display:flex;gap:0;margin:14px 0 0;justify-content:flex-end}
+.tm-stats>div{padding:0 18px;border-left:1px solid color-mix(in srgb,var(--chalk) 14%,transparent)}
+.tm-stats>div:first-child{border-left:0}
+.tm-stats dt{font:700 9.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--fog)}
+.tm-stats dd{margin:6px 0 0;font:400 28px/1 var(--f-display);color:var(--chalk);font-variant-numeric:tabular-nums;text-shadow:0 0 18px color-mix(in srgb,var(--p) 60%,transparent)}
+.tm-stage.deep .tm-low{top:0;overflow:auto;background:color-mix(in srgb,var(--bg) 84%,transparent)}
+.tm-stage.deep .tm-art{opacity:.22}
+.tm-stage.deep .tm-name{display:none}
+.tm-dh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.tm-dh h3{margin:0;font:400 20px/1.1 var(--f-display);color:var(--chalk)}
+.tm-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.tm-col h4{margin:0 0 6px;font:700 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--crease)}
+.tm-col ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.tm-col li{display:grid;gap:1px}
+.tm-col li b,.tm-col li button{font:600 13.5px/1.25 var(--f-body);color:var(--chalk);text-align:left}
+.tm-col li button{padding:0;border:0;background:none;cursor:pointer}
+.tm-col li button:hover{color:var(--crease)}
+.tm-col li span{font-size:11.5px;line-height:1.35;color:var(--mute)}
+.tm-none{margin:0;font-size:12px;color:var(--mute)}
+.tm-src{margin:12px 0 0;font-size:11px;color:var(--mute)}
+@media (max-width:1100px){.tm-wrap{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:620px){.tm-row{gap:4px}.tm-t span{font-size:12px}.tm-stage{min-height:520px}.tm-art{right:4%;height:56%}.tm-mark{font-size:130px}.tm-stats{justify-content:flex-start;gap:16px}.tm-cols{grid-template-columns:minmax(0,1fr)}}
+
 /* archetypes: the twelve types take turns in the rail card (Goldy, 2026-11-26); each Light Box X-ray plays its loop */
 .ty-rot{display:grid;gap:10px}
 .ty-rot .ty-art svg{display:block;width:100%;height:auto;aspect-ratio:1;max-height:200px;border-radius:10px}
@@ -429,6 +488,7 @@ tbody tr:last-child td{border-bottom:0}
     <div id="seasonSeg" hidden></div><!-- Season switch removed (Goldy, 2026-11-24): the page shows 2026-27 only -->
     <nav aria-label="Views"><h5>Views</h5><ul class="views" id="views">
       <li><button type="button" data-v="orSec" style="--c:var(--jade-a)"><i></i>NHL Oracle</button></li>
+      <li><button type="button" data-v="tmSec" style="--c:var(--jade-a)"><i></i>NHL Teams</button></li>
       <li><button type="button" data-v="gmSec" style="--c:var(--jade-a)"><i></i>Scoring Heat Map</button></li>
       <li><button type="button" data-v="nstSec" style="--c:var(--jade-a)"><i></i>Advanced stats</button></li>
       <li><button type="button" data-v="dzSec" style="--c:var(--crease)"><i></i>Danger zones</button></li>
@@ -451,6 +511,15 @@ tbody tr:last-child td{border-bottom:0}
         <div><h5>Rings · goals saved above average</h5><ul id="or-key"></ul></div>
         <div><h5>Mark size</h5><ul><li><i class="sm"></i>Few shots faced</li><li><i class="lg"></i>Most shots faced</li></ul></div>
       </div>
+    </div>
+  </section>
+
+  <!-- NHL Teams (Goldy, 2026-11-26): pick a club by division, preview it, click for its goalie depth chart; nhl-teams-panel.js -->
+  <section id="tmSec">
+    <div class="sec-h"><h2>NHL Teams</h2><span class="note">Point at a club to preview it. Click for its goalie depth chart.</span></div>
+    <div class="tm-wrap">
+      <div class="tm-grid" id="tmGrid"></div>
+      <div class="tm-stage" id="tmStage" aria-live="polite"></div>
     </div>
   </section>
 
@@ -1076,6 +1145,8 @@ addEventListener("themechange",()=>{ renderAll(); if(typeof renderGoalMap==="fun
 <script src="illustrations/styles.js"></script>
 <script src="illustrations/motion.js"></script>
 <script src="goalie-types-panel.js"></script>
+<script src="nhl-teams-data.js"></script>
+<script src="nhl-teams-panel.js"></script>
 <script src="impact-data.js"></script>
 <script src="impact-panel.js"></script>
 <script src="nhl-oracle.js"></script>
